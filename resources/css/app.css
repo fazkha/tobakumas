@@ -1,0 +1,13 @@
+@import "tailwind.css";
+/* @import "flatpickr/dist/flatpickr.css"; */
+
+@font-face {
+    font-family: Dosis;
+    src: url("~font/Dosis-Medium.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

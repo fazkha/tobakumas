@@ -1,0 +1,782 @@
+<header class="relative bg-primary-20 dark:bg-primary-900">
+    <div class="flex items-center justify-between p-2 border-b border-primary-100 dark:border-primary-800">
+
+        <!-- Mobile (Hamburger) menu button -->
+        <button @click="isMobileMainMenuOpen = !isMobileMainMenuOpen"
+            class="p-1 transition-colors duration-200 rounded-md text-primary bg-primary-50 hover:text-primary hover:bg-primary-100 dark:text-primary-500 dark:hover:text-light dark:hover:bg-primary-600 dark:bg-primary-700 md:hidden focus:outline-none focus:ring">
+            <span class="sr-only">Open main manu</span>
+            <span aria-hidden="true">
+                <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </span>
+        </button>
+
+        <!-- Brand -->
+        <div class="flex justify-start items-center">
+            <button @click="isSideBarOpen = !isSideBarOpen"
+                class="hidden md:block p-2 h-11 transition-colors duration-200 rounded-full text-primary bg-primary-50 hover:text-primary hover:bg-primary-100 dark:text-primary-500 dark:hover:text-light dark:hover:bg-primary-600 dark:bg-primary-700 focus:outline-none focus:bg-primary-100 dark:focus:bg-primary-600 focus:ring-primary-700">
+                <span class="sr-only">Open/Close Side panel</span>
+                <span aria-hidden="true">
+                    <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                        enable-background="new 0 0 24 24">
+                        <path
+                            d="M3,7h18c0.6,0,1-0.4,1-1s-0.4-1-1-1H3C2.4,5,2,5.4,2,6S2.4,7,3,7z M3,11h10c0.6,0,1-0.4,1-1s-0.4-1-1-1H3c-0.6,0-1,0.4-1,1S2.4,11,3,11z M21,17H3c-0.6,0-1,0.4-1,1s0.4,1,1,1h18c0.6,0,1-0.4,1-1S21.6,17,21,17z M3,15h10c0.6,0,1-0.4,1-1s-0.4-1-1-1H3c-0.6,0-1,0.4-1,1S2.4,15,3,15z M21.8,9.7c-0.4-0.4-1-0.5-1.4-0.1l-2,1.7c0,0-0.1,0.1-0.1,0.1c-0.4,0.4-0.3,1.1,0.1,1.4l2,1.7c0.2,0.1,0.4,0.2,0.6,0.2c0.3,0,0.6-0.1,0.8-0.4c0.4-0.4,0.3-1.1-0.1-1.4L20.6,12l1.1-0.9C22.1,10.7,22.1,10.1,21.8,9.7z" />
+                    </svg>
+                </span>
+            </button>
+            <div class="pl-2 pr-4 py-2">{{ config('custom.product_name') }}</div>
+        </div>
+
+        <!-- Mobile (3 vertical dot) sub menu button -->
+        <button @click="isMobileSubMenuOpen = !isMobileSubMenuOpen"
+            class="p-1 transition-colors duration-200 rounded-md text-primary bg-primary-50 hover:text-primary hover:bg-primary-100 dark:text-primary-500 dark:hover:text-light dark:hover:bg-primary-600 dark:bg-primary-700 md:hidden focus:outline-none focus:ring">
+            <span class="sr-only">Open sub manu</span>
+            <span aria-hidden="true">
+                <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                </svg>
+            </span>
+        </button>
+
+        <!-- Desktop Right buttons -->
+        <nav aria-label="Secondary" class="hidden space-x-2 md:flex md:items-center">
+
+            <!-- Toggle dark theme button -->
+            <button aria-hidden="true" class="relative focus:outline-none" x-cloak @click="toggleTheme">
+                <div class="w-12 h-6 transition rounded-full outline-none bg-primary-600 dark:bg-primary-500">
+                </div>
+                <div class="absolute top-0 left-0 inline-flex items-center justify-center w-6 h-6 transition-all duration-150 transform scale-110 rounded-full shadow-sm border border-primary-100"
+                    :class="{
+                        'translate-x-0 -translate-y-px  bg-white text-primary-600': !
+                            isDark,
+                        'translate-x-6 text-primary-100 bg-primary-700': isDark
+                    }">
+                    <svg x-show="!isDark" class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                    <svg x-show="isDark" class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                    </svg>
+                </div>
+            </button>
+
+            <!-- Notification button
+            <button @click="openNotificationsPanel"
+                class="p-2 transition-colors duration-200 rounded-full text-primary bg-primary-50 hover:text-primary hover:bg-primary-100 dark:text-primary-500 dark:hover:text-light dark:hover:bg-primary-600 dark:bg-primary-700 focus:outline-none focus:bg-primary-100 dark:focus:bg-primary-600 focus:ring-primary-700">
+                <span class="sr-only">Open Notification panel</span>
+                <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                </svg>
+            </button> -->
+
+            <!-- Search button
+            <button @click="openSearchPanel"
+                class="p-2 transition-colors duration-200 rounded-full text-primary bg-primary-50 hover:text-primary hover:bg-primary-100 dark:text-primary-500 dark:hover:text-light dark:hover:bg-primary-600 dark:bg-primary-700 focus:outline-none focus:bg-primary-100 dark:focus:bg-primary-600 focus:ring-primary-700">
+                <span class="sr-only">Open search panel</span>
+                <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+            </button> -->
+
+            <!-- Settings button -->
+            <button @click="openSettingsPanel"
+                class="p-2 transition-colors duration-200 rounded-full text-primary bg-primary-50 hover:text-primary hover:bg-primary-100 dark:text-primary-500 dark:hover:text-light dark:hover:bg-primary-600 dark:bg-primary-700 focus:outline-none focus:bg-primary-100 dark:focus:bg-primary-600 focus:ring-primary-700">
+                <span class="sr-only">Open settings panel</span>
+                <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+            </button>
+
+            <!-- User avatar button -->
+            <div class="relative" x-data="{ open: false }">
+                <button @click="open = !open; $nextTick(() => { if(open){ $refs.userMenu.focus() } })" type="button"
+                    aria-haspopup="true" :aria-expanded="open ? 'true' : 'false'"
+                    class="px-5 transition-opacity duration-200 rounded-full dark:opacity-75 dark:hover:opacity-100 focus:outline-none focus:ring dark:focus:opacity-100">
+                    <span class="sr-only">User menu</span>
+                    <div>{{ Auth::user()->name }}</div>
+                </button>
+
+                <!-- User dropdown menu -->
+                <div x-show="open" x-ref="userMenu" x-transition:enter="transition-all transform ease-out"
+                    x-transition:enter-start="translate-y-1/2 opacity-0"
+                    x-transition:enter-end="translate-y-0 opacity-100"
+                    x-transition:leave="transition-all transform ease-in"
+                    x-transition:leave-start="translate-y-0 opacity-100"
+                    x-transition:leave-end="translate-y-1/2 opacity-0" @click.away="open = false"
+                    @keydown.escape="open = false"
+                    class="absolute right-0 w-48 py-1 bg-primary-20 rounded-md shadow-lg top-12 ring-1 ring-black ring-opacity-5 dark:bg-primary-700 focus:outline-none"
+                    tabindex="-1" role="menu" aria-orientation="vertical" aria-label="User menu">
+                    <a href="{{ route('profile.edit') }}" role="menuitem"
+                        class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary">
+                        @lang('messages.yourprofile')
+                    </a>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+
+                        <x-dropdown-link :href="route('logout')" role="menuitem"
+                            onclick="event.preventDefault(); this.closest('form').submit();">
+                            {{ __('Log Out') }}
+                        </x-dropdown-link>
+                    </form>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Mobile sub menu -->
+        <nav x-transition:enter="transition duration-200 ease-in-out transform sm:duration-500"
+            x-transition:enter-start="-translate-y-full opacity-0" x-transition:enter-end="translate-y-0 opacity-100"
+            x-transition:leave="transition duration-300 ease-in-out transform sm:duration-500"
+            x-transition:leave-start="translate-y-0 opacity-100" x-transition:leave-end="-translate-y-full opacity-0"
+            x-show="isMobileSubMenuOpen" @click.away="isMobileSubMenuOpen = false"
+            class="absolute flex items-center p-4 bg-primary-20 rounded-md shadow-lg dark:bg-primary-900 top-16 inset-x-4 md:hidden"
+            aria-label="Secondary">
+            <div class="space-x-2">
+
+                <!-- Toggle dark theme button -->
+                <button aria-hidden="true" class="relative focus:outline-none" x-cloak @click="toggleTheme">
+                    <div class="w-12 h-6 transition rounded-full outline-none bg-primary-600 dark:bg-primary-500">
+                    </div>
+                    <div class="absolute top-0 left-0 inline-flex items-center justify-center w-6 h-6 transition-all duration-200 transform scale-110 rounded-full shadow-sm border border-primary-100"
+                        :class="{
+                            'translate-x-0 -translate-y-px  bg-white text-primary-600': !
+                                isDark,
+                            'translate-x-6 text-primary-100 bg-primary-700': isDark
+                        }">
+                        <svg x-show="!isDark" class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                        </svg>
+                        <svg x-show="isDark" class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                        </svg>
+                    </div>
+                </button>
+
+                <!-- Notification button
+                <button @click="openNotificationsPanel(); $nextTick(() => { isMobileSubMenuOpen = false })"
+                    class="p-2 transition-colors duration-200 rounded-full text-primary bg-primary-50 hover:text-primary hover:bg-primary-100 dark:text-primary-500 dark:hover:text-light dark:hover:bg-primary-600 dark:bg-primary-700 focus:outline-none focus:bg-primary-100 dark:focus:bg-primary-600 focus:ring-primary-700">
+                    <span class="sr-only">Open notifications panel</span>
+                    <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                    </svg>
+                </button> -->
+
+                <!-- Search button
+                <button
+                    @click="openSearchPanel(); $nextTick(() => { $refs.searchInput.focus(); setTimeout(() => {isMobileSubMenuOpen= false}, 100) })"
+                    class="p-2 transition-colors duration-200 rounded-full text-primary bg-primary-50 hover:text-primary hover:bg-primary-100 dark:text-primary-500 dark:hover:text-light dark:hover:bg-primary-600 dark:bg-primary-700 focus:outline-none focus:bg-primary-100 dark:focus:bg-primary-600 focus:ring-primary-700">
+                    <span class="sr-only">Open search panel</span>
+                    <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </button> -->
+
+                <!-- Settings button -->
+                <button @click="openSettingsPanel(); $nextTick(() => { isMobileSubMenuOpen = false })"
+                    class="p-2 transition-colors duration-200 rounded-full text-primary bg-primary-50 hover:text-primary hover:bg-primary-100 dark:text-primary-500 dark:hover:text-light dark:hover:bg-primary-600 dark:bg-primary-700 focus:outline-none focus:bg-primary-100 dark:focus:bg-primary-600 focus:ring-primary-700">
+                    <span class="sr-only">Open settings panel</span>
+                    <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- User avatar button -->
+            <div class="relative ml-auto" x-data="{ open: false }">
+                <button @click="open = !open" type="button" aria-haspopup="true"
+                    :aria-expanded="open ? 'true' : 'false'"
+                    class="p-2 transition-color duration-200 rounded-full text-primary bg-primary-50 hover:text-primary hover:bg-primary-100 dark:text-primary-500 dark:hover:text-light dark:hover:bg-primary-600 dark:bg-primary-700 focus:outline-none focus:bg-primary-100 dark:focus:bg-primary-600 focus:ring-primary-700">
+                    <span class="sr-only">User menu</span>
+                    <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M15.71,12.71a6,6,0,1,0-7.42,0,10,10,0,0,0-6.22,8.18,1,1,0,0,0,2,.22,8,8,0,0,1,15.9,0,1,1,0,0,0,1,.89h.11a1,1,0,0,0,.88-1.1A10,10,0,0,0,15.71,12.71ZM12,12a4,4,0,1,1,4-4A4,4,0,0,1,12,12Z" />
+                    </svg>
+                </button>
+
+                <!-- User dropdown menu -->
+                <div x-show="open" x-transition:enter="transition-all transform ease-out"
+                    x-transition:enter-start="translate-y-1/2 opacity-0"
+                    x-transition:enter-end="translate-y-0 opacity-100"
+                    x-transition:leave="transition-all transform ease-in"
+                    x-transition:leave-start="translate-y-0 opacity-100"
+                    x-transition:leave-end="translate-y-1/2 opacity-0" @click.away="open = false"
+                    class="absolute right-0 w-48 py-1 origin-top-right bg-primary-20 rounded-md shadow-lg top-12 ring-1 ring-black ring-opacity-5 dark:bg-primary-700"
+                    role="menu" aria-orientation="vertical" aria-label="User menu">
+                    <a href="{{ route('profile.edit') }}" role="menuitem"
+                        class="block px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-light dark:hover:bg-primary">
+                        @lang('yourprofile')
+                    </a>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+
+                        <x-dropdown-link :href="route('logout')" role="menuitem"
+                            onclick="event.preventDefault(); this.closest('form').submit();">
+                            {{ __('Log Out') }}
+                        </x-dropdown-link>
+                    </form>
+
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Mobile main manu -->
+    <div class="border-b border-primary-100 md:hidden dark:border-primary-800" x-show="isMobileMainMenuOpen"
+        @click.away="isMobileMainMenuOpen = false">
+        <nav aria-label="Main" class="px-2 py-4 space-y-2">
+
+            <div x-data="{{ request()->getRequestUri() == '/admin/dashboard' ? '{isActive: true, open: true}' : '{isActive: false, open: false}' }}">
+                <a href="{{ route('dashboard') }}"
+                    class="flex items-center p-2 text-gray-600 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary"
+                    :class="{ 'bg-primary-100 dark:bg-primary': isActive || open }" role="button"
+                    aria-haspopup="true" :aria-expanded="(open || isActive) ? 'true' : 'false'">
+                    <span aria-hidden="true">
+                        <svg class="w-5 h-5" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <path fill="currentColor" d="M0 15h16v1h-16v-1z"></path>
+                            <path fill="currentColor" d="M0 0h1v16h-1v-16z"></path>
+                            <path fill="currentColor" d="M9 8l-2.9-3-4.1 4v5h14v-13.1z"></path>
+                        </svg>
+                    </span>
+                    <span class="ml-2 text-sm"> Dashboards </span>
+                </a>
+            </div>
+
+            @can('pegawai-list')
+                <div x-data="{{ substr(request()->getRequestUri(), 0, 24) == '/human-resource/employee'
+                    ? '{isActive: true, open: true}'
+                    : '{isActive: false, open: false}' }}">
+                    <a href="#" @click="$event.preventDefault(); open = !open"
+                        class="flex items-center p-2 text-gray-600 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary"
+                        :class="{ 'bg-primary-100 dark:bg-primary': isActive || open }" role="button"
+                        aria-haspopup="true" :aria-expanded="(open || isActive) ? 'true' : 'false'">
+                        <span aria-hidden="true">
+                            <svg class="w-5 h-5" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 800 800"
+                                style="enable-background:new 0 0 800 800;" xml:space="preserve">
+                                <g>
+                                    <path
+                                        d="M700,422.622c0,17.149-13.846,31.06-30.945,31.06h-55.144V574.53c30.924,9.713,53.558,38.37,53.558,72.604
+                                                                                  c0,42.22-34.092,76.435-76.192,76.435c-42.058,0-76.216-34.215-76.216-76.435c0-33.366,21.484-61.444,51.217-71.875V453.682
+                                                                                  H411.501v197.281c30.946,9.7,53.603,38.357,53.603,72.604c0,42.208-34.137,76.433-76.215,76.433
+                                                                                  c-42.058,0-76.192-34.225-76.192-76.433c0-33.377,21.462-61.445,51.192-71.876V453.681H217.469v120.849
+                                                                                  c30.947,9.713,53.538,38.37,53.538,72.604c0,42.219-34.093,76.435-76.172,76.435c-42.058,0-76.173-34.216-76.173-76.435
+                                                                                  c0-33.366,21.442-61.444,51.172-71.875V453.682h-38.888c-17.102,0-30.946-13.909-30.946-31.06c0-17.14,13.845-31.05,30.946-31.05
+                                                                                  h538.108C686.154,391.572,700,405.482,700,422.622z M410.548,178.586l20.397,212.985h50.543
+                                                                                  c-2.453-42.077-6.1-88.538-8.485-117.347c18.968,25.22,30.707,64.905,34.376,117.347h60.177
+                                                                                  c-5.358-86.743-29.927-148.005-73.589-181.631c-7.249-5.59-15.276-11.235-23.328-15.596c-5.578-3.011-11.459-5.437-17.447-7.482
+                                                                                  C439.452,182.196,424.999,179.565,410.548,178.586z M400,169.896c47.157,0,85.416-37.998,85.416-84.948
+                                                                                  C485.416,38.021,447.157,0,400,0c-47.18,0-85.417,38.021-85.417,84.948C314.583,131.898,352.82,169.896,400,169.896z
+                                                                                  M291.102,391.572c5.122-52.496,17.34-92.321,35.83-117.39c-1.302,25.96-3.493,70.016-5.621,117.39h45.14l25.563-213.312
+                                                                                  c-15.581,0.522-31.229,2.969-45.984,8.046c-6.057,2.088-12.001,4.633-17.601,7.766c-19.098,10.669-35.157,24.742-48.416,41.925
+                                                                                  c-6.793,8.798-12.608,18.281-17.665,28.167c-19.987,39.261-27.887,83.948-31.619,127.406L291.102,391.572L291.102,391.572z" />
+                                </g>
+                            </svg>
+                        </span>
+                        <span class="ml-2 text-sm">@lang('messages.humanresource')</span>
+                        <span aria-hidden="true" class="ml-auto">
+                            <svg class="w-4 h-4 transition-transform transform" :class="{ 'rotate-180': open }"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </span>
+                    </a>
+                    @can('pegawai-list')
+                        <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="humanresource">
+                            <a href="{{ route('employee.index') }}" role="menuitem"
+                                class="block p-2 text-sm text-gray-500 transition-colors duration-200 rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary">
+                                <span class="flex flex-row gap-1">
+                                    <svg class="w-5 h-5" viewBox="0 0 20 20" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M4.2359 10.0547C3.69336 10.8685 3.40385 11.8247 3.40385 12.8028L3.40385 13.5C3.40385 14.0522 2.95614 14.5 2.40385 14.5C1.85157 14.5 1.40385 14.0522 1.40385 13.5L1.40385 12.8028C1.40385 11.4299 1.81023 10.0877 2.5718 8.94531L4.2359 10.0547Z"
+                                            fill="currentColor" />
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M6.20663 9C5.41471 9 4.67519 9.39578 4.23591 10.0547L2.57181 8.9453C3.38202 7.72998 4.74601 7 6.20663 7H6.40386C6.95614 7 7.40386 7.44772 7.40386 8C7.40386 8.55228 6.95614 9 6.40386 9H6.20663Z"
+                                            fill="currentColor" />
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M8.41797 10.0547C8.96051 10.8685 9.25002 11.8247 9.25002 12.8028L9.25002 13.5C9.25002 14.0522 9.69773 14.5 10.25 14.5C10.8023 14.5 11.25 14.0522 11.25 13.5L11.25 12.8028C11.25 11.4299 10.8436 10.0877 10.0821 8.94531L8.41797 10.0547Z"
+                                            fill="currentColor" />
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M6.44724 9C7.23916 9 7.97868 9.39578 8.41796 10.0547L10.0821 8.9453C9.27185 7.72998 7.90786 7 6.44724 7H6.25001C5.69773 7 5.25001 7.44772 5.25001 8C5.25001 8.55228 5.69773 9 6.25001 9H6.44724Z"
+                                            fill="currentColor" />
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M6.25 6.25C6.94036 6.25 7.5 5.69036 7.5 5C7.5 4.30964 6.94036 3.75 6.25 3.75C5.55964 3.75 5 4.30964 5 5C5 5.69036 5.55964 6.25 6.25 6.25ZM6.25 8.25C8.04493 8.25 9.5 6.79493 9.5 5C9.5 3.20507 8.04493 1.75 6.25 1.75C4.45507 1.75 3 3.20507 3 5C3 6.79493 4.45507 8.25 6.25 8.25Z"
+                                            fill="currentColor" />
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M11.4859 13.3047C10.9434 14.1185 10.6538 15.0747 10.6539 16.0528L10.6539 16.75C10.6539 17.3022 10.2061 17.75 9.65385 17.75C9.10157 17.75 8.65385 17.3022 8.65385 16.75L8.65385 16.0528C8.65385 14.6799 9.06023 13.3377 9.8218 12.1953L11.4859 13.3047Z"
+                                            fill="currentColor" />
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M13.4566 12.25C12.6647 12.25 11.9252 12.6458 11.4859 13.3047L9.82181 12.1953C10.632 10.98 11.996 10.25 13.4566 10.25H13.6539C14.2061 10.25 14.6539 10.6977 14.6539 11.25C14.6539 11.8023 14.2061 12.25 13.6539 12.25H13.4566Z"
+                                            fill="currentColor" />
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M15.668 13.3047C16.2105 14.1185 16.5 15.0747 16.5 16.0528L16.5 16.75C16.5 17.3022 16.9477 17.75 17.5 17.75C18.0523 17.75 18.5 17.3022 18.5 16.75L18.5 16.0528C18.5 14.6799 18.0936 13.3377 17.3321 12.1953L15.668 13.3047Z"
+                                            fill="currentColor" />
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M13.6972 12.25C14.4892 12.25 15.2287 12.6458 15.668 13.3047L17.3321 12.1953C16.5219 10.98 15.1579 10.25 13.6972 10.25H13.5C12.9477 10.25 12.5 10.6977 12.5 11.25C12.5 11.8023 12.9477 12.25 13.5 12.25H13.6972Z"
+                                            fill="currentColor" />
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M13.5 9.5C14.1904 9.5 14.75 8.94036 14.75 8.25C14.75 7.55964 14.1904 7 13.5 7C12.8096 7 12.25 7.55964 12.25 8.25C12.25 8.94036 12.8096 9.5 13.5 9.5ZM13.5 11.5C15.2949 11.5 16.75 10.0449 16.75 8.25C16.75 6.45507 15.2949 5 13.5 5C11.7051 5 10.25 6.45507 10.25 8.25C10.25 10.0449 11.7051 11.5 13.5 11.5Z"
+                                            fill="currentColor" />
+                                    </svg>
+                                    @lang('messages.employee')
+                                </span>
+                            </a>
+                        </div>
+                    @endcan
+                </div>
+            @endcan
+
+            @can('supplier-list')
+                <div x-data="{{ substr(request()->getRequestUri(), 0, 18) == '/purchase/supplier' ||
+                substr(request()->getRequestUri(), 0, 15) == '/purchase/order'
+                    ? '{isActive: true, open: true}'
+                    : '{isActive: false, open: false}' }}">
+                    <a href="#" @click="$event.preventDefault(); open = !open"
+                        class="flex items-center p-2 text-gray-600 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary"
+                        :class="{ 'bg-primary-100 dark:bg-primary': isActive || open }" role="button"
+                        aria-haspopup="true" :aria-expanded="(open || isActive) ? 'true' : 'false'">
+                        <span aria-hidden="true">
+                            <svg fill="currentColor" class="w-5 h-5" viewBox="0 0 1000 1000"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M891 308H340q-6 0-10.5-4t-5.5-10l-32-164q-2-14-12-22.5T256 99H110q-15 0-25.5 10.5T74 135v5q0 15 10.5 26t25.5 11h102q4 0 7 2.5t4 6.5l102 544q3 19 20 28 8 5 18 5h17q-22 25-21 58.5t25 56.5 57.5 23 58-23 25.5-56.5-22-58.5h186q-23 25-21.5 58.5T693 878t57.5 23 57.5-23 25-56.5-21-58.5h17q15 0 25.5-10.5T865 727v-8q0-15-11-25.5T828 683H409q-6 0-10.5-4t-5.5-9l-10-54q-1-8 4-14t12-5h460q13 0 22.5-8t11.5-21l33-219q3-16-7.5-28.5T891 308z" />
+                            </svg>
+                        </span>
+                        <span class="ml-2 text-sm">@lang('messages.purchase')</span>
+                        <span aria-hidden="true" class="ml-auto">
+                            <svg class="w-4 h-4 transition-transform transform" :class="{ 'rotate-180': open }"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </span>
+                    </a>
+                    @can('supplier-list')
+                        <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="purchase">
+                            <a href="{{ route('supplier.index') }}" role="menuitem"
+                                class="block p-2 text-sm text-gray-500 transition-colors duration-200 rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary">
+                                <span class="flex flex-row gap-1">
+                                    <svg fill="currentColor" class="w-5 h-5" viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M22,7.82a1.25,1.25,0,0,0,0-.19v0h0l-2-5A1,1,0,0,0,19,2H5a1,1,0,0,0-.93.63l-2,5h0v0a1.25,1.25,0,0,0,0,.19A.58.58,0,0,0,2,8H2V8a4,4,0,0,0,2,3.4V21a1,1,0,0,0,1,1H19a1,1,0,0,0,1-1V11.44A4,4,0,0,0,22,8V8h0A.58.58,0,0,0,22,7.82ZM13,20H11V16h2Zm5,0H15V15a1,1,0,0,0-1-1H10a1,1,0,0,0-1,1v5H6V12a4,4,0,0,0,3-1.38,4,4,0,0,0,6,0A4,4,0,0,0,18,12Zm0-10a2,2,0,0,1-2-2,1,1,0,0,0-2,0,2,2,0,0,1-4,0A1,1,0,0,0,8,8a2,2,0,0,1-4,.15L5.68,4H18.32L20,8.15A2,2,0,0,1,18,10Z" />
+                                    </svg>
+                                    @lang('messages.supplier')
+                                </span>
+                            </a>
+                        </div>
+                    @endcan
+                    @can('po-list')
+                        <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="purchase">
+                            <a href="{{ route('purchase-order.index') }}" role="menuitem"
+                                class="block p-2 text-sm text-gray-500 transition-colors duration-200 rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary">
+                                <span class="flex flex-row gap-1">
+                                    <svg fill="currentColor" class="w-5 h-5" viewBox="0 0 1024 1024"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M533.959 424.126v242.812c0 12.162-9.773 22.022-21.829 22.022s-21.829-9.859-21.829-22.022V424.126h-6.654c-1.886.2-3.8.303-5.737.303h-82.373c-156.731 0-283.783-128.17-283.783-286.28 0-76.3 61.313-138.152 136.947-138.152 118.246 0 219.599 72.954 262.243 176.679C553.588 72.951 654.941-.003 773.187-.003c75.634 0 136.947 61.852 136.947 138.152 0 158.11-127.052 286.28-283.783 286.28h-82.373a54.39 54.39 0 01-5.737-.303h-4.28zm-53.538-44.043c4.774-1.168 8.403-5.572 8.403-10.708v-83.098c0-133.785-107.505-242.237-240.124-242.237-51.522 0-93.288 42.133-93.288 94.109 0 132.025 104.695 239.379 234.903 242.18a21.87 21.87 0 013.278-.247h86.828zm145.322.303h.608c132.619 0 240.124-108.451 240.124-242.237 0-51.975-41.766-94.109-93.288-94.109-132.619 0-240.124 108.451-240.124 242.237v83.098c0 5.136 3.628 9.54 8.403 10.708h80.65c1.236 0 2.448.104 3.628.303zM937.456 751.78c-74.665 64.718-237.417 105.999-425.511 105.999-188.128 0-350.904-41.296-425.551-106.034v76.504c0 .55-.02 1.095-.059 1.634.087.801.132 1.614.132 2.439 0 74.167 189.814 145.089 425.423 145.089s425.423-70.922 425.423-145.089c0-.854.048-1.696.142-2.525V751.78zm43.452-85.135c.137.996.207 2.014.207 3.048v162.959c0 1.036-.071 2.055-.208 3.053-4.256 108.638-213.251 185.747-469.016 185.747-258.413 0-469.082-78.714-469.082-189.132 0-.55.02-1.095.059-1.634a22.571 22.571 0 01-.132-2.439V672.992a86 86 0 010-6.614v-3.293c0-2.187.316-4.3.905-6.295 12.455-82.401 143.918-144.902 327.226-166.509a21.682 21.682 0 015.379.034c22.28-2.544 45.28-4.477 68.873-5.761 12.039-.655 22.324 8.659 22.974 20.803s-8.583 22.521-20.622 23.176C240.48 539.799 86.567 605.201 86.567 670.262c0 7.083 1.777 14.139 5.2 21.106 32.344 64.67 205.219 121.467 414.783 121.467 232.727 0 420.217-70.052 420.217-143.14 0-56.645-118.34-115.768-291.269-135.863a21.762 21.762 0 01-4.332-.956 1097.148 1097.148 0 00-54.572-4.332c-12.038-.657-21.269-11.035-20.618-23.179s10.939-21.456 22.977-20.799c226.148 12.347 397.817 84.304 401.956 182.077z" />
+                                    </svg>
+                                    @lang('messages.order')
+                                </span>
+                            </a>
+                        </div>
+                    @endcan
+                </div>
+            @endcan
+
+            @can('satuan-list')
+                <div x-data="{{ substr(request()->getRequestUri(), 0, 17) == '/warehouse/satuan' ||
+                substr(request()->getRequestUri(), 0, 22) == '/warehouse/conversions' ||
+                substr(request()->getRequestUri(), 0, 17) == '/warehouse/gudang' ||
+                substr(request()->getRequestUri(), 0, 17) == '/warehouse/goods' ||
+                substr(request()->getRequestUri(), 0, 23) == '/warehouse/stock-opname'
+                    ? '{isActive: true, open: true}'
+                    : '{isActive: false, open: false}' }}">
+                    <a href="#" @click="$event.preventDefault(); open = !open"
+                        class="flex items-center p-2 text-gray-600 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary"
+                        :class="{ 'bg-primary-100 dark:bg-primary': isActive || open }" role="button"
+                        aria-haspopup="true" :aria-expanded="(open || isActive) ? 'true' : 'false'">
+                        <span aria-hidden="true">
+                            <svg fill="currentColor" class="w-5 h-5" viewBox="0 0 1024 1024"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M948.828 837.618c16.962 0 30.72-13.758 30.72-30.72V390.693c0-8.603-7.779-20.23-15.735-23.516L529.105 187.588c-10.592-4.376-30.496-4.351-41.074.052L56.711 367.086c-7.967 3.315-15.751 14.982-15.751 23.607v416.205c0 16.962 13.758 30.72 30.72 30.72h877.148zm0 40.96H71.68c-39.583 0-71.68-32.097-71.68-71.68V390.693c0-25.169 17.737-51.757 40.978-61.425l431.315-179.444c20.615-8.582 51.809-8.62 72.451-.093L979.452 329.32c23.279 9.617 41.056 36.187 41.056 61.373v416.205c0 39.583-32.097 71.68-71.68 71.68z" />
+                                <path
+                                    d="M223.534 851.277V562.386c0-16.962 13.758-30.72 30.72-30.72h512c16.962 0 30.72 13.758 30.72 30.72v288.891c0 11.311 9.169 20.48 20.48 20.48s20.48-9.169 20.48-20.48V562.386c0-39.583-32.097-71.68-71.68-71.68h-512c-39.583 0-71.68 32.097-71.68 71.68v288.891c0 11.311 9.169 20.48 20.48 20.48s20.48-9.169 20.48-20.48z" />
+                            </svg>
+                        </span>
+                        <span class="ml-2 text-sm">@lang('messages.warehouse')</span>
+                        <span aria-hidden="true" class="ml-auto">
+                            <svg class="w-4 h-4 transition-transform transform" :class="{ 'rotate-180': open }"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </span>
+                    </a>
+                    @can('satuan-list')
+                        <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="warehouse">
+                            <a href="{{ route('units.index') }}" role="menuitem"
+                                class="block p-2 text-sm text-gray-500 transition-colors duration-200 rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary">
+                                <span class="flex flex-row gap-1">
+                                    <span aria-hidden="true">
+                                        <svg fill="currentColor" class="w-5 h-5" viewBox="-0.77 0 50 50"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <g id="_3" data-name="3" transform="translate(-290.767 -130.5)">
+                                                <path id="Path_224" data-name="Path 224"
+                                                    d="M337.753,130.5h-45.5c-.818,0-1.483.485-1.483,1.081a1.148,1.148,0,0,0,.943,1h46.584a1.147,1.147,0,0,0,.939-1C339.233,130.985,338.57,130.5,337.753,130.5Z" />
+                                                <path id="Path_225" data-name="Path 225"
+                                                    d="M335.961,177.3h-.439V162.5a20.258,20.258,0,0,0,.013-3.459,20.081,20.081,0,0,0-16.913-19.822v-2.266h15.692a1.406,1.406,0,0,0,1.446-1.364l.947-1.954H293.294l.889,1.954a1.407,1.407,0,0,0,1.448,1.364h16.3v2.32c-.092.016-.184.029-.275.046a20.087,20.087,0,0,0-16.26,18.789,1.674,1.674,0,0,0-.137.656V177.3h-1.215a1.6,1.6,0,0,0,0,3.2h41.92a1.6,1.6,0,0,0,0-3.2Zm-20.018-5.067v-2.577h-.732v2.577a13.6,13.6,0,0,1-13.163-13.662c0-.043.005-.084.005-.126h2.381v-.73H302.09a13.584,13.584,0,0,1,13.121-12.807v2.86h.732V144.9a13.587,13.587,0,0,1,13.134,12.808h-3.338v.73h3.367v-.116c0,.081.013.159.013.242A13.6,13.6,0,0,1,315.943,172.231Z" />
+                                                <path id="Path_226" data-name="Path 226"
+                                                    d="M316.1,152.925l-.037-.005v-2.839c0-.172-.217-.31-.485-.31s-.485.138-.485.31v2.839l-.038.005a5.375,5.375,0,1,0,1.045,0Zm-.524,10a4.629,4.629,0,0,1-.87-9.169V156a2.367,2.367,0,0,0-1.65,2.22,2.527,2.527,0,0,0,5.044,0,2.368,2.368,0,0,0-1.65-2.22v-2.247a4.629,4.629,0,0,1-.874,9.169Z" />
+                                            </g>
+                                        </svg>
+                                    </span>
+                                    @lang('messages.unit')
+                                </span>
+                            </a>
+                        </div>
+                    @endcan
+                    @can('konversi-list')
+                        <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="warehouse">
+                            <a href="{{ route('conversions.index') }}" role="menuitem"
+                                class="block p-2 text-sm text-gray-500 transition-colors duration-200 rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary">
+                                <span class="flex flex-row gap-1">
+                                    <span aria-hidden="true">
+                                        <svg class="w-5 h-5" version="1.1" id="Capa_1"
+                                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                            x="0px" y="0px" viewBox="0 0 204.045 204.045"
+                                            style="enable-background:new 0 0 204.045 204.045;" xml:space="preserve">
+                                            <g>
+                                                <g>
+                                                    <path style="fill:#010002;"
+                                                        d="M5.239,97.656c0-23.577,19.186-42.764,42.771-42.764h146.661l-38.931,38.931l3.461,3.461
+                                                                                                                                                                   l44.843-44.843L159.202,7.601l-3.461,3.464l38.931,38.924H48.01c-26.287,0-47.663,21.387-47.663,47.663v0.494h4.896v-0.49H5.239z" />
+                                                    <path style="fill:#010002;"
+                                                        d="M198.805,106.388c0,23.577-19.19,42.764-42.767,42.764H9.377l38.931-38.931l-3.461-3.461L0,151.604
+                                                                                                                                                                   l44.843,44.839l3.461-3.468L9.377,154.052h146.661c26.283,0,47.663-21.387,47.663-47.663v-0.494h-4.896V106.388z" />
+                                                </g>
+                                            </g>
+                                        </svg>
+
+                                    </span>
+                                    @lang('messages.conversion')
+                                </span>
+                            </a>
+                        </div>
+                    @endcan
+                    @can('gudang-list')
+                        <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="warehouse">
+                            <a href="{{ route('gudang.index') }}" role="menuitem"
+                                class="block p-2 text-sm text-gray-500 transition-colors duration-200 rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary">
+                                <span class="flex flex-row gap-1">
+                                    <span aria-hidden="true">
+                                        <svg fill="currentColor" class="w-5 h-5" viewBox="0 0 15 15" version="1.1"
+                                            id="warehouse" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M13.5,5c-0.0762,0.0003-0.1514-0.0168-0.22-0.05L7.5,2L1.72,4.93C1.4632,5.0515,1.1565,4.9418,1.035,4.685&#xA;&#x9;S1.0232,4.1215,1.28,4L7.5,0.92L13.72,4c0.2761,0.0608,0.4508,0.3339,0.39,0.61C14.0492,4.8861,13.7761,5.0608,13.5,5z M5,10H2v3h3&#xA;&#x9;V10z M9,10H6v3h3V10z M13,10h-3v3h3V10z M11,6H8v3h3V6z M7,6H4v3h3V6z" />
+                                        </svg>
+                                    </span>
+                                    @lang('messages.location')
+                                </span>
+                            </a>
+                        </div>
+                    @endcan
+                    @can('barang-list')
+                        <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="warehouse">
+                            <a href="{{ route('goods.index') }}" role="menuitem"
+                                class="block p-2 text-sm text-gray-500 transition-colors duration-200 rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary">
+                                <span class="flex flex-row gap-1">
+                                    <span aria-hidden="true">
+                                        <svg fill="currentColor" class="w-5 h-5" viewBox="0 0 52 52"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="m45.2 19.6a1.6 1.6 0 0 1 1.59 1.45v22.55a4.82 4.82 0 0 1 -4.59 4.8h-32.2a4.82 4.82 0 0 1 -4.8-4.59v-22.61a1.6 1.6 0 0 1 1.45-1.59h38.55zm-12.39 6.67-.11.08-9.16 9.93-4.15-4a1.2 1.2 0 0 0 -1.61-.08l-.1.08-1.68 1.52a1 1 0 0 0 -.09 1.44l.09.1 5.86 5.55a2.47 2.47 0 0 0 1.71.71 2.27 2.27 0 0 0 1.71-.71l4.9-5.16.39-.41.52-.55 5-5.3a1.25 1.25 0 0 0 .11-1.47l-.07-.09-1.72-1.54a1.19 1.19 0 0 0 -1.6-.1zm12.39-22.67a4.81 4.81 0 0 1 4.8 4.8v4.8a1.6 1.6 0 0 1 -1.6 1.6h-44.8a1.6 1.6 0 0 1 -1.6-1.6v-4.8a4.81 4.81 0 0 1 4.8-4.8z" />
+                                        </svg>
+                                    </span>
+                                    @lang('messages.goods')
+                                </span>
+                            </a>
+                        </div>
+                    @endcan
+                    @can('stopname-list')
+                        <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="warehouse">
+                            <a href="{{ route('stock-opname.index') }}" role="menuitem"
+                                class="block p-2 text-sm text-gray-500 transition-colors duration-200 rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary">
+                                <span class="flex flex-row gap-1">
+                                    <span aria-hidden="true">
+                                        <svg class="w-5 h-5" viewBox="0 0 16 16" version="1.1"
+                                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <path fill="currentColor"
+                                                d="M12 6v-6h-8v6h-4v7h16v-7h-4zM7 12h-6v-5h2v1h2v-1h2v5zM5 6v-5h2v1h2v-1h2v5h-6zM15 12h-6v-5h2v1h2v-1h2v5z">
+                                            </path>
+                                            <path fill="currentColor" d="M0 16h3v-1h10v1h3v-2h-16v2z"></path>
+                                        </svg>
+                                    </span>
+                                    @lang('messages.stockopname')
+                                </span>
+                            </a>
+                        </div>
+                    @endcan
+                </div>
+            @endcan
+
+            @can('recipe-list')
+                <div x-data="{{ substr(request()->getRequestUri(), 0, 18) == '/production/recipe'
+                    ? '{isActive: true, open: true}'
+                    : '{isActive: false, open: false}' }}">
+                    <a href="#" @click="$event.preventDefault(); open = !open"
+                        class="flex items-center p-2 text-gray-600 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary"
+                        :class="{ 'bg-primary-100 dark:bg-primary': isActive || open }" role="button"
+                        aria-haspopup="true" :aria-expanded="(open || isActive) ? 'true' : 'false'">
+                        <span aria-hidden="true">
+                            <svg class="w-5 h-5" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 491.1 491.1"
+                                style="enable-background:new 0 0 491.1 491.1;" xml:space="preserve">
+                                <g>
+                                    <g>
+                                        <g>
+                                            <g>
+                                                <path d="M469.2,309.15H20.9c-11.5,0-20.9-9.4-20.9-20.9s9.4-20.9,20.9-20.9h449.3c11.5,0,20.9,9.4,20.9,20.9
+                                     C491.1,299.75,480.7,309.15,469.2,309.15z" />
+                                            </g>
+                                            <g>
+                                                <g>
+                                                    <path d="M382.7,490.55c-39.6,0-71.9-32.3-71.9-71.9s32.3-71.9,71.9-71.9s71.9,32.3,71.9,71.9
+                                      C453.6,458.25,421.3,490.55,382.7,490.55z M382.7,388.35c-16.7,0-30.2,13.6-30.2,31.3c0,16.7,13.6,31.3,30.2,31.3
+                                      s30.2-13.6,30.2-31.3C412.9,401.95,399.4,388.35,382.7,388.35z" />
+                                                </g>
+                                                <g>
+                                                    <path d="M107.5,490.55c-39.6,0-71.9-32.3-71.9-71.9s32.3-71.9,71.9-71.9s71.9,32.3,71.9,71.9S147.1,490.55,107.5,490.55z
+                                      M107.5,388.35c-16.7,0-30.2,13.6-30.2,31.3c0,16.7,13.6,31.3,30.2,31.3s30.2-13.6,30.2-31.3
+                                      C138.7,401.95,125.2,388.35,107.5,388.35z" />
+                                                </g>
+                                            </g>
+                                            <g>
+                                                <path
+                                                    d="M351.4,221.55H138.7c-11.5,0-20.9-9.4-20.9-20.9V21.45c0-11.5,9.4-20.9,20.9-20.9h211.6c11.5,0,20.9,9.4,20.9,20.9
+                                     v180.4C371.2,212.15,361.8,221.55,351.4,221.55z M159.6,180.95h171V41.25h-171V180.95z" />
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
+                        </span>
+                        <span class="ml-2 text-sm">@lang('messages.production')</span>
+                        <span aria-hidden="true" class="ml-auto">
+                            <svg class="w-4 h-4 transition-transform transform" :class="{ 'rotate-180': open }"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </span>
+                    </a>
+                    @can('recipe-list')
+                        <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="production">
+                            <a href="{{ route('recipe.index') }}" role="menuitem"
+                                class="block p-2 text-sm text-gray-500 transition-colors duration-200 rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary">
+                                <span class="flex flex-row gap-1">
+                                    <span aria-hidden="true">
+                                        <svg class="w-5 h-5" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill="currentColor"
+                                                d="M468.166 24.156c-13.8-.31-30.977 9.192-42.46 16.883-22.597 15.13-45.255 67.882-45.255 67.882s-17.292-5.333-22.626 0c-5.333 5.333 0 22.627 0 22.627l-4.95 4.948 22.628 22.63 4.95-4.952s17.293 5.333 22.626 0c5.333-5.334 0-22.627 0-22.627s52.75-22.66 67.883-45.255c10.7-15.978 24.91-42.97 11.313-56.568-3.824-3.825-8.707-5.45-14.107-5.57zM312.568 121.65L121.65 312.568l77.782 77.782L390.35 199.432l-77.782-77.782zm-176.07 231.223l-4.95 4.95s-17.293-5.332-22.626 0c-5.333 5.335 0 22.628 0 22.628s-52.75 22.66-67.883 45.255c-10.7 15.978-24.91 42.97-11.313 56.568 13.597 13.598 40.59-.612 56.568-11.312 22.596-15.13 45.254-67.882 45.254-67.882s17.292 5.333 22.626 0c5.333-5.333 0-22.627 0-22.627l4.95-4.948-22.628-22.63z" />
+                                        </svg>
+
+                                    </span>
+                                    @lang('messages.recipe')
+                                </span>
+                            </a>
+                        </div>
+                    @endcan
+                </div>
+            @endcan
+
+            @can('customer-list')
+                <div x-data="{{ substr(request()->getRequestUri(), 0, 14) == '/sale/customer' ||
+                substr(request()->getRequestUri(), 0, 11) == '/sale/order'
+                    ? '{isActive: true, open: true}'
+                    : '{isActive: false, open: false}' }}">
+                    <a href="#" @click="$event.preventDefault(); open = !open"
+                        class="flex items-center p-2 text-gray-600 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary"
+                        :class="{ 'bg-primary-100 dark:bg-primary': isActive || open }" role="button"
+                        aria-haspopup="true" :aria-expanded="(open || isActive) ? 'true' : 'false'">
+                        <span aria-hidden="true">
+                            <svg fill="currentColor" class="w-5 h-5" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M1,12.5v5a1,1,0,0,0,1,1H3a3,3,0,0,0,6,0h6a3,3,0,0,0,6,0h1a1,1,0,0,0,1-1V5.5a3,3,0,0,0-3-3H11a3,3,0,0,0-3,3v2H6A3,3,0,0,0,3.6,8.7L1.2,11.9a.61.61,0,0,0-.07.14l-.06.11A1,1,0,0,0,1,12.5Zm16,6a1,1,0,1,1,1,1A1,1,0,0,1,17,18.5Zm-7-13a1,1,0,0,1,1-1h9a1,1,0,0,1,1,1v11h-.78a3,3,0,0,0-4.44,0H10Zm-2,6H4L5.2,9.9A1,1,0,0,1,6,9.5H8Zm-3,7a1,1,0,1,1,1,1A1,1,0,0,1,5,18.5Zm-2-5H8v2.78a3,3,0,0,0-4.22.22H3Z" />
+                            </svg>
+                        </span>
+                        <span class="ml-2 text-sm">@lang('messages.sale')</span>
+                        <span aria-hidden="true" class="ml-auto">
+                            <svg class="w-4 h-4 transition-transform transform" :class="{ 'rotate-180': open }"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </span>
+                    </a>
+                    @can('customer-list')
+                        <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="sale">
+                            <a href="{{ route('customer.index') }}" role="menuitem"
+                                class="block p-2 text-sm text-gray-500 transition-colors duration-200 rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary">
+                                <span class="flex flex-row gap-1">
+                                    <svg fill="currentColor" class="w-5 h-5" viewBox="0 0 1024 1024"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M106.544 501.695l385.403-380.262c11.913-11.754 31.079-11.722 42.955.075l382.71 380.14c8.025 7.971 20.992 7.927 28.963-.098s7.927-20.992-.098-28.963l-382.71-380.14c-27.811-27.625-72.687-27.7-100.589-.171L77.775 472.539c-8.051 7.944-8.139 20.911-.194 28.962s20.911 8.139 28.962.194z" />
+                                        <path
+                                            d="M783.464 362.551v517.12c0 16.962-13.758 30.72-30.72 30.72h-481.28c-16.962 0-30.72-13.758-30.72-30.72v-517.12c0-11.311-9.169-20.48-20.48-20.48s-20.48 9.169-20.48 20.48v517.12c0 39.583 32.097 71.68 71.68 71.68h481.28c39.583 0 71.68-32.097 71.68-71.68v-517.12c0-11.311-9.169-20.48-20.48-20.48s-20.48 9.169-20.48 20.48z" />
+                                        <path
+                                            d="M551.175 473.257l-27.341 53.8c-5.124 10.083-1.104 22.412 8.979 27.536s22.412 1.104 27.536-8.979l28.549-56.177c14.571-28.693-2.885-57.14-35.061-57.14h-83.466c-32.176 0-49.632 28.447-35.064 57.135l28.552 56.182c5.124 10.083 17.453 14.103 27.536 8.979s14.103-17.453 8.979-27.536l-27.341-53.8h78.143z" />
+                                        <path
+                                            d="M594.039 777.562c38.726 0 70.124-31.395 70.124-70.124 0-80.871-66.26-147.128-147.139-147.128h-9.841c-80.879 0-147.139 66.257-147.139 147.128 0 38.728 31.398 70.124 70.124 70.124h163.871zm0 40.96H430.168c-61.347 0-111.084-49.733-111.084-111.084 0-103.493 84.599-188.088 188.099-188.088h9.841c103.5 0 188.099 84.595 188.099 188.088 0 61.35-49.737 111.084-111.084 111.084z" />
+                                    </svg>
+                                    @lang('messages.customer')
+                                </span>
+                            </a>
+                        </div>
+                    @endcan
+                    @can('so-list')
+                        <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="sale">
+                            <a href="{{ route('sale-order.index') }}" role="menuitem"
+                                class="block p-2 text-sm text-gray-500 transition-colors duration-200 rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary">
+                                <span class="flex flex-row gap-1">
+                                    <svg fill="currentColor" class="w-5 h-5" viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg" data-name="Layer 1">
+                                        <path
+                                            d="M21.22,12A3,3,0,0,0,22,10a3,3,0,0,0-3-3H13.82A3,3,0,0,0,11,3H5A3,3,0,0,0,2,6a3,3,0,0,0,.78,2,3,3,0,0,0,0,4,3,3,0,0,0,0,4A3,3,0,0,0,2,18a3,3,0,0,0,3,3H19a3,3,0,0,0,2.22-5,3,3,0,0,0,0-4ZM11,19H5a1,1,0,0,1,0-2h6a1,1,0,0,1,0,2Zm0-4H5a1,1,0,0,1,0-2h6a1,1,0,0,1,0,2Zm0-4H5A1,1,0,0,1,5,9h6a1,1,0,0,1,0,2Zm0-4H5A1,1,0,0,1,5,5h6a1,1,0,0,1,0,2Zm8.69,11.71A.93.93,0,0,1,19,19H13.82a2.87,2.87,0,0,0,0-2H19a1,1,0,0,1,1,1A1,1,0,0,1,19.69,18.71Zm0-4A.93.93,0,0,1,19,15H13.82a2.87,2.87,0,0,0,0-2H19a1,1,0,0,1,1,1A1,1,0,0,1,19.69,14.71Zm0-4A.93.93,0,0,1,19,11H13.82a2.87,2.87,0,0,0,0-2H19a1,1,0,0,1,1,1A1,1,0,0,1,19.69,10.71Z" />
+                                    </svg>
+                                    @lang('messages.order')
+                                </span>
+                            </a>
+                        </div>
+                    @endcan
+                </div>
+            @endcan
+
+            @can('user-list')
+                <div x-data="{{ substr(request()->getRequestUri(), 0, 12) == '/admin/users' ||
+                substr(request()->getRequestUri(), 0, 12) == '/admin/roles' ||
+                substr(request()->getRequestUri(), 0, 10) == '/admin/coa' ||
+                substr(request()->getRequestUri(), 0, 13) == '/admin/qrcode'
+                    ? '{isActive: true, open: true}'
+                    : '{isActive: false, open: false}' }}">
+                    <a href="#" @click="$event.preventDefault(); open = !open"
+                        class="flex items-center p-2 text-gray-600 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary"
+                        :class="{ 'bg-primary-100 dark:bg-primary': isActive || open }" role="button"
+                        aria-haspopup="true" :aria-expanded="(open || isActive) ? 'true' : 'false'">
+                        <span aria-hidden="true">
+                            <svg fill="currentColor" class="w-5 h-5" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M21.32,9.55l-1.89-.63.89-1.78A1,1,0,0,0,20.13,6L18,3.87a1,1,0,0,0-1.15-.19l-1.78.89-.63-1.89A1,1,0,0,0,13.5,2h-3a1,1,0,0,0-.95.68L8.92,4.57,7.14,3.68A1,1,0,0,0,6,3.87L3.87,6a1,1,0,0,0-.19,1.15l.89,1.78-1.89.63A1,1,0,0,0,2,10.5v3a1,1,0,0,0,.68.95l1.89.63-.89,1.78A1,1,0,0,0,3.87,18L6,20.13a1,1,0,0,0,1.15.19l1.78-.89.63,1.89a1,1,0,0,0,.95.68h3a1,1,0,0,0,.95-.68l.63-1.89,1.78.89A1,1,0,0,0,18,20.13L20.13,18a1,1,0,0,0,.19-1.15l-.89-1.78,1.89-.63A1,1,0,0,0,22,13.5v-3A1,1,0,0,0,21.32,9.55ZM20,12.78l-1.2.4A2,2,0,0,0,17.64,16l.57,1.14-1.1,1.1L16,17.64a2,2,0,0,0-2.79,1.16l-.4,1.2H11.22l-.4-1.2A2,2,0,0,0,8,17.64l-1.14.57-1.1-1.1L6.36,16A2,2,0,0,0,5.2,13.18L4,12.78V11.22l1.2-.4A2,2,0,0,0,6.36,8L5.79,6.89l1.1-1.1L8,6.36A2,2,0,0,0,10.82,5.2l.4-1.2h1.56l.4,1.2A2,2,0,0,0,16,6.36l1.14-.57,1.1,1.1L17.64,8a2,2,0,0,0,1.16,2.79l1.2.4ZM12,8a4,4,0,1,0,4,4A4,4,0,0,0,12,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,14Z" />
+                            </svg>
+                        </span>
+                        <span class="ml-2 text-sm">@lang('messages.setting')</span>
+                        <span aria-hidden="true" class="ml-auto">
+                            <!-- active class 'rotate-180' -->
+                            <svg class="w-4 h-4 transition-transform transform" :class="{ 'rotate-180': open }"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </span>
+                    </a>
+                    @can('user-list')
+                        <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="setting">
+                            <a href="{{ route('users.index') }}" role="menuitem"
+                                class="block p-2 text-sm text-gray-500 transition-colors duration-200 rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary">
+                                <span class="flex flex-row gap-1">
+                                    <span aria-hidden="true">
+                                        <svg fill="currentColor" class="w-5 h-5" viewBox="-2 -1.5 24 24"
+                                            xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin"
+                                            class="jam jam-users">
+                                            <path
+                                                d='M3.534 11.07a1 1 0 1 1 .733 1.86A3.579 3.579 0 0 0 2 16.26V18a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1.647a3.658 3.658 0 0 0-2.356-3.419 1 1 0 1 1 .712-1.868A5.658 5.658 0 0 1 14 16.353V18a3 3 0 0 1-3 3H3a3 3 0 0 1-3-3v-1.74a5.579 5.579 0 0 1 3.534-5.19zM7 1a4 4 0 0 1 4 4v2a4 4 0 1 1-8 0V5a4 4 0 0 1 4-4zm0 2a2 2 0 0 0-2 2v2a2 2 0 1 0 4 0V5a2 2 0 0 0-2-2zm9 17a1 1 0 0 1 0-2h1a1 1 0 0 0 1-1v-1.838a3.387 3.387 0 0 0-2.316-3.213 1 1 0 1 1 .632-1.898A5.387 5.387 0 0 1 20 15.162V17a3 3 0 0 1-3 3h-1zM13 2a1 1 0 0 1 0-2 4 4 0 0 1 4 4v2a4 4 0 0 1-4 4 1 1 0 0 1 0-2 2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z' />
+                                        </svg>
+                                    </span>
+                                    @lang('messages.user')
+                                </span>
+                            </a>
+                        </div>
+                    @endcan
+                    @can('role-list')
+                        <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="setting">
+                            <a href="{{ route('roles.index') }}" role="menuitem"
+                                class="block p-2 text-sm text-gray-500 transition-colors duration-200 rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary">
+                                <span class="flex flex-row gap-1">
+                                    <span aria-hidden="true">
+                                        <svg fill="currentColor" class="w-5 h-5" viewBox="0 0 52 52" data-name="Layer 1"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M38.3,27.2A11.4,11.4,0,1,0,49.7,38.6,11.46,11.46,0,0,0,38.3,27.2Zm2,12.4a2.39,2.39,0,0,1-.9-.2l-4.3,4.3a1.39,1.39,0,0,1-.9.4,1,1,0,0,1-.9-.4,1.39,1.39,0,0,1,0-1.9l4.3-4.3a2.92,2.92,0,0,1-.2-.9,3.47,3.47,0,0,1,3.4-3.8,2.39,2.39,0,0,1,.9.2c.2,0,.2.2.1.3l-2,1.9a.28.28,0,0,0,0,.5L41.1,37a.38.38,0,0,0,.6,0l1.9-1.9c.1-.1.4-.1.4.1a3.71,3.71,0,0,1,.2.9A3.57,3.57,0,0,1,40.3,39.6Z" />
+                                            <circle cx="21.7" cy="14.9" r="12.9" />
+                                            <path
+                                                d="M25.2,49.8c2.2,0,1-1.5,1-1.5h0a15.44,15.44,0,0,1-3.4-9.7,15,15,0,0,1,1.4-6.4.77.77,0,0,1,.2-.3c.7-1.4-.7-1.5-.7-1.5h0a12.1,12.1,0,0,0-1.9-.1A19.69,19.69,0,0,0,2.4,47.1c0,1,.3,2.8,3.4,2.8H24.9C25.1,49.8,25.1,49.8,25.2,49.8Z" />
+                                        </svg>
+                                    </span>
+                                    @lang('messages.role')
+                                </span>
+                            </a>
+                        </div>
+                    @endcan
+                    @can('coa-list')
+                        <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="setting">
+                            <a href="{{ route('coa.index') }}" role="menuitem"
+                                class="block p-2 text-sm text-gray-500 transition-colors duration-200 rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary">
+                                <span class="flex flex-row gap-1">
+                                    <span aria-hidden="true">
+                                        <svg class="w-5 h-5" viewBox="0 0 1024 1024" fill="currentColor" class="icon"
+                                            version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M53.6 1023.2c-6.4 0-12.8-2.4-17.6-8-4.8-4.8-7.2-11.2-6.4-18.4L80 222.4c0.8-12.8 11.2-22.4 24-22.4h211.2v-3.2c0-52.8 20.8-101.6 57.6-139.2C410.4 21.6 459.2 0.8 512 0.8c108 0 196.8 88 196.8 196.8 0 0.8-0.8 1.6-0.8 2.4v0.8H920c12.8 0 23.2 9.6 24 22.4l49.6 768.8c0.8 2.4 0.8 4 0.8 6.4-0.8 13.6-11.2 24.8-24.8 24.8H53.6z m25.6-48H944l-46.4-726.4H708v57.6h0.8c12.8 8.8 20 21.6 20 36 0 24.8-20 44.8-44.8 44.8s-44.8-20-44.8-44.8c0-14.4 7.2-27.2 20-36h0.8v-57.6H363.2v57.6h0.8c12.8 8.8 20 21.6 20 36 0 24.8-20 44.8-44.8 44.8-24.8 0-44.8-20-44.8-44.8 0-14.4 7.2-27.2 20-36h0.8v-57.6H125.6l-46.4 726.4zM512 49.6c-81.6 0-148.8 66.4-148.8 148.8v3.2h298.4l-0.8-1.6v-1.6c0-82.4-67.2-148.8-148.8-148.8z"
+                                                fill="" />
+                                        </svg>
+                                    </span>
+                                    @lang('messages.chartofaccount')
+                                </span>
+                            </a>
+                        </div>
+                    @endcan
+                </div>
+            @endcan
+
+        </nav>
+    </div>
+</header>

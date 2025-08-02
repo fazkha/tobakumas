@@ -1,0 +1,76 @@
+@section('title', __('messages.role'))
+
+<x-app-layout>
+    <div class="flex items-center justify-between px-4 py-4 border-b border-primary-100 lg:py-6 dark:border-primary-800">
+        <a href="{{ route('users.index') }}">
+            <h1 class="flex items-center justify-center text-xl">
+                <svg fill="currentColor" class="w-7 h-7" viewBox="0 0 52 52" data-name="Layer 1"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M38.3,27.2A11.4,11.4,0,1,0,49.7,38.6,11.46,11.46,0,0,0,38.3,27.2Zm2,12.4a2.39,2.39,0,0,1-.9-.2l-4.3,4.3a1.39,1.39,0,0,1-.9.4,1,1,0,0,1-.9-.4,1.39,1.39,0,0,1,0-1.9l4.3-4.3a2.92,2.92,0,0,1-.2-.9,3.47,3.47,0,0,1,3.4-3.8,2.39,2.39,0,0,1,.9.2c.2,0,.2.2.1.3l-2,1.9a.28.28,0,0,0,0,.5L41.1,37a.38.38,0,0,0,.6,0l1.9-1.9c.1-.1.4-.1.4.1a3.71,3.71,0,0,1,.2.9A3.57,3.57,0,0,1,40.3,39.6Z" />
+                    <circle cx="21.7" cy="14.9" r="12.9" />
+                    <path
+                        d="M25.2,49.8c2.2,0,1-1.5,1-1.5h0a15.44,15.44,0,0,1-3.4-9.7,15,15,0,0,1,1.4-6.4.77.77,0,0,1,.2-.3c.7-1.4-.7-1.5-.7-1.5h0a12.1,12.1,0,0,0-1.9-.1A19.69,19.69,0,0,0,2.4,47.1c0,1,.3,2.8,3.4,2.8H24.9C25.1,49.8,25.1,49.8,25.2,49.8Z" />
+                </svg>
+                <span class="px-2">@lang('messages.role')</span>
+            </h1>
+        </a>
+    </div>
+
+    <div class="mx-auto px-2 sm:px-4 py-2">
+        <div class="flex flex-col items-center">
+
+            <div class="w-full" role="alert">
+                @include('roles.partials.feedback')
+            </div>
+
+            <div class="w-full">
+                @include('roles.partials.filter')
+            </div>
+
+            <div id="table-container" class="w-full">
+                @include('roles.partials.table')
+            </div>
+
+        </div>
+    </div>
+
+    @push('scripts')
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <script>
+            $("#pp-dropdown, #isactive-dropdown, #search-name").on(
+                "change keyup paste",
+                function() {
+                    var xpp = $('#pp-dropdown option:selected').val();
+                    var xisactive = $('#isactive-dropdown option:selected').val();
+                    var xname = $('#search-name').val();
+                    if (!xname.trim()) {
+                        xname = '_';
+                    }
+
+                    $('#filter-loading').show();
+
+                    var newURL = '{{ url('/admin/roles') }}';
+                    var newState = {
+                        page: 'index-roles'
+                    };
+                    var newTitle = '{{ __('messages.role') }}';
+
+                    window.history.pushState(newState, newTitle, newURL);
+
+                    $.ajax({
+                        url: '{{ url('/admin/roles/fetchdb') }}' + "/" + xpp + "/" + xisactive + "/" + xname,
+                        type: "GET",
+                        dataType: 'json',
+                        success: function(result) {
+                            $('#table-container').html(result);
+                            $("#table-container").focus();
+                            $('#filter-loading').hide();
+                        }
+                    });
+                });
+        </script>
+    @endpush
+
+</x-app-layout>
