@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/tobakuma/repositories/tobakumas
+    - /usr/bin/rsync -Paz * $DEPLOYPATH --delete
