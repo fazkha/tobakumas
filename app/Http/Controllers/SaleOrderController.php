@@ -187,6 +187,7 @@ class SaleOrderController extends Controller implements HasMiddleware
     {
         $datas = SaleOrder::find(Crypt::decrypt($request->order));
         $details = SaleOrderDetail::where('sale_order_id', Crypt::decrypt($request->order))->get();
+        $adonans = SaleOrderMitra::where('sale_order_id', Crypt::decrypt($request->order))->get();
 
         $total_price = SaleOrderDetail::where('sale_order_id', Crypt::decrypt($request->order))->select(DB::raw('SUM((harga_satuan * (1 + (pajak/100))) * kuantiti) as total_price'))->value('total_price');
         $total_price_adonan = SaleOrderMitra::where('sale_order_id', Crypt::decrypt($request->order))->select(DB::raw('SUM((harga_satuan * (1 + (pajak/100))) * kuantiti) as total_price'))->value('total_price');
@@ -197,7 +198,7 @@ class SaleOrderController extends Controller implements HasMiddleware
         ];
 
         // return view('sale-order.show', compact(['datas', 'details', 'totals', 'customers', 'barangs', 'satuans']));
-        return view('sale-order.show', compact(['datas', 'details', 'totals']));
+        return view('sale-order.show', compact(['datas', 'details', 'adonans', 'totals']));
     }
 
     public function edit(Request $request): View
@@ -272,6 +273,7 @@ class SaleOrderController extends Controller implements HasMiddleware
         $datas = SaleOrder::find(Crypt::decrypt($request->order));
 
         $details = SaleOrderDetail::where('sale_order_id', Crypt::decrypt($request->order))->get();
+        $adonans = SaleOrderMitra::where('sale_order_id', Crypt::decrypt($request->order))->get();
 
         $total_price = SaleOrderDetail::where('sale_order_id', Crypt::decrypt($request->order))->select(DB::raw('SUM((harga_satuan * (1 + (pajak/100))) * kuantiti) as total_price'))->value('total_price');
         $total_price_adonan = SaleOrderMitra::where('sale_order_id', Crypt::decrypt($request->order))->select(DB::raw('SUM((harga_satuan * (1 + (pajak/100))) * kuantiti) as total_price'))->value('total_price');
@@ -281,7 +283,7 @@ class SaleOrderController extends Controller implements HasMiddleware
             'total_price' => $datas->total_harga,
         ];
 
-        return view('sale-order.delete', compact(['datas', 'details', 'totals']));
+        return view('sale-order.delete', compact(['datas', 'details', 'adonans', 'totals']));
     }
 
     public function destroy(Request $request): RedirectResponse

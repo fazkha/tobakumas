@@ -260,10 +260,10 @@
                                         <table id="order_table" class="w-full border-separate border-spacing-2">
                                             <thead>
                                                 <tr>
-                                                    <th class="w-auto">@lang('messages.employee')</th>
-                                                    <th class="w-auto">@lang('messages.goods')</th>
-                                                    <th class="w-1/6">@lang('messages.unitprice') (Rp.)</th>
-                                                    <th class="w-auto">@lang('messages.unit')</th>
+                                                    <th class="w-1/6">@lang('messages.partner')</th>
+                                                    <th class="w-1/6">@lang('messages.goods')</th>
+                                                    <th class="w-auto">@lang('messages.unitprice') (Rp.)</th>
+                                                    <th class="w-1/12">@lang('messages.unit')</th>
                                                     <th class="w-auto">@lang('messages.quantity')</th>
                                                     {{-- <th class="w-auto">@lang('messages.tax') (%)</th> --}}
                                                     <th class="w-auto">@lang('messages.description')</th>

@@ -16,6 +16,12 @@
             <td class="align-top text-right">
                 <x-text-span>{{ $adonan->kuantiti }}</x-text-span>
             </td>
+            <td class="align-top text-center">
+                <x-text-span>{{ $adonan->isready == 1 ? '✔️' : '❓' }}</x-text-span>
+            </td>
+            <td class="align-top text-center">
+                <x-text-span>{{ $adonan->ispackaged == 1 ? '✔️' : '❓' }}</x-text-span>
+            </td>
             <td class="align-top">
                 <x-text-span>{{ $adonan->keterangan ? $adonan->keterangan : '-' }}</x-text-span>
             </td>
@@ -27,8 +33,9 @@
             </td>
             @if ($viewMode == false)
                 <td class="align-top">
-                    <x-anchor-danger id="a-delete-adonan-{{ $adonan->id }}" onclick="deleteAdonan({{ $adonan->id }})"
-                        class="!px-1" title="{{ __('messages.delete') }}">
+                    <x-anchor-danger id="a-delete-adonan-{{ $adonan->id }}"
+                        onclick="deleteAdonan({{ $adonan->id }})" class="!px-1"
+                        title="{{ __('messages.delete') }}">
                         <svg class="size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             stroke-width="1.5" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round"

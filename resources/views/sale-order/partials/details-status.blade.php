@@ -1,33 +1,34 @@
-@if ($adonans->count() > 0)
-    @foreach ($adonans as $adonan)
+@if ($details->count() > 0)
+    @foreach ($details as $detail)
         <tr>
             <td class="align-top">
-                <x-text-span>{{ $adonan->pegawai->nama_lengkap }}</x-text-span>
-            </td>
-            <td class="align-top">
-                <x-text-span>{{ $adonan->barang->nama }}</x-text-span>
+                <x-text-span>{{ $detail->barang->nama }}</x-text-span>
             </td>
             <td class="align-top text-right">
-                <x-text-span>{{ number_format($adonan->harga_satuan, 0, ',', '.') }}</x-text-span>
+                <x-text-span>{{ number_format($detail->harga_satuan, 0, ',', '.') }}</x-text-span>
             </td>
             <td class="align-top">
-                <x-text-span>{{ $adonan->satuan->singkatan }}</x-text-span>
+                <x-text-span>{{ $detail->satuan->singkatan }}</x-text-span>
             </td>
-            <td class="align-top text-right">
-                <x-text-span>{{ $adonan->kuantiti }}</x-text-span>
+            <td class="align-top text-right flex flex-row gap-1">
+                <x-text-span>{{ $detail->kuantiti }}</x-text-span>
+                <x-text-span>{{ $detail->stock }}</x-text-span>
+            </td>
+            <td class="align-top text-center">
+                <x-text-span>{{ $detail->ispackaged == 1 ? '✔️' : '❓' }}</x-text-span>
             </td>
             <td class="align-top">
-                <x-text-span>{{ $adonan->keterangan ? $adonan->keterangan : '-' }}</x-text-span>
+                <x-text-span>{{ $detail->keterangan ? $detail->keterangan : '-' }}</x-text-span>
             </td>
             {{-- <td class="align-top text-right">
-                <x-text-span>{{ $adonan->pajak }}</x-text-span>
+                <x-text-span>{{ $detail->pajak }}</x-text-span>
             </td> --}}
             <td class="align-top text-right">
-                <x-text-span>{{ number_format($adonan->harga_satuan * (1 + $adonan->pajak / 100) * $adonan->kuantiti, 0, ',', '.') }}</x-text-span>
+                <x-text-span>{{ number_format($detail->harga_satuan * (1 + $detail->pajak / 100) * $detail->kuantiti, 0, ',', '.') }}</x-text-span>
             </td>
             @if ($viewMode == false)
                 <td class="align-top">
-                    <x-anchor-danger id="a-delete-adonan-{{ $adonan->id }}" onclick="deleteAdonan({{ $adonan->id }})"
+                    <x-anchor-danger id="a-delete-detail-{{ $detail->id }}" onclick="deleteDetail({{ $detail->id }})"
                         class="!px-1" title="{{ __('messages.delete') }}">
                         <svg class="size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             stroke-width="1.5" stroke="currentColor">

@@ -168,10 +168,6 @@
             <div class="w-full px-2 sm:px-4 py-2">
                 <div class="flex flex-col items-center">
 
-                    <div class="w-full" role="alert">
-                        @include('sale-order.partials.feedback')
-                    </div>
-
                     {{-- Detail --}}
                     <div
                         class="w-full shadow-lg bg-primary-50 rounded-md border border-primary-100 dark:bg-primary-900 dark:border-primary-800">
@@ -207,13 +203,15 @@
                                                 <th class="w-1/6">@lang('messages.unitprice') (Rp.)</th>
                                                 <th class="w-auto">@lang('messages.unit')</th>
                                                 <th class="w-auto">@lang('messages.quantity') &amp; @lang('messages.stock')</th>
+                                                <th class="w-auto">@lang('messages.short-packaging')</th>
+                                                <th class="w-auto">@lang('messages.description')</th>
                                                 {{-- <th class="w-auto">@lang('messages.tax') (%)</th> --}}
-                                                <th class="w-1/5">@lang('messages.subtotalprice') (Rp.)</th>
+                                                <th class="w-1/6">@lang('messages.subtotalprice') (Rp.)</th>
                                             </tr>
                                         </thead>
 
                                         <tbody id="detailBody">
-                                            @include('sale-order.partials.details', [
+                                            @include('sale-order.partials.details-status', [
                                                 $details,
                                                 'viewMode' => true,
                                             ])
@@ -221,13 +219,93 @@
 
                                         <tfoot>
                                             <tr>
-                                                <td class="align-top text-center" colspan="4">
+                                                <td class="align-top text-center" colspan="6">
                                                     <x-text-span class="font-extrabold">@lang('messages.totalprice')
                                                         (Rp.)</x-text-span>
                                                 </td>
                                                 <td class="align-top">
                                                     <x-text-span id="disp-total_harga-detail"
                                                         class="font-extrabold text-right">{{ number_format($totals['sub_price'], 0, ',', '.') }}</x-text-span>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col lg:flex-row justify-evenly">
+            <div class="w-full px-2 sm:px-4 py-2">
+                <div class="flex flex-col items-center">
+
+                    {{-- Adonan --}}
+                    <div
+                        class="w-full shadow-lg rounded-md border bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
+                        <div class="p-6 space-y-2 sm:p-8">
+                            <div class="flex flex-row items-center gap-2">
+                                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M12.916 8.48581L17.4943 3.90753C18.1349 3.26696 19.1735 3.26696 19.814 3.90753V3.90753C20.4546 4.5481 20.4546 5.58667 19.814 6.22724L18.4073 7.63391L17.7657 8.27555"
+                                        stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+                                    <path d="M2.9259 19.3746H21.074" stroke="currentColor" stroke-width="1.7"
+                                        stroke-linecap="round" />
+                                    <path
+                                        d="M20.3149 8.48584H3.68498C3.26575 8.48584 2.9259 8.82569 2.9259 9.24492V10.3006C2.9259 15.3121 6.98849 19.3747 12 19.3747C17.0114 19.3747 21.074 15.3121 21.074 10.3006V9.24492C21.074 8.82569 20.7342 8.48584 20.3149 8.48584Z"
+                                        stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+                                    <path
+                                        d="M12.916 8.48581L17.4943 3.90753C18.1349 3.26696 19.1735 3.26696 19.814 3.90753V3.90753C20.4546 4.5481 20.4546 5.58667 19.814 6.22724L18.4073 7.63391L17.7657 8.27555"
+                                        stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+                                    <path d="M2.9259 19.3746H21.074" stroke="currentColor" stroke-width="1.7"
+                                        stroke-linecap="round" />
+                                    <path
+                                        d="M20.3149 8.48584H3.68498C3.26575 8.48584 2.9259 8.82569 2.9259 9.24492V10.3006C2.9259 15.3121 6.98849 19.3747 12 19.3747C17.0114 19.3747 21.074 15.3121 21.074 10.3006V9.24492C21.074 8.82569 20.7342 8.48584 20.3149 8.48584Z"
+                                        stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+                                </svg>
+                                <span class="block font-medium text-primary-600 dark:text-primary-500">
+                                    @lang('messages.dough')
+                                </span>
+                            </div>
+
+                            <div
+                                class="border rounded-md border-primary-100 bg-primary-100 dark:border-primary-800 dark:bg-primary-850">
+                                <div class="p-4 overflow-hidden">
+                                    <table id="order_table" class="w-full border-separate border-spacing-2">
+                                        <thead>
+                                            <tr>
+                                                <th class="w-1/6">@lang('messages.partner')</th>
+                                                <th class="w-1/6">@lang('messages.goods')</th>
+                                                <th class="w-auto">@lang('messages.unitprice') (Rp.)</th>
+                                                <th class="w-1/12">@lang('messages.unit')</th>
+                                                <th class="w-auto">@lang('messages.quantity')</th>
+                                                {{-- <th class="w-auto">@lang('messages.tax') (%)</th> --}}
+                                                <th class="w-auto">@lang('messages.short-production')</th>
+                                                <th class="w-auto">@lang('messages.short-packaging')</th>
+                                                <th class="w-auto">@lang('messages.description')</th>
+                                                <th class="w-1/6">@lang('messages.subtotalprice') (Rp.)</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody id="adonanBody">
+                                            @include('sale-order.partials.details-adonan-status', [
+                                                $adonans,
+                                                'viewMode' => true,
+                                            ])
+                                        </tbody>
+
+                                        <tfoot>
+                                            <tr>
+                                                <td class="align-top text-center" colspan="8">
+                                                    <x-text-span class="font-extrabold">@lang('messages.totalprice')
+                                                        (Rp.)</x-text-span>
+                                                </td>
+                                                <td class="align-top">
+                                                    <x-text-span id="disp-total_harga-adonan"
+                                                        class="font-extrabold text-right">{{ number_format($totals['sub_price_adonan'], 0, ',', '.') }}</x-text-span>
                                                 </td>
                                             </tr>
                                         </tfoot>
