@@ -25,6 +25,7 @@ class SaleOrder extends Model
         'isactive',
         'approved',
         'approved_by',
+        'approved_at',
         'created_by',
         'updated_by',
     ];

@@ -27,6 +27,7 @@ return new class extends Migration
             $table->text('kalimat')->nullable();
             $table->tinyInteger('approved')->default(0);
             $table->string('approved_by')->nullable();
+            $table->dateTime('approved_at')->nullable();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->timestamps();

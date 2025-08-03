@@ -7,11 +7,11 @@ use App\Models\Customer;
 use App\Models\Barang;
 use App\Models\SaleOrderDetail;
 use App\Models\Satuan;
+use App\Models\Pegawai;
+use App\Models\SaleOrderMitra;
 use Illuminate\Http\Request;
 use App\Http\Requests\SaleOrderRequest;
 use App\Http\Requests\SaleOrderUpdateRequest;
-use App\Models\Pegawai;
-use App\Models\SaleOrderMitra;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -152,12 +152,14 @@ class SaleOrderController extends Controller implements HasMiddleware
         $biaya_angkutan = 0;
         $total_harga = 0;
         $tunai = 1;
+        $pajak = 0;
 
         if ($request->validated()) {
 
             if ($request->biaya_angkutan) $biaya_angkutan = $request->biaya_angkutan;
             if ($request->total_harga) $total_harga = $request->total_harga;
             if ($request->tunai) $tunai = ($request->tunai == '2' ? 2 : 1);
+            if ($request->pajak) $pajak = $request->pajak;
 
             $so = SaleOrder::create([
                 'branch_id' => $request->branch_id,
@@ -166,12 +168,13 @@ class SaleOrderController extends Controller implements HasMiddleware
                 'biaya_angkutan' => str_replace('.', '', str_replace('Rp. ', '', $biaya_angkutan)),
                 'total_harga' => $total_harga,
                 'tunai' => $tunai,
-                'pajak' => $request->pajak,
+                'pajak' => $pajak,
                 'isactive' => ($request->isactive == 'on' ? 1 : 0),
                 'created_by' => auth()->user()->email,
                 'updated_by' => auth()->user()->email,
                 'approved' => (config('custom.sale_approval') == false) ? 1 : 0,
                 'approved_by' => (config('custom.sale_approval') == false) ? 'system' : NULL,
+                'approved_at' => (config('custom.sale_approval') == false) ? date('Y-m-d H:i:s') : NULL,
             ]);
 
             return redirect()->route('sale-order.edit', Crypt::encrypt($so->id));
@@ -317,6 +320,7 @@ class SaleOrderController extends Controller implements HasMiddleware
             'updated_by' => auth()->user()->email,
             'approved' => (config('custom.sale_approval') == false) ? 1 : 0,
             'approved_by' => (config('custom.sale_approval') == false) ? 'system' : NULL,
+            'approved_at' => (config('custom.sale_approval') == false) ? date('Y-m-d H:i:s') : NULL,
         ]);
 
         $selaluUpdateHargaJual = config('custom.selaluUpdateHargaJual');
@@ -415,6 +419,7 @@ class SaleOrderController extends Controller implements HasMiddleware
             'updated_by' => auth()->user()->email,
             'approved' => (config('custom.sale_approval') == false) ? 1 : 0,
             'approved_by' => (config('custom.sale_approval') == false) ? 'system' : NULL,
+            'approved_at' => (config('custom.sale_approval') == false) ? date('Y-m-d H:i:s') : NULL,
         ]);
 
         $selaluUpdateHargaJual = config('custom.selaluUpdateHargaJual');

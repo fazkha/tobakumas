@@ -21,6 +21,7 @@ class SaleOrderMitra extends Model
         'pajak',
         'approved',
         'approved_by',
+        'approved_at',
         'created_by',
         'updated_by',
     ];
