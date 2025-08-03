@@ -137,7 +137,7 @@
 
                             <div
                                 class="border rounded-md border-primary-100 bg-primary-100 dark:border-primary-800 dark:bg-primary-850">
-                                <div class="p-4 overflow-scroll md:overflow-hidden">
+                                <div class="p-4 overflow-scroll lg:overflow-hidden">
                                     <table id="order_table" class="w-full border-separate border-spacing-2">
                                         <thead>
                                             <tr>
@@ -145,7 +145,15 @@
                                                 <th class="w-1/6">@lang('messages.unitprice') (Rp.)</th>
                                                 <th class="w-auto">@lang('messages.unit')</th>
                                                 <th class="w-auto">@lang('messages.quantity') &amp; @lang('messages.stock')</th>
-                                                <th class="w-auto">@lang('messages.short-packaging')</th>
+                                                <th class="w-auto text-center">
+                                                    <div class="flex items-center justify-center">
+                                                        <svg fill="currentColor" class="w-5 h-5" viewBox="0 0 256 256"
+                                                            id="Flat" xmlns="http://www.w3.org/2000/svg">
+                                                            <path
+                                                                d="M128,20A108,108,0,1,0,236,128,108.12186,108.12186,0,0,0,128,20Zm0,192a84,84,0,1,1,84-84A84.09562,84.09562,0,0,1,128,212ZM144,84v92a12,12,0,0,1-24,0V106.417l-5.3457,3.5625a12.00027,12.00027,0,1,1-13.3086-19.97265l24-15.99317A12.00071,12.00071,0,0,1,144,84Z" />
+                                                        </svg>
+                                                    </div>
+                                                </th>
                                                 <th class="w-auto">@lang('messages.description')</th>
                                                 {{-- <th class="w-auto">@lang('messages.tax') (%)</th> --}}
                                                 <th class="w-1/6">@lang('messages.subtotalprice') (Rp.)</th>
@@ -168,6 +176,21 @@
                                                 <td class="align-top">
                                                     <x-text-span id="disp-total_harga-detail"
                                                         class="font-extrabold text-right">{{ number_format($totals['sub_price'], 0, ',', '.') }}</x-text-span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="flex flex-row gap-6 items-center">
+                                                        <div class="flex flex-row gap-2 items-center">
+                                                            <svg fill="currentColor" class="w-5 h-5"
+                                                                viewBox="0 0 256 256" id="Flat"
+                                                                xmlns="http://www.w3.org/2000/svg">
+                                                                <path
+                                                                    d="M128,20A108,108,0,1,0,236,128,108.12186,108.12186,0,0,0,128,20Zm0,192a84,84,0,1,1,84-84A84.09562,84.09562,0,0,1,128,212ZM144,84v92a12,12,0,0,1-24,0V106.417l-5.3457,3.5625a12.00027,12.00027,0,1,1-13.3086-19.97265l24-15.99317A12.00071,12.00071,0,0,1,144,84Z" />
+                                                            </svg>
+                                                            <span>@lang('messages.packaging')</span>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         </tfoot>
@@ -215,8 +238,8 @@
 
                             <div
                                 class="border rounded-md border-primary-100 bg-primary-100 dark:border-primary-800 dark:bg-primary-850">
-                                <div class="p-4 overflow-hidden">
-                                    <table id="order_table" class="w-full border-separate border-spacing-2">
+                                <div class="p-4 overflow-scroll lg:overflow-hidden">
+                                    <table id="adonan_table" class="w-full border-separate border-spacing-2">
                                         <thead>
                                             <tr>
                                                 <th class="w-1/6">@lang('messages.partner')</th>
@@ -225,8 +248,26 @@
                                                 <th class="w-1/12">@lang('messages.unit')</th>
                                                 <th class="w-auto">@lang('messages.quantity')</th>
                                                 {{-- <th class="w-auto">@lang('messages.tax') (%)</th> --}}
-                                                <th class="w-auto">@lang('messages.short-production')</th>
-                                                <th class="w-auto">@lang('messages.short-packaging')</th>
+                                                <th class="w-auto text-center">
+                                                    <div class="flex items-center justify-center">
+                                                        <svg fill="currentColor" class="w-5 h-5"
+                                                            viewBox="0 0 256 256" id="Flat"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                            <path
+                                                                d="M128,20A108,108,0,1,0,236,128,108.12186,108.12186,0,0,0,128,20Zm0,192a84,84,0,1,1,84-84A84.09562,84.09562,0,0,1,128,212ZM144,84v92a12,12,0,0,1-24,0V106.417l-5.3457,3.5625a12.00027,12.00027,0,1,1-13.3086-19.97265l24-15.99317A12.00071,12.00071,0,0,1,144,84Z" />
+                                                        </svg>
+                                                    </div>
+                                                </th>
+                                                <th class="w-auto text-center">
+                                                    <div class="flex items-center justify-center">
+                                                        <svg fill="currentColor" class="w-5 h-5"
+                                                            viewBox="0 0 256 256" id="Flat"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                            <path
+                                                                d="M128,20A108,108,0,1,0,236,128,108.12186,108.12186,0,0,0,128,20Zm0,192a84,84,0,1,1,84-84A84.09562,84.09562,0,0,1,128,212Zm29.50391-87.38477-29.51075,39.37891H152a12,12,0,0,1,0,24H104.39648c-.13281.00488-.26464.00684-.39843.00684a12.00272,12.00272,0,0,1-9.47168-19.36914l43.56543-58.13379a12.00426,12.00426,0,1,0-21.1543-11.165A11.9998,11.9998,0,0,1,94.834,89.9834a36.00408,36.00408,0,1,1,63.01172,34.15234C157.73535,124.29883,157.62207,124.458,157.50391,124.61523Z" />
+                                                        </svg>
+                                                    </div>
+                                                </th>
                                                 <th class="w-1/12">@lang('messages.description')</th>
                                                 <th class="w-1/6">@lang('messages.subtotalprice') (Rp.)</th>
                                             </tr>
@@ -248,6 +289,30 @@
                                                 <td class="align-top">
                                                     <x-text-span id="disp-total_harga-adonan"
                                                         class="font-extrabold text-right">{{ number_format($totals['sub_price_adonan'], 0, ',', '.') }}</x-text-span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="flex flex-row gap-6 items-center">
+                                                        <div class="flex flex-row gap-2 items-center">
+                                                            <svg fill="currentColor" class="w-5 h-5"
+                                                                viewBox="0 0 256 256" id="Flat"
+                                                                xmlns="http://www.w3.org/2000/svg">
+                                                                <path
+                                                                    d="M128,20A108,108,0,1,0,236,128,108.12186,108.12186,0,0,0,128,20Zm0,192a84,84,0,1,1,84-84A84.09562,84.09562,0,0,1,128,212ZM144,84v92a12,12,0,0,1-24,0V106.417l-5.3457,3.5625a12.00027,12.00027,0,1,1-13.3086-19.97265l24-15.99317A12.00071,12.00071,0,0,1,144,84Z" />
+                                                            </svg>
+                                                            <span>@lang('messages.production')</span>
+                                                        </div>
+                                                        <div class="flex flex-row gap-2 items-center">
+                                                            <svg fill="currentColor" class="w-5 h-5"
+                                                                viewBox="0 0 256 256" id="Flat"
+                                                                xmlns="http://www.w3.org/2000/svg">
+                                                                <path
+                                                                    d="M128,20A108,108,0,1,0,236,128,108.12186,108.12186,0,0,0,128,20Zm0,192a84,84,0,1,1,84-84A84.09562,84.09562,0,0,1,128,212ZM144,84v92a12,12,0,0,1-24,0V106.417l-5.3457,3.5625a12.00027,12.00027,0,1,1-13.3086-19.97265l24-15.99317A12.00071,12.00071,0,0,1,144,84Z" />
+                                                            </svg>
+                                                            <span>@lang('messages.packaging')</span>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         </tfoot>

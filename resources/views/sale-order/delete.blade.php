@@ -195,7 +195,7 @@
 
                             <div
                                 class="border rounded-md border-primary-100 bg-primary-100 dark:border-primary-800 dark:bg-primary-850">
-                                <div class="p-4 overflow-scroll md:overflow-hidden">
+                                <div class="p-4 overflow-scroll lg:overflow-hidden">
                                     <table id="order_table" class="w-full border-separate border-spacing-2">
                                         <thead>
                                             <tr>
