@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RecipeRequest extends FormRequest
+class RecipeUpdateRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -14,7 +14,7 @@ class RecipeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'judul' => ['required', 'unique:recipes', 'string', 'max:200'],
+            'judul' => ['required', 'string', 'max:200'],
         ];
     }
 

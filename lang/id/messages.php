@@ -157,7 +157,7 @@ return [
     'distrbution' => 'Pengiriman',
     'init' => 'Initial',
     'recipe' => 'Resep',
-    'title' => 'Judul',
+    'title' => 'Nama',
     'process_steps' => 'Langkah Proses',
     'stepsno' => 'No. Urut',
     'process' => 'Proses',
@@ -165,4 +165,6 @@ return [
     'output' => 'Keluaran',
     'dough' => 'Adonan',
     'partner' => 'Mitra',
+    'import' => 'Salin',
+    'copyfrom' => 'Salin dari',
 ];

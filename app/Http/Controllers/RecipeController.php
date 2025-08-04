@@ -7,6 +7,7 @@ use App\Models\RecipeDetail;
 use App\Models\RecipeIngoods;
 use App\Models\RecipeOutgoods;
 use App\Http\Requests\RecipeRequest;
+use App\Http\Requests\RecipeUpdateRequest;
 use App\Models\Barang;
 use App\Models\Satuan;
 use Illuminate\Http\Request;
@@ -16,6 +17,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 
 class RecipeController extends Controller implements HasMiddleware
 {
@@ -127,7 +129,7 @@ class RecipeController extends Controller implements HasMiddleware
             ]);
 
             if ($recipe) {
-                return redirect()->back()->with('success', __('messages.successadded') . ' 👉 ' . $request->judul);
+                return redirect()->route('recipe.edit', Crypt::encrypt($recipe->id));
             }
         }
 
@@ -148,20 +150,25 @@ class RecipeController extends Controller implements HasMiddleware
     public function edit(Request $request): View
     {
         $branch_id = auth()->user()->profile->branch_id;
+        $recipes = Recipe::where('isactive', 1)->where('id', '<>', Crypt::decrypt($request->recipe))->orderBy('judul')->pluck('judul', 'id');
         $datas = Recipe::find(Crypt::decrypt($request->recipe));
         $details = RecipeDetail::where('recipe_id', Crypt::decrypt($request->recipe))->orderBy('urutan')->get();
         $ingoods = RecipeIngoods::where('recipe_id', Crypt::decrypt($request->recipe))->get();
         $outgoods = RecipeOutgoods::where('recipe_id', Crypt::decrypt($request->recipe))->get();
         // jenis_barang_id = 1 = bahan-baku
-        // jenis_barang_id = 2 = barang-dagangan
         $barangs = Barang::where('branch_id', $branch_id)->where('isactive', 1)->where('jenis_barang_id', 1)->orderBy('nama')->pluck('nama', 'id');
-        $barang2s = Barang::where('branch_id', $branch_id)->where('isactive', 1)->where('jenis_barang_id', 2)->orderBy('nama')->pluck('nama', 'id');
+        // jenis_barang_id = 4/5 = adonan/hasil produksi
+        $barang2s = Barang::where('branch_id', $branch_id)->where('isactive', 1)->where(function ($query) {
+            $query->where('jenis_barang_id', 4)
+                ->orWhere('jenis_barang_id', 5);
+        })->orderBy('nama')->pluck('nama', 'id');
         $satuans = Satuan::where('isactive', 1)->orderBy('singkatan')->pluck('singkatan', 'id');
+        $count_details = $details->count();
 
-        return view('recipe.edit', compact(['datas', 'details', 'ingoods', 'outgoods', 'barangs', 'barang2s', 'satuans']));
+        return view('recipe.edit', compact(['datas', 'details', 'count_details', 'ingoods', 'outgoods', 'barangs', 'barang2s', 'satuans', 'recipes']));
     }
 
-    public function update(RecipeRequest $request): RedirectResponse
+    public function update(RecipeUpdateRequest $request): RedirectResponse
     {
         $recipe = Recipe::find(Crypt::decrypt($request->recipe));
 
@@ -373,5 +380,16 @@ class RecipeController extends Controller implements HasMiddleware
                 'status' => 'Not Found',
             ], 200);
         }
+    }
+
+    public function importFrom(Request $request)
+    {
+        $syntax = 'CALL sp_recipe_import_from(' . $request->from . ',' . $request->to . ')';
+
+        $results = DB::select($syntax);
+
+        return response()->json([
+            'status' => $results,
+        ], 200);
     }
 }

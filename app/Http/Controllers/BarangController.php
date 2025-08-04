@@ -55,8 +55,8 @@ class BarangController extends Controller implements HasMiddleware
 
         $search_arr = ['barang_isactive', 'barang_satuan_beli_id', 'barang_jenis_barang_id', 'barang_nama', 'barang_merk'];
 
-        $satuans = Satuan::where('isactive', 1)->pluck('nama_lengkap', 'id');
-        $jenis_barangs = JenisBarang::where('isactive', 1)->pluck('nama', 'id');
+        $satuans = Satuan::where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
+        $jenis_barangs = JenisBarang::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $datas = Barang::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
@@ -96,8 +96,8 @@ class BarangController extends Controller implements HasMiddleware
 
         $search_arr = ['barang_isactive', 'barang_satuan_beli_id', 'barang_jenis_barang_id', 'barang_nama', 'barang_merk'];
 
-        $satuans = Satuan::where('isactive', 1)->pluck('nama_lengkap', 'id');
-        $jenis_barangs = JenisBarang::where('isactive', 1)->pluck('nama', 'id');
+        $satuans = Satuan::where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
+        $jenis_barangs = JenisBarang::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $datas = Barang::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
@@ -134,8 +134,8 @@ class BarangController extends Controller implements HasMiddleware
     {
         $branch_id = auth()->user()->profile->branch_id;
         $gudangs = Gudang::where('branch_id', $branch_id)->where('isactive', 1)->pluck('nama', 'id');
-        $satuans = Satuan::where('isactive', 1)->pluck('nama_lengkap', 'id');
-        $jenis_barangs = JenisBarang::where('isactive', 1)->pluck('nama', 'id');
+        $satuans = Satuan::where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
+        $jenis_barangs = JenisBarang::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $subjenis_barangs = SubjenisBarang::where('isactive', 1)->pluck('nama', 'id');
 
         return view('barang.create', compact(['satuans', 'jenis_barangs', 'subjenis_barangs', 'branch_id', 'gudangs']));
@@ -210,8 +210,8 @@ class BarangController extends Controller implements HasMiddleware
         $branch_id = auth()->user()->profile->branch_id;
         $datas = Barang::find(Crypt::decrypt($request->good));
         $gudangs = Gudang::where('branch_id', $branch_id)->where('isactive', 1)->pluck('nama', 'id');
-        $satuans = Satuan::where('isactive', 1)->pluck('nama_lengkap', 'id');
-        $jenis_barangs = JenisBarang::where('isactive', 1)->pluck('nama', 'id');
+        $satuans = Satuan::where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
+        $jenis_barangs = JenisBarang::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $subjenis_barangs = SubjenisBarang::where('isactive', 1)->pluck('nama', 'id');
 
         return view('barang.edit', compact(['datas', 'satuans', 'jenis_barangs', 'subjenis_barangs', 'gudangs']));

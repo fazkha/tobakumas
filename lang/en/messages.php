@@ -165,4 +165,6 @@ return [
     'output' => 'Output',
     'dough' => 'Dough',
     'partner' => 'Partner',
+    'import' => 'Import',
+    'copyfrom' => 'Import from',
 ];

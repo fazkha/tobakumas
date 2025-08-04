@@ -105,7 +105,7 @@ class KonversiController extends Controller implements HasMiddleware
 
     public function create(): View
     {
-        $satuans = Satuan::where('isactive', 1)->pluck('nama_lengkap', 'id');
+        $satuans = Satuan::where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
 
         return view('konversi.create', compact('satuans'));
     }
@@ -141,7 +141,7 @@ class KonversiController extends Controller implements HasMiddleware
 
     public function edit(Request $request): View
     {
-        $satuans = Satuan::where('isactive', 1)->pluck('nama_lengkap', 'id');
+        $satuans = Satuan::where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
         $datas = Konversi::find(Crypt::decrypt($request->conversion));
 
         return view('konversi.edit', compact(['datas', 'satuans']));

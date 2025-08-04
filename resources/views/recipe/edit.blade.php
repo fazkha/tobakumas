@@ -64,7 +64,34 @@
                                 </div>
 
                                 <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
-                                    <div class="pb-4 lg:pb-12">&nbsp;</div>
+                                    <div class="w-auto pb-4 lg:pb-12">
+                                        @if ($count_details == 0)
+                                            <label for="copy_recipe"
+                                                class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.copyfrom')</label>
+                                            <x-text-span>
+                                                <div class="flex flex-row gap-2 items-center">
+                                                    <select name="copy_recipe" id="copy_recipe" tabindex="3"
+                                                        class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                                        <option value="">@lang('messages.copyfrom')...</option>
+                                                        @foreach ($recipes as $id => $name)
+                                                            <option value="{{ $id }}"
+                                                                {{ old('copy_recipe') === $id ? 'selected' : '' }}>
+                                                                {{ $name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <x-anchor-primary id="a-copy-from" onclick="copyFrom()"
+                                                        title="{{ __('messages.import') }}">
+                                                        <svg class="size-4" viewBox="0 0 24 24" fill="none"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                            <path
+                                                                d="M2 4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v4h4a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2v-4H4a2 2 0 0 1-2-2V4zm8 12v4h10V10h-4v4a2 2 0 0 1-2 2h-4zm4-2V4H4v10h10z"
+                                                                fill="currentColor" />
+                                                        </svg>
+                                                    </x-anchor-primary>
+                                                </div>
+                                            </x-text-span>
+                                        @endif
+                                    </div>
 
                                     <div class="flex flex-row items-center justify-end gap-4">
                                         <div class="dark:bg-black/10">
@@ -144,7 +171,7 @@
                                         <table id="order_table" class="w-full border-separate border-spacing-2">
                                             <thead>
                                                 <tr>
-                                                    <th class="w-1/6">@lang('messages.stepsno')</th>
+                                                    <th class="w-1/12">@lang('messages.stepsno')</th>
                                                     <th class="w-1/2">@lang('messages.process')</th>
                                                     <th class="w-auto">@lang('messages.description')</th>
                                                     <th class="w-auto">&nbsp;</th>
@@ -189,15 +216,6 @@
                                             </svg>
                                             <span class="pl-1">@lang('messages.save')</span>
                                         </x-primary-button>
-                                        <x-anchor-secondary href="{{ route('recipe.index') }}" tabindex="10">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                class="size-5">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M6 18 18 6M6 6l12 12" />
-                                            </svg>
-                                            <span class="pl-1">@lang('messages.close')</span>
-                                        </x-anchor-secondary>
                                     </div>
                                 </div>
                             </div>
@@ -303,15 +321,6 @@
                                             </svg>
                                             <span class="pl-1">@lang('messages.save')</span>
                                         </x-primary-button>
-                                        <x-anchor-secondary href="{{ route('recipe.index') }}" tabindex="15">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                class="size-5">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M6 18 18 6M6 6l12 12" />
-                                            </svg>
-                                            <span class="pl-1">@lang('messages.close')</span>
-                                        </x-anchor-secondary>
                                     </div>
                                 </div>
                             </div>
@@ -478,6 +487,28 @@
                 }
 
                 const myFormInitialValues = getInitialFormValues('master-form');
+
+                copyFrom = function() {
+                    var confirmation = confirm("Are you sure you want to import this?");
+                    if (confirmation) {
+                        var xcopy_recipe = $('#copy_recipe option:selected').val();
+                        var xtoId = '{{ $datas->id }}';
+
+                        if (xcopy_recipe.trim().length > 0) {
+                            $.ajax({
+                                url: '{{ url('/production/recipe/import-from') }}' + '/' + xcopy_recipe +
+                                    '/' + xtoId,
+                                type: 'get',
+                                dataType: 'json',
+                                success: function(result) {
+                                    if (result.status !== 'Not Found') {
+                                        $('form#master-form').submit();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                }
 
                 deleteIngoods = function(detailId) {
                     let idname = '#a-delete-ingoods-' + detailId;

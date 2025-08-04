@@ -163,10 +163,9 @@
                                     <table id="order_table" class="w-full border-separate border-spacing-2">
                                         <thead>
                                             <tr>
-                                                <th class="w-1/6">@lang('messages.stepsno')</th>
+                                                <th class="w-1/12">@lang('messages.stepsno')</th>
                                                 <th class="w-1/2">@lang('messages.process')</th>
                                                 <th class="w-auto">@lang('messages.description')</th>
-                                                <th class="w-auto">&nbsp;</th>
                                             </tr>
                                         </thead>
 
@@ -177,17 +176,6 @@
                                             ])
                                         </tbody>
                                     </table>
-                                </div>
-
-                                <div class="mt-4 mb-4 mr-4 flex flex-row justify-end gap-4">
-                                    <x-anchor-secondary href="{{ route('recipe.index') }}" tabindex="10">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="1.5" stroke="currentColor" class="size-5">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M6 18 18 6M6 6l12 12" />
-                                        </svg>
-                                        <span class="pl-1">@lang('messages.close')</span>
-                                    </x-anchor-secondary>
                                 </div>
                             </div>
                         </div>
@@ -243,17 +231,6 @@
                                             ])
                                         </tbody>
                                     </table>
-                                </div>
-
-                                <div class="mt-4 mb-4 mr-4 flex flex-row justify-end gap-4">
-                                    <x-anchor-secondary href="{{ route('recipe.index') }}" tabindex="15">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="1.5" stroke="currentColor" class="size-5">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M6 18 18 6M6 6l12 12" />
-                                        </svg>
-                                        <span class="pl-1">@lang('messages.close')</span>
-                                    </x-anchor-secondary>
                                 </div>
                             </div>
                         </div>

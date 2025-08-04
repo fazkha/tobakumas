@@ -103,10 +103,6 @@
                 <div class="w-full px-2 sm:px-4 py-2">
                     <div class="flex flex-col items-center">
 
-                        <div class="w-full" role="alert">
-                            @include('recipe.partials.feedback')
-                        </div>
-
                         {{-- Detail --}}
                         <div
                             class="w-full shadow-lg rounded-md border bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
@@ -160,10 +156,6 @@
                 <div class="w-full px-2 sm:px-4 py-2">
                     <div class="flex flex-col items-center">
 
-                        <div class="w-full" role="alert">
-                            @include('recipe.partials.feedback')
-                        </div>
-
                         {{-- Input --}}
                         <div
                             class="w-full shadow-lg rounded-md border bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
@@ -212,10 +204,6 @@
 
                 <div class="w-full px-2 sm:px-4 py-2">
                     <div class="flex flex-col items-center">
-
-                        <div class="w-full" role="alert">
-                            @include('recipe.partials.feedback')
-                        </div>
 
                         {{-- Output --}}
                         <div

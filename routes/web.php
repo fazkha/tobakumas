@@ -7,10 +7,11 @@ use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\GudangController;
 use App\Http\Controllers\KonversiController;
 use App\Http\Controllers\LocaleController;
+use App\Http\Controllers\ProdOrderController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\QRController;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\SaleOrderController;
 use App\Http\Controllers\SatuanController;
@@ -118,8 +119,9 @@ Route::prefix('production')->middleware('auth')->group(function () {
     Route::delete('recipe/delete-ingoods/{recipe}', [RecipeController::class, 'deleteIngoods']);
     Route::post('recipe/store-outgoods/{recipe}', [RecipeController::class, 'storeOutgoods']);
     Route::delete('recipe/delete-outgoods/{recipe}', [RecipeController::class, 'deleteOutgoods']);
+    Route::get('recipe/import-from/{from}/{to}', [RecipeController::class, 'importFrom']);
 
-    Route::resource('order', RecipeController::class)->names('production-order');
+    Route::resource('order', ProdOrderController::class)->names('production-order');
 })->missing(function (Request $request) {
     return Redirect::route('dashboard');
 });

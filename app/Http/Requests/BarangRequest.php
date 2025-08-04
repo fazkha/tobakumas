@@ -17,7 +17,6 @@ class BarangRequest extends FormRequest
             'branch_id' => ['required', 'exists:branches,id'],
             'gudang_id' => ['required', 'exists:gudangs,id'],
             'jenis_barang_id' => ['required', 'exists:jenis_barangs,id'],
-            'subjenis_barang_id' => ['required', 'exists:subjenis_barangs,id'],
             'nama' => ['required', 'string', 'max:200'],
             'merk' => ['required', 'string', 'max:200'],
             'keterangan' => ['nullable', 'string', 'max:200'],
@@ -32,7 +31,6 @@ class BarangRequest extends FormRequest
             'nama.required' => 'Field -NAMA- tidak boleh kosong.',
             'merk.required' => 'Field -MERK- tidak boleh kosong.',
             'jenis_barang_id.required' => 'Field -JENIS BARANG- tidak boleh kosong.',
-            'subjenis_barang_id.required' => 'Field -SUB JENIS BARANG- tidak boleh kosong.',
         ];
     }
 }
