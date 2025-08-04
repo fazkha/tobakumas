@@ -6,7 +6,7 @@
 <x-app-layout>
     <div class="flex items-center justify-between px-4 py-4 border-b border-primary-100 lg:py-6 dark:border-primary-800">
         <h1 class="text-xl flex items-center justify-center">
-            <a href="{{ route('sale-order.index') }}" class="flex items-center justify-center">
+            <a href="{{ route('stock-opname.index') }}" class="flex items-center justify-center">
                 <svg class="w-7 h-7" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg"
                     xmlns:xlink="http://www.w3.org/1999/xlink">
                     <path fill="currentColor"
@@ -132,7 +132,7 @@
                 <div class="flex flex-col items-center">
 
                     <div class="w-full" role="alert">
-                        @include('sale-order.partials.feedback')
+                        @include('stock-opname.partials.feedback')
                     </div>
 
                     {{-- Detail --}}

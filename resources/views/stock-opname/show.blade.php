@@ -24,7 +24,7 @@
             <div class="flex flex-col items-center">
 
                 <div class="w-full" role="alert">
-                    @include('sale-order.partials.feedback')
+                    @include('stock-opname.partials.feedback')
                 </div>
 
                 {{-- Master --}}
@@ -97,7 +97,7 @@
                 <div class="flex flex-col items-center">
 
                     <div class="w-full" role="alert">
-                        @include('sale-order.partials.feedback')
+                        @include('stock-opname.partials.feedback')
                     </div>
 
                     {{-- Detail --}}

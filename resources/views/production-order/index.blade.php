@@ -1,17 +1,28 @@
-@section('title', __('messages.stockopname'))
+@section('title', __('messages.production'))
 
 <x-app-layout>
     <div class="flex items-center justify-between px-4 py-4 border-b border-primary-100 lg:py-6 dark:border-primary-800">
-        <a href="{{ route('stock-opname.index') }}">
+        <a href="{{ route('production-order.index') }}">
             <h1 class="flex items-center justify-center text-xl">
-                <svg class="w-7 h-7" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                    <path fill="currentColor"
-                        d="M12 6v-6h-8v6h-4v7h16v-7h-4zM7 12h-6v-5h2v1h2v-1h2v5zM5 6v-5h2v1h2v-1h2v5h-6zM15 12h-6v-5h2v1h2v-1h2v5z">
-                    </path>
-                    <path fill="currentColor" d="M0 16h3v-1h10v1h3v-2h-16v2z"></path>
+                <svg class="size-7" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" version="1.1">
+                    <path style="fill:#555555;stroke:#000000;stroke-width:1.5px;"
+                        d="m 40,2 -2,9 -10,5 -8,-6 -9,9 6,9 -4,10 -10,2 0,12 10,1 4,10 -6,9 9,9 9,-6 9,4 2,10 13,0 1,-11 8,-4 9,7 9,-8 -6,-10 4,-9 11,-2 0,-12 -11,-2 -3,-9 6,-10 -9,-9 -8,6 -11,-5 -1,-9 z m 5,18 C 58,20 69,31 69,44 69,58 58,68 45,68 32,68 21,58 21,44 21,31 32,20 45,20 z" />
+                    <circle style="fill:none;stroke:#eeeeee;stroke-width:3" cx="65" cy="65" r="34" />
+                    <circle style="fill:#444444;fill-opacity:0.7" cx="65" cy="65" r="32" />
+                    <path style="stroke:none;fill:#00C60A;fill-opacity:0.7"
+                        d="m 58,33 7,34 32,-7 C 97,60 92,29 58,33" />
+                    <circle style=";stroke-width:5pt;stroke:#222222;fill:none;" cx="65" cy="65" r="30" />
+                    <g style="fill:#aaaaaa;">
+                        <circle cx="65" cy="35" r="2.5" />
+                        <circle cx="95" cy="65" r="2.5" />
+                        <circle cx="65" cy="95" r="2.5" />
+                        <circle cx="35" cy="65" r="2.5" />
+                    </g>
+                    <path style="stroke:#ffffff;stroke-width:4;fill:none;" d="M 65,65 60,42" />
+                    <path style="stroke:#ffffff;stroke-width:3;fill:none;" d="M 65,65 44,87" />
+                    <circle style="fill:#ffffff;" cx="65" cy="65" r="3.5" />
                 </svg>
-                <span class="px-2">@lang('messages.stockopname')</span>
+                <span class="px-2">@lang('messages.order')</span>
             </h1>
         </a>
     </div>
@@ -20,15 +31,15 @@
         <div class="flex flex-col items-center">
 
             <div class="w-full" role="alert">
-                @include('stock-opname.partials.feedback')
+                @include('production-order.partials.feedback')
             </div>
 
             <div class="w-full">
-                @include('stock-opname.partials.filter')
+                @include('production-order.partials.filter')
             </div>
 
             <div id="table-container" class="w-full">
-                @include('stock-opname.partials.table')
+                @include('production-order.partials.table')
             </div>
 
         </div>
@@ -38,12 +49,11 @@
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script>
-            $("#pp-dropdown, #gudang-dropdown, #search-tanggal")
+            $("#pp-dropdown, #search-tanggal")
                 .on(
                     "change keyup paste",
                     function() {
                         var xpp = $('#pp-dropdown option:selected').val();
-                        var xgudang = $('#gudang-dropdown option:selected').val();
                         var xtanggal = $('#search-tanggal').val();
                         if (!xtanggal.trim()) {
                             xtanggal = '_';
@@ -51,17 +61,16 @@
 
                         $('#filter-loading').show();
 
-                        var newURL = '{{ url('/warehouse/stock-opname') }}';
+                        var newURL = '{{ url('/production/order') }}';
                         var newState = {
-                            page: 'index-stock-opname'
+                            page: 'index-production-order'
                         };
-                        var newTitle = '{{ __('messages.stockopname') }}';
+                        var newTitle = '{{ __('messages.production') }}';
 
                         window.history.pushState(newState, newTitle, newURL);
 
                         $.ajax({
-                            url: '{{ url('/warehouse/stock-opname/fetchdb') }}' + "/" + xpp + "/" + xgudang + "/" +
-                                xtanggal,
+                            url: '{{ url('/production/order/fetchdb') }}' + "/" + xpp + "/" + xtanggal,
                             type: "GET",
                             dataType: 'json',
                             success: function(result) {

@@ -1,24 +1,35 @@
-@section('title', __('messages.stockopname'))
+@section('title', __('messages.production'))
 
 <x-app-layout>
     <div class="flex items-center justify-between px-4 py-4 border-b border-primary-100 lg:py-6 dark:border-primary-800">
         <h1 class="text-xl flex items-center justify-center">
-            <a href="{{ route('stock-opname.index') }}" class="flex items-center justify-center">
-                <svg class="w-7 h-7" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                    <path fill="currentColor"
-                        d="M12 6v-6h-8v6h-4v7h16v-7h-4zM7 12h-6v-5h2v1h2v-1h2v5zM5 6v-5h2v1h2v-1h2v5h-6zM15 12h-6v-5h2v1h2v-1h2v5z">
-                    </path>
-                    <path fill="currentColor" d="M0 16h3v-1h10v1h3v-2h-16v2z"></path>
+            <a href="{{ route('production-order.index') }}" class="flex items-center justify-center">
+                <svg class="size-7" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" version="1.1">
+                    <path style="fill:#555555;stroke:#000000;stroke-width:1.5px;"
+                        d="m 40,2 -2,9 -10,5 -8,-6 -9,9 6,9 -4,10 -10,2 0,12 10,1 4,10 -6,9 9,9 9,-6 9,4 2,10 13,0 1,-11 8,-4 9,7 9,-8 -6,-10 4,-9 11,-2 0,-12 -11,-2 -3,-9 6,-10 -9,-9 -8,6 -11,-5 -1,-9 z m 5,18 C 58,20 69,31 69,44 69,58 58,68 45,68 32,68 21,58 21,44 21,31 32,20 45,20 z" />
+                    <circle style="fill:none;stroke:#eeeeee;stroke-width:3" cx="65" cy="65" r="34" />
+                    <circle style="fill:#444444;fill-opacity:0.7" cx="65" cy="65" r="32" />
+                    <path style="stroke:none;fill:#00C60A;fill-opacity:0.7"
+                        d="m 58,33 7,34 32,-7 C 97,60 92,29 58,33" />
+                    <circle style=";stroke-width:5pt;stroke:#222222;fill:none;" cx="65" cy="65" r="30" />
+                    <g style="fill:#aaaaaa;">
+                        <circle cx="65" cy="35" r="2.5" />
+                        <circle cx="95" cy="65" r="2.5" />
+                        <circle cx="65" cy="95" r="2.5" />
+                        <circle cx="35" cy="65" r="2.5" />
+                    </g>
+                    <path style="stroke:#ffffff;stroke-width:4;fill:none;" d="M 65,65 60,42" />
+                    <path style="stroke:#ffffff;stroke-width:3;fill:none;" d="M 65,65 44,87" />
+                    <circle style="fill:#ffffff;" cx="65" cy="65" r="3.5" />
                 </svg>
-                <span class="px-2">@lang('messages.stockopname')</span>
+                <span class="px-2">@lang('messages.order')</span>
             </a>
             <span class="px-2">&raquo;</span>
             <span class="px-2 font-semibold">@lang('messages.new')</span>
         </h1>
     </div>
 
-    <form action="{{ route('stock-opname.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('production-order.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div class="py-4 flex flex-col">
@@ -40,22 +51,6 @@
 
                                     <div class="w-auto pb-4">
                                         <input type="hidden" name="branch_id" value="{{ $branch_id }}" />
-                                        <label for="gudang_id"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.warehouse')</label>
-                                        <select name="gudang_id" id="gudang_id" tabindex="1" required autofocus
-                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
-                                            <option value="">@lang('messages.choose')...</option>
-                                            @foreach ($gudangs as $id => $name)
-                                                <option value="{{ $id }}"
-                                                    {{ old('gudang_id') === $id ? 'selected' : '' }}>
-                                                    {{ $name }}</option>
-                                            @endforeach
-                                        </select>
-
-                                        <x-input-error class="mt-2" :messages="$errors->get('gudang_id')" />
-                                    </div>
-
-                                    <div class="w-auto pb-4">
                                         <label for="tanggal"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.transactiondate')</label>
                                         <x-text-input type="date" name="tanggal" id="tanggal"
@@ -129,14 +124,16 @@
 
                                     <div class="flex flex-row items-center justify-end gap-4">
                                         <x-primary-button type="submit" class="block" tabindex="7">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="currentColor" class="size-5">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                class="size-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
                                             </svg>
                                             <span class="pl-1">@lang('messages.save')</span>
                                         </x-primary-button>
-                                        <x-anchor-secondary href="{{ route('stock-opname.index') }}" tabindex="8">
+                                        <x-anchor-secondary href="{{ route('production-order.index') }}"
+                                            tabindex="8">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                 class="size-5">

@@ -122,6 +122,7 @@ Route::prefix('production')->middleware('auth')->group(function () {
     Route::get('recipe/import-from/{from}/{to}', [RecipeController::class, 'importFrom']);
 
     Route::resource('order', ProdOrderController::class)->names('production-order');
+    Route::get('order/{order}/delete', [ProdOrderController::class, 'delete'])->name('production-order.delete');
 })->missing(function (Request $request) {
     return Redirect::route('dashboard');
 });

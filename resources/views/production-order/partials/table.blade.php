@@ -14,10 +14,6 @@
                     </th>
                     <th
                         class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
-                        @lang('messages.warehouse')
-                    </th>
-                    <th
-                        class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
                         @lang('messages.date')
                     </th>
                     <th
@@ -29,7 +25,7 @@
             <tbody>
                 @if ($datas->count() == 0)
                     <tr>
-                        <td colspan="4" class="text-sm bg-primary-20 dark:bg-primary-900">
+                        <td colspan="3" class="text-sm bg-primary-20 dark:bg-primary-900">
                             <div class="flex items-center justify-center p-5">@lang('messages.datanotavailable')</div>
                         </td>
                     </tr>
@@ -45,18 +41,14 @@
                         </td>
                         <td
                             class="px-3 py-3 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
-                            <span class="text-gray-900 dark:text-white">{{ $data->gudang->nama }}</span>
-                        </td>
-                        <td
-                            class="px-3 py-3 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
                             <span
                                 class="text-gray-900 dark:text-white">{{ date_format(date_create($data->tanggal), 'd/m/Y') }}</span>
                         </td>
                         <td class="px-3 py-3 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800"
                             style="vertical-align: middle;">
                             <div class="flex items-center justify-center">
-                                @can('stopname-show')
-                                    <a href="{{ route('stock-opname.show', Crypt::Encrypt($data->id)) }}"
+                                @can('prodo-show')
+                                    <a href="{{ route('production-order.show', Crypt::Encrypt($data->id)) }}"
                                         title="{{ __('messages.view') }}" class="ml-2">
                                         <span
                                             class="relative inline-block px-3 py-3 font-semibold text-blue-800 dark:text-blue-50 leading-tight">
@@ -71,8 +63,8 @@
                                     </a>
                                 @endcan
 
-                                @can('stopname-edit')
-                                    <a href="{{ route('stock-opname.edit', Crypt::Encrypt($data->id)) }}"
+                                @can('prodo-edit')
+                                    <a href="{{ route('production-order.edit', Crypt::Encrypt($data->id)) }}"
                                         title="{{ __('messages.edit') }}" class="ml-2">
                                         <span
                                             class="relative inline-block px-3 py-3 font-semibold text-green-800 dark:text-green-50 leading-tight">
@@ -87,8 +79,8 @@
                                     </a>
                                 @endcan
 
-                                @can('stopname-delete')
-                                    <a href="{{ route('stock-opname.delete', Crypt::Encrypt($data->id)) }}"
+                                @can('prodo-delete')
+                                    <a href="{{ route('production-order.delete', Crypt::Encrypt($data->id)) }}"
                                         title="{{ __('messages.delete') }}" class="ml-2">
                                         <span
                                             class="relative inline-block px-3 py-3 font-semibold text-red-800 dark:text-red-50 leading-tight">
