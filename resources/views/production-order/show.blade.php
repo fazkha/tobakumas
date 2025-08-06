@@ -18,9 +18,9 @@
         </h1>
     </div>
 
-    <div class="py-4 flex flex-col">
+    <div class="py-2 flex flex-col">
 
-        <div class="w-full px-2 sm:px-4 py-2">
+        <div class="w-full px-4 py-2">
             <div class="flex flex-col items-center">
 
                 <div class="w-full" role="alert">
@@ -30,7 +30,7 @@
                 {{-- Master --}}
                 <div
                     class="w-full shadow-lg bg-primary-50 rounded-md border border-primary-100 dark:bg-primary-900 dark:border-primary-800">
-                    <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                    <div class="p-4 space-y-2 md:p-6 md:space-y-4">
 
                         <div class="flex flex-col lg:flex-row">
                             <div class="w-full lg:w-1/2 px-2">
@@ -75,7 +75,7 @@
                                     <x-text-span>{{ $datas->tanggungjawab_id ? $datas->tanggungjawab->nama_lengkap : '-' }}</x-text-span>
                                 </div>
 
-                                <div class="flex flex-row items-center justify-end gap-4">
+                                <div class="flex flex-row items-center justify-end gap-2 md:gap-4">
                                     <x-anchor-secondary href="{{ route('production-order.index') }}" tabindex="1">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-5">
@@ -92,8 +92,8 @@
             </div>
         </div>
 
-        <div class="flex flex-col lg:flex-row justify-evenly">
-            <div class="w-full px-2 sm:px-4 py-2">
+        <div class="flex flex-col lg:flex-row gap-4 px-4 py-2">
+            <div class="w-full">
                 <div class="flex flex-col items-center">
 
                     <div class="w-full" role="alert">
@@ -103,7 +103,7 @@
                     {{-- Detail --}}
                     <div
                         class="w-full shadow-lg rounded-md border bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
-                        <div class="p-6 space-y-2 sm:p-8">
+                        <div class="p-4 space-y-2 md:p-6 md:space-y-4">
                             <div class="flex flex-row items-center gap-2">
                                 <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
                                     viewBox="0 0 52 52" enable-background="new 0 0 52 52" xml:space="preserve">
@@ -127,7 +127,7 @@
 
                             <div
                                 class="border rounded-md border-primary-100 bg-primary-100 dark:border-primary-800 dark:bg-primary-850">
-                                <div class="p-4 overflow-hidden">
+                                <div class="p-4 overflow-scroll md:overflow-auto lg:overflow-hidden">
                                     <table id="order_table" class="w-full border-separate border-spacing-2">
                                         <thead>
                                             <tr>
@@ -149,7 +149,7 @@
                                     </table>
                                 </div>
 
-                                <div class="mt-4 mb-4 mr-4 flex flex-row justify-end gap-4">
+                                <div class="mt-4 mb-4 mr-4 flex flex-row justify-end gap-2 md:gap-4">
                                     <x-anchor-secondary href="{{ route('production-order.index') }}" tabindex="2">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-5">

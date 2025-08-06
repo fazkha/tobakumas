@@ -172,4 +172,6 @@ return [
     'combine' => 'Combine',
     'combinesuccess' => 'Successfully combined.',
     'rawmaterial' => 'Raw Material',
+    'salesordernumber' => 'Sale Order No.',
+    'productiondate' => 'Production Date',
 ];

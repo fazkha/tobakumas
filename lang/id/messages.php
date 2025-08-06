@@ -172,4 +172,6 @@ return [
     'combine' => 'Gabung',
     'combinesuccess' => 'Penggabungan berhasil.',
     'rawmaterial' => 'Bahan Baku',
+    'salesordernumber' => 'No. Transaksi Penjualan',
+    'productiondate' => 'Tanggal Produksi',
 ];

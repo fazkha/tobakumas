@@ -25,9 +25,9 @@
         <form action="{{ route('coa.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
-            <div class="py-4 flex flex-col">
+            <div class="py-2 flex flex-col">
 
-                <div class="w-full px-2 sm:px-4 py-2">
+                <div class="w-full">
                     <div class="flex flex-col items-center">
 
                         <div class="w-full" role="alert">
@@ -36,7 +36,7 @@
 
                         <div
                             class="w-full shadow-lg rounded-md border bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
-                            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                            <div class="p-4 space-y-2 md:p-6 md:space-y-4">
 
                                 <div class="flex flex-col lg:flex-row">
                                     <div class="w-full lg:w-1/2 px-2">
@@ -110,7 +110,7 @@
                                             <x-input-error class="mt-2" :messages="$errors->get('balance')" />
                                         </div>
 
-                                        <div class="flex flex-row items-center justify-end gap-4">
+                                        <div class="flex flex-row items-center justify-end gap-2 md:gap-4">
                                             <div class="pr-2">
                                                 <div class="inline-flex items-center">
                                                     <input type="checkbox" id="isactive" name="isactive"

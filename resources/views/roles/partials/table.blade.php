@@ -3,7 +3,7 @@
     use Illuminate\Support\Facades\Crypt;
 @endphp
 
-<div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+<div class="w-full overflow-x-auto">
     <div
         class="inline-block min-w-full shadow-md overflow-hidden rounded-md border border-solid border-primary-100 dark:border-primary-800">
         <table class="min-w-full leading-normal">
@@ -35,22 +35,22 @@
                 @foreach ($datas as $data)
                     <tr>
                         <td
-                            class="px-3 py-3 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
+                            class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
                             <p class="text-center text-gray-900 whitespace-no-wrap dark:text-white">{{ ++$i }}
                             </p>
                         </td>
                         <td
-                            class="px-3 py-3 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
+                            class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
                             <span class="text-gray-900 dark:text-white">{{ $data->name }}</span>
                         </td>
-                        <td class="px-3 py-3 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800"
+                        <td class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800"
                             style="vertical-align: middle;">
                             <div class="flex items-center justify-center">
                                 @can('role-show')
                                     <a href="{{ route('roles.show', Crypt::Encrypt($data->id)) }}"
                                         title="{{ __('messages.view') }}">
                                         <span
-                                            class="relative inline-block px-3 py-3 font-semibold text-blue-800 dark:text-blue-50 leading-tight">
+                                            class="relative inline-block px-2 py-2 font-semibold text-blue-800 dark:text-blue-50 leading-tight">
                                             <span aria-hidden
                                                 class="absolute inset-0 bg-blue-200 hover:bg-blue-400 dark:bg-blue-500 hover:dark:bg-blue-700 opacity-50 rounded-full"></span>
                                             <svg class="size-5" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"
@@ -66,7 +66,7 @@
                                     <a href="{{ route('roles.edit', Crypt::Encrypt($data->id)) }}"
                                         title="{{ __('messages.edit') }}" class="ml-2">
                                         <span
-                                            class="relative inline-block px-3 py-3 font-semibold text-green-800 dark:text-green-50 leading-tight">
+                                            class="relative inline-block px-2 py-2 font-semibold text-green-800 dark:text-green-50 leading-tight">
                                             <span aria-hidden
                                                 class="absolute inset-0 bg-green-200 hover:bg-green-400 dark:bg-green-500 hover:dark:bg-green-700 opacity-50 rounded-full"></span>
                                             <svg class="size-5" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -82,7 +82,7 @@
                                     <a href="{{ route('roles.delete', Crypt::Encrypt($data->id)) }}"
                                         title="{{ __('messages.delete') }}" class="ml-2">
                                         <span
-                                            class="relative inline-block px-3 py-3 font-semibold text-red-800 dark:text-red-50 leading-tight">
+                                            class="relative inline-block px-2 py-2 font-semibold text-red-800 dark:text-red-50 leading-tight">
                                             <span aria-hidden
                                                 class="absolute inset-0 bg-red-200 hover:bg-red-400 dark:bg-red-500 hover:dark:bg-red-700 opacity-50 rounded-full"></span>
                                             <svg class="size-5" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -100,7 +100,7 @@
             </tbody>
         </table>
         <div
-            class="px-5 py-5 bg-primary-50 items-center xs:justify-between border-t border-primary-100 dark:text-white dark:bg-primary-800 dark:border-primary-800">
+            class="px-3 py-3 bg-primary-50 items-center xs:justify-between border-t border-primary-100 dark:text-white dark:bg-primary-800 dark:border-primary-800">
             <div class="mt-2 xs:mt-0">
                 {{ $datas->links() }}
             </div>

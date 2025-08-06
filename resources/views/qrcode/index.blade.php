@@ -14,7 +14,7 @@
         </a>
     </div>
 
-    <div class="mx-auto px-2 sm:px-4 py-2">
+    <div class="mx-auto px-4 py-2">
         <div class="flex flex-row items-center">
 
             <div class="w-full">

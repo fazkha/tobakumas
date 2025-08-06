@@ -19,7 +19,7 @@
         </h1>
     </div>
 
-    <div class="py-4 flex flex-col">
+    <div class="py-2 flex flex-col">
         <div class="container mx-auto px-2 sm:px-4 py-2">
             <div class="flex flex-col items-center">
 

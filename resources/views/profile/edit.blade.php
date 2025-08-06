@@ -11,7 +11,7 @@
         </h1>
     </div>
 
-    <div class="py-4 flex flex-col">
+    <div class="py-2 flex flex-col">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="p-4 sm:p-8 bg-primary-50 dark:bg-darker shadow sm:rounded-lg">
                 <div class="max-w-xl">
