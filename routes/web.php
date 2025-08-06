@@ -123,6 +123,9 @@ Route::prefix('production')->middleware('auth')->group(function () {
 
     Route::resource('order', ProdOrderController::class)->names('production-order');
     Route::get('order/{order}/delete', [ProdOrderController::class, 'delete'])->name('production-order.delete');
+    Route::get('order/fetchdb/{pp}/{tanggal}', [ProdOrderController::class, 'fetchdb'])->defaults('tanggal', '_');
+    Route::get('order/combine/{order}/{join}', [ProdOrderController::class, 'combineJoin']);
+    Route::get('order/hitung-bahanbaku-produksi/{order}', [ProdOrderController::class, 'hitungBahanbakuProduksi']);
 })->missing(function (Request $request) {
     return Redirect::route('dashboard');
 });

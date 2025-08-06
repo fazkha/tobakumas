@@ -167,4 +167,9 @@ return [
     'partner' => 'Partner',
     'import' => 'Import',
     'copyfrom' => 'Import from',
+    'productionfinish' => 'Finished',
+    'productioncombine' => 'Combine',
+    'combine' => 'Combine',
+    'combinesuccess' => 'Successfully combined.',
+    'rawmaterial' => 'Raw Material',
 ];

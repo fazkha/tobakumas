@@ -23,6 +23,12 @@ class SaleOrder extends Model
         'tunai',
         'pajak',
         'isactive',
+        'isready',
+        'isready_by',
+        'isready_at',
+        'ispackaged',
+        'ispackaged_by',
+        'ispackaged_at',
         'approved',
         'approved_by',
         'approved_at',
@@ -43,5 +49,10 @@ class SaleOrder extends Model
     public function sale_order_detail()
     {
         return $this->hasMany(SaleOrderDetail::class);
+    }
+
+    public function prod_order()
+    {
+        return $this->hasOne(ProdOrder::class, 'sale_order_id');
     }
 }

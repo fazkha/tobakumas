@@ -20,6 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('petugas_2_id')->nullable();
             $table->unsignedBigInteger('tanggungjawab_id')->nullable();
             $table->string('keterangan')->nullable();
+            $table->unsignedTinyInteger('isactive')->default(0);
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->timestamps();

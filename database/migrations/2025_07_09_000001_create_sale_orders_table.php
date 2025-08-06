@@ -25,7 +25,13 @@ return new class extends Migration
             $table->tinyInteger('tunai')->default(0);
             $table->tinyInteger('isactive')->default(0);
             $table->text('kalimat')->nullable();
-            $table->tinyInteger('approved')->default(0);
+            $table->unsignedTinyInteger('isready')->default(0);
+            $table->string('isready_by')->nullable();
+            $table->dateTime('isready_at')->nullable();
+            $table->unsignedTinyInteger('ispackaged')->default(0);
+            $table->string('ispackaged_by')->nullable();
+            $table->dateTime('ispackaged_at')->nullable();
+            $table->unsignedTinyInteger('approved')->default(0);
             $table->string('approved_by')->nullable();
             $table->dateTime('approved_at')->nullable();
             $table->string('created_by')->nullable();

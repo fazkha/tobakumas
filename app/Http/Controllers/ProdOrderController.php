@@ -7,6 +7,7 @@ use App\Http\Requests\ProdOrderRequest;
 use App\Models\Barang;
 use App\Models\Pegawai;
 use App\Models\ProdOrderDetail;
+use App\Models\SaleOrder;
 use App\Models\Satuan;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -15,6 +16,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 
 class ProdOrderController extends Controller implements HasMiddleware
 {
@@ -58,7 +60,7 @@ class ProdOrderController extends Controller implements HasMiddleware
             }
         }
 
-        $datas = $datas->where('branch_id', auth()->user()->profile->branch_id);
+        $datas = $datas->where('isactive', 1)->where('branch_id', auth()->user()->profile->branch_id);
         $datas = $datas->latest()->paginate(session('production-order_pp'));
 
         if ($request->page && $datas->count() == 0) {
@@ -93,7 +95,7 @@ class ProdOrderController extends Controller implements HasMiddleware
             }
         }
 
-        $datas = $datas->where('branch_id', auth()->user()->profile->branch_id);
+        $datas = $datas->where('isactive', 1)->where('branch_id', auth()->user()->profile->branch_id);
         $datas = $datas->latest()->paginate(session('production-order_pp'));
 
         $datas->withPath('/production/production-order'); // pagination url to
@@ -152,16 +154,19 @@ class ProdOrderController extends Controller implements HasMiddleware
         $barangs = Barang::where('branch_id', $branch_id)->where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $petugas = Pegawai::where('branch_id', $branch_id)->where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
         $satuans = Satuan::where('isactive', 1)->orderBy('singkatan')->pluck('singkatan', 'id');
+        $sales = SaleOrder::where('branch_id', $branch_id)->where('isactive', 1)->where('isready', 0)->where('id', '<>', $datas->sale_order_id)->orderBy('no_order')->get();
 
-        return view('production-order.edit', compact(['datas', 'details', 'barangs', 'satuans', 'petugas', 'branch_id']));
+        $syntax = 'CALL sp_hitung_bahanbaku_produksi(' . Crypt::decrypt($request->order) . ')';
+        $bahans = DB::select($syntax);
+
+        return view('production-order.edit', compact(['datas', 'details', 'barangs', 'satuans', 'petugas', 'branch_id', 'sales', 'bahans']));
     }
 
-    public function update(ProdOrderRequest $request)
+    public function update(ProdOrderRequest $request): RedirectResponse
     {
         $order = ProdOrder::find(Crypt::decrypt($request->order));
 
         if ($request->validated()) {
-
             $order->update([
                 'tanggal' => $request->tanggal,
                 'petugas_1_id' => $request->petugas_1_id,
@@ -199,5 +204,42 @@ class ProdOrderController extends Controller implements HasMiddleware
         }
 
         return redirect()->route('production-order.index')->with('success', __('messages.successdeleted') . ' 👉 ' . $order->tanggal);
+    }
+
+    public function combineJoin(Request $request): JsonResponse
+    {
+        $syntax = 'CALL sp_prod_combine(' . $request->order . ',' . $request->join . ')';
+        $results = DB::select($syntax);
+
+        $master = ProdOrder::find($request->order);
+        $details = ProdOrderDetail::where('prod_order_id', $request->order)->get();
+        $sales = SaleOrder::where('branch_id', auth()->user()->profile->branch_id)->where('isactive', 1)->where('isready', 0)->where('id', '<>', $master->sale_order_id)->orderBy('no_order')->get();
+        $viewMode = true;
+
+        $view = view('production-order.partials.details', compact(['details', 'viewMode']))->render();
+        $view2 = view('production-order.partials.combines', compact(['sales']))->render();
+
+        $syntax = 'CALL sp_hitung_bahanbaku_produksi(' . $request->order . ')';
+        $bahans = DB::select($syntax);
+        $view3 = view('production-order.partials.bahanbakuproduksi', compact(['bahans']))->render();
+
+        return response()->json([
+            'view' => $view,
+            'view2' => $view2,
+            'view3' => $view3,
+        ], 200);
+    }
+
+    public function hitungBahanbakuProduksi(Request $request): JsonResponse
+    {
+        $syntax = 'CALL sp_hitung_bahanbaku_produksi(' . $request->order . ')';
+
+        $bahans = DB::select($syntax);
+
+        $view = view('production-order.partials.bahanbakuproduksi', compact(['bahans']))->render();
+
+        return response()->json([
+            'view' => $view,
+        ], 200);
     }
 }

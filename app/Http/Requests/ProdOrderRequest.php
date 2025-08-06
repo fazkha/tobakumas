@@ -14,7 +14,6 @@ class ProdOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'sale_order_id' => ['required', 'exists:sale_orders,id'],
             'branch_id' => ['required', 'exists:branches,id'],
         ];
     }

@@ -6,7 +6,7 @@
 <x-app-layout>
     <div class="flex items-center justify-between px-4 py-4 border-b border-primary-100 lg:py-6 dark:border-primary-800">
         <h1 class="text-xl flex items-center justify-center">
-            <a href="{{ route('sale-order.index') }}" class="flex items-center justify-center">
+            <a href="{{ route('production-order.index') }}" class="flex items-center justify-center">
                 <svg class="w-7 h-7" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg"
                     xmlns:xlink="http://www.w3.org/1999/xlink">
                     <path fill="currentColor"
@@ -27,7 +27,7 @@
             <div class="flex flex-col items-center">
 
                 <div class="w-1/2 shadow mb-5" role="alert">
-                    <form action="{{ route('stock-opname.destroy', Crypt::Encrypt($datas->id)) }}" class="block"
+                    <form action="{{ route('production-order.destroy', Crypt::Encrypt($datas->id)) }}" class="block"
                         method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('DELETE')
@@ -57,7 +57,7 @@
                                             </svg>
                                             <span class="pl-1">@lang('messages.delete')</span>
                                         </x-primary-button>
-                                        <x-anchor-secondary href="{{ route('stock-opname.index') }}" tabindex="1"
+                                        <x-anchor-secondary href="{{ route('production-order.index') }}" tabindex="1"
                                             autofocus>
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="size-5">
@@ -132,7 +132,7 @@
                 <div class="flex flex-col items-center">
 
                     <div class="w-full" role="alert">
-                        @include('sale-order.partials.feedback')
+                        @include('production-order.partials.feedback')
                     </div>
 
                     {{-- Detail --}}
@@ -176,7 +176,7 @@
                                         </thead>
 
                                         <tbody id="detailBody">
-                                            @include('stock-opname.partials.details', [
+                                            @include('production-order.partials.details', [
                                                 $details,
                                                 'viewMode' => true,
                                             ])
@@ -185,7 +185,7 @@
                                 </div>
 
                                 <div class="mt-4 mb-4 mr-4 flex flex-row justify-end gap-4">
-                                    <x-anchor-secondary href="{{ route('stock-opname.index') }}" tabindex="2">
+                                    <x-anchor-secondary href="{{ route('production-order.index') }}" tabindex="2">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-5">
                                             <path stroke-linecap="round" stroke-linejoin="round"

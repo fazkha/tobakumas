@@ -7,14 +7,8 @@
             <td class="align-top">
                 <x-text-span>{{ $detail->satuan->singkatan }}</x-text-span>
             </td>
-            <td class="align-top text-right">
-                <x-text-span>{{ number_format($detail->stock, 2, ',', '.') }}</x-text-span>
-            </td>
-            <td class="align-top text-right">
-                <x-text-span>{{ number_format($detail->minstock, 2, ',', '.') }}</x-text-span>
-            </td>
             <td class="align-top">
-                <x-text-span>{{ $detail->keterangan ? $detail->keterangan : '-' }}</x-text-span>
+                <x-text-span>{{ $detail->kuantiti }}</x-text-span>
             </td>
             @if ($viewMode == false)
                 <td class="align-top">

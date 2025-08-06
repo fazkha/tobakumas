@@ -22,7 +22,10 @@ return new class extends Migration
             $table->decimal('stock', 10, 2)->default(0.00);
             $table->decimal('pajak', 5, 2)->default(0);
             $table->string('keterangan')->nullable();
-            $table->tinyInteger('approved')->default(0);
+            $table->unsignedTinyInteger('ispackaged')->default(0);
+            $table->string('ispackaged_by')->nullable();
+            $table->dateTime('ispackaged_at')->nullable();
+            $table->unsignedTinyInteger('approved')->default(0);
             $table->string('approved_by')->nullable();
             $table->dateTime('approved_at')->nullable();
             $table->string('created_by')->nullable();

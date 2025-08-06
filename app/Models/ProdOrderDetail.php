@@ -26,4 +26,14 @@ class ProdOrderDetail extends Model
     {
         return $this->belongsTo(Branch::class);
     }
+
+    public function barang()
+    {
+        return $this->belongsTo(Barang::class);
+    }
+
+    public function satuan()
+    {
+        return $this->belongsTo(Satuan::class);
+    }
 }

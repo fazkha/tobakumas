@@ -167,4 +167,9 @@ return [
     'partner' => 'Mitra',
     'import' => 'Salin',
     'copyfrom' => 'Salin dari',
+    'productionfinish' => 'Produksi Selesai',
+    'productioncombine' => 'Gabung Produksi',
+    'combine' => 'Gabung',
+    'combinesuccess' => 'Penggabungan berhasil.',
+    'rawmaterial' => 'Bahan Baku',
 ];

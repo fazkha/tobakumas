@@ -17,6 +17,7 @@ class ProdOrder extends Model
         'petugas_2_id',
         'tanggungjawab_id',
         'keterangan',
+        'isactive',
         'created_by',
         'updated_by',
     ];
@@ -24,5 +25,10 @@ class ProdOrder extends Model
     public function branch()
     {
         return $this->belongsTo(Branch::class);
+    }
+
+    public function order()
+    {
+        return $this->belongsTo(SaleOrder::class, 'sale_order_id');
     }
 }

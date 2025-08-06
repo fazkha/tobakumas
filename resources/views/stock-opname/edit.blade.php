@@ -299,7 +299,7 @@
                     const initialValues = {};
                     for (let i = 0; i < form.elements.length; i++) {
                         const element = form.elements[i];
-                        if (element.name) { // Ensure the element has a name to be included
+                        if (element.name) {
                             if (element.type === 'checkbox' || element.type === 'radio') {
                                 initialValues[element.name] = element.checked;
                             } else {
@@ -323,11 +323,11 @@
                             }
 
                             if (initialValues[element.name] !== currentValue) {
-                                return true; // Form is dirty
+                                return true;
                             }
                         }
                     }
-                    return false; // Form is not dirty
+                    return false;
                 }
 
                 const myFormInitialValues = getInitialFormValues('master-form');

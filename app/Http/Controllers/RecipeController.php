@@ -277,9 +277,9 @@ class RecipeController extends Controller implements HasMiddleware
 
         $detail = RecipeIngoods::create([
             'recipe_id' => $recipe_id,
-            'barang_id' => $request->barang_id,
-            'satuan_id' => $request->satuan_id,
-            'kuantiti' => $request->kuantiti,
+            'barang_id' => $request->barang_id_ingoods,
+            'satuan_id' => $request->satuan_id_ingoods,
+            'kuantiti' => $request->kuantiti_ingoods,
             'created_by' => auth()->user()->email,
             'updated_by' => auth()->user()->email,
         ]);
@@ -333,9 +333,9 @@ class RecipeController extends Controller implements HasMiddleware
 
         $detail = RecipeOutgoods::create([
             'recipe_id' => $recipe_id,
-            'barang_id' => $request->barang_id,
-            'satuan_id' => $request->satuan_id,
-            'kuantiti' => $request->kuantiti,
+            'barang_id' => $request->barang_id_outgoods,
+            'satuan_id' => $request->satuan_id_outgoods,
+            'kuantiti' => $request->kuantiti_outgoods,
             'created_by' => auth()->user()->email,
             'updated_by' => auth()->user()->email,
         ]);

@@ -281,8 +281,8 @@
                                                     <td class="align-top">
                                                         <input type="hidden" id="master_id" name="master_id"
                                                             value="{{ $datas->id }}" />
-                                                        <select id="barang_id" name="barang_id" required
-                                                            tabindex="11"
+                                                        <select id="barang_id_ingoods" name="barang_id_ingoods"
+                                                            required tabindex="11"
                                                             class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                                             <option value="">@lang('messages.choose')...</option>
                                                             @foreach ($barangs as $id => $name)
@@ -292,8 +292,8 @@
                                                         </select>
                                                     </td>
                                                     <td class="align-top">
-                                                        <select id="satuan_id" name="satuan_id" required
-                                                            tabindex="12"
+                                                        <select id="satuan_id_ingoods" name="satuan_id_ingoods"
+                                                            required tabindex="12"
                                                             class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                                             <option value="">@lang('messages.choose')...</option>
                                                             @foreach ($satuans as $id => $name)
@@ -303,8 +303,8 @@
                                                         </select>
                                                     </td>
                                                     <td class="align-top">
-                                                        <x-text-input type="number" id="kuantiti" name="kuantiti"
-                                                            required tabindex="13" />
+                                                        <x-text-input type="number" id="kuantiti_ingoods"
+                                                            name="kuantiti_ingoods" required tabindex="13" />
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -386,8 +386,8 @@
                                                     <td class="align-top">
                                                         <input type="hidden" id="master_id" name="master_id"
                                                             value="{{ $datas->id }}" />
-                                                        <select id="barang_id" name="barang_id" required
-                                                            tabindex="16"
+                                                        <select id="barang_id_outgoods" name="barang_id_outgoods"
+                                                            required tabindex="16"
                                                             class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                                             <option value="">@lang('messages.choose')...</option>
                                                             @foreach ($barang2s as $id => $name)
@@ -397,8 +397,8 @@
                                                         </select>
                                                     </td>
                                                     <td class="align-top">
-                                                        <select id="satuan_id" name="satuan_id" required
-                                                            tabindex="17"
+                                                        <select id="satuan_id_outgoods" name="satuan_id_outgoods"
+                                                            required tabindex="17"
                                                             class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                                             <option value="">@lang('messages.choose')...</option>
                                                             @foreach ($satuans as $id => $name)
@@ -408,8 +408,8 @@
                                                         </select>
                                                     </td>
                                                     <td class="align-top">
-                                                        <x-text-input type="number" id="kuantiti" name="kuantiti"
-                                                            required tabindex="18" />
+                                                        <x-text-input type="number" id="kuantiti_outgoods"
+                                                            name="kuantiti_outgoods" required tabindex="18" />
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -455,7 +455,7 @@
                     const initialValues = {};
                     for (let i = 0; i < form.elements.length; i++) {
                         const element = form.elements[i];
-                        if (element.name) { // Ensure the element has a name to be included
+                        if (element.name) {
                             if (element.type === 'checkbox' || element.type === 'radio') {
                                 initialValues[element.name] = element.checked;
                             } else {
@@ -479,11 +479,11 @@
                             }
 
                             if (initialValues[element.name] !== currentValue) {
-                                return true; // Form is dirty
+                                return true;
                             }
                         }
                     }
-                    return false; // Form is not dirty
+                    return false;
                 }
 
                 const myFormInitialValues = getInitialFormValues('master-form');
@@ -657,6 +657,37 @@
                         $('form#master-form').submit();
                     }
                 });
+
+                $("#barang_id_ingoods").on("change keyup paste", function() {
+                    var xbar = $('#barang_id_ingoods option:selected').val();
+
+                    $.ajax({
+                        url: '{{ url('/warehouse/goods/get-goods-stock') }}' + "/" + xbar,
+                        type: "GET",
+                        dataType: 'json',
+                        success: function(result) {
+                            var p1 = result.p1
+                            $('#satuan_id_ingoods').val(p1);
+                            $('#kuantiti_ingoods').focus();
+                        }
+                    });
+                });
+
+                $("#barang_id_outgoods").on("change keyup paste", function() {
+                    var xbar = $('#barang_id_outgoods option:selected').val();
+
+                    $.ajax({
+                        url: '{{ url('/warehouse/goods/get-goods-stock') }}' + "/" + xbar,
+                        type: "GET",
+                        dataType: 'json',
+                        success: function(result) {
+                            var p1 = result.p1
+                            $('#satuan_id_outgoods').val(p1);
+                            $('#kuantiti_outgoods').focus();
+                        }
+                    });
+                });
+
             });
         </script>
     @endpush

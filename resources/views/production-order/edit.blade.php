@@ -1,17 +1,28 @@
-@section('title', __('messages.stockopname'))
+@section('title', __('messages.production'))
 
 <x-app-layout>
     <div class="flex items-center justify-between px-4 py-4 border-b border-primary-100 lg:py-6 dark:border-primary-800">
         <h1 class="text-xl flex items-center justify-center">
-            <a href="{{ route('stock-opname.index') }}" class="flex items-center justify-center">
-                <svg class="w-7 h-7" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                    <path fill="currentColor"
-                        d="M12 6v-6h-8v6h-4v7h16v-7h-4zM7 12h-6v-5h2v1h2v-1h2v5zM5 6v-5h2v1h2v-1h2v5h-6zM15 12h-6v-5h2v1h2v-1h2v5z">
-                    </path>
-                    <path fill="currentColor" d="M0 16h3v-1h10v1h3v-2h-16v2z"></path>
+            <a href="{{ route('production-order.index') }}" class="flex items-center justify-center">
+                <svg class="size-7" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" version="1.1">
+                    <path style="fill:#555555;stroke:#000000;stroke-width:1.5px;"
+                        d="m 40,2 -2,9 -10,5 -8,-6 -9,9 6,9 -4,10 -10,2 0,12 10,1 4,10 -6,9 9,9 9,-6 9,4 2,10 13,0 1,-11 8,-4 9,7 9,-8 -6,-10 4,-9 11,-2 0,-12 -11,-2 -3,-9 6,-10 -9,-9 -8,6 -11,-5 -1,-9 z m 5,18 C 58,20 69,31 69,44 69,58 58,68 45,68 32,68 21,58 21,44 21,31 32,20 45,20 z" />
+                    <circle style="fill:none;stroke:#eeeeee;stroke-width:3" cx="65" cy="65" r="34" />
+                    <circle style="fill:#444444;fill-opacity:0.7" cx="65" cy="65" r="32" />
+                    <path style="stroke:none;fill:#00C60A;fill-opacity:0.7"
+                        d="m 58,33 7,34 32,-7 C 97,60 92,29 58,33" />
+                    <circle style=";stroke-width:5pt;stroke:#222222;fill:none;" cx="65" cy="65" r="30" />
+                    <g style="fill:#aaaaaa;">
+                        <circle cx="65" cy="35" r="2.5" />
+                        <circle cx="95" cy="65" r="2.5" />
+                        <circle cx="65" cy="95" r="2.5" />
+                        <circle cx="35" cy="65" r="2.5" />
+                    </g>
+                    <path style="stroke:#ffffff;stroke-width:4;fill:none;" d="M 65,65 60,42" />
+                    <path style="stroke:#ffffff;stroke-width:3;fill:none;" d="M 65,65 44,87" />
+                    <circle style="fill:#ffffff;" cx="65" cy="65" r="3.5" />
                 </svg>
-                <span class="px-2">@lang('messages.stockopname')</span>
+                <span class="px-2">@lang('messages.order')</span>
             </a>
             <span class="px-2">&raquo;</span>
             <span class="px-2 font-semibold">@lang('messages.edit')</span>
@@ -24,10 +35,10 @@
             <div class="flex flex-col items-center">
 
                 <div class="w-full" role="alert">
-                    @include('sale-order.partials.feedback')
+                    @include('production-order.partials.feedback')
                 </div>
 
-                <form id="master-form" action="{{ route('stock-opname.update', Crypt::Encrypt($datas->id)) }}"
+                <form id="master-form" action="{{ route('production-order.update', Crypt::Encrypt($datas->id)) }}"
                     method="POST" enctype="multipart/form-data" class="w-full">
                     @csrf
                     @method('PUT')
@@ -42,26 +53,10 @@
 
                                     <div class="w-auto pb-4">
                                         <input type="hidden" name="branch_id" value="{{ $branch_id }}" />
-                                        <label for="gudang_id"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.warehouse')</label>
-                                        <select name="gudang_id" id="gudang_id" tabindex="1" required autofocus
-                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
-                                            <option value="">@lang('messages.choose')...</option>
-                                            @foreach ($gudangs as $id => $name)
-                                                <option value="{{ $id }}"
-                                                    {{ $datas->gudang_id === $id ? 'selected' : '' }}>
-                                                    {{ $name }}</option>
-                                            @endforeach
-                                        </select>
-
-                                        <x-input-error class="mt-2" :messages="$errors->get('gudang_id')" />
-                                    </div>
-
-                                    <div class="w-auto pb-4">
                                         <label for="tanggal"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.transactiondate')</label>
                                         <x-text-input type="date" name="tanggal" id="tanggal"
-                                            data-date-format="dd-mm-yyyy" tabindex="2" required
+                                            data-date-format="dd-mm-yyyy" tabindex="1" autofocus required
                                             value="{{ $datas->tanggal }}" />
 
                                         <x-input-error class="mt-2" :messages="$errors->get('tanggal')" />
@@ -70,7 +65,7 @@
                                     <div class="w-auto pb-4">
                                         <label for="keterangan"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</label>
-                                        <x-text-input type="text" name="keterangan" id="keterangan" tabindex="3"
+                                        <x-text-input type="text" name="keterangan" id="keterangan" tabindex="2"
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.description') }}"
                                             value="{{ $datas->keterangan }}" />
 
@@ -83,7 +78,7 @@
                                         <label for="petugas_1_id"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.officer')
                                             1</label>
-                                        <select name="petugas_1_id" id="petugas_1_id" tabindex="4"
+                                        <select name="petugas_1_id" id="petugas_1_id" tabindex="3"
                                             class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                             <option value="">@lang('messages.choose')...</option>
                                             @foreach ($petugas as $id => $name)
@@ -100,7 +95,7 @@
                                         <label for="petugas_2_id"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.officer')
                                             2</label>
-                                        <select name="petugas_2_id" id="petugas_2_id" tabindex="5"
+                                        <select name="petugas_2_id" id="petugas_2_id" tabindex="4"
                                             class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                             <option value="">@lang('messages.choose')...</option>
                                             @foreach ($petugas as $id => $name)
@@ -116,7 +111,7 @@
                                     <div class="w-auto pb-4">
                                         <label for="tanggungjawab_id"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.supervisor')</label>
-                                        <select name="tanggungjawab_id" id="tanggungjawab_id" tabindex="6"
+                                        <select name="tanggungjawab_id" id="tanggungjawab_id" tabindex="5"
                                             class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                             <option value="">@lang('messages.choose')...</option>
                                             @foreach ($petugas as $id => $name)
@@ -130,15 +125,17 @@
                                     </div>
 
                                     <div class="flex flex-row items-center justify-end gap-4">
-                                        <x-primary-button type="submit" class="block" tabindex="7">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="currentColor" class="size-5">
+                                        <x-primary-button type="submit" class="block" tabindex="6">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                class="size-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
                                             </svg>
                                             <span class="pl-1">@lang('messages.save')</span>
                                         </x-primary-button>
-                                        <x-anchor-secondary href="{{ route('stock-opname.index') }}" tabindex="8">
+                                        <x-anchor-secondary href="{{ route('production-order.index') }}"
+                                            tabindex="7">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                 class="size-5">
@@ -158,13 +155,66 @@
 
         <div class="flex flex-col lg:flex-row justify-evenly">
             <div class="w-full px-2 sm:px-4 py-2">
-                <div class="flex flex-col items-center">
+                <div class="flex flex-col items-center gap-4">
 
-                    <div class="w-full" role="alert">
-                        @include('sale-order.partials.feedback')
+                    <div
+                        class="w-full shadow-lg rounded-md border bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
+                        <div class="p-6 space-y-2 sm:p-8">
+                            <div class="flex flex-row items-center gap-2">
+                                <svg class="size-5" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"
+                                    fill="currentColor">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M1.5 1l-.5.5v3l.5.5h3l.5-.5v-3L4.5 1h-3zM2 4V2h2v2H2zm-.5 2l-.5.5v3l.5.5h3l.5-.5v-3L4.5 6h-3zM2 9V7h2v2H2zm-1 2.5l.5-.5h3l.5.5v3l-.5.5h-3l-.5-.5v-3zm1 .5v2h2v-2H2zm10.5-7l-.5.5v6l.5.5h3l.5-.5v-6l-.5-.5h-3zM15 8h-2V6h2v2zm0 3h-2V9h2v2zM9.1 8H6v1h3.1l-1 1 .7.6 1.8-1.8v-.7L8.8 6.3l-.7.7 1 1z" />
+                                </svg>
+                                <span class="block font-medium text-primary-600 dark:text-primary-500">
+                                    @lang('messages.productioncombine')
+                                </span>
+                            </div>
+
+                            {{-- Combine --}}
+                            <div id="combineBody">
+                                @include('production-order.partials.combines', [$sales])
+                            </div>
+
+                            <div class="my-4 flex flex-row justify-end gap-4">
+                                <x-primary-button id="submit-combine" tabindex="14">
+                                    <svg class="size-5" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"
+                                        fill="currentColor">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M1.5 1l-.5.5v3l.5.5h3l.5-.5v-3L4.5 1h-3zM2 4V2h2v2H2zm-.5 2l-.5.5v3l.5.5h3l.5-.5v-3L4.5 6h-3zM2 9V7h2v2H2zm-1 2.5l.5-.5h3l.5.5v3l-.5.5h-3l-.5-.5v-3zm1 .5v2h2v-2H2zm10.5-7l-.5.5v6l.5.5h3l.5-.5v-6l-.5-.5h-3zM15 8h-2V6h2v2zm0 3h-2V9h2v2zM9.1 8H6v1h3.1l-1 1 .7.6 1.8-1.8v-.7L8.8 6.3l-.7.7 1 1z" />
+                                    </svg>
+                                    <span class="pl-1">@lang('messages.combine')</span>
+                                </x-primary-button>
+                            </div>
+                        </div>
                     </div>
 
-                    <form id="form-order" method="POST" enctype="multipart/form-data" class="w-full">
+                    <div
+                        class="w-full shadow-lg rounded-md border bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
+                        <div class="p-6 space-y-2 sm:p-8">
+                            <div class="flex flex-row items-center gap-2">
+                                <svg class="size-5" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill="currentColor"
+                                        d="M468.166 24.156c-13.8-.31-30.977 9.192-42.46 16.883-22.597 15.13-45.255 67.882-45.255 67.882s-17.292-5.333-22.626 0c-5.333 5.333 0 22.627 0 22.627l-4.95 4.948 22.628 22.63 4.95-4.952s17.293 5.333 22.626 0c5.333-5.334 0-22.627 0-22.627s52.75-22.66 67.883-45.255c10.7-15.978 24.91-42.97 11.313-56.568-3.824-3.825-8.707-5.45-14.107-5.57zM312.568 121.65L121.65 312.568l77.782 77.782L390.35 199.432l-77.782-77.782zm-176.07 231.223l-4.95 4.95s-17.293-5.332-22.626 0c-5.333 5.335 0 22.628 0 22.628s-52.75 22.66-67.883 45.255c-10.7 15.978-24.91 42.97-11.313 56.568 13.597 13.598 40.59-.612 56.568-11.312 22.596-15.13 45.254-67.882 45.254-67.882s17.292 5.333 22.626 0c5.333-5.333 0-22.627 0-22.627l4.95-4.948-22.628-22.63z" />
+                                </svg>
+                                <span class="block font-medium text-primary-600 dark:text-primary-500">
+                                    @lang('messages.rawmaterial')
+                                </span>
+                            </div>
+
+                            {{-- Bahan baku --}}
+                            <div id="bahanBody">
+                                @include('production-order.partials.bahanbakuproduksi', [$bahans])
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full px-2 sm:px-4 py-2">
+                <div class="flex flex-col items-center">
+
+                    <form id="detail-form" method="POST" enctype="multipart/form-data" class="w-full">
                         @csrf
 
                         {{-- Detail --}}
@@ -172,23 +222,24 @@
                             class="w-full shadow-lg rounded-md border bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
                             <div class="p-6 space-y-2 sm:p-8">
                                 <div class="flex flex-row items-center gap-2">
-                                    <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
-                                        viewBox="0 0 52 52" enable-background="new 0 0 52 52" xml:space="preserve">
-                                        <g>
-                                            <path d="M24.3,36.5c0.7,0,1.4,0.1,2,0.3L15.5,6.2c0,0,0,0,0,0l-1-3c-0.3-0.9-1.2-1.3-2-1L3.1,5.3
-  c-0.9,0.3-1.3,1.2-1,2l1,3c0.3,0.9,1.2,1.3,2,1L10,9.7l9.9,28.1C21.2,37,22.7,36.5,24.3,36.5z" />
-                                            <path d="M41.2,29.2l-9.9,3.5c-1,0.4-2.2-0.2-2.5-1.2l-3.5-9.9c-0.4-1,0.2-2.2,1.2-2.5l9.9-3.5
-  c1-0.4,2.2,0.2,2.5,1.2l3.5,9.9C42.8,27.7,42.2,28.8,41.2,29.2z" />
-                                            <path d="M31.8,12.9l-6.7,2.3c-1,0.4-2.2-0.2-2.5-1.2l-2.3-6.7c-0.4-1,0.2-2.2,1.2-2.5l6.7-2.3
-  c1-0.4,2.2,0.2,2.5,1.2l2.3,6.7C33.4,11.3,32.9,12.5,31.8,12.9z" />
-                                            <path d="M49.9,35.5l-1-3c-0.3-0.9-1.2-1.3-2-1l-18.2,6.3c1.9,1.2,3.2,3.2,3.6,5.5l16.7-5.7
-  C49.8,37.3,50.2,36.4,49.9,35.5z" />
-                                            <path
-                                                d="M24.3,39.1c-3,0-5.5,2.5-5.5,5.5c0,3,2.5,5.5,5.5,5.5s5.5-2.5,5.5-5.5C29.8,41.5,27.3,39.1,24.3,39.1z" />
+                                    <svg class="w-5 h-5" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                                        <title>output</title>
+                                        <g id="Layer_2" data-name="Layer 2">
+                                            <g id="invisible_box" data-name="invisible box">
+                                                <rect width="48" height="48" fill="none" />
+                                            </g>
+                                            <g id="Layer_6" data-name="Layer 6">
+                                                <g>
+                                                    <path
+                                                        d="M45.4,22.6l-7.9-8a2.1,2.1,0,0,0-2.7-.2,1.9,1.9,0,0,0-.2,3L39.2,22H16a2,2,0,0,0,0,4H39.2l-4.6,4.6a1.9,1.9,0,0,0,.2,3,2.1,2.1,0,0,0,2.7-.2l7.9-8A1.9,1.9,0,0,0,45.4,22.6Z" />
+                                                    <path
+                                                        d="M28,42H24A18,18,0,0,1,24,6h4a2,2,0,0,0,1.4-.6A2,2,0,0,0,30,4a2.4,2.4,0,0,0-.2-.9A2,2,0,0,0,28,2H23.8a22,22,0,0,0,.1,44H28a2,2,0,0,0,1.4-.6l.4-.5A2.4,2.4,0,0,0,30,44,2,2,0,0,0,28,42Z" />
+                                                </g>
+                                            </g>
                                         </g>
                                     </svg>
                                     <span class="block font-medium text-primary-600 dark:text-primary-500">
-                                        @lang('messages.goods')
+                                        @lang('messages.output')
                                     </span>
                                 </div>
 
@@ -198,79 +249,32 @@
                                         <table id="order_table" class="w-full border-separate border-spacing-2">
                                             <thead>
                                                 <tr>
-                                                    <th class="w-1/3">@lang('messages.goods')</th>
-                                                    <th class="w-auto">@lang('messages.unit')</th>
-                                                    <th class="w-1/5">@lang('messages.stock')</th>
-                                                    <th class="w-1/5">@lang('messages.minstock')</th>
-                                                    <th class="w-auto">@lang('messages.description')</th>
-                                                    <th class="w-auto">&nbsp;</th>
+                                                    <th class="w-1/2">@lang('messages.goods')</th>
+                                                    <th class="w-1/4">@lang('messages.unit')</th>
+                                                    <th class="w-auto">@lang('messages.quantity')</th>
                                                 </tr>
                                             </thead>
 
                                             <tbody id="detailBody">
-                                                @include('stock-opname.partials.details', [
+                                                @include('production-order.partials.details', [
                                                     $details,
-                                                    'viewMode' => false,
+                                                    'viewMode' => true,
                                                 ])
                                             </tbody>
-
-                                            <tbody>
-                                                <tr>
-                                                    <td class="align-top">
-                                                        <input type="hidden" name="branch_id"
-                                                            value="{{ $branch_id }}" />
-                                                        <input type="hidden" id="master_id" name="master_id"
-                                                            value="{{ $datas->id }}" />
-                                                        <select id="barang_id" name="barang_id" required
-                                                            tabindex="9"
-                                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
-                                                            <option value="">@lang('messages.choose')...</option>
-                                                            @foreach ($barangs as $id => $name)
-                                                                <option value="{{ $id }}">
-                                                                    {{ $name }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </td>
-                                                    <td class="align-top">
-                                                        <select id="satuan_id" name="satuan_id" required
-                                                            tabindex="10"
-                                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
-                                                            <option value="">@lang('messages.choose')...</option>
-                                                            @foreach ($satuans as $id => $name)
-                                                                <option value="{{ $id }}">
-                                                                    {{ $name }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </td>
-                                                    <td class="align-top">
-                                                        <x-text-input type="number" step="0.01" id="stock"
-                                                            name="stock" required tabindex="11" />
-                                                    </td>
-                                                    <td class="align-top">
-                                                        <x-text-input type="number" step="0.01" id="minstock"
-                                                            name="minstock" required tabindex="12" />
-                                                    </td>
-                                                    <td class="align-top">
-                                                        <x-text-input type="text" id="keterangan"
-                                                            name="keterangan" tabindex="13" />
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-
                                         </table>
                                     </div>
 
                                     <div class="mt-4 mb-4 mr-4 flex flex-row justify-end gap-4">
                                         <x-primary-button id="submit-detail" tabindex="14">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                class="size-5">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
+                                            <svg class="size-5" viewBox="0 0 1024 1024" class="icon"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path fill="currentColor"
+                                                    d="M280.768 753.728L691.456 167.04a32 32 0 1152.416 36.672L314.24 817.472a32 32 0 01-45.44 7.296l-230.4-172.8a32 32 0 0138.4-51.2l203.968 152.96zM736 448a32 32 0 110-64h192a32 32 0 110 64H736zM608 640a32 32 0 010-64h319.936a32 32 0 110 64H608zM480 832a32 32 0 110-64h447.936a32 32 0 110 64H480z" />
                                             </svg>
-                                            <span class="pl-1">@lang('messages.save')</span>
+                                            <span class="pl-1">@lang('messages.productionfinish')</span>
                                         </x-primary-button>
-                                        <x-anchor-secondary href="{{ route('stock-opname.index') }}" tabindex="15">
+                                        <x-anchor-secondary href="{{ route('production-order.index') }}"
+                                            tabindex="15">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                 class="size-5">
@@ -299,7 +303,7 @@
                     const initialValues = {};
                     for (let i = 0; i < form.elements.length; i++) {
                         const element = form.elements[i];
-                        if (element.name) { // Ensure the element has a name to be included
+                        if (element.name) {
                             if (element.type === 'checkbox' || element.type === 'radio') {
                                 initialValues[element.name] = element.checked;
                             } else {
@@ -323,58 +327,40 @@
                             }
 
                             if (initialValues[element.name] !== currentValue) {
-                                return true; // Form is dirty
+                                return true;
                             }
                         }
                     }
-                    return false; // Form is not dirty
+                    return false;
                 }
 
                 const myFormInitialValues = getInitialFormValues('master-form');
 
-                deleteDetail = function(detailId) {
-                    let idname = '#a-delete-detail-' + detailId;
+                $("#submit-combine").on("click", function(e) {
+                    e.preventDefault();
+                    var xkey = '{{ $datas->id }}';
 
-                    var confirmation = confirm("Are you sure you want to delete this?");
-                    if (confirmation) {
-                        $(idname).closest("tr").remove();
-                        $.ajax({
-                            url: '{{ url('/warehouse/stock-opname/delete-detail') }}' + '/' + detailId,
-                            type: 'delete',
-                            dataType: 'json',
-                            data: {
-                                '_token': '{{ csrf_token() }}',
-                            },
-                            success: function(result) {
-                                if (result.status !== 'Not Found') {
-                                    $('#detailBody').html(result.view);
+                    $("input[name^='order']:checked").map(function() {
+                        var xjoin = $(this).val();
+                        var xstat = $('#prod_status').val();
+
+                        if (xjoin && xstat !== '0') {
+                            $.ajax({
+                                url: '{{ url('/production/order/combine') }}' + "/" + xkey +
+                                    "/" + xjoin,
+                                type: "get",
+                                dataType: 'json',
+                                success: function(result) {
+                                    if (result.status !== 'Not Found') {
+                                        $('#bahanBody').html(result.view3);
+                                        $('#combineBody').html(result.view2);
+                                        $('#detailBody').html(result.view);
+                                        alert('{{ __('messages.combinesuccess') }}')
+                                    }
                                 }
-                                $('#form-order')[0].reset();
-                            },
-                            error: function(xhr) {
-                                console.log(xhr.responseText);
-                            }
-                        });
-                    }
-                };
-
-                $("#barang_id").on("change keyup paste", function() {
-                    var xbar = $('#barang_id option:selected').val();
-
-                    $.ajax({
-                        url: '{{ url('/warehouse/goods/get-goods-stock') }}' + "/" + xbar,
-                        type: "GET",
-                        dataType: 'json',
-                        success: function(result) {
-                            var p1 = result.p1
-                            var p2 = result.p2
-                            var p3 = result.p3
-                            $('#satuan_id').val(p1);
-                            $('#stock').val(p2);
-                            $('#minstock').val(p3);
-                            $('#stock').focus();
+                            });
                         }
-                    });
+                    }).get();
                 });
 
                 $("#submit-detail").on("click", function(e) {
@@ -382,7 +368,7 @@
                     let key = $('#master_id').val();
 
                     $.ajax({
-                        url: '{{ url('/warehouse/stock-opname/store-detail') }}' + '/' + key,
+                        url: '{{ url('/warehouse/production-order/store-detail') }}' + '/' + key,
                         type: 'post',
                         dataType: 'json',
                         data: $('form#form-order').serialize(),
