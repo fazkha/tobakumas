@@ -176,4 +176,5 @@ return [
     'productiondate' => 'Tanggal Produksi',
     'finishedproduction' => 'Produksi Selesai.',
     'productionorder' => 'Pesanan',
+    'delivery' => 'Pengiriman',
 ];

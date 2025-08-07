@@ -13,6 +13,17 @@ return new class extends Migration
     {
         Schema::create('delivery_orders', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('sale_order_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('branch_id')->constrained()->onUpdate('cascade');
+            $table->date('tanggal')->nullable();
+            $table->string('alamat')->nullable();
+            $table->unsignedBigInteger('petugas_1_id')->nullable();
+            $table->unsignedBigInteger('petugas_2_id')->nullable();
+            $table->unsignedBigInteger('pengirim_id')->nullable();
+            $table->unsignedBigInteger('tanggungjawab_id')->nullable();
+            $table->string('keterangan')->nullable();
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
             $table->timestamps();
         });
     }

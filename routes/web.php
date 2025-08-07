@@ -3,6 +3,7 @@
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\CoaController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DeliveryOrderController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\GudangController;
 use App\Http\Controllers\KonversiController;
@@ -68,6 +69,13 @@ Route::prefix('purchase')->middleware('auth')->group(function () {
     Route::get('order/fetchdb/{pp}/{isactive}/{tunai}/{supplier}/{no_order}/{tanggal}', [PurchaseOrderController::class, 'fetchdb'])->defaults('no_order', '_')->defaults('tanggal', '_');
     Route::post('order/store-detail/{detail}', [PurchaseOrderController::class, 'storeDetail']);
     Route::delete('order/delete-detail/{detail}', [PurchaseOrderController::class, 'deleteDetail']);
+})->missing(function (Request $request) {
+    return Redirect::route('dashboard');
+});
+
+Route::prefix('delivery')->middleware('auth')->group(function () {
+    Route::resource('order', DeliveryOrderController::class)->names('delivery-order');
+    Route::get('order/fetchdb/{pp}/{isdelivered}/{customer}/{tanggal}/{alamat}', [DeliveryOrderController::class, 'fetchdb'])->defaults('alamat', '_')->defaults('tanggal', '_');
 })->missing(function (Request $request) {
     return Redirect::route('dashboard');
 });

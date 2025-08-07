@@ -176,4 +176,5 @@ return [
     'productiondate' => 'Production Date',
     'finishedproduction' => 'Finished.',
     'productionorder' => 'Order',
+    'delivery' => 'Delivery',
 ];
