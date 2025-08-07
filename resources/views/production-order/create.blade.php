@@ -22,7 +22,7 @@
                     <path style="stroke:#ffffff;stroke-width:3;fill:none;" d="M 65,65 44,87" />
                     <circle style="fill:#ffffff;" cx="65" cy="65" r="3.5" />
                 </svg>
-                <span class="px-2">@lang('messages.order')</span>
+                <span class="px-2">@lang('messages.productionorder')</span>
             </a>
             <span class="px-2">&raquo;</span>
             <span class="px-2 font-semibold">@lang('messages.new')</span>
@@ -44,7 +44,7 @@
                     {{-- Master --}}
                     <div
                         class="w-full shadow-lg bg-primary-50 rounded-md border border-primary-100 dark:bg-primary-900 dark:border-primary-800">
-                        <div class="p-4 space-y-2 md:p-6 md:space-y-4">
+                        <div class="p-4 space-y-2">
 
                             <div class="flex flex-col lg:flex-row">
                                 <div class="w-full lg:w-1/2 px-2">
@@ -122,7 +122,7 @@
                                         <x-input-error class="mt-2" :messages="$errors->get('tanggungjawab_id')" />
                                     </div>
 
-                                    <div class="flex flex-row items-center justify-end gap-2 md:gap-4">
+                                    <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
                                         <x-primary-button type="submit" class="block" tabindex="6">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -161,8 +161,9 @@
                         {{-- Detail --}}
                         <div
                             class="w-full shadow-lg rounded-md border bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
-                            <div class="p-4 space-y-2 md:p-6 md:space-y-4">
-                                <div class="flex flex-row items-center gap-2">
+                            <div class="p-4 space-y-2">
+                                <div class="flex flex-row
+                            items-center gap-2">
                                     <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
                                         viewBox="0 0 52 52" enable-background="new 0 0 52 52" xml:space="preserve">
                                         <g>
@@ -185,7 +186,7 @@
 
                                 <div
                                     class="border rounded-md border-primary-100 bg-primary-100 dark:border-primary-800 dark:bg-primary-850">
-                                    <div class="p-4 overflow-scroll md:overflow-auto lg:overflow-hidden">
+                                    <div class="p-2 overflow-scroll md:overflow-auto lg:overflow-hidden">
                                         <table id="order_table" class="w-full border-separate border-spacing-2">
                                             <thead>
                                                 <tr>

@@ -35,7 +35,7 @@
 
                     <div
                         class="w-full shadow-lg bg-primary-50 rounded-md border border-primary-100 dark:bg-primary-900 dark:border-primary-800">
-                        <div class="p-4 space-y-2 md:p-6 md:space-y-4">
+                        <div class="p-4 space-y-2">
 
                             <div class="flex flex-col lg:flex-row">
                                 <div class="w-full lg:w-1/2 px-2">
@@ -76,7 +76,7 @@
                                         <x-text-span>{{ $datas->description }}</x-text-span>
                                     </div>
 
-                                    <div class="flex flex-row items-center justify-end gap-2 md:gap-4">
+                                    <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
                                         <div class="pr-2">
                                             <div class="inline-flex items-center">
                                                 @if ($datas->isactive == '1')
@@ -126,8 +126,9 @@
 
                         <div
                             class="w-full shadow-lg rounded-md border bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
-                            <div class="p-4 space-y-2 md:p-6 md:space-y-4">
-                                <div class="flex flex-row items-center justify-between">
+                            <div class="p-4 space-y-2">
+                                <div class="flex flex-row
+                            items-center justify-between">
                                     <span
                                         class="block font-medium text-primary-600 dark:text-primary-500">Question(s)</span>
                                 </div>

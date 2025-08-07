@@ -76,7 +76,7 @@
                 {{-- Master --}}
                 <div
                     class="w-full shadow-lg bg-primary-50 rounded-md border border-primary-100 dark:bg-primary-900 dark:border-primary-800">
-                    <div class="p-4 space-y-2 md:p-6 md:space-y-4">
+                    <div class="p-4 space-y-2">
 
                         <div class="flex flex-col lg:flex-row">
                             <div class="w-full lg:w-1/2 px-2">
@@ -138,7 +138,7 @@
                     {{-- Detail --}}
                     <div
                         class="w-full shadow-lg rounded-md border bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
-                        <div class="p-4 space-y-2 md:p-6 md:space-y-4">
+                        <div class="p-4 space-y-2">
                             <div class="flex flex-row items-center gap-2">
                                 <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
                                     viewBox="0 0 52 52" enable-background="new 0 0 52 52" xml:space="preserve">
@@ -162,7 +162,7 @@
 
                             <div
                                 class="border rounded-md border-primary-100 bg-primary-100 dark:border-primary-800 dark:bg-primary-850">
-                                <div class="p-4 overflow-scroll md:overflow-auto lg:overflow-hidden">
+                                <div class="p-2 overflow-scroll md:overflow-auto lg:overflow-hidden">
                                     <table id="order_table" class="w-full border-separate border-spacing-2">
                                         <thead>
                                             <tr>
@@ -184,7 +184,7 @@
                                     </table>
                                 </div>
 
-                                <div class="mt-4 mb-4 mr-4 flex flex-row justify-end gap-2 md:gap-4">
+                                <div class="mt-4 mb-4 mr-4 flex flex-row flex-wrap justify-end gap-2 md:gap-4">
                                     <x-anchor-secondary href="{{ route('stock-opname.index') }}" tabindex="2">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-5">

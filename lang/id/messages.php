@@ -152,8 +152,8 @@ return [
     'supervisor' => 'Penanggung-jawab',
     'production' => 'Produksi',
     'short-production' => 'Prod.',
-    'packaging' => 'Pengepakkan',
-    'short-packaging' => 'Kepak',
+    'packaging' => 'Pengemasan',
+    'short-packaging' => 'Kemas',
     'distrbution' => 'Pengiriman',
     'init' => 'Initial',
     'recipe' => 'Resep',
@@ -174,4 +174,6 @@ return [
     'rawmaterial' => 'Bahan Baku',
     'salesordernumber' => 'No. Transaksi Penjualan',
     'productiondate' => 'Tanggal Produksi',
+    'finishedproduction' => 'Produksi Selesai.',
+    'productionorder' => 'Pesanan',
 ];

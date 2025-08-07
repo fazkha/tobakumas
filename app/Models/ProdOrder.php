@@ -31,4 +31,19 @@ class ProdOrder extends Model
     {
         return $this->belongsTo(SaleOrder::class, 'sale_order_id');
     }
+
+    public function petugas_1()
+    {
+        return $this->belongsTo(Pegawai::class, 'petugas_1_id');
+    }
+
+    public function petugas_2()
+    {
+        return $this->belongsTo(Pegawai::class, 'petugas_2_id');
+    }
+
+    public function tanggungjawab()
+    {
+        return $this->belongsTo(Pegawai::class, 'tanggungjawab_id');
+    }
 }

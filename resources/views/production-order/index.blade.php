@@ -22,7 +22,7 @@
                     <path style="stroke:#ffffff;stroke-width:3;fill:none;" d="M 65,65 44,87" />
                     <circle style="fill:#ffffff;" cx="65" cy="65" r="3.5" />
                 </svg>
-                <span class="px-2">@lang('messages.order')</span>
+                <span class="px-2">@lang('messages.productionorder')</span>
             </h1>
         </a>
     </div>
@@ -49,37 +49,40 @@
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script>
-            $("#pp-dropdown, #search-tanggal")
-                .on(
-                    "change keyup paste",
-                    function() {
-                        var xpp = $('#pp-dropdown option:selected').val();
-                        var xtanggal = $('#search-tanggal').val();
-                        if (!xtanggal.trim()) {
-                            xtanggal = '_';
-                        }
+            $("#pp-dropdown, #produksi-dropdown, #search-tanggal, #search-nomor").on("change keyup paste", function() {
+                var xpp = $('#pp-dropdown option:selected').val();
+                var xpr = $('#produksi-dropdown option:selected').val();
+                var xtanggal = $('#search-tanggal').val();
+                var xnomor = $('#search-nomor').val();
+                if (!xtanggal.trim()) {
+                    xtanggal = '_';
+                }
+                if (!xnomor.trim()) {
+                    xnomor = '_';
+                }
 
-                        $('#filter-loading').show();
+                $('#filter-loading').show();
 
-                        var newURL = '{{ url('/production/order') }}';
-                        var newState = {
-                            page: 'index-production-order'
-                        };
-                        var newTitle = '{{ __('messages.production') }}';
+                var newURL = '{{ url('/production/order') }}';
+                var newState = {
+                    page: 'index-production-order'
+                };
+                var newTitle = '{{ __('messages.production') }}';
 
-                        window.history.pushState(newState, newTitle, newURL);
+                window.history.pushState(newState, newTitle, newURL);
 
-                        $.ajax({
-                            url: '{{ url('/production/order/fetchdb') }}' + "/" + xpp + "/" + xtanggal,
-                            type: "GET",
-                            dataType: 'json',
-                            success: function(result) {
-                                $('#table-container').html(result);
-                                $("#table-container").focus();
-                                $('#filter-loading').hide();
-                            }
-                        });
-                    });
+                $.ajax({
+                    url: '{{ url('/production/order/fetchdb') }}' + "/" + xpp + "/" + xpr + "/" + xtanggal +
+                        "/" + xnomor,
+                    type: "get",
+                    dataType: 'json',
+                    success: function(result) {
+                        $('#table-container').html(result);
+                        $("#table-container").focus();
+                        $('#filter-loading').hide();
+                    }
+                });
+            });
         </script>
     @endpush
 </x-app-layout>

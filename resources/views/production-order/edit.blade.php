@@ -22,14 +22,14 @@
                     <path style="stroke:#ffffff;stroke-width:3;fill:none;" d="M 65,65 44,87" />
                     <circle style="fill:#ffffff;" cx="65" cy="65" r="3.5" />
                 </svg>
-                <span class="px-2">@lang('messages.order')</span>
+                <span class="px-2">@lang('messages.productionorder')</span>
             </a>
             <span class="px-2">&raquo;</span>
             <span class="px-2 font-semibold">@lang('messages.edit')</span>
         </h1>
     </div>
 
-    <div class="py-2 flex flex-col">
+    <div x-data="{ buttonDisabled: {{ $datas->order->isready == 1 ? 'true' : 'false' }} }" class="py-2 flex flex-col">
 
         <div class="w-full px-4 py-2">
             <div class="flex flex-col items-center">
@@ -46,7 +46,7 @@
                     {{-- Master --}}
                     <div
                         class="w-full shadow-lg bg-primary-50 rounded-md border border-primary-100 dark:bg-primary-900 dark:border-primary-800">
-                        <div class="p-4 space-y-2 md:p-6 md:space-y-4">
+                        <div class="p-4 space-y-2">
 
                             <div class="flex flex-col lg:flex-row">
                                 <div class="w-full lg:w-1/2 px-2">
@@ -130,8 +130,17 @@
                                         <x-input-error class="mt-2" :messages="$errors->get('tanggungjawab_id')" />
                                     </div>
 
-                                    <div class="flex flex-row items-center justify-end gap-2 md:gap-4">
-                                        <x-primary-button type="submit" class="block" tabindex="6">
+                                    <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
+                                        <div class="pr-2">
+                                            <div class="inline-flex items-center">
+                                                <span x-show="buttonDisabled">✔️</span>
+                                                <span x-show="!buttonDisabled">❌</span>
+                                                <label class='pl-2'>@lang('messages.productionfinish')</label>
+                                            </div>
+                                        </div>
+
+                                        <x-primary-button type="submit" class="block" tabindex="6"
+                                            x-bind:disabled="buttonDisabled">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                 class="size-5">
@@ -165,7 +174,7 @@
 
                     <div
                         class="w-full shadow-lg rounded-md border bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
-                        <div class="p-4 space-y-2 md:p-6 md:space-y-4">
+                        <div class="p-4 space-y-2">
                             <div class="flex flex-row items-center gap-2">
                                 <svg class="size-5" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"
                                     fill="currentColor">
@@ -183,7 +192,7 @@
                             </div>
 
                             <div class="my-4 flex flex-row justify-end gap-4">
-                                <x-primary-button id="submit-combine" tabindex="14">
+                                <x-primary-button id="submit-combine" tabindex="14" x-bind:disabled="buttonDisabled">
                                     <svg class="size-5" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"
                                         fill="currentColor">
                                         <path fill-rule="evenodd" clip-rule="evenodd"
@@ -197,7 +206,7 @@
 
                     <div
                         class="w-full shadow-lg rounded-md border bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
-                        <div class="p-4 space-y-2 md:p-6 md:space-y-4">
+                        <div class="p-4 space-y-2">
                             <div class="flex flex-row items-center gap-2">
                                 <svg class="size-5" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
                                     <path fill="currentColor"
@@ -218,7 +227,7 @@
             </div>
 
             <div class="w-full">
-                <div class="flex flex-col items-center">
+                <div class="flex flex-col items-center gap-4">
 
                     <form id="detail-form" method="POST" enctype="multipart/form-data" class="w-full">
                         @csrf
@@ -226,9 +235,10 @@
                         {{-- Detail --}}
                         <div
                             class="w-full shadow-lg rounded-md border bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
-                            <div class="p-4 space-y-2 md:p-6 md:space-y-4">
+                            <div class="p-4 space-y-2">
                                 <div class="flex flex-row items-center gap-2">
-                                    <svg class="w-5 h-5" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 48 48"
+                                        xmlns="http://www.w3.org/2000/svg">
                                         <title>output</title>
                                         <g id="Layer_2" data-name="Layer 2">
                                             <g id="invisible_box" data-name="invisible box">
@@ -251,7 +261,7 @@
 
                                 <div
                                     class="border rounded-md border-primary-100 bg-primary-100 dark:border-primary-800 dark:bg-primary-850">
-                                    <div class="p-4 overflow-scroll md:overflow-auto lg:overflow-hidden">
+                                    <div class="p-2 overflow-scroll md:overflow-auto lg:overflow-hidden">
                                         <table id="order_table" class="w-full border-separate border-spacing-2">
                                             <thead>
                                                 <tr>
@@ -270,10 +280,25 @@
                                         </table>
                                     </div>
 
-                                    <div class="mt-4 mb-4 mr-4 flex flex-row justify-end gap-2 md:gap-4">
-                                        <x-primary-button id="submit-detail" tabindex="14">
-                                            <svg class="size-5" viewBox="0 0 1024 1024" class="icon"
+                                    <div class="mt-4 mb-4 mr-4 flex flex-row flex-wrap justify-end gap-2 md:gap-4">
+                                        <x-primary-button id="submit-detail" tabindex="14"
+                                            x-on:click="buttonDisabled = true" x-bind:disabled="buttonDisabled">
+                                            <svg id="svg-loading" class="hidden animate-spin size-5"
+                                                viewBox="0 0 48 48" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <rect width="48" height="48" fill="white"
+                                                    fill-opacity="0.01" />
+                                                <path
+                                                    d="M4 24C4 35.0457 12.9543 44 24 44V44C35.0457 44 44 35.0457 44 24C44 12.9543 35.0457 4 24 4"
+                                                    stroke="currentColor" stroke-width="4" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path
+                                                    d="M36 24C36 17.3726 30.6274 12 24 12C17.3726 12 12 17.3726 12 24C12 30.6274 17.3726 36 24 36V36"
+                                                    stroke="currentColor" stroke-width="4" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                            <svg id="svg-default" class="size-5" viewBox="0 0 1024 1024"
+                                                class="icon" xmlns="http://www.w3.org/2000/svg">
                                                 <path fill="currentColor"
                                                     d="M280.768 753.728L691.456 167.04a32 32 0 1152.416 36.672L314.24 817.472a32 32 0 01-45.44 7.296l-230.4-172.8a32 32 0 0138.4-51.2l203.968 152.96zM736 448a32 32 0 110-64h192a32 32 0 110 64H736zM608 640a32 32 0 010-64h319.936a32 32 0 110 64H608zM480 832a32 32 0 110-64h447.936a32 32 0 110 64H480z" />
                                             </svg>
@@ -290,6 +315,25 @@
                                             <span class="pl-1">@lang('messages.close')</span>
                                         </x-anchor-secondary>
                                     </div>
+                                </div>
+
+                                <div id="targetDiv"
+                                    class="hidden p-4 overflow-scroll md:overflow-auto lg:overflow-hidden">
+                                    <table id="target_table" class="w-full">
+                                        <thead>
+                                            <tr>
+                                                <th class="w-auto text-left">@lang('messages.partner')</th>
+                                                <th class="w-auto text-left">@lang('messages.goods')</th>
+                                                <th class="w-auto">@lang('messages.quantity')</th>
+                                                <th class="w-auto">@lang('messages.unit')</th>
+                                                <th class="w-auto">&nbsp;</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            @include('production-order.partials.targets', [$targets])
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -341,6 +385,12 @@
                 }
 
                 const myFormInitialValues = getInitialFormValues('master-form');
+                const status_order_ready = '{{ $datas->order->isready }}';
+
+                if (status_order_ready === '1') {
+                    $('#targetDiv').removeClass('hidden');
+                    $('#targetDiv').addClass('block');
+                }
 
                 $("#submit-combine").on("click", function(e) {
                     e.preventDefault();
@@ -371,17 +421,17 @@
 
                 $("#submit-detail").on("click", function(e) {
                     e.preventDefault();
-                    let key = $('#master_id').val();
+                    let key = '{{ $datas->id }}';
 
                     $.ajax({
-                        url: '{{ url('/warehouse/production-order/store-detail') }}' + '/' + key,
-                        type: 'post',
+                        url: '{{ url('/production/order/finish-order') }}' + '/' + key,
+                        type: 'get',
                         dataType: 'json',
-                        data: $('form#form-order').serialize(),
                         success: function(result) {
                             if (result.status !== 'Not Found') {
-                                $('#detailBody').html(result.view);
-                                $('#form-order')[0].reset();
+                                $('#targetDiv').removeClass('hidden');
+                                $('#targetDiv').addClass('block');
+                                alert('{{ __('messages.finishedproduction') }}')
                             }
                         }
                     });

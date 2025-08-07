@@ -36,20 +36,32 @@ class ProdOrderController extends Controller implements HasMiddleware
         if (!$request->session()->exists('production-order_pp')) {
             $request->session()->put('production-order_pp', 5);
         }
+        if (!$request->session()->exists('production-order_selesai')) {
+            $request->session()->put('production-order_selesai', 'all');
+        }
         if (!$request->session()->exists('production-order_tanggal')) {
             $request->session()->put('production-order_tanggal', '_');
         }
+        if (!$request->session()->exists('production-order_nomor')) {
+            $request->session()->put('production-order_nomor', '_');
+        }
 
-        $search_arr = ['production-order_tanggal'];
+        $search_arr = ['production-order_selesai', 'production-order_tanggal', 'production-order_nomor'];
 
         $datas = ProdOrder::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
             $field = substr($search_arr[$i], strlen('production-order_'));
 
-            if ($search_arr[$i] == 'production-order_branch_id') {
+            if ($search_arr[$i] == 'production-order_nomor') {
+                if (session($search_arr[$i]) == '_' or session($search_arr[$i]) == '') {
+                } else {
+                    $like = '%' . session($search_arr[$i]) . '%';
+                    $datas = $datas->whereRelation('order', 'no_order', 'LIKE', $like);
+                }
+            } else if ($search_arr[$i] == 'production-order_selesai') {
                 if (session($search_arr[$i]) !== 'all') {
-                    $datas = $datas->where([$field => session($search_arr[$i])]);
+                    $datas = $datas->whereRelation('order', 'isready', session($search_arr[$i]));
                 }
             } else {
                 if (session($search_arr[$i]) == '_' or session($search_arr[$i]) == '') {
@@ -73,18 +85,26 @@ class ProdOrderController extends Controller implements HasMiddleware
     public function fetchdb(Request $request): JsonResponse
     {
         $request->session()->put('production-order_pp', $request->pp);
+        $request->session()->put('production-order_selesai', $request->pr);
         $request->session()->put('production-order_tanggal', $request->tanggal);
+        $request->session()->put('production-order_nomor', $request->nomor);
 
-        $search_arr = ['production-order_tanggal'];
+        $search_arr = ['production-order_selesai', 'production-order_tanggal', 'production-order_nomor'];
 
         $datas = ProdOrder::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
             $field = substr($search_arr[$i], strlen('production-order_'));
 
-            if ($search_arr[$i] == 'production-order_branch_id') {
+            if ($search_arr[$i] == 'production-order_nomor') {
+                if (session($search_arr[$i]) == '_' or session($search_arr[$i]) == '') {
+                } else {
+                    $like = '%' . session($search_arr[$i]) . '%';
+                    $datas = $datas->whereRelation('order', 'no_order', 'LIKE', $like);
+                }
+            } else if ($search_arr[$i] == 'production-order_selesai') {
                 if (session($search_arr[$i]) !== 'all') {
-                    $datas = $datas->where([$field => session($search_arr[$i])]);
+                    $datas = $datas->whereRelation('order', 'isready', session($search_arr[$i]));
                 }
             } else {
                 if (session($search_arr[$i]) == '_' or session($search_arr[$i]) == '') {
@@ -139,10 +159,30 @@ class ProdOrderController extends Controller implements HasMiddleware
 
     public function show(Request $request): View
     {
+        $branch_id = auth()->user()->profile->branch_id;
         $datas = ProdOrder::find(Crypt::decrypt($request->order));
         $details = ProdOrderDetail::where('prod_order_id', Crypt::decrypt($request->order))->get();
 
-        return view('production-order.show', compact(['datas', 'details']));
+        if ($datas->order->isready == 1) {
+            $sales = SaleOrder::where('branch_id', $branch_id)->where('isactive', 1)->where('id', '<>', $datas->sale_order_id)
+                ->where(function ($query) use ($request) {
+                    $query->where('isready', 1)
+                        ->whereIn('id', function ($query) use ($request) {
+                            $query->select('sale_order_id')->from('prod_order_joins')->where('prod_order_id', Crypt::decrypt($request->order));
+                        });
+                })
+                ->orderBy('no_order')->get();
+        } else {
+            $sales = SaleOrder::where('branch_id', $branch_id)->where('isactive', 1)->where('id', '<>', $datas->sale_order_id)->where('isready', 0)->orderBy('no_order')->get();
+        }
+
+        $syntax = 'CALL sp_hitung_bahanbaku_produksi(' . Crypt::decrypt($request->order) . ')';
+        $bahans = DB::select($syntax);
+
+        $syntax = 'CALL sp_target_produksi(' . Crypt::decrypt($request->order) . ')';
+        $targets = DB::select($syntax);
+
+        return view('production-order.show', compact(['datas', 'details', 'sales', 'bahans', 'targets']));
     }
 
     public function edit(Request $request)
@@ -154,12 +194,27 @@ class ProdOrderController extends Controller implements HasMiddleware
         $barangs = Barang::where('branch_id', $branch_id)->where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $petugas = Pegawai::where('branch_id', $branch_id)->where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
         $satuans = Satuan::where('isactive', 1)->orderBy('singkatan')->pluck('singkatan', 'id');
-        $sales = SaleOrder::where('branch_id', $branch_id)->where('isactive', 1)->where('isready', 0)->where('id', '<>', $datas->sale_order_id)->orderBy('no_order')->get();
+
+        if ($datas->order->isready == 1) {
+            $sales = SaleOrder::where('branch_id', $branch_id)->where('isactive', 1)->where('id', '<>', $datas->sale_order_id)
+                ->where(function ($query) use ($request) {
+                    $query->where('isready', 1)
+                        ->whereIn('id', function ($query) use ($request) {
+                            $query->select('sale_order_id')->from('prod_order_joins')->where('prod_order_id', Crypt::decrypt($request->order));
+                        });
+                })
+                ->orderBy('no_order')->get();
+        } else {
+            $sales = SaleOrder::where('branch_id', $branch_id)->where('isactive', 1)->where('id', '<>', $datas->sale_order_id)->where('isready', 0)->orderBy('no_order')->get();
+        }
 
         $syntax = 'CALL sp_hitung_bahanbaku_produksi(' . Crypt::decrypt($request->order) . ')';
         $bahans = DB::select($syntax);
 
-        return view('production-order.edit', compact(['datas', 'details', 'barangs', 'satuans', 'petugas', 'branch_id', 'sales', 'bahans']));
+        $syntax = 'CALL sp_target_produksi(' . Crypt::decrypt($request->order) . ')';
+        $targets = DB::select($syntax);
+
+        return view('production-order.edit', compact(['datas', 'details', 'barangs', 'satuans', 'petugas', 'branch_id', 'sales', 'bahans', 'targets']));
     }
 
     public function update(ProdOrderRequest $request): RedirectResponse
@@ -240,6 +295,17 @@ class ProdOrderController extends Controller implements HasMiddleware
 
         return response()->json([
             'view' => $view,
+        ], 200);
+    }
+
+    public function finishOrder(Request $request): JsonResponse
+    {
+        $syntax = 'CALL sp_finish_produksi(' . $request->order . ',\'' . auth()->user()->email . '\',' . auth()->user()->profile->branch_id . ')';
+
+        $finish = DB::select($syntax);
+
+        return response()->json([
+            'status' => 'success',
         ], 200);
     }
 }

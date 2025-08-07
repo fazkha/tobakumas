@@ -35,7 +35,7 @@
                     {{-- Master --}}
                     <div
                         class="w-full shadow-lg bg-primary-50 rounded-md border border-primary-100 dark:bg-primary-900 dark:border-primary-800">
-                        <div class="p-4 space-y-2 md:p-6 md:space-y-4">
+                        <div class="p-4 space-y-2">
 
                             <div class="flex flex-col lg:flex-row">
                                 <div class="w-full lg:w-1/2 px-2">
@@ -93,7 +93,7 @@
                                         @endif
                                     </div>
 
-                                    <div class="flex flex-row items-center justify-end gap-2 md:gap-4">
+                                    <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
                                         <div class="dark:bg-black/10">
                                             <label class="cursor-pointer flex flex-col md:flex-row md:gap-2">
                                                 <input type="checkbox" id="isactive" name="isactive"
@@ -142,8 +142,9 @@
                         {{-- Detail --}}
                         <div
                             class="w-full shadow-lg rounded-md border bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
-                            <div class="p-4 space-y-2 md:p-6 md:space-y-4">
-                                <div class="flex flex-row items-center gap-2">
+                            <div class="p-4 space-y-2">
+                                <div class="flex flex-row
+                            items-center gap-2">
                                     <svg class="w-5 h-5" viewBox="0 0 48 48" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <rect width="48" height="48" fill="white" fill-opacity="0.01" />
@@ -167,7 +168,7 @@
 
                                 <div
                                     class="border rounded-md border-primary-100 bg-primary-100 dark:border-primary-800 dark:bg-primary-850">
-                                    <div class="p-4 overflow-scroll md:overflow-auto lg:overflow-hidden">
+                                    <div class="p-2 overflow-scroll md:overflow-auto lg:overflow-hidden">
                                         <table id="order_table" class="w-full border-separate border-spacing-2">
                                             <thead>
                                                 <tr>
@@ -206,7 +207,7 @@
                                         </table>
                                     </div>
 
-                                    <div class="mt-4 mb-4 mr-4 flex flex-row justify-end gap-2 md:gap-4">
+                                    <div class="mt-4 mb-4 mr-4 flex flex-row flex-wrap justify-end gap-2 md:gap-4">
                                         <x-primary-button id="submit-detail" tabindex="9">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -235,9 +236,11 @@
                         {{-- Input --}}
                         <div
                             class="w-full shadow-lg rounded-md border bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
-                            <div class="p-4 space-y-2 md:p-6 md:space-y-4">
-                                <div class="flex flex-row items-center gap-2">
-                                    <svg class="w-5 h-5" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                            <div class="p-4 space-y-2">
+                                <div class="flex flex-row
+                            items-center gap-2">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 48 48"
+                                        xmlns="http://www.w3.org/2000/svg">
                                         <title>input</title>
                                         <g id="Layer_2" data-name="Layer 2">
                                             <g id="invisible_box" data-name="invisible box">
@@ -258,7 +261,7 @@
 
                                 <div
                                     class="border rounded-md border-primary-100 bg-primary-100 dark:border-primary-800 dark:bg-primary-850">
-                                    <div class="p-4 overflow-scroll md:overflow-auto lg:overflow-hidden">
+                                    <div class="p-2 overflow-scroll md:overflow-auto lg:overflow-hidden">
                                         <table id="order_table" class="w-full border-separate border-spacing-2">
                                             <thead>
                                                 <tr>
@@ -311,7 +314,7 @@
                                         </table>
                                     </div>
 
-                                    <div class="mt-4 mb-4 mr-4 flex flex-row justify-end gap-2 md:gap-4">
+                                    <div class="mt-4 mb-4 mr-4 flex flex-row flex-wrap justify-end gap-2 md:gap-4">
                                         <x-primary-button id="submit-ingoods" tabindex="14">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -338,9 +341,10 @@
                         {{-- Output --}}
                         <div
                             class="w-full shadow-lg rounded-md border bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
-                            <div class="p-4 space-y-2 md:p-6 md:space-y-4">
+                            <div class="p-4 space-y-2">
                                 <div class="flex flex-row items-center gap-2">
-                                    <svg class="w-5 h-5" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 48 48"
+                                        xmlns="http://www.w3.org/2000/svg">
                                         <title>output</title>
                                         <g id="Layer_2" data-name="Layer 2">
                                             <g id="invisible_box" data-name="invisible box">
@@ -363,7 +367,7 @@
 
                                 <div
                                     class="border rounded-md border-primary-100 bg-primary-100 dark:border-primary-800 dark:bg-primary-850">
-                                    <div class="p-4 overflow-scroll md:overflow-auto lg:overflow-hidden">
+                                    <div class="p-2 overflow-scroll md:overflow-auto lg:overflow-hidden">
                                         <table id="order_table" class="w-full border-separate border-spacing-2">
                                             <thead>
                                                 <tr>
@@ -416,7 +420,7 @@
                                         </table>
                                     </div>
 
-                                    <div class="mt-4 mb-4 mr-4 flex flex-row justify-end gap-2 md:gap-4">
+                                    <div class="mt-4 mb-4 mr-4 flex flex-row flex-wrap justify-end gap-2 md:gap-4">
                                         <x-primary-button id="submit-outgoods" tabindex="19">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"

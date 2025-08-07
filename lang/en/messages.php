@@ -174,4 +174,6 @@ return [
     'rawmaterial' => 'Raw Material',
     'salesordernumber' => 'Sale Order No.',
     'productiondate' => 'Production Date',
+    'finishedproduction' => 'Finished.',
+    'productionorder' => 'Order',
 ];

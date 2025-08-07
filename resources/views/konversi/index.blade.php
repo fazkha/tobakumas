@@ -4,18 +4,11 @@
     <div class="flex items-center justify-between px-4 py-4 border-b border-primary-100 lg:py-6 dark:border-primary-800">
         <a href="{{ route('units.index') }}">
             <h1 class="flex items-center justify-center text-xl">
-                <svg class="w-7 h-7" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 204.045 204.045"
-                    style="enable-background:new 0 0 204.045 204.045;" xml:space="preserve">
-                    <g>
-                        <g>
-                            <path style="fill:#010002;"
-                                d="M5.239,97.656c0-23.577,19.186-42.764,42.771-42.764h146.661l-38.931,38.931l3.461,3.461
-       l44.843-44.843L159.202,7.601l-3.461,3.464l38.931,38.924H48.01c-26.287,0-47.663,21.387-47.663,47.663v0.494h4.896v-0.49H5.239z" />
-                            <path style="fill:#010002;" d="M198.805,106.388c0,23.577-19.19,42.764-42.767,42.764H9.377l38.931-38.931l-3.461-3.461L0,151.604
-       l44.843,44.839l3.461-3.468L9.377,154.052h146.661c26.283,0,47.663-21.387,47.663-47.663v-0.494h-4.896V106.388z" />
-                        </g>
-                    </g>
+                <svg class="size-7" viewBox="0 0 17 17" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <path
+                        d="M6 8h-6v-6h1v4.109c1.013-3.193 4.036-5.484 7.5-5.484 3.506 0 6.621 2.36 7.574 5.739l-0.963 0.271c-0.832-2.95-3.551-5.011-6.611-5.011-3.226 0.001-6.016 2.276-6.708 5.376h4.208v1zM11 9v1h4.208c-0.693 3.101-3.479 5.375-6.708 5.375-3.062 0-5.78-2.061-6.611-5.011l-0.963 0.271c0.952 3.379 4.067 5.739 7.574 5.739 3.459 0 6.475-2.28 7.5-5.482v4.108h1v-6h-6z"
+                        fill="currentColor" />
                 </svg>
                 <span class="px-2">@lang('messages.conversion')</span>
             </h1>

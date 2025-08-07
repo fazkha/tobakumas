@@ -14,11 +14,15 @@
                     </th>
                     <th
                         class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
-                        @lang('messages.ordernumber')
+                        @lang('messages.salesordernumber')
                     </th>
                     <th
                         class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
-                        @lang('messages.date')
+                        @lang('messages.productiondate')
+                    </th>
+                    <th
+                        class="px-3 py-3 text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
+                        @lang('messages.productionfinish')
                     </th>
                     <th
                         class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
@@ -29,7 +33,7 @@
             <tbody>
                 @if ($datas->count() == 0)
                     <tr>
-                        <td colspan="4" class="text-sm bg-primary-20 dark:bg-primary-900">
+                        <td colspan="5" class="text-sm bg-primary-20 dark:bg-primary-900">
                             <div class="flex items-center justify-center p-5">@lang('messages.datanotavailable')</div>
                         </td>
                     </tr>
@@ -52,6 +56,11 @@
                             <span
                                 class="text-gray-900 dark:text-white">{{ date_format(date_create($data->tanggal), 'd/m/Y') }}</span>
                         </td>
+                        <td
+                            class="text-center px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
+                            <span
+                                class="text-gray-900 dark:text-white">{{ $data->order->isready == 1 ? '✔️' : '❌' }}</span>
+                        </td>
                         <td class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800"
                             style="vertical-align: middle;">
                             <div class="flex items-center justify-center">
@@ -72,19 +81,21 @@
                                 @endcan
 
                                 @can('prodo-edit')
-                                    <a href="{{ route('production-order.edit', Crypt::Encrypt($data->id)) }}"
-                                        title="{{ __('messages.edit') }}" class="ml-2">
-                                        <span
-                                            class="relative inline-block px-2 py-2 font-semibold text-green-800 dark:text-green-50 leading-tight">
-                                            <span aria-hidden
-                                                class="absolute inset-0 bg-green-200 hover:bg-green-400 dark:bg-green-500 hover:dark:bg-green-700 opacity-50 rounded-full"></span>
-                                            <svg class="size-5" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
-                                            </svg>
-                                        </span>
-                                    </a>
+                                    @if ($data->order->isready == 0)
+                                        <a href="{{ route('production-order.edit', Crypt::Encrypt($data->id)) }}"
+                                            title="{{ __('messages.edit') }}" class="ml-2">
+                                            <span
+                                                class="relative inline-block px-2 py-2 font-semibold text-green-800 dark:text-green-50 leading-tight">
+                                                <span aria-hidden
+                                                    class="absolute inset-0 bg-green-200 hover:bg-green-400 dark:bg-green-500 hover:dark:bg-green-700 opacity-50 rounded-full"></span>
+                                                <svg class="size-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                                                </svg>
+                                            </span>
+                                        </a>
+                                    @endif
                                 @endcan
 
                                 @can('prodo-delete')
