@@ -105,8 +105,8 @@
                                     <div class="w-auto pb-4 lg:pb-12">
                                         <label for="bilangan"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.number')</label>
-                                        <x-text-input type="number" step="0.01" name="bilangan" id="bilangan"
-                                            tabindex="4"
+                                        <x-text-input type="number" min="0" step="0.01" name="bilangan"
+                                            id="bilangan" tabindex="4"
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.number') }}"
                                             required value="{{ $datas->bilangan }}" />
 

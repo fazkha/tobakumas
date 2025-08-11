@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class DeliveryOrder extends Model
 {
     protected $guarded = [];
-    protected $table = 'prod_orders';
+    protected $table = 'delivery_orders';
 
     protected $fillable = [
-        'sale_order_id',
         'branch_id',
+        'sale_order_id',
         'tanggal',
         'alamat',
         'petugas_1_id',

@@ -11,16 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('prod_order_details', function (Blueprint $table) {
+        Schema::create('paket_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('branch_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('prod_order_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('paket_id')->constrained()->onUpdate('cascade');
             $table->foreignId('barang_id')->constrained()->onUpdate('cascade');
             $table->foreignId('satuan_id')->constrained()->onUpdate('cascade');
-            $table->decimal('kuantiti', 10, 2)->default(0.00);
-            $table->tinyInteger('approved')->default(0);
-            $table->string('approved_by')->nullable();
-            $table->dateTime('approved_at')->nullable();
+            $table->decimal('kuantiti')->default(0);
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->timestamps();
@@ -32,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('prod_detail_orders');
+        Schema::dropIfExists('paket_details');
     }
 };

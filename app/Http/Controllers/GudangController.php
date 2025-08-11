@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Gudang;
+use App\Models\Branch;
 use App\Http\Requests\GudangRequest;
 use App\Http\Requests\GudangUpdateRequest;
-use App\Models\Branch;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Http\Request;

@@ -110,8 +110,8 @@
                                         <label for="pajak"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.tax')
                                             (%)</label>
-                                        <x-text-input type="number" step="0.01" name="pajak" id="pajak"
-                                            tabindex="4" value="{{ old('pajak', $datas->pajak) }}" />
+                                        <x-text-input type="number" min="0" step="0.01" name="pajak"
+                                            id="pajak" tabindex="4" value="{{ old('pajak', $datas->pajak) }}" />
 
                                         <x-input-error class="mt-2" :messages="$errors->get('pajak')" />
                                     </div>
@@ -253,7 +253,7 @@
                                                         </select>
                                                     </td>
                                                     <td class="align-top">
-                                                        <x-text-input type="number" id="harga_satuan"
+                                                        <x-text-input type="number" min="0" id="harga_satuan"
                                                             name="harga_satuan" required tabindex="11" />
                                                     </td>
                                                     <td class="align-top">
@@ -269,8 +269,9 @@
                                                     </td>
                                                     <td class="align-top">
                                                         <div class="flex flex-row gap-1">
-                                                            <x-text-input type="number" id="kuantiti"
-                                                                name="kuantiti" required tabindex="13" />
+                                                            <x-text-input type="number" min="0"
+                                                                id="kuantiti" name="kuantiti" required
+                                                                tabindex="13" />
                                                             <input type="hidden" id="stock" name="stock" />
                                                             <x-text-span id="disp-stock"
                                                                 class="text-right text-gray-900 bg-primary-50 dark:text-white dark:bg-primary-800" />
@@ -281,7 +282,7 @@
                                                             name="keterangan" required tabindex="14" />
                                                     </td>
                                                     {{-- <td class="align-top">
-                                                        <x-text-input type="number" id="pajak" name="pajak"
+                                                        <x-text-input type="number" min="0" id="pajak" name="pajak"
                                                             tabindex="14" disabled />
                                                     </td> --}}
                                                     <td class="align-top">
@@ -432,8 +433,9 @@
                                                         </select>
                                                     </td>
                                                     <td class="align-top">
-                                                        <x-text-input type="number" id="harga_satuan_adonan"
-                                                            name="harga_satuan_adonan" required tabindex="19" />
+                                                        <x-text-input type="number" min="0"
+                                                            id="harga_satuan_adonan" name="harga_satuan_adonan"
+                                                            required tabindex="19" />
                                                     </td>
                                                     <td class="align-top">
                                                         <select id="satuan_id_adonan" name="satuan_id_adonan" required
@@ -447,15 +449,16 @@
                                                         </select>
                                                     </td>
                                                     <td class="align-top">
-                                                        <x-text-input type="number" id="kuantiti_adonan"
-                                                            name="kuantiti_adonan" required tabindex="21" />
+                                                        <x-text-input type="number" min="0"
+                                                            id="kuantiti_adonan" name="kuantiti_adonan" required
+                                                            tabindex="21" />
                                                     </td>
                                                     <td class="align-top">
                                                         <x-text-input type="text" id="keterangan_adonan"
                                                             name="keterangan_adonan" tabindex="22" />
                                                     </td>
                                                     {{-- <td class="align-top">
-                                                        <x-text-input type="number" id="pajak_adonan" name="pajak_adonan"
+                                                        <x-text-input type="number" min="0" id="pajak_adonan" name="pajak_adonan"
                                                             tabindex="23" disabled />
                                                     </td> --}}
                                                     <td class="align-top">

@@ -191,8 +191,8 @@
                                                     <td class="align-top">
                                                         <input type="hidden" id="master_id" name="master_id"
                                                             value="{{ $datas->id }}" />
-                                                        <x-text-input type="number" id="urutan" name="urutan"
-                                                            required tabindex="6" />
+                                                        <x-text-input type="number" min="0" id="urutan"
+                                                            name="urutan" required tabindex="6" />
                                                     </td>
                                                     <td class="align-top">
                                                         <x-text-input type="text" id="tahapan" name="tahapan"
@@ -306,8 +306,9 @@
                                                         </select>
                                                     </td>
                                                     <td class="align-top">
-                                                        <x-text-input type="number" id="kuantiti_ingoods"
-                                                            name="kuantiti_ingoods" required tabindex="13" />
+                                                        <x-text-input type="number" min="0"
+                                                            id="kuantiti_ingoods" name="kuantiti_ingoods" required
+                                                            tabindex="13" />
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -412,8 +413,9 @@
                                                         </select>
                                                     </td>
                                                     <td class="align-top">
-                                                        <x-text-input type="number" id="kuantiti_outgoods"
-                                                            name="kuantiti_outgoods" required tabindex="18" />
+                                                        <x-text-input type="number" min="0"
+                                                            id="kuantiti_outgoods" name="kuantiti_outgoods" required
+                                                            tabindex="18" />
                                                     </td>
                                                 </tr>
                                             </tbody>

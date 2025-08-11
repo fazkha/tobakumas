@@ -241,7 +241,7 @@
                                                         </select>
                                                     </td>
                                                     <td class="align-top">
-                                                        <x-text-input type="number" id="harga_satuan"
+                                                        <x-text-input type="number" min="0" id="harga_satuan"
                                                             name="harga_satuan" required tabindex="11" />
                                                     </td>
                                                     <td class="align-top">
@@ -256,12 +256,12 @@
                                                         </select>
                                                     </td>
                                                     <td class="align-top">
-                                                        <x-text-input type="number" id="kuantiti" name="kuantiti"
-                                                            required tabindex="13" />
+                                                        <x-text-input type="number" min="0" id="kuantiti"
+                                                            name="kuantiti" required tabindex="13" />
                                                     </td>
                                                     <td class="align-top">
-                                                        <x-text-input type="number" id="pajak" name="pajak"
-                                                            tabindex="14" />
+                                                        <x-text-input type="number" min="0" id="pajak"
+                                                            name="pajak" tabindex="14" />
                                                     </td>
                                                     <td class="align-top">
                                                         <x-text-span id="disp-sub_harga"

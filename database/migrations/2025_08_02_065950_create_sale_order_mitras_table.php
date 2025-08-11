@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('sale_order_mitras', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('sale_order_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('branch_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('sale_order_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('pegawai_id')->constrained()->onUpdate('cascade');
             $table->foreignId('barang_id')->constrained()->onUpdate('cascade');
             $table->foreignId('satuan_id')->constrained()->onUpdate('cascade');

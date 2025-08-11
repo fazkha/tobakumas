@@ -65,8 +65,8 @@
                                                 <label for="quest_amount"
                                                     class="block mb-2 font-medium text-primary-600 dark:text-primary-500">Number
                                                     Of Question(s)</label>
-                                                <x-text-input type="number" id="quest_amount" name="quest_amount"
-                                                    required placeholder="Enter amount"
+                                                <x-text-input type="number" min="0" id="quest_amount"
+                                                    name="quest_amount" required placeholder="Enter amount"
                                                     value="{{ old('quest_amount', $datas->quest_amount) }}" />
 
                                                 <x-input-error class="mt-2" :messages="$errors->get('quest_amount')" />
@@ -297,7 +297,8 @@
                                                     <td>
                                                         <input type="hidden" name="id[]" value="" />
                                                         <input type="hidden" name="qid[]" :value="questionId" />
-                                                        <x-text-input type="number" name="seq[]" value="1" />
+                                                        <x-text-input type="number" min="0" name="seq[]"
+                                                            value="1" />
                                                     </td>
                                                     <td>
                                                         <x-text-input type="text" name="choice[]"
@@ -308,7 +309,8 @@
                                                             class="cb" onchange="cbChange(this)" />
                                                     </td>
                                                     <td>
-                                                        <x-text-input type="number" name="value[]" value="1" />
+                                                        <x-text-input type="number" min="0" name="value[]"
+                                                            value="1" />
                                                     </td>
                                                     <td>&nbsp;</td>
                                                 </tr>
@@ -419,7 +421,7 @@
                     let new_q_row_number = q_row_number - 1;
 
                     $('#question_table').append('<tr id="question' + (new_q_row_number) + '">' +
-                        '<td><input type="number" name="seq[]" value="' + q_row_number +
+                        '<td><input type="number" min="0" name="seq[]" value="' + q_row_number +
                         '" class="w-full text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary dark:text-gray dark:placeholder-gray-700 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300" /></td>' +
                         '<td><input type="text" name="question[]" value="" placeholder="Enter question" class="w-full text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary dark:text-gray dark:placeholder-gray-700 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300" />' +
                         '<input type="hidden" name="ids[]" value="" /></td><td>&nbsp;</td><td>&nbsp;</td></tr>'
@@ -482,12 +484,12 @@
                     $('#choice_table').append('<tr id="choice' + (new_row_number) + '"><td>' +
                         '<input type="hidden" name="id[]" value="" />' +
                         '<input type="hidden" name="qid[]" :value="questionId" />' +
-                        '<input type="number" name="seq[]" value="' + row_number +
+                        '<input type="number" min="0" name="seq[]" value="' + row_number +
                         '" class="w-full text-sm rounded-md shadow-sm text-gray-700 placeholder-gray-300 border-primary dark:text-gray dark:placeholder-gray-700 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300" /></td><td>' +
                         '<input type="text" name="choice[]" value="" class="w-full text-sm rounded-md shadow-sm text-gray-700 placeholder-gray-300 border-primary dark:text-gray dark:placeholder-gray-700 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300" /></td>' +
                         '<td align="center"><input type="checkbox" name="correct[]" value="' + (row_number -
                             1) +
-                        '" class="cb" onchange="cbChange(this)" /></td><td><input type="number" name="value[]" value="1" class="w-full text-sm rounded-md shadow-sm text-gray-700 placeholder-gray-300 border-primary dark:text-gray dark:placeholder-gray-700 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300" />' +
+                        '" class="cb" onchange="cbChange(this)" /></td><td><input type="number" min="0" name="value[]" value="1" class="w-full text-sm rounded-md shadow-sm text-gray-700 placeholder-gray-300 border-primary dark:text-gray dark:placeholder-gray-700 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300" />' +
                         '</td><td>&nbsp;</td></tr>'
                     );
                     row_number++;

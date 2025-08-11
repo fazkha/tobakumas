@@ -4,6 +4,7 @@ use App\Http\Controllers\BarangController;
 use App\Http\Controllers\CoaController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DeliveryOrderController;
+use App\Http\Controllers\DeliveryOrderDetailController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\GudangController;
 use App\Http\Controllers\KonversiController;
@@ -76,6 +77,7 @@ Route::prefix('purchase')->middleware('auth')->group(function () {
 Route::prefix('delivery')->middleware('auth')->group(function () {
     Route::resource('order', DeliveryOrderController::class)->names('delivery-order');
     Route::get('order/fetchdb/{pp}/{isdelivered}/{customer}/{tanggal}/{alamat}', [DeliveryOrderController::class, 'fetchdb'])->defaults('alamat', '_')->defaults('tanggal', '_');
+    Route::resource('order-detail', DeliveryOrderDetailController::class)->names('delivery-order-detail');
 })->missing(function (Request $request) {
     return Redirect::route('dashboard');
 });

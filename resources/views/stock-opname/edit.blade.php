@@ -244,12 +244,12 @@
                                                         </select>
                                                     </td>
                                                     <td class="align-top">
-                                                        <x-text-input type="number" step="0.01" id="stock"
-                                                            name="stock" required tabindex="11" />
+                                                        <x-text-input type="number" min="0" step="0.01"
+                                                            id="stock" name="stock" required tabindex="11" />
                                                     </td>
                                                     <td class="align-top">
-                                                        <x-text-input type="number" step="0.01" id="minstock"
-                                                            name="minstock" required tabindex="12" />
+                                                        <x-text-input type="number" min="0" step="0.01"
+                                                            id="minstock" name="minstock" required tabindex="12" />
                                                     </td>
                                                     <td class="align-top">
                                                         <x-text-input type="text" id="keterangan"

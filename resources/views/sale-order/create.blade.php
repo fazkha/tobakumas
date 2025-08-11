@@ -94,8 +94,8 @@
                                         <label for="pajak"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.tax')
                                             (%)</label>
-                                        <x-text-input type="number" step="0.01" name="pajak" id="pajak"
-                                            tabindex="5" value="{{ 0.0 }}" />
+                                        <x-text-input type="number" min="0" step="0.01" name="pajak"
+                                            id="pajak" tabindex="5" value="{{ 0.0 }}" />
 
                                         <x-input-error class="mt-2" :messages="$errors->get('pajak')" />
                                     </div>

@@ -129,32 +129,14 @@ class ProdOrderController extends Controller implements HasMiddleware
         }
     }
 
-    public function create(): View
+    public function create()
     {
-        $branch_id = auth()->user()->profile->branch_id;
-        $petugas = Pegawai::where('branch_id', $branch_id)->where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
-
-        return view('production-order.create', compact(['petugas', 'branch_id']));
+        //
     }
 
     public function store(ProdOrderRequest $request)
     {
-        if ($request->validated()) {
-            $order = ProdOrder::create([
-                'branch_id' => $request->branch_id,
-                'tanggal' => $request->tanggal,
-                'petugas_1_id' => $request->petugas_1_id,
-                'petugas_2_id' => $request->petugas_2_id,
-                'tanggungjawab_id' => $request->tanggungjawab_id,
-                'keterangan' => $request->keterangan,
-                'created_by' => auth()->user()->email,
-                'updated_by' => auth()->user()->email,
-            ]);
-
-            return redirect()->route('production-order.edit', Crypt::encrypt($order->id));
-        } else {
-            return redirect()->back()->withInput()->with('error', 'Error occured while saving!');
-        }
+        //
     }
 
     public function show(Request $request): View
@@ -237,28 +219,14 @@ class ProdOrderController extends Controller implements HasMiddleware
         }
     }
 
-    public function delete(Request $request): View
+    public function delete(Request $request)
     {
-        $datas = ProdOrder::find(Crypt::decrypt($request->order));
-        $details = ProdOrderDetail::where('prod_order_id', Crypt::decrypt($request->order))->get();
-
-        return view('production-order.delete', compact(['datas', 'details']));
+        //
     }
 
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request)
     {
-        $order = ProdOrder::find(Crypt::decrypt($request->order));
-
-        try {
-            $order->delete();
-        } catch (\Illuminate\Database\QueryException $e) {
-            if (str_contains($e->getMessage(), 'Integrity constraint violation')) {
-                return redirect()->route('production-order.index')->with('error', 'Integrity constraint violation');
-            }
-            return redirect()->route('production-order.index')->with('error', $e->getMessage());
-        }
-
-        return redirect()->route('production-order.index')->with('success', __('messages.successdeleted') . ' 👉 ' . $order->tanggal);
+        //
     }
 
     public function combineJoin(Request $request): JsonResponse

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('purchase_order_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('purchase_order_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('branch_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('purchase_order_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('barang_id')->constrained()->onUpdate('cascade');
             $table->foreignId('satuan_id')->constrained()->onUpdate('cascade');
             $table->integer('harga_satuan')->default(0);

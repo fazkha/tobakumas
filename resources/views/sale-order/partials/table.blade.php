@@ -14,10 +14,6 @@
                     </th>
                     <th
                         class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
-                        &nbsp;
-                    </th>
-                    <th
-                        class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
                         @lang('messages.ordernumber')
                     </th>
                     <th
@@ -41,6 +37,26 @@
                         @lang('messages.active')
                     </th>
                     <th
+                        class="px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
+                        <div class="flex items-center justify-center">
+                            <svg fill="currentColor" class="w-5 h-5" viewBox="0 0 256 256" id="Flat"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M128,20A108,108,0,1,0,236,128,108.12186,108.12186,0,0,0,128,20Zm0,192a84,84,0,1,1,84-84A84.09562,84.09562,0,0,1,128,212ZM144,84v92a12,12,0,0,1-24,0V106.417l-5.3457,3.5625a12.00027,12.00027,0,1,1-13.3086-19.97265l24-15.99317A12.00071,12.00071,0,0,1,144,84Z" />
+                            </svg>
+                        </div>
+                    </th>
+                    <th
+                        class="px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
+                        <div class="flex items-center justify-center">
+                            <svg fill="currentColor" class="w-5 h-5" viewBox="0 0 256 256" id="Flat"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M128,20A108,108,0,1,0,236,128,108.12186,108.12186,0,0,0,128,20Zm0,192a84,84,0,1,1,84-84A84.09562,84.09562,0,0,1,128,212Zm29.50391-87.38477-29.51075,39.37891H152a12,12,0,0,1,0,24H104.39648c-.13281.00488-.26464.00684-.39843.00684a12.00272,12.00272,0,0,1-9.47168-19.36914l43.56543-58.13379a12.00426,12.00426,0,1,0-21.1543-11.165A11.9998,11.9998,0,0,1,94.834,89.9834a36.00408,36.00408,0,1,1,63.01172,34.15234C157.73535,124.29883,157.62207,124.458,157.50391,124.61523Z" />
+                            </svg>
+                        </div>
+                    </th>
+                    <th
                         class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
                         &nbsp;
                     </th>
@@ -49,7 +65,7 @@
             <tbody>
                 @if ($datas->count() == 0)
                     <tr>
-                        <td colspan="9" class="text-sm bg-primary-20 dark:bg-primary-900">
+                        <td colspan="10" class="text-sm bg-primary-20 dark:bg-primary-900">
                             <div class="flex items-center justify-center p-5">@lang('messages.datanotavailable')</div>
                         </td>
                     </tr>
@@ -62,17 +78,6 @@
                             <p class="text-center text-gray-900 whitespace-no-wrap dark:text-white">
                                 {{ ++$i }}
                             </p>
-                        </td>
-                        <td
-                            class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
-                            {{-- <div class="flex items-center justify-center">
-                                    <button
-                                        @click="openModal = true; modalTitle = '{{ $data->nama }}'; $refs.imgRef.src = '{{ $data->gambar ? asset($data->lokasi . '/' . $data->gambar) : asset('images/0cd6be830e32f80192d496e50cfa9dbc.jpg') }}'">
-                                        <img class="w-20 h-auto rounded-md"
-                                            src="{{ $data->gambar ? asset($data->lokasi . '/' . $data->gambar) : asset('images/0cd6be830e32f80192d496e50cfa9dbc.jpg') }}"
-                                            alt="o.o" />
-                                    </button>
-                                </div> --}}
                         </td>
                         <td
                             class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
@@ -108,6 +113,14 @@
                                     <span>❌</span>
                                 @endif
                             </span>
+                        </td>
+                        <td
+                            class="text-center px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
+                            <span>{{ $data->isready == 1 ? '✔️' : '❓' }}</span>
+                        </td>
+                        <td
+                            class="text-center px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
+                            <span>{{ $data->ispackaged == 1 ? '✔️' : '❓' }}</span>
                         </td>
                         <td class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800"
                             style="vertical-align: middle;">
@@ -154,35 +167,39 @@
                                 @endcan
 
                                 @can('so-edit')
-                                    <a href="{{ route('sale-order.edit', Crypt::Encrypt($data->id)) }}"
-                                        title="{{ __('messages.edit') }}" class="ml-2">
-                                        <span
-                                            class="relative inline-block px-2 py-2 font-semibold text-green-800 dark:text-green-50 leading-tight">
-                                            <span aria-hidden
-                                                class="absolute inset-0 bg-green-200 hover:bg-green-400 dark:bg-green-500 hover:dark:bg-green-700 opacity-50 rounded-full"></span>
-                                            <svg class="size-5" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
-                                            </svg>
-                                        </span>
-                                    </a>
+                                    @if ($data->isready == 0)
+                                        <a href="{{ route('sale-order.edit', Crypt::Encrypt($data->id)) }}"
+                                            title="{{ __('messages.edit') }}" class="ml-2">
+                                            <span
+                                                class="relative inline-block px-2 py-2 font-semibold text-green-800 dark:text-green-50 leading-tight">
+                                                <span aria-hidden
+                                                    class="absolute inset-0 bg-green-200 hover:bg-green-400 dark:bg-green-500 hover:dark:bg-green-700 opacity-50 rounded-full"></span>
+                                                <svg class="size-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                                                </svg>
+                                            </span>
+                                        </a>
+                                    @endif
                                 @endcan
 
                                 @can('so-delete')
-                                    <a href="{{ route('sale-order.delete', Crypt::Encrypt($data->id)) }}"
-                                        title="{{ __('messages.delete') }}" class="ml-2">
-                                        <span
-                                            class="relative inline-block px-2 py-2 font-semibold text-red-800 dark:text-red-50 leading-tight">
-                                            <span aria-hidden
-                                                class="absolute inset-0 bg-red-200 hover:bg-red-400 dark:bg-red-500 hover:dark:bg-red-700 opacity-50 rounded-full"></span>
-                                            <svg class="size-5" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                            </svg>
-                                        </span>
-                                    </a>
+                                    @if ($data->isready == 0)
+                                        <a href="{{ route('sale-order.delete', Crypt::Encrypt($data->id)) }}"
+                                            title="{{ __('messages.delete') }}" class="ml-2">
+                                            <span
+                                                class="relative inline-block px-2 py-2 font-semibold text-red-800 dark:text-red-50 leading-tight">
+                                                <span aria-hidden
+                                                    class="absolute inset-0 bg-red-200 hover:bg-red-400 dark:bg-red-500 hover:dark:bg-red-700 opacity-50 rounded-full"></span>
+                                                <svg class="size-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                                </svg>
+                                            </span>
+                                        </a>
+                                    @endif
                                 @endcan
                             </div>
                         </td>
@@ -197,5 +214,30 @@
             </div>
         </div>
     </div>
+</div>
 
+<div
+    class="flex flex-row items-center justify-start shadow-md rounded-md border border-solid border-primary-100 dark:border-primary-800">
+    <div class="px-4 py-2 border-r border-primary-100 dark:border-primary-800 bg-primary-50 dark:bg-primary-800">
+        <span class="text-sm">@lang('messages.footnote')</span>
+    </div>
+    <div class="px-4 py-2 flex flex-row flex-wrap gap-6 items-center">
+        <div class="flex flex-row gap-2 items-center">
+            <svg fill="currentColor" class="size-4" viewBox="0 0 256 256" id="Flat"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M128,20A108,108,0,1,0,236,128,108.12186,108.12186,0,0,0,128,20Zm0,192a84,84,0,1,1,84-84A84.09562,84.09562,0,0,1,128,212ZM144,84v92a12,12,0,0,1-24,0V106.417l-5.3457,3.5625a12.00027,12.00027,0,1,1-13.3086-19.97265l24-15.99317A12.00071,12.00071,0,0,1,144,84Z" />
+            </svg>
+            <span class="text-sm">@lang('messages.production')</span>
+        </div>
+        <div class="flex flex-row gap-2 items-center">
+            <svg fill="currentColor" class="size-4" viewBox="0 0 256 256" id="Flat"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M128,20A108,108,0,1,0,236,128,108.12186,108.12186,0,0,0,128,20Zm0,192a84,84,0,1,1,84-84A84.09562,84.09562,0,0,1,128,212Zm29.50391-87.38477-29.51075,39.37891H152a12,12,0,0,1,0,24H104.39648c-.13281.00488-.26464.00684-.39843.00684a12.00272,12.00272,0,0,1-9.47168-19.36914l43.56543-58.13379a12.00426,12.00426,0,1,0-21.1543-11.165A11.9998,11.9998,0,0,1,94.834,89.9834a36.00408,36.00408,0,1,1,63.01172,34.15234C157.73535,124.29883,157.62207,124.458,157.50391,124.61523Z" />
+            </svg>
+            <span class="text-sm">@lang('messages.packaging')</span>
+        </div>
+
+    </div>
 </div>
