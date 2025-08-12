@@ -24,7 +24,7 @@
         <div class="container mx-auto px-2 sm:px-4 py-2">
             <div class="flex flex-col items-center">
 
-                <div class="w-1/2 shadow mb-5" role="alert">
+                <div class="w-3/4 lg:w-1/2 shadow mb-5" role="alert">
                     <form action="{{ route('conversions.destroy', Crypt::Encrypt($datas->id)) }}" class="block"
                         method="POST" enctype="multipart/form-data">
                         @csrf
