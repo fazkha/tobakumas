@@ -13,5 +13,8 @@ export default defineConfig({
         alias: {
             '~font': path.resolve(__dirname, 'resources/fonts')
         }
-    }
+    },
+    build: {
+        minify: 'esbuild'
+    },
 });
