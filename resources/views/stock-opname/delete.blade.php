@@ -47,7 +47,7 @@
                                     <p class="text-gray-600 font-bold">@lang('messages.confirm')</p>
                                     <p class="text-gray-600 font-bold text-sm">@lang('messages.deleteitemwarning').</p>
                                     <p class="text-gray-600 text-sm mb-5">@lang('messages.deleteitemconfirm')?</p>
-                                    <div class="flex justify-between">
+                                    <div class="flex flex-col md:flex-row gap-2 justify-between">
                                         <x-primary-button type="submit"
                                             class="bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

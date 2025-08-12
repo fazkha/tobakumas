@@ -47,7 +47,7 @@
                                     <div class="w-1/2 pb-4">
                                         <label for="subjenis_barang_id"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.typeofsubdesignation')</label>
-                                        <x-text-span>{{ $datas->subjenis_barang->nama }}</x-text-span>
+                                        <x-text-span>{{ $datas->subjenis_barang_id ? $datas->subjenis_barang->nama : '-' }}</x-text-span>
                                     </div>
                                 </div>
 
@@ -101,18 +101,24 @@
                                     <x-text-span>{{ $datas->keterangan }}</x-text-span>
                                 </div>
 
-                                <div class="flex flex-row justify-between gap-4">
-                                    <div class="w-1/2 pb-4">
+                                <div class="flex flex-row flex-wrap md:justify-between">
+                                    <div class="w-1/2 md:w-1/3 pb-4">
                                         <label for="stock"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.stock')</label>
                                         <x-text-span
                                             class="{{ $datas->stock < $datas->minstock ? 'text-white bg-red-700' : 'text-gray-900 bg-primary-50' }} {{ $datas->stock < $datas->minstock ? 'dark:text-white dark:bg-red-700' : 'dark:text-white dark:bg-primary-800' }}">{{ $datas->stock }}</x-text-span>
                                     </div>
 
-                                    <div class="w-1/2 pb-4">
+                                    <div class="w-1/2 md:w-1/3 pb-4">
                                         <label for="minstock"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.minstock')</label>
                                         <x-text-span>{{ $datas->minstock }}</x-text-span>
+                                    </div>
+
+                                    <div class="w-1/2 md:w-1/3 pb-4">
+                                        <label for="satuan_stock_id"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.unit')</label>
+                                        <x-text-span>{{ $datas->satuan_stock_id ? $datas->satuan_stock->nama_lengkap : '-' }}</x-text-span>
                                     </div>
                                 </div>
 
