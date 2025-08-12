@@ -42,6 +42,11 @@ class DeliveryOrderDetail extends Model
         return $this->belongsTo(SaleOrderDetail::class, 'sale_order_detail_id');
     }
 
+    public function view_order_detail()
+    {
+        return $this->belongsTo(ViewSaleOrderDetail::class, 'sale_order_detail_id', 'id');
+    }
+
     public function paket()
     {
         return $this->belongsTo(Paket::class);

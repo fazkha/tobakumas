@@ -431,7 +431,7 @@
                             if (result.status !== 'Not Found') {
                                 $('#targetDiv').removeClass('hidden');
                                 $('#targetDiv').addClass('block');
-                                alert('{{ __('messages.finishedproduction') }}')
+                                alert('{{ __('messages.productionfinish') }}')
                             }
                         }
                     });

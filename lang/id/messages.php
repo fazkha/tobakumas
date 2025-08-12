@@ -174,7 +174,6 @@ return [
     'rawmaterial' => 'Bahan Baku',
     'salesordernumber' => 'No. Transaksi Penjualan',
     'productiondate' => 'Tanggal Produksi',
-    'finishedproduction' => 'Produksi Selesai',
     'productionorder' => 'Pesanan',
     'delivery' => 'Pengiriman',
     'footnote' => 'Catatan kaki',
@@ -186,4 +185,5 @@ return [
     'deliveryman' => 'Petugas Pengirim',
     'packagespecification' => 'Spesifikasi Paket',
     'packagegroup' => 'Kelompok Paket',
+    'deliveryfinish' => 'Pengiriman Selesai',
 ];

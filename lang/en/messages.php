@@ -174,7 +174,6 @@ return [
     'rawmaterial' => 'Raw Material',
     'salesordernumber' => 'Sale Order No.',
     'productiondate' => 'Production Date',
-    'finishedproduction' => 'Done Production',
     'productionorder' => 'Order',
     'delivery' => 'Delivery',
     'footnote' => 'Footnote',
@@ -186,4 +185,5 @@ return [
     'deliveryman' => 'Delivery Officer',
     'packagespecification' => 'Package Specification',
     'packagegroup' => 'Package Group',
+    'deliveryfinish' => 'Done Delivery',
 ];

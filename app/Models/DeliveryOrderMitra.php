@@ -27,6 +27,11 @@ class DeliveryOrderMitra extends Model
         return $this->belongsTo(Branch::class);
     }
 
+    public function delivery_order()
+    {
+        return $this->belongsTo(DeliveryOrder::class, 'delivery_order_id');
+    }
+
     public function order()
     {
         return $this->belongsTo(SaleOrder::class, 'sale_order_id');
@@ -35,6 +40,11 @@ class DeliveryOrderMitra extends Model
     public function order_mitra()
     {
         return $this->belongsTo(SaleOrderMitra::class, 'sale_order_mitra_id');
+    }
+
+    public function view_order_mitra()
+    {
+        return $this->belongsTo(ViewSaleOrderMitra::class, 'sale_order_mitra_id', 'id');
     }
 
     public function paket()

@@ -2,23 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DeliveryOrderDetail;
+use App\Models\DeliveryOrderMitra;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 
-class DeliveryOrderDetailController extends Controller
+class DeliveryOrderMitraController extends Controller
 {
     public function update(Request $request)
     {
-        $details = $request->input('detail_id');
-        $pakets = $request->input('paket_id');
-        $barangs = $request->input('barang_id');
-        $satuans = $request->input('satuan_id');
-        $kuantitis = $request->input('kuantiti');
+        $mitras = $request->input('mitra_id');
+        $pakets = $request->input('mitra_paket_id');
+        $barangs = $request->input('mitra_barang_id');
+        $satuans = $request->input('mitra_satuan_id');
+        $kuantitis = $request->input('mitra_kuantiti');
         $i = 0;
 
-        foreach ($details as $detail) {
-            $delivery = DeliveryOrderDetail::find($detail);
+        foreach ($mitras as $mitra) {
+            $delivery = DeliveryOrderMitra::find($mitra);
             // echo $pakets[$i];
 
             $delivery->update([

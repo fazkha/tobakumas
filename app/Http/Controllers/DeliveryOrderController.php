@@ -19,6 +19,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 
 class DeliveryOrderController extends Controller implements HasMiddleware
 {
@@ -136,8 +137,14 @@ class DeliveryOrderController extends Controller implements HasMiddleware
     public function show(Request $request): View
     {
         $datas = DeliveryOrder::find(Crypt::decrypt($request->order));
+        $details = DeliveryOrderDetail::where('delivery_order_id', Crypt::decrypt($request->order))->get();
+        $mitras = DeliveryOrderMitra::where('delivery_order_id', Crypt::decrypt($request->order))->get();
+        $pakets = Paket::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
 
-        return view('delivery-order.show', compact(['datas']));
+        $syntax = 'CALL sp_hitung_kemasan(' . Crypt::decrypt($request->order) . ',' . auth()->user()->profile->branch_id . ')';
+        $kemasans = DB::select($syntax);
+
+        return view('delivery-order.show', compact(['datas', 'pakets', 'details', 'mitras', 'kemasans']));
     }
 
     public function edit(Request $request): View
@@ -152,7 +159,10 @@ class DeliveryOrderController extends Controller implements HasMiddleware
         $barangs = Barang::where('isactive', 1)->where('jenis_barang_id', $jenis->id)->orderBy('nama')->pluck('nama', 'id');
         $satuans = Satuan::where('isactive', 1)->where('id', $satuanJenis->satuan_stock_id)->pluck('singkatan', 'id');
 
-        return view('delivery-order.edit', compact(['datas', 'petugas', 'pakets', 'barangs', 'satuans', 'details', 'mitras']));
+        $syntax = 'CALL sp_hitung_kemasan(' . Crypt::decrypt($request->order) . ',' . auth()->user()->profile->branch_id . ')';
+        $kemasans = DB::select($syntax);
+
+        return view('delivery-order.edit', compact(['datas', 'petugas', 'pakets', 'barangs', 'satuans', 'details', 'mitras', 'kemasans']));
     }
 
     public function update(DeliveryOrderUpdateRequest $request): RedirectResponse
@@ -188,8 +198,14 @@ class DeliveryOrderController extends Controller implements HasMiddleware
         //
     }
 
-    public function updateDetail(Request $request)
+    public function finishOrder(Request $request): JsonResponse
     {
-        //
+        $syntax = 'CALL sp_finish_pengemasan(' . $request->order . ',\'' . auth()->user()->email . '\',' . auth()->user()->profile->branch_id . ')';
+
+        $finish = DB::select($syntax);
+
+        return response()->json([
+            'status' => 'success',
+        ], 200);
     }
 }
