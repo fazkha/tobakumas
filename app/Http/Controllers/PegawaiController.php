@@ -6,6 +6,7 @@ use App\Models\Branch;
 use App\Models\Pegawai;
 use App\Http\Requests\PegawaiRequest;
 use App\Http\Requests\PegawaiUpdateRequest;
+use App\Models\Jabatan;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -123,8 +124,10 @@ class PegawaiController extends Controller implements HasMiddleware
     {
         $branch_id = auth()->user()->profile->branch_id;
         $branch = Branch::find($branch_id);
+        $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+        $jabatans = Jabatan::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
 
-        return view('pegawai.create', compact('branch_id', 'branch'));
+        return view('pegawai.create', compact('branch_id', 'branch', 'branches', 'jabatans'));
     }
 
     public function store(PegawaiRequest $request): RedirectResponse
@@ -132,6 +135,7 @@ class PegawaiController extends Controller implements HasMiddleware
         if ($request->validated()) {
             $pegawai = Pegawai::create([
                 'branch_id' => $request->branch_id,
+                'jabatan_id' => $request->jabatan_id,
                 'nama_lengkap' => $request->nama_lengkap,
                 'alamat_tinggal' => $request->alamat_tinggal,
                 'telpon' => $request->telpon,
@@ -160,8 +164,10 @@ class PegawaiController extends Controller implements HasMiddleware
     public function edit(Request $request): View
     {
         $datas = Pegawai::find(Crypt::decrypt($request->employee));
+        $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+        $jabatans = Jabatan::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
 
-        return view('pegawai.edit', compact(['datas']));
+        return view('pegawai.edit', compact(['datas', 'branches', 'jabatans']));
     }
 
     public function update(PegawaiUpdateRequest $request): RedirectResponse
@@ -170,6 +176,8 @@ class PegawaiController extends Controller implements HasMiddleware
 
         if ($request->validated()) {
             $pegawai->update([
+                'branch_id' => $request->branch_id,
+                'jabatan_id' => $request->jabatan_id,
                 'nama_lengkap' => $request->nama_lengkap,
                 'alamat_tinggal' => $request->alamat_tinggal,
                 'telpon' => $request->telpon,

@@ -186,4 +186,5 @@ return [
     'packagespecification' => 'Spesifikasi Paket',
     'packagegroup' => 'Kelompok Paket',
     'deliveryfinish' => 'Pengiriman Selesai',
+    'jobposition' => 'Jabatan',
 ];

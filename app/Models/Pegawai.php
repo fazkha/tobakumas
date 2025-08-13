@@ -11,6 +11,7 @@ class Pegawai extends Model
 
     protected $fillable = [
         'branch_id',
+        'jabatan_id',
         'nama_lengkap',
         'alamat_tinggal',
         'telpon',
@@ -24,5 +25,10 @@ class Pegawai extends Model
     public function branch()
     {
         return $this->belongsTo(Branch::class);
+    }
+
+    public function jabatan()
+    {
+        return $this->belongsTo(Jabatan::class);
     }
 }

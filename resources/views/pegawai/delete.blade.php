@@ -1,23 +1,19 @@
 @php
     use Illuminate\Support\Facades\Crypt;
 @endphp
-@section('title', __('messages.customer'))
+@section('title', __('messages.employee'))
 
 <x-app-layout>
     <div class="flex items-center justify-between px-4 py-4 border-b border-primary-100 lg:py-6 dark:border-primary-800">
         <h1 class="text-xl flex items-center justify-center">
-            <a href="{{ route('customer.index') }}" class="flex items-center justify-center">
-                <svg fill="currentColor" class="w-7 h-7" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+            <a href="{{ route('employee.index') }}" class="flex items-center justify-center">
+                <svg fill="currentColor" class="size-7" viewBox="0 0 32 32" version="1.1"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <title>users</title>
                     <path
-                        d="M106.544 501.695l385.403-380.262c11.913-11.754 31.079-11.722 42.955.075l382.71 380.14c8.025 7.971 20.992 7.927 28.963-.098s7.927-20.992-.098-28.963l-382.71-380.14c-27.811-27.625-72.687-27.7-100.589-.171L77.775 472.539c-8.051 7.944-8.139 20.911-.194 28.962s20.911 8.139 28.962.194z" />
-                    <path
-                        d="M783.464 362.551v517.12c0 16.962-13.758 30.72-30.72 30.72h-481.28c-16.962 0-30.72-13.758-30.72-30.72v-517.12c0-11.311-9.169-20.48-20.48-20.48s-20.48 9.169-20.48 20.48v517.12c0 39.583 32.097 71.68 71.68 71.68h481.28c39.583 0 71.68-32.097 71.68-71.68v-517.12c0-11.311-9.169-20.48-20.48-20.48s-20.48 9.169-20.48 20.48z" />
-                    <path
-                        d="M551.175 473.257l-27.341 53.8c-5.124 10.083-1.104 22.412 8.979 27.536s22.412 1.104 27.536-8.979l28.549-56.177c14.571-28.693-2.885-57.14-35.061-57.14h-83.466c-32.176 0-49.632 28.447-35.064 57.135l28.552 56.182c5.124 10.083 17.453 14.103 27.536 8.979s14.103-17.453 8.979-27.536l-27.341-53.8h78.143z" />
-                    <path
-                        d="M594.039 777.562c38.726 0 70.124-31.395 70.124-70.124 0-80.871-66.26-147.128-147.139-147.128h-9.841c-80.879 0-147.139 66.257-147.139 147.128 0 38.728 31.398 70.124 70.124 70.124h163.871zm0 40.96H430.168c-61.347 0-111.084-49.733-111.084-111.084 0-103.493 84.599-188.088 188.099-188.088h9.841c103.5 0 188.099 84.595 188.099 188.088 0 61.35-49.737 111.084-111.084 111.084z" />
+                        d="M16 21.416c-5.035 0.022-9.243 3.537-10.326 8.247l-0.014 0.072c-0.018 0.080-0.029 0.172-0.029 0.266 0 0.69 0.56 1.25 1.25 1.25 0.596 0 1.095-0.418 1.22-0.976l0.002-0.008c0.825-3.658 4.047-6.35 7.897-6.35s7.073 2.692 7.887 6.297l0.010 0.054c0.127 0.566 0.625 0.982 1.221 0.982 0.69 0 1.25-0.559 1.25-1.25 0-0.095-0.011-0.187-0.031-0.276l0.002 0.008c-1.098-4.78-5.305-8.295-10.337-8.316h-0.002zM9.164 11.102c0 0 0 0 0 0 2.858 0 5.176-2.317 5.176-5.176s-2.317-5.176-5.176-5.176c-2.858 0-5.176 2.317-5.176 5.176v0c0.004 2.857 2.319 5.172 5.175 5.176h0zM9.164 3.25c0 0 0 0 0 0 1.478 0 2.676 1.198 2.676 2.676s-1.198 2.676-2.676 2.676c-1.478 0-2.676-1.198-2.676-2.676v0c0.002-1.477 1.199-2.674 2.676-2.676h0zM22.926 11.102c2.858 0 5.176-2.317 5.176-5.176s-2.317-5.176-5.176-5.176c-2.858 0-5.176 2.317-5.176 5.176v0c0.004 2.857 2.319 5.172 5.175 5.176h0zM22.926 3.25c1.478 0 2.676 1.198 2.676 2.676s-1.198 2.676-2.676 2.676c-1.478 0-2.676-1.198-2.676-2.676v0c0.002-1.477 1.199-2.674 2.676-2.676h0zM31.311 19.734c-0.864-4.111-4.46-7.154-8.767-7.154-0.395 0-0.784 0.026-1.165 0.075l0.045-0.005c-0.93-2.116-3.007-3.568-5.424-3.568-2.414 0-4.49 1.448-5.407 3.524l-0.015 0.038c-0.266-0.034-0.58-0.057-0.898-0.063l-0.009-0c-4.33 0.019-7.948 3.041-8.881 7.090l-0.012 0.062c-0.018 0.080-0.029 0.173-0.029 0.268 0 0.691 0.56 1.251 1.251 1.251 0.596 0 1.094-0.417 1.22-0.975l0.002-0.008c0.684-2.981 3.309-5.174 6.448-5.186h0.001c0.144 0 0.282 0.020 0.423 0.029 0.056 3.218 2.679 5.805 5.905 5.805 3.224 0 5.845-2.584 5.905-5.794l0-0.006c0.171-0.013 0.339-0.035 0.514-0.035 3.14 0.012 5.765 2.204 6.442 5.14l0.009 0.045c0.126 0.567 0.625 0.984 1.221 0.984 0.69 0 1.249-0.559 1.249-1.249 0-0.094-0.010-0.186-0.030-0.274l0.002 0.008zM16 18.416c-0 0-0 0-0.001 0-1.887 0-3.417-1.53-3.417-3.417s1.53-3.417 3.417-3.417c1.887 0 3.417 1.53 3.417 3.417 0 0 0 0 0 0.001v-0c-0.003 1.886-1.53 3.413-3.416 3.416h-0z" />
                 </svg>
-                <span class="px-2">@lang('messages.customer')</span>
+                <span class="px-2">@lang('messages.employee')</span>
             </a>
             <span class="px-2">&raquo;</span>
             <span class="px-2 font-semibold">@lang('messages.delete')</span>
@@ -29,7 +25,7 @@
             <div class="flex flex-col items-center">
 
                 <div class="w-3/4 lg:w-1/2 shadow mb-5" role="alert">
-                    <form action="{{ route('customer.destroy', Crypt::Encrypt($datas->id)) }}" class="block"
+                    <form action="{{ route('employee.destroy', Crypt::Encrypt($datas->id)) }}" class="block"
                         method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('DELETE')
@@ -59,7 +55,7 @@
                                             </svg>
                                             <span class="pl-1">@lang('messages.delete')</span>
                                         </x-primary-button>
-                                        <x-anchor-secondary href="{{ route('customer.index') }}" tabindex="1"
+                                        <x-anchor-secondary href="{{ route('employee.index') }}" tabindex="1"
                                             autofocus>
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="size-5">
@@ -85,34 +81,45 @@
                                 <div class="w-auto pb-4">
                                     <label for="branch_id"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.branch')</label>
-                                    <input type="hidden" name="branch_id" value="{{ $datas->branch_id }}" />
                                     <x-text-span>{{ $datas->branch->nama }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
-                                    <label for="kode"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.customercode')</label>
-                                    <x-text-span>{{ $datas->kode }}</x-text-span>
+                                    <label for="nama_lengkap"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.fullname')</label>
+                                    <x-text-span>{{ $datas->nama_lengkap }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
-                                    <label for="nama"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.customername')</label>
-                                    <x-text-span>{{ $datas->nama }}</x-text-span>
+                                    <label for="alamat_tinggal"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.residentialaddress')</label>
+                                    <x-text-span>{{ $datas->alamat_tinggal }}</x-text-span>
+                                </div>
+
+                                <div class="w-auto pb-4">
+                                    <label for="telpon"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.phonenumber')</label>
+                                    <x-text-span>{{ $datas->telpon }}</x-text-span>
                                 </div>
                             </div>
 
                             <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
                                 <div class="w-auto pb-4">
-                                    <label for="alamat"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.customeraddress')</label>
-                                    <x-text-span>{{ $datas->alamat }}</x-text-span>
+                                    <label
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.gender')</label>
+                                    <x-text-span>{{ $datas->kelamin == 'L' ? 'Laki-laki' : 'Perempuan' }}</x-text-span>
+                                </div>
+
+                                <div class="w-auto pb-4">
+                                    <label for="jabatan_id"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.jobposition')</label>
+                                    <x-text-span>{{ $datas->jabatan->nama }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4 lg:pb-12">
                                     <label for="keterangan"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</label>
-                                    <x-text-span>{{ $datas->keterangan ? $datas->keterangan : '...' }}</x-text-span>
+                                    <x-text-span>{{ $datas->keterangan }}</x-text-span>
                                 </div>
 
                                 <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
@@ -128,7 +135,7 @@
                                         </div>
                                     </div>
 
-                                    <x-anchor-secondary href="{{ route('customer.index') }}" tabindex="2">
+                                    <x-anchor-secondary href="{{ route('employee.index') }}" tabindex="7">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-5">
                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -139,7 +146,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
 

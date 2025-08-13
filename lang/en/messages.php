@@ -186,4 +186,5 @@ return [
     'packagespecification' => 'Package Specification',
     'packagegroup' => 'Package Group',
     'deliveryfinish' => 'Done Delivery',
+    'jobposition' => 'Job Position',
 ];
