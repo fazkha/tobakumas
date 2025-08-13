@@ -1,5 +1,4 @@
 @php
-    $i = 0;
     use Illuminate\Support\Facades\Crypt;
 @endphp
 
