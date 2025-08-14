@@ -70,6 +70,7 @@ return [
     'ooops' => 'Maaf',
     'accessdenied' => 'Akses Ditolak',
     'gotodashboard' => 'Kembali ke Dashboard',
+    'gotolanding' => 'Keluar Pekarangan',
     'pagenotfound' => 'Halaman Tidak Ditemukan',
     'wearesorrypagenotfound' => 'Kami minta maaf, akan tetapi halaman yang anda inginkan tidak ditemukan',
     'theme' => 'Tema',

@@ -38,6 +38,10 @@ return Application::configure(basePath: dirname(__DIR__))
                 return response()->view("errors.404", [], 404);
             }
 
+            if ($exception->getStatusCode() == 419) {
+                return response()->view("errors.419", [], 419);
+            }
+
             //     if ($exception->getStatusCode() == 500) {
             //         return response()->view("errors.500", [], 500);
             //     }

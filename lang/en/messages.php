@@ -70,6 +70,7 @@ return [
     'ooops' => 'Ooops',
     'accessdenied' => 'Access Denied',
     'gotodashboard' => 'Go to Dashboard',
+    'gotolanding' => 'Go to Landing',
     'pagenotfound' => 'Page Not Found',
     'wearesorrypagenotfound' => 'We are sorry, but the page you requested was not found',
     'theme' => 'Theme',
