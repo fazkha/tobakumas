@@ -443,7 +443,7 @@
         }
 
         .min-h-screen {
-            min-height: 100vh
+            min-height: 90vh
         }
 
         .w-full {
@@ -931,7 +931,7 @@
                             @else
                                 <a href="{{ route('login') }}"
                                     class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white dark:focus-visible:ring-white">
-                                    Log in
+                                    Login
                                 </a>
 
                                 @if (Route::has('register'))
@@ -949,7 +949,7 @@
                 </main>
             </div>
 
-            <footer style="padding-bottom: 12px;" class="text-left text-sm text-black dark:text-white">
+            <footer style="margin-bottom: 12px;" class="text-left text-sm text-black dark:text-white">
                 <div style="margin-left: 20px;">&copy; Copyright 2025 {{ config('custom.company_name') }}.<br />All
                     rights reserved.</div>
                 {{-- <div>Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})</div> --}}
