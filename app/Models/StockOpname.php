@@ -17,6 +17,9 @@ class StockOpname extends Model
         'petugas_2_id',
         'tanggungjawab_id',
         'keterangan',
+        'approved',
+        'approved_by',
+        'approved_at',
         'created_by',
         'updated_by',
     ];

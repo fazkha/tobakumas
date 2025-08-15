@@ -79,7 +79,7 @@ class SaleOrderController extends Controller implements HasMiddleware
             }
         }
 
-        $datas = $datas->where('ispackaged', 0)->where('branch_id', auth()->user()->profile->branch_id);
+        $datas = $datas->where('branch_id', auth()->user()->profile->branch_id);
         $datas = $datas->latest()->paginate(session('sale-order_pp'));
 
         if ($request->page && $datas->count() == 0) {
@@ -125,7 +125,7 @@ class SaleOrderController extends Controller implements HasMiddleware
             }
         }
 
-        $datas = $datas->where('ispackaged', 0)->where('branch_id', auth()->user()->profile->branch_id);
+        $datas = $datas->where('branch_id', auth()->user()->profile->branch_id);
         $datas = $datas->latest()->paginate(session('sale-order_pp'));
 
         $datas->withPath('/sale/order'); // pagination url to

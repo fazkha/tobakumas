@@ -137,6 +137,9 @@ class StockOpnameController extends Controller implements HasMiddleware
                 'keterangan' => $request->keterangan,
                 'created_by' => auth()->user()->email,
                 'updated_by' => auth()->user()->email,
+                'approved' => (config('custom.stockopname_approval') == false) ? 1 : 0,
+                'approved_by' => (config('custom.stockopname_approval') == false) ? 'system' : NULL,
+                'approved_at' => (config('custom.stockopname_approval') == false) ? date('Y-m-d H:i:s') : NULL,
             ]);
 
             return redirect()->route('stock-opname.edit', Crypt::encrypt($stock->id));
