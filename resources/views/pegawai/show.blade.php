@@ -37,12 +37,6 @@
                             <div class="w-full lg:w-1/2 px-2">
 
                                 <div class="w-auto pb-4">
-                                    <label for="branch_id"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.branch')</label>
-                                    <x-text-span>{{ $datas->branch->nama }}</x-text-span>
-                                </div>
-
-                                <div class="w-auto pb-4">
                                     <label for="nama_lengkap"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.fullname')</label>
                                     <x-text-span>{{ $datas->nama_lengkap }}</x-text-span>
@@ -66,12 +60,6 @@
                                     <label
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.gender')</label>
                                     <x-text-span>{{ $datas->kelamin == 'L' ? 'Laki-laki' : 'Perempuan' }}</x-text-span>
-                                </div>
-
-                                <div class="w-auto pb-4">
-                                    <label for="jabatan_id"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.jobposition')</label>
-                                    <x-text-span>{{ $datas->jabatan->nama }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4 lg:pb-12">
@@ -108,6 +96,67 @@
                 </div>
             </div>
 
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-4 px-4 py-2">
+            <div class="w-full">
+                <div class="flex flex-col items-center">
+
+                    {{-- Jabatan --}}
+                    <div
+                        class="w-full shadow-lg rounded-md border bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
+                        <div class="p-4 space-y-2">
+                            <div class="flex flex-row items-center gap-2">
+                                <svg fill="currentColor" class="size-5" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68a1,1,0,0,0,.4,1,1,1,0,0,0,1.05.07L12,18.76l5.1,2.68a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.89l.72,4.19-3.76-2a1,1,0,0,0-.94,0l-3.76,2,.72-4.19a1,1,0,0,0-.29-.89l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z" />
+                                </svg>
+                                <span class="block font-medium text-primary-600 dark:text-primary-500">
+                                    @lang('messages.jobposition')
+                                </span>
+                            </div>
+
+                            <div
+                                class="border rounded-md border-primary-100 bg-primary-100 dark:border-primary-800 dark:bg-primary-850">
+                                <div class="p-2 overflow-scroll md:overflow-auto lg:overflow-hidden">
+                                    <table id="jabatan_table" class="w-full border-separate border-spacing-2">
+                                        <thead>
+                                            <tr>
+                                                <th class="w-1/6">@lang('messages.branch')</th>
+                                                <th class="w-1/6">@lang('messages.division')</th>
+                                                <th class="w-1/6">@lang('messages.jobposition')</th>
+                                                <th class="w-1/12">@lang('messages.startdate')</th>
+                                                <th class="w-1/12">@lang('messages.enddate')</th>
+                                                <th class="w-auto">@lang('messages.description')</th>
+                                                <th class="w-auto">@lang('messages.active')</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody id="jabatanBody">
+                                            @include('pegawai.partials.details', [
+                                                $details,
+                                                'viewMode' => true,
+                                            ])
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="mt-4 mb-4 mr-4 flex flex-row flex-wrap justify-end gap-2 md:gap-4">
+                                    <x-anchor-secondary href="{{ route('employee.index') }}" tabindex="24">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="size-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M6 18 18 6M6 6l12 12" />
+                                        </svg>
+                                        <span class="pl-1">@lang('messages.close')</span>
+                                    </x-anchor-secondary>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

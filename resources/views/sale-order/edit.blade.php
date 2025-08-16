@@ -354,8 +354,7 @@
                         <div
                             class="w-full shadow-lg rounded-md border bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
                             <div class="p-4 space-y-2">
-                                <div class="flex flex-row
-                            items-center gap-2">
+                                <div class="flex flex-row items-center gap-2">
                                     <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path

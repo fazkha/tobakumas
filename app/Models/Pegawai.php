@@ -10,8 +10,6 @@ class Pegawai extends Model
     protected $table = 'pegawais';
 
     protected $fillable = [
-        'branch_id',
-        'jabatan_id',
         'nama_lengkap',
         'alamat_tinggal',
         'telpon',
@@ -27,8 +25,8 @@ class Pegawai extends Model
         return $this->belongsTo(Branch::class);
     }
 
-    public function jabatan()
+    public function jabatan_pegawai()
     {
-        return $this->belongsTo(Jabatan::class);
+        return $this->hasMany(JabatanPegawai::class);
     }
 }

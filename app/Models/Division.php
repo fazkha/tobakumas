@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Jabatan extends Model
+class Division extends Model
 {
     protected $guarded = [];
-    protected $table = 'jabatans';
+    protected $table = 'divisions';
 
     protected $fillable = [
         'nama',

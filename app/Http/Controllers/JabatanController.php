@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Jabatan;
-use App\Http\Requests\StoreJabatanRequest;
-use App\Http\Requests\UpdateJabatanRequest;
+use App\Http\Requests\JabatanRequest;
 
 class JabatanController extends Controller
 {
@@ -27,7 +26,7 @@ class JabatanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreJabatanRequest $request)
+    public function store(JabatanRequest $request)
     {
         //
     }
@@ -51,7 +50,7 @@ class JabatanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateJabatanRequest $request, Jabatan $jabatan)
+    public function update(JabatanRequest $request, Jabatan $jabatan)
     {
         //
     }

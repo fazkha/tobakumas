@@ -37,27 +37,6 @@
                                 <div class="w-full lg:w-1/2 px-2">
 
                                     <div class="w-auto pb-4">
-                                        <label for="branch_id"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.branch')</label>
-                                        @if (auth()->user()->role('Admin'))
-                                            <select name="branch_id" id="branch_id" tabindex="1" required autofocus
-                                                class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
-                                                <option value="">@lang('messages.choose')...</option>
-                                                @foreach ($branches as $id => $name)
-                                                    <option value="{{ $id }}"
-                                                        {{ old('branch_id') === $id ? 'selected' : '' }}>
-                                                        {{ $name }}</option>
-                                                @endforeach
-                                            </select>
-
-                                            <x-input-error class="mt-2" :messages="$errors->get('branch_id')" />
-                                        @else
-                                            <input type="hidden" name="branch_id" value="{{ $branch_id }}" />
-                                            <x-text-span>{{ $branch->nama }}</x-text-span>
-                                        @endif
-                                    </div>
-
-                                    <div class="w-auto pb-4">
                                         <label for="nama"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.fullname')</label>
                                         <x-text-input type="text" name="nama_lengkap" id="nama_lengkap"
@@ -117,27 +96,10 @@
                                         </x-text-span>
                                     </div>
 
-                                    <div class="w-auto pb-4">
-                                        <label for="jabatan_id"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.jobposition')</label>
-                                        <select name="jabatan_id" id="jabatan_id" tabindex="1" required autofocus
-                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
-                                            <option value="">@lang('messages.choose')...</option>
-                                            @foreach ($jabatans as $id => $name)
-                                                <option value="{{ $id }}"
-                                                    {{ old('jabatan_id') === $id ? 'selected' : '' }}>
-                                                    {{ $name }}</option>
-                                            @endforeach
-                                        </select>
-
-                                        <x-input-error class="mt-2" :messages="$errors->get('jabatan_id')" />
-                                    </div>
-
                                     <div class="w-auto pb-4 lg:pb-12">
                                         <label for="keterangan"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</label>
-                                        <x-text-input type="text" name="keterangan" id="keterangan"
-                                            tabindex="4"
+                                        <x-text-input type="text" name="keterangan" id="keterangan" tabindex="4"
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.description') }}"
                                             value="{{ old('keterangan') }}" />
 
@@ -147,7 +109,7 @@
                                     <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
                                         <div class="dark:bg-black/10">
                                             <label class="cursor-pointer flex flex-col md:flex-row md:gap-2">
-                                                <input type="checkbox" id="isactive" name="isactive"
+                                                <input type="checkbox" id="isactive" name="isactive" tabindex="5"
                                                     class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-7 h-7"
                                                     checked>
                                                 <span
@@ -158,9 +120,8 @@
                                         </div>
 
                                         <x-primary-button type="submit" class="block" tabindex="6">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                class="size-5">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor" class="size-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
                                             </svg>
@@ -181,7 +142,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </form>

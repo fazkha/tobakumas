@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Branch;
 use App\Models\Pegawai;
+use App\Models\Division;
+use App\Models\Jabatan;
+use App\Models\JabatanPegawai;
 use App\Http\Requests\PegawaiRequest;
 use App\Http\Requests\PegawaiUpdateRequest;
-use App\Models\Jabatan;
+use App\Http\Requests\JabatanPegawaiRequest;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -122,20 +125,13 @@ class PegawaiController extends Controller implements HasMiddleware
 
     public function create(): View
     {
-        $branch_id = auth()->user()->profile->branch_id;
-        $branch = Branch::find($branch_id);
-        $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $jabatans = Jabatan::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-
-        return view('pegawai.create', compact('branch_id', 'branch', 'branches', 'jabatans'));
+        return view('pegawai.create');
     }
 
     public function store(PegawaiRequest $request): RedirectResponse
     {
         if ($request->validated()) {
             $pegawai = Pegawai::create([
-                'branch_id' => $request->branch_id,
-                'jabatan_id' => $request->jabatan_id,
                 'nama_lengkap' => $request->nama_lengkap,
                 'alamat_tinggal' => $request->alamat_tinggal,
                 'telpon' => $request->telpon,
@@ -147,7 +143,7 @@ class PegawaiController extends Controller implements HasMiddleware
             ]);
 
             if ($pegawai) {
-                return redirect()->back()->with('success', __('messages.successadded') . ' 👉 ' . $request->nama_lengkap);
+                return redirect()->route('employee.edit', Crypt::encrypt($pegawai->id))->with('success', __('messages.successadded') . ' 👉 ' . $request->nama_lengkap);
             }
         }
 
@@ -157,17 +153,20 @@ class PegawaiController extends Controller implements HasMiddleware
     public function show(Request $request): View
     {
         $datas = Pegawai::find(Crypt::decrypt($request->employee));
+        $details = JabatanPegawai::where('pegawai_id', Crypt::decrypt($request->employee))->get();
 
-        return view('pegawai.show', compact(['datas']));
+        return view('pegawai.show', compact(['datas', 'details']));
     }
 
     public function edit(Request $request): View
     {
         $datas = Pegawai::find(Crypt::decrypt($request->employee));
+        $details = JabatanPegawai::where('pegawai_id', Crypt::decrypt($request->employee))->get();
         $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+        $divisions = Division::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $jabatans = Jabatan::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
 
-        return view('pegawai.edit', compact(['datas', 'branches', 'jabatans']));
+        return view('pegawai.edit', compact(['datas', 'details', 'branches', 'divisions', 'jabatans']));
     }
 
     public function update(PegawaiUpdateRequest $request): RedirectResponse
@@ -176,8 +175,6 @@ class PegawaiController extends Controller implements HasMiddleware
 
         if ($request->validated()) {
             $pegawai->update([
-                'branch_id' => $request->branch_id,
-                'jabatan_id' => $request->jabatan_id,
                 'nama_lengkap' => $request->nama_lengkap,
                 'alamat_tinggal' => $request->alamat_tinggal,
                 'telpon' => $request->telpon,
@@ -196,10 +193,11 @@ class PegawaiController extends Controller implements HasMiddleware
     public function delete(Request $request): View
     {
         $pegawai = Pegawai::find(Crypt::decrypt($request->employee));
+        $details = JabatanPegawai::where('pegawai_id', Crypt::decrypt($request->employee))->get();
 
         $datas = $pegawai;
 
-        return view('pegawai.delete', compact(['datas']));
+        return view('pegawai.delete', compact(['datas', 'details']));
     }
 
     public function destroy(Request $request): RedirectResponse
@@ -217,5 +215,70 @@ class PegawaiController extends Controller implements HasMiddleware
 
         return redirect()->route('pegawai.index')
             ->with('success', __('messages.successdeleted') . ' 👉 ' . $pegawai->nama_lengkap);
+    }
+
+    public function storeJabatan(JabatanPegawaiRequest $request): JsonResponse
+    {
+        if ($request->validated()) {
+            $jabatan = JabatanPegawai::create([
+                'branch_id' => $request->branch_id,
+                'division_id' => $request->division_id,
+                'pegawai_id' => $request->pegawai_id,
+                'jabatan_id' => $request->jabatan_id,
+                'tanggal_mulai' => $request->tanggal_mulai,
+                'tanggal_akhir' => $request->tanggal_akhir,
+                'keterangan' => $request->keterangan,
+                'isactive' => ($request->isactive == 'on' ? 1 : 0),
+                'created_by' => auth()->user()->email,
+                'updated_by' => auth()->user()->email,
+            ]);
+
+            if ($jabatan) {
+                $details = JabatanPegawai::where('pegawai_id', $request->pegawai_id)->get();
+                $viewMode = false;
+
+                $view = view('pegawai.partials.details', compact(['details', 'viewMode']))->render();
+
+                return response()->json([
+                    'view' => $view,
+                ], 200);
+            }
+        }
+
+        return response()->json([
+            'status' => 'Not Found',
+        ], 400);
+    }
+
+    public function deleteJabatan(Request $request): JsonResponse
+    {
+        $detail = JabatanPegawai::find($request->jabatan);
+        $pegawai = Pegawai::where('id', $detail->pegawai_id)->get();
+
+        $pegawai_id = $detail->pegawai_id;
+        $view = [];
+
+        try {
+            $detail->delete();
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json(['status' => 'Not Found'], 404);
+        }
+
+        $details = JabatanPegawai::where('pegawai_id', $pegawai_id)->get();
+        $viewMode = false;
+
+        if ($details->count() > 0) {
+            $view = view('pegawai.partials.details', compact(['details', 'viewMode']))->render();
+        }
+
+        if ($view) {
+            return response()->json([
+                'view' => $view,
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 'Not Found',
+            ], 200);
+        }
     }
 }

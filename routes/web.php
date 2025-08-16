@@ -8,6 +8,7 @@ use App\Http\Controllers\DeliveryOrderDetailController;
 use App\Http\Controllers\DeliveryOrderMitraController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\GudangController;
+use App\Http\Controllers\JabatanPegawaiController;
 use App\Http\Controllers\KonversiController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\ProdOrderController;
@@ -118,6 +119,8 @@ Route::prefix('human-resource')->middleware('auth')->group(function () {
     Route::resource('employee', PegawaiController::class);
     Route::get('employee/{employee}/delete', [PegawaiController::class, 'delete'])->name('employee.delete');
     Route::get('employee/fetchdb/{pp}/{isactive}/{kelamin}/{nama_lengkap}/{alamat_tinggal}/{telpon}', [PegawaiController::class, 'fetchdb'])->defaults('nama_lengkap', '_')->defaults('alamat_tinggal', '_')->defaults('telpon', '_');
+    Route::post('employee/store-jabatan/{employee}', [PegawaiController::class, 'storeJabatan']);
+    Route::delete('employee/delete-jabatan/{jabatan}', [PegawaiController::class, 'deleteJabatan']);
 })->missing(function (Request $request) {
     return Redirect::route('dashboard');
 });

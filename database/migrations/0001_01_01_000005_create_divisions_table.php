@@ -11,15 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pegawais', function (Blueprint $table) {
+        Schema::create('divisions', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_lengkap');
-            $table->string('alamat_tinggal');
-            $table->string('telpon');
-            $table->date('tanggal_lahir')->nullable();
-            $table->char('kelamin', 1)->default('L');
+            $table->string('nama');
             $table->string('keterangan')->nullable();
-            $table->tinyInteger('isactive')->default(0);
+            $table->unsignedTinyInteger('isactive')->default(0);
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->timestamps();
@@ -31,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pegawais');
+        Schema::dropIfExists('divisions');
     }
 };

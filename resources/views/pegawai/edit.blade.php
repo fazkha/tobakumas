@@ -20,19 +20,19 @@
         </h1>
     </div>
 
-    <form action="{{ route('employee.update', Crypt::Encrypt($datas->id)) }}" method="POST"
-        enctype="multipart/form-data">
-        @csrf
-        @method('PUT')
+    <div class="py-2 flex flex-col">
 
-        <div class="py-2 flex flex-col">
+        <div class="w-full px-4 py-2">
+            <div class="flex flex-col items-center">
 
-            <div class="w-full px-4 py-2">
-                <div class="flex flex-col items-center">
+                <div class="w-full" role="alert">
+                    @include('pegawai.partials.feedback')
+                </div>
 
-                    <div class="w-full" role="alert">
-                        @include('pegawai.partials.feedback')
-                    </div>
+                <form id="master-form" action="{{ route('employee.update', Crypt::Encrypt($datas->id)) }}"
+                    method="POST" enctype="multipart/form-data" class="w-full">
+                    @csrf
+                    @method('PUT')
 
                     <div
                         class="w-full shadow-lg bg-primary-50 rounded-md border border-primary-100 dark:bg-primary-900 dark:border-primary-800">
@@ -40,27 +40,6 @@
 
                             <div class="flex flex-col lg:flex-row">
                                 <div class="w-full lg:w-1/2 px-2">
-
-                                    <div class="w-auto pb-4">
-                                        <label for="branch_id"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.branch')</label>
-                                        @if (auth()->user()->role('Admin'))
-                                            <select name="branch_id" id="branch_id" tabindex="1" required autofocus
-                                                class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
-                                                <option value="">@lang('messages.choose')...</option>
-                                                @foreach ($branches as $id => $name)
-                                                    <option value="{{ $id }}"
-                                                        {{ old('branch_id', $datas->branch_id) === $id ? 'selected' : '' }}>
-                                                        {{ $name }}</option>
-                                                @endforeach
-                                            </select>
-
-                                            <x-input-error class="mt-2" :messages="$errors->get('branch_id')" />
-                                        @else
-                                            <input type="hidden" name="branch_id" value="{{ $datas->branch_id }}" />
-                                            <x-text-span>{{ $datas->branch->nama }}</x-text-span>
-                                        @endif
-                                    </div>
 
                                     <div class="w-auto pb-4">
                                         <label for="nama_lengkap"
@@ -124,27 +103,10 @@
                                         </x-text-span>
                                     </div>
 
-                                    <div class="w-auto pb-4">
-                                        <label for="jabatan_id"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.jobposition')</label>
-                                        <select name="jabatan_id" id="jabatan_id" tabindex="1" required autofocus
-                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
-                                            <option value="">@lang('messages.choose')...</option>
-                                            @foreach ($jabatans as $id => $name)
-                                                <option value="{{ $id }}"
-                                                    {{ old('jabatan_id', $datas->jabatan_id) === $id ? 'selected' : '' }}>
-                                                    {{ $name }}</option>
-                                            @endforeach
-                                        </select>
-
-                                        <x-input-error class="mt-2" :messages="$errors->get('jabatan_id')" />
-                                    </div>
-
                                     <div class="w-auto pb-4 lg:pb-12">
                                         <label for="keterangan"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</label>
-                                        <x-text-input type="text" name="keterangan" id="keterangan"
-                                            tabindex="4"
+                                        <x-text-input type="text" name="keterangan" id="keterangan" tabindex="4"
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.description') }}"
                                             value="{{ old('keterangan', $datas->keterangan) }}" />
 
@@ -165,9 +127,8 @@
                                         </div>
 
                                         <x-primary-button type="submit" class="block" tabindex="6">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                class="size-5">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor" class="size-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
                                             </svg>
@@ -187,12 +148,246 @@
                             </div>
                         </div>
                     </div>
-                </div>
-
+                </form>
             </div>
         </div>
-    </form>
+
+        <div class="flex flex-col lg:flex-row gap-4 px-4 py-2">
+            <div class="w-full">
+                <div class="flex flex-col items-center">
+
+                    <form id="jabatan-form" method="POST" enctype="multipart/form-data" class="w-full">
+                        @csrf
+
+                        {{-- Jabatan --}}
+                        <div
+                            class="w-full shadow-lg rounded-md border bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
+                            <div class="p-4 space-y-2">
+                                <div class="flex flex-row items-center gap-2">
+                                    <svg fill="currentColor" class="size-5" viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68a1,1,0,0,0,.4,1,1,1,0,0,0,1.05.07L12,18.76l5.1,2.68a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.89l.72,4.19-3.76-2a1,1,0,0,0-.94,0l-3.76,2,.72-4.19a1,1,0,0,0-.29-.89l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z" />
+                                    </svg>
+                                    <span class="block font-medium text-primary-600 dark:text-primary-500">
+                                        @lang('messages.jobposition')
+                                    </span>
+                                </div>
+
+                                <div
+                                    class="border rounded-md border-primary-100 bg-primary-100 dark:border-primary-800 dark:bg-primary-850">
+                                    <div class="p-2 overflow-scroll md:overflow-auto lg:overflow-hidden">
+                                        <table id="jabatan_table" class="w-full border-separate border-spacing-2">
+                                            <thead>
+                                                <tr>
+                                                    <th class="w-1/6">@lang('messages.branch')</th>
+                                                    <th class="w-1/6">@lang('messages.division')</th>
+                                                    <th class="w-1/6">@lang('messages.jobposition')</th>
+                                                    <th class="w-1/12">@lang('messages.startdate')</th>
+                                                    <th class="w-1/12">@lang('messages.enddate')</th>
+                                                    <th class="w-auto">@lang('messages.description')</th>
+                                                    <th class="w-auto">@lang('messages.active')</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody id="jabatanBody">
+                                                @include('pegawai.partials.details', [
+                                                    $details,
+                                                    'viewMode' => false,
+                                                ])
+                                            </tbody>
+
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <input type="hidden" id="pegawai_id" name="pegawai_id"
+                                                            value="{{ $datas->id }}" />
+                                                        @if (auth()->user()->role('Admin'))
+                                                            <select name="branch_id" id="branch_id" tabindex="1"
+                                                                required autofocus
+                                                                class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                                                <option value="">@lang('messages.choose')...
+                                                                </option>
+                                                                @foreach ($branches as $id => $name)
+                                                                    <option value="{{ $id }}"
+                                                                        {{ old('branch_id', $datas->branch_id) === $id ? 'selected' : '' }}>
+                                                                        {{ $name }}</option>
+                                                                @endforeach
+                                                            </select>
+
+                                                            <x-input-error class="mt-2" :messages="$errors->get('branch_id')" />
+                                                        @else
+                                                            <input type="hidden" name="branch_id"
+                                                                value="{{ $datas->branch_id }}" />
+                                                            <x-text-span>{{ $datas->branch->nama }}</x-text-span>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        <select id="division_id" name="division_id" required
+                                                            tabindex="18"
+                                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                                            <option value="">@lang('messages.choose')...</option>
+                                                            @foreach ($divisions as $id => $name)
+                                                                <option value="{{ $id }}">
+                                                                    {{ $name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <select id="jabatan_id" name="jabatan_id" required
+                                                            tabindex="18"
+                                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                                            <option value="">@lang('messages.choose')...</option>
+                                                            @foreach ($jabatans as $id => $name)
+                                                                <option value="{{ $id }}">
+                                                                    {{ $name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <x-text-input type="date" id="tanggal_mulai"
+                                                            name="tanggal_mulai" tabindex="22" />
+                                                    </td>
+                                                    <td>
+                                                        <x-text-input type="date" id="tanggal_akhir"
+                                                            name="tanggal_akhir" tabindex="22" />
+                                                    </td>
+                                                    <td>
+                                                        <x-text-input type="text" id="keterangan"
+                                                            name="keterangan" tabindex="22" />
+                                                    </td>
+                                                    <td>
+                                                        <div class="dark:bg-black/10">
+                                                            <input type="checkbox" id="isactive" name="isactive"
+                                                                class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-7 h-7"
+                                                                checked>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="mt-4 mb-4 mr-4 flex flex-row flex-wrap justify-end gap-2 md:gap-4">
+                                        <x-primary-button id="submit-detail" tabindex="23">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                class="size-5">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
+                                            </svg>
+                                            <span class="pl-1">@lang('messages.save')</span>
+                                        </x-primary-button>
+                                        <x-anchor-secondary href="{{ route('employee.index') }}" tabindex="24">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                class="size-5">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M6 18 18 6M6 6l12 12" />
+                                            </svg>
+                                            <span class="pl-1">@lang('messages.close')</span>
+                                        </x-anchor-secondary>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     @push('scripts')
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <script type="text/javascript">
+            $(document).ready(function(e) {
+                function getInitialFormValues(formId) {
+                    const form = document.getElementById(formId);
+                    const initialValues = {};
+                    for (let i = 0; i < form.elements.length; i++) {
+                        const element = form.elements[i];
+                        if (element.name) {
+                            if (element.type === 'checkbox' || element.type === 'radio') {
+                                initialValues[element.name] = element.checked;
+                            } else {
+                                initialValues[element.name] = element.value;
+                            }
+                        }
+                    }
+                    return initialValues;
+                }
+
+                function isFormDirty(formId, initialValues) {
+                    const form = document.getElementById(formId);
+                    for (let i = 0; i < form.elements.length; i++) {
+                        const element = form.elements[i];
+                        if (element.name) {
+                            let currentValue;
+                            if (element.type === 'checkbox' || element.type === 'radio') {
+                                currentValue = element.checked;
+                            } else {
+                                currentValue = element.value;
+                            }
+
+                            if (initialValues[element.name] !== currentValue) {
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                }
+
+                const myFormInitialValues = getInitialFormValues('master-form');
+
+                deleteDetail = function(detailId) {
+                    let idname = '#a-delete-detail-' + detailId;
+
+                    var confirmation = confirm("Are you sure you want to delete this?");
+                    if (confirmation) {
+                        $(idname).closest("tr").remove();
+                        $.ajax({
+                            url: '{{ url('/human-resource/employee/delete-jabatan') }}' + '/' + detailId,
+                            type: 'delete',
+                            dataType: 'json',
+                            data: {
+                                '_token': '{{ csrf_token() }}',
+                            },
+                            success: function(result) {
+                                if (result.status !== 'Not Found') {
+                                    $('#jabatanBody').html(result.view);
+                                }
+                                $('#jabatan-form')[0].reset();
+                            },
+                            error: function(xhr) {
+                                console.log(xhr.responseText);
+                            }
+                        });
+                    }
+                };
+
+                $("#submit-detail").on("click", function(e) {
+                    e.preventDefault();
+                    let key = $('#pegawai_id').val();
+
+                    $.ajax({
+                        url: '{{ url('/human-resource/employee/store-jabatan') }}' + '/' + key,
+                        type: 'post',
+                        dataType: 'json',
+                        data: $('form#jabatan-form').serialize(),
+                        success: function(result) {
+                            if (result.status !== 'Not Found') {
+                                $('#jabatanBody').html(result.view);
+                                $('#jabatan-form')[0].reset();
+                            }
+                        }
+                    });
+
+                    // if (isFormDirty('master-form', myFormInitialValues)) {
+                    //     $('form#master-form').submit();
+                    // }
+                });
+            });
+        </script>
     @endpush
 </x-app-layout>

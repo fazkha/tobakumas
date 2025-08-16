@@ -14,7 +14,10 @@ return new class extends Migration
         Schema::create('jabatans', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
+            $table->string('keterangan')->nullable();
             $table->unsignedTinyInteger('isactive')->default(0);
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
             $table->timestamps();
         });
     }
