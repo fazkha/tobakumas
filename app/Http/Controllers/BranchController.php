@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\BranchRequest;
 use App\Models\Branch;
+use App\Http\Requests\BranchRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
@@ -193,6 +193,6 @@ class BranchController extends Controller implements HasMiddleware
         }
 
         return redirect()->route('branch.index')
-            ->with('success', __('messages.successdeleted') . ' 👉 ' . $branch->alamat);
+            ->with('success', __('messages.successdeleted') . ' 👉 ' . $branch->nama);
     }
 }

@@ -139,7 +139,7 @@ Route::prefix('general-affair')->middleware('auth')->group(function () {
 
     Route::resource('division', DivisionController::class);
     Route::get('division/{division}/delete', [DivisionController::class, 'delete'])->name('division.delete');
-    Route::get('division/fetchdb/{pp}/{isactive}/{nama}/{alamat}', [DivisionController::class, 'fetchdb'])->defaults('nama', '_')->defaults('alamat', '_');
+    Route::get('division/fetchdb/{pp}/{isactive}/{nama}', [DivisionController::class, 'fetchdb'])->defaults('nama', '_');
 })->missing(function (Request $request) {
     return Redirect::route('dashboard');
 });
