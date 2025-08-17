@@ -1,25 +1,22 @@
-@section('title', __('messages.division'))
+@section('title', __('messages.kabupaten'))
 
 <x-app-layout>
     <div class="flex items-center justify-between px-4 py-4 border-b border-primary-100 lg:py-6 dark:border-primary-800">
         <h1 class="text-xl flex items-center justify-center">
-            <a href="{{ route('division.index') }}" class="flex items-center justify-center">
-                <svg fill="currentColor" class="size-7" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" enable-background="new 0 0 24 24"
-                    xml:space="preserve">
-                    <g id="chart-partition">
-                        <path
-                            d="M24,23H0V0h24V23z M18,21h4v-5h-4V21z M12,21h4v-5h-4V21z M2,21h8v-5H2V21z M15,14h7V9h-7V14z M2,14h11V9H2V14z M13,7h9V2 H2v5H13z" />
-                    </g>
+            <a href="{{ route('kabupaten.index') }}" class="flex items-center justify-center">
+                <svg fill="currentColor" class="size-7" viewBox="-1.5 0 19 19" xmlns="http://www.w3.org/2000/svg"
+                    class="cf-icon-svg">
+                    <path
+                        d="M15.084 15.2H.916a.264.264 0 0 1-.254-.42l2.36-4.492a.865.865 0 0 1 .696-.42h.827a9.51 9.51 0 0 0 .943 1.108H3.912l-1.637 3.116h11.45l-1.637-3.116h-1.34a9.481 9.481 0 0 0 .943-1.109h.591a.866.866 0 0 1 .696.421l2.36 4.492a.264.264 0 0 1-.254.42zM11.4 7.189c0 2.64-2.176 2.888-3.103 5.46a.182.182 0 0 1-.356 0c-.928-2.572-3.104-2.82-3.104-5.46a3.282 3.282 0 0 1 6.563 0zm-1.86-.005a1.425 1.425 0 1 0-1.425 1.425A1.425 1.425 0 0 0 9.54 7.184z" />
                 </svg>
-                <span class="px-2">@lang('messages.division')</span>
+                <span class="px-2">@lang('messages.kabupaten')</span>
             </a>
             <span class="px-2">&raquo;</span>
             <span class="px-2 font-semibold">@lang('messages.edit')</span>
         </h1>
     </div>
 
-    <form action="{{ route('division.update', Crypt::Encrypt($datas->id)) }}" method="POST"
+    <form action="{{ route('kabupaten.update', Crypt::encrypt($datas->id)) }}" method="POST"
         enctype="multipart/form-data">
         @csrf
         @method('PUT')
@@ -30,7 +27,7 @@
                 <div class="flex flex-col items-center">
 
                     <div class="w-full" role="alert">
-                        @include('division.partials.feedback')
+                        @include('kabupaten.partials.feedback')
                     </div>
 
                     <div
@@ -41,11 +38,26 @@
                                 <div class="w-full lg:w-1/2 px-2">
 
                                     <div class="w-auto pb-4">
+                                        <label for="propinsi_id"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.propinsi')</label>
+                                        <select name="propinsi_id" id="propinsi_id" tabindex="1" required autofocus
+                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                            <option value="">@lang('messages.choose')...</option>
+                                            @foreach ($propinsis as $id => $name)
+                                                <option value="{{ $id }}"
+                                                    {{ old('propinsi_id', $datas->propinsi_id) === $id ? 'selected' : '' }}>
+                                                    {{ $name }}</option>
+                                            @endforeach
+                                        </select>
+
+                                        <x-input-error class="mt-2" :messages="$errors->get('propinsi_id')" />
+                                    </div>
+
+                                    <div class="w-auto pb-4">
                                         <label for="nama"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.name')</label>
-                                        <x-text-input type="text" name="nama" id="nama" autofocus
-                                            tabindex="1" required
-                                            placeholder="{{ __('messages.enter') }} {{ __('messages.name') }}"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.kabupaten')</label>
+                                        <x-text-input type="text" name="nama" id="nama" tabindex="2"
+                                            required placeholder="{{ __('messages.enter') }} {{ __('messages.name') }}"
                                             value="{{ old('nama', $datas->nama) }}" />
 
                                         <x-input-error class="mt-2" :messages="$errors->get('nama')" />
@@ -56,7 +68,7 @@
                                     <div class="pb-4 lg:pb-12">
                                         <label for="keterangan"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</label>
-                                        <x-text-input type="text" name="keterangan" id="keterangan" tabindex="2"
+                                        <x-text-input type="text" name="keterangan" id="keterangan" tabindex="3"
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.description') }}"
                                             value="{{ old('keterangan', $datas->keterangan) }}" />
 
@@ -76,7 +88,7 @@
                                             </label>
                                         </div>
 
-                                        <x-primary-button type="submit" class="block" tabindex="4">
+                                        <x-primary-button type="submit" class="block" tabindex="5">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="size-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -84,7 +96,7 @@
                                             </svg>
                                             <span class="pl-1">@lang('messages.save')</span>
                                         </x-primary-button>
-                                        <x-anchor-secondary href="{{ route('division.index') }}" tabindex="5">
+                                        <x-anchor-secondary href="{{ route('kabupaten.index') }}" tabindex="6">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="size-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"

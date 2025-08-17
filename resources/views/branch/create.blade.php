@@ -43,8 +43,9 @@
                                         <label for="kode"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.code')</label>
                                         <x-text-input type="text" name="kode" id="kode" tabindex="1"
-                                            autofocus placeholder="{{ __('messages.enter') }} {{ __('messages.code') }}"
-                                            required value="{{ old('kode') }}" />
+                                            required autofocus
+                                            placeholder="{{ __('messages.enter') }} {{ __('messages.code') }}"
+                                            value="{{ old('kode') }}" />
 
                                         <x-input-error class="mt-2" :messages="$errors->get('kode')" />
                                     </div>
@@ -53,8 +54,8 @@
                                         <label for="nama"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.name')</label>
                                         <x-text-input type="text" name="nama" id="nama" tabindex="2"
-                                            autofocus placeholder="{{ __('messages.enter') }} {{ __('messages.name') }}"
-                                            required value="{{ old('nama') }}" />
+                                            required placeholder="{{ __('messages.enter') }} {{ __('messages.name') }}"
+                                            value="{{ old('nama') }}" />
 
                                         <x-input-error class="mt-2" :messages="$errors->get('nama')" />
                                     </div>

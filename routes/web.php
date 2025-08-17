@@ -12,10 +12,12 @@ use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\GudangController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\JabatanPegawaiController;
+use App\Http\Controllers\KabupatenController;
 use App\Http\Controllers\KonversiController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\ProdOrderController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PropinsiController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\QRController;
 use App\Http\Controllers\RoleController;
@@ -128,6 +130,18 @@ Route::prefix('human-resource')->middleware('auth')->group(function () {
     Route::resource('jabatan', JabatanController::class);
     Route::get('jabatan/{jabatan}/delete', [JabatanController::class, 'delete'])->name('jabatan.delete');
     Route::get('jabatan/fetchdb/{pp}/{isactive}/{nama}', [JabatanController::class, 'fetchdb'])->defaults('nama', '_');
+})->missing(function (Request $request) {
+    return Redirect::route('dashboard');
+});
+
+Route::prefix('marketing')->middleware('auth')->group(function () {
+    Route::resource('propinsi', PropinsiController::class);
+    Route::get('propinsi/{propinsi}/delete', [PropinsiController::class, 'delete'])->name('propinsi.delete');
+    Route::get('propinsi/fetchdb/{pp}/{isactive}/{nama}', [PropinsiController::class, 'fetchdb'])->defaults('nama', '_');
+
+    Route::resource('kabupaten', KabupatenController::class);
+    Route::get('kabupaten/{kabupaten}/delete', [KabupatenController::class, 'delete'])->name('kabupaten.delete');
+    Route::get('kabupaten/fetchdb/{pp}/{isactive}/{nama}', [KabupatenController::class, 'fetchdb'])->defaults('nama', '_');
 })->missing(function (Request $request) {
     return Redirect::route('dashboard');
 });

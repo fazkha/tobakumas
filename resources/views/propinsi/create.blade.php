@@ -1,28 +1,22 @@
-@section('title', __('messages.division'))
+@section('title', __('messages.propinsi'))
 
 <x-app-layout>
     <div class="flex items-center justify-between px-4 py-4 border-b border-primary-100 lg:py-6 dark:border-primary-800">
         <h1 class="text-xl flex items-center justify-center">
-            <a href="{{ route('division.index') }}" class="flex items-center justify-center">
-                <svg fill="currentColor" class="size-7" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" enable-background="new 0 0 24 24"
-                    xml:space="preserve">
-                    <g id="chart-partition">
-                        <path
-                            d="M24,23H0V0h24V23z M18,21h4v-5h-4V21z M12,21h4v-5h-4V21z M2,21h8v-5H2V21z M15,14h7V9h-7V14z M2,14h11V9H2V14z M13,7h9V2 H2v5H13z" />
-                    </g>
+            <a href="{{ route('propinsi.index') }}" class="flex items-center justify-center">
+                <svg fill="currentColor" class="size-7" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M21.32,5.05l-6-2h-.07a.7.7,0,0,0-.14,0h-.23l-.13,0h-.07L9,5,3.32,3.05a1,1,0,0,0-.9.14A1,1,0,0,0,2,4V18a1,1,0,0,0,.68.95l6,2h0a1,1,0,0,0,.62,0h0L15,19.05,20.68,21A1.19,1.19,0,0,0,21,21a.94.94,0,0,0,.58-.19A1,1,0,0,0,22,20V6A1,1,0,0,0,21.32,5.05ZM8,18.61,4,17.28V5.39L8,6.72Zm6-1.33-4,1.33V6.72l4-1.33Zm6,1.33-4-1.33V5.39l4,1.33Z" />
                 </svg>
-                <span class="px-2">@lang('messages.division')</span>
+                <span class="px-2">@lang('messages.propinsi')</span>
             </a>
             <span class="px-2">&raquo;</span>
-            <span class="px-2 font-semibold">@lang('messages.edit')</span>
+            <span class="px-2 font-semibold">@lang('messages.new')</span>
         </h1>
     </div>
 
-    <form action="{{ route('division.update', Crypt::Encrypt($datas->id)) }}" method="POST"
-        enctype="multipart/form-data">
+    <form action="{{ route('propinsi.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        @method('PUT')
 
         <div class="py-2 flex flex-col">
 
@@ -30,7 +24,7 @@
                 <div class="flex flex-col items-center">
 
                     <div class="w-full" role="alert">
-                        @include('division.partials.feedback')
+                        @include('propinsi.partials.feedback')
                     </div>
 
                     <div
@@ -46,7 +40,7 @@
                                         <x-text-input type="text" name="nama" id="nama" autofocus
                                             tabindex="1" required
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.name') }}"
-                                            value="{{ old('nama', $datas->nama) }}" />
+                                            value="{{ old('nama') }}" />
 
                                         <x-input-error class="mt-2" :messages="$errors->get('nama')" />
                                     </div>
@@ -58,7 +52,7 @@
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</label>
                                         <x-text-input type="text" name="keterangan" id="keterangan" tabindex="2"
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.description') }}"
-                                            value="{{ old('keterangan', $datas->keterangan) }}" />
+                                            value="{{ old('keterangan') }}" />
 
                                         <x-input-error class="mt-2" :messages="$errors->get('keterangan')" />
                                     </div>
@@ -68,7 +62,7 @@
                                             <label class="cursor-pointer flex flex-col md:flex-row md:gap-2">
                                                 <input type="checkbox" id="isactive" name="isactive"
                                                     class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-7 h-7"
-                                                    {{ $datas->isactive == 1 ? 'checked' : '' }}>
+                                                    checked>
                                                 <span
                                                     class="pr-4 group-hover:text-blue-500 transition-colors duration-300">
                                                     @lang('messages.active')
@@ -84,7 +78,7 @@
                                             </svg>
                                             <span class="pl-1">@lang('messages.save')</span>
                                         </x-primary-button>
-                                        <x-anchor-secondary href="{{ route('division.index') }}" tabindex="5">
+                                        <x-anchor-secondary href="{{ route('propinsi.index') }}" tabindex="5">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="size-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
