@@ -1,13 +1,16 @@
 <?php
 
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CoaController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DeliveryOrderController;
 use App\Http\Controllers\DeliveryOrderDetailController;
 use App\Http\Controllers\DeliveryOrderMitraController;
+use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\GudangController;
+use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\JabatanPegawaiController;
 use App\Http\Controllers\KonversiController;
 use App\Http\Controllers\LocaleController;
@@ -121,6 +124,22 @@ Route::prefix('human-resource')->middleware('auth')->group(function () {
     Route::get('employee/fetchdb/{pp}/{isactive}/{kelamin}/{nama_lengkap}/{alamat_tinggal}/{telpon}', [PegawaiController::class, 'fetchdb'])->defaults('nama_lengkap', '_')->defaults('alamat_tinggal', '_')->defaults('telpon', '_');
     Route::post('employee/store-jabatan/{employee}', [PegawaiController::class, 'storeJabatan']);
     Route::delete('employee/delete-jabatan/{jabatan}', [PegawaiController::class, 'deleteJabatan']);
+
+    Route::resource('jabatan', JabatanController::class);
+    Route::get('jabatan/{jabatan}/delete', [JabatanController::class, 'delete'])->name('jabatan.delete');
+    Route::get('jabatan/fetchdb/{pp}/{isactive}/{nama}', [JabatanController::class, 'fetchdb'])->defaults('nama', '_');
+})->missing(function (Request $request) {
+    return Redirect::route('dashboard');
+});
+
+Route::prefix('general-affair')->middleware('auth')->group(function () {
+    Route::resource('branch', BranchController::class);
+    Route::get('branch/{branch}/delete', [BranchController::class, 'delete'])->name('branch.delete');
+    Route::get('branch/fetchdb/{pp}/{isactive}/{nama}/{alamat}', [BranchController::class, 'fetchdb'])->defaults('nama', '_')->defaults('alamat', '_');
+
+    Route::resource('division', DivisionController::class);
+    Route::get('division/{division}/delete', [DivisionController::class, 'delete'])->name('division.delete');
+    Route::get('division/fetchdb/{pp}/{isactive}/{nama}/{alamat}', [DivisionController::class, 'fetchdb'])->defaults('nama', '_')->defaults('alamat', '_');
 })->missing(function (Request $request) {
     return Redirect::route('dashboard');
 });

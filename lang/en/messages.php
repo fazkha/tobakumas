@@ -66,6 +66,7 @@ return [
     'residentialaddress' => 'Residential Address',
     'branch' => 'Branch',
     'division' => 'Division',
+    'generalaffair' => 'General Affair',
     'enter' => 'Enter',
     'youdonothaveaccess' => 'You don\'t have permission to access this page',
     'ooops' => 'Ooops',

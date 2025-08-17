@@ -269,8 +269,76 @@
                 </a>
             </div>
 
+            @can('branch-list')
+                <div x-data="{{ substr(request()->getRequestUri(), 0, 22) == '/general-affair/branch' ||
+                substr(request()->getRequestUri(), 0, 24) == '/general-affair/division'
+                    ? '{isActive: true, open: true}'
+                    : '{isActive: false, open: false}' }}">
+                    <a href="#" @click="$event.preventDefault(); open = !open"
+                        class="flex items-center p-2 text-gray-600 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary"
+                        :class="{ 'bg-primary-100 dark:bg-primary': isActive || open }" role="button"
+                        aria-haspopup="true" :aria-expanded="(open || isActive) ? 'true' : 'false'">
+                        <span aria-hidden="true">
+                            <svg fill="currentColor" class="size-5" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg" data-name="Layer 1">
+                                <path
+                                    d="M14,8h1a1,1,0,0,0,0-2H14a1,1,0,0,0,0,2Zm0,4h1a1,1,0,0,0,0-2H14a1,1,0,0,0,0,2ZM9,8h1a1,1,0,0,0,0-2H9A1,1,0,0,0,9,8Zm0,4h1a1,1,0,0,0,0-2H9a1,1,0,0,0,0,2Zm12,8H20V3a1,1,0,0,0-1-1H5A1,1,0,0,0,4,3V20H3a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2Zm-8,0H11V16h2Zm5,0H15V15a1,1,0,0,0-1-1H10a1,1,0,0,0-1,1v5H6V4H18Z" />
+                            </svg>
+                        </span>
+                        <span class="ml-2 text-sm">@lang('messages.generalaffair')</span>
+                        <span aria-hidden="true" class="ml-auto">
+                            <svg class="w-4 h-4 transition-transform transform" :class="{ 'rotate-180': open }"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </span>
+                    </a>
+                    @can('branch-list')
+                        <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="generalaffair">
+                            <a href="{{ route('branch.index') }}" role="menuitem"
+                                class="block p-2 text-sm text-gray-500 transition-colors duration-200 rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary">
+                                <span class="flex flex-row gap-1">
+                                    <svg class="size-5" viewBox="0 0 1024 1024" t="1569683632175" class="icon"
+                                        version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="12593"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink">
+                                        <defs>
+                                            <style type="text/css"></style>
+                                        </defs>
+                                        <path
+                                            d="M640.6 429.8h257.1c7.9 0 14.3-6.4 14.3-14.3V158.3c0-7.9-6.4-14.3-14.3-14.3H640.6c-7.9 0-14.3 6.4-14.3 14.3v92.9H490.6c-3.9 0-7.1 3.2-7.1 7.1v221.5h-85.7v-96.5c0-7.9-6.4-14.3-14.3-14.3H126.3c-7.9 0-14.3 6.4-14.3 14.3v257.2c0 7.9 6.4 14.3 14.3 14.3h257.1c7.9 0 14.3-6.4 14.3-14.3V544h85.7v221.5c0 3.9 3.2 7.1 7.1 7.1h135.7v92.9c0 7.9 6.4 14.3 14.3 14.3h257.1c7.9 0 14.3-6.4 14.3-14.3v-257c0-7.9-6.4-14.3-14.3-14.3h-257c-7.9 0-14.3 6.4-14.3 14.3v100h-78.6v-393h78.6v100c0 7.9 6.4 14.3 14.3 14.3z m53.5-217.9h150V362h-150V211.9zM329.9 587h-150V437h150v150z m364.2 75.1h150v150.1h-150V662.1z"
+                                            p-id="12594"></path>
+                                    </svg>
+                                    @lang('messages.branch')
+                                </span>
+                            </a>
+                        </div>
+                    @endcan
+                    @can('division-list')
+                        <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="generalaffair">
+                            <a href="{{ route('division.index') }}" role="menuitem"
+                                class="block p-2 text-sm text-gray-500 transition-colors duration-200 rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary">
+                                <span class="flex flex-row gap-1">
+                                    <svg fill="currentColor" class="size-5" version="1.1"
+                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+                                        <g id="chart-partition">
+                                            <path
+                                                d="M24,23H0V0h24V23z M18,21h4v-5h-4V21z M12,21h4v-5h-4V21z M2,21h8v-5H2V21z M15,14h7V9h-7V14z M2,14h11V9H2V14z M13,7h9V2 H2v5H13z" />
+                                        </g>
+                                    </svg>
+                                    @lang('messages.division')
+                                </span>
+                            </a>
+                        </div>
+                    @endcan
+                </div>
+            @endcan
+
             @can('pegawai-list')
-                <div x-data="{{ substr(request()->getRequestUri(), 0, 24) == '/human-resource/employee'
+                <div x-data="{{ substr(request()->getRequestUri(), 0, 24) == '/human-resource/employee' ||
+                substr(request()->getRequestUri(), 0, 23) == '/human-resource/jabatan'
                     ? '{isActive: true, open: true}'
                     : '{isActive: false, open: false}' }}">
                     <a href="#" @click="$event.preventDefault(); open = !open"
@@ -285,19 +353,19 @@
                                 <g>
                                     <path
                                         d="M700,422.622c0,17.149-13.846,31.06-30.945,31.06h-55.144V574.53c30.924,9.713,53.558,38.37,53.558,72.604
-                                            c0,42.22-34.092,76.435-76.192,76.435c-42.058,0-76.216-34.215-76.216-76.435c0-33.366,21.484-61.444,51.217-71.875V453.682
-                                            H411.501v197.281c30.946,9.7,53.603,38.357,53.603,72.604c0,42.208-34.137,76.433-76.215,76.433
-                                            c-42.058,0-76.192-34.225-76.192-76.433c0-33.377,21.462-61.445,51.192-71.876V453.681H217.469v120.849
-                                            c30.947,9.713,53.538,38.37,53.538,72.604c0,42.219-34.093,76.435-76.172,76.435c-42.058,0-76.173-34.216-76.173-76.435
-                                            c0-33.366,21.442-61.444,51.172-71.875V453.682h-38.888c-17.102,0-30.946-13.909-30.946-31.06c0-17.14,13.845-31.05,30.946-31.05
-                                            h538.108C686.154,391.572,700,405.482,700,422.622z M410.548,178.586l20.397,212.985h50.543
-                                            c-2.453-42.077-6.1-88.538-8.485-117.347c18.968,25.22,30.707,64.905,34.376,117.347h60.177
-                                            c-5.358-86.743-29.927-148.005-73.589-181.631c-7.249-5.59-15.276-11.235-23.328-15.596c-5.578-3.011-11.459-5.437-17.447-7.482
-                                            C439.452,182.196,424.999,179.565,410.548,178.586z M400,169.896c47.157,0,85.416-37.998,85.416-84.948
-                                            C485.416,38.021,447.157,0,400,0c-47.18,0-85.417,38.021-85.417,84.948C314.583,131.898,352.82,169.896,400,169.896z
-                                            M291.102,391.572c5.122-52.496,17.34-92.321,35.83-117.39c-1.302,25.96-3.493,70.016-5.621,117.39h45.14l25.563-213.312
-                                            c-15.581,0.522-31.229,2.969-45.984,8.046c-6.057,2.088-12.001,4.633-17.601,7.766c-19.098,10.669-35.157,24.742-48.416,41.925
-                                            c-6.793,8.798-12.608,18.281-17.665,28.167c-19.987,39.261-27.887,83.948-31.619,127.406L291.102,391.572L291.102,391.572z" />
+                                                            c0,42.22-34.092,76.435-76.192,76.435c-42.058,0-76.216-34.215-76.216-76.435c0-33.366,21.484-61.444,51.217-71.875V453.682
+                                                            H411.501v197.281c30.946,9.7,53.603,38.357,53.603,72.604c0,42.208-34.137,76.433-76.215,76.433
+                                                            c-42.058,0-76.192-34.225-76.192-76.433c0-33.377,21.462-61.445,51.192-71.876V453.681H217.469v120.849
+                                                            c30.947,9.713,53.538,38.37,53.538,72.604c0,42.219-34.093,76.435-76.172,76.435c-42.058,0-76.173-34.216-76.173-76.435
+                                                            c0-33.366,21.442-61.444,51.172-71.875V453.682h-38.888c-17.102,0-30.946-13.909-30.946-31.06c0-17.14,13.845-31.05,30.946-31.05
+                                                            h538.108C686.154,391.572,700,405.482,700,422.622z M410.548,178.586l20.397,212.985h50.543
+                                                            c-2.453-42.077-6.1-88.538-8.485-117.347c18.968,25.22,30.707,64.905,34.376,117.347h60.177
+                                                            c-5.358-86.743-29.927-148.005-73.589-181.631c-7.249-5.59-15.276-11.235-23.328-15.596c-5.578-3.011-11.459-5.437-17.447-7.482
+                                                            C439.452,182.196,424.999,179.565,410.548,178.586z M400,169.896c47.157,0,85.416-37.998,85.416-84.948
+                                                            C485.416,38.021,447.157,0,400,0c-47.18,0-85.417,38.021-85.417,84.948C314.583,131.898,352.82,169.896,400,169.896z
+                                                            M291.102,391.572c5.122-52.496,17.34-92.321,35.83-117.39c-1.302,25.96-3.493,70.016-5.621,117.39h45.14l25.563-213.312
+                                                            c-15.581,0.522-31.229,2.969-45.984,8.046c-6.057,2.088-12.001,4.633-17.601,7.766c-19.098,10.669-35.157,24.742-48.416,41.925
+                                                            c-6.793,8.798-12.608,18.281-17.665,28.167c-19.987,39.261-27.887,83.948-31.619,127.406L291.102,391.572L291.102,391.572z" />
                                 </g>
                             </svg>
                         </span>
@@ -311,6 +379,21 @@
                             </svg>
                         </span>
                     </a>
+                    @can('jabatan-list')
+                        <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="humanresource">
+                            <a href="{{ route('jabatan.index') }}" role="menuitem"
+                                class="block p-2 text-sm text-gray-500 transition-colors duration-200 rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary">
+                                <span class="flex flex-row gap-1">
+                                    <svg fill="currentColor" class="size-5" viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68a1,1,0,0,0,.4,1,1,1,0,0,0,1.05.07L12,18.76l5.1,2.68a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.89l.72,4.19-3.76-2a1,1,0,0,0-.94,0l-3.76,2,.72-4.19a1,1,0,0,0-.29-.89l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z" />
+                                    </svg>
+                                    @lang('messages.jobposition')
+                                </span>
+                            </a>
+                        </div>
+                    @endcan
                     @can('pegawai-list')
                         <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="humanresource">
                             <a href="{{ route('employee.index') }}" role="menuitem"

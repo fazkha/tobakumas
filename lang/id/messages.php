@@ -66,6 +66,7 @@ return [
     'residentialaddress' => 'Alamat Tempat Tinggal',
     'branch' => 'Cabang',
     'division' => 'Divisi',
+    'generalaffair' => 'Urusan Umum',
     'enter' => 'Ketikkan',
     'youdonothaveaccess' => 'Anda tidak memiliki wewenang untuk membuka halaman ini',
     'ooops' => 'Maaf',
