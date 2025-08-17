@@ -31,9 +31,9 @@
                             @lang('messages.page')</span>
                         <select id="pp-dropdown"
                             class="text-sm px-2 leading-tight pl-28 pr-9 py-2 appearance-none w-full h-full rounded-md border block bg-primary-20 border-primary-100 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800">
-                            <option {{ session('division_pp') == 5 ? 'selected' : '' }} value="5">5</option>
-                            <option {{ session('division_pp') == 10 ? 'selected' : '' }} value="10">10</option>
-                            <option {{ session('division_pp') == 20 ? 'selected' : '' }} value="20">20</option>
+                            <option {{ session('jabatan_pp') == 5 ? 'selected' : '' }} value="5">5</option>
+                            <option {{ session('jabatan_pp') == 10 ? 'selected' : '' }} value="10">10</option>
+                            <option {{ session('jabatan_pp') == 20 ? 'selected' : '' }} value="20">20</option>
                         </select>
                         <div
                             class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-white">
@@ -45,11 +45,11 @@
                             class="w-24 text-xs h-full absolute inset-y-0 left-0 flex items-center px-2 border-r border-primary-100 dark:border-primary-800">@lang('messages.active')</span>
                         <select id="isactive-dropdown"
                             class="text-sm px-2 leading-tight pl-28 pr-9 py-2 appearance-none w-full h-full rounded-md border block bg-primary-20 border-primary-100 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800">
-                            <option {{ session('division_isactive') == 'all' ? 'selected' : '' }} value="all">
+                            <option {{ session('jabatan_isactive') == 'all' ? 'selected' : '' }} value="all">
                                 @lang('messages.all')</option>
-                            <option {{ session('division_isactive') == '1' ? 'selected' : '' }} value="1">
+                            <option {{ session('jabatan_isactive') == '1' ? 'selected' : '' }} value="1">
                                 @lang('messages.yes')</option>
-                            <option {{ session('division_isactive') == '0' ? 'selected' : '' }} value="0">
+                            <option {{ session('jabatan_isactive') == '0' ? 'selected' : '' }} value="0">
                                 @lang('messages.no')</option>
                         </select>
                         <div
@@ -63,7 +63,7 @@
                         <span
                             class="w-24 text-xs h-full absolute inset-y-0 left-0 flex items-center px-2 border-r border-primary-100 dark:border-primary-800">@lang('messages.name')</span>
                         <input id="search-nama" placeholder="{{ __('messages.search') }}"
-                            value="{{ session('division_nama') == '_' ? '' : session('division_nama') }}"
+                            value="{{ session('jabatan_nama') == '_' ? '' : session('jabatan_nama') }}"
                             class="text-sm pl-28 pr-6 pt-1.5 pb-2 appearance-none rounded-md border block w-full bg-primary-20 border-primary-100 placeholder-gray-400 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800" />
                     </div>
                 </div>
@@ -72,8 +72,8 @@
         </div>
 
         <div>
-            @can('division-create')
-                <x-anchor-primary href="{{ route('division.create') }}">
+            @can('jabatan-create')
+                <x-anchor-primary href="{{ route('jabatan.create') }}">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />

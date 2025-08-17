@@ -68,8 +68,8 @@
                         <td class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800"
                             style="vertical-align: middle;">
                             <div class="flex items-center justify-center">
-                                @can('division-show')
-                                    <a href="{{ route('division.show', Crypt::Encrypt($data->id)) }}"
+                                @can('jabatan-show')
+                                    <a href="{{ route('jabatan.show', Crypt::Encrypt($data->id)) }}"
                                         title="{{ __('messages.view') }}">
                                         <span
                                             class="relative inline-block px-2 py-2 font-semibold text-blue-800 dark:text-blue-50 leading-tight">
@@ -84,8 +84,8 @@
                                     </a>
                                 @endcan
 
-                                @can('division-edit')
-                                    <a href="{{ route('division.edit', Crypt::Encrypt($data->id)) }}"
+                                @can('jabatan-edit')
+                                    <a href="{{ route('jabatan.edit', Crypt::Encrypt($data->id)) }}"
                                         title="{{ __('messages.edit') }}" class="ml-2">
                                         <span
                                             class="relative inline-block px-2 py-2 font-semibold text-green-800 dark:text-green-50 leading-tight">
@@ -100,8 +100,8 @@
                                     </a>
                                 @endcan
 
-                                @can('division-delete')
-                                    <a href="{{ route('division.delete', Crypt::Encrypt($data->id)) }}"
+                                @can('jabatan-delete')
+                                    <a href="{{ route('jabatan.delete', Crypt::Encrypt($data->id)) }}"
                                         title="{{ __('messages.delete') }}" class="ml-2">
                                         <span
                                             class="relative inline-block px-2 py-2 font-semibold text-red-800 dark:text-red-50 leading-tight">
