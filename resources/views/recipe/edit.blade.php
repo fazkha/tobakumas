@@ -75,7 +75,7 @@
                                                         <option value="">@lang('messages.copyfrom')...</option>
                                                         @foreach ($recipes as $id => $name)
                                                             <option value="{{ $id }}"
-                                                                {{ old('copy_recipe') === $id ? 'selected' : '' }}>
+                                                                {{ old('copy_recipe') == $id ? 'selected' : '' }}>
                                                                 {{ $name }}</option>
                                                         @endforeach
                                                     </select>

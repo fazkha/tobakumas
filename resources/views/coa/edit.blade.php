@@ -92,7 +92,7 @@
                                                 <option value="">Choose level...</option>
                                                 @foreach ($educlvl as $id => $name)
                                                     <option value="{{ $id }}"
-                                                        {{ old('educationlevel_id', $datas->educationlevel_id) === $id ? 'selected' : '' }}>
+                                                        {{ old('educationlevel_id', $datas->educationlevel_id) == $id ? 'selected' : '' }}>
                                                         {{ $name }}</option>
                                                 @endforeach
                                             </select>

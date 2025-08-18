@@ -61,7 +61,7 @@
                                                     <option value="">Choose group...</option>
                                                     @foreach ($coasgroups as $id => $name)
                                                         <option value="{{ $id }}"
-                                                            {{ old('coasgroups_id') === $id ? 'selected' : '' }}>
+                                                            {{ old('coasgroups_id') == $id ? 'selected' : '' }}>
                                                             {{ $name }}</option>
                                                     @endforeach
                                                 </select>

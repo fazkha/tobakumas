@@ -57,7 +57,7 @@
                                             <option value="">@lang('messages.choose')...</option>
                                             @foreach ($branches as $id => $name)
                                                 <option value="{{ $id }}"
-                                                    {{ old('branch_id') === $id ? 'selected' : '' }}>
+                                                    {{ old('branch_id') == $id ? 'selected' : '' }}>
                                                     {{ $name }}</option>
                                             @endforeach
                                         </select>
@@ -73,7 +73,7 @@
                                             <option value="">@lang('messages.choose')...</option>
                                             @foreach ($jabatans as $id => $name)
                                                 <option value="{{ $id }}"
-                                                    {{ old('jabatan_id') === $id ? 'selected' : '' }}>
+                                                    {{ old('jabatan_id') == $id ? 'selected' : '' }}>
                                                     {{ $name }}</option>
                                             @endforeach
                                         </select>
@@ -101,7 +101,7 @@
                                             <option value="">@lang('messages.choose')...</option>
                                             @foreach ($divisions as $id => $name)
                                                 <option value="{{ $id }}"
-                                                    {{ old('division_id') === $id ? 'selected' : '' }}>
+                                                    {{ old('division_id') == $id ? 'selected' : '' }}>
                                                     {{ $name }}</option>
                                             @endforeach
                                         </select>

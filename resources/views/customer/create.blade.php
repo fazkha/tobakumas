@@ -55,7 +55,7 @@
                                             <option value="">@lang('messages.choose')...</option>
                                             @foreach ($groups as $id => $name)
                                                 <option value="{{ $id }}"
-                                                    {{ old('customer_group_id') === $id ? 'selected' : '' }}>
+                                                    {{ old('customer_group_id') == $id ? 'selected' : '' }}>
                                                     {{ $name }}</option>
                                             @endforeach
                                         </select>

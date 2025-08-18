@@ -89,7 +89,7 @@
                                             <option value="">@lang('messages.choose')...</option>
                                             @foreach ($petugas as $id => $name)
                                                 <option value="{{ $id }}"
-                                                    {{ $datas->petugas_1_id === $id ? 'selected' : '' }}>
+                                                    {{ $datas->petugas_1_id == $id ? 'selected' : '' }}>
                                                     {{ $name }}</option>
                                             @endforeach
                                         </select>
@@ -106,7 +106,7 @@
                                             <option value="">@lang('messages.choose')...</option>
                                             @foreach ($petugas as $id => $name)
                                                 <option value="{{ $id }}"
-                                                    {{ $datas->petugas_2_id === $id ? 'selected' : '' }}>
+                                                    {{ $datas->petugas_2_id == $id ? 'selected' : '' }}>
                                                     {{ $name }}</option>
                                             @endforeach
                                         </select>
@@ -122,7 +122,7 @@
                                             <option value="">@lang('messages.choose')...</option>
                                             @foreach ($petugas as $id => $name)
                                                 <option value="{{ $id }}"
-                                                    {{ $datas->tanggungjawab_id === $id ? 'selected' : '' }}>
+                                                    {{ $datas->tanggungjawab_id == $id ? 'selected' : '' }}>
                                                     {{ $name }}</option>
                                             @endforeach
                                         </select>
