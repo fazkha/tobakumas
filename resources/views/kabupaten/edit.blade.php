@@ -45,7 +45,7 @@
                                             <option value="">@lang('messages.choose')...</option>
                                             @foreach ($propinsis as $id => $name)
                                                 <option value="{{ $id }}"
-                                                    {{ old('propinsi_id', $datas->propinsi_id) === $id ? 'selected' : '' }}>
+                                                    {{ $datas->propinsi_id === $id ? 'selected' : '' }}>
                                                     {{ $name }}</option>
                                             @endforeach
                                         </select>
