@@ -11,15 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('jabatan_pegawais', function (Blueprint $table) {
+        Schema::create('brandivjabkabs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('branch_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('division_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('pegawai_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('jabatan_id')->constrained()->onUpdate('cascade');
-            $table->unsignedBigInteger('atasan_id')->nullable();
-            $table->date('tanggal_mulai')->nullable();
-            $table->date('tanggal_akhir')->nullable();
+            $table->foreignId('brandivjab_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('propinsi_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('kabupaten_id')->constrained()->onUpdate('cascade');
             $table->string('keterangan')->nullable();
             $table->unsignedTinyInteger('isactive')->default(0);
             $table->string('created_by')->nullable();
@@ -33,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('jabatan_pegawais');
+        Schema::dropIfExists('brandivjabkabs');
     }
 };

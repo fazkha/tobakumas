@@ -47,7 +47,7 @@
 
                     $('#filter-loading').show();
 
-                    var newURL = '{{ url('/human-resource/jabatan') }}';
+                    var newURL = '{{ url('/general-affair/jabatan') }}';
                     var newState = {
                         page: 'index-jabatan'
                     };
@@ -56,7 +56,7 @@
                     window.history.pushState(newState, newTitle, newURL);
 
                     $.ajax({
-                        url: '{{ url('/human-resource/jabatan/fetchdb') }}' + "/" + xpp + "/" + xisactive + "/" +
+                        url: '{{ url('/general-affair/jabatan/fetchdb') }}' + "/" + xpp + "/" + xisactive + "/" +
                             xnama,
                         type: "GET",
                         dataType: 'json',

@@ -70,6 +70,8 @@ return [
     'marketing' => 'Marketting',
     'propinsi' => 'Province',
     'kabupaten' => 'Regency',
+    'brandivjab' => 'Office Setup',
+    'superior' => 'Superior',
     'enter' => 'Enter',
     'youdonothaveaccess' => 'You don\'t have permission to access this page',
     'ooops' => 'Ooops',

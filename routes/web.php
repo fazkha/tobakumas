@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\BrandivjabController;
+use App\Http\Controllers\BrandivjabkabController;
+use App\Http\Controllers\BrandivjabpegController;
 use App\Http\Controllers\CoaController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DeliveryOrderController;
@@ -124,12 +127,12 @@ Route::prefix('human-resource')->middleware('auth')->group(function () {
     Route::resource('employee', PegawaiController::class);
     Route::get('employee/{employee}/delete', [PegawaiController::class, 'delete'])->name('employee.delete');
     Route::get('employee/fetchdb/{pp}/{isactive}/{kelamin}/{nama_lengkap}/{alamat_tinggal}/{telpon}', [PegawaiController::class, 'fetchdb'])->defaults('nama_lengkap', '_')->defaults('alamat_tinggal', '_')->defaults('telpon', '_');
-    Route::post('employee/store-jabatan/{employee}', [PegawaiController::class, 'storeJabatan']);
-    Route::delete('employee/delete-jabatan/{jabatan}', [PegawaiController::class, 'deleteJabatan']);
 
-    Route::resource('jabatan', JabatanController::class);
-    Route::get('jabatan/{jabatan}/delete', [JabatanController::class, 'delete'])->name('jabatan.delete');
-    Route::get('jabatan/fetchdb/{pp}/{isactive}/{nama}', [JabatanController::class, 'fetchdb'])->defaults('nama', '_');
+    Route::post('employee/store-jabatan/{employee}', [BrandivjabpegController::class, 'storeJabatan']);
+    Route::delete('employee/delete-jabatan/{jabatan}', [BrandivjabpegController::class, 'deleteJabatan']);
+    // Route::resource('brandivjabpeg', BrandivjabpegController::class);
+    // Route::get('brandivjabpeg/{brandivjabpeg}/delete', [BrandivjabpegController::class, 'delete'])->name('brandivjabpeg.delete');
+    // Route::get('brandivjabpeg/fetchdb/{pp}/{isactive}/{branch}/{division}/{jabatan}/{pegawai}', [BrandivjabpegController::class, 'fetchdb']);
 })->missing(function (Request $request) {
     return Redirect::route('dashboard');
 });
@@ -142,6 +145,10 @@ Route::prefix('marketing')->middleware('auth')->group(function () {
     Route::resource('kabupaten', KabupatenController::class);
     Route::get('kabupaten/{kabupaten}/delete', [KabupatenController::class, 'delete'])->name('kabupaten.delete');
     Route::get('kabupaten/fetchdb/{pp}/{isactive}/{nama}', [KabupatenController::class, 'fetchdb'])->defaults('nama', '_');
+
+    Route::resource('brandivjabkab', BrandivjabkabController::class);
+    Route::get('brandivjabkab/{brandivjabkab}/delete', [BrandivjabkabController::class, 'delete'])->name('brandivjabkab.delete');
+    Route::get('brandivjabkab/fetchdb/{pp}/{isactive}/{branch}/{division}/{jabatan}/{kabupaten}', [BrandivjabkabController::class, 'fetchdb']);
 })->missing(function (Request $request) {
     return Redirect::route('dashboard');
 });
@@ -154,6 +161,14 @@ Route::prefix('general-affair')->middleware('auth')->group(function () {
     Route::resource('division', DivisionController::class);
     Route::get('division/{division}/delete', [DivisionController::class, 'delete'])->name('division.delete');
     Route::get('division/fetchdb/{pp}/{isactive}/{nama}', [DivisionController::class, 'fetchdb'])->defaults('nama', '_');
+
+    Route::resource('jabatan', JabatanController::class);
+    Route::get('jabatan/{jabatan}/delete', [JabatanController::class, 'delete'])->name('jabatan.delete');
+    Route::get('jabatan/fetchdb/{pp}/{isactive}/{nama}', [JabatanController::class, 'fetchdb'])->defaults('nama', '_');
+
+    Route::resource('brandivjab', BrandivjabController::class);
+    Route::get('brandivjab/{brandivjab}/delete', [BrandivjabController::class, 'delete'])->name('brandivjab.delete');
+    Route::get('brandivjab/fetchdb/{pp}/{isactive}/{branch}/{division}/{jabatan}', [BrandivjabController::class, 'fetchdb']);
 })->missing(function (Request $request) {
     return Redirect::route('dashboard');
 });

@@ -4,18 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class JabatanPegawai extends Model
+class Brandivjab extends Model
 {
     protected $guarded = [];
-    protected $table = 'jabatan_pegawais';
+    protected $table = 'brandivjabs';
 
     protected $fillable = [
         'branch_id',
         'division_id',
-        'pegawai_id',
         'jabatan_id',
-        'tanggal_mulai',
-        'tanggal_akhir',
+        'atasan_id',
         'keterangan',
         'isactive',
         'created_by',
@@ -30,11 +28,6 @@ class JabatanPegawai extends Model
     public function division()
     {
         return $this->belongsTo(Division::class);
-    }
-
-    public function pegawai()
-    {
-        return $this->belongsTo(Pegawai::class);
     }
 
     public function jabatan()

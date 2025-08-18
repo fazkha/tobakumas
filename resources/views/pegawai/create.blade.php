@@ -40,9 +40,9 @@
                                         <label for="nama"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.fullname')</label>
                                         <x-text-input type="text" name="nama_lengkap" id="nama_lengkap"
-                                            tabindex="1" autofocus
+                                            tabindex="1" autofocus required
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.fullname') }}"
-                                            required value="{{ old('nama_lengkap') }}" />
+                                            value="{{ old('nama_lengkap') }}" />
 
                                         <x-input-error class="mt-2" :messages="$errors->get('nama_lengkap')" />
                                     </div>
@@ -51,9 +51,9 @@
                                         <label for="alamat_tinggal"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.residentialaddress')</label>
                                         <x-text-input type="text" name="alamat_tinggal" id="alamat_tinggal"
-                                            tabindex="2"
+                                            tabindex="2" required
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.residentialaddress') }}"
-                                            required value="{{ old('alamat_tinggal') }}" />
+                                            value="{{ old('alamat_tinggal') }}" />
 
                                         <x-input-error class="mt-2" :messages="$errors->get('alamat_tinggal')" />
                                     </div>
@@ -62,8 +62,9 @@
                                         <label for="telpon"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.phonenumber')</label>
                                         <x-text-input type="text" name="telpon" id="telpon" tabindex="3"
+                                            required
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.phonenumber') }}"
-                                            required value="{{ old('telpon') }}" />
+                                            value="{{ old('telpon') }}" />
 
                                         <x-input-error class="mt-2" :messages="$errors->get('telpon')" />
                                     </div>
@@ -99,7 +100,7 @@
                                     <div class="w-auto pb-4 lg:pb-12">
                                         <label for="keterangan"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</label>
-                                        <x-text-input type="text" name="keterangan" id="keterangan" tabindex="4"
+                                        <x-text-input type="text" name="keterangan" id="keterangan" tabindex="6"
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.description') }}"
                                             value="{{ old('keterangan') }}" />
 
@@ -119,7 +120,7 @@
                                             </label>
                                         </div>
 
-                                        <x-primary-button type="submit" class="block" tabindex="6">
+                                        <x-primary-button type="submit" class="block" tabindex="8">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="size-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -127,7 +128,7 @@
                                             </svg>
                                             <span class="pl-1">@lang('messages.save')</span>
                                         </x-primary-button>
-                                        <x-anchor-secondary href="{{ route('employee.index') }}" tabindex="7">
+                                        <x-anchor-secondary href="{{ route('employee.index') }}" tabindex="9">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                 class="size-5">

@@ -45,9 +45,9 @@
                                         <label for="nama_lengkap"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.fullname')</label>
                                         <x-text-input type="text" name="nama_lengkap" id="nama_lengkap"
-                                            tabindex="1" autofocus
+                                            tabindex="1" autofocus required
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.fullname') }}"
-                                            required value="{{ old('nama_lengkap', $datas->nama_lengkap) }}" />
+                                            value="{{ old('nama_lengkap', $datas->nama_lengkap) }}" />
 
                                         <x-input-error class="mt-2" :messages="$errors->get('nama_lengkap')" />
                                     </div>
@@ -56,9 +56,9 @@
                                         <label for="alamat_tinggal"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.residentialaddress')</label>
                                         <x-text-input type="text" name="alamat_tinggal" id="alamat_tinggal"
-                                            tabindex="2"
+                                            tabindex="2" required
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.residentialaddress') }}"
-                                            required value="{{ old('alamat_tinggal', $datas->alamat_tinggal) }}" />
+                                            value="{{ old('alamat_tinggal', $datas->alamat_tinggal) }}" />
 
                                         <x-input-error class="mt-2" :messages="$errors->get('alamat_tinggal')" />
                                     </div>
@@ -67,8 +67,9 @@
                                         <label for="telpon"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.phonenumber')</label>
                                         <x-text-input type="text" name="telpon" id="telpon" tabindex="3"
+                                            required
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.phonenumber') }}"
-                                            required value="{{ old('telpon', $datas->telpon) }}" />
+                                            value="{{ old('telpon', $datas->telpon) }}" />
 
                                         <x-input-error class="mt-2" :messages="$errors->get('telpon')" />
                                     </div>
@@ -106,7 +107,7 @@
                                     <div class="w-auto pb-4 lg:pb-12">
                                         <label for="keterangan"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</label>
-                                        <x-text-input type="text" name="keterangan" id="keterangan" tabindex="4"
+                                        <x-text-input type="text" name="keterangan" id="keterangan" tabindex="6"
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.description') }}"
                                             value="{{ old('keterangan', $datas->keterangan) }}" />
 
@@ -126,7 +127,7 @@
                                             </label>
                                         </div>
 
-                                        <x-primary-button type="submit" class="block" tabindex="6">
+                                        <x-primary-button type="submit" class="block" tabindex="8">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="size-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -134,7 +135,7 @@
                                             </svg>
                                             <span class="pl-1">@lang('messages.save')</span>
                                         </x-primary-button>
-                                        <x-anchor-secondary href="{{ route('employee.index') }}" tabindex="7">
+                                        <x-anchor-secondary href="{{ route('employee.index') }}" tabindex="9">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                 class="size-5">
@@ -180,9 +181,7 @@
                                         <table id="jabatan_table" class="w-full border-separate border-spacing-2">
                                             <thead>
                                                 <tr>
-                                                    <th class="w-1/6">@lang('messages.branch')</th>
-                                                    <th class="w-1/6">@lang('messages.division')</th>
-                                                    <th class="w-1/6">@lang('messages.jobposition')</th>
+                                                    <th class="w-1/3">@lang('messages.jobposition')</th>
                                                     <th class="w-1/12">@lang('messages.startdate')</th>
                                                     <th class="w-1/12">@lang('messages.enddate')</th>
                                                     <th class="w-auto">@lang('messages.description')</th>
@@ -202,61 +201,34 @@
                                                     <td>
                                                         <input type="hidden" id="pegawai_id" name="pegawai_id"
                                                             value="{{ $datas->id }}" />
-                                                        @if (auth()->user()->role('Admin'))
-                                                            <select name="branch_id" id="branch_id" tabindex="1"
-                                                                required autofocus
-                                                                class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
-                                                                <option value="">@lang('messages.choose')...
+                                                        <select name="brandivjab_id" id="brandivjab_id"
+                                                            tabindex="10" required
+                                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                                            <option value="">@lang('messages.choose')...
+                                                            </option>
+                                                            @foreach ($brandivjabs as $brandivjab)
+                                                                <option value="{{ $brandivjab->id }}"
+                                                                    {{ old('brandivjab_id') == $brandivjab->id ? 'selected' : '' }}>
+                                                                    {{ $brandivjab->jabatan->nama . ($brandivjab->keterangan ? ' ' . $brandivjab->keterangan : '') . ($brandivjab->division_id ? ' ' . $brandivjab->division->nama : '') . ' - ' . $brandivjab->branch->nama }}
                                                                 </option>
-                                                                @foreach ($branches as $id => $name)
-                                                                    <option value="{{ $id }}"
-                                                                        {{ old('branch_id', $datas->branch_id) === $id ? 'selected' : '' }}>
-                                                                        {{ $name }}</option>
-                                                                @endforeach
-                                                            </select>
+                                                            @endforeach
+                                                        </select>
 
-                                                            <x-input-error class="mt-2" :messages="$errors->get('branch_id')" />
-                                                        @else
-                                                            <input type="hidden" name="branch_id"
-                                                                value="{{ $datas->branch_id }}" />
-                                                            <x-text-span>{{ $datas->branch->nama }}</x-text-span>
-                                                        @endif
-                                                    </td>
-                                                    <td>
-                                                        <select id="division_id" name="division_id" required
-                                                            tabindex="18"
-                                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
-                                                            <option value="">@lang('messages.choose')...</option>
-                                                            @foreach ($divisions as $id => $name)
-                                                                <option value="{{ $id }}">
-                                                                    {{ $name }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </td>
-                                                    <td>
-                                                        <select id="jabatan_id" name="jabatan_id" required
-                                                            tabindex="18"
-                                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
-                                                            <option value="">@lang('messages.choose')...</option>
-                                                            @foreach ($jabatans as $id => $name)
-                                                                <option value="{{ $id }}">
-                                                                    {{ $name }}</option>
-                                                            @endforeach
-                                                        </select>
+                                                        <x-input-error class="mt-2" :messages="$errors->get('brandivjab_id')" />
                                                     </td>
                                                     <td>
                                                         <x-text-input type="date" id="tanggal_mulai"
-                                                            name="tanggal_mulai" tabindex="22" />
+                                                            name="tanggal_mulai" tabindex="11" />
                                                     </td>
                                                     <td>
                                                         <x-text-input type="date" id="tanggal_akhir"
-                                                            name="tanggal_akhir" tabindex="22" />
+                                                            name="tanggal_akhir" tabindex="12" />
                                                     </td>
                                                     <td>
                                                         <x-text-input type="text" id="keterangan"
-                                                            name="keterangan" tabindex="22" />
+                                                            name="keterangan" tabindex="13" />
                                                     </td>
-                                                    <td>
+                                                    <td class="text-center">
                                                         <div class="dark:bg-black/10">
                                                             <input type="checkbox" id="isactive" name="isactive"
                                                                 class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-7 h-7"
@@ -269,7 +241,7 @@
                                     </div>
 
                                     <div class="mt-4 mb-4 mr-4 flex flex-row flex-wrap justify-end gap-2 md:gap-4">
-                                        <x-primary-button id="submit-detail" tabindex="23">
+                                        <x-primary-button id="submit-detail" tabindex="15">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                 class="size-5">
@@ -278,7 +250,7 @@
                                             </svg>
                                             <span class="pl-1">@lang('messages.save')</span>
                                         </x-primary-button>
-                                        <x-anchor-secondary href="{{ route('employee.index') }}" tabindex="24">
+                                        <x-anchor-secondary href="{{ route('employee.index') }}" tabindex="16">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                 class="size-5">
@@ -345,7 +317,7 @@
 
                     var confirmation = confirm("Are you sure you want to delete this?");
                     if (confirmation) {
-                        $(idname).closest("tr").remove();
+                        // $(idname).closest("tr").remove();
                         $.ajax({
                             url: '{{ url('/human-resource/employee/delete-jabatan') }}' + '/' + detailId,
                             type: 'delete',

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class JabatanPegawaiRequest extends FormRequest
+class BrandivjabRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -15,9 +15,10 @@ class JabatanPegawaiRequest extends FormRequest
     {
         return [
             'branch_id' => ['required', 'exists:branches,id'],
-            'division_id' => ['required', 'exists:divisions,id'],
-            'pegawai_id' => ['required', 'exists:pegawais,id'],
+            'division_id' => ['nullable'],
             'jabatan_id' => ['required', 'exists:jabatans,id'],
+            'atasan_id' => ['nullable'],
+            'keterangan' => ['nullable', 'string', 'max:200'],
         ];
     }
 }
