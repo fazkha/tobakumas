@@ -151,7 +151,7 @@ class PegawaiController extends Controller implements HasMiddleware
     public function show(Request $request): View
     {
         $datas = Pegawai::find(Crypt::decrypt($request->employee));
-        $details = Brandivjabpeg::where('pegawai_id', Crypt::decrypt($request->employee))->get();
+        $details = Brandivjabpeg::where('pegawai_id', Crypt::decrypt($request->employee))->orderBy('tanggal_mulai', 'desc')->get();
 
         return view('pegawai.show', compact(['datas', 'details']));
     }
@@ -189,7 +189,7 @@ class PegawaiController extends Controller implements HasMiddleware
     public function delete(Request $request): View
     {
         $datas = Pegawai::find(Crypt::decrypt($request->employee));
-        $details = Brandivjabpeg::where('pegawai_id', Crypt::decrypt($request->employee))->get();
+        $details = Brandivjabpeg::where('pegawai_id', Crypt::decrypt($request->employee))->orderBy('tanggal_mulai', 'desc')->get();
 
         return view('pegawai.delete', compact(['datas', 'details']));
     }

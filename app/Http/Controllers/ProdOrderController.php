@@ -9,6 +9,7 @@ use App\Models\Pegawai;
 use App\Models\ProdOrderDetail;
 use App\Models\SaleOrder;
 use App\Models\Satuan;
+use App\Models\ViewPegawaiJabatan;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Http\Request;
@@ -174,7 +175,7 @@ class ProdOrderController extends Controller implements HasMiddleware
         $details = ProdOrderDetail::where('prod_order_id', Crypt::decrypt($request->order))->get();
 
         $barangs = Barang::where('branch_id', $branch_id)->where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $petugas = Pegawai::where('branch_id', $branch_id)->where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
+        $petugas = ViewPegawaiJabatan::pluck('nama_plus', 'pegawai_id');
         $satuans = Satuan::where('isactive', 1)->orderBy('singkatan')->pluck('singkatan', 'id');
 
         if ($datas->order->isready == 1) {
@@ -246,10 +247,15 @@ class ProdOrderController extends Controller implements HasMiddleware
         $bahans = DB::select($syntax);
         $view3 = view('production-order.partials.bahanbakuproduksi', compact(['bahans']))->render();
 
+        $syntax = 'CALL sp_target_produksi(' . $request->order . ')';
+        $targets = DB::select($syntax);
+        $view4 = view('production-order.partials.targets', compact(['targets']))->render();
+
         return response()->json([
             'view' => $view,
             'view2' => $view2,
             'view3' => $view3,
+            'view4' => $view4,
         ], 200);
     }
 

@@ -162,7 +162,7 @@ return [
     'supervisor' => 'Penanggung-jawab',
     'production' => 'Produksi',
     'short-production' => 'Prod.',
-    'packaging' => 'Kemasan',
+    'packaging' => 'Pengemasan',
     'short-packaging' => 'Kemas',
     'distrbution' => 'Pengiriman',
     'init' => 'Initial',

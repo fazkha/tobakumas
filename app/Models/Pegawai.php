@@ -20,13 +20,8 @@ class Pegawai extends Model
         'updated_by',
     ];
 
-    public function branch()
+    public function view_pegawai_jabatan()
     {
-        return $this->belongsTo(Branch::class);
-    }
-
-    public function jabatan_pegawai()
-    {
-        return $this->hasMany(JabatanPegawai::class);
+        return $this->belongsTo(ViewPegawaiJabatan::class, 'id', 'pegawai_id');
     }
 }

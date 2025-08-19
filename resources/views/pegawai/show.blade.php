@@ -123,9 +123,7 @@
                                     <table id="jabatan_table" class="w-full border-separate border-spacing-2">
                                         <thead>
                                             <tr>
-                                                <th class="w-1/6">@lang('messages.branch')</th>
-                                                <th class="w-1/6">@lang('messages.division')</th>
-                                                <th class="w-1/6">@lang('messages.jobposition')</th>
+                                                <th class="w-1/3">@lang('messages.jobposition')</th>
                                                 <th class="w-1/12">@lang('messages.startdate')</th>
                                                 <th class="w-1/12">@lang('messages.enddate')</th>
                                                 <th class="w-auto">@lang('messages.description')</th>

@@ -12,6 +12,7 @@ use App\Models\JenisBarang;
 use App\Http\Requests\DeliveryOrderRequest;
 use App\Http\Requests\DeliveryOrderUpdateRequest;
 use App\Models\Satuan;
+use App\Models\ViewPegawaiJabatan;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Http\Request;
@@ -152,7 +153,8 @@ class DeliveryOrderController extends Controller implements HasMiddleware
         $datas = DeliveryOrder::find(Crypt::decrypt($request->order));
         $details = DeliveryOrderDetail::where('delivery_order_id', Crypt::decrypt($request->order))->get();
         $mitras = DeliveryOrderMitra::where('delivery_order_id', Crypt::decrypt($request->order))->get();
-        $petugas = Pegawai::where('branch_id', auth()->user()->profile->branch_id)->where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
+        // $petugas = Pegawai::where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
+        $petugas = ViewPegawaiJabatan::pluck('nama_plus', 'pegawai_id');
         $pakets = Paket::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $jenis = JenisBarang::where('nama', 'Packaging')->first();
         $satuanJenis = Barang::where('isactive', 1)->where('jenis_barang_id', $jenis->id)->first('satuan_stock_id');

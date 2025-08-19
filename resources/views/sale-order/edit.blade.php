@@ -414,9 +414,9 @@
                                                             tabindex="18"
                                                             class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                                             <option value="">@lang('messages.choose')...</option>
-                                                            @foreach ($pegawais as $id => $name)
-                                                                <option value="{{ $id }}">
-                                                                    {{ $name }}</option>
+                                                            @foreach ($pegawais as $pegawai)
+                                                                <option value="{{ $pegawai->id }}">
+                                                                    {{ $pegawai->nama }}</option>
                                                             @endforeach
                                                         </select>
                                                     </td>

@@ -14,9 +14,9 @@ class DeliveryOrderUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'tanggal' => ['date'],
-            'alamat' => ['string', 'max:200'],
-            'keterangan' => ['string', 'max:200'],
+            'tanggal' => ['nullable', 'date'],
+            'alamat' => ['nullable', 'string', 'max:200'],
+            'keterangan' => ['nullable', 'string', 'max:200'],
         ];
     }
 }

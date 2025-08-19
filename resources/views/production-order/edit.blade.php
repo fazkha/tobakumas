@@ -330,7 +330,7 @@
                                             </tr>
                                         </thead>
 
-                                        <tbody>
+                                        <tbody id="targetBody">
                                             @include('production-order.partials.targets', [$targets])
                                         </tbody>
                                     </table>
@@ -411,6 +411,7 @@
                                         $('#bahanBody').html(result.view3);
                                         $('#combineBody').html(result.view2);
                                         $('#detailBody').html(result.view);
+                                        $('#targetBody').html(result.view4);
                                         alert('{{ __('messages.combinesuccess') }}')
                                     }
                                 }

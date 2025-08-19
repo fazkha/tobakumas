@@ -119,7 +119,7 @@ class StockOpnameController extends Controller implements HasMiddleware
     {
         $branch_id = auth()->user()->profile->branch_id;
         $gudangs = Gudang::where('branch_id', $branch_id)->where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $petugas = Pegawai::where('branch_id', $branch_id)->where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
+        $petugas = Pegawai::where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
 
         return view('stock-opname.create', compact(['gudangs', 'petugas', 'branch_id']));
     }
@@ -164,7 +164,7 @@ class StockOpnameController extends Controller implements HasMiddleware
 
         $gudangs = Gudang::where('branch_id', $branch_id)->where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $barangs = Barang::where('branch_id', $branch_id)->where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $petugas = Pegawai::where('branch_id', $branch_id)->where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
+        $petugas = Pegawai::where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
         $satuans = Satuan::where('isactive', 1)->orderBy('singkatan')->pluck('singkatan', 'id');
 
         return view('stock-opname.edit', compact(['datas', 'details', 'gudangs', 'barangs', 'satuans', 'petugas', 'branch_id']));

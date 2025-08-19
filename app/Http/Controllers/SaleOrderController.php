@@ -222,8 +222,9 @@ class SaleOrderController extends Controller implements HasMiddleware
         // jenis_barang_id = 4 = adonan
         $barang2s = Barang::where('branch_id', $branch_id)->where('isactive', 1)->where('jenis_barang_id', 4)->orderBy('nama')->pluck('nama', 'id');
         $satuans = Satuan::where('isactive', 1)->orderBy('singkatan')->pluck('singkatan', 'id');
-        // jabatan_id = 3 = mitra
-        $pegawais = Pegawai::where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
+        // jabatan = mitra
+        $syntax = 'CALL sp_mitra_order(' . '\'Mitra\'' . ',' . Crypt::decrypt($request->order) . ')';
+        $pegawais = DB::select($syntax);
 
         return view('sale-order.edit', compact(['datas', 'details', 'totals', 'adonans', 'customers', 'barangs', 'barang2s', 'satuans', 'pegawais', 'branch_id']));
     }
