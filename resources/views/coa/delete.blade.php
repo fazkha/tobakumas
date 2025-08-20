@@ -272,7 +272,7 @@
                 <div
                     class="flex h-full items-center justify-center overflow-auto rounded-lg border border-primary-500 bg-primary-50 dark:border-primary-800 dark:bg-primary-800">
                     <img id="gambar_soal" :src="imagePreview" alt="o.o"
-                        :class="imageOrientation === 'p' ? 'w-auto h-full' : 'w-full h-auto'" />
+                        :class="imageOrientation == 'p' ? 'w-auto h-full' : 'w-full h-auto'" />
                 </div>
             </div>
         </div>

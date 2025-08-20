@@ -65,7 +65,7 @@
             function togglePasswordVisibility() {
                 const passwordField = document.getElementById('password');
                 const password_confirmationField = document.getElementById('password_confirmation');
-                if (passwordField.type === "password") {
+                if (passwordField.type == "password") {
                     passwordField.type = "text";
                     password_confirmationField.type = "text";
                 } else {

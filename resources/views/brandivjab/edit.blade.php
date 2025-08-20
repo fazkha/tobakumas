@@ -119,7 +119,7 @@
                                             <option value="">@lang('messages.choose')...</option>
                                             @foreach ($atasans as $atasan)
                                                 <option value="{{ $atasan->id }}"
-                                                    {{ old('atasan_id', $datas->atasan_id) === $atasan->id ? 'selected' : '' }}>
+                                                    {{ old('atasan_id', $datas->atasan_id) == $atasan->id ? 'selected' : '' }}>
                                                     {{ $atasan->jabatan->nama . ($atasan->keterangan ? ' ' . $atasan->keterangan : '') . ($atasan->division_id ? ' ' . $atasan->division->nama : '') . ' - ' . $atasan->branch->nama }}
                                                 </option>
                                             @endforeach

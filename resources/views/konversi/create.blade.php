@@ -77,19 +77,19 @@
                                             class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                             <option value="">@lang('messages.choose')...</option>
                                             <option value="{{ config('custom.nilai_tambah') }}"
-                                                {{ old('operator') === config('custom.nilai_tambah') ? 'selected' : '' }}>
+                                                {{ old('operator') == config('custom.nilai_tambah') ? 'selected' : '' }}>
                                                 {{ config('custom.simbol_tambah') }}
                                             </option>
                                             <option value="{{ config('custom.nilai_kurang') }}"
-                                                {{ old('operator') === config('custom.nilai_kurang') ? 'selected' : '' }}>
+                                                {{ old('operator') == config('custom.nilai_kurang') ? 'selected' : '' }}>
                                                 {{ config('custom.simbol_kurang') }}
                                             </option>
                                             <option value="{{ config('custom.nilai_bagi') }}"
-                                                {{ old('operator') === config('custom.nilai_bagi') ? 'selected' : '' }}>
+                                                {{ old('operator') == config('custom.nilai_bagi') ? 'selected' : '' }}>
                                                 {{ config('custom.simbol_bagi') }}
                                             </option>
                                             <option value="{{ config('custom.nilai_kali') }}"
-                                                {{ old('operator') === config('custom.nilai_kali') ? 'selected' : '' }}>
+                                                {{ old('operator') == config('custom.nilai_kali') ? 'selected' : '' }}>
                                                 {{ config('custom.simbol_kali') }}
                                             </option>
                                         </select>

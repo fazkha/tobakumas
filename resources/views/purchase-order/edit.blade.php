@@ -63,14 +63,11 @@
                                     <div class="w-auto pb-4">
                                         <label for="tanggal"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.transactiondate')</label>
-                                        <x-text-span>{{ date_format(date_create($datas->tanggal), 'd/m/Y') }}</x-text-span>
-                                        <div class="hidden">
-                                            <x-text-input type="date" name="tanggal" id="tanggal"
-                                                data-date-format="dd-mm-yyyy" tabindex="2" required disabled
-                                                value="{{ old('tanggal', $datas->tanggal) }}" />
+                                        <x-text-input type="date" name="tanggal" id="tanggal"
+                                            data-date-format="dd-mm-yyyy" tabindex="2" required
+                                            value="{{ old('tanggal', $datas->tanggal) }}" />
 
-                                            <x-input-error class="mt-2" :messages="$errors->get('tanggal')" />
-                                        </div>
+                                        <x-input-error class="mt-2" :messages="$errors->get('tanggal')" />
                                     </div>
 
                                     <div class="w-auto pb-4">
@@ -79,9 +76,9 @@
                                         <select name="tunai" id="tunai" tabindex="3" required
                                             class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                             <option value="">@lang('messages.choose')...</option>
-                                            <option value="1" {{ $datas->tunai === 1 ? 'selected' : '' }}>
+                                            <option value="1" {{ $datas->tunai == 1 ? 'selected' : '' }}>
                                                 @lang('messages.cash')</option>
-                                            <option value="2" {{ $datas->tunai === 2 ? 'selected' : '' }}>
+                                            <option value="2" {{ $datas->tunai == 2 ? 'selected' : '' }}>
                                                 @lang('messages.credit')</option>
                                         </select>
 
@@ -167,10 +164,6 @@
         <div class="relative flex flex-col lg:flex-row gap-4 px-4 py-2">
             <div class="w-full">
                 <div class="flex flex-col items-center">
-
-                    <div class="w-full" role="alert">
-                        @include('purchase-order.partials.feedback')
-                    </div>
 
                     <form id="form-order" method="POST" enctype="multipart/form-data" class="w-full">
                         @csrf

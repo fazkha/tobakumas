@@ -100,10 +100,10 @@
                                             <select name="balance" id="balance"
                                                 class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                                 <option value="">Choose side...</option>
-                                                <option value="1" {{ old('balance') === '1' ? 'selected' : '' }}>
+                                                <option value="1" {{ old('balance') == '1' ? 'selected' : '' }}>
                                                     Debit
                                                 </option>
-                                                <option value="2" {{ old('balance') === '2' ? 'selected' : '' }}>
+                                                <option value="2" {{ old('balance') == '2' ? 'selected' : '' }}>
                                                     Credit
                                                 </option>
                                             </select>

@@ -74,7 +74,7 @@
                                 <div class="w-auto pb-4 lg:pb-12">
                                     <label for="tunai"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.payment')</label>
-                                    <x-text-span>{{ $datas->tunai === 1 ? __('messages.cash') : __('messages.credit') }}</x-text-span>
+                                    <x-text-span>{{ $datas->tunai == 1 ? __('messages.cash') : __('messages.credit') }}</x-text-span>
                                 </div>
 
                                 {{-- <div class="pb-4 lg:pb-12">

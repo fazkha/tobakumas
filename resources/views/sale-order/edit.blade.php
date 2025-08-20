@@ -84,9 +84,9 @@
                                         <select name="tunai" id="tunai" tabindex="3" required
                                             class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                             <option value="">@lang('messages.choose')...</option>
-                                            <option value="1" {{ $datas->tunai === 1 ? 'selected' : '' }}>
+                                            <option value="1" {{ $datas->tunai == 1 ? 'selected' : '' }}>
                                                 @lang('messages.cash')</option>
-                                            <option value="2" {{ $datas->tunai === 2 ? 'selected' : '' }}>
+                                            <option value="2" {{ $datas->tunai == 2 ? 'selected' : '' }}>
                                                 @lang('messages.credit')</option>
                                         </select>
 

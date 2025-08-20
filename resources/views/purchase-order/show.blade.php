@@ -50,7 +50,7 @@
                                 <div class="w-auto pb-4">
                                     <label for="tunai"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.payment')</label>
-                                    <x-text-span>{{ $datas->tunai === 1 ? 'Cash' : 'Credit' }}</x-text-span>
+                                    <x-text-span>{{ $datas->tunai == 1 ? 'Cash' : 'Credit' }}</x-text-span>
                                 </div>
                             </div>
 

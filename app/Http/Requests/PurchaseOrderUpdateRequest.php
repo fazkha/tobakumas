@@ -15,11 +15,6 @@ class PurchaseOrderUpdateRequest extends FormRequest
     {
         return [
             'supplier_id' => ['required', 'exists:suppliers,id'],
-            'tanggal' => ['nullable', 'date'],
-            'no_order' => ['nullable', 'string', 'max:200'],
-            'total_harga' => ['nullable'],
-            'biaya_angkutan' => ['nullable'],
-            'pajak' => ['nullable'],
         ];
     }
 }
