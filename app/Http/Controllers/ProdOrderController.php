@@ -175,7 +175,8 @@ class ProdOrderController extends Controller implements HasMiddleware
         $details = ProdOrderDetail::where('prod_order_id', Crypt::decrypt($request->order))->get();
 
         $barangs = Barang::where('branch_id', $branch_id)->where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $petugas = ViewPegawaiJabatan::pluck('nama_plus', 'pegawai_id');
+        $petugas = ViewPegawaiJabatan::where('islevel', 6)->where('kode_branch', 'PST')->orderBy('nama_plus')->pluck('nama_plus', 'pegawai_id');
+        $petugas2 = ViewPegawaiJabatan::where('islevel', 3)->where('kode_branch', 'PST')->orderBy('nama_plus')->pluck('nama_plus', 'pegawai_id');
         $satuans = Satuan::where('isactive', 1)->orderBy('singkatan')->pluck('singkatan', 'id');
 
         if ($datas->order->isready == 1) {
@@ -197,7 +198,7 @@ class ProdOrderController extends Controller implements HasMiddleware
         $syntax = 'CALL sp_target_produksi(' . Crypt::decrypt($request->order) . ')';
         $targets = DB::select($syntax);
 
-        return view('production-order.edit', compact(['datas', 'details', 'barangs', 'satuans', 'petugas', 'branch_id', 'sales', 'bahans', 'targets']));
+        return view('production-order.edit', compact(['datas', 'details', 'barangs', 'satuans', 'petugas', 'petugas2', 'branch_id', 'sales', 'bahans', 'targets']));
     }
 
     public function update(ProdOrderRequest $request): RedirectResponse

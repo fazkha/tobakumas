@@ -12,6 +12,7 @@ class Jabatan extends Model
     protected $fillable = [
         'nama',
         'keterangan',
+        'islevel',
         'isactive',
         'created_by',
         'updated_by',

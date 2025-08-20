@@ -164,7 +164,7 @@
                                     </g>
                                 </svg>
                                 <span class="block font-medium text-primary-600 dark:text-primary-500">
-                                    @lang('messages.input')
+                                    @lang('messages.rawmaterial')
                                 </span>
                             </div>
 
@@ -219,7 +219,7 @@
                                     </g>
                                 </svg>
                                 <span class="block font-medium text-primary-600 dark:text-primary-500">
-                                    @lang('messages.output')
+                                    @lang('messages.productionresult')
                                 </span>
                             </div>
 

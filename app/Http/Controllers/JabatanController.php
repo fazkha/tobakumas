@@ -56,7 +56,7 @@ class JabatanController extends Controller implements HasMiddleware
                 }
             }
         }
-        // $datas = $datas->where('user_id', auth()->user()->id);
+        $datas = $datas->orderBy('islevel');
         $datas = $datas->latest()->paginate(session('jabatan_pp'));
 
         if ($request->page && $datas->count() == 0) {
@@ -91,7 +91,8 @@ class JabatanController extends Controller implements HasMiddleware
                 }
             }
         }
-        // $datas = $datas->where('user_id', auth()->user()->id);
+
+        $datas = $datas->orderBy('islevel');
         $datas = $datas->latest()->paginate(session('jabatan_pp'));
 
         $datas->withPath('/human-resource/jabatan'); // pagination url to
@@ -116,6 +117,7 @@ class JabatanController extends Controller implements HasMiddleware
             $jabatan = Jabatan::create([
                 'nama' => $request->nama,
                 'keterangan' => $request->keterangan,
+                'islevel' => $request->islevel,
                 'isactive' => ($request->isactive == 'on' ? 1 : 0),
                 'created_by' => auth()->user()->email,
                 'updated_by' => auth()->user()->email,
@@ -152,6 +154,7 @@ class JabatanController extends Controller implements HasMiddleware
             $jabatan->update([
                 'nama' => $request->nama,
                 'keterangan' => $request->keterangan,
+                'islevel' => $request->islevel,
                 'isactive' => ($request->isactive == 'on' ? 1 : 0),
                 'updated_by' => auth()->user()->email,
             ]);

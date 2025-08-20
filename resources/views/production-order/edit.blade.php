@@ -53,6 +53,7 @@
 
                                     <div class="w-auto pb-4">
                                         <input type="hidden" name="branch_id" value="{{ $branch_id }}" />
+                                        <input type="hidden" id="prod_status" value="{{ $datas->isactive }}" />
                                         <label for="tanggal"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.productiondate')</label>
                                         <x-text-input type="date" name="tanggal" id="tanggal"
@@ -120,7 +121,7 @@
                                         <select name="tanggungjawab_id" id="tanggungjawab_id" tabindex="5"
                                             class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                             <option value="">@lang('messages.choose')...</option>
-                                            @foreach ($petugas as $id => $name)
+                                            @foreach ($petugas2 as $id => $name)
                                                 <option value="{{ $id }}"
                                                     {{ $datas->tanggungjawab_id == $id ? 'selected' : '' }}>
                                                     {{ $name }}</option>
@@ -255,7 +256,7 @@
                                         </g>
                                     </svg>
                                     <span class="block font-medium text-primary-600 dark:text-primary-500">
-                                        @lang('messages.output')
+                                        @lang('messages.productionresult')
                                     </span>
                                 </div>
 
@@ -398,9 +399,11 @@
 
                     $("input[name^='order']:checked").map(function() {
                         var xjoin = $(this).val();
-                        var xstat = $('#prod_status').val();
+                        // var xstat = $('#prod_status').val();
 
-                        if (xjoin && xstat !== '0') {
+                        if (xjoin) {
+                            console.log(xjoin);
+
                             $.ajax({
                                 url: '{{ url('/production/order/combine') }}' + "/" + xkey +
                                     "/" + xjoin,
@@ -412,12 +415,13 @@
                                         $('#combineBody').html(result.view2);
                                         $('#detailBody').html(result.view);
                                         $('#targetBody').html(result.view4);
-                                        alert('{{ __('messages.combinesuccess') }}')
                                     }
                                 }
                             });
                         }
                     }).get();
+
+                    alert('{{ __('messages.combinesuccess') }}')
                 });
 
                 $("#submit-detail").on("click", function(e) {

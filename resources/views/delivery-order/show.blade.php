@@ -196,7 +196,7 @@
                                             <tr>
                                                 <th class="w-1/5">@lang('messages.goods')</th>
                                                 <th class="w-auto">@lang('messages.description')</th>
-                                                <th class="w-1/6">@lang('messages.packagegroup')</th>
+                                                <th class="w-1/6">@lang('messages.package')</th>
                                                 <th class="w-1/6">@lang('messages.packaging')</th>
                                                 <th class="w-1/6">@lang('messages.unit')</th>
                                                 <th class="w-1/12">@lang('messages.quantity')</th>
@@ -281,7 +281,7 @@
                                                 <th class="w-1/5">@lang('messages.partner')</th>
                                                 <th class="w-1/5">@lang('messages.goods')</th>
                                                 <th class="w-auto">@lang('messages.description')</th>
-                                                <th class="w-1/6">@lang('messages.packagegroup')</th>
+                                                <th class="w-1/6">@lang('messages.package')</th>
                                                 <th class="w-1/6">@lang('messages.packaging')</th>
                                                 <th class="w-1/6">@lang('messages.unit')</th>
                                                 <th class="w-1/12">@lang('messages.quantity')</th>

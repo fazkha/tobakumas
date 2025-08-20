@@ -173,6 +173,7 @@ return [
     'process' => 'Process',
     'input' => 'Input',
     'output' => 'Output',
+    'productionresult' => 'Production Result',
     'dough' => 'Dough',
     'partner' => 'Partner',
     'import' => 'Import',
@@ -197,4 +198,5 @@ return [
     'packagegroup' => 'Package Group',
     'deliveryfinish' => 'Done Delivery',
     'jobposition' => 'Job Position',
+    'positionlevel' => 'Position Level',
 ];

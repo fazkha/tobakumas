@@ -44,13 +44,24 @@
 
                                         <x-input-error class="mt-2" :messages="$errors->get('nama')" />
                                     </div>
+
+                                    <div class="w-auto pb-4">
+                                        <label for="islevel"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.positionlevel')</label>
+                                        <x-text-input type="number" min="1" max="9" name="islevel"
+                                            id="islevel" tabindex="2" required
+                                            placeholder="{{ __('messages.enter') }} {{ __('messages.name') }}"
+                                            value="{{ old('islevel') }}" />
+
+                                        <x-input-error class="mt-2" :messages="$errors->get('islevel')" />
+                                    </div>
                                 </div>
 
                                 <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
                                     <div class="pb-4 lg:pb-12">
                                         <label for="keterangan"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</label>
-                                        <x-text-input type="text" name="keterangan" id="keterangan" tabindex="2"
+                                        <x-text-input type="text" name="keterangan" id="keterangan" tabindex="3"
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.description') }}"
                                             value="{{ old('keterangan') }}" />
 
@@ -70,7 +81,7 @@
                                             </label>
                                         </div>
 
-                                        <x-primary-button type="submit" class="block" tabindex="4">
+                                        <x-primary-button type="submit" class="block" tabindex="5">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="size-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -78,7 +89,7 @@
                                             </svg>
                                             <span class="pl-1">@lang('messages.save')</span>
                                         </x-primary-button>
-                                        <x-anchor-secondary href="{{ route('jabatan.index') }}" tabindex="5">
+                                        <x-anchor-secondary href="{{ route('jabatan.index') }}" tabindex="6">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="size-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"

@@ -144,7 +144,7 @@
                                             x-bind:disabled="buttonDisabled"
                                             class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                             <option value="">@lang('messages.choose')...</option>
-                                            @foreach ($petugas as $id => $name)
+                                            @foreach ($petugas2 as $id => $name)
                                                 <option value="{{ $id }}"
                                                     {{ $datas->tanggungjawab_id == $id ? 'selected' : '' }}>
                                                     {{ $name }}</option>
@@ -279,7 +279,7 @@
                                                 <tr>
                                                     <th class="w-1/5">@lang('messages.goods')</th>
                                                     <th class="w-auto">@lang('messages.description')</th>
-                                                    <th class="w-1/6">@lang('messages.packagegroup')</th>
+                                                    <th class="w-1/6">@lang('messages.package')</th>
                                                     <th class="w-1/6">@lang('messages.packaging')</th>
                                                     <th class="w-1/6">@lang('messages.unit')</th>
                                                     <th class="w-1/12">@lang('messages.quantity')</th>
@@ -426,7 +426,7 @@
                                                     <th class="w-1/5">@lang('messages.partner')</th>
                                                     <th class="w-1/5">@lang('messages.goods')</th>
                                                     <th class="w-auto">@lang('messages.description')</th>
-                                                    <th class="w-1/6">@lang('messages.packagegroup')</th>
+                                                    <th class="w-1/6">@lang('messages.package')</th>
                                                     <th class="w-1/6">@lang('messages.packaging')</th>
                                                     <th class="w-1/6">@lang('messages.unit')</th>
                                                     <th class="w-1/12">@lang('messages.quantity')</th>

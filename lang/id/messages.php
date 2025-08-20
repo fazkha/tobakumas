@@ -173,6 +173,7 @@ return [
     'process' => 'Proses',
     'input' => 'Masukkan',
     'output' => 'Keluaran',
+    'productionresult' => 'Hasil Produksi',
     'dough' => 'Adonan',
     'partner' => 'Mitra',
     'import' => 'Salin',
@@ -197,4 +198,5 @@ return [
     'packagegroup' => 'Kelompok Paket',
     'deliveryfinish' => 'Pengiriman Selesai',
     'jobposition' => 'Jabatan',
+    'positionlevel' => 'Tingkat Jabatan',
 ];

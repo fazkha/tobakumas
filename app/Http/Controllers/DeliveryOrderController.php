@@ -153,8 +153,8 @@ class DeliveryOrderController extends Controller implements HasMiddleware
         $datas = DeliveryOrder::find(Crypt::decrypt($request->order));
         $details = DeliveryOrderDetail::where('delivery_order_id', Crypt::decrypt($request->order))->get();
         $mitras = DeliveryOrderMitra::where('delivery_order_id', Crypt::decrypt($request->order))->get();
-        // $petugas = Pegawai::where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
-        $petugas = ViewPegawaiJabatan::pluck('nama_plus', 'pegawai_id');
+        $petugas = ViewPegawaiJabatan::where('islevel', 6)->where('kode_branch', 'PST')->orderBy('nama_plus')->pluck('nama_plus', 'pegawai_id');
+        $petugas2 = ViewPegawaiJabatan::where('islevel', 3)->where('kode_branch', 'PST')->orderBy('nama_plus')->pluck('nama_plus', 'pegawai_id');
         $pakets = Paket::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $jenis = JenisBarang::where('nama', 'Packaging')->first();
         $satuanJenis = Barang::where('isactive', 1)->where('jenis_barang_id', $jenis->id)->first('satuan_stock_id');
@@ -164,7 +164,7 @@ class DeliveryOrderController extends Controller implements HasMiddleware
         $syntax = 'CALL sp_hitung_kemasan(' . Crypt::decrypt($request->order) . ',' . auth()->user()->profile->branch_id . ')';
         $kemasans = DB::select($syntax);
 
-        return view('delivery-order.edit', compact(['datas', 'petugas', 'pakets', 'barangs', 'satuans', 'details', 'mitras', 'kemasans']));
+        return view('delivery-order.edit', compact(['datas', 'petugas', 'petugas2', 'pakets', 'barangs', 'satuans', 'details', 'mitras', 'kemasans']));
     }
 
     public function update(DeliveryOrderUpdateRequest $request): RedirectResponse

@@ -13,6 +13,10 @@
                         #
                     </th>
                     <th
+                        class="px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
+                        @lang('messages.positionlevel')
+                    </th>
+                    <th
                         class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
                         @lang('messages.name')
                     </th>
@@ -33,7 +37,7 @@
             <tbody>
                 @if ($datas->count() == 0)
                     <tr>
-                        <td colspan="5" class="text-sm bg-primary-20 dark:bg-primary-900">
+                        <td colspan="6" class="text-sm bg-primary-20 dark:bg-primary-900">
                             <div class="flex items-center justify-center p-5">@lang('messages.datanotavailable')</div>
                         </td>
                     </tr>
@@ -45,6 +49,10 @@
                             class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
                             <p class="text-center text-gray-900 whitespace-no-wrap dark:text-white">{{ ++$i }}
                             </p>
+                        </td>
+                        <td
+                            class="text-center px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
+                            <span class="text-gray-900 dark:text-white">{{ $data->islevel }}</span>
                         </td>
                         <td
                             class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
