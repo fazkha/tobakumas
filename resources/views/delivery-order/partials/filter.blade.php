@@ -33,9 +33,9 @@
                             class="text-sm px-2 leading-tight pl-28 pr-9 py-2 appearance-none w-full h-full rounded-md border block bg-primary-20 border-primary-100 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800">
                             <option {{ session('delivery-order_pp') == 5 ? 'selected' : '' }} value="5">5
                             </option>
-                            <option {{ session('delivery-order_pp') == 10 ? 'selected' : '' }} value="10">10
+                            <option {{ session('delivery-order_pp') == 24 ? 'selected' : '' }} value="24">24
                             </option>
-                            <option {{ session('delivery-order_pp') == 20 ? 'selected' : '' }} value="20">20
+                            <option {{ session('delivery-order_pp') == 36 ? 'selected' : '' }} value="36">36
                             </option>
                         </select>
                         <div

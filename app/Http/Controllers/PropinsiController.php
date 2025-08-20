@@ -28,7 +28,7 @@ class PropinsiController extends Controller implements HasMiddleware
     public function index(Request $request)
     {
         if (!$request->session()->exists('propinsi_pp')) {
-            $request->session()->put('propinsi_pp', 5);
+            $request->session()->put('propinsi_pp', 12);
         }
         if (!$request->session()->exists('propinsi_isactive')) {
             $request->session()->put('propinsi_isactive', 'all');

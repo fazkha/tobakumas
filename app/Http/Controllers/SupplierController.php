@@ -33,7 +33,7 @@ class SupplierController extends Controller implements HasMiddleware
     public function index(Request $request)
     {
         if (!$request->session()->exists('supplier_pp')) {
-            $request->session()->put('supplier_pp', 5);
+            $request->session()->put('supplier_pp', 12);
         }
         if (!$request->session()->exists('supplier_isactive')) {
             $request->session()->put('supplier_isactive', 'all');

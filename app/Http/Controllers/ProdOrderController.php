@@ -35,7 +35,7 @@ class ProdOrderController extends Controller implements HasMiddleware
     public function index(Request $request)
     {
         if (!$request->session()->exists('production-order_pp')) {
-            $request->session()->put('production-order_pp', 5);
+            $request->session()->put('production-order_pp', 12);
         }
         if (!$request->session()->exists('production-order_selesai')) {
             $request->session()->put('production-order_selesai', 'all');

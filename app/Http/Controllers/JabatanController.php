@@ -28,7 +28,7 @@ class JabatanController extends Controller implements HasMiddleware
     public function index(Request $request)
     {
         if (!$request->session()->exists('jabatan_pp')) {
-            $request->session()->put('jabatan_pp', 5);
+            $request->session()->put('jabatan_pp', 12);
         }
         if (!$request->session()->exists('jabatan_isactive')) {
             $request->session()->put('jabatan_isactive', 'all');
