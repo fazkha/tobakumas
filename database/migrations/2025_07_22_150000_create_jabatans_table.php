@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('jabatans', function (Blueprint $table) {
             $table->id();
+            $table->unsignedTinyInteger('islevel');
             $table->string('nama');
             $table->string('keterangan')->nullable();
             $table->unsignedTinyInteger('isactive')->default(0);
