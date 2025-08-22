@@ -148,7 +148,8 @@ Route::prefix('marketing')->middleware('auth')->group(function () {
 
     Route::resource('brandivjabkab', BrandivjabkabController::class);
     Route::get('brandivjabkab/{brandivjabkab}/delete', [BrandivjabkabController::class, 'delete'])->name('brandivjabkab.delete');
-    Route::get('brandivjabkab/fetchdb/{pp}/{isactive}/{branch}/{division}/{jabatan}/{kabupaten}', [BrandivjabkabController::class, 'fetchdb']);
+    Route::get('brandivjabkab/fetchdb/{pp}/{isactive}/{propinsi}/{kabupaten}', [BrandivjabkabController::class, 'fetchdb']);
+    Route::post('brandivjabkab/updateDetail/{brandivjabkab}', [BrandivjabkabController::class, 'updateDetail'])->name('brandivjabkab.updateDetail');
 })->missing(function (Request $request) {
     return Redirect::route('dashboard');
 });

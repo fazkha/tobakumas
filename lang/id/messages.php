@@ -71,6 +71,7 @@ return [
     'propinsi' => 'Propinsi',
     'kabupaten' => 'Kabupaten',
     'brandivjab' => 'Pengaturan Organisasi',
+    'brandivjabkab' => 'Pengaturan Wilayah',
     'superior' => 'Atasan',
     'enter' => 'Ketikkan',
     'youdonothaveaccess' => 'Anda tidak memiliki wewenang untuk membuka halaman ini',
@@ -199,4 +200,5 @@ return [
     'deliveryfinish' => 'Pengiriman Selesai',
     'jobposition' => 'Jabatan',
     'positionlevel' => 'Tingkat Jabatan',
+    'region' => 'Wilayah',
 ];

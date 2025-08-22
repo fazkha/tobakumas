@@ -18,4 +18,19 @@ class Brandivjabkab extends Model
         'created_by',
         'updated_by',
     ];
+
+    public function brandivjab()
+    {
+        return $this->belongsTo(Brandivjab::class);
+    }
+
+    public function propinsi()
+    {
+        return $this->belongsTo(Propinsi::class);
+    }
+
+    public function kabupaten()
+    {
+        return $this->belongsTo(Kabupaten::class);
+    }
 }

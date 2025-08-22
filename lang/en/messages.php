@@ -71,6 +71,7 @@ return [
     'propinsi' => 'Province',
     'kabupaten' => 'Regency',
     'brandivjab' => 'Office Setup',
+    'brandivjabkab' => 'Region Setup',
     'superior' => 'Superior',
     'enter' => 'Enter',
     'youdonothaveaccess' => 'You don\'t have permission to access this page',
@@ -199,4 +200,5 @@ return [
     'deliveryfinish' => 'Done Delivery',
     'jobposition' => 'Job Position',
     'positionlevel' => 'Position Level',
+    'region' => 'Region',
 ];

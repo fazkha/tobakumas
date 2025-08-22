@@ -1,5 +1,6 @@
 @php
     use Illuminate\Support\Facades\Crypt;
+    use App\Models\Brandivjabkab;
 @endphp
 
 <div class="w-full overflow-x-auto">
@@ -9,37 +10,49 @@
             <thead>
                 <tr>
                     <th
-                        class="w-auto px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
+                        class="px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
                         #
                     </th>
                     <th
-                        class="w-1/6 px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
-                        @lang('messages.name')
+                        class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
+                        @lang('messages.branch')
                     </th>
                     <th
-                        class="w-auto px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
-                        Email
+                        class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
+                        @lang('messages.division')
                     </th>
                     <th
-                        class="w-full px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
-                        @lang('messages.role')
+                        class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
+                        @lang('messages.jobposition')
                     </th>
                     <th
-                        class="w-auto px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
+                        class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
+                        @lang('messages.region')
+                    </th>
+                    <th
+                        class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
+                        @lang('messages.description')
+                    </th>
+                    <th
+                        class="px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
+                        @lang('messages.active')
+                    </th>
+                    <th
+                        class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
                         &nbsp;
                     </th>
                 </tr>
             </thead>
             <tbody>
-                @if ($users->count() == 0)
+                @if ($datas->count() == 0)
                     <tr>
-                        <td colspan="5" class="text-sm bg-primary-20 dark:bg-primary-900">
+                        <td colspan="8" class="text-sm bg-primary-20 dark:bg-primary-900">
                             <div class="flex items-center justify-center p-5">@lang('messages.datanotavailable')</div>
                         </td>
                     </tr>
                 @endif
 
-                @foreach ($users as $user)
+                @foreach ($datas as $data)
                     <tr>
                         <td
                             class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
@@ -48,28 +61,54 @@
                         </td>
                         <td
                             class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
-                            <span class="text-gray-900 dark:text-white">{{ $user->name }}</span>
+                            <span class="text-gray-900 dark:text-white">{{ $data->brandivjab->branch->nama }}</span>
                         </td>
                         <td
                             class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
-                            <span class="text-gray-900 dark:text-white">{{ $user->email }}</span>
+                            <span
+                                class="text-gray-900 dark:text-white">{{ $data->brandivjab->division_id ? $data->brandivjab->division->nama : '-' }}</span>
                         </td>
                         <td
                             class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
+                            <span
+                                class="text-gray-900 dark:text-white">{{ $data->brandivjab->jabatan->nama . ' ' . $data->brandivjab->keterangan }}</span>
+                        </td>
+                        <td
+                            class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
+                            @php
+                                $wilayahs = Brandivjabkab::where('brandivjab_id', $data->brandivjab_id)
+                                    ->orderBy('kabupaten_id')
+                                    ->get();
+                            @endphp
                             <div class="flex flex-col flex-wrap lg:flex-row gap-2 text-gray-900 dark:text-white">
-                                @foreach ($user->getRoleNames() as $role)
+                                @foreach ($wilayahs as $wilayah)
                                     <div
                                         class="flex px-2 py-1 border rounded items-center bg-primary-100 dark:bg-primary-700 dark:border-primary-600">
-                                        <span>{{ $role }}</span>
+                                        <span>{{ $wilayah->kabupaten->nama }}</span>
                                     </div>
                                 @endforeach
                             </div>
                         </td>
                         <td
                             class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
-                            <div class="flex flex-row items-center justify-center">
-                                @can('user-show')
-                                    <a href="{{ route('users.show', Crypt::Encrypt($user->id)) }}"
+                            <span class="text-gray-900 dark:text-white">{{ $data->keterangan }}</span>
+                        </td>
+                        <td
+                            class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
+                            <span class="flex items-center justify-center">
+                                @if ($data->isactive == '1')
+                                    <span>✔️</span>
+                                @endif
+                                @if ($data->isactive == '0')
+                                    <span>❌</span>
+                                @endif
+                            </span>
+                        </td>
+                        <td class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800"
+                            style="vertical-align: middle;">
+                            <div class="flex items-center justify-center">
+                                @can('kabupaten-show')
+                                    <a href="{{ route('brandivjabkab.show', Crypt::Encrypt($data->brandivjab_id)) }}"
                                         title="{{ __('messages.view') }}">
                                         <span
                                             class="relative inline-block px-2 py-2 font-semibold text-blue-800 dark:text-blue-50 leading-tight">
@@ -84,8 +123,8 @@
                                     </a>
                                 @endcan
 
-                                @can('user-edit')
-                                    <a href="{{ route('users.edit', Crypt::Encrypt($user->id)) }}"
+                                @can('kabupaten-edit')
+                                    <a href="{{ route('brandivjabkab.edit', Crypt::Encrypt($data->brandivjab_id)) }}"
                                         title="{{ __('messages.edit') }}" class="ml-2">
                                         <span
                                             class="relative inline-block px-2 py-2 font-semibold text-green-800 dark:text-green-50 leading-tight">
@@ -100,8 +139,8 @@
                                     </a>
                                 @endcan
 
-                                @can('user-delete')
-                                    <a href="{{ route('users.delete', Crypt::Encrypt($user->id)) }}"
+                                @can('forbidden-delete')
+                                    <a href="{{ route('brandivjabkab.delete', Crypt::Encrypt($data->brandivjab_id)) }}"
                                         title="{{ __('messages.delete') }}" class="ml-2">
                                         <span
                                             class="relative inline-block px-2 py-2 font-semibold text-red-800 dark:text-red-50 leading-tight">
@@ -124,7 +163,7 @@
         <div
             class="px-3 py-3 bg-primary-50 items-center xs:justify-between border-t border-primary-100 dark:text-white dark:bg-primary-800 dark:border-primary-800">
             <div class="mt-2 xs:mt-0">
-                {{ $users->links() }}
+                {{ $datas->links() }}
             </div>
         </div>
     </div>

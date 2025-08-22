@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\BrandivjabRequest;
 use App\Models\Branch;
 use App\Models\Brandivjab;
 use App\Models\Division;
 use App\Models\Jabatan;
+use App\Http\Requests\BrandivjabRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;

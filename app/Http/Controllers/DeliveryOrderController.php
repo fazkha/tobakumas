@@ -153,7 +153,8 @@ class DeliveryOrderController extends Controller implements HasMiddleware
         $datas = DeliveryOrder::find(Crypt::decrypt($request->order));
         $details = DeliveryOrderDetail::where('delivery_order_id', Crypt::decrypt($request->order))->get();
         $mitras = DeliveryOrderMitra::where('delivery_order_id', Crypt::decrypt($request->order))->get();
-        $petugas = ViewPegawaiJabatan::where('islevel', 6)->where('kode_branch', 'PST')->orderBy('nama_plus')->pluck('nama_plus', 'pegawai_id');
+        // islevel = 7 = staff; islevel = 3 = kepala divisi
+        $petugas = ViewPegawaiJabatan::where('islevel', 7)->where('kode_branch', 'PST')->orderBy('nama_plus')->pluck('nama_plus', 'pegawai_id');
         $petugas2 = ViewPegawaiJabatan::where('islevel', 3)->where('kode_branch', 'PST')->orderBy('nama_plus')->pluck('nama_plus', 'pegawai_id');
         $pakets = Paket::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $jenis = JenisBarang::where('nama', 'Packaging')->first();

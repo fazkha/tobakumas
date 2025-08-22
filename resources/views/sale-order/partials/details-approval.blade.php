@@ -26,7 +26,7 @@
                             <label class="cursor-pointer">
                                 <input type="checkbox" onclick="approveDetail({{ $detail->id }})"
                                     id="approved-{{ $detail->id }}" name="approved-{{ $detail->id }}"
-                                    class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-7 h-7"
+                                    class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-7 h-7 rounded-lg"
                                     {{ $detail->approved == 1 ? 'checked' : '' }}>
                             </label>
                         </div>

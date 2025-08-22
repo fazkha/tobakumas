@@ -175,7 +175,8 @@ class ProdOrderController extends Controller implements HasMiddleware
         $details = ProdOrderDetail::where('prod_order_id', Crypt::decrypt($request->order))->get();
 
         $barangs = Barang::where('branch_id', $branch_id)->where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $petugas = ViewPegawaiJabatan::where('islevel', 6)->where('kode_branch', 'PST')->orderBy('nama_plus')->pluck('nama_plus', 'pegawai_id');
+        // islevel = 7 = staff; islevel = 3 = kepala divisi
+        $petugas = ViewPegawaiJabatan::where('islevel', 7)->where('kode_branch', 'PST')->orderBy('nama_plus')->pluck('nama_plus', 'pegawai_id');
         $petugas2 = ViewPegawaiJabatan::where('islevel', 3)->where('kode_branch', 'PST')->orderBy('nama_plus')->pluck('nama_plus', 'pegawai_id');
         $satuans = Satuan::where('isactive', 1)->orderBy('singkatan')->pluck('singkatan', 'id');
 
