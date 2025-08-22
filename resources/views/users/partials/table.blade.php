@@ -59,8 +59,8 @@
                             <div class="flex flex-col flex-wrap lg:flex-row gap-2 text-gray-900 dark:text-white">
                                 @foreach ($user->getRoleNames() as $role)
                                     <div
-                                        class="flex px-2 py-1 border rounded items-center bg-primary-100 dark:bg-primary-700 dark:border-primary-600">
-                                        <span>{{ $role }}</span>
+                                        class="flex px-2 py-1 border rounded items-center bg-primary-100 border-primary-400 dark:bg-primary-700 dark:border-primary-600">
+                                        <span>&bull;</span><span class="pl-2">{{ $role }}</span>
                                     </div>
                                 @endforeach
                             </div>

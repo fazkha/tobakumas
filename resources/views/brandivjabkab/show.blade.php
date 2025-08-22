@@ -74,10 +74,10 @@ S254.158,299.966,218.317,299.966z" />
                                                                 if ($datas[$i]->kabupaten_id == $kabupaten->id) {
                                                                     echo '<span>✔️</span>';
                                                                 } else {
-                                                                    echo '<span>❌</span>';
+                                                                    echo '<span>🚫</span>';
                                                                 }
                                                             } else {
-                                                                echo '<span>❌</span>';
+                                                                echo '<span>🚫</span>';
                                                         } @endphp
                                                         <label class='pl-2'>{{ $kabupaten->nama }}</label>
                                                     </div>
