@@ -14,10 +14,13 @@
                 <x-text-span>{{ $detail->kuantiti }}</x-text-span>
             </td>
             <td class="align-top text-right">
+                <x-text-span>{{ $detail->discount }}</x-text-span>
+            </td>
+            <td class="align-top text-right">
                 <x-text-span>{{ $detail->pajak }}</x-text-span>
             </td>
             <td class="align-top text-right">
-                <x-text-span>{{ number_format($detail->harga_satuan * (1 + $detail->pajak / 100) * $detail->kuantiti, 0, ',', '.') }}</x-text-span>
+                <x-text-span>{{ number_format($detail->harga_satuan * (1 + $detail->pajak / 100 - $detail->discount / 100) * $detail->kuantiti, 0, ',', '.') }}</x-text-span>
             </td>
             @if ($viewMode == false)
                 <td class="align-top">

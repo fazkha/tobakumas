@@ -193,6 +193,7 @@
                                                     <th class="w-1/6">@lang('messages.unitprice') (Rp.)</th>
                                                     <th class="w-auto">@lang('messages.unit')</th>
                                                     <th class="w-auto">@lang('messages.quantity')</th>
+                                                    <th class="w-auto">@lang('messages.discount') (%)</th>
                                                     <th class="w-auto">@lang('messages.tax') (%)</th>
                                                     <th class="w-1/5">@lang('messages.subtotalprice') (Rp.)</th>
                                                 </tr>

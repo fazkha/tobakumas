@@ -121,6 +121,7 @@ return [
     'quantity' => 'Quantity',
     'subtotalprice' => 'Price Sub Total',
     'tax' => 'Tax',
+    'discount' => 'Disc.',
     'confirm' => 'Confirm',
     'deleteitemwarning' => 'Once the data has been deleted, you can not recover the data permanently',
     'deleteitemconfirm' => 'Are you sure you want to delete this',

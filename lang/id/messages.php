@@ -121,6 +121,7 @@ return [
     'quantity' => 'Kuantitas',
     'subtotalprice' => 'Sub Jumlah Harga',
     'tax' => 'Pajak',
+    'discount' => 'Pot.',
     'confirm' => 'Konfirmasi',
     'deleteitemwarning' => 'Setelah data terhapus, anda tidak akan dapat memulihkan kembali data yang terhapus tersebut',
     'deleteitemconfirm' => 'Apakah anda yakin anda akan menghapus data tersebut',

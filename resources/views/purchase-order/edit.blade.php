@@ -199,10 +199,11 @@
                                         <table id="order_table" class="w-full border-separate border-spacing-2">
                                             <thead>
                                                 <tr>
-                                                    <th class="w-1/4">@lang('messages.goods')</th>
+                                                    <th class="w-1/5">@lang('messages.goods')</th>
                                                     <th class="w-1/6">@lang('messages.unitprice') (Rp.)</th>
                                                     <th class="w-auto">@lang('messages.unit')</th>
                                                     <th class="w-auto">@lang('messages.quantity')</th>
+                                                    <th class="w-auto">@lang('messages.discount') (%)</th>
                                                     <th class="w-auto">@lang('messages.tax') (%)</th>
                                                     <th class="w-1/5">@lang('messages.subtotalprice') (Rp.)</th>
                                                     <th class="w-auto">&nbsp;</th>
@@ -253,8 +254,12 @@
                                                             name="kuantiti" required tabindex="13" />
                                                     </td>
                                                     <td class="align-top">
+                                                        <x-text-input type="number" min="0" id="discount"
+                                                            name="discount" tabindex="14" />
+                                                    </td>
+                                                    <td class="align-top">
                                                         <x-text-input type="number" min="0" id="pajak"
-                                                            name="pajak" tabindex="14" />
+                                                            name="pajak" tabindex="15" />
                                                     </td>
                                                     <td class="align-top">
                                                         <x-text-span id="disp-sub_harga"
@@ -265,7 +270,7 @@
 
                                             <tfoot>
                                                 <tr>
-                                                    <td class="align-top text-center" colspan="5">
+                                                    <td class="align-top text-center" colspan="6">
                                                         <x-text-span class="font-extrabold">@lang('messages.totalprice')
                                                             (Rp.)</x-text-span>
                                                     </td>
@@ -279,7 +284,7 @@
                                     </div>
 
                                     <div class="mt-4 mb-4 mr-4 flex flex-row flex-wrap justify-end gap-2 md:gap-4">
-                                        <x-primary-button id="submit-detail" tabindex="15">
+                                        <x-primary-button id="submit-detail" tabindex="16">
                                             <div id="icon-save" class="block">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                     viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -291,7 +296,7 @@
                                             <span class="pl-1">@lang('messages.save')</span>
                                         </x-primary-button>
                                         <x-anchor-secondary href="{{ route('purchase-order.index') }}"
-                                            tabindex="16">
+                                            tabindex="17">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                 class="size-5">
@@ -379,14 +384,6 @@
                         precision: 0,
                         affixesStay: false
                     });
-
-                    $('#gambar').change(function() {
-                        let reader = new FileReader();
-                        reader.onload = (e) => {
-                            $('#image-preview').attr('src', e.target.result);
-                        }
-                        reader.readAsDataURL(this.files[0]);
-                    });
                 })
 
                 deleteDetail = function(detailId) {
@@ -419,14 +416,16 @@
                     }
                 };
 
-                $("#harga_satuan, #kuantiti, #pajak").on("change keyup paste", function() {
+                $("#harga_satuan, #kuantiti, #discount, #pajak").on("change keyup paste", function() {
                     var _xhs = $('#harga_satuan').val();
                     var _xku = $('#kuantiti').val();
+                    var _xdc = $('#discount').val();
                     var _xpj = $('#pajak').val();
                     var xhs = (_xhs > 0) ? _xhs : 0;
                     var xku = (_xku > 0) ? _xku : 0;
+                    var xdc = (_xdc > 0) ? _xdc : 0;
                     var xpj = (_xpj > 0) ? _xpj : 0;
-                    var xsub = (xhs * (1 + (xpj / 100))) * xku;
+                    var xsub = (xhs * (1 + (xpj / 100) - (xdc / 100))) * xku;
                     var formattedNumber = new Intl.NumberFormat('de-DE').format(xsub);
 
                     $("#disp-sub_harga").html(formattedNumber);
@@ -434,7 +433,6 @@
 
                 $("#barang_id").on("change keyup paste", function() {
                     var xbar = $('#barang_id option:selected').val();
-                    // console.log(xbar);
 
                     $.ajax({
                         url: '{{ url('/warehouse/goods/get-goods-buy') }}' + "/" + xbar,
@@ -454,9 +452,6 @@
                     e.preventDefault();
                     let key = $('#order_id').val();
                     $('#icon-save').addClass('animate-spin');
-
-                    // let data = $("form#form-order").serializeArray();
-                    // jQuery.each(data, function(i, data) {});
 
                     $.ajax({
                         url: '{{ url('/purchase/order/store-detail') }}' + '/' + key,
@@ -479,9 +474,6 @@
 
                     if (isFormDirty('master-form', myFormInitialValues)) {
                         $('form#master-form').submit();
-                        // console.log('Form has unsaved changes!');
-                    } else {
-                        // console.log('Form is clean.');
                     }
                 });
             });

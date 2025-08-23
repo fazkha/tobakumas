@@ -119,21 +119,6 @@
                                     <x-text-span id="disp-no_order">{{ $datas->no_order }}</x-text-span>
                                 </div>
 
-                                {{-- <div class="pb-4 lg:pb-12">
-                                            <label for="gambar"
-                                                class="block mb-2 font-medium text-primary-600 dark:text-primary-500">Picture</label>
-                                            <x-text-input type="file" name="gambar" id="gambar" tabindex="6"
-                                                accept=".jpg,.jpeg" placeholder="Choose Image"
-                                                class="!rounded-none border" />
-    
-                                            <x-input-error class="mt-2" :messages="$errors->get('gambar')" />
-    
-                                            <div class="mt-2 flex justify-center">
-                                                <img id="image-preview" class="w-full lg:w-3/4 h-auto border rounded-lg"
-                                                    src="/images/0cd6be830e32f80192d496e50cfa9dbc.jpg" alt="o.o">
-                                            </div>
-                                        </div> --}}
-
                                 <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
                                     <div class="pr-2">
                                         <div class="inline-flex items-center">
@@ -206,6 +191,7 @@
                                                 <th class="w-1/6">@lang('messages.unitprice') (Rp.)</th>
                                                 <th class="w-auto">@lang('messages.unit')</th>
                                                 <th class="w-auto">@lang('messages.quantity')</th>
+                                                <th class="w-auto">@lang('messages.discount') (%)</th>
                                                 <th class="w-auto">@lang('messages.tax') (%)</th>
                                                 <th class="w-1/5">@lang('messages.subtotalprice') (Rp.)</th>
                                             </tr>
@@ -220,7 +206,7 @@
 
                                         <tfoot>
                                             <tr>
-                                                <td class="align-top text-center" colspan="5">
+                                                <td class="align-top text-center" colspan="6">
                                                     <x-text-span class="font-extrabold">@lang('messages.totalprice')
                                                         (Rp.)</x-text-span>
                                                 </td>

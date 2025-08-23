@@ -17,6 +17,7 @@ class PurchaseOrderDetail extends Model
         'kuantiti',
         'harga_satuan',
         'keterangan',
+        'discount',
         'pajak',
         'approved',
         'approved_by',

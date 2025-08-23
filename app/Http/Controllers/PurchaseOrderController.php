@@ -196,7 +196,7 @@ class PurchaseOrderController extends Controller implements HasMiddleware
         $datas = PurchaseOrder::find(Crypt::decrypt($request->order));
         $details = PurchaseOrderDetail::where('purchase_order_id', Crypt::decrypt($request->order))->get();
 
-        $total_price = PurchaseOrderDetail::where('purchase_order_id', Crypt::decrypt($request->order))->select(DB::raw('SUM((harga_satuan * (1 + (pajak/100))) * kuantiti) as total_price'))->value('total_price');
+        $total_price = PurchaseOrderDetail::where('purchase_order_id', Crypt::decrypt($request->order))->select(DB::raw('SUM((harga_satuan * (1 + (pajak/100) - (discount/100))) * kuantiti) as total_price'))->value('total_price');
         $totals = [
             'sub_price' => $total_price * 1,
             'total_price' => $datas->total_harga,
@@ -278,6 +278,7 @@ class PurchaseOrderController extends Controller implements HasMiddleware
     {
         $order_id = $request->detail;
         $pajak = $request->pajak ? $request->pajak : 0;
+        $discount = $request->discount ? $request->discount : 0;
 
         $detail = PurchaseOrderDetail::create([
             'purchase_order_id' => $order_id,
@@ -286,6 +287,7 @@ class PurchaseOrderController extends Controller implements HasMiddleware
             'satuan_id' => $request->satuan_id,
             'kuantiti' => $request->kuantiti,
             'pajak' => $pajak,
+            'discount' => $discount,
             'harga_satuan' => $request->harga_satuan,
             'keterangan' => $request->keterangan,
             'created_by' => auth()->user()->email,
@@ -309,7 +311,8 @@ class PurchaseOrderController extends Controller implements HasMiddleware
         }
 
         $po = PurchaseOrder::find($order_id);
-        $total_price = PurchaseOrderDetail::where('purchase_order_id', $order_id)->select(DB::raw('SUM((harga_satuan * (1 + (pajak/100))) * kuantiti) as total_price'))->value('total_price');
+        $total_price = PurchaseOrderDetail::where('purchase_order_id', $order_id)->select(DB::raw('SUM((harga_satuan * (1 + (pajak/100) - (discount/100))) * kuantiti) as total_price'))->value('total_price');
+
         $totals = [
             'sub_price' => $total_price * 1,
             'total_price' => $po->total_harga,
@@ -346,7 +349,7 @@ class PurchaseOrderController extends Controller implements HasMiddleware
         }
 
         $po = PurchaseOrder::find($order_id);
-        $total_price = PurchaseOrderDetail::where('purchase_order_id', $order_id)->select(DB::raw('SUM((harga_satuan * (1 + (pajak/100))) * kuantiti) as total_price'))->value('total_price');
+        $total_price = PurchaseOrderDetail::where('purchase_order_id', $order_id)->select(DB::raw('SUM((harga_satuan * (1 + (pajak/100) - (discount/100))) * kuantiti) as total_price'))->value('total_price');
         $totals = [
             'sub_price' => $total_price * 1,
             'total_price' => $po->total_harga,
