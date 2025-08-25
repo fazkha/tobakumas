@@ -24,6 +24,11 @@ return new class extends Migration
             $table->tinyInteger('approved')->default(0);
             $table->tinyInteger('isactive')->default(0);
             $table->text('kalimat')->nullable();
+            $table->date('tanggal_terima')->nullable();
+            $table->unsignedTinyInteger('isaccepted')->default(0);
+            $table->string('keterangan_terima')->nullable();
+            $table->unsignedBigInteger('petugas_terima_id')->nullable();
+            $table->unsignedBigInteger('penanggungjawab_terima_id')->nullable();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->timestamps();

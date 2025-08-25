@@ -202,4 +202,12 @@ return [
     'jobposition' => 'Jabatan',
     'positionlevel' => 'Tingkat Jabatan',
     'region' => 'Wilayah',
+    'goodsreceipt' => 'Penerimaan Barang',
+    'goodsreceived' => 'Barang Diterima',
+    'receiptdate' => 'Tanggal Penerimaan',
+    'isaccepted' => 'Sesuai',
+    'receiptdescription' => 'Catatan Penerimaan',
+    'arethegoodsreceived' => 'Apakah barang yang diterima sudah sesuai dengan pesanan?',
+    'receiptunit' => 'Satuan Penerimaan',
+    'receiptquantity' => 'Kuantitas Penerimaan',
 ];

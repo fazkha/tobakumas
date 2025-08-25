@@ -202,4 +202,13 @@ return [
     'jobposition' => 'Job Position',
     'positionlevel' => 'Position Level',
     'region' => 'Region',
+    'goodsreceipt' => 'Goods Receipt',
+    'goodsreceived' => 'Goods Received',
+    'receiptdate' => 'Receipt Date',
+    'isaccepted' => 'Accepted',
+    'receiptdescription' => 'Receipt Note',
+    'arethegoodsreceived' => 'Are the goods received in accordance with the order?',
+    'receiptunit' => 'Receipt Unit',
+    'receiptquantity' => 'Receipt Quantity',
+    'receiptdescription' => 'Receipt Note',
 ];

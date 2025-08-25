@@ -22,6 +22,11 @@ return new class extends Migration
             $table->decimal('pajak', 5, 2)->default(0);
             $table->string('keterangan')->nullable();
             $table->tinyInteger('approved')->default(0);
+            $table->unsignedTinyInteger('isaccepted')->default(0);
+            $table->unsignedTinyInteger('isreturned')->default(0);
+            $table->unsignedBigInteger('satuan_terima_id')->nullable();
+            $table->decimal('kuantiti_terima', 10, 2)->nullable();
+            $table->string('keterangan_terima')->nullable();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->timestamps();

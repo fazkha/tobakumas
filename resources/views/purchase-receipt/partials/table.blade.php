@@ -18,23 +18,27 @@
                     </th>
                     <th
                         class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
-                        @lang('messages.date')
+                        @lang('messages.transactiondate')
                     </th>
                     <th
                         class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
                         @lang('messages.supplier')
                     </th>
                     <th
-                        class="px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
-                        @lang('messages.totalprice') (Rp.)
-                    </th>
-                    <th
                         class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
                         @lang('messages.payment')
                     </th>
                     <th
+                        class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
+                        @lang('messages.receiptdate')
+                    </th>
+                    <th
                         class="px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
-                        @lang('messages.active')
+                        @lang('messages.isaccepted')
+                    </th>
+                    <th
+                        class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
+                        @lang('messages.receiptdescription')
                     </th>
                     <th
                         class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
@@ -73,32 +77,35 @@
                             <span class="text-gray-900 dark:text-white">{{ $data->supplier->nama }}</span>
                         </td>
                         <td
-                            class="text-right px-3 py-3 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
-                            <p class="text-gray-900 whitespace-no-wrap dark:text-white">
-                                {{ number_format($data->total_harga, 0, ',', '.') }}
-                            </p>
-                        </td>
-                        <td
                             class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
                             <span
                                 class="text-gray-900 dark:text-white">{{ $data->tunai == 1 ? __('messages.cash') : __('messages.credit') }}</span>
                         </td>
                         <td
+                            class="px-3 py-3 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
+                            <span
+                                class="text-gray-900 dark:text-white">{{ $data->tanggal_terima ? date_format(date_create($data->tanggal_terima), 'd/m/Y') : '' }}</span>
+                        </td>
+                        <td
                             class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
                             <span class="flex items-center justify-center">
-                                @if ($data->isactive == '1')
+                                @if ($data->isaccepted == '1')
                                     <span>✔️</span>
                                 @endif
-                                @if ($data->isactive == '0')
+                                @if ($data->isaccepted == '0')
                                     <span>❌</span>
                                 @endif
                             </span>
                         </td>
+                        <td
+                            class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
+                            <span class="text-gray-900 dark:text-white">{{ $data->keterangan_terima }}</span>
+                        </td>
                         <td class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800"
                             style="vertical-align: middle;">
                             <div class="flex items-center justify-center">
-                                @can('po-show')
-                                    <a href="{{ route('purchase-order.show', Crypt::Encrypt($data->id)) }}"
+                                @can('purchasereceipt-show')
+                                    <a href="{{ route('purchase-receipt.show', Crypt::Encrypt($data->id)) }}"
                                         title="@lang('messages.view')">
                                         <span
                                             class="relative inline-block px-2 py-2 font-semibold text-blue-800 dark:text-blue-50 leading-tight">
@@ -113,8 +120,8 @@
                                     </a>
                                 @endcan
 
-                                @can('po-edit')
-                                    <a href="{{ route('purchase-order.edit', Crypt::Encrypt($data->id)) }}"
+                                @can('purchasereceipt-edit')
+                                    <a href="{{ route('purchase-receipt.edit', Crypt::Encrypt($data->id)) }}"
                                         title="@lang('messages.edit')" class="ml-2">
                                         <span
                                             class="relative inline-block px-2 py-2 font-semibold text-green-800 dark:text-green-50 leading-tight">
@@ -129,8 +136,8 @@
                                     </a>
                                 @endcan
 
-                                @can('po-delete')
-                                    <a href="{{ route('purchase-order.delete', Crypt::Encrypt($data->id)) }}"
+                                @can('purchasereceipt-delete')
+                                    <a href="{{ route('purchase-receipt.delete', Crypt::Encrypt($data->id)) }}"
                                         title="@lang('messages.delete')" class="ml-2">
                                         <span
                                             class="relative inline-block px-2 py-2 font-semibold text-red-800 dark:text-red-50 leading-tight">
