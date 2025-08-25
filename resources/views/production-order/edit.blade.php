@@ -421,7 +421,7 @@
                         }
                     }).get();
 
-                    alert('{{ __('messages.combinesuccess') }}')
+                    flasher.success("{{ __('messages.combinesuccess') }}");
                 });
 
                 $("#submit-detail").on("click", function(e) {
@@ -436,7 +436,7 @@
                             if (result.status !== 'Not Found') {
                                 $('#targetDiv').removeClass('hidden');
                                 $('#targetDiv').addClass('block');
-                                alert('{{ __('messages.productionfinish') }}')
+                                flasher.success("{{ __('messages.productionfinish') }}");
                             }
                         }
                     });

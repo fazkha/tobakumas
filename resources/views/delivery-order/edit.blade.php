@@ -688,7 +688,7 @@
                         dataType: 'json',
                         success: function(result) {
                             if (result.status !== 'Not Found') {
-                                alert('{{ __('messages.packagedfinish') }}')
+                                flasher.success("{{ __('messages.packagedfinish') }}");
                             }
                         }
                     });
