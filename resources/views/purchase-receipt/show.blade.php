@@ -83,7 +83,7 @@
                                 <div class="w-auto pb-4">
                                     <label for="tanggal_terima"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.receiptdate')</label>
-                                    <x-text-span>{{ $datas->tanggal_terima ? date_format(date_create($datas->tanggal_terima), 'd/m/Y') : '' }}</x-text-span>
+                                    <x-text-span>{{ $datas->tanggal_terima ? date_format(date_create($datas->tanggal_terima), 'd/m/Y') : '-' }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
@@ -93,11 +93,15 @@
                                         <div class="inline-flex items-center">
                                             @if ($datas->isaccepted == '1')
                                                 <span>✔️</span>
+                                            @else
+                                                @if ($datas->isaccepted == '0')
+                                                    <span>❌</span>
+                                                @else
+                                                    <span>❓</span>
+                                                @endif
                                             @endif
-                                            @if ($datas->isaccepted == '0')
-                                                <span>❌</span>
-                                            @endif
-                                            <label class='pl-2'>@lang('messages.not') @lang('messages.isaccepted')</label>
+                                            <label
+                                                class='pl-2'>{{ $datas->isaccepted == '0' ? __('messages.not') . ' ' : '' }}@lang('messages.isaccepted')</label>
                                         </div>
                                     </div>
                                 </div>
@@ -105,7 +109,7 @@
                                 <div class="w-auto pb-4 lg:pb-12">
                                     <label for="keterangan_terima"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.receiptdescription')</label>
-                                    <x-text-span>{{ $datas->keterangan_terima }}</x-text-span>
+                                    <x-text-span>{{ $datas->keterangan_terima ? $datas->keterangan_terima : '-' }}</x-text-span>
                                 </div>
 
                                 <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
