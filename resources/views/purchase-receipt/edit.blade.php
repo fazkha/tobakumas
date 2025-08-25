@@ -210,7 +210,7 @@
                                             <tbody id="detailBody">
                                                 @include('purchase-receipt.partials.details', [
                                                     $details,
-                                                    'viewMode' => true,
+                                                    'viewMode' => false,
                                                 ])
                                             </tbody>
                                         </table>

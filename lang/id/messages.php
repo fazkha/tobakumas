@@ -55,6 +55,7 @@ return [
     'all' => 'Semua',
     'yes' => 'Ya',
     'no' => 'Tidak',
+    'not' => 'Tidak',
     'name' => 'Nama',
     'fullname' => 'Nama Lengkap',
     'datanotavailable' => 'Data Tidak Tersedia.',

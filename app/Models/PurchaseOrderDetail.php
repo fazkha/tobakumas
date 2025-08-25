@@ -49,4 +49,9 @@ class PurchaseOrderDetail extends Model
     {
         return $this->belongsTo(Satuan::class);
     }
+
+    public function satuan_terima()
+    {
+        return $this->belongsTo(Satuan::class, 'satuan_terima_id');
+    }
 }

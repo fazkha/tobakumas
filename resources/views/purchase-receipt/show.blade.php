@@ -1,17 +1,29 @@
 @php
     use Illuminate\Support\Facades\Crypt;
 @endphp
-@section('title', __('messages.purchaseorder'))
+@section('title', __('messages.goodsreceipt'))
 
 <x-app-layout>
     <div class="flex items-center justify-between px-4 py-4 border-b border-primary-100 lg:py-6 dark:border-primary-800">
         <h1 class="text-xl flex items-center justify-center">
-            <a href="{{ route('purchase-order.index') }}" class="flex items-center justify-center">
-                <svg fill="currentColor" class="w-7 h-7" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M533.959 424.126v242.812c0 12.162-9.773 22.022-21.829 22.022s-21.829-9.859-21.829-22.022V424.126h-6.654c-1.886.2-3.8.303-5.737.303h-82.373c-156.731 0-283.783-128.17-283.783-286.28 0-76.3 61.313-138.152 136.947-138.152 118.246 0 219.599 72.954 262.243 176.679C553.588 72.951 654.941-.003 773.187-.003c75.634 0 136.947 61.852 136.947 138.152 0 158.11-127.052 286.28-283.783 286.28h-82.373a54.39 54.39 0 01-5.737-.303h-4.28zm-53.538-44.043c4.774-1.168 8.403-5.572 8.403-10.708v-83.098c0-133.785-107.505-242.237-240.124-242.237-51.522 0-93.288 42.133-93.288 94.109 0 132.025 104.695 239.379 234.903 242.18a21.87 21.87 0 013.278-.247h86.828zm145.322.303h.608c132.619 0 240.124-108.451 240.124-242.237 0-51.975-41.766-94.109-93.288-94.109-132.619 0-240.124 108.451-240.124 242.237v83.098c0 5.136 3.628 9.54 8.403 10.708h80.65c1.236 0 2.448.104 3.628.303zM937.456 751.78c-74.665 64.718-237.417 105.999-425.511 105.999-188.128 0-350.904-41.296-425.551-106.034v76.504c0 .55-.02 1.095-.059 1.634.087.801.132 1.614.132 2.439 0 74.167 189.814 145.089 425.423 145.089s425.423-70.922 425.423-145.089c0-.854.048-1.696.142-2.525V751.78zm43.452-85.135c.137.996.207 2.014.207 3.048v162.959c0 1.036-.071 2.055-.208 3.053-4.256 108.638-213.251 185.747-469.016 185.747-258.413 0-469.082-78.714-469.082-189.132 0-.55.02-1.095.059-1.634a22.571 22.571 0 01-.132-2.439V672.992a86 86 0 010-6.614v-3.293c0-2.187.316-4.3.905-6.295 12.455-82.401 143.918-144.902 327.226-166.509a21.682 21.682 0 015.379.034c22.28-2.544 45.28-4.477 68.873-5.761 12.039-.655 22.324 8.659 22.974 20.803s-8.583 22.521-20.622 23.176C240.48 539.799 86.567 605.201 86.567 670.262c0 7.083 1.777 14.139 5.2 21.106 32.344 64.67 205.219 121.467 414.783 121.467 232.727 0 420.217-70.052 420.217-143.14 0-56.645-118.34-115.768-291.269-135.863a21.762 21.762 0 01-4.332-.956 1097.148 1097.148 0 00-54.572-4.332c-12.038-.657-21.269-11.035-20.618-23.179s10.939-21.456 22.977-20.799c226.148 12.347 397.817 84.304 401.956 182.077z" />
+            <a href="{{ route('purchase-receipt.index') }}" class="flex items-center justify-center">
+                <svg class="size-7" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve">
+                    <style type="text/css">
+                        .st0 {
+                            fill: currentColor;
+                        }
+                    </style>
+                    <g>
+                        <path class="st0"
+                            d="M447.77,33.653c-36.385-5.566-70.629,15.824-82.588,49.228h-44.038v37.899h40.902 c5.212,31.372,29.694,57.355,62.855,62.436c41.278,6.316,79.882-22.042,86.222-63.341C517.428,78.575,489.07,39.969,447.77,33.653z" />
+                        <path class="st0"
+                            d="M162.615,338.222c0-6.88-5.577-12.468-12.468-12.468H96.16c-6.891,0-12.467,5.588-12.467,12.468 c0,6.868,5.576,12.467,12.467,12.467h53.988C157.038,350.689,162.615,345.091,162.615,338.222z" />
+                        <path class="st0"
+                            d="M392.999,237.965L284.273,340.452l-37.966,9.398v-86.619H0v215.996h246.307v-59.454l35.547-5.732 c16.95-2.418,29.396-6.692,44.336-15.018l46.302-24.228v104.432h132.435V270.828C504.927,202.618,428.016,202.43,392.999,237.965z M215.996,448.913H30.313v-155.37h185.683v63.805l-36.419,9.01c-15.968,4.395-25.708,20.518-22.174,36.696l0.298,1.247 c3.478,15.912,18.651,26.436,34.785,24.14l23.51-3.788V448.913z" />
+                    </g>
                 </svg>
-                <span class="px-2">@lang('messages.purchaseorder')</span>
+                <span class="px-2">@lang('messages.goodsreceipt')</span>
             </a>
             <span class="px-2">&raquo;</span>
             <span class="px-2 font-semibold">@lang('messages.view')</span>
@@ -24,7 +36,7 @@
             <div class="flex flex-col items-center">
 
                 <div class="w-full" role="alert">
-                    @include('purchase-order.partials.feedback')
+                    @include('purchase-receipt.partials.feedback')
                 </div>
 
                 {{-- Master --}}
@@ -36,15 +48,28 @@
                             <div class="w-full lg:w-1/2 px-2">
 
                                 <div class="w-auto pb-4">
+                                    <input type="hidden" name="supplier_id" value="{{ $datas->supplier_id }}" />
+                                    <input type="hidden" id="order_id" value="{{ $datas->id }}" />
                                     <label for="supplier_id"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.supplier')</label>
                                     <x-text-span>{{ $datas->supplier->nama }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
+                                    <label for="no_order"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.ordernumber')</label>
+                                    <x-text-span
+                                        id="disp-no_order">{{ old('no_order', $datas->no_order) }}</x-text-span>
+                                    <x-text-input type="hidden" name="no_order" id="no_order"
+                                        value="{{ old('no_order', $datas->no_order) }}" />
+
+                                    <x-input-error class="mt-2" :messages="$errors->get('no_order')" />
+                                </div>
+
+                                <div class="w-auto pb-4">
                                     <label for="tanggal"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.transactiondate')</label>
-                                    <x-text-span>{{ date('d/m/Y', strtotime($datas->tanggal)) }}</x-text-span>
+                                    <x-text-span>{{ $datas->tanggal ? date_format(date_create($datas->tanggal), 'd/m/Y') : '' }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
@@ -56,24 +81,31 @@
 
                             <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
                                 <div class="w-auto pb-4">
-                                    <label for="biaya_angkutan"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.deliverycost')
-                                        (Rp.)</label>
-                                    <x-text-span>{{ number_format($datas->biaya_angkutan, 0, ',', '.') }}</x-text-span>
+                                    <label for="tanggal_terima"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.receiptdate')</label>
+                                    <x-text-span>{{ $datas->tanggal_terima ? date_format(date_create($datas->tanggal_terima), 'd/m/Y') : '' }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
-                                    <label for="total_harga"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.totalprice')
-                                        (Rp.)</label>
-                                    <x-text-span
-                                        id="disp-total_harga-master">{{ number_format($totals['total_price'], 0, ',', '.') }}</x-text-span>
+                                    <label for="isaccepted"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.arethegoodsreceived')</label>
+                                    <div class="pr-2 py-2">
+                                        <div class="inline-flex items-center">
+                                            @if ($datas->isaccepted == '1')
+                                                <span>✔️</span>
+                                            @endif
+                                            @if ($datas->isaccepted == '0')
+                                                <span>❌</span>
+                                            @endif
+                                            <label class='pl-2'>@lang('messages.not') @lang('messages.isaccepted')</label>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="w-auto pb-4 lg:pb-12">
-                                    <label for="no_order"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.ordernumber')</label>
-                                    <x-text-span id="disp-no_order">{{ $datas->no_order }}</x-text-span>
+                                    <label for="keterangan_terima"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.receiptdescription')</label>
+                                    <x-text-span>{{ $datas->keterangan_terima }}</x-text-span>
                                 </div>
 
                                 <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
@@ -89,8 +121,7 @@
                                         </div>
                                     </div>
 
-                                    <x-anchor-secondary href="{{ route('purchase-order.index') }}" tabindex="1"
-                                        autofocus>
+                                    <x-anchor-secondary href="{{ route('purchase-receipt.index') }}" tabindex="5">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-5">
                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -106,13 +137,9 @@
             </div>
         </div>
 
-        <div class="flex flex-col lg:flex-row gap-4 px-4 py-2">
+        <div class="relative flex flex-col lg:flex-row gap-4 px-4 py-2">
             <div class="w-full">
                 <div class="flex flex-col items-center">
-
-                    <div class="w-full" role="alert">
-                        @include('purchase-order.partials.feedback')
-                    </div>
 
                     {{-- Detail --}}
                     <div
@@ -135,7 +162,7 @@
                                     </g>
                                 </svg>
                                 <span class="block font-medium text-primary-600 dark:text-primary-500">
-                                    @lang('messages.purchasedgoods')
+                                    @lang('messages.goodsreceived')
                                 </span>
                             </div>
 
@@ -146,35 +173,33 @@
                                         <thead>
                                             <tr>
                                                 <th class="w-1/4">@lang('messages.goods')</th>
-                                                <th class="w-1/6">@lang('messages.unitprice') (Rp.)</th>
-                                                <th class="w-auto">@lang('messages.unit')</th>
-                                                <th class="w-auto">@lang('messages.quantity')</th>
-                                                <th class="w-auto">@lang('messages.discount') (%)</th>
-                                                <th class="w-auto">@lang('messages.tax') (%)</th>
-                                                <th class="w-1/5">@lang('messages.subtotalprice') (Rp.)</th>
+                                                <th class="w-1/12">@lang('messages.unit')</th>
+                                                <th class="w-1/12">@lang('messages.quantity')</th>
+                                                <th class="w-1/12">@lang('messages.isaccepted')</th>
+                                                <th class="w-1/6">@lang('messages.receiptunit')</th>
+                                                <th class="w-1/6">@lang('messages.receiptquantity')</th>
+                                                <th class="w-1/6">@lang('messages.receiptdescription')</th>
                                             </tr>
                                         </thead>
 
                                         <tbody id="detailBody">
-                                            @include('purchase-order.partials.details', [
+                                            @include('purchase-receipt.partials.details', [
                                                 $details,
                                                 'viewMode' => true,
                                             ])
                                         </tbody>
-
-                                        <tfoot>
-                                            <tr>
-                                                <td class="align-top text-center" colspan="6">
-                                                    <x-text-span class="font-extrabold">@lang('messages.totalprice')
-                                                        (Rp.)</x-text-span>
-                                                </td>
-                                                <td class="align-top">
-                                                    <x-text-span id="disp-total_harga-detail"
-                                                        class="font-extrabold text-right">{{ number_format($totals['sub_price'], 0, ',', '.') }}</x-text-span>
-                                                </td>
-                                            </tr>
-                                        </tfoot>
                                     </table>
+                                </div>
+
+                                <div class="mt-4 mb-4 mr-4 flex flex-row flex-wrap justify-end gap-2 md:gap-4">
+                                    <x-anchor-secondary href="{{ route('purchase-receipt.index') }}" tabindex="11">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="size-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M6 18 18 6M6 6l12 12" />
+                                        </svg>
+                                        <span class="pl-1">@lang('messages.close')</span>
+                                    </x-anchor-secondary>
                                 </div>
                             </div>
                         </div>

@@ -232,7 +232,7 @@ class PurchaseReceiptController extends Controller implements HasMiddleware
 
         $details = PurchaseOrderDetail::where('purchase_order_id', $master_id)->get();
         $satuans = Satuan::where('isactive', 1)->orderBy('singkatan')->pluck('singkatan', 'id');
-        $viewMode = true;
+        $viewMode = false;
 
         $view = view('purchase-receipt.partials.details', compact(['details', 'satuans', 'viewMode']))->render();
 

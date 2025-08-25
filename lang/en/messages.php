@@ -55,6 +55,7 @@ return [
     'all' => 'All',
     'yes' => 'Yes',
     'no' => 'No',
+    'not' => 'Not',
     'name' => 'Name',
     'fullname' => 'Full Name',
     'datanotavailable' => 'Data Not Available.',
