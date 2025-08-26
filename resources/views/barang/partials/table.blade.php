@@ -101,10 +101,10 @@
                                 class="text-center px-3 py-3 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
                                 <div class="flex flex-row gap-2 text-gray-900 whitespace-no-wrap dark:text-white">
                                     <span
-                                        class="w-1/2 text-right">{{ number_format($data->harga_satuan, 0, ',', '.') }}</span>
+                                        class="w-1/2 text-right">{{ $data->harga_satuan ? (is_int($data->harga_satuan) ? Number::forHumans($data->harga_satuan, abbreviate: true) : Number::forHumans($data->harga_satuan, precision: 1, abbreviate: true)) : 0 }}</span>
                                     <span>📱</span>
                                     <span
-                                        class="w-1/2 text-left">{{ number_format($data->harga_satuan_jual, 0, ',', '.') }}</span>
+                                        class="w-1/2 text-left">{{ $data->harga_satuan_jual ? (is_int($data->harga_satuan_jual) ? Number::forHumans($data->harga_satuan_jual, abbreviate: true) : Number::forHumans($data->harga_satuan_jual, precision: 1, abbreviate: true)) : 0 }}</span>
                                 </div>
                             </td>
                             <td

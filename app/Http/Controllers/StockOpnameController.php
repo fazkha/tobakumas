@@ -10,6 +10,7 @@ use App\Models\Gudang;
 use App\Models\Pegawai;
 use App\Models\Satuan;
 use App\Models\StockOpnameDetail;
+use App\Models\ViewPegawaiJabatan;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Http\Request;
@@ -119,9 +120,11 @@ class StockOpnameController extends Controller implements HasMiddleware
     {
         $branch_id = auth()->user()->profile->branch_id;
         $gudangs = Gudang::where('branch_id', $branch_id)->where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $petugas = Pegawai::where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
+        // islevel = 7 = staff; islevel = 3 = kepala divisi
+        $petugas = ViewPegawaiJabatan::where('islevel', 7)->where('kode_branch', 'PST')->orderBy('nama_plus')->pluck('nama_plus', 'pegawai_id');
+        $petugas2 = ViewPegawaiJabatan::where('islevel', 3)->where('kode_branch', 'PST')->orderBy('nama_plus')->pluck('nama_plus', 'pegawai_id');
 
-        return view('stock-opname.create', compact(['gudangs', 'petugas', 'branch_id']));
+        return view('stock-opname.create', compact(['gudangs', 'petugas', 'petugas2', 'branch_id']));
     }
 
     public function store(StockOpnameRequest $request)
@@ -164,10 +167,12 @@ class StockOpnameController extends Controller implements HasMiddleware
 
         $gudangs = Gudang::where('branch_id', $branch_id)->where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $barangs = Barang::where('branch_id', $branch_id)->where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $petugas = Pegawai::where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
+        // islevel = 7 = staff; islevel = 3 = kepala divisi
+        $petugas = ViewPegawaiJabatan::where('islevel', 7)->where('kode_branch', 'PST')->orderBy('nama_plus')->pluck('nama_plus', 'pegawai_id');
+        $petugas2 = ViewPegawaiJabatan::where('islevel', 3)->where('kode_branch', 'PST')->orderBy('nama_plus')->pluck('nama_plus', 'pegawai_id');
         $satuans = Satuan::where('isactive', 1)->orderBy('singkatan')->pluck('singkatan', 'id');
 
-        return view('stock-opname.edit', compact(['datas', 'details', 'gudangs', 'barangs', 'satuans', 'petugas', 'branch_id']));
+        return view('stock-opname.edit', compact(['datas', 'details', 'gudangs', 'barangs', 'satuans', 'petugas', 'petugas2', 'branch_id']));
     }
 
     public function update(StockOpnameUpdateRequest $request)

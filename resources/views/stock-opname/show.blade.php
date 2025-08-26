@@ -59,20 +59,20 @@
                                     <label for="petugas_1_id"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.officer')
                                         1</label>
-                                    <x-text-span>{{ $datas->petugas_1_id ? $datas->petugas1->nama_lengkap : '-' }}</x-text-span>
+                                    <x-text-span>{{ $datas->petugas_1_id ? $datas->petugas_1->view_pegawai_jabatan->nama_plus : '-' }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
                                     <label for="petugas_2_id"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.officer')
                                         2</label>
-                                    <x-text-span>{{ $datas->petugas_2_id ? $datas->petugas2->nama_lengkap : '-' }}</x-text-span>
+                                    <x-text-span>{{ $datas->petugas_2_id ? $datas->petugas_2->view_pegawai_jabatan->nama_plus : '-' }}</x-text-span>
                                 </div>
 
-                                <div class="w-auto pb-4">
+                                <div class="w-auto pb-4 lg:pb-12">
                                     <label for="tanggungjawab_id"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.supervisor')</label>
-                                    <x-text-span>{{ $datas->tanggungjawab_id ? $datas->tanggungjawab->nama_lengkap : '-' }}</x-text-span>
+                                    <x-text-span>{{ $datas->tanggungjawab_id ? $datas->tanggungjawab->view_pegawai_jabatan->nama_plus : '-' }}</x-text-span>
                                 </div>
 
                                 <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">

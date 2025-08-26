@@ -117,7 +117,7 @@
                                         <select name="tanggungjawab_id" id="tanggungjawab_id" tabindex="6"
                                             class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                             <option value="">@lang('messages.choose')...</option>
-                                            @foreach ($petugas as $id => $name)
+                                            @foreach ($petugas2 as $id => $name)
                                                 <option value="{{ $id }}"
                                                     {{ old('tanggungjawab_id') == $id ? 'selected' : '' }}>
                                                     {{ $name }}</option>

@@ -89,21 +89,21 @@
                                 @endcan
 
                                 @can('delivery-edit')
-                                    @if ($data->order->ispackaged == 0)
-                                        <a href="{{ route('delivery-order.edit', Crypt::Encrypt($data->id)) }}"
-                                            title="{{ __('messages.edit') }}" class="ml-2">
-                                            <span
-                                                class="relative inline-block px-2 py-2 font-semibold text-green-800 dark:text-green-50 leading-tight">
-                                                <span aria-hidden
-                                                    class="absolute inset-0 bg-green-200 hover:bg-green-400 dark:bg-green-500 hover:dark:bg-green-700 opacity-50 rounded-full"></span>
-                                                <svg class="size-5" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
-                                                </svg>
-                                            </span>
-                                        </a>
-                                    @endif
+                                    {{-- @if ($data->order->ispackaged == 0) --}}
+                                    <a href="{{ route('delivery-order.edit', Crypt::Encrypt($data->id)) }}"
+                                        title="{{ __('messages.edit') }}" class="ml-2">
+                                        <span
+                                            class="relative inline-block px-2 py-2 font-semibold text-green-800 dark:text-green-50 leading-tight">
+                                            <span aria-hidden
+                                                class="absolute inset-0 bg-green-200 hover:bg-green-400 dark:bg-green-500 hover:dark:bg-green-700 opacity-50 rounded-full"></span>
+                                            <svg class="size-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                                            </svg>
+                                        </span>
+                                    </a>
+                                    {{-- @endif --}}
                                 @endcan
 
                                 @can('delivery-delete')

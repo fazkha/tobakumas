@@ -34,12 +34,12 @@ class StockOpname extends Model
         return $this->belongsTo(Gudang::class);
     }
 
-    public function petugas1()
+    public function petugas_1()
     {
         return $this->belongsTo(Pegawai::class, 'petugas_1_id');
     }
 
-    public function petugas2()
+    public function petugas_2()
     {
         return $this->belongsTo(Pegawai::class, 'petugas_2_id');
     }
