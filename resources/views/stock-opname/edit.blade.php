@@ -348,6 +348,7 @@
                             success: function(result) {
                                 if (result.status !== 'Not Found') {
                                     $('#detailBody').html(result.view);
+                                    flasher.error("{{ __('messages.successdeleted') }}!", "Success");
                                 }
                                 $('#form-order')[0].reset();
                             },
@@ -390,6 +391,7 @@
                             if (result.status !== 'Not Found') {
                                 $('#detailBody').html(result.view);
                                 $('#form-order')[0].reset();
+                                flasher.success("{{ __('messages.successsaved') }}!", "Success");
                             }
                         }
                     });

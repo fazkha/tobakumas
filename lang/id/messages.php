@@ -211,4 +211,6 @@ return [
     'arethegoodsreceived' => 'Apakah barang yang diterima sudah sesuai dengan pesanan?',
     'receiptunit' => 'Satuan Penerimaan',
     'receiptquantity' => 'Kuantitas Penerimaan',
+    'successsaved' => 'Berhasil disimpan',
+    'successdeleted' => 'Berhasil dihapus',
 ];

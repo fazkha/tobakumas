@@ -212,4 +212,6 @@ return [
     'receiptunit' => 'Receipt Unit',
     'receiptquantity' => 'Receipt Quantity',
     'receiptdescription' => 'Receipt Note',
+    'successsaved' => 'Successfully Saved',
+    'successdeleted' => 'Successfully Deleted',
 ];

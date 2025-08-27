@@ -243,36 +243,6 @@
                         reader.readAsDataURL(this.files[0]);
                     });
                 })
-
-                $("#supplier_id, #tanggal").on("change keyup paste", function() {
-                    // var xsup = $('#supplier_id option:selected').val();
-                    // var xtbt = $('#tanggal').val();
-                    // let xthn = xtbt.substring(0, 4);
-                    // let xbln = xtbt.substring(5, 7);
-                    // var xcurr = $('#no_order').val();
-                    // if (!xthn.trim()) {
-                    //     xthn = '_';
-                    // }
-                    // if (!xbln.trim()) {
-                    //     xbln = '_';
-                    // }
-
-                    // $.ajax({
-                    //     url: '{{ url('/purchase/supplier/get-code') }}' + "/" + xsup + "/" + xthn +
-                    //         "/" + xbln,
-                    //     type: "GET",
-                    //     dataType: 'json',
-                    //     success: function(result) {
-                    //         var p1 = result.p1
-                    //         var p2 = result.p2
-                    //         var p3 = result.p3
-                    //         var p4 = result.p4
-                    //         let xrep = p1 + '/' + p2 + '/' + p3 + '/' + p4;
-                    //         $('#no_order').val(xrep);
-                    //         $('#disp-no_order').html(xrep);
-                    //     }
-                    // });
-                });
             });
         </script>
     @endpush

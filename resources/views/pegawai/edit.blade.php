@@ -328,6 +328,7 @@
                             success: function(result) {
                                 if (result.status !== 'Not Found') {
                                     $('#jabatanBody').html(result.view);
+                                    flasher.error("{{ __('messages.successdeleted') }}!", "Success");
                                 }
                                 $('#jabatan-form')[0].reset();
                             },
@@ -351,6 +352,7 @@
                             if (result.status !== 'Not Found') {
                                 $('#jabatanBody').html(result.view);
                                 $('#jabatan-form')[0].reset();
+                                flasher.success("{{ __('messages.successsaved') }}!", "Success");
                             }
                         }
                     });

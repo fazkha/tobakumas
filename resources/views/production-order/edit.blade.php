@@ -415,13 +415,15 @@
                                         $('#combineBody').html(result.view2);
                                         $('#detailBody').html(result.view);
                                         $('#targetBody').html(result.view4);
+                                        flasher.success(
+                                            "{{ __('messages.combinesuccess') }}",
+                                            "Success");
                                     }
                                 }
                             });
                         }
                     }).get();
 
-                    flasher.success("{{ __('messages.combinesuccess') }}");
                 });
 
                 $("#submit-detail").on("click", function(e) {
@@ -436,7 +438,8 @@
                             if (result.status !== 'Not Found') {
                                 $('#targetDiv').removeClass('hidden');
                                 $('#targetDiv').addClass('block');
-                                flasher.success("{{ __('messages.productionfinish') }}");
+                                flasher.success("{{ __('messages.productionfinish') }}",
+                                "Success");
                             }
                         }
                     });

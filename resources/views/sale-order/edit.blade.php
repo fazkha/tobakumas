@@ -598,6 +598,7 @@
                             success: function(result) {
                                 if (result.status !== 'Not Found') {
                                     $('#adonanBody').html(result.view);
+                                    flasher.error("{{ __('messages.successdeleted') }}!", "Success");
                                 }
                                 $('#adonan-form')[0].reset();
                                 $('#disp-total_harga-master').html(result.total_harga_master
@@ -628,6 +629,7 @@
                             success: function(result) {
                                 if (result.status !== 'Not Found') {
                                     $('#detailBody').html(result.view);
+                                    flasher.error("{{ __('messages.successdeleted') }}!", "Success");
                                 }
                                 $('#form-order')[0].reset();
                                 $('#disp-total_harga-master').html(result.total_harga_master
@@ -735,6 +737,7 @@
                                     .toLocaleString('de-DE'));
                                 $('#adonan-form')[0].reset();
                                 $("#disp-sub_harga-adonan").html(0);
+                                flasher.success("{{ __('messages.successsaved') }}!", "Success");
                             }
                         }
                     });
@@ -767,6 +770,7 @@
                                 $('#form-order')[0].reset();
                                 $("#disp-stock").html(0);
                                 $("#disp-sub_harga").html(0);
+                                flasher.success("{{ __('messages.successsaved') }}!", "Success");
                             }
                         }
                     });

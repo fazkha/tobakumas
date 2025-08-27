@@ -313,6 +313,7 @@
                         success: function(result) {
                             if (result.status !== 'Not Found') {
                                 $('#detailBody').html(result.view);
+                                flasher.success("{{ __('messages.successsaved') }}!", "Success");
                             }
                         }
                     });

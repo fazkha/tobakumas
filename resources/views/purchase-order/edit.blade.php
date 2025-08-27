@@ -408,6 +408,7 @@
                                     .toLocaleString('de-DE'));
                                 $('#disp-total_harga-detail').html(result.total_harga_detail
                                     .toLocaleString('de-DE'));
+                                flasher.error("{{ __('messages.successdeleted') }}!", "Success");
                             },
                             error: function(xhr) {
                                 console.log(xhr.responseText);
@@ -451,7 +452,6 @@
                 $("#submit-detail").on("click", function(e) {
                     e.preventDefault();
                     let key = $('#order_id').val();
-                    $('#icon-save').addClass('animate-spin');
 
                     $.ajax({
                         url: '{{ url('/purchase/order/store-detail') }}' + '/' + key,
@@ -467,10 +467,10 @@
                                     .toLocaleString('de-DE'));
                                 $('#form-order')[0].reset();
                                 $("#disp-sub_harga").html(0);
+                                flasher.success("{{ __('messages.successsaved') }}!", "Success");
                             }
                         }
                     });
-                    $('#icon-save').removeClass('animate-spin');
 
                     if (isFormDirty('master-form', myFormInitialValues)) {
                         $('form#master-form').submit();

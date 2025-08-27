@@ -530,6 +530,7 @@
                             success: function(result) {
                                 if (result.status !== 'Not Found') {
                                     $('#ingoodsBody').html(result.view);
+                                    flasher.error("{{ __('messages.successdeleted') }}!", "Success");
                                 }
                                 $('#ingoods-form')[0].reset();
                             },
@@ -553,6 +554,7 @@
                             if (result.status !== 'Not Found') {
                                 $('#ingoodsBody').html(result.view);
                                 $('#ingoods-form')[0].reset();
+                                flasher.success("{{ __('messages.successsaved') }}!", "Success");
                             }
                         }
                     });
@@ -578,6 +580,7 @@
                             success: function(result) {
                                 if (result.status !== 'Not Found') {
                                     $('#outgoodsBody').html(result.view);
+                                    flasher.error("{{ __('messages.successdeleted') }}!", "Success");
                                 }
                                 $('#outgoods-form')[0].reset();
                             },
@@ -601,6 +604,7 @@
                             if (result.status !== 'Not Found') {
                                 $('#outgoodsBody').html(result.view);
                                 $('#outgoods-form')[0].reset();
+                                flasher.success("{{ __('messages.successsaved') }}!", "Success");
                             }
                         }
                     });
@@ -626,6 +630,7 @@
                             success: function(result) {
                                 if (result.status !== 'Not Found') {
                                     $('#detailBody').html(result.view);
+                                    flasher.error("{{ __('messages.successdeleted') }}!", "Success");
                                 }
                                 $('#detail-form')[0].reset();
                             },
@@ -653,6 +658,7 @@
                             if (result.status !== 'Not Found') {
                                 $('#detailBody').html(result.view);
                                 $('#detail-form')[0].reset();
+                                flasher.success("{{ __('messages.successsaved') }}!", "Success");
                             }
                         }
                     });

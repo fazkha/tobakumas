@@ -219,6 +219,7 @@
                         success: function(result) {
                             if (result.status !== 'Not Found') {
                                 $('#detailBody').html(result.view);
+                                flasher.success("{{ __('messages.successsaved') }}!", "Success");
                             }
                             $('#disp-total_harga-master').html(result.total_harga_master
                                 .toLocaleString('de-DE'));
