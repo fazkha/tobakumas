@@ -152,6 +152,7 @@ return [
     'successadded' => 'Berhasil ditambahkan',
     'successupdated' => 'Berhasil diperbarukan',
     'successdeleted' => 'Berhasil dihapuskan',
+    'successsaved' => 'Berhasil disimpan',
     'contact' => 'Penghubung',
     'contactname' => 'Nama penghubung',
     'contactphone' => 'Telpon penghubung',
@@ -211,6 +212,4 @@ return [
     'arethegoodsreceived' => 'Apakah barang yang diterima sudah sesuai dengan pesanan?',
     'receiptunit' => 'Satuan Penerimaan',
     'receiptquantity' => 'Kuantitas Penerimaan',
-    'successsaved' => 'Berhasil disimpan',
-    'successdeleted' => 'Berhasil dihapus',
 ];

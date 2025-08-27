@@ -9,7 +9,7 @@
     <title>@yield('title') - {{ config('custom.product_short') }}</title>
 
     @stack('styles')
-    @vite(['resources/css/app.css', 'resources/js/app.js', 'public/vendor/flasher/flasher.min.css', 'public/vendor/flasher/flasher.min.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/css/flasher.min.css', 'resources/js/flasher.min.js'])
 </head>
 
 <body class="font-sans antialiased">
