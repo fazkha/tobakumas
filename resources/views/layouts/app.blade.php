@@ -53,33 +53,26 @@
                 if (window.localStorage.getItem('dark')) {
                     return JSON.parse(window.localStorage.getItem('dark'))
                 }
-
                 return !!window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
             }
-
             const setTheme = (value) => {
                 window.localStorage.setItem('dark', value)
             }
-
             const getLang = () => {
                 if (window.localStorage.getItem('enLang')) {} else {
-                    window.localStorage.setItem('enLang', true)
+                    window.localStorage.setItem('enLang', !0)
                 }
-
                 return JSON.parse(window.localStorage.getItem('enLang'))
             }
-
             const setLang = (value) => {
                 window.localStorage.setItem('enLang', value)
             }
-
             const getColor = () => {
                 if (window.localStorage.getItem('color')) {
                     return window.localStorage.getItem('color')
                 }
                 return 'teal'
             }
-
             const setColors = (color) => {
                 const root = document.documentElement
                 root.style.setProperty('--color-primary', `var(--color-${color})`)
@@ -95,22 +88,20 @@
                 root.style.setProperty('--color-primary-900', `var(--color-${color}-900)`)
                 this.selectedColor = color
                 window.localStorage.setItem('color', color)
-                //
             }
-
             return {
-                loading: true,
+                loading: !0,
                 isDark: getTheme(),
                 toggleTheme() {
                     this.isDark = !this.isDark
                     setTheme(this.isDark)
                 },
                 setLightTheme() {
-                    this.isDark = false
+                    this.isDark = !1
                     setTheme(this.isDark)
                 },
                 setDarkTheme() {
-                    this.isDark = true
+                    this.isDark = !0
                     setTheme(this.isDark)
                 },
                 isEnLang: getLang(),
@@ -119,56 +110,56 @@
                     setLang(this.isEnLang)
                 },
                 setEnLang() {
-                    this.isEnLang = true
+                    this.isEnLang = !0
                     setLang(this.isEnLang)
                     window.location.href = '/locale/en'
                 },
                 setIdLang() {
-                    this.isEnLang = false
+                    this.isEnLang = !1
                     setLang(this.isEnLang)
                     window.location.href = '/locale/id'
                 },
                 color: getColor(),
                 selectedColor: 'teal',
                 setColors,
-                isSideBarOpen: true,
+                isSideBarOpen: !0,
                 toggleSidbarMenu() {
-                    this.isSidebarOpen = false
+                    this.isSidebarOpen = !1
                     this.$nextTick(() => {
                         this.$refs.sideBar.focus()
                     })
                 },
-                isSettingsPanelOpen: false,
+                isSettingsPanelOpen: !1,
                 openSettingsPanel() {
-                    this.isSettingsPanelOpen = true
+                    this.isSettingsPanelOpen = !0
                     this.$nextTick(() => {
                         this.$refs.settingsPanel.focus()
                     })
                 },
-                isNotificationsPanelOpen: false,
+                isNotificationsPanelOpen: !1,
                 openNotificationsPanel() {
-                    this.isNotificationsPanelOpen = true
+                    this.isNotificationsPanelOpen = !0
                     this.$nextTick(() => {
                         this.$refs.notificationsPanel.focus()
                     })
                 },
-                isSearchPanelOpen: false,
+                isSearchPanelOpen: !1,
                 openSearchPanel() {
-                    this.isSearchPanelOpen = true
+                    this.isSearchPanelOpen = !0
                     this.$nextTick(() => {
                         this.$refs.searchInput.focus()
                     })
                 },
-                isMobileSubMenuOpen: false,
+                isMobileSubMenuOpen: !1,
                 openMobileSubMenu() {
-                    this.isMobileSubMenuOpen = true
+                    this.isMobileSubMenuOpen = !0
                     this.$nextTick(() => {
                         this.$refs.mobileSubMenu.focus()
                     })
                 },
-                isMobileMainMenuOpen: false,
+                isMobileMainMenuOpen: !1,
                 openMobileMainMenu() {
-                    this.isMobileMainMenuOpen = true
+                    this.isMobileMainMenuOpen = !0
                     this.$nextTick(() => {
                         this.$refs.mobileMainMenu.focus()
                     })
