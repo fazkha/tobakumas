@@ -312,14 +312,6 @@
                     </form>
                 </div>
             </div>
-
-            <div id="scanner" class="fixed bottom-0 left-0">
-                <div
-                    class="w-full shadow-lg bg-primary-20 rounded-md dark:border dark:bg-darker dark:border-primary-800">
-                    @php $element = ['el' => 'barang_id']; @endphp
-                    {{-- @include('qrcode.partials.scanner', $element) --}}
-                </div>
-            </div>
         </div>
     </div>
 

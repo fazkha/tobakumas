@@ -180,11 +180,12 @@ class PurchaseReceiptController extends Controller implements HasMiddleware
     public function update(PurchaseReceiptRequest $request): RedirectResponse
     {
         $order = PurchaseOrder::find(Crypt::decrypt($request->purchase_receipt));
+        $isaccepted = $request->tanggal_terima ? 1 : 0;
 
         if ($request->validated()) {
             $order->update([
                 'tanggal_terima' => $request->tanggal_terima,
-                'isaccepted' => ($request->isaccepted == 'on' ? 1 : 0),
+                'isaccepted' => $isaccepted, // ($request->isaccepted == 'on' ? 1 : 0),
                 'keterangan_terima' => $request->keterangan_terima,
                 'petugas_terima_id' => $request->petugas_terima_id,
                 'tanggungjawab_terima_id' => $request->tanggungjawab_terima_id,
@@ -222,7 +223,7 @@ class PurchaseReceiptController extends Controller implements HasMiddleware
             $detail = PurchaseOrderDetail::where('purchase_order_id', $master_id)->where('id', $item['id']);
 
             $detail->update([
-                'isaccepted' => $isaccepted,
+                'isaccepted' => 1, // $isaccepted,
                 'keterangan_terima' => $item['keterangan_terima'],
                 'satuan_terima_id' => $item['satuan_terima_id'],
                 'kuantiti_terima' => $item['kuantiti_terima'],

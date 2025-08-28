@@ -95,7 +95,7 @@
                                         <x-input-error class="mt-2" :messages="$errors->get('tanggal_terima')" />
                                     </div>
 
-                                    <div class="w-auto pb-4">
+                                    <div class="hidden w-auto pb-4">
                                         <label for="isaccepted"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.arethegoodsreceived')</label>
                                         <label class="cursor-pointer flex flex-col md:flex-row md:gap-2 py-1">
@@ -200,7 +200,7 @@
                                                     <th class="w-1/4">@lang('messages.goods')</th>
                                                     <th class="w-1/12">@lang('messages.unit')</th>
                                                     <th class="w-1/12">@lang('messages.quantity')</th>
-                                                    <th class="w-1/12">@lang('messages.isaccepted')</th>
+                                                    <th class="w-1/12 hidden">@lang('messages.isaccepted')</th>
                                                     <th class="w-1/6">@lang('messages.receiptunit')</th>
                                                     <th class="w-1/6">@lang('messages.receiptquantity')</th>
                                                     <th class="w-1/6">@lang('messages.receiptdescription')</th>
@@ -243,14 +243,6 @@
                             </div>
                         </div>
                     </form>
-                </div>
-            </div>
-
-            <div id="scanner" class="fixed bottom-0 left-0">
-                <div
-                    class="w-full shadow-lg bg-primary-20 rounded-md dark:border dark:bg-darker dark:border-primary-800">
-                    @php $element = ['el' => 'barang_id']; @endphp
-                    {{-- @include('qrcode.partials.scanner', $element) --}}
                 </div>
             </div>
         </div>

@@ -310,7 +310,7 @@
                         <div class="flex-1 overflow-hidden">
                             <h5 class="text-sm font-semibold text-gray-600 dark:text-light">User</h5>
                             <p class="text-sm font-normal text-gray-400 truncate dark:text-primary-400">
-                                Shared new project "K-WD Dashboard"
+                                Shared new project "Dashboard"
                             </p>
                             <span class="text-sm font-normal text-gray-400 dark:text-primary-500"> 1d ago
                             </span>
@@ -329,7 +329,7 @@
                         <div class="flex-1 overflow-hidden">
                             <h5 class="text-sm font-semibold text-gray-600 dark:text-light">John</h5>
                             <p class="text-sm font-normal text-gray-400 truncate dark:text-primary-400">
-                                Commit new changes to K-WD Dashboard project.
+                                Commit new changes to Dashboard project.
                             </p>
                             <span class="text-sm font-normal text-gray-400 dark:text-primary-500"> 10h ago
                             </span>
@@ -348,7 +348,7 @@
                         <div class="flex-1 overflow-hidden">
                             <h5 class="text-sm font-semibold text-gray-600 dark:text-light">User</h5>
                             <p class="text-sm font-normal text-gray-400 truncate dark:text-primary-400">
-                                Release new version "K-WD Dashboard"
+                                Release new version "Dashboard"
                             </p>
                             <span class="text-sm font-normal text-gray-400 dark:text-primary-500"> 20d ago
                             </span>
@@ -370,7 +370,7 @@
                                 <h5 class="text-sm font-semibold text-gray-600 dark:text-light">User
                                 </h5>
                                 <p class="text-sm font-normal text-gray-400 truncate dark:text-primary-400">
-                                    Release new version "K-WD Dashboard"
+                                    Release new version "Dashboard"
                                 </p>
                                 <span class="text-sm font-normal text-gray-400 dark:text-primary-500"> 20d
                                     ago </span>
@@ -454,10 +454,10 @@
             </a>
             <a href="#" class="flex space-x-4">
                 <div class="flex-shrink-0">
-                    <img class="w-10 h-10 rounded-lg" src="" alt="K-WD Dashboard" />
+                    <img class="w-10 h-10 rounded-lg" src="" alt="Dashboard" />
                 </div>
                 <div class="flex-1 max-w-xs overflow-hidden">
-                    <h4 class="text-sm font-semibold text-gray-600 dark:text-light">K-WD Dashboard</h4>
+                    <h4 class="text-sm font-semibold text-gray-600 dark:text-light">Dashboard</h4>
                     <p class="text-sm font-normal text-gray-400 truncate dark:text-primary-400">
                         Lorem ipsum dolor, sit amet consectetur adipisicing elit.
                     </p>
@@ -468,10 +468,10 @@
             <template x-for="i in 10" x-key="i">
                 <a href="#" class="flex space-x-4">
                     <div class="flex-shrink-0">
-                        <img class="w-10 h-10 rounded-lg" src="" alt="K-WD Dashboard" />
+                        <img class="w-10 h-10 rounded-lg" src="" alt="Dashboard" />
                     </div>
                     <div class="flex-1 max-w-xs overflow-hidden">
-                        <h4 class="text-sm font-semibold text-gray-600 dark:text-light">K-WD Dashboard</h4>
+                        <h4 class="text-sm font-semibold text-gray-600 dark:text-light">Dashboard</h4>
                         <p class="text-sm font-normal text-gray-400 truncate dark:text-primary-400">
                             Lorem ipsum dolor, sit amet consectetur adipisicing elit.
                         </p>

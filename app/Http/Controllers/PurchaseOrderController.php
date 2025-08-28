@@ -163,6 +163,7 @@ class PurchaseOrderController extends Controller implements HasMiddleware
                 'total_harga' => $total_harga,
                 'tunai' => $tunai,
                 'isactive' => ($request->isactive == 'on' ? 1 : 0),
+                'isaccepted' => 0,
                 'created_by' => auth()->user()->email,
                 'updated_by' => auth()->user()->email,
                 'approved' => (config('custom.purchase_approval') == false) ? 1 : 0,
@@ -230,12 +231,6 @@ class PurchaseOrderController extends Controller implements HasMiddleware
                 'updated_by' => auth()->user()->email,
             ]);
 
-            // $total_price = PurchaseOrderDetail::where('purchase_order_id', Crypt::decrypt($request->order))->select(DB::raw('SUM((harga_satuan * (1 + (pajak/100))) * kuantiti) as total_price'))->value('total_price');
-
-            // $order->update([
-            //     'total_harga' => $total_price + $order->biaya_angkutan,
-            // ]);
-
             return redirect()->back()->with('success', __('messages.successupdated') . ' 👉 ' . $request->no_order);
         } else {
             return redirect()->back()->withInput()->with('error', 'Error occured while updating!');
@@ -289,6 +284,9 @@ class PurchaseOrderController extends Controller implements HasMiddleware
             'discount' => $discount,
             'harga_satuan' => $request->harga_satuan,
             'keterangan' => $request->keterangan,
+            'isaccepted' => 0,
+            'satuan_terima_id' => $request->satuan_id,
+            'kuantiti_terima' => $request->kuantiti,
             'created_by' => auth()->user()->email,
             'updated_by' => auth()->user()->email,
             'approved' => (config('custom.purchase_approval') == false) ? 1 : 0,

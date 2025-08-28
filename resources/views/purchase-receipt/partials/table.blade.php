@@ -33,7 +33,7 @@
                         @lang('messages.receiptdate')
                     </th>
                     <th
-                        class="px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
+                        class="hidden px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
                         @lang('messages.isaccepted')
                     </th>
                     <th
@@ -49,7 +49,7 @@
             <tbody>
                 @if ($datas->count() == 0)
                     <tr>
-                        <td colspan="8" class="text-sm bg-primary-20 dark:bg-primary-900">
+                        <td colspan="7" class="text-sm bg-primary-20 dark:bg-primary-900">
                             <div class="flex items-center justify-center p-5">@lang('messages.datanotavailable')</div>
                         </td>
                     </tr>
@@ -87,7 +87,7 @@
                                 class="text-gray-900 dark:text-white">{{ $data->tanggal_terima ? date_format(date_create($data->tanggal_terima), 'd/m/Y') : '' }}</span>
                         </td>
                         <td
-                            class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
+                            class="hidden px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
                             <span class="flex items-center justify-center">
                                 @if ($data->isaccepted == '1')
                                     <span>✔️</span>

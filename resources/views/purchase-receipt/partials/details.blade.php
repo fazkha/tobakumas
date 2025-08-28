@@ -13,7 +13,7 @@
             <td class="align-top text-right">
                 <x-text-span>{{ $detail->kuantiti }}</x-text-span>
             </td>
-            <td class="align-top text-center">
+            <td class="align-top text-center hidden">
                 <input type="hidden" name="items[{{ $i }}][id]" value="{{ $detail->id }}" />
                 @if ($viewMode == true)
                     <div class="inline-flex items-center py-2">
@@ -42,7 +42,7 @@
                         <option value="">@lang('messages.choose')...</option>
                         @foreach ($satuans as $id => $name)
                             <option value="{{ $id }}"
-                                {{ $detail->satuan_terima_id == $id ? 'selected' : '' }}>
+                                {{ ($detail->satuan_terima_id ? $detail->satuan_terima_id == $id : $detail->satuan_id == $id) ? 'selected' : '' }}>
                                 {{ $name }}</option>
                         @endforeach
                     </select>
@@ -54,7 +54,7 @@
                 @else
                     <x-text-input type="number" min="0" step="0.01"
                         name="items[{{ $i }}][kuantiti_terima]" tabindex="8"
-                        value="{{ $detail->kuantiti_terima }}" />
+                        value="{{ $detail->kuantiti_terima ? $detail->kuantiti_terima : $detail->kuantiti }}" />
                 @endif
             </td>
             <td class="align-top">
