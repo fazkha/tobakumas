@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Konversi;
-use App\Http\Requests\KonversiRequest;
 use App\Models\Satuan;
+use App\Http\Requests\KonversiRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
@@ -55,8 +55,11 @@ class KonversiController extends Controller implements HasMiddleware
                 }
             }
         }
+
         // $datas = $datas->where('user_id', auth()->user()->id);
-        $datas = $datas->latest()->paginate(session('konversi_pp'));
+        // $datas = $datas->join('satuans', 'satuans.id', 'konversis.satuan_id')->orderBy('satuans.nama_lengkap')->paginate(session('konversi_pp'));
+        // $datas = $datas->latest()->paginate(session('konversi_pp'));
+        $datas = $datas->orderBy('satuan_id')->paginate(session('konversi_pp'));
 
         if ($request->page && $datas->count() == 0) {
             return redirect()->route('dashboard');
@@ -89,8 +92,11 @@ class KonversiController extends Controller implements HasMiddleware
                 }
             }
         }
+
         // $datas = $datas->where('user_id', auth()->user()->id);
-        $datas = $datas->latest()->paginate(session('konversi_pp'));
+        // $datas = $datas->join('satuans', 'satuans.id', 'konversis.satuan_id')->orderBy('satuans.nama_lengkap')->paginate(session('konversi_pp'));
+        // $datas = $datas->latest()->paginate(session('konversi_pp'));
+        $datas = $datas->orderBy('satuan_id')->paginate(session('konversi_pp'));
 
         $datas->withPath('/warehouse/conversions'); // pagination url to
 
