@@ -60,8 +60,10 @@ class SatuanController extends Controller implements HasMiddleware
                 }
             }
         }
+
         // $datas = $datas->where('user_id', auth()->user()->id);
-        $datas = $datas->latest()->paginate(session('satuan_pp'));
+        // $datas = $datas->latest()->paginate(session('satuan_pp'));
+        $datas = $datas->orderBy('nama_lengkap')->paginate(session('satuan_pp'));
 
         if ($request->page && $datas->count() == 0) {
             return redirect()->route('dashboard');
@@ -96,8 +98,10 @@ class SatuanController extends Controller implements HasMiddleware
                 }
             }
         }
+
         // $datas = $datas->where('user_id', auth()->user()->id);
-        $datas = $datas->latest()->paginate(session('satuan_pp'));
+        // $datas = $datas->latest()->paginate(session('satuan_pp'));
+        $datas = $datas->orderBy('nama_lengkap')->paginate(session('satuan_pp'));
 
         $datas->withPath('/warehouse/units'); // pagination url to
 
