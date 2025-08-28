@@ -77,7 +77,8 @@ class BarangController extends Controller implements HasMiddleware
         }
 
         $datas = $datas->where('branch_id', auth()->user()->profile->branch_id);
-        $datas = $datas->latest()->paginate(session('barang_pp'));
+        // $datas = $datas->latest()->paginate(session('barang_pp'));
+        $datas = $datas->orderBy('jenis_barang_id')->orderBy('nama')->paginate(session('barang_pp'));
 
         if ($request->page && $datas->count() == 0) {
             return redirect()->route('dashboard');
@@ -118,7 +119,8 @@ class BarangController extends Controller implements HasMiddleware
         }
 
         $datas = $datas->where('branch_id', auth()->user()->profile->branch_id);
-        $datas = $datas->latest()->paginate(session('barang_pp'));
+        // $datas = $datas->latest()->paginate(session('barang_pp'));
+        $datas = $datas->orderBy('jenis_barang_id')->orderBy('nama')->paginate(session('barang_pp'));
 
         $datas->withPath('/warehouse/goods'); // pagination url to
 
