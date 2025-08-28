@@ -1,17 +1,19 @@
 @php
-    use Illuminate\Support\Facades\Crypt;
+    $thismonth = date('m');
+    $thisyear = date('Y');
 @endphp
-@section('title', __('messages.purchaseorder'))
+@section('title', __('messages.plan'))
 
 <x-app-layout>
     <div class="flex items-center justify-between px-4 py-4 border-b border-primary-100 lg:py-6 dark:border-primary-800">
         <h1 class="text-xl flex items-center justify-center">
-            <a href="{{ route('purchase-order.index') }}" class="flex items-center justify-center">
-                <svg fill="currentColor" class="w-7 h-7" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M533.959 424.126v242.812c0 12.162-9.773 22.022-21.829 22.022s-21.829-9.859-21.829-22.022V424.126h-6.654c-1.886.2-3.8.303-5.737.303h-82.373c-156.731 0-283.783-128.17-283.783-286.28 0-76.3 61.313-138.152 136.947-138.152 118.246 0 219.599 72.954 262.243 176.679C553.588 72.951 654.941-.003 773.187-.003c75.634 0 136.947 61.852 136.947 138.152 0 158.11-127.052 286.28-283.783 286.28h-82.373a54.39 54.39 0 01-5.737-.303h-4.28zm-53.538-44.043c4.774-1.168 8.403-5.572 8.403-10.708v-83.098c0-133.785-107.505-242.237-240.124-242.237-51.522 0-93.288 42.133-93.288 94.109 0 132.025 104.695 239.379 234.903 242.18a21.87 21.87 0 013.278-.247h86.828zm145.322.303h.608c132.619 0 240.124-108.451 240.124-242.237 0-51.975-41.766-94.109-93.288-94.109-132.619 0-240.124 108.451-240.124 242.237v83.098c0 5.136 3.628 9.54 8.403 10.708h80.65c1.236 0 2.448.104 3.628.303zM937.456 751.78c-74.665 64.718-237.417 105.999-425.511 105.999-188.128 0-350.904-41.296-425.551-106.034v76.504c0 .55-.02 1.095-.059 1.634.087.801.132 1.614.132 2.439 0 74.167 189.814 145.089 425.423 145.089s425.423-70.922 425.423-145.089c0-.854.048-1.696.142-2.525V751.78zm43.452-85.135c.137.996.207 2.014.207 3.048v162.959c0 1.036-.071 2.055-.208 3.053-4.256 108.638-213.251 185.747-469.016 185.747-258.413 0-469.082-78.714-469.082-189.132 0-.55.02-1.095.059-1.634a22.571 22.571 0 01-.132-2.439V672.992a86 86 0 010-6.614v-3.293c0-2.187.316-4.3.905-6.295 12.455-82.401 143.918-144.902 327.226-166.509a21.682 21.682 0 015.379.034c22.28-2.544 45.28-4.477 68.873-5.761 12.039-.655 22.324 8.659 22.974 20.803s-8.583 22.521-20.622 23.176C240.48 539.799 86.567 605.201 86.567 670.262c0 7.083 1.777 14.139 5.2 21.106 32.344 64.67 205.219 121.467 414.783 121.467 232.727 0 420.217-70.052 420.217-143.14 0-56.645-118.34-115.768-291.269-135.863a21.762 21.762 0 01-4.332-.956 1097.148 1097.148 0 00-54.572-4.332c-12.038-.657-21.269-11.035-20.618-23.179s10.939-21.456 22.977-20.799c226.148 12.347 397.817 84.304 401.956 182.077z" />
+            <a href="{{ route('purchase-plan.index') }}" class="flex items-center justify-center">
+                <svg class="size-7" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M4.5 1C4.77614 1 5 1.22386 5 1.5V2H10V1.5C10 1.22386 10.2239 1 10.5 1C10.7761 1 11 1.22386 11 1.5V2H12.5C13.3284 2 14 2.67157 14 3.5V12.5C14 13.3284 13.3284 14 12.5 14H2.5C1.67157 14 1 13.3284 1 12.5V3.5C1 2.67157 1.67157 2 2.5 2H4V1.5C4 1.22386 4.22386 1 4.5 1ZM10 3V3.5C10 3.77614 10.2239 4 10.5 4C10.7761 4 11 3.77614 11 3.5V3H12.5C12.7761 3 13 3.22386 13 3.5V5H2V3.5C2 3.22386 2.22386 3 2.5 3H4V3.5C4 3.77614 4.22386 4 4.5 4C4.77614 4 5 3.77614 5 3.5V3H10ZM2 6V12.5C2 12.7761 2.22386 13 2.5 13H12.5C12.7761 13 13 12.7761 13 12.5V6H2ZM7 7.5C7 7.22386 7.22386 7 7.5 7C7.77614 7 8 7.22386 8 7.5C8 7.77614 7.77614 8 7.5 8C7.22386 8 7 7.77614 7 7.5ZM9.5 7C9.22386 7 9 7.22386 9 7.5C9 7.77614 9.22386 8 9.5 8C9.77614 8 10 7.77614 10 7.5C10 7.22386 9.77614 7 9.5 7ZM11 7.5C11 7.22386 11.2239 7 11.5 7C11.7761 7 12 7.22386 12 7.5C12 7.77614 11.7761 8 11.5 8C11.2239 8 11 7.77614 11 7.5ZM11.5 9C11.2239 9 11 9.22386 11 9.5C11 9.77614 11.2239 10 11.5 10C11.7761 10 12 9.77614 12 9.5C12 9.22386 11.7761 9 11.5 9ZM9 9.5C9 9.22386 9.22386 9 9.5 9C9.77614 9 10 9.22386 10 9.5C10 9.77614 9.77614 10 9.5 10C9.22386 10 9 9.77614 9 9.5ZM7.5 9C7.22386 9 7 9.22386 7 9.5C7 9.77614 7.22386 10 7.5 10C7.77614 10 8 9.77614 8 9.5C8 9.22386 7.77614 9 7.5 9ZM5 9.5C5 9.22386 5.22386 9 5.5 9C5.77614 9 6 9.22386 6 9.5C6 9.77614 5.77614 10 5.5 10C5.22386 10 5 9.77614 5 9.5ZM3.5 9C3.22386 9 3 9.22386 3 9.5C3 9.77614 3.22386 10 3.5 10C3.77614 10 4 9.77614 4 9.5C4 9.22386 3.77614 9 3.5 9ZM3 11.5C3 11.2239 3.22386 11 3.5 11C3.77614 11 4 11.2239 4 11.5C4 11.7761 3.77614 12 3.5 12C3.22386 12 3 11.7761 3 11.5ZM5.5 11C5.22386 11 5 11.2239 5 11.5C5 11.7761 5.22386 12 5.5 12C5.77614 12 6 11.7761 6 11.5C6 11.2239 5.77614 11 5.5 11ZM7 11.5C7 11.2239 7.22386 11 7.5 11C7.77614 11 8 11.2239 8 11.5C8 11.7761 7.77614 12 7.5 12C7.22386 12 7 11.7761 7 11.5ZM9.5 11C9.22386 11 9 11.2239 9 11.5C9 11.7761 9.22386 12 9.5 12C9.77614 12 10 11.7761 10 11.5C10 11.2239 9.77614 11 9.5 11Z"
+                        fill="currentColor" />
                 </svg>
-                <span class="px-2">@lang('messages.purchaseorder')</span>
+                <span class="px-2">@lang('messages.plan')</span>
             </a>
             <span class="px-2">&raquo;</span>
             <span class="px-2 font-semibold">@lang('messages.edit')</span>
@@ -24,10 +26,10 @@
             <div class="flex flex-col items-center">
 
                 <div class="w-full" role="alert">
-                    @include('purchase-order.partials.feedback')
+                    @include('purchase-plan.partials.feedback')
                 </div>
 
-                <form id="master-form" action="{{ route('purchase-order.update', Crypt::Encrypt($datas->id)) }}"
+                <form id="master-form" action="{{ route('purchase-plan.update', Crypt::Encrypt($datas->id)) }}"
                     method="POST" enctype="multipart/form-data" class="w-full">
                     @csrf
                     @method('PUT')
@@ -60,71 +62,42 @@
                                         </div>
                                     </div>
 
-                                    <div class="w-auto pb-4">
-                                        <label for="tanggal"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.transactiondate')</label>
-                                        <x-text-input type="date" name="tanggal" id="tanggal"
-                                            data-date-format="dd-mm-yyyy" tabindex="2" required
-                                            value="{{ old('tanggal', $datas->tanggal) }}" />
+                                    <div class="flex flex-row gap-4">
+                                        <div class="w-1/2 pb-4">
+                                            <label for="periode_bulan"
+                                                class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.month')</label>
+                                            <select name="periode_bulan" id="periode_bulan" tabindex="2" required
+                                                class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                                <option value="">@lang('messages.choose')...</option>
+                                                @foreach ($bulans as $id => $name)
+                                                    <option value="{{ $id }}"
+                                                        {{ $datas->periode_bulan == $id ? 'selected' : '' }}>
+                                                        {{ $name }}</option>
+                                                @endforeach
+                                            </select>
 
-                                        <x-input-error class="mt-2" :messages="$errors->get('tanggal')" />
-                                    </div>
+                                            <x-input-error class="mt-2" :messages="$errors->get('periode_bulan')" />
+                                        </div>
 
-                                    <div class="w-auto pb-4">
-                                        <label for="tunai"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.payment')</label>
-                                        <select name="tunai" id="tunai" tabindex="3" required
-                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
-                                            <option value="">@lang('messages.choose')...</option>
-                                            <option value="1" {{ $datas->tunai == 1 ? 'selected' : '' }}>
-                                                @lang('messages.cash')</option>
-                                            <option value="2" {{ $datas->tunai == 2 ? 'selected' : '' }}>
-                                                @lang('messages.credit')</option>
-                                        </select>
+                                        <div class="w-1/2 pb-4">
+                                            <label for="periode_tahun"
+                                                class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.year')</label>
+                                            <x-text-input type="number" min="0" name="periode_tahun"
+                                                id="periode_tahun" tabindex="3" required
+                                                value="{{ $datas->periode_tahun }}" />
 
-                                        <x-input-error class="mt-2" :messages="$errors->get('tunai')" />
+                                            <x-input-error class="mt-2" :messages="$errors->get('periode_tahun')" />
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
-                                    <div class="w-auto pb-4">
-                                        <label for="biaya_angkutan"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.deliverycost')
-                                            (Rp.)</label>
-                                        <x-text-input type="text" name="biaya_angkutan" id="biaya_angkutan"
-                                            tabindex="4"
-                                            value="{{ old('biaya_angkutan', $datas->biaya_angkutan) }}" />
-
-                                        <x-input-error class="mt-2" :messages="$errors->get('biaya_angkutan')" />
-                                    </div>
-
-                                    <div class="w-auto pb-4">
-                                        <label for="total_harga"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.totalprice')
-                                            (Rp.)</label>
-                                        <x-text-span
-                                            id="disp-total_harga-master">{{ number_format($totals['total_price'], 0, ',', '.') }}</x-text-span>
-                                        <input type="hidden" name="total_harga" id="total_harga"
-                                            value="{{ $totals['total_price'] }}" class="hidden" />
-
-                                        <x-input-error class="mt-2" :messages="$errors->get('total_harga')" />
-                                    </div>
-
-                                    <div class="w-auto pb-4 lg:pb-12">
-                                        <label for="no_order"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.ordernumber')</label>
-                                        <x-text-span
-                                            id="disp-no_order">{{ old('no_order', $datas->no_order) }}</x-text-span>
-                                        <x-text-input type="hidden" name="no_order" id="no_order"
-                                            value="{{ old('no_order', $datas->no_order) }}" />
-
-                                        <x-input-error class="mt-2" :messages="$errors->get('no_order')" />
-                                    </div>
+                                    <div class="w-auto pb-4 lg:pb-12">&nbsp;</div>
 
                                     <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
                                         <div class="dark:bg-black/10">
                                             <label class="cursor-pointer flex flex-col md:flex-row md:gap-2">
-                                                <input type="checkbox" id="isactive" name="isactive"
+                                                <input type="checkbox" id="isactive" name="isactive" tabindex="4"
                                                     class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-7 h-7 rounded-lg shadow-md"
                                                     {{ $datas->isactive == '1' ? 'checked' : '' }}>
                                                 <span
@@ -134,7 +107,7 @@
                                             </label>
                                         </div>
 
-                                        <x-primary-button type="submit" class="block" tabindex="6">
+                                        <x-primary-button type="submit" class="block" tabindex="5">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="size-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -142,11 +115,9 @@
                                             </svg>
                                             <span class="pl-1">@lang('messages.save')</span>
                                         </x-primary-button>
-                                        <x-anchor-secondary href="{{ route('purchase-order.index') }}"
-                                            tabindex="7">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                class="size-5">
+                                        <x-anchor-secondary href="{{ route('purchase-plan.index') }}" tabindex="6">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor" class="size-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M6 18 18 6M6 6l12 12" />
                                             </svg>
@@ -161,7 +132,7 @@
             </div>
         </div>
 
-        <div class="relative flex flex-col lg:flex-row gap-4 px-4 py-2">
+        <div class="flex flex-col lg:flex-row gap-4 px-4 py-2">
             <div class="w-full">
                 <div class="flex flex-col items-center">
 
@@ -199,19 +170,16 @@
                                         <table id="order_table" class="w-full border-separate border-spacing-2">
                                             <thead>
                                                 <tr>
-                                                    <th class="w-1/5">@lang('messages.goods')</th>
-                                                    <th class="w-1/6">@lang('messages.unitprice') (Rp.)</th>
+                                                    <th class="w-1/2">@lang('messages.goods')</th>
                                                     <th class="w-auto">@lang('messages.unit')</th>
                                                     <th class="w-auto">@lang('messages.quantity')</th>
-                                                    <th class="w-auto">@lang('messages.discount') (%)</th>
-                                                    <th class="w-auto">@lang('messages.tax') (%)</th>
-                                                    <th class="w-1/5">@lang('messages.subtotalprice') (Rp.)</th>
+                                                    <th class="w-auto">@lang('messages.quota')</th>
                                                     <th class="w-auto">&nbsp;</th>
                                                 </tr>
                                             </thead>
 
                                             <tbody id="detailBody">
-                                                @include('purchase-order.partials.details', [
+                                                @include('purchase-plan.partials.details', [
                                                     $details,
                                                     'viewMode' => false,
                                                 ])
@@ -225,7 +193,7 @@
                                                         <input type="hidden" id="order_id" name="order_id"
                                                             value="{{ $datas->id }}" />
                                                         <select id="barang_id" name="barang_id" required
-                                                            tabindex="10"
+                                                            tabindex="7"
                                                             class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                                             <option value="">@lang('messages.choose')...</option>
                                                             @foreach ($barangs as $id => $name)
@@ -235,12 +203,8 @@
                                                         </select>
                                                     </td>
                                                     <td class="align-top">
-                                                        <x-text-input type="number" min="0" id="harga_satuan"
-                                                            name="harga_satuan" required tabindex="11" />
-                                                    </td>
-                                                    <td class="align-top">
                                                         <select id="satuan_id" name="satuan_id" required
-                                                            tabindex="12"
+                                                            tabindex="8"
                                                             class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                                             <option value="">@lang('messages.choose')...</option>
                                                             @foreach ($satuans as $id => $name)
@@ -249,42 +213,17 @@
                                                             @endforeach
                                                         </select>
                                                     </td>
-                                                    <td class="align-top">
+                                                    <td class="align-top" colspan="2">
                                                         <x-text-input type="number" min="0" id="kuantiti"
-                                                            name="kuantiti" required tabindex="13" />
-                                                    </td>
-                                                    <td class="align-top">
-                                                        <x-text-input type="number" min="0" id="discount"
-                                                            name="discount" tabindex="14" />
-                                                    </td>
-                                                    <td class="align-top">
-                                                        <x-text-input type="number" min="0" id="pajak"
-                                                            name="pajak" tabindex="15" />
-                                                    </td>
-                                                    <td class="align-top">
-                                                        <x-text-span id="disp-sub_harga"
-                                                            class="text-right">0</x-text-span>
+                                                            name="kuantiti" required tabindex="9" />
                                                     </td>
                                                 </tr>
                                             </tbody>
-
-                                            <tfoot>
-                                                <tr>
-                                                    <td class="align-top text-center" colspan="6">
-                                                        <x-text-span class="font-extrabold">@lang('messages.totalprice')
-                                                            (Rp.)</x-text-span>
-                                                    </td>
-                                                    <td class="align-top">
-                                                        <x-text-span id="disp-total_harga-detail"
-                                                            class="font-extrabold text-right">{{ number_format($totals['sub_price'], 0, ',', '.') }}</x-text-span>
-                                                    </td>
-                                                </tr>
-                                            </tfoot>
                                         </table>
                                     </div>
 
                                     <div class="mt-4 mb-4 mr-4 flex flex-row flex-wrap justify-end gap-2 md:gap-4">
-                                        <x-primary-button id="submit-detail" tabindex="16">
+                                        <x-primary-button id="submit-detail" tabindex="10">
                                             <div id="icon-save" class="block">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                     viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -295,8 +234,7 @@
                                             </div>
                                             <span class="pl-1">@lang('messages.save')</span>
                                         </x-primary-button>
-                                        <x-anchor-secondary href="{{ route('purchase-order.index') }}"
-                                            tabindex="17">
+                                        <x-anchor-secondary href="{{ route('purchase-plan.index') }}" tabindex="11">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                 class="size-5">
@@ -312,21 +250,89 @@
                     </form>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <div id="scanner" class="fixed bottom-0 left-0">
-                <div
-                    class="w-full shadow-lg bg-primary-20 rounded-md dark:border dark:bg-darker dark:border-primary-800">
-                    @php $element = ['el' => 'barang_id']; @endphp
-                    {{-- @include('qrcode.partials.scanner', $element) --}}
+    <div class="hidden">
+        <div class="group relative w-80 overflow-hidden rounded-2xl bg-neutral-950 p-6 font-sans shadow-2xl">
+            <div
+                class="absolute -top-1/2 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-lime-500/10 blur-3xl transition-all duration-700 group-hover:bg-lime-500/15">
+            </div>
+
+            <div class="relative flex flex-col gap-5">
+                <div class="flex items-start justify-between border-b border-neutral-800 pb-5">
+                    <div class="flex items-center gap-3">
+                        <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-lime-400/10">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-lime-400" viewBox="0 0 24 24"
+                                stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M3 12m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z">
+                                </path>
+                                <path d="M9 8m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z">
+                                </path>
+                                <path
+                                    d="M15 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z">
+                                </path>
+                                <path d="M4 20l14 0"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-neutral-200">Monthly Balance</p>
+                            <p class="text-xs text-neutral-500">Updated just now</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex divide-x divide-neutral-800">
+                    <div class="flex-1 pr-6">
+                        <p class="text-xs font-medium text-neutral-500">Revenue</p>
+                        <p class="text-xl font-semibold text-neutral-100">$51,274</p>
+                        <p class="mt-1 text-xs font-medium text-lime-400">+8.5%</p>
+                    </div>
+                    <div class="flex-1 pl-6">
+                        <p class="text-xs font-medium text-neutral-500">Costs</p>
+                        <p class="text-xl font-semibold text-neutral-100">$12,818</p>
+                        <p class="mt-1 text-xs font-medium text-red-400">+2.1%</p>
+                    </div>
+                </div>
+
+                <div class="relative h-24 w-full">
+                    <svg class="h-full w-full" viewBox="0 0 300 100" preserveAspectRatio="none">
+                        <defs>
+                            <linearGradient id="aurora-gradient-v2" x1="0" y1="0" x2="0"
+                                y2="1">
+                                <stop offset="0%" stop-color="#a3e635" stop-opacity="0.2"></stop>
+                                <stop offset="100%" stop-color="#a3e635" stop-opacity="0"></stop>
+                            </linearGradient>
+                        </defs>
+                        <path d="M0,65 C50,20 80,80 150,70 S250,50 300,85" fill="none" stroke="#a3e635"
+                            stroke-width="2"></path>
+                        <path d="M0,100 L0,65 C50,20 80,80 150,70 S250,50 300,85 L300,100 Z"
+                            fill="url(#aurora-gradient-v2)"></path>
+                    </svg>
+                    <div class="absolute right-[-1px] top-[81px]">
+                        <div
+                            class="absolute h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-lime-400 shadow-lg shadow-lime-400/50">
+                        </div>
+                        <div class="animate-pulse-strong absolute h-full w-full rounded-full bg-lime-400/25"></div>
+                    </div>
+                </div>
+
+                <div class="border-t border-neutral-800 pt-5">
+                    <button
+                        class="w-full rounded-lg border border-lime-400/50 bg-transparent px-4 py-2 text-sm font-medium text-lime-400 transition-colors duration-300 hover:bg-lime-400 hover:text-neutral-950">
+                        View Full Report
+                    </button>
                 </div>
             </div>
         </div>
+
     </div>
 
     @push('scripts')
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-        <script type="text/javascript" src="{{ url('js/jquery.maskMoney.min.js') }}"></script>
         <script type="text/javascript">
             $(document).ready(function(e) {
                 function getInitialFormValues(formId) {
@@ -367,25 +373,6 @@
 
                 const myFormInitialValues = getInitialFormValues('master-form');
 
-                $(function() {
-                    $('#total_harga').maskMoney({
-                        prefix: 'Rp. ',
-                        allowNegative: false,
-                        thousands: '.',
-                        decimal: ',',
-                        precision: 0,
-                        affixesStay: false
-                    });
-                    $('#biaya_angkutan').maskMoney({
-                        prefix: 'Rp. ',
-                        allowNegative: false,
-                        thousands: '.',
-                        decimal: ',',
-                        precision: 0,
-                        affixesStay: false
-                    });
-                })
-
                 deleteDetail = function(detailId) {
                     let idname = '#a-delete-detail-' + detailId;
 
@@ -393,7 +380,7 @@
                     if (confirmation) {
                         $(idname).closest("tr").remove();
                         $.ajax({
-                            url: '{{ url('/purchase/order/delete-detail') }}' + '/' + detailId,
+                            url: '{{ url('/purchase/plan/delete-detail') }}' + '/' + detailId,
                             type: 'delete',
                             dataType: 'json',
                             data: {
@@ -404,10 +391,6 @@
                                     $('#detailBody').html(result.view);
                                 }
                                 $('#form-order')[0].reset();
-                                $('#disp-total_harga-master').html(result.total_harga_master
-                                    .toLocaleString('de-DE'));
-                                $('#disp-total_harga-detail').html(result.total_harga_detail
-                                    .toLocaleString('de-DE'));
                                 flasher.error("{{ __('messages.successdeleted') }}!", "Success");
                             },
                             error: function(xhr) {
@@ -417,33 +400,20 @@
                     }
                 };
 
-                $("#harga_satuan, #kuantiti, #discount, #pajak").on("change keyup paste", function() {
-                    var _xhs = $('#harga_satuan').val();
-                    var _xku = $('#kuantiti').val();
-                    var _xdc = $('#discount').val();
-                    var _xpj = $('#pajak').val();
-                    var xhs = (_xhs > 0) ? _xhs : 0;
-                    var xku = (_xku > 0) ? _xku : 0;
-                    var xdc = (_xdc > 0) ? _xdc : 0;
-                    var xpj = (_xpj > 0) ? _xpj : 0;
-                    var xsub = (xhs * (1 + (xpj / 100) - (xdc / 100))) * xku;
-                    var formattedNumber = new Intl.NumberFormat('de-DE').format(xsub);
-
-                    $("#disp-sub_harga").html(formattedNumber);
-                });
-
                 $("#barang_id").on("change keyup paste", function() {
                     var xbar = $('#barang_id option:selected').val();
 
                     $.ajax({
-                        url: '{{ url('/warehouse/goods/get-goods-buy') }}' + "/" + xbar,
+                        url: '{{ url('/warehouse/goods/get-goods-stock') }}' + "/" + xbar,
                         type: "GET",
                         dataType: 'json',
                         success: function(result) {
                             var p1 = result.p1;
                             var p2 = result.p2;
-                            $('#harga_satuan').val(p1);
-                            $('#satuan_id').val(p2);
+                            var p3 = result.p3;
+                            $('#satuan_id').val(p1);
+                            $('#stock').val(p2);
+                            $('#minstock').val(p3);
                             $('#kuantiti').focus();
                         }
                     });
@@ -454,19 +424,14 @@
                     let key = $('#order_id').val();
 
                     $.ajax({
-                        url: '{{ url('/purchase/order/store-detail') }}' + '/' + key,
+                        url: '{{ url('/purchase/plan/store-detail') }}' + '/' + key,
                         type: 'post',
                         dataType: 'json',
                         data: $('form#form-order').serialize(),
                         success: function(result) {
                             if (result.status !== 'Not Found') {
                                 $('#detailBody').html(result.view);
-                                $('#disp-total_harga-master').html(result.total_harga_master
-                                    .toLocaleString('de-DE'));
-                                $('#disp-total_harga-detail').html(result.total_harga_detail
-                                    .toLocaleString('de-DE'));
                                 $('#form-order')[0].reset();
-                                $("#disp-sub_harga").html(0);
                                 flasher.success("{{ __('messages.successsaved') }}!", "Success");
                             }
                         }
@@ -480,8 +445,3 @@
         </script>
     @endpush
 </x-app-layout>
-
-{{-- const mySelect = document.getElementById('mySelectElement');
-const indexToSelect = 1; // The index of the option to select (0-based)
-
-mySelect.selectedIndex = indexToSelect; --}}

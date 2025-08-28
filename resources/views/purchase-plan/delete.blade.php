@@ -1,17 +1,18 @@
 @php
     use Illuminate\Support\Facades\Crypt;
 @endphp
-@section('title', __('messages.purchaseorder'))
+@section('title', __('messages.plan'))
 
 <x-app-layout>
     <div class="flex items-center justify-between px-4 py-4 border-b border-primary-100 lg:py-6 dark:border-primary-800">
         <h1 class="text-xl flex items-center justify-center">
-            <a href="{{ route('purchase-order.index') }}" class="flex items-center justify-center">
-                <svg fill="currentColor" class="w-7 h-7" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M533.959 424.126v242.812c0 12.162-9.773 22.022-21.829 22.022s-21.829-9.859-21.829-22.022V424.126h-6.654c-1.886.2-3.8.303-5.737.303h-82.373c-156.731 0-283.783-128.17-283.783-286.28 0-76.3 61.313-138.152 136.947-138.152 118.246 0 219.599 72.954 262.243 176.679C553.588 72.951 654.941-.003 773.187-.003c75.634 0 136.947 61.852 136.947 138.152 0 158.11-127.052 286.28-283.783 286.28h-82.373a54.39 54.39 0 01-5.737-.303h-4.28zm-53.538-44.043c4.774-1.168 8.403-5.572 8.403-10.708v-83.098c0-133.785-107.505-242.237-240.124-242.237-51.522 0-93.288 42.133-93.288 94.109 0 132.025 104.695 239.379 234.903 242.18a21.87 21.87 0 013.278-.247h86.828zm145.322.303h.608c132.619 0 240.124-108.451 240.124-242.237 0-51.975-41.766-94.109-93.288-94.109-132.619 0-240.124 108.451-240.124 242.237v83.098c0 5.136 3.628 9.54 8.403 10.708h80.65c1.236 0 2.448.104 3.628.303zM937.456 751.78c-74.665 64.718-237.417 105.999-425.511 105.999-188.128 0-350.904-41.296-425.551-106.034v76.504c0 .55-.02 1.095-.059 1.634.087.801.132 1.614.132 2.439 0 74.167 189.814 145.089 425.423 145.089s425.423-70.922 425.423-145.089c0-.854.048-1.696.142-2.525V751.78zm43.452-85.135c.137.996.207 2.014.207 3.048v162.959c0 1.036-.071 2.055-.208 3.053-4.256 108.638-213.251 185.747-469.016 185.747-258.413 0-469.082-78.714-469.082-189.132 0-.55.02-1.095.059-1.634a22.571 22.571 0 01-.132-2.439V672.992a86 86 0 010-6.614v-3.293c0-2.187.316-4.3.905-6.295 12.455-82.401 143.918-144.902 327.226-166.509a21.682 21.682 0 015.379.034c22.28-2.544 45.28-4.477 68.873-5.761 12.039-.655 22.324 8.659 22.974 20.803s-8.583 22.521-20.622 23.176C240.48 539.799 86.567 605.201 86.567 670.262c0 7.083 1.777 14.139 5.2 21.106 32.344 64.67 205.219 121.467 414.783 121.467 232.727 0 420.217-70.052 420.217-143.14 0-56.645-118.34-115.768-291.269-135.863a21.762 21.762 0 01-4.332-.956 1097.148 1097.148 0 00-54.572-4.332c-12.038-.657-21.269-11.035-20.618-23.179s10.939-21.456 22.977-20.799c226.148 12.347 397.817 84.304 401.956 182.077z" />
+            <a href="{{ route('purchase-plan.index') }}" class="flex items-center justify-center">
+                <svg class="size-7" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M4.5 1C4.77614 1 5 1.22386 5 1.5V2H10V1.5C10 1.22386 10.2239 1 10.5 1C10.7761 1 11 1.22386 11 1.5V2H12.5C13.3284 2 14 2.67157 14 3.5V12.5C14 13.3284 13.3284 14 12.5 14H2.5C1.67157 14 1 13.3284 1 12.5V3.5C1 2.67157 1.67157 2 2.5 2H4V1.5C4 1.22386 4.22386 1 4.5 1ZM10 3V3.5C10 3.77614 10.2239 4 10.5 4C10.7761 4 11 3.77614 11 3.5V3H12.5C12.7761 3 13 3.22386 13 3.5V5H2V3.5C2 3.22386 2.22386 3 2.5 3H4V3.5C4 3.77614 4.22386 4 4.5 4C4.77614 4 5 3.77614 5 3.5V3H10ZM2 6V12.5C2 12.7761 2.22386 13 2.5 13H12.5C12.7761 13 13 12.7761 13 12.5V6H2ZM7 7.5C7 7.22386 7.22386 7 7.5 7C7.77614 7 8 7.22386 8 7.5C8 7.77614 7.77614 8 7.5 8C7.22386 8 7 7.77614 7 7.5ZM9.5 7C9.22386 7 9 7.22386 9 7.5C9 7.77614 9.22386 8 9.5 8C9.77614 8 10 7.77614 10 7.5C10 7.22386 9.77614 7 9.5 7ZM11 7.5C11 7.22386 11.2239 7 11.5 7C11.7761 7 12 7.22386 12 7.5C12 7.77614 11.7761 8 11.5 8C11.2239 8 11 7.77614 11 7.5ZM11.5 9C11.2239 9 11 9.22386 11 9.5C11 9.77614 11.2239 10 11.5 10C11.7761 10 12 9.77614 12 9.5C12 9.22386 11.7761 9 11.5 9ZM9 9.5C9 9.22386 9.22386 9 9.5 9C9.77614 9 10 9.22386 10 9.5C10 9.77614 9.77614 10 9.5 10C9.22386 10 9 9.77614 9 9.5ZM7.5 9C7.22386 9 7 9.22386 7 9.5C7 9.77614 7.22386 10 7.5 10C7.77614 10 8 9.77614 8 9.5C8 9.22386 7.77614 9 7.5 9ZM5 9.5C5 9.22386 5.22386 9 5.5 9C5.77614 9 6 9.22386 6 9.5C6 9.77614 5.77614 10 5.5 10C5.22386 10 5 9.77614 5 9.5ZM3.5 9C3.22386 9 3 9.22386 3 9.5C3 9.77614 3.22386 10 3.5 10C3.77614 10 4 9.77614 4 9.5C4 9.22386 3.77614 9 3.5 9ZM3 11.5C3 11.2239 3.22386 11 3.5 11C3.77614 11 4 11.2239 4 11.5C4 11.7761 3.77614 12 3.5 12C3.22386 12 3 11.7761 3 11.5ZM5.5 11C5.22386 11 5 11.2239 5 11.5C5 11.7761 5.22386 12 5.5 12C5.77614 12 6 11.7761 6 11.5C6 11.2239 5.77614 11 5.5 11ZM7 11.5C7 11.2239 7.22386 11 7.5 11C7.77614 11 8 11.2239 8 11.5C8 11.7761 7.77614 12 7.5 12C7.22386 12 7 11.7761 7 11.5ZM9.5 11C9.22386 11 9 11.2239 9 11.5C9 11.7761 9.22386 12 9.5 12C9.77614 12 10 11.7761 10 11.5C10 11.2239 9.77614 11 9.5 11Z"
+                        fill="currentColor" />
                 </svg>
-                <span class="px-2">@lang('messages.purchaseorder')</span>
+                <span class="px-2">@lang('messages.plan')</span>
             </a>
             <span class="px-2">&raquo;</span>
             <span class="px-2 font-semibold">@lang('messages.delete')</span>
@@ -24,7 +25,7 @@
             <div class="flex flex-col items-center">
 
                 <div class="w-3/4 lg:w-1/2 shadow mb-5" role="alert">
-                    <form action="{{ route('purchase-order.destroy', Crypt::Encrypt($datas->id)) }}" class="block"
+                    <form action="{{ route('purchase-plan.destroy', Crypt::Encrypt($datas->id)) }}" class="block"
                         method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('DELETE')
@@ -54,7 +55,7 @@
                                             </svg>
                                             <span class="pl-1">@lang('messages.delete')</span>
                                         </x-primary-button>
-                                        <x-anchor-secondary href="{{ route('purchase-order.index') }}" tabindex="1"
+                                        <x-anchor-secondary href="{{ route('purchase-plan.index') }}" tabindex="1"
                                             autofocus>
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="size-5">
@@ -84,40 +85,23 @@
                                     <x-text-span>{{ $datas->supplier->nama }}</x-text-span>
                                 </div>
 
-                                <div class="w-auto pb-4">
-                                    <label for="tanggal"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.transactiondate')</label>
-                                    <x-text-span>{{ date('d/m/Y', strtotime($datas->tanggal)) }}</x-text-span>
-                                </div>
+                                <div class="flex flex-row gap-4">
+                                    <div class="w-1/2 pb-4">
+                                        <label for="periode_bulan"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.month')</label>
+                                        <x-text-span>{{ $bulans[$datas->periode_bulan] }}</x-text-span>
+                                    </div>
 
-                                <div class="w-auto pb-4">
-                                    <label for="tunai"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.payment')</label>
-                                    <x-text-span>{{ $datas->tunai == 1 ? __('messages.cash') : __('messages.credit') }}</x-text-span>
+                                    <div class="w-1/2 pb-4">
+                                        <label for="periode_tahun"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.year')</label>
+                                        <x-text-span>{{ $datas->periode_tahun }}</x-text-span>
+                                    </div>
                                 </div>
                             </div>
 
                             <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
-                                <div class="w-auto pb-4">
-                                    <label for="biaya_angkutan"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.deliverycost')
-                                        (Rp.)</label>
-                                    <x-text-span>{{ number_format($datas->biaya_angkutan, 0, ',', '.') }}</x-text-span>
-                                </div>
-
-                                <div class="w-auto pb-4">
-                                    <label for="total_harga"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.totalprice')
-                                        (Rp.)</label>
-                                    <x-text-span
-                                        id="disp-total_harga-master">{{ number_format($totals['total_price'], 0, ',', '.') }}</x-text-span>
-                                </div>
-
-                                <div class="w-auto pb-4 lg:pb-12">
-                                    <label for="no_order"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.ordernumber')</label>
-                                    <x-text-span id="disp-no_order">{{ $datas->no_order }}</x-text-span>
-                                </div>
+                                <div class="w-auto pb-4 lg:pb-12">&nbsp;</div>
 
                                 <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
                                     <div class="pr-2">
@@ -132,7 +116,7 @@
                                         </div>
                                     </div>
 
-                                    <x-anchor-secondary href="{{ route('purchase-order.index') }}" tabindex="2">
+                                    <x-anchor-secondary href="{{ route('purchase-plan.index') }}" tabindex="6">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-5">
                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -151,10 +135,6 @@
         <div class="flex flex-col lg:flex-row gap-4 px-4 py-2">
             <div class="w-full">
                 <div class="flex flex-col items-center">
-
-                    <div class="w-full" role="alert">
-                        @include('purchase-order.partials.feedback')
-                    </div>
 
                     {{-- Detail --}}
                     <div
@@ -187,36 +167,31 @@
                                     <table id="order_table" class="w-full border-separate border-spacing-2">
                                         <thead>
                                             <tr>
-                                                <th class="w-1/4">@lang('messages.goods')</th>
-                                                <th class="w-1/6">@lang('messages.unitprice') (Rp.)</th>
+                                                <th class="w-1/2">@lang('messages.goods')</th>
                                                 <th class="w-auto">@lang('messages.unit')</th>
                                                 <th class="w-auto">@lang('messages.quantity')</th>
-                                                <th class="w-auto">@lang('messages.discount') (%)</th>
-                                                <th class="w-auto">@lang('messages.tax') (%)</th>
-                                                <th class="w-1/5">@lang('messages.subtotalprice') (Rp.)</th>
+                                                <th class="w-auto">@lang('messages.quota')</th>
                                             </tr>
                                         </thead>
 
                                         <tbody id="detailBody">
-                                            @include('purchase-order.partials.details', [
+                                            @include('purchase-plan.partials.details', [
                                                 $details,
                                                 'viewMode' => true,
                                             ])
                                         </tbody>
-
-                                        <tfoot>
-                                            <tr>
-                                                <td class="align-top text-center" colspan="6">
-                                                    <x-text-span class="font-extrabold">@lang('messages.totalprice')
-                                                        (Rp.)</x-text-span>
-                                                </td>
-                                                <td class="align-top">
-                                                    <x-text-span id="disp-total_harga-detail"
-                                                        class="font-extrabold text-right">{{ number_format($totals['sub_price'], 0, ',', '.') }}</x-text-span>
-                                                </td>
-                                            </tr>
-                                        </tfoot>
                                     </table>
+                                </div>
+
+                                <div class="mt-4 mb-4 mr-4 flex flex-row flex-wrap justify-end gap-2 md:gap-4">
+                                    <x-anchor-secondary href="{{ route('purchase-plan.index') }}" tabindex="11">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="size-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M6 18 18 6M6 6l12 12" />
+                                        </svg>
+                                        <span class="pl-1">@lang('messages.close')</span>
+                                    </x-anchor-secondary>
                                 </div>
                             </div>
                         </div>

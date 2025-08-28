@@ -56,7 +56,7 @@ class PurchaseOrderController extends Controller implements HasMiddleware
 
         // $datas = DB::table('purchase-orders');
         $branch_id = auth()->user()->profile->branch_id;
-        $suppliers = Supplier::where('branch_id', $branch_id)->where('isactive', 1)->pluck('nama', 'id');
+        $suppliers = Supplier::where('branch_id', $branch_id)->where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $datas = PurchaseOrder::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
@@ -97,7 +97,7 @@ class PurchaseOrderController extends Controller implements HasMiddleware
         $search_arr = ['purchase-order_isactive', 'purchase-order_tunai', 'purchase-order_supplier_id', 'purchase-order_no_order', 'purchase-order_tanggal'];
 
         $branch_id = auth()->user()->profile->branch_id;
-        $suppliers = Supplier::where('branch_id', $branch_id)->where('isactive', 1)->pluck('nama', 'id');
+        $suppliers = Supplier::where('branch_id', $branch_id)->where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $datas = PurchaseOrder::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {

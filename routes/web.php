@@ -21,6 +21,7 @@ use App\Http\Controllers\ProdOrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PropinsiController;
 use App\Http\Controllers\PurchaseOrderController;
+use App\Http\Controllers\PurchasePlanController;
 use App\Http\Controllers\PurchaseReceiptController;
 use App\Http\Controllers\QRController;
 use App\Http\Controllers\RoleController;
@@ -80,6 +81,12 @@ Route::prefix('purchase')->middleware('auth')->group(function () {
     Route::get('order/fetchdb/{pp}/{isactive}/{tunai}/{supplier}/{no_order}/{tanggal}', [PurchaseOrderController::class, 'fetchdb'])->defaults('no_order', '_')->defaults('tanggal', '_');
     Route::post('order/store-detail/{detail}', [PurchaseOrderController::class, 'storeDetail']);
     Route::delete('order/delete-detail/{detail}', [PurchaseOrderController::class, 'deleteDetail']);
+
+    Route::resource('plan', PurchasePlanController::class)->names('purchase-plan');
+    Route::get('plan/{plan}/delete', [PurchasePlanController::class, 'delete'])->name('purchase-plan.delete');
+    Route::get('plan/fetchdb/{pp}/{isactive}/{supplier}/{bulan}/{tahun}', [PurchasePlanController::class, 'fetchdb'])->defaults('tahun', '_');
+    Route::post('plan/store-detail/{detail}', [PurchasePlanController::class, 'storeDetail']);
+    Route::delete('plan/delete-detail/{detail}', [PurchasePlanController::class, 'deleteDetail']);
 })->missing(function (Request $request) {
     return Redirect::route('dashboard');
 });

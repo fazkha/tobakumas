@@ -676,7 +676,7 @@
                         type: "GET",
                         dataType: 'json',
                         success: function(result) {
-                            var p1 = result.p1
+                            var p1 = result.p1;
                             $('#satuan_id_ingoods').val(p1);
                             $('#kuantiti_ingoods').focus();
                         }
@@ -691,7 +691,7 @@
                         type: "GET",
                         dataType: 'json',
                         success: function(result) {
-                            var p1 = result.p1
+                            var p1 = result.p1;
                             $('#satuan_id_outgoods').val(p1);
                             $('#kuantiti_outgoods').focus();
                         }

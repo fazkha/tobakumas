@@ -367,9 +367,9 @@
                         type: "GET",
                         dataType: 'json',
                         success: function(result) {
-                            var p1 = result.p1
-                            var p2 = result.p2
-                            var p3 = result.p3
+                            var p1 = result.p1;
+                            var p2 = result.p2;
+                            var p3 = result.p3;
                             $('#satuan_id').val(p1);
                             $('#stock').val(p2);
                             $('#minstock').val(p3);

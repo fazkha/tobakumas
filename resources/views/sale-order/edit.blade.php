@@ -690,8 +690,8 @@
                         type: "GET",
                         dataType: 'json',
                         success: function(result) {
-                            var p1 = result.p1
-                            var p2 = result.p2
+                            var p1 = result.p1;
+                            var p2 = result.p2;
                             $('#harga_satuan_adonan').val(p1);
                             $('#satuan_id_adonan').val(p2);
                             $('#kuantiti_adonan').focus();
@@ -707,9 +707,9 @@
                         type: "GET",
                         dataType: 'json',
                         success: function(result) {
-                            var p1 = result.p1
-                            var p2 = result.p2
-                            var p3 = result.p3
+                            var p1 = result.p1;
+                            var p2 = result.p2;
+                            var p3 = result.p3;
                             $('#harga_satuan').val(p1);
                             $('#satuan_id').val(p2);
                             $('#stock').val(p3);

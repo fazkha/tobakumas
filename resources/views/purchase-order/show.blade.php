@@ -85,7 +85,7 @@
                                             @if ($datas->isactive == '0')
                                                 <span>❌</span>
                                             @endif
-                                            <label class='pl-2'>@lang('messages.active')</label>
+                                            <span class='pl-2'>@lang('messages.active')</span>
                                         </div>
                                     </div>
 

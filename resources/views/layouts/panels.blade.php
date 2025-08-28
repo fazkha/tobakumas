@@ -420,7 +420,7 @@
                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
             </span>
-            <input x-ref="searchInput" type="text"
+            <input x-ref="searchInput" name="searchInput" type="text"
                 class="w-full py-2 pl-10 pr-4 border border-primary-100 rounded-full dark:bg-dark dark:border-transparent dark:text-light focus:outline-none focus:ring"
                 placeholder="Search..." />
         </div>
