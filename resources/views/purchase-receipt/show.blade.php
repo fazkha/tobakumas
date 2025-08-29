@@ -86,7 +86,7 @@
                                     <x-text-span>{{ $datas->tanggal_terima ? date_format(date_create($datas->tanggal_terima), 'd/m/Y') : '-' }}</x-text-span>
                                 </div>
 
-                                <div class="w-auto pb-4 hidden">
+                                <div class="w-auto pb-4">
                                     <label for="isaccepted"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.arethegoodsreceived')</label>
                                     <div class="pr-2 py-2">
@@ -100,8 +100,7 @@
                                                     <span>❓</span>
                                                 @endif
                                             @endif
-                                            <label
-                                                class='pl-2'>{{ $datas->isaccepted == '0' ? __('messages.not') . ' ' : '' }}@lang('messages.isaccepted')</label>
+                                            <label class='pl-2'>@lang('messages.isaccepted')</label>
                                         </div>
                                     </div>
                                 </div>

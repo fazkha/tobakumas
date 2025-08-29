@@ -16,6 +16,7 @@ use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class PurchaseReceiptController extends Controller implements HasMiddleware
 {
@@ -164,6 +165,8 @@ class PurchaseReceiptController extends Controller implements HasMiddleware
         $datas = PurchaseOrder::find(Crypt::decrypt($request->purchase_receipt));
         $details = PurchaseOrderDetail::where('purchase_order_id', Crypt::decrypt($request->purchase_receipt))->get();
 
+        Gate::authorize('update', $datas);
+
         $total_price = PurchaseOrderDetail::where('purchase_order_id', Crypt::decrypt($request->purchase_receipt))->select(DB::raw('SUM((harga_satuan * (1 + (pajak/100) - (discount/100))) * kuantiti) as total_price'))->value('total_price');
         $totals = [
             'sub_price' => $total_price * 1,
@@ -185,7 +188,7 @@ class PurchaseReceiptController extends Controller implements HasMiddleware
         if ($request->validated()) {
             $order->update([
                 'tanggal_terima' => $request->tanggal_terima,
-                'isaccepted' => $isaccepted, // ($request->isaccepted == 'on' ? 1 : 0),
+                'isaccepted' => ($request->isaccepted == 'on' ? 1 : 0),
                 'keterangan_terima' => $request->keterangan_terima,
                 'petugas_terima_id' => $request->petugas_terima_id,
                 'tanggungjawab_terima_id' => $request->tanggungjawab_terima_id,

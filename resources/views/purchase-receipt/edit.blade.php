@@ -95,7 +95,7 @@
                                         <x-input-error class="mt-2" :messages="$errors->get('tanggal_terima')" />
                                     </div>
 
-                                    <div class="hidden w-auto pb-4">
+                                    <div class="w-auto pb-4">
                                         <label for="isaccepted"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.arethegoodsreceived')</label>
                                         <label class="cursor-pointer flex flex-col md:flex-row md:gap-2 py-1">
