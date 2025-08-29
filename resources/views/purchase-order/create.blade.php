@@ -57,7 +57,7 @@
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.transactiondate')</label>
                                         <x-text-input type="date" name="tanggal" id="tanggal"
                                             data-date-format="dd-mm-yyyy" tabindex="2"
-                                            placeholder="{{ __('messages.enter') }} {{ __('messages.date') }}" required
+                                            placeholder="{{ __('messages.enter') }} {{ __('calendar.date') }}" required
                                             value="{{ old('tanggal') }}" />
 
                                         <x-input-error class="mt-2" :messages="$errors->get('tanggal')" />

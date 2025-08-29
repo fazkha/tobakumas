@@ -88,13 +88,13 @@
                                 <div class="flex flex-row gap-4">
                                     <div class="w-1/2 pb-4">
                                         <label for="periode_bulan"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.month')</label>
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('calendar.month')</label>
                                         <x-text-span>{{ $bulans[$datas->periode_bulan] }}</x-text-span>
                                     </div>
 
                                     <div class="w-1/2 pb-4">
                                         <label for="periode_tahun"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.year')</label>
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('calendar.year')</label>
                                         <x-text-span>{{ $datas->periode_tahun }}</x-text-span>
                                     </div>
                                 </div>

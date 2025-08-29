@@ -83,7 +83,7 @@
 
                     <div class="relative shadow-md mr-2 mb-2">
                         <span
-                            class="w-24 text-xs h-full absolute inset-y-0 left-0 flex items-center px-2 border-r border-primary-100 dark:border-primary-800">@lang('messages.month')</span>
+                            class="w-24 text-xs h-full absolute inset-y-0 left-0 flex items-center px-2 border-r border-primary-100 dark:border-primary-800">@lang('calendar.month')</span>
                         <select id="bulan-dropdown"
                             class="text-sm px-2 leading-tight pl-28 pr-9 py-2 appearance-none w-full h-full rounded-md border block bg-primary-20 border-primary-100 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800">
                             <option {{ session('purchase-plan_periode_bulan') == 'all' ? 'selected' : '' }}
@@ -102,7 +102,7 @@
 
                     <div class="relative shadow-md mr-2 mb-2">
                         <span
-                            class="w-24 text-xs h-full absolute inset-y-0 left-0 flex items-center px-2 border-r border-primary-100 dark:border-primary-800">@lang('messages.year')</span>
+                            class="w-24 text-xs h-full absolute inset-y-0 left-0 flex items-center px-2 border-r border-primary-100 dark:border-primary-800">@lang('calendar.year')</span>
                         <input id="search-tahun" type="number" min="0" placeholder="@lang('messages.search')"
                             value="{{ session('purchase-plan_periode_tahun') == '_' ? '' : session('purchase-plan_periode_tahun') }}"
                             class="text-sm pl-28 pr-6 pt-1.5 pb-2 appearance-none rounded-md border block w-full bg-primary-20 border-primary-100 placeholder-gray-400 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800" />

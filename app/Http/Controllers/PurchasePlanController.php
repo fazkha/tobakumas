@@ -25,18 +25,18 @@ class PurchasePlanController extends Controller implements HasMiddleware
     public function __construct()
     {
         $this->array_bulan = [
-            ['bulan' => ['id' => 1, 'name' => __('messages.january')]],
-            ['bulan' => ['id' => 2, 'name' => __('messages.february')]],
-            ['bulan' => ['id' => 3, 'name' => __('messages.march')]],
-            ['bulan' => ['id' => 4, 'name' => __('messages.apryl')]],
-            ['bulan' => ['id' => 5, 'name' => __('messages.may')]],
-            ['bulan' => ['id' => 6, 'name' => __('messages.june')]],
-            ['bulan' => ['id' => 7, 'name' => __('messages.july')]],
-            ['bulan' => ['id' => 8, 'name' => __('messages.august')]],
-            ['bulan' => ['id' => 9, 'name' => __('messages.september')]],
-            ['bulan' => ['id' => 10, 'name' => __('messages.october')]],
-            ['bulan' => ['id' => 11, 'name' => __('messages.november')]],
-            ['bulan' => ['id' => 12, 'name' => __('messages.december')]],
+            ['bulan' => ['id' => 1, 'name' => __('calendar.january')]],
+            ['bulan' => ['id' => 2, 'name' => __('calendar.february')]],
+            ['bulan' => ['id' => 3, 'name' => __('calendar.march')]],
+            ['bulan' => ['id' => 4, 'name' => __('calendar.apryl')]],
+            ['bulan' => ['id' => 5, 'name' => __('calendar.may')]],
+            ['bulan' => ['id' => 6, 'name' => __('calendar.june')]],
+            ['bulan' => ['id' => 7, 'name' => __('calendar.july')]],
+            ['bulan' => ['id' => 8, 'name' => __('calendar.august')]],
+            ['bulan' => ['id' => 9, 'name' => __('calendar.september')]],
+            ['bulan' => ['id' => 10, 'name' => __('calendar.october')]],
+            ['bulan' => ['id' => 11, 'name' => __('calendar.november')]],
+            ['bulan' => ['id' => 12, 'name' => __('calendar.december')]],
         ];
     }
 
