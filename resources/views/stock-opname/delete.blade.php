@@ -123,6 +123,20 @@
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.supervisor')</label>
                                     <x-text-span>{{ $datas->tanggungjawab_id ? $datas->tanggungjawab->view_pegawai_jabatan->nama_plus : '-' }}</x-text-span>
                                 </div>
+
+                                <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
+                                    <div class="pr-2">
+                                        <div class="inline-flex items-center">
+                                            @if ($datas->approved == '1')
+                                                <span>✔️</span>
+                                            @endif
+                                            @if ($datas->approved == '0')
+                                                <span>❌</span>
+                                            @endif
+                                            <span class='pl-2'>@lang('messages.donecalculation')</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

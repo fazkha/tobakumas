@@ -41,7 +41,7 @@
                                     <x-text-span>{{ $datas->judul }}</x-text-span>
                                 </div>
 
-                                <div class="pb-4 lg:pb-12">
+                                <div class="w-auto pb-4 lg:pb-12">
                                     <label for="keterangan"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</label>
                                     <x-text-span>{{ $datas->keterangan }}</x-text-span>
@@ -50,7 +50,7 @@
                             </div>
 
                             <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
-                                <div class="pb-4 lg:pb-12">&nbsp;</div>
+                                <div class="w-auto pb-4 lg:pb-12">&nbsp;</div>
 
                                 <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
                                     <div class="pr-2">

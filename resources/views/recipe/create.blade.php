@@ -62,7 +62,7 @@
                                 </div>
 
                                 <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
-                                    <div class="pb-4 lg:pb-12">&nbsp;</div>
+                                    <div class="w-auto pb-4 lg:pb-12">&nbsp;</div>
 
                                     <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
                                         <div class="dark:bg-black/10">

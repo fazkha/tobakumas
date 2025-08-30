@@ -114,7 +114,7 @@
                                         <x-input-error class="mt-2" :messages="$errors->get('petugas_2_id')" />
                                     </div>
 
-                                    <div class="w-auto pb-4">
+                                    <div class="w-auto pb-4 lg:pb-12">
                                         <label for="tanggungjawab_id"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.supervisor')</label>
                                         <select name="tanggungjawab_id" id="tanggungjawab_id" tabindex="6"

@@ -169,7 +169,7 @@
                                     </div>
                                 </div>
 
-                                <div class="pb-4 lg:pb-12">
+                                <div class="w-auto pb-4 lg:pb-12">
                                     <label for="gambar"
                                         class="text-center block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.picture')</label>
                                     <div class="mt-2 flex justify-center">

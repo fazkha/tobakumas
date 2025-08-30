@@ -214,4 +214,5 @@ return [
     'receiptunit' => 'Satuan Penerimaan',
     'receiptquantity' => 'Kuantitas Penerimaan',
     'periode' => 'Periode',
+    'donecalculation' => 'Selesai Perhitungan',
 ];

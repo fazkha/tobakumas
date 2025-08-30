@@ -79,6 +79,18 @@
                                 </div>
 
                                 <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
+                                    <div class="pr-2">
+                                        <div class="inline-flex items-center">
+                                            @if ($datas->approved == '1')
+                                                <span>✔️</span>
+                                            @endif
+                                            @if ($datas->approved == '0')
+                                                <span>❌</span>
+                                            @endif
+                                            <span class='pl-2'>@lang('messages.donecalculation')</span>
+                                        </div>
+                                    </div>
+
                                     <x-anchor-secondary href="{{ route('stock-opname.index') }}" tabindex="1">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-5">

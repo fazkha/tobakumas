@@ -17,6 +17,6 @@ class PurchaseReceiptPolicy
     {
         return $order->isaccepted == 0
             ? Response::allow()
-            : Response::deny('You do not own this order.');
+            : Response::deny('You are not allowed!');
     }
 }

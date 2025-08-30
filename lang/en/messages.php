@@ -215,4 +215,5 @@ return [
     'receiptquantity' => 'Receipt Quantity',
     'receiptdescription' => 'Receipt Note',
     'periode' => 'Period',
+    'donecalculation' => 'Done Calculation',
 ];

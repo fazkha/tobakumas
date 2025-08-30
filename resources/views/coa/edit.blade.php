@@ -102,7 +102,7 @@
                                     </div>
 
                                     <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
-                                        <div class="pb-4 lg:pb-12">
+                                        <div class="w-auto pb-4 lg:pb-12">
                                             <label for="description"
                                                 class="block mb-2 font-medium text-primary-600 dark:text-primary-500">Description</label>
                                             <x-textarea-input id="description" name="description" rows="5"

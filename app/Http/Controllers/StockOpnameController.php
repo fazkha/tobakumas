@@ -18,6 +18,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Gate;
 
 class StockOpnameController extends Controller implements HasMiddleware
 {
@@ -159,11 +160,13 @@ class StockOpnameController extends Controller implements HasMiddleware
         return view('stock-opname.show', compact(['datas', 'details']));
     }
 
-    public function edit(Request $request)
+    public function edit(Request $request): View
     {
         $branch_id = auth()->user()->profile->branch_id;
         $datas = StockOpname::find(Crypt::decrypt($request->stock_opname));
         $details = StockOpnameDetail::where('stock_opname_id', Crypt::decrypt($request->stock_opname))->get();
+
+        Gate::authorize('update', $datas);
 
         $gudangs = Gudang::where('branch_id', $branch_id)->where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $barangs = Barang::where('branch_id', $branch_id)->where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
@@ -175,12 +178,11 @@ class StockOpnameController extends Controller implements HasMiddleware
         return view('stock-opname.edit', compact(['datas', 'details', 'gudangs', 'barangs', 'satuans', 'petugas', 'petugas2', 'branch_id']));
     }
 
-    public function update(StockOpnameUpdateRequest $request)
+    public function update(StockOpnameUpdateRequest $request): RedirectResponse
     {
         $stock = StockOpname::find(Crypt::decrypt($request->stock_opname));
 
         if ($request->validated()) {
-
             $stock->update([
                 'gudang_id' => $request->gudang_id,
                 'tanggal' => $request->tanggal,
@@ -188,10 +190,17 @@ class StockOpnameController extends Controller implements HasMiddleware
                 'petugas_2_id' => $request->petugas_2_id,
                 'tanggungjawab_id' => $request->tanggungjawab_id,
                 'keterangan' => $request->keterangan,
+                'approved' => (config('custom.stockopname_approval') == false) ? 1 : ($request->approved == 'on' ? 1 : 0),
+                'approved_by' => (config('custom.stockopname_approval') == false) ? 'system' : ($request->approved == 'on' ? auth()->user()->email : NULL),
+                'approved_at' => (config('custom.stockopname_approval') == false) ? date('Y-m-d H:i:s') : ($request->approved == 'on' ? date('Y-m-d H:i:s') : NULL),
                 'updated_by' => auth()->user()->email,
             ]);
 
-            return redirect()->back()->with('success', __('messages.successupdated') . ' 👉 ' . $request->tanggal);
+            if ($request->approved == 'on') {
+                return redirect()->route('stock-opname.index')->with('success', __('messages.successupdated') . ' 👉 ' . $request->tanggal);
+            } else {
+                return redirect()->back()->with('success', __('messages.successupdated') . ' 👉 ' . $request->tanggal);
+            }
         } else {
             return redirect()->back()->withInput()->with('error', 'Error occured while updating!');
         }
@@ -200,6 +209,9 @@ class StockOpnameController extends Controller implements HasMiddleware
     public function delete(Request $request): View
     {
         $datas = StockOpname::find(Crypt::decrypt($request->stock_opname));
+
+        Gate::authorize('delete', $datas);
+
         $details = StockOpnameDetail::where('stock_opname_id', Crypt::decrypt($request->stock_opname))->get();
 
         return view('stock-opname.delete', compact(['datas', 'details']));

@@ -33,7 +33,7 @@ return [
     // perlu/tidak adanya persetujuan transaksi
     'sale_approval' => false,
     'purchase_approval' => false,
-    'stockopname_approval' => false,
+    'stockopname_approval' => true,
 
     // tingkat approval di master/detail
     'approval_level' => 'detail',

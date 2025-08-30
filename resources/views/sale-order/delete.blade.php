@@ -123,7 +123,7 @@
                                     <x-text-span id="disp-no_order">{{ $datas->no_order }}</x-text-span>
                                 </div>
 
-                                {{-- <div class="pb-4 lg:pb-12">
+                                {{-- <div class="w-auto pb-4 lg:pb-12">
                                             <label for="gambar"
                                                 class="block mb-2 font-medium text-primary-600 dark:text-primary-500">Picture</label>
                                             <x-text-input type="file" name="gambar" id="gambar" tabindex="6"
