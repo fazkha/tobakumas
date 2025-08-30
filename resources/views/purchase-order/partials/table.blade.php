@@ -75,7 +75,7 @@
                         <td
                             class="text-right px-3 py-3 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
                             <p class="text-gray-900 whitespace-no-wrap dark:text-white">
-                                {{ number_format($data->total_harga, 0, ',', '.') }}
+                                {{ $data->total_harga ? (is_int($data->total_harga) ? Number::forHumans($data->total_harga, abbreviate: true) : Number::forHumans($data->total_harga, precision: 1, abbreviate: true)) : 0 }}
                             </p>
                         </td>
                         <td

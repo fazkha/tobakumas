@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\BrandivjabpegRequest;
 use App\Models\Pegawai;
 use App\Models\Brandivjabpeg;
 use App\Models\Brandivjab;
 use App\Http\Requests\PegawaiRequest;
 use App\Http\Requests\PegawaiUpdateRequest;
+use App\Http\Requests\BrandivjabpegRequest;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Http\Request;
@@ -160,7 +160,8 @@ class PegawaiController extends Controller implements HasMiddleware
     {
         $datas = Pegawai::find(Crypt::decrypt($request->employee));
         $details = Brandivjabpeg::where('pegawai_id', Crypt::decrypt($request->employee))->orderBy('tanggal_mulai', 'desc')->get();
-        $brandivjabs = Brandivjab::where('isactive', 1)->get();
+        // $brandivjabs = Brandivjab::where('brandivjabs.isactive', 1)->join('jabatans', 'jabatans.id', 'brandivjabs.jabatan_id')->orderBy('jabatans.islevel')->get();
+        $brandivjabs = Brandivjab::where('isactive', 1)->orderBy('jabatan_id')->get();
 
         return view('pegawai.edit', compact(['datas', 'details', 'brandivjabs']));
     }
