@@ -17,7 +17,10 @@ S270.7,139.966,218.317,139.966z M59.983,79.966V30h90v49.966H59.983z M218.317,299
 s29.159-65,65-65h38.334v65c0,8.284,6.716,15,15,15c8.284,0,15-6.716,15-15v-65h38.334c35.841,0,65,29.159,65,65
 S254.158,299.966,218.317,299.966z" />
                 </svg>
-                <span class="px-2">@lang('messages.brandivjabkab')</span>
+                <div class="relative px-2 pt-2">
+                    <span class="absolute top-0 left-2 text-xs w-40">@lang('messages.marketing')</span>
+                    <span>@lang('messages.brandivjabkab')</span>
+                </div>
             </a>
             <span class="px-2">&raquo;</span>
             <span class="px-2 font-semibold">@lang('messages.view')</span>

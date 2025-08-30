@@ -12,7 +12,10 @@
                     <path
                         d="M25.2,49.8c2.2,0,1-1.5,1-1.5h0a15.44,15.44,0,0,1-3.4-9.7,15,15,0,0,1,1.4-6.4.77.77,0,0,1,.2-.3c.7-1.4-.7-1.5-.7-1.5h0a12.1,12.1,0,0,0-1.9-.1A19.69,19.69,0,0,0,2.4,47.1c0,1,.3,2.8,3.4,2.8H24.9C25.1,49.8,25.1,49.8,25.2,49.8Z" />
                 </svg>
-                <span class="px-2">@lang('messages.role')</span>
+                <div class="relative px-2 pt-2">
+                    <span class="absolute top-0 left-2 text-xs w-40">@lang('messages.setting')</span>
+                    <span>@lang('messages.role')</span>
+                </div>
             </a>
         </h1>
     </div>

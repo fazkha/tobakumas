@@ -11,7 +11,10 @@
                     </path>
                     <path fill="currentColor" d="M0 16h3v-1h10v1h3v-2h-16v2z"></path>
                 </svg>
-                <span class="px-2">@lang('messages.stockopname')</span>
+                <div class="relative px-2 pt-2">
+                    <span class="absolute top-0 left-2 text-xs w-40">@lang('messages.warehouse')</span>
+                    <span>@lang('messages.stockopname')</span>
+                </div>
             </a>
             <span class="px-2">&raquo;</span>
             <span class="px-2 font-semibold">@lang('messages.new')</span>

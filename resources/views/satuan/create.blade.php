@@ -14,7 +14,10 @@
                             d="M316.1,152.925l-.037-.005v-2.839c0-.172-.217-.31-.485-.31s-.485.138-.485.31v2.839l-.038.005a5.375,5.375,0,1,0,1.045,0Zm-.524,10a4.629,4.629,0,0,1-.87-9.169V156a2.367,2.367,0,0,0-1.65,2.22,2.527,2.527,0,0,0,5.044,0,2.368,2.368,0,0,0-1.65-2.22v-2.247a4.629,4.629,0,0,1-.874,9.169Z" />
                     </g>
                 </svg>
-                <span class="px-2">@lang('messages.unit')</span>
+                <div class="relative px-2 pt-2">
+                    <span class="absolute top-0 left-2 text-xs w-40">@lang('messages.warehouse')</span>
+                    <span>@lang('messages.unit')</span>
+                </div>
             </a>
             <span class="px-2">&raquo;</span>
             <span class="px-2 font-semibold">@lang('messages.new')</span>

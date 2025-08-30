@@ -22,7 +22,7 @@
                     <path style="stroke:#ffffff;stroke-width:3;fill:none;" d="M 65,65 44,87" />
                     <circle style="fill:#ffffff;" cx="65" cy="65" r="3.5" />
                 </svg>
-                <span class="px-2">@lang('messages.productionorder')</span>
+                <span class="px-2">@lang('messages.order')</span>
             </a>
             <span class="px-2">&raquo;</span>
             <span class="px-2 font-semibold">@lang('messages.new')</span>

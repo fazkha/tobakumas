@@ -14,7 +14,10 @@
                     <path
                         d="M594.039 777.562c38.726 0 70.124-31.395 70.124-70.124 0-80.871-66.26-147.128-147.139-147.128h-9.841c-80.879 0-147.139 66.257-147.139 147.128 0 38.728 31.398 70.124 70.124 70.124h163.871zm0 40.96H430.168c-61.347 0-111.084-49.733-111.084-111.084 0-103.493 84.599-188.088 188.099-188.088h9.841c103.5 0 188.099 84.595 188.099 188.088 0 61.35-49.737 111.084-111.084 111.084z" />
                 </svg>
-                <span class="px-2">@lang('messages.customer')</span>
+                <div class="relative px-2 pt-2">
+                    <span class="absolute top-0 left-2 text-xs w-40">@lang('messages.sale')</span>
+                    <span>@lang('messages.customer')</span>
+                </div>
             </a>
             <span class="px-2">&raquo;</span>
             <span class="px-2 font-semibold">@lang('messages.new')</span>

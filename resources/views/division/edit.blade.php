@@ -12,7 +12,10 @@
                             d="M24,23H0V0h24V23z M18,21h4v-5h-4V21z M12,21h4v-5h-4V21z M2,21h8v-5H2V21z M15,14h7V9h-7V14z M2,14h11V9H2V14z M13,7h9V2 H2v5H13z" />
                     </g>
                 </svg>
-                <span class="px-2">@lang('messages.division')</span>
+                <div class="relative px-2 pt-2">
+                    <span class="absolute top-0 left-2 text-xs w-40">@lang('messages.generalaffair')</span>
+                    <span>@lang('messages.division')</span>
+                </div>
             </a>
             <span class="px-2">&raquo;</span>
             <span class="px-2 font-semibold">@lang('messages.edit')</span>

@@ -22,7 +22,10 @@
                     <path style="stroke:#ffffff;stroke-width:3;fill:none;" d="M 65,65 44,87" />
                     <circle style="fill:#ffffff;" cx="65" cy="65" r="3.5" />
                 </svg>
-                <span class="px-2">@lang('messages.productionorder')</span>
+                <div class="relative px-2 pt-2">
+                    <span class="absolute top-0 left-2 text-xs w-40">@lang('messages.production')</span>
+                    <span>@lang('messages.productionorder')</span>
+                </div>
             </a>
         </h1>
     </div>

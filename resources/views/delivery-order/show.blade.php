@@ -15,7 +15,10 @@
                     <rect x="25" y="8" width="10" height="9" fill="#2F88FF" stroke="currentColor"
                         stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
-                <span class="px-2">@lang('messages.deliveryorder')</span>
+                <div class="relative px-2 pt-2">
+                    <span class="absolute top-0 left-2 text-xs w-40">@lang('messages.delivery')</span>
+                    <span>@lang('messages.order')</span>
+                </div>
             </a>
             <span class="px-2">&raquo;</span>
             <span class="px-2 font-semibold">@lang('messages.view')</span>
