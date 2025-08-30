@@ -2,8 +2,8 @@
 
 <x-app-layout>
     <div class="flex items-center justify-between px-4 py-4 border-b border-primary-100 lg:py-6 dark:border-primary-800">
-        <a href="{{ route('stock-opname.index') }}">
-            <h1 class="flex items-center justify-center text-xl">
+        <h1 class="text-xl flex items-center justify-center">
+            <a href="{{ route('stock-opname.index') }}" class="flex items-center justify-center">
                 <svg class="w-7 h-7" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg"
                     xmlns:xlink="http://www.w3.org/1999/xlink">
                     <path fill="currentColor"
@@ -12,8 +12,8 @@
                     <path fill="currentColor" d="M0 16h3v-1h10v1h3v-2h-16v2z"></path>
                 </svg>
                 <span class="px-2">@lang('messages.stockopname')</span>
-            </h1>
-        </a>
+            </a>
+        </h1>
     </div>
 
     <div class="mx-auto px-4 py-2">

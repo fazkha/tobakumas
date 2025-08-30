@@ -19,6 +19,8 @@ return new class extends Migration
             $table->foreignId('satuan_id')->constrained()->onUpdate('cascade');
             $table->decimal('kuantiti', 10, 2)->default(0.00);
             $table->decimal('sisa_kuota', 10, 2)->default(0.00);
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
             $table->timestamps();
         });
     }

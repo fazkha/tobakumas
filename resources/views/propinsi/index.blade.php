@@ -2,15 +2,15 @@
 
 <x-app-layout>
     <div class="flex items-center justify-between px-4 py-4 border-b border-primary-100 lg:py-6 dark:border-primary-800">
-        <a href="{{ route('propinsi.index') }}">
-            <h1 class="flex items-center justify-center text-xl">
+        <h1 class="text-xl flex items-center justify-center">
+            <a href="{{ route('propinsi.index') }}" class="flex items-center justify-center">
                 <svg fill="currentColor" class="size-7" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M21.32,5.05l-6-2h-.07a.7.7,0,0,0-.14,0h-.23l-.13,0h-.07L9,5,3.32,3.05a1,1,0,0,0-.9.14A1,1,0,0,0,2,4V18a1,1,0,0,0,.68.95l6,2h0a1,1,0,0,0,.62,0h0L15,19.05,20.68,21A1.19,1.19,0,0,0,21,21a.94.94,0,0,0,.58-.19A1,1,0,0,0,22,20V6A1,1,0,0,0,21.32,5.05ZM8,18.61,4,17.28V5.39L8,6.72Zm6-1.33-4,1.33V6.72l4-1.33Zm6,1.33-4-1.33V5.39l4,1.33Z" />
                 </svg>
                 <span class="px-2">@lang('messages.propinsi')</span>
-            </h1>
-        </a>
+            </a>
+        </h1>
     </div>
 
     <div class="mx-auto px-4 py-2">

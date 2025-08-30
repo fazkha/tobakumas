@@ -2,8 +2,8 @@
 
 <x-app-layout>
     <div class="flex items-center justify-between px-4 py-4 border-b border-primary-100 lg:py-6 dark:border-primary-800">
-        <a href="{{ route('brandivjabkab.index') }}">
-            <h1 class="flex items-center justify-center text-xl">
+        <h1 class="text-xl flex items-center justify-center">
+            <a href="{{ route('brandivjabkab.index') }}" class="flex items-center justify-center">
                 <svg class="size-7" version="1.1" xmlns="http://www.w3.org/2000/svg"
                     xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 329.966 329.966"
                     style="enable-background:new 0 0 329.966 329.966;" xml:space="preserve">
@@ -14,8 +14,8 @@ s29.159-65,65-65h38.334v65c0,8.284,6.716,15,15,15c8.284,0,15-6.716,15-15v-65h38.
 S254.158,299.966,218.317,299.966z" />
                 </svg>
                 <span class="px-2">@lang('messages.brandivjabkab')</span>
-            </h1>
-        </a>
+            </a>
+        </h1>
     </div>
 
     <div class="mx-auto px-4 py-2">

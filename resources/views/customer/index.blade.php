@@ -2,8 +2,8 @@
 
 <x-app-layout>
     <div class="flex items-center justify-between px-4 py-4 border-b border-primary-100 lg:py-6 dark:border-primary-800">
-        <a href="{{ route('customer.index') }}">
-            <h1 class="flex items-center justify-center text-xl">
+        <h1 class="text-xl flex items-center justify-center">
+            <a href="{{ route('customer.index') }}" class="flex items-center justify-center">
                 <svg fill="currentColor" class="w-7 h-7" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M106.544 501.695l385.403-380.262c11.913-11.754 31.079-11.722 42.955.075l382.71 380.14c8.025 7.971 20.992 7.927 28.963-.098s7.927-20.992-.098-28.963l-382.71-380.14c-27.811-27.625-72.687-27.7-100.589-.171L77.775 472.539c-8.051 7.944-8.139 20.911-.194 28.962s20.911 8.139 28.962.194z" />
@@ -15,8 +15,8 @@
                         d="M594.039 777.562c38.726 0 70.124-31.395 70.124-70.124 0-80.871-66.26-147.128-147.139-147.128h-9.841c-80.879 0-147.139 66.257-147.139 147.128 0 38.728 31.398 70.124 70.124 70.124h163.871zm0 40.96H430.168c-61.347 0-111.084-49.733-111.084-111.084 0-103.493 84.599-188.088 188.099-188.088h9.841c103.5 0 188.099 84.595 188.099 188.088 0 61.35-49.737 111.084-111.084 111.084z" />
                 </svg>
                 <span class="px-2">@lang('messages.customer')</span>
-            </h1>
-        </a>
+            </a>
+        </h1>
     </div>
 
     <div class="mx-auto px-4 py-2">

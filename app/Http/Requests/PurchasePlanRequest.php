@@ -24,7 +24,7 @@ class PurchasePlanRequest extends FormRequest
     public function messages()
     {
         return [
-            'supplier_id.required' => 'Field -PENYUPLAI- tidak boleh kosong.',
+            'supplier_id.required' => 'Field -PEMASOK- tidak boleh kosong.',
         ];
     }
 }

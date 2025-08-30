@@ -2,8 +2,8 @@
 
 <x-app-layout>
     <div class="flex items-center justify-between px-4 py-4 border-b border-primary-100 lg:py-6 dark:border-primary-800">
-        <a href="{{ route('division.index') }}">
-            <h1 class="flex items-center justify-center text-xl">
+        <h1 class="text-xl flex items-center justify-center">
+            <a href="{{ route('division.index') }}" class="flex items-center justify-center">
                 <svg fill="currentColor" class="size-7" version="1.1" xmlns="http://www.w3.org/2000/svg"
                     xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" enable-background="new 0 0 24 24"
                     xml:space="preserve">
@@ -13,8 +13,8 @@
                     </g>
                 </svg>
                 <span class="px-2">@lang('messages.division')</span>
-            </h1>
-        </a>
+            </a>
+        </h1>
     </div>
 
     <div class="mx-auto px-4 py-2">

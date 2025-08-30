@@ -16,6 +16,8 @@ class PurchasePlanDetail extends Model
         'satuan_id',
         'kuantiti',
         'sisa_kuota',
+        'created_by',
+        'updated_by',
     ];
 
     public function purchase_plan()

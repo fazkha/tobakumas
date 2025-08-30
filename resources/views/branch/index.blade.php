@@ -2,8 +2,8 @@
 
 <x-app-layout>
     <div class="flex items-center justify-between px-4 py-4 border-b border-primary-100 lg:py-6 dark:border-primary-800">
-        <a href="{{ route('branch.index') }}">
-            <h1 class="flex items-center justify-center text-xl">
+        <h1 class="text-xl flex items-center justify-center">
+            <a href="{{ route('branch.index') }}" class="flex items-center justify-center">
                 <svg class="size-7" viewBox="0 0 1024 1024" t="1569683632175" class="icon" version="1.1"
                     xmlns="http://www.w3.org/2000/svg" p-id="12593" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <defs>
@@ -14,8 +14,8 @@
                         p-id="12594"></path>
                 </svg>
                 <span class="px-2">@lang('messages.branch')</span>
-            </h1>
-        </a>
+            </a>
+        </h1>
     </div>
 
     <div class="mx-auto px-4 py-2">

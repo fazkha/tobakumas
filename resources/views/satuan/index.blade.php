@@ -2,8 +2,8 @@
 
 <x-app-layout>
     <div class="flex items-center justify-between px-4 py-4 border-b border-primary-100 lg:py-6 dark:border-primary-800">
-        <a href="{{ route('units.index') }}">
-            <h1 class="flex items-center justify-center text-xl">
+        <h1 class="text-xl flex items-center justify-center">
+            <a href="{{ route('units.index') }}" class="flex items-center justify-center">
                 <svg fill="currentColor" class="w-7 h-7" viewBox="-0.77 0 50 50" xmlns="http://www.w3.org/2000/svg">
                     <g id="_3" data-name="3" transform="translate(-290.767 -130.5)">
                         <path id="Path_224" data-name="Path 224"
@@ -15,8 +15,8 @@
                     </g>
                 </svg>
                 <span class="px-2">@lang('messages.unit')</span>
-            </h1>
-        </a>
+            </a>
+        </h1>
     </div>
 
     <div class="mx-auto px-4 py-2">
