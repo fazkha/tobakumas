@@ -20,6 +20,11 @@ class StockOpnameDetail extends Model
         'before_minstock',
         'before_satuan_id',
         'keterangan',
+        'adjust_stock',
+        'adjust_satuan_id',
+        'adjust_harga',
+        'adjust_by',
+        'adjust_at',
         'created_by',
         'updated_by',
     ];
@@ -37,5 +42,10 @@ class StockOpnameDetail extends Model
     public function satuan()
     {
         return $this->belongsTo(Satuan::class);
+    }
+
+    public function adjust_satuan()
+    {
+        return $this->belongsTo(Satuan::class, 'adjust_satuan_id');
     }
 }

@@ -23,6 +23,11 @@ return new class extends Migration
             $table->decimal('before_minstock', 10, 2)->nullable()->default(0);
             $table->unsignedBigInteger('before_satuan_id')->nullable();
             $table->string('keterangan')->nullable();
+            $table->decimal('adjust_stock', 10, 2)->nullable()->default(0);
+            $table->unsignedBigInteger('adjust_satuan_id')->nullable();
+            $table->integer('adjust_harga')->default(0);
+            $table->string('adjust_by')->nullable();
+            $table->datetime('adjust_at')->nullable();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->timestamps();

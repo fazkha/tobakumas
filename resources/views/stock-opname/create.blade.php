@@ -195,12 +195,24 @@
                                         <table id="order_table" class="w-full border-separate border-spacing-2">
                                             <thead>
                                                 <tr>
-                                                    <th class="w-1/3">@lang('messages.goods')</th>
+                                                    <th rowspan="2" class="w-1/5">@lang('messages.goods')</th>
+                                                    <th colspan="2"
+                                                        class="w-auto border-b border-1 border-primary-50 dark:border-primary-700">
+                                                        @lang('messages.physic')
+                                                    </th>
+                                                    <th rowspan="2" class="w-1/12">@lang('messages.minstock')</th>
+                                                    <th rowspan="2" class="w-auto">@lang('messages.description')</th>
+                                                    <th colspan="2"
+                                                        class="w-auto border-b border-1 border-primary-50 dark:border-primary-700">
+                                                        @lang('messages.adjustment')
+                                                    </th>
+                                                    <th rowspan="2" class="w-auto">&nbsp;</th>
+                                                </tr>
+                                                <tr>
                                                     <th class="w-auto">@lang('messages.unit')</th>
-                                                    <th class="w-1/5">@lang('messages.stock')</th>
-                                                    <th class="w-1/5">@lang('messages.minstock')</th>
-                                                    <th class="w-auto">@lang('messages.description')</th>
-                                                    <th class="w-auto">&nbsp;</th>
+                                                    <th class="w-1/6">@lang('messages.stock')</th>
+                                                    <th class="w-auto">@lang('messages.unit')</th>
+                                                    <th class="w-1/6">@lang('messages.stock')</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

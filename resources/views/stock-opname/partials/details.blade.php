@@ -16,6 +16,12 @@
             <td class="align-top">
                 <x-text-span>{{ $detail->keterangan ? $detail->keterangan : '-' }}</x-text-span>
             </td>
+            <td class="align-top">
+                <x-text-span>{{ $detail->adjust_satuan_id ? $detail->adjust_satuan->singkatan : '-' }}</x-text-span>
+            </td>
+            <td class="align-top text-right">
+                <x-text-span>{{ $detail->adjust_stock ? number_format($detail->adjust_stock, 2, ',', '.') : '-' }}</x-text-span>
+            </td>
             @if ($viewMode == false)
                 <td class="align-top">
                     <x-anchor-danger id="a-delete-detail-{{ $detail->id }}" onclick="deleteDetail({{ $detail->id }})"

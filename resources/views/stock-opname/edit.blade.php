@@ -215,12 +215,24 @@
                                         <table id="order_table" class="w-full border-separate border-spacing-2">
                                             <thead>
                                                 <tr>
-                                                    <th class="w-1/3">@lang('messages.goods')</th>
+                                                    <th rowspan="2" class="w-1/5">@lang('messages.goods')</th>
+                                                    <th colspan="2"
+                                                        class="w-auto border-b border-1 border-primary-50 dark:border-primary-700">
+                                                        @lang('messages.physic')
+                                                    </th>
+                                                    <th rowspan="2" class="w-1/12">@lang('messages.minstock')</th>
+                                                    <th rowspan="2" class="w-auto">@lang('messages.description')</th>
+                                                    <th colspan="2"
+                                                        class="w-auto border-b border-1 border-primary-50 dark:border-primary-700">
+                                                        @lang('messages.adjustment')
+                                                    </th>
+                                                    <th rowspan="2" class="w-auto">&nbsp;</th>
+                                                </tr>
+                                                <tr>
                                                     <th class="w-auto">@lang('messages.unit')</th>
-                                                    <th class="w-1/5">@lang('messages.stock')</th>
-                                                    <th class="w-1/5">@lang('messages.minstock')</th>
-                                                    <th class="w-auto">@lang('messages.description')</th>
-                                                    <th class="w-auto">&nbsp;</th>
+                                                    <th class="w-1/6">@lang('messages.stock')</th>
+                                                    <th class="w-auto">@lang('messages.unit')</th>
+                                                    <th class="w-1/6">@lang('messages.stock')</th>
                                                 </tr>
                                             </thead>
 
@@ -238,6 +250,9 @@
                                                             value="{{ $branch_id }}" />
                                                         <input type="hidden" id="master_id" name="master_id"
                                                             value="{{ $datas->id }}" />
+                                                        <input type="hidden" id="harga_beli" name="harga_beli" />
+                                                        <input type="hidden" id="stock_record"
+                                                            name="stock_record" />
                                                         <select id="barang_id" name="barang_id" required
                                                             tabindex="9"
                                                             class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
@@ -270,6 +285,21 @@
                                                     <td class="align-top">
                                                         <x-text-input type="text" id="keterangan"
                                                             name="keterangan" tabindex="13" />
+                                                    </td>
+                                                    <td class="align-top">
+                                                        <select id="adjust_satuan_id" name="adjust_satuan_id"
+                                                            tabindex="14"
+                                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                                            <option value="">@lang('messages.choose')...</option>
+                                                            @foreach ($satuans as $id => $name)
+                                                                <option value="{{ $id }}">
+                                                                    {{ $name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </td>
+                                                    <td class="align-top">
+                                                        <x-text-input type="number" min="0" step="0.01"
+                                                            id="adjust_stock" name="adjust_stock" tabindex="15" />
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -377,6 +407,13 @@
                     }
                 };
 
+                $("#stock").on("change keyup paste", function() {
+                    var xst1 = $('#stock').val();
+                    var xst2 = $('#stock_record').val();
+                    var xadjust = xst1 - xst2;
+                    $('#adjust_stock').val(xadjust);
+                });
+
                 $("#barang_id").on("change keyup paste", function() {
                     var xbar = $('#barang_id option:selected').val();
 
@@ -388,9 +425,14 @@
                             var p1 = result.p1;
                             var p2 = result.p2;
                             var p3 = result.p3;
+                            var p4 = result.p4;
                             $('#satuan_id').val(p1);
+                            $('#adjust_satuan_id').val(p1);
                             $('#stock').val(p2);
+                            $('#stock_record').val(p2);
                             $('#minstock').val(p3);
+                            $('#harga_beli').val(p4);
+                            $('#adjust_stock').val(0);
                             $('#stock').focus();
                         }
                     });

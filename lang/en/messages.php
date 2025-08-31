@@ -216,4 +216,8 @@ return [
     'receiptdescription' => 'Receipt Note',
     'periode' => 'Period',
     'donecalculation' => 'Done Calculation',
+    'adjustment' => 'Adjustment',
+    'adjustmentunit' => 'Adjustment Unit',
+    'adjustmentstock' => 'Adjustment Stock',
+    'physic' => 'Physic',
 ];
