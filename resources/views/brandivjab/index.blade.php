@@ -53,14 +53,14 @@
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script>
-            $("#pp-dropdown, #isactive-dropdown, #branch-dropdown").on(
+            $("#pp-dropdown, #isactive-dropdown, #branch-dropdown, #division-dropdown, #jabatan-dropdown").on(
                 "change keyup paste",
                 function() {
                     var xpp = $('#pp-dropdown option:selected').val();
                     var xisactive = $('#isactive-dropdown option:selected').val();
                     var xbr = $('#branch-dropdown option:selected').val();
-                    var xdv = $('#branch-dropdown option:selected').val();
-                    var xjb = $('#branch-dropdown option:selected').val();
+                    var xdv = $('#division-dropdown option:selected').val();
+                    var xjb = $('#jabatan-dropdown option:selected').val();
 
                     $('#filter-loading').show();
 

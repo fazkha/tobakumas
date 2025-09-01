@@ -39,16 +39,24 @@ class BrandivjabController extends Controller implements HasMiddleware
         if (!$request->session()->exists('brandivjab_branch_id')) {
             $request->session()->put('brandivjab_branch_id', 'all');
         }
+        if (!$request->session()->exists('brandivjab_division_id')) {
+            $request->session()->put('brandivjab_division_id', 'all');
+        }
+        if (!$request->session()->exists('brandivjab_jabatan_id')) {
+            $request->session()->put('brandivjab_jabatan_id', 'all');
+        }
 
-        $search_arr = ['brandivjab_isactive', 'brandivjab_branch_id'];
+        $search_arr = ['brandivjab_isactive', 'brandivjab_branch_id', 'brandivjab_division_id', 'brandivjab_jabatan_id'];
 
         $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+        $divisions = Division::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+        $jabatans = Jabatan::where('isactive', 1)->orderBy('islevel')->orderBy('nama')->pluck('nama', 'id');
         $datas = Brandivjab::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
             $field = substr($search_arr[$i], strlen('brandivjab_'));
 
-            if ($search_arr[$i] == 'brandivjab_isactive' || $search_arr[$i] == 'brandivjab_branch_id') {
+            if ($search_arr[$i] == 'brandivjab_isactive' || $search_arr[$i] == 'brandivjab_branch_id' || $search_arr[$i] == 'brandivjab_division_id' || $search_arr[$i] == 'brandivjab_jabatan_id') {
                 if (session($search_arr[$i]) != 'all') {
                     $datas = $datas->where([$field => session($search_arr[$i])]);
                 }
@@ -67,7 +75,7 @@ class BrandivjabController extends Controller implements HasMiddleware
             return redirect()->route('dashboard');
         }
 
-        return view('brandivjab.index', compact(['datas', 'branches']))->with('i', (request()->input('page', 1) - 1) * session('brandivjab_pp'));
+        return view('brandivjab.index', compact(['datas', 'branches', 'divisions', 'jabatans']))->with('i', (request()->input('page', 1) - 1) * session('brandivjab_pp'));
     }
 
     public function fetchdb(Request $request): JsonResponse
@@ -75,16 +83,20 @@ class BrandivjabController extends Controller implements HasMiddleware
         $request->session()->put('brandivjab_pp', $request->pp);
         $request->session()->put('brandivjab_isactive', $request->isactive);
         $request->session()->put('brandivjab_branch_id', $request->branch);
+        $request->session()->put('brandivjab_division_id', $request->division);
+        $request->session()->put('brandivjab_jabatan_id', $request->jabatan);
 
-        $search_arr = ['brandivjab_isactive', 'brandivjab_branch_id'];
+        $search_arr = ['brandivjab_isactive', 'brandivjab_branch_id', 'brandivjab_division_id', 'brandivjab_jabatan_id'];
 
         $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+        $divisions = Division::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+        $jabatans = Jabatan::where('isactive', 1)->orderBy('islevel')->orderBy('nama')->pluck('nama', 'id');
         $datas = Brandivjab::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
             $field = substr($search_arr[$i], strlen('brandivjab_'));
 
-            if ($search_arr[$i] == 'brandivjab_isactive' || $search_arr[$i] == 'brandivjab_branch_id') {
+            if ($search_arr[$i] == 'brandivjab_isactive' || $search_arr[$i] == 'brandivjab_branch_id' || $search_arr[$i] == 'brandivjab_division_id' || $search_arr[$i] == 'brandivjab_jabatan_id') {
                 if (session($search_arr[$i]) != 'all') {
                     $datas = $datas->where([$field => session($search_arr[$i])]);
                 }
@@ -101,7 +113,7 @@ class BrandivjabController extends Controller implements HasMiddleware
 
         $datas->withPath('/general-affair/brandivjab'); // pagination url to
 
-        $view = view('brandivjab.partials.table', compact(['datas', 'branches']))->with('i', (request()->input('page', 1) - 1) * session('brandivjab_pp'))->render();
+        $view = view('brandivjab.partials.table', compact(['datas', 'branches', 'divisions', 'jabatans']))->with('i', (request()->input('page', 1) - 1) * session('brandivjab_pp'))->render();
 
         if ($view) {
             return response()->json($view, 200);
