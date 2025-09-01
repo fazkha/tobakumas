@@ -73,7 +73,7 @@ return [
     'kabupaten' => 'Regency',
     'kecamatan' => 'Sub District',
     'brandivjab' => 'Office Setup',
-    'brandivjabkab' => 'Region Setup',
+    'brandivjabkec' => 'Region Setup',
     'superior' => 'Superior',
     'enter' => 'Enter',
     'youdonothaveaccess' => 'You don\'t have permission to access this page',

@@ -73,7 +73,7 @@ return [
     'kabupaten' => 'Kabupaten',
     'kecamatan' => 'Kecamatan',
     'brandivjab' => 'Pengaturan Organisasi',
-    'brandivjabkab' => 'Pengaturan Wilayah',
+    'brandivjabkec' => 'Pengaturan Wilayah',
     'superior' => 'Atasan',
     'enter' => 'Ketikkan',
     'youdonothaveaccess' => 'Anda tidak memiliki wewenang untuk membuka halaman ini',

@@ -3,7 +3,7 @@
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\BrandivjabController;
-use App\Http\Controllers\BrandivjabkabController;
+use App\Http\Controllers\BrandivjabkecController;
 use App\Http\Controllers\BrandivjabpegController;
 use App\Http\Controllers\CoaController;
 use App\Http\Controllers\CustomerController;
@@ -163,10 +163,10 @@ Route::prefix('marketing')->middleware('auth')->group(function () {
     Route::get('kecamatan/fetchdb/{pp}/{isactive}/{nama}', [KecamatanController::class, 'fetchdb'])->defaults('nama', '_');
     Route::get('kecamatan/depend-drop-kab/{pr}', [KecamatanController::class, 'dependDropKab'])->defaults('pr', '_');
 
-    Route::resource('brandivjabkab', BrandivjabkabController::class);
-    Route::get('brandivjabkab/{brandivjabkab}/delete', [BrandivjabkabController::class, 'delete'])->name('brandivjabkab.delete');
-    Route::get('brandivjabkab/fetchdb/{pp}/{isactive}/{propinsi}/{kabupaten}', [BrandivjabkabController::class, 'fetchdb']);
-    Route::post('brandivjabkab/updateDetail/{brandivjabkab}', [BrandivjabkabController::class, 'updateDetail'])->name('brandivjabkab.updateDetail');
+    Route::resource('brandivjabkec', BrandivjabkecController::class);
+    Route::get('brandivjabkec/{brandivjabkec}/delete', [BrandivjabkecController::class, 'delete'])->name('brandivjabkec.delete');
+    Route::get('brandivjabkec/fetchdb/{pp}/{isactive}/{propinsi}/{kabupaten}', [BrandivjabkecController::class, 'fetchdb']);
+    Route::post('brandivjabkec/updateDetail/{brandivjabkec}', [BrandivjabkecController::class, 'updateDetail'])->name('brandivjabkec.updateDetail');
 })->missing(function (Request $request) {
     return Redirect::route('dashboard');
 });
