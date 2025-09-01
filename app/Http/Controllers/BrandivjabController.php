@@ -69,7 +69,8 @@ class BrandivjabController extends Controller implements HasMiddleware
             }
         }
         // $datas = $datas->where('user_id', auth()->user()->id);
-        $datas = $datas->latest()->paginate(session('brandivjab_pp'));
+        // $datas = $datas->latest()->paginate(session('brandivjab_pp'));
+        $datas = $datas->orderBy('jabatan_id')->paginate(session('brandivjab_pp'));
 
         if ($request->page && $datas->count() == 0) {
             return redirect()->route('dashboard');
@@ -109,7 +110,8 @@ class BrandivjabController extends Controller implements HasMiddleware
             }
         }
         // $datas = $datas->where('user_id', auth()->user()->id);
-        $datas = $datas->latest()->paginate(session('brandivjab_pp'));
+        // $datas = $datas->latest()->paginate(session('brandivjab_pp'));
+        $datas = $datas->orderBy('jabatan_id')->paginate(session('brandivjab_pp'));
 
         $datas->withPath('/general-affair/brandivjab'); // pagination url to
 

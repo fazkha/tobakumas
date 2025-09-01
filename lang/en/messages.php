@@ -71,6 +71,7 @@ return [
     'marketing' => 'Marketting',
     'propinsi' => 'Province',
     'kabupaten' => 'Regency',
+    'kecamatan' => 'Sub District',
     'brandivjab' => 'Office Setup',
     'brandivjabkab' => 'Region Setup',
     'superior' => 'Superior',

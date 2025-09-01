@@ -1,20 +1,17 @@
-@section('title', __('messages.kabupaten'))
+@section('title', __('messages.kecamatan'))
 
 <x-app-layout>
     <div class="flex items-center justify-between px-4 py-4 border-b border-primary-100 lg:py-6 dark:border-primary-800">
         <h1 class="text-xl flex items-center justify-center">
-            <a href="{{ route('kabupaten.index') }}" class="flex items-center justify-center">
-                <svg class="size-7" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                    <g transform="matrix(1.1485 0 0 1.2471 -1.233 -1.917)" fill="#373737" stroke-width=".82858px">
-                        <rect x="1.0737" y="1.5368" width="13.931" height="12.83" fill-opacity=".25" />
-                        <path
-                            d="M1.074 1.537v12.83h13.93V1.538H1.075zm.835.836h2.41c-.28 1.934.04 3.95 1.045 5.678.803 1.428 1.797 2.841 1.932 4.49-.05.342.328 1.14-.312.99H1.908V2.374zm3.253 0h9.006v2.854L6.434 8.24c-.86-1.37-1.42-2.926-1.37-4.523.001-.45.035-.899.098-1.344zm9.006 3.753v7.406H8.173c.072-1.603-.46-3.177-1.312-4.56 2.435-.95 4.87-1.898 7.307-2.846z"
-                            color="currentColor" style="-inkscape-stroke:none" />
-                    </g>
+            <a href="{{ route('kecamatan.index') }}" class="flex items-center justify-center">
+                <svg fill="currentColor" class="size-7" viewBox="-1.5 0 19 19" xmlns="http://www.w3.org/2000/svg"
+                    class="cf-icon-svg">
+                    <path
+                        d="M15.084 15.2H.916a.264.264 0 0 1-.254-.42l2.36-4.492a.865.865 0 0 1 .696-.42h.827a9.51 9.51 0 0 0 .943 1.108H3.912l-1.637 3.116h11.45l-1.637-3.116h-1.34a9.481 9.481 0 0 0 .943-1.109h.591a.866.866 0 0 1 .696.421l2.36 4.492a.264.264 0 0 1-.254.42zM11.4 7.189c0 2.64-2.176 2.888-3.103 5.46a.182.182 0 0 1-.356 0c-.928-2.572-3.104-2.82-3.104-5.46a3.282 3.282 0 0 1 6.563 0zm-1.86-.005a1.425 1.425 0 1 0-1.425 1.425A1.425 1.425 0 0 0 9.54 7.184z" />
                 </svg>
                 <div class="relative px-2 pt-2">
                     <span class="absolute top-0 left-2 text-xs w-40">@lang('messages.marketing')</span>
-                    <span>@lang('messages.kabupaten')</span>
+                    <span>@lang('messages.kecamatan')</span>
                 </div>
             </a>
             <span class="px-2">&raquo;</span>
@@ -28,7 +25,7 @@
             <div class="flex flex-col items-center">
 
                 <div class="w-full" role="alert">
-                    @include('kabupaten.partials.feedback')
+                    @include('kecamatan.partials.feedback')
                 </div>
 
                 <div
@@ -45,8 +42,14 @@
                                 </div>
 
                                 <div class="w-auto pb-4">
-                                    <label for="nama"
+                                    <label for="kabupaten_id"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.kabupaten')</label>
+                                    <x-text-span>{{ $datas->kabupaten->nama }}</x-text-span>
+                                </div>
+
+                                <div class="w-auto pb-4">
+                                    <label for="nama"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.kecamatan')</label>
                                     <x-text-span>{{ $datas->nama }}</x-text-span>
                                 </div>
                             </div>
@@ -71,7 +74,7 @@
                                         </div>
                                     </div>
 
-                                    <x-anchor-secondary href="{{ route('kabupaten.index') }}" tabindex="6">
+                                    <x-anchor-secondary href="{{ route('kecamatan.index') }}" tabindex="6">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-5">
                                             <path stroke-linecap="round" stroke-linejoin="round"

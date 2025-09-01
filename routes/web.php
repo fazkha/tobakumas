@@ -15,6 +15,7 @@ use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\GudangController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\KabupatenController;
+use App\Http\Controllers\KecamatanController;
 use App\Http\Controllers\KonversiController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\ProdOrderController;
@@ -156,6 +157,11 @@ Route::prefix('marketing')->middleware('auth')->group(function () {
     Route::resource('kabupaten', KabupatenController::class);
     Route::get('kabupaten/{kabupaten}/delete', [KabupatenController::class, 'delete'])->name('kabupaten.delete');
     Route::get('kabupaten/fetchdb/{pp}/{isactive}/{nama}', [KabupatenController::class, 'fetchdb'])->defaults('nama', '_');
+
+    Route::resource('kecamatan', KecamatanController::class);
+    Route::get('kecamatan/{kecamatan}/delete', [KecamatanController::class, 'delete'])->name('kecamatan.delete');
+    Route::get('kecamatan/fetchdb/{pp}/{isactive}/{nama}', [KecamatanController::class, 'fetchdb'])->defaults('nama', '_');
+    Route::get('kecamatan/depend-drop-kab/{pr}', [KecamatanController::class, 'dependDropKab'])->defaults('pr', '_');
 
     Route::resource('brandivjabkab', BrandivjabkabController::class);
     Route::get('brandivjabkab/{brandivjabkab}/delete', [BrandivjabkabController::class, 'delete'])->name('brandivjabkab.delete');

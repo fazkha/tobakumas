@@ -1,20 +1,17 @@
-@section('title', __('messages.kabupaten'))
+@section('title', __('messages.kecamatan'))
 
 <x-app-layout>
     <div class="flex items-center justify-between px-4 py-4 border-b border-primary-100 lg:py-6 dark:border-primary-800">
         <h1 class="text-xl flex items-center justify-center">
-            <a href="{{ route('kabupaten.index') }}" class="flex items-center justify-center">
-                <svg class="size-7" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                    <g transform="matrix(1.1485 0 0 1.2471 -1.233 -1.917)" fill="#373737" stroke-width=".82858px">
-                        <rect x="1.0737" y="1.5368" width="13.931" height="12.83" fill-opacity=".25" />
-                        <path
-                            d="M1.074 1.537v12.83h13.93V1.538H1.075zm.835.836h2.41c-.28 1.934.04 3.95 1.045 5.678.803 1.428 1.797 2.841 1.932 4.49-.05.342.328 1.14-.312.99H1.908V2.374zm3.253 0h9.006v2.854L6.434 8.24c-.86-1.37-1.42-2.926-1.37-4.523.001-.45.035-.899.098-1.344zm9.006 3.753v7.406H8.173c.072-1.603-.46-3.177-1.312-4.56 2.435-.95 4.87-1.898 7.307-2.846z"
-                            color="currentColor" style="-inkscape-stroke:none" />
-                    </g>
+            <a href="{{ route('kecamatan.index') }}" class="flex items-center justify-center">
+                <svg fill="currentColor" class="size-7" viewBox="-1.5 0 19 19" xmlns="http://www.w3.org/2000/svg"
+                    class="cf-icon-svg">
+                    <path
+                        d="M15.084 15.2H.916a.264.264 0 0 1-.254-.42l2.36-4.492a.865.865 0 0 1 .696-.42h.827a9.51 9.51 0 0 0 .943 1.108H3.912l-1.637 3.116h11.45l-1.637-3.116h-1.34a9.481 9.481 0 0 0 .943-1.109h.591a.866.866 0 0 1 .696.421l2.36 4.492a.264.264 0 0 1-.254.42zM11.4 7.189c0 2.64-2.176 2.888-3.103 5.46a.182.182 0 0 1-.356 0c-.928-2.572-3.104-2.82-3.104-5.46a3.282 3.282 0 0 1 6.563 0zm-1.86-.005a1.425 1.425 0 1 0-1.425 1.425A1.425 1.425 0 0 0 9.54 7.184z" />
                 </svg>
                 <div class="relative px-2 pt-2">
                     <span class="absolute top-0 left-2 text-xs w-40">@lang('messages.marketing')</span>
-                    <span>@lang('messages.kabupaten')</span>
+                    <span>@lang('messages.kecamatan')</span>
                 </div>
             </a>
             <span class="px-2">&raquo;</span>
@@ -22,7 +19,7 @@
         </h1>
     </div>
 
-    <form action="{{ route('kabupaten.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('kecamatan.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div class="py-2 flex flex-col">
@@ -31,7 +28,7 @@
                 <div class="flex flex-col items-center">
 
                     <div class="w-full" role="alert">
-                        @include('kabupaten.partials.feedback')
+                        @include('kecamatan.partials.feedback')
                     </div>
 
                     <div
@@ -58,9 +55,25 @@
                                     </div>
 
                                     <div class="w-auto pb-4">
-                                        <label for="nama"
+                                        <label for="kabupaten_id"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.kabupaten')</label>
-                                        <x-text-input type="text" name="nama" id="nama" tabindex="2"
+                                        <select name="kabupaten_id" id="kabupaten_id" tabindex="2" required
+                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                            <option value="">@lang('messages.choose')...</option>
+                                            @foreach ($kabupatens as $id => $name)
+                                                <option value="{{ $id }}"
+                                                    {{ old('kabupaten_id') == $id ? 'selected' : '' }}>
+                                                    {{ $name }}</option>
+                                            @endforeach
+                                        </select>
+
+                                        <x-input-error class="mt-2" :messages="$errors->get('kabupaten_id')" />
+                                    </div>
+
+                                    <div class="w-auto pb-4">
+                                        <label for="nama"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.kecamatan')</label>
+                                        <x-text-input type="text" name="nama" id="nama" tabindex="3"
                                             required placeholder="{{ __('messages.enter') }} {{ __('messages.name') }}"
                                             value="{{ old('nama') }}" />
 
@@ -72,7 +85,7 @@
                                     <div class="w-auto pb-4 lg:pb-12">
                                         <label for="keterangan"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</label>
-                                        <x-text-input type="text" name="keterangan" id="keterangan" tabindex="3"
+                                        <x-text-input type="text" name="keterangan" id="keterangan" tabindex="4"
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.description') }}"
                                             value="{{ old('keterangan') }}" />
 
@@ -82,7 +95,7 @@
                                     <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
                                         <div class="dark:bg-black/10">
                                             <label class="cursor-pointer flex flex-col md:flex-row md:gap-2">
-                                                <input type="checkbox" id="isactive" name="isactive"
+                                                <input type="checkbox" id="isactive" name="isactive" tabindex="5"
                                                     class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-7 h-7 rounded-lg shadow-md"
                                                     checked>
                                                 <span
@@ -92,7 +105,7 @@
                                             </label>
                                         </div>
 
-                                        <x-primary-button type="submit" class="block" tabindex="5">
+                                        <x-primary-button type="submit" class="block" tabindex="6">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="size-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -100,7 +113,7 @@
                                             </svg>
                                             <span class="pl-1">@lang('messages.save')</span>
                                         </x-primary-button>
-                                        <x-anchor-secondary href="{{ route('kabupaten.index') }}" tabindex="6">
+                                        <x-anchor-secondary href="{{ route('kecamatan.index') }}" tabindex="7">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="size-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -120,5 +133,38 @@
     </form>
 
     @push('scripts')
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <script>
+            $("#propinsi_id").on("change keyup paste", function() {
+                var xpr = $('#propinsi_id option:selected').val();
+                if (xpr.trim()) {
+                    xprop = xpr;
+                } else {
+                    xprop = '_';
+                }
+
+                $.ajax({
+                    url: '{{ url('/marketing/kecamatan/depend-drop-kab') }}' + "/" + xprop,
+                    type: "GET",
+                    dataType: 'json',
+                    success: function(result) {
+                        $('#kabupaten_id').empty();
+                        $('#kabupaten_id').append($('<option>', {
+                            value: null,
+                            text: "{{ __('messages.choose') }}..."
+                        }));
+                        var data = result.kabs;
+                        $.each(data, function(item, index) {
+                            $('#kabupaten_id').append($('<option>', {
+                                value: index,
+                                text: item
+                            }));
+                        });
+                        $("#kabupaten_id").focus();
+                    }
+                });
+            });
+        </script>
     @endpush
 </x-app-layout>

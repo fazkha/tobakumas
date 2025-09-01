@@ -71,6 +71,7 @@ return [
     'marketing' => 'Pemasaran',
     'propinsi' => 'Propinsi',
     'kabupaten' => 'Kabupaten',
+    'kecamatan' => 'Kecamatan',
     'brandivjab' => 'Pengaturan Organisasi',
     'brandivjabkab' => 'Pengaturan Wilayah',
     'superior' => 'Atasan',
