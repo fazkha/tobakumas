@@ -7,7 +7,6 @@ use App\Models\Customer;
 use App\Models\Barang;
 use App\Models\SaleOrderDetail;
 use App\Models\Satuan;
-use App\Models\Pegawai;
 use App\Models\SaleOrderMitra;
 use Illuminate\Http\Request;
 use App\Http\Requests\SaleOrderRequest;

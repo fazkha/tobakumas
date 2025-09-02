@@ -220,4 +220,8 @@ return [
     'adjustmentunit' => 'Satuan Penyesuaian',
     'adjustmentstock' => 'Persediaan Penyesuaian',
     'physic' => 'Fisik',
+    'print' => 'Cetak',
+    'printed' => 'Tercetak',
+    'invoice' => 'Faktur',
+    'saleinvoice' => 'Faktur Penjualan',
 ];

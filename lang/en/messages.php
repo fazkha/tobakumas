@@ -221,4 +221,8 @@ return [
     'adjustmentunit' => 'Adjustment Unit',
     'adjustmentstock' => 'Adjustment Stock',
     'physic' => 'Physic',
+    'print' => 'Print',
+    'printed' => 'Printed',
+    'invoice' => 'Invoice',
+    'saleinvoice' => 'Sale Invoice',
 ];

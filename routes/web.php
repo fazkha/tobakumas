@@ -27,6 +27,7 @@ use App\Http\Controllers\PurchaseReceiptController;
 use App\Http\Controllers\QRController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RecipeController;
+use App\Http\Controllers\SaleInvoiceController;
 use App\Http\Controllers\SaleOrderController;
 use App\Http\Controllers\SatuanController;
 use App\Http\Controllers\StockOpnameController;
@@ -228,6 +229,11 @@ Route::prefix('sale')->middleware('auth')->group(function () {
     Route::delete('order/delete-detail/{detail}', [SaleOrderController::class, 'deleteDetail']);
     Route::post('order/store-adonan/{detail}', [SaleOrderController::class, 'storeAdonan']);
     Route::delete('order/delete-adonan/{detail}', [SaleOrderController::class, 'deleteAdonan']);
+
+    Route::get('invoice', [SaleInvoiceController::class, 'index'])->name('sale-invoice.index');
+    Route::get('invoice/fetchdb/{pp}/{isactive}/{tunai}/{customer}/{no_order}/{tanggal}', [SaleInvoiceController::class, 'fetchdb'])->defaults('no_order', '_')->defaults('tanggal', '_');
+    Route::get('invoice/print/{invoice}', [SaleInvoiceController::class, 'print'])->name('sale-invoice.print');
+    Route::post('invoice/print-selected', [SaleInvoiceController::class, 'printSelected'])->name('sale-invoice.print-selected');
 })->missing(function (Request $request) {
     return Redirect::route('dashboard');
 });

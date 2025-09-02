@@ -31,9 +31,9 @@
                             @lang('messages.page')</span>
                         <select id="pp-dropdown"
                             class="text-sm px-2 leading-tight pl-28 pr-9 py-2 appearance-none w-full h-full rounded-md border block bg-primary-20 border-primary-100 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800">
-                            <option {{ session('sale-order_pp') == 12 ? 'selected' : '' }} value="12">12</option>
-                            <option {{ session('sale-order_pp') == 24 ? 'selected' : '' }} value="24">24</option>
-                            <option {{ session('sale-order_pp') == 36 ? 'selected' : '' }} value="36">36</option>
+                            <option {{ session('sale-invoice_pp') == 12 ? 'selected' : '' }} value="12">12</option>
+                            <option {{ session('sale-invoice_pp') == 24 ? 'selected' : '' }} value="24">24</option>
+                            <option {{ session('sale-invoice_pp') == 36 ? 'selected' : '' }} value="36">36</option>
                         </select>
                         <div
                             class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-white">
@@ -45,11 +45,11 @@
                             class="w-24 text-xs h-full absolute inset-y-0 left-0 flex items-center px-2 border-r border-primary-100 dark:border-primary-800">@lang('messages.active')</span>
                         <select id="isactive-dropdown"
                             class="text-sm px-2 leading-tight pl-28 pr-9 py-2 appearance-none w-full h-full rounded-md border block bg-primary-20 border-primary-100 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800">
-                            <option {{ session('sale-order_isactive') == 'all' ? 'selected' : '' }} value="all">
+                            <option {{ session('sale-invoice_isactive') == 'all' ? 'selected' : '' }} value="all">
                                 @lang('messages.all')</option>
-                            <option {{ session('sale-order_isactive') == '1' ? 'selected' : '' }} value="1">
+                            <option {{ session('sale-invoice_isactive') == '1' ? 'selected' : '' }} value="1">
                                 @lang('messages.yes')</option>
-                            <option {{ session('sale-order_isactive') == '0' ? 'selected' : '' }} value="0">
+                            <option {{ session('sale-invoice_isactive') == '0' ? 'selected' : '' }} value="0">
                                 @lang('messages.no')</option>
                         </select>
                         <div
@@ -62,11 +62,11 @@
                             class="w-24 text-xs h-full absolute inset-y-0 left-0 flex items-center px-2 border-r border-primary-100 dark:border-primary-800">@lang('messages.payment')</span>
                         <select id="tunai-dropdown"
                             class="text-sm px-2 leading-tight pl-28 pr-9 py-2 appearance-none w-full h-full rounded-md border block bg-primary-20 border-primary-100 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800">
-                            <option {{ session('sale-order_tunai') == 'all' ? 'selected' : '' }} value="all">
+                            <option {{ session('sale-invoice_tunai') == 'all' ? 'selected' : '' }} value="all">
                                 @lang('messages.all')</option>
-                            <option {{ session('sale-order_tunai') == '1' ? 'selected' : '' }} value="1">
+                            <option {{ session('sale-invoice_tunai') == '1' ? 'selected' : '' }} value="1">
                                 @lang('messages.cash')</option>
-                            <option {{ session('sale-order_tunai') == '2' ? 'selected' : '' }} value="2">
+                            <option {{ session('sale-invoice_tunai') == '2' ? 'selected' : '' }} value="2">
                                 @lang('messages.credit')</option>
                         </select>
                         <div
@@ -81,10 +81,10 @@
                             class="w-24 text-xs h-full absolute inset-y-0 left-0 flex items-center px-2 border-r border-primary-100 dark:border-primary-800">@lang('messages.customer')</span>
                         <select id="customer-dropdown"
                             class="text-sm px-2 leading-tight pl-28 pr-9 py-2 appearance-none w-full h-full rounded-md border block bg-primary-20 border-primary-100 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800">
-                            <option {{ session('sale-order_customer_id') == 'all' ? 'selected' : '' }} value="all">
+                            <option {{ session('sale-invoice_customer_id') == 'all' ? 'selected' : '' }} value="all">
                                 @lang('messages.all')</option>
                             @foreach ($customers as $id => $name)
-                                <option {{ session('sale-order_customer_id') == $id ? 'selected' : '' }}
+                                <option {{ session('sale-invoice_customer_id') == $id ? 'selected' : '' }}
                                     value="{{ $id }}">{{ $name }}</option>
                             @endforeach
                         </select>
@@ -97,7 +97,7 @@
                         <span
                             class="w-24 text-xs h-full absolute inset-y-0 left-0 flex items-center px-2 border-r border-primary-100 dark:border-primary-800">@lang('messages.ordernumber')</span>
                         <input id="search-no_order" placeholder="{{ __('messages.search') }}"
-                            value="{{ session('sale-order_no_order') == '_' ? '' : session('sale-order_no_order') }}"
+                            value="{{ session('sale-invoice_no_order') == '_' ? '' : session('sale-invoice_no_order') }}"
                             class="text-sm pl-28 pr-6 pt-1.5 pb-2 appearance-none rounded-md border block w-full bg-primary-20 border-primary-100 placeholder-gray-400 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800" />
                     </div>
 
@@ -105,7 +105,7 @@
                         <span
                             class="w-24 text-xs h-full absolute inset-y-0 left-0 flex items-center px-2 border-r border-primary-100 dark:border-primary-800">@lang('calendar.date')</span>
                         <input id="search-tanggal" type="date" placeholder="@lang('messages.search')"
-                            value="{{ session('sale-order_tanggal') == '_' ? '' : session('sale-order_tanggal') }}"
+                            value="{{ session('sale-invoice_tanggal') == '_' ? '' : session('sale-invoice_tanggal') }}"
                             class="text-sm pl-28 pr-6 pt-1.5 pb-2 appearance-none rounded-md border block w-full bg-primary-20 border-primary-100 placeholder-gray-400 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800" />
                     </div>
                 </div>
@@ -113,14 +113,15 @@
 
         </div>
 
-        <div>
-            @can('so-create')
-                <x-anchor-primary href="{{ route('sale-order.create') }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="size-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+        <div class="hidden">
+            @can('so-show')
+                <x-anchor-primary href="#">
+                    <svg class="size-3" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M3.5 12.5H1.5C0.947715 12.5 0.5 12.0523 0.5 11.5V7.5C0.5 6.94772 0.947715 6.5 1.5 6.5H13.5C14.0523 6.5 14.5 6.94772 14.5 7.5V11.5C14.5 12.0523 14.0523 12.5 13.5 12.5H11.5M3.5 6.5V1.5C3.5 0.947715 3.94772 0.5 4.5 0.5H10.5C11.0523 0.5 11.5 0.947715 11.5 1.5V6.5M3.5 10.5H11.5V14.5H3.5V10.5Z"
+                            stroke="currentColor" />
                     </svg>
-                    <span class="pl-1">@lang('messages.new')</span>
+                    <span class="pl-1">@lang('messages.print')</span>
                 </x-anchor-primary>
             @endcan
         </div>
