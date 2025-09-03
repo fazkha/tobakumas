@@ -18,6 +18,7 @@ use App\Http\Controllers\KabupatenController;
 use App\Http\Controllers\KecamatanController;
 use App\Http\Controllers\KonversiController;
 use App\Http\Controllers\LocaleController;
+use App\Http\Controllers\PdfController;
 use App\Http\Controllers\ProdOrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PropinsiController;
@@ -42,6 +43,8 @@ Route::get('/', function () {
 });
 
 Route::get('locale/{lang}', [LocaleController::class, 'setLocale']);
+
+Route::get('documents/{filename}', [PdfController::class, 'show']);
 
 Route::prefix('admin')->get('dashboard', function () {
     return view('dashboard');

@@ -77,11 +77,17 @@ class SaleInvoiceController extends Controller implements HasMiddleware
         $datas = $datas->where('branch_id', auth()->user()->profile->branch_id);
         $datas = $datas->latest()->paginate(session('sale-invoice_pp'));
 
+        if (session('documents')) {
+            $namafile = session('documents');
+        } else {
+            $namafile = '_invoice_' . str_replace('@', '(at)', str_replace('.', '_', auth()->user()->email)) . '.pdf';
+        }
+
         if ($request->page && $datas->count() == 0) {
             return redirect()->route('dashboard');
         }
 
-        return view('sale-invoice.index', compact(['datas', 'customers']))->with('i', (request()->input('page', 1) - 1) * session('sale-invoice_pp'));
+        return view('sale-invoice.index', compact(['datas', 'customers']))->with('documents', $namafile)->with('i', (request()->input('page', 1) - 1) * session('sale-invoice_pp'));
     }
 
     public function fetchdb(Request $request): JsonResponse
@@ -123,9 +129,15 @@ class SaleInvoiceController extends Controller implements HasMiddleware
         $datas = $datas->where('branch_id', auth()->user()->profile->branch_id);
         $datas = $datas->latest()->paginate(session('sale-invoice_pp'));
 
+        if (session('documents')) {
+            $namafile = session('documents');
+        } else {
+            $namafile = '_invoice_' . str_replace('@', '(at)', str_replace('.', '_', auth()->user()->email)) . '.pdf';
+        }
+
         $datas->withPath('/sale/invoice'); // pagination url to
 
-        $view = view('sale-invoice.partials.table', compact(['datas', 'customers']))->with('i', (request()->input('page', 1) - 1) * session('sale-invoice_pp'))->render();
+        $view = view('sale-invoice.partials.table', compact(['datas', 'customers']))->with('documents', $namafile)->with('i', (request()->input('page', 1) - 1) * session('sale-invoice_pp'))->render();
 
         if ($view) {
             return response()->json($view, 200);
@@ -137,10 +149,18 @@ class SaleInvoiceController extends Controller implements HasMiddleware
     public function printSelected(Request $request)
     {
         $selected = $request->input('isprint');
+        $namafile = '_invoice_' . str_replace('@', '(at)', str_replace('.', '_', auth()->user()->email)) . '.pdf';
+        session()->put('documents', $namafile);
 
         if ($selected) {
             // foreach ($selected as $select) {}
-            return redirect()->back()->with('success', __('messages.invoice') . ' ' . __('messages.printed') . ' 👉 ' . count($selected));
+            Pdf::view('sale-invoice.pdf.multi_invoice', ['selected' => $selected])
+                ->orientation(Orientation::Landscape)
+                ->format(Format::A4)
+                ->disk('pdfs')
+                ->save($namafile);
+
+            return redirect()->route('sale-invoice.index')->with('documents', $namafile)->with('success', __('messages.invoice') . ' ' . __('messages.printed') . ' 👉 ' . count($selected));
         }
 
         return redirect()->back();
@@ -160,17 +180,17 @@ class SaleInvoiceController extends Controller implements HasMiddleware
             'sub_price_adonan' => $total_price_adonan * 1,
             'total_price' => $datas->total_harga,
         ];
+        $namafile = $datas->id . '-invoice_' . str_replace('@', '(at)', str_replace('.', '_', auth()->user()->email)) . '.pdf';
+        session()->put('documents', $namafile);
 
         if ($datas) {
-            $namafile = 'invoice_' . $datas->id . '.pdf';
-
             Pdf::view('sale-invoice.pdf.invoice', ['datas' => $datas, 'details' => $details, 'adonans' => $adonans, 'totals' => $totals])
                 ->orientation(Orientation::Landscape)
                 ->format(Format::A4)
                 ->disk('pdfs')
                 ->save($namafile);
 
-            return redirect()->back()->with('success', __('messages.invoice') . ' ' . __('messages.printed') . ' 👉 ' . $datas->no_order);
+            return redirect()->route('sale-invoice.index')->with('documents', $namafile)->with('success', __('messages.invoice') . ' ' . __('messages.printed') . ' 👉 ' . $datas->no_order);
         }
 
         return redirect()->back();

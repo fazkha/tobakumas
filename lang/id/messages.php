@@ -155,9 +155,9 @@ return [
     'successupdated' => 'Berhasil diperbarukan',
     'successdeleted' => 'Berhasil dihapuskan',
     'successsaved' => 'Berhasil disimpan',
-    'contact' => 'Penghubung',
-    'contactname' => 'Nama penghubung',
-    'contactphone' => 'Telpon penghubung',
+    'contact' => 'Narahubung',
+    'contactname' => 'Nama Narahubung',
+    'contactphone' => 'Telpon Narahubung',
     'buy&sell' => 'Beli & Jual',
     'conversion' => 'Konversi',
     'operator' => 'Operator',
@@ -224,4 +224,5 @@ return [
     'printed' => 'Tercetak',
     'invoice' => 'Faktur',
     'saleinvoice' => 'Faktur Penjualan',
+    'create' => 'Susun',
 ];

@@ -225,4 +225,5 @@ return [
     'printed' => 'Printed',
     'invoice' => 'Invoice',
     'saleinvoice' => 'Sale Invoice',
+    'create' => 'Create',
 ];
