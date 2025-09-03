@@ -1,12 +1,5 @@
 @php
-    use Illuminate\Support\Facades\Crypt;
-    // if ($documents) {
     $documents = 'documents/' . $documents;
-    // } else {
-    //     $documents =
-    //         'documents/_invoice_' . str_replace('@', '(at)', str_replace('.', '_', auth()->user()->email)) . '.pdf';
-    // }
-    // dd($documents);
 @endphp
 
 <div x-data="{
@@ -144,7 +137,7 @@
                                 <td class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800"
                                     style="vertical-align: middle;">
                                     <div class="flex items-center justify-center">
-                                        @can('so-show')
+                                        @can('so-create')
                                             <a href="{{ route('sale-invoice.print', Crypt::Encrypt($data->id)) }}"
                                                 title="{{ __('messages.print') }}" class="ml-2">
                                                 <span
@@ -175,7 +168,7 @@
             </div>
         </div>
 
-        @can('so-show')
+        @can('so-create')
             <div class="py-2">
                 <div class="flex flex-row flex-wrap items-center justify-start gap-2 md:gap-4">
                     <x-primary-button type="submit" class="block" tabindex="1">
@@ -226,25 +219,27 @@
         </div>
     </form>
 
-    <div x-show.transition.duration.500ms="openModal"
-        class="fixed inset-0 flex items-center justify-center px-4 md:px-0 bg-white bg-opacity-75 dark:bg-black dark:bg-opacity-75">
-        <div @click.away="openModal = false"
-            class="flex flex-col p-2 h-full w-full shadow-2xl rounded-lg border-1 border-primary-100 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
-            <div class="flex justify-between mb-2">
-                <div class="font-bold text-lg text-gray-900 dark:text-gray-50"><span x-html="modalTitle"></span>
+    @can('so-create')
+        <div x-show.transition.duration.500ms="openModal"
+            class="fixed inset-0 flex items-center justify-center px-4 md:px-0 bg-white bg-opacity-75 dark:bg-black dark:bg-opacity-75">
+            <div @click.away="openModal = false"
+                class="flex flex-col p-2 h-full w-full shadow-2xl rounded-lg border-1 border-primary-100 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
+                <div class="flex justify-between mb-2">
+                    <div class="font-bold text-lg text-gray-900 dark:text-gray-50"><span x-html="modalTitle"></span>
+                    </div>
+                    <button @click="openModal = false">
+                        <svg class="w-5 h-5 text-gray-900 dark:text-gray-50" viewBox="0 0 24 24" fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M5.293 5.293a1 1 0 0 1 1.414 0L12 10.586l5.293-5.293a1 1 0 1 1 1.414 1.414L13.414 12l5.293 5.293a1 1 0 0 1-1.414 1.414L12 13.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L10.586 12 5.293 6.707a1 1 0 0 1 0-1.414z"
+                                fill="currentColor" />
+                        </svg>
+                    </button>
                 </div>
-                <button @click="openModal = false">
-                    <svg class="w-5 h-5 text-gray-900 dark:text-gray-50" viewBox="0 0 24 24" fill="currentColor"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M5.293 5.293a1 1 0 0 1 1.414 0L12 10.586l5.293-5.293a1 1 0 1 1 1.414 1.414L13.414 12l5.293 5.293a1 1 0 0 1-1.414 1.414L12 13.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L10.586 12 5.293 6.707a1 1 0 0 1 0-1.414z"
-                            fill="currentColor" />
-                    </svg>
-                </button>
-            </div>
-            <div class="flex items-center justify-center overflow-hidden rounded-lg h-full">
-                <iframe src="{{ url($documents) }}" frameborder="0" style="width:100%; height:100%;"></iframe>
+                <div class="flex items-center justify-center overflow-hidden rounded-lg h-full">
+                    <iframe src="{{ url($documents) }}" frameborder="0" style="width:100%; height:100%;"></iframe>
+                </div>
             </div>
         </div>
-    </div>
+    @endcan
 </div>
