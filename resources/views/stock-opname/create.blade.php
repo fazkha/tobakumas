@@ -50,7 +50,7 @@
                                             <option value="">@lang('messages.choose')...</option>
                                             @foreach ($gudangs as $id => $name)
                                                 <option value="{{ $id }}"
-                                                    {{ old('gudang_id') == $id ? 'selected' : '' }}>
+                                                    {{ old('gudang_id') == $id ? 'selected' : ($gudangs->count() == 1 ? 'selected' : '') }}>
                                                     {{ $name }}</option>
                                             @endforeach
                                         </select>
