@@ -45,10 +45,18 @@
                                     <x-text-span>{{ $datas->customer->nama }}</x-text-span>
                                 </div>
 
-                                <div class="w-auto pb-4">
-                                    <label for="tanggal"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.transactiondate')</label>
-                                    <x-text-span>{{ date('d/m/Y', strtotime($datas->tanggal)) }}</x-text-span>
+                                <div class="flex flex-row gap-2">
+                                    <div class="w-1/3 pb-4">
+                                        <label for="hke"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.hke')</label>
+                                        <x-text-span>{{ $datas->hke }}</x-text-span>
+                                    </div>
+
+                                    <div class="w-2/3 pb-4">
+                                        <label for="tanggal"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.transactiondate')</label>
+                                        <x-text-span>{{ date('d/m/Y', strtotime($datas->tanggal)) }}</x-text-span>
+                                    </div>
                                 </div>
 
                                 <div class="w-auto pb-4">

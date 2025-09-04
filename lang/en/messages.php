@@ -226,4 +226,5 @@ return [
     'invoice' => 'Invoice',
     'saleinvoice' => 'Sale Invoice',
     'create' => 'Create',
+    'hke' => 'EWD',
 ];

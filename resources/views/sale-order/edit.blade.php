@@ -68,16 +68,27 @@
                                         </div>
                                     </div>
 
-                                    <div class="w-auto pb-4">
-                                        <label for="tanggal"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.transactiondate')</label>
-                                        <x-text-span>{{ date_format(date_create($datas->tanggal), 'd/m/Y') }}</x-text-span>
-                                        <div class="hidden">
-                                            <x-text-input type="date" name="tanggal" id="tanggal"
-                                                data-date-format="dd-mm-yyyy" tabindex="2" required
-                                                value="{{ old('tanggal', $datas->tanggal) }}" />
+                                    <div class="flex flex-row gap-2">
+                                        <div class="w-1/3 pb-4">
+                                            <label for="hke"
+                                                class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.hke')</label>
+                                            <x-text-input type="number" min="0" name="hke" id="hke"
+                                                tabindex="2" required value="{{ old('hke', $datas->hke) }}" />
 
-                                            <x-input-error class="mt-2" :messages="$errors->get('tanggal')" />
+                                            <x-input-error class="mt-2" :messages="$errors->get('hke')" />
+                                        </div>
+
+                                        <div class="w-2/3 pb-4">
+                                            <label for="tanggal"
+                                                class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.transactiondate')</label>
+                                            <x-text-span>{{ date_format(date_create($datas->tanggal), 'd/m/Y') }}</x-text-span>
+                                            <div class="hidden">
+                                                <x-text-input type="date" name="tanggal" id="tanggal"
+                                                    data-date-format="dd-mm-yyyy" tabindex="2" required
+                                                    value="{{ old('tanggal', $datas->tanggal) }}" />
+
+                                                <x-input-error class="mt-2" :messages="$errors->get('tanggal')" />
+                                            </div>
                                         </div>
                                     </div>
 

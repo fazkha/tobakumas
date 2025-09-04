@@ -16,6 +16,7 @@ class SaleOrder extends Model
     protected $fillable = [
         'branch_id',
         'customer_id',
+        'hke',
         'tanggal',
         'no_order',
         'total_harga',

@@ -52,4 +52,7 @@ return [
     'simbol_kurang' => '➖',
     'simbol_bagi' => '➗',
     'simbol_kali' => '✖️',
+
+    // total_baris_tabel_laporan_suratjalan
+    'total_baris_suratjalan' => 19,
 ];

@@ -162,6 +162,7 @@ class SaleOrderController extends Controller implements HasMiddleware
             $so = SaleOrder::create([
                 'branch_id' => $request->branch_id,
                 'customer_id' => $request->customer_id,
+                'hke' => $request->hke,
                 'tanggal' => $request->tanggal,
                 'biaya_angkutan' => str_replace('.', '', str_replace('Rp. ', '', $biaya_angkutan)),
                 'total_harga' => $total_harga,
@@ -243,6 +244,7 @@ class SaleOrderController extends Controller implements HasMiddleware
 
             $order->update([
                 'customer_id' => $request->customer_id,
+                'hke' => $request->hke,
                 'tanggal' => $request->tanggal,
                 'biaya_angkutan' => str_replace('.', '', str_replace('Rp. ', '', $biaya_angkutan)),
                 'no_order' => $request->no_order,

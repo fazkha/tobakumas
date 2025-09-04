@@ -225,4 +225,5 @@ return [
     'invoice' => 'Faktur',
     'saleinvoice' => 'Faktur Penjualan',
     'create' => 'Susun',
+    'hke' => 'HKE',
 ];
