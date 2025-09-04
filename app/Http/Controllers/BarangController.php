@@ -36,7 +36,7 @@ class BarangController extends Controller implements HasMiddleware
     public function index(Request $request)
     {
         if (!$request->session()->exists('barang_pp')) {
-            $request->session()->put('barang_pp', 15);
+            $request->session()->put('barang_pp', config('custom.list_per_page_opt_1'));
         }
         if (!$request->session()->exists('barang_isactive')) {
             $request->session()->put('barang_isactive', 'all');

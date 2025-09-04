@@ -31,7 +31,7 @@ class RoleController extends Controller implements HasMiddleware
     public function index(Request $request)
     {
         if (!$request->session()->exists('roles_pp')) {
-            $request->session()->put('roles_pp', 15);
+            $request->session()->put('roles_pp', config('custom.list_per_page_opt_1'));
         }
         if (!$request->session()->exists('roles_isactive')) {
             $request->session()->put('roles_isactive', 'all');

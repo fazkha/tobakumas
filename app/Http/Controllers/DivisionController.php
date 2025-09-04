@@ -28,7 +28,7 @@ class DivisionController extends Controller implements HasMiddleware
     public function index(Request $request)
     {
         if (!$request->session()->exists('division_pp')) {
-            $request->session()->put('division_pp', 15);
+            $request->session()->put('division_pp', config('custom.list_per_page_opt_1'));
         }
         if (!$request->session()->exists('division_isactive')) {
             $request->session()->put('division_isactive', 'all');

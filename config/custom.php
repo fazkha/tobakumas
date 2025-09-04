@@ -11,6 +11,11 @@ return [
     'product_short' => 'Tobakumas',
     'product_name' => 'Toko Bahan Baku & Kemasan',
 
+    // list per page
+    'list_per_page_opt_1' => 15,
+    'list_per_page_opt_2' => 30,
+    'list_per_page_opt_3' => 45,
+
     // always update unit price on purchase
     'selaluUpdateHargaBeli' => true,
     'selaluUpdateHargaJual' => true,

@@ -29,7 +29,7 @@ class KabupatenController extends Controller implements HasMiddleware
     public function index(Request $request)
     {
         if (!$request->session()->exists('kabupaten_pp')) {
-            $request->session()->put('kabupaten_pp', 15);
+            $request->session()->put('kabupaten_pp', config('custom.list_per_page_opt_1'));
         }
         if (!$request->session()->exists('kabupaten_isactive')) {
             $request->session()->put('kabupaten_isactive', 'all');

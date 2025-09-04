@@ -31,7 +31,7 @@ class BrandivjabkecController extends Controller implements HasMiddleware
     public function index(Request $request)
     {
         if (!$request->session()->exists('brandivjabkec_pp')) {
-            $request->session()->put('brandivjabkec_pp', 15);
+            $request->session()->put('brandivjabkec_pp', config('custom.list_per_page_opt_1'));
         }
         if (!$request->session()->exists('brandivjabkec_isactive')) {
             $request->session()->put('brandivjabkec_isactive', 'all');

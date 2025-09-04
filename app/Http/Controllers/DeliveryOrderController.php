@@ -38,7 +38,7 @@ class DeliveryOrderController extends Controller implements HasMiddleware
     public function index(Request $request)
     {
         if (!$request->session()->exists('delivery-order_pp')) {
-            $request->session()->put('delivery-order_pp', 15);
+            $request->session()->put('delivery-order_pp', config('custom.list_per_page_opt_1'));
         }
         if (!$request->session()->exists('delivery-order_isactive')) {
             $request->session()->put('delivery-order_isactive', 'all');

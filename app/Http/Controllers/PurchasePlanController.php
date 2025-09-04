@@ -54,7 +54,7 @@ class PurchasePlanController extends Controller implements HasMiddleware
     public function index(Request $request)
     {
         if (!$request->session()->exists('purchase-plan_pp')) {
-            $request->session()->put('purchase-plan_pp', 15);
+            $request->session()->put('purchase-plan_pp', config('custom.list_per_page_opt_1'));
         }
         if (!$request->session()->exists('purchase-plan_isactive')) {
             $request->session()->put('purchase-plan_isactive', 'all');

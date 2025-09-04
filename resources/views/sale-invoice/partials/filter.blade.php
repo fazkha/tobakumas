@@ -31,9 +31,18 @@
                             @lang('messages.page')</span>
                         <select id="pp-dropdown"
                             class="text-sm px-2 leading-tight pl-28 pr-9 py-2 appearance-none w-full h-full rounded-md border block bg-primary-20 border-primary-100 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800">
-                            <option {{ session('sale-invoice_pp') == 15 ? 'selected' : '' }} value="15">15</option>
-                            <option {{ session('sale-invoice_pp') == 30 ? 'selected' : '' }} value="30">30</option>
-                            <option {{ session('sale-invoice_pp') == 45 ? 'selected' : '' }} value="45">45</option>
+                            <option
+                                {{ session('sale-invoice_pp') == config('custom.list_per_page_opt_1') ? 'selected' : '' }}
+                                value="{{ config('custom.list_per_page_opt_1') }}">
+                                {{ config('custom.list_per_page_opt_1') }}</option>
+                            <option
+                                {{ session('sale-invoice_pp') == config('custom.list_per_page_opt_2') ? 'selected' : '' }}
+                                value="{{ config('custom.list_per_page_opt_2') }}">
+                                {{ config('custom.list_per_page_opt_2') }}</option>
+                            <option
+                                {{ session('sale-invoice_pp') == config('custom.list_per_page_opt_3') ? 'selected' : '' }}
+                                value="{{ config('custom.list_per_page_opt_3') }}">
+                                {{ config('custom.list_per_page_opt_3') }}</option>
                         </select>
                         <div
                             class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-white">
@@ -81,7 +90,8 @@
                             class="w-24 text-xs h-full absolute inset-y-0 left-0 flex items-center px-2 border-r border-primary-100 dark:border-primary-800">@lang('messages.customer')</span>
                         <select id="customer-dropdown"
                             class="text-sm px-2 leading-tight pl-28 pr-9 py-2 appearance-none w-full h-full rounded-md border block bg-primary-20 border-primary-100 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800">
-                            <option {{ session('sale-invoice_customer_id') == 'all' ? 'selected' : '' }} value="all">
+                            <option {{ session('sale-invoice_customer_id') == 'all' ? 'selected' : '' }}
+                                value="all">
                                 @lang('messages.all')</option>
                             @foreach ($customers as $id => $name)
                                 <option {{ session('sale-invoice_customer_id') == $id ? 'selected' : '' }}

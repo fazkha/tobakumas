@@ -34,7 +34,7 @@ class CustomerController extends Controller implements HasMiddleware
     public function index(Request $request)
     {
         if (!$request->session()->exists('customer_pp')) {
-            $request->session()->put('customer_pp', 15);
+            $request->session()->put('customer_pp', config('custom.list_per_page_opt_1'));
         }
         if (!$request->session()->exists('customer_isactive')) {
             $request->session()->put('customer_isactive', 'all');

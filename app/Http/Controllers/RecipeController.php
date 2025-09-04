@@ -35,7 +35,7 @@ class RecipeController extends Controller implements HasMiddleware
     public function index(Request $request)
     {
         if (!$request->session()->exists('recipe_pp')) {
-            $request->session()->put('recipe_pp', 15);
+            $request->session()->put('recipe_pp', config('custom.list_per_page_opt_1'));
         }
         if (!$request->session()->exists('recipe_isactive')) {
             $request->session()->put('recipe_isactive', 'all');
