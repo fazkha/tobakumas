@@ -34,7 +34,7 @@ class PurchaseReceiptController extends Controller implements HasMiddleware
     public function index(Request $request)
     {
         if (!$request->session()->exists('purchase-receipt_pp')) {
-            $request->session()->put('purchase-receipt_pp', 12);
+            $request->session()->put('purchase-receipt_pp', 15);
         }
         if (!$request->session()->exists('purchase-receipt_isactive')) {
             $request->session()->put('purchase-receipt_isactive', 'all');

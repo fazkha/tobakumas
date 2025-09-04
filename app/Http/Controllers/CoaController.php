@@ -29,7 +29,7 @@ class CoaController extends Controller implements HasMiddleware
     public function index(Request $request)
     {
         if (!$request->session()->exists('coa_pp')) {
-            $request->session()->put('coa_pp', 12);
+            $request->session()->put('coa_pp', 15);
         }
         if (!$request->session()->exists('coa_isactive')) {
             $request->session()->put('coa_isactive', 'all');

@@ -34,7 +34,7 @@ class PurchaseOrderController extends Controller implements HasMiddleware
     public function index(Request $request)
     {
         if (!$request->session()->exists('purchase-order_pp')) {
-            $request->session()->put('purchase-order_pp', 12);
+            $request->session()->put('purchase-order_pp', 15);
         }
         if (!$request->session()->exists('purchase-order_isactive')) {
             $request->session()->put('purchase-order_isactive', 'all');

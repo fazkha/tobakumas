@@ -33,7 +33,7 @@ class SaleInvoiceController extends Controller implements HasMiddleware
     public function index(Request $request)
     {
         if (!$request->session()->exists('sale-invoice_pp')) {
-            $request->session()->put('sale-invoice_pp', 12);
+            $request->session()->put('sale-invoice_pp', 15);
         }
         if (!$request->session()->exists('sale-invoice_isactive')) {
             $request->session()->put('sale-invoice_isactive', 'all');

@@ -36,7 +36,7 @@ class StockOpnameController extends Controller implements HasMiddleware
     public function index(Request $request)
     {
         if (!$request->session()->exists('stock-opname_pp')) {
-            $request->session()->put('stock-opname_pp', 12);
+            $request->session()->put('stock-opname_pp', 15);
         }
         if (!$request->session()->exists('stock-opname_gudang_id')) {
             $request->session()->put('stock-opname_gudang_id', 'all');

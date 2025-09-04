@@ -31,7 +31,7 @@ class UserController extends Controller implements HasMiddleware
     public function index(Request $request)
     {
         if (!$request->session()->exists('users_pp')) {
-            $request->session()->put('users_pp', 12);
+            $request->session()->put('users_pp', 15);
         }
         if (!$request->session()->exists('users_isactive')) {
             $request->session()->put('users_isactive', 'all');

@@ -30,7 +30,7 @@ class BrandivjabkabController extends Controller implements HasMiddleware
     public function index(Request $request)
     {
         if (!$request->session()->exists('brandivjabkab_pp')) {
-            $request->session()->put('brandivjabkab_pp', 12);
+            $request->session()->put('brandivjabkab_pp', 15);
         }
         if (!$request->session()->exists('brandivjabkab_isactive')) {
             $request->session()->put('brandivjabkab_isactive', 'all');

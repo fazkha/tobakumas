@@ -32,7 +32,7 @@ class PegawaiController extends Controller implements HasMiddleware
     public function index(Request $request)
     {
         if (!$request->session()->exists('pegawai_pp')) {
-            $request->session()->put('pegawai_pp', 12);
+            $request->session()->put('pegawai_pp', 15);
         }
         if (!$request->session()->exists('pegawai_isactive')) {
             $request->session()->put('pegawai_isactive', 'all');

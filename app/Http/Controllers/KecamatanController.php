@@ -30,7 +30,7 @@ class KecamatanController extends Controller implements HasMiddleware
     public function index(Request $request)
     {
         if (!$request->session()->exists('kecamatan_pp')) {
-            $request->session()->put('kecamatan_pp', 12);
+            $request->session()->put('kecamatan_pp', 15);
         }
         if (!$request->session()->exists('kecamatan_isactive')) {
             $request->session()->put('kecamatan_isactive', 'all');
