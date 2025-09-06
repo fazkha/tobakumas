@@ -117,6 +117,7 @@ return [
     'enddate' => 'Tanggal Akhir',
     'transactiondate' => 'Tanggal Transaksi',
     'plan' => 'Perencanaan',
+    'purchaseplan' => 'Rencana Belanja',
     'quota' => 'Kuota',
     'purchaseorder' => 'Transaksi Pembelian',
     'deliverycost' => 'Biaya Angkutan',

@@ -160,7 +160,7 @@
                                     </g>
                                 </svg>
                                 <span class="block font-medium text-primary-600 dark:text-primary-500">
-                                    @lang('messages.purchasedgoods')
+                                    @lang('messages.purchaseplan')
                                 </span>
                             </div>
 

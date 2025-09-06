@@ -117,6 +117,7 @@ return [
     'enddate' => 'End Date',
     'transactiondate' => 'Transaction Date',
     'plan' => 'Plan',
+    'purchaseplan' => 'Purchase Plan',
     'quota' => 'Quota',
     'purchaseorder' => 'Purchase Order',
     'deliverycost' => 'Delivery Cost',
