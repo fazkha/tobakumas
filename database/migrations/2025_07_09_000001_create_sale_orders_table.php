@@ -14,8 +14,8 @@ return new class extends Migration
     {
         Schema::create('sale_orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('branch_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('customer_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('branch_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('customer_id')->constrained()->onUpdate('cascade')->onDelete('set null');
             $table->date('tanggal')->nullable();
             $table->string('no_order')->nullable();
             $table->tinyInteger('hke')->nullable();

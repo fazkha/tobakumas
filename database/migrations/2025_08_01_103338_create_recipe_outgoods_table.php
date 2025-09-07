@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('recipe_outgoods', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('recipe_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('barang_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('satuan_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('recipe_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('barang_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('satuan_id')->constrained()->onUpdate('cascade')->onDelete('set null');
             $table->decimal('kuantiti', 10, 2)->default(0.00);
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();

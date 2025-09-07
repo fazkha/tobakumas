@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('stock_opnames', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('branch_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('gudang_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('branch_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('gudang_id')->constrained()->onUpdate('cascade')->onDelete('set null');
             $table->date('tanggal')->nullable();
             $table->unsignedBigInteger('petugas_1_id')->nullable();
             $table->unsignedBigInteger('petugas_2_id')->nullable();

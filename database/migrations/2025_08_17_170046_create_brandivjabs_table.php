@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('brandivjabs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('branch_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('branch_id')->constrained()->onUpdate('cascade')->onDelete('set null');
             $table->unsignedBigInteger('division_id')->nullable();
-            $table->foreignId('jabatan_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('jabatan_id')->constrained()->onUpdate('cascade')->onDelete('set null');
             $table->unsignedBigInteger('atasan_id')->nullable();
             $table->string('keterangan')->nullable();
             $table->unsignedTinyInteger('isactive')->default(0);

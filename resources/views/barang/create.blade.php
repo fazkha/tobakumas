@@ -46,7 +46,7 @@
                                             <option value="">@lang('messages.choose')...</option>
                                             @foreach ($gudangs as $id => $name)
                                                 <option value="{{ $id }}"
-                                                    {{ old('gudang_id') == $id ? 'selected' : '' }}>
+                                                    {{ old('gudang_id') == $id ? 'selected' : ($gudangs->count() == 1 ? 'selected' : '') }}>
                                                     {{ $name }}</option>
                                             @endforeach
                                         </select>
@@ -58,7 +58,7 @@
                                         <div class="w-1/2 pb-4">
                                             <label for="jenis_barang_id"
                                                 class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.typeofdesignation')</label>
-                                            <select name="jenis_barang_id" id="jenis_barang_id" tabindex="2"
+                                            <select name="jenis_barang_id" id="jenis_barang_id" tabindex="2" required
                                                 class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                                 <option value="">@lang('messages.choose')...</option>
                                                 @foreach ($jenis_barangs as $id => $name)
@@ -172,7 +172,7 @@
                                         <x-text-input type="text" name="keterangan" id="keterangan"
                                             tabindex="10"
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.description') }}"
-                                            required value="{{ old('keterangan') }}" />
+                                            value="{{ old('keterangan') }}" />
 
                                         <x-input-error class="mt-2" :messages="$errors->get('keterangan')" />
                                     </div>

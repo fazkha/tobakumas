@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('recipe_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('recipe_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('recipe_id')->constrained()->onUpdate('cascade')->onDelete('set null');
             $table->unsignedTinyInteger('urutan');
             $table->string('tahapan');
             $table->string('keterangan')->nullable();

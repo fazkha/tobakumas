@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('stock_opname_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('branch_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('stock_opname_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('barang_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('satuan_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('branch_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('stock_opname_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('barang_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('satuan_id')->constrained()->onUpdate('cascade')->onDelete('set null');
             $table->decimal('stock', 10, 2)->default(0);
             $table->decimal('minstock', 10, 2)->default(0);
             $table->decimal('before_stock', 10, 2)->nullable()->default(0);

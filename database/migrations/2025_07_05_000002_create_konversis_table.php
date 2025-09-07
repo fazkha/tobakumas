@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('konversis', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('satuan_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('satuan_id')->constrained()->onUpdate('cascade')->onDelete('set null');
             $table->unsignedBigInteger('satuan2_id');
-            $table->foreign('satuan2_id')->references('id')->on('satuans')->onUpdate('cascade');
+            $table->foreign('satuan2_id')->references('id')->on('satuans')->onUpdate('cascade')->onDelete('set null');
             $table->char('operator', 1)->default(1);
             $table->integer('bilangan')->default(0);
             $table->tinyInteger('isactive')->default(0);

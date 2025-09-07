@@ -13,13 +13,16 @@ return new class extends Migration
     {
         Schema::create('barangs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('branch_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('gudang_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('jenis_barang_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('subjenis_barang_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('branch_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('gudang_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('jenis_barang_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('subjenis_barang_id')->constrained()->onUpdate('cascade')->onDelete('set null');
             $table->unsignedBigInteger('satuan_beli_id')->nullable();
             $table->unsignedBigInteger('satuan_jual_id')->nullable();
             $table->unsignedBigInteger('satuan_stock_id')->nullable();
+            $table->foreign('satuan_beli_id')->references('id')->on('satuans')->onUpdate('cascade')->onDelete('set null');
+            $table->foreign('satuan_jual_id')->references('id')->on('satuans')->onUpdate('cascade')->onDelete('set null');
+            $table->foreign('satuan_stock_id')->references('id')->on('satuans')->onUpdate('cascade')->onDelete('set null');
             $table->string('nama')->nullable();
             $table->string('merk')->nullable();
             $table->string('keterangan')->nullable();

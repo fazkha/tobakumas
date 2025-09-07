@@ -17,8 +17,6 @@ use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Number;
-use Illuminate\Support\Facades\DB;
 
 class BarangController extends Controller implements HasMiddleware
 {

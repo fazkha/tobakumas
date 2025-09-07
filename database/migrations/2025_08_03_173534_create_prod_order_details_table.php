@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('prod_order_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('branch_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('prod_order_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('barang_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('satuan_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('branch_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('prod_order_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('barang_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('satuan_id')->constrained()->onUpdate('cascade')->onDelete('set null');
             $table->decimal('kuantiti', 10, 2)->default(0.00);
             $table->tinyInteger('approved')->default(0);
             $table->string('approved_by')->nullable();

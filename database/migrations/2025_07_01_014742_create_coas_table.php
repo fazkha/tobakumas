@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('coas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('coasgroups_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('coasgroups_id')->constrained()->onDelete('cascade')->onUpdate('cascade')->onDelete('set null');
             $table->string('code', 20);
             $table->string('name');
             $table->string('description');

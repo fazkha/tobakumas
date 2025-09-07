@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('branch_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('branch_id')->constrained()->onDelete('cascade')->onUpdate('cascade')->onDelete('set null');
             $table->string('tanggal', 20)->nullable();
             $table->string('waktu')->nullable();
             $table->integer('waktu_detik')->default(0);

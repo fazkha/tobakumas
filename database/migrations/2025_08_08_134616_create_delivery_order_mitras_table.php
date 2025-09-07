@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('delivery_order_mitras', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('branch_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('delivery_order_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('sale_order_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('sale_order_mitra_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('paket_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('barang_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('satuan_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('branch_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('delivery_order_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('sale_order_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('sale_order_mitra_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('paket_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('barang_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('satuan_id')->constrained()->onUpdate('cascade')->onDelete('set null');
             $table->unsignedTinyInteger('kuantiti')->default(0);
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();

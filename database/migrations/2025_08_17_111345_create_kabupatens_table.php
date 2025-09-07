@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('kabupatens', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('propinsi_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('propinsi_id')->constrained()->onUpdate('cascade')->onDelete('set null');
             $table->string('nama');
             $table->string('keterangan')->nullable();
             $table->unsignedTinyInteger('isactive')->default(0);

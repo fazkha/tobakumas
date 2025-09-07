@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('brandivjabkecs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('brandivjab_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('propinsi_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('kabupaten_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('kecamatan_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('brandivjab_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('propinsi_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('kabupaten_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('kecamatan_id')->constrained()->onUpdate('cascade')->onDelete('set null');
             $table->string('keterangan')->nullable();
             $table->unsignedTinyInteger('isactive')->default(0);
             $table->string('created_by')->nullable();

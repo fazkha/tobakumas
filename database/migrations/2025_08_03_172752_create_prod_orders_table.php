@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('prod_orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('branch_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('sale_order_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('branch_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('sale_order_id')->constrained()->onUpdate('cascade')->onDelete('set null');
             $table->date('tanggal')->nullable();
             $table->unsignedBigInteger('petugas_1_id')->nullable();
             $table->unsignedBigInteger('petugas_2_id')->nullable();

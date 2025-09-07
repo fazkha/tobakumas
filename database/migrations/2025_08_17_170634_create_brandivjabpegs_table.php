@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('brandivjabpegs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('brandivjab_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('pegawai_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('brandivjab_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('pegawai_id')->constrained()->onUpdate('cascade')->onDelete('set null');
             $table->date('tanggal_mulai')->nullable();
             $table->date('tanggal_selesai')->nullable();
             $table->string('keterangan')->nullable();

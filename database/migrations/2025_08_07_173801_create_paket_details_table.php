@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('paket_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('paket_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('barang_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('satuan_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('paket_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('barang_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('satuan_id')->constrained()->onUpdate('cascade')->onDelete('set null');
             $table->decimal('kuantiti')->default(0);
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
