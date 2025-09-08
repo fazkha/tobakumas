@@ -139,7 +139,7 @@
                                 @endcan
 
                                 @can('purchasereceipt-delete')
-                                    <a href="{{ route('purchase-receipt.delete', Crypt::Encrypt($data->id)) }}"
+                                    <a href="{{ route('purchase-receipt.index', Crypt::Encrypt($data->id)) }}"
                                         title="@lang('messages.delete')" class="ml-2">
                                         <span
                                             class="relative inline-block px-2 py-2 font-semibold text-red-800 dark:text-red-50 leading-tight">
