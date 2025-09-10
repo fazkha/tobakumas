@@ -221,6 +221,8 @@ return [
     'adjustmentunit' => 'Satuan Penyesuaian',
     'adjustmentstock' => 'Persediaan Penyesuaian',
     'physic' => 'Fisik',
+    'system' => 'Sistem',
+    'difference' => 'Selisih',
     'print' => 'Cetak',
     'printed' => 'Tercetak',
     'invoice' => 'Faktur',

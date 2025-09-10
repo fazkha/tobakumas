@@ -11,6 +11,8 @@ class Gudang extends Model
 
     protected $fillable = [
         'branch_id',
+        'propinsi_id',
+        'kabupaten_id',
         'kode',
         'nama',
         'alamat',
@@ -23,5 +25,15 @@ class Gudang extends Model
     public function branch()
     {
         return $this->belongsTo(Branch::class);
+    }
+
+    public function propinsi()
+    {
+        return $this->belongsTo(Propinsi::class);
+    }
+
+    public function kabupaten()
+    {
+        return $this->belongsTo(Kabupaten::class);
     }
 }

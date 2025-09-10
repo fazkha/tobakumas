@@ -128,6 +128,7 @@ Route::prefix('warehouse')->middleware('auth')->group(function () {
 
     Route::resource('stock-opname', StockOpnameController::class);
     Route::get('stock-opname/{stock_opname}/delete', [StockOpnameController::class, 'delete'])->name('stock-opname.delete');
+    Route::get('stock-opname/{stock_opname}/print', [StockOpnameController::class, 'print'])->name('stock-opname.print');
     Route::get('stock-opname/fetchdb/{pp}/{gudang}/{tanggal}', [StockOpnameController::class, 'fetchdb'])->defaults('tanggal', '_');
     Route::post('stock-opname/store-detail/{detail}', [StockOpnameController::class, 'storeDetail']);
     Route::delete('stock-opname/delete-detail/{detail}', [StockOpnameController::class, 'deleteDetail']);

@@ -3,14 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\StockOpname;
-use App\Http\Requests\StockOpnameRequest;
-use App\Http\Requests\StockOpnameUpdateRequest;
 use App\Models\Barang;
 use App\Models\Gudang;
-use App\Models\Pegawai;
 use App\Models\Satuan;
 use App\Models\StockOpnameDetail;
 use App\Models\ViewPegawaiJabatan;
+use App\Http\Requests\StockOpnameRequest;
+use App\Http\Requests\StockOpnameUpdateRequest;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Http\Request;
@@ -19,9 +18,43 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Gate;
+use Spatie\LaravelPdf\Enums\Format;
+use Spatie\LaravelPdf\Enums\Orientation;
+use Spatie\LaravelPdf\Enums\Unit;
+use Spatie\LaravelPdf\Facades\Pdf;
 
 class StockOpnameController extends Controller implements HasMiddleware
 {
+    protected $array_hari, $array_bulan;
+
+    public function __construct()
+    {
+        $this->array_hari = [
+            ['hari' => ['id' => 0, 'name' => __('calendar.sunday')]],
+            ['hari' => ['id' => 1, 'name' => __('calendar.monday')]],
+            ['hari' => ['id' => 2, 'name' => __('calendar.tuesday')]],
+            ['hari' => ['id' => 3, 'name' => __('calendar.wednesday')]],
+            ['hari' => ['id' => 4, 'name' => __('calendar.thursday')]],
+            ['hari' => ['id' => 5, 'name' => __('calendar.friday')]],
+            ['hari' => ['id' => 6, 'name' => __('calendar.saturday')]],
+        ];
+
+        $this->array_bulan = [
+            ['bulan' => ['id' => 1, 'name' => __('calendar.january')]],
+            ['bulan' => ['id' => 2, 'name' => __('calendar.february')]],
+            ['bulan' => ['id' => 3, 'name' => __('calendar.march')]],
+            ['bulan' => ['id' => 4, 'name' => __('calendar.apryl')]],
+            ['bulan' => ['id' => 5, 'name' => __('calendar.may')]],
+            ['bulan' => ['id' => 6, 'name' => __('calendar.june')]],
+            ['bulan' => ['id' => 7, 'name' => __('calendar.july')]],
+            ['bulan' => ['id' => 8, 'name' => __('calendar.august')]],
+            ['bulan' => ['id' => 9, 'name' => __('calendar.september')]],
+            ['bulan' => ['id' => 10, 'name' => __('calendar.october')]],
+            ['bulan' => ['id' => 11, 'name' => __('calendar.november')]],
+            ['bulan' => ['id' => 12, 'name' => __('calendar.december')]],
+        ];
+    }
+
     public static function middleware(): array
     {
         return [
@@ -175,7 +208,14 @@ class StockOpnameController extends Controller implements HasMiddleware
         $petugas2 = ViewPegawaiJabatan::where('islevel', 3)->where('kode_branch', 'PST')->orderBy('nama_plus')->pluck('nama_plus', 'pegawai_id');
         $satuans = Satuan::where('isactive', 1)->orderBy('singkatan')->pluck('singkatan', 'id');
 
-        return view('stock-opname.edit', compact(['datas', 'details', 'gudangs', 'barangs', 'satuans', 'petugas', 'petugas2', 'branch_id']));
+        if (session('documents')) {
+            $namafile = session('documents');
+        } else {
+            $namafile = Crypt::decrypt($request->stock_opname) . '-stockopname_' . str_replace('@', '(at)', str_replace('.', '_', auth()->user()->email)) . '.pdf';
+        }
+        $print = false;
+
+        return view('stock-opname.edit', compact(['datas', 'details', 'gudangs', 'barangs', 'satuans', 'petugas', 'petugas2', 'branch_id']))->with('print', $print)->with('documents', $namafile);
     }
 
     public function update(StockOpnameUpdateRequest $request): RedirectResponse
@@ -245,13 +285,17 @@ class StockOpnameController extends Controller implements HasMiddleware
             'stock' => $request->stock,
             'minstock' => $request->minstock,
             'keterangan' => $request->keterangan,
-            'adjust_stock' => $request->adjust_stock,
-            'adjust_satuan_id' => $request->adjust_satuan_id,
-            'adjust_by' => $request->adjust_stock ? auth()->user()->email : NULL,
-            'adjust_at' => $request->adjust_stock ? date('Y-m-d H:i:s') : NULL,
+            'before_stock' => $request->before_stock,
+            'before_satuan_id' => $request->before_satuan_id,
+            'selisih_stock' => $request->selisih_stock,
+            'selisih_satuan_id' => $request->selisih_satuan_id,
+            'adjust_stock' => $request->selisih_stock,
+            'adjust_satuan_id' => $request->selisih_satuan_id,
             'created_by' => auth()->user()->email,
             'updated_by' => auth()->user()->email,
         ]);
+        // 'adjust_by' => $request->adjust_stock ? auth()->user()->email : NULL,
+        // 'adjust_at' => $request->adjust_stock ? date('Y-m-d H:i:s') : NULL,
         // 'adjust_harga' => $request->adjust_harga, ===> otomatis dari trigger trg_stock_opname_details_before_insert
 
         $details = StockOpnameDetail::where('stock_opname_id', $master_id)->get();
@@ -294,5 +338,38 @@ class StockOpnameController extends Controller implements HasMiddleware
                 'status' => 'Not Found',
             ], 200);
         }
+    }
+
+    public function print(Request $request)
+    {
+        $id = Crypt::decrypt($request->stock_opname);
+        $datas = StockOpname::find($id);
+        $details = StockOpnameDetail::where('stock_opname_id', $id)->get();
+
+        $namafile = $id . '-stockopname_' . str_replace('@', '(at)', str_replace('.', '_', auth()->user()->email)) . '.pdf';
+        session()->put('documents', $namafile);
+
+        if ($datas) {
+            $print = true;
+            $nhari = date('w', strtotime($datas->tanggal));
+            $nbulan = date('n', strtotime($datas->tanggal)) - 1;
+            $nbulanini = date('n') - 1;
+            $hari = $this->array_hari[$nhari]['hari']['name'];
+            $bulan = $this->array_bulan[$nbulan]['bulan']['name'];
+            $bulanini = $this->array_bulan[$nbulanini]['bulan']['name'];
+
+            Pdf::view('stock-opname.pdf.perhitungan', ['datas' => $datas, 'details' => $details, 'bulanini' => $bulanini])
+                ->orientation(Orientation::Landscape)
+                ->margins(3, 0.5, 1, 0.5, Unit::Centimeter)
+                ->headerView('stock-opname.pdf.perhitungan-header', ['datas' => $datas, 'hari' => $hari, 'bulan' => $bulan])
+                ->footerView('stock-opname.pdf.perhitungan-footer')
+                ->format(Format::A4)
+                ->disk('pdfs')
+                ->save($namafile);
+
+            return redirect()->route('stock-opname.edit', Crypt::encrypt($id))->with('print', $print)->with('documents', $namafile)->with('success', __('messages.stockopname') . ' ' . __('messages.printed') . ' 👉 ' . $datas->tanggal);
+        }
+
+        return redirect()->back();
     }
 }

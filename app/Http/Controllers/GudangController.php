@@ -6,6 +6,8 @@ use App\Models\Gudang;
 use App\Models\Branch;
 use App\Http\Requests\GudangRequest;
 use App\Http\Requests\GudangUpdateRequest;
+use App\Models\Kabupaten;
+use App\Models\Propinsi;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Http\Request;
@@ -121,8 +123,10 @@ class GudangController extends Controller implements HasMiddleware
     {
         $branch_id = auth()->user()->profile->branch_id;
         $branch = Branch::find($branch_id);
+        $propinsis = Propinsi::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+        $kabupatens = Kabupaten::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
 
-        return view('gudang.create', compact('branch_id', 'branch'));
+        return view('gudang.create', compact('branch_id', 'branch', 'propinsis', 'kabupatens'));
     }
 
     public function store(GudangRequest $request): RedirectResponse
@@ -130,6 +134,8 @@ class GudangController extends Controller implements HasMiddleware
         if ($request->validated()) {
             $gudang = Gudang::create([
                 'branch_id' => $request->branch_id,
+                'propinsi_id' => $request->propinsi_id,
+                'kabupaten_id' => $request->kabupaten_id,
                 'kode' => $request->kode,
                 'nama' => $request->nama,
                 'alamat' => $request->alamat,
@@ -157,8 +163,10 @@ class GudangController extends Controller implements HasMiddleware
     public function edit(Request $request): View
     {
         $datas = Gudang::find(Crypt::decrypt($request->gudang));
+        $propinsis = Propinsi::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+        $kabupatens = Kabupaten::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
 
-        return view('gudang.edit', compact(['datas']));
+        return view('gudang.edit', compact(['datas', 'propinsis', 'kabupatens']));
     }
 
     public function update(GudangUpdateRequest $request): RedirectResponse
@@ -168,6 +176,8 @@ class GudangController extends Controller implements HasMiddleware
         if ($request->validated()) {
 
             $gudang->update([
+                'propinsi_id' => $request->propinsi_id,
+                'kabupaten_id' => $request->kabupaten_id,
                 'kode' => $request->kode,
                 'nama' => $request->nama,
                 'alamat' => $request->alamat,

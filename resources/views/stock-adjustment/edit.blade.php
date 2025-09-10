@@ -1,7 +1,3 @@
-@php
-    $documents = 'documents/' . $documents;
-@endphp
-
 @section('title', __('messages.stockopname'))
 
 <x-app-layout>
@@ -25,11 +21,7 @@
         </h1>
     </div>
 
-    <div x-data="{
-        openModal: false,
-        modalTitle: 'Title',
-        buttonDisabled: {{ $datas->approved == 1 ? 'true' : 'false' }}
-    }" class="py-2 flex flex-col">
+    <div x-data="{ buttonDisabled: {{ $datas->approved == 1 ? 'true' : 'false' }} }" class="py-2 flex flex-col">
 
         <div class="w-full px-4 py-2">
             <div class="flex flex-col items-center">
@@ -81,9 +73,9 @@
                                     <div class="w-auto pb-4">
                                         <label for="keterangan"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</label>
-                                        <x-textarea-input name="keterangan" id="keterangan" tabindex="3"
-                                            rows="3" maxlength="200"
-                                            placeholder="{{ __('messages.enter') }} {{ __('messages.description') }}">{{ $datas->keterangan }}</x-textarea-input>
+                                        <x-text-input type="text" name="keterangan" id="keterangan" tabindex="3"
+                                            placeholder="{{ __('messages.enter') }} {{ __('messages.description') }}"
+                                            value="{{ $datas->keterangan }}" />
 
                                         <x-input-error class="mt-2" :messages="$errors->get('keterangan')" />
                                     </div>
@@ -140,37 +132,7 @@
                                         <x-input-error class="mt-2" :messages="$errors->get('tanggungjawab_id')" />
                                     </div>
 
-                                    <div class="w-auto pb-4">
-                                        <div
-                                            class="flex flex-row flex-wrap lg:flex-nowrap items-center justify-end gap-2 md:gap-4">
-                                            <x-anchor-secondary
-                                                href="{{ route('stock-opname.print', Crypt::encrypt($datas->id)) }}"
-                                                tabindex="0"
-                                                class="bg-indigo-700 hover:bg-indigo-800 dark:bg-indigo-900 hover:dark:bg-indigo-950">
-                                                <svg class="size-5" viewBox="0 0 15 15" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="M3.5 12.5H1.5C0.947715 12.5 0.5 12.0523 0.5 11.5V7.5C0.5 6.94772 0.947715 6.5 1.5 6.5H13.5C14.0523 6.5 14.5 6.94772 14.5 7.5V11.5C14.5 12.0523 14.0523 12.5 13.5 12.5H11.5M3.5 6.5V1.5C3.5 0.947715 3.94772 0.5 4.5 0.5H10.5C11.0523 0.5 11.5 0.947715 11.5 1.5V6.5M3.5 10.5H11.5V14.5H3.5V10.5Z"
-                                                        stroke="currentColor" />
-                                                </svg>
-                                                <span class="pl-1">@lang('messages.create')</span>
-                                            </x-anchor-secondary>
-                                            <x-anchor-secondary tabindex="0"
-                                                class="bg-indigo-700 hover:bg-indigo-800 dark:bg-indigo-900 hover:dark:bg-indigo-950"
-                                                @click="openModal = true; modalTitle = '{{ __('messages.stockopname') }}';">
-                                                <svg class="size-5" viewBox="0 0 15 15" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="M3.5 12.5H1.5C0.947715 12.5 0.5 12.0523 0.5 11.5V7.5C0.5 6.94772 0.947715 6.5 1.5 6.5H13.5C14.0523 6.5 14.5 6.94772 14.5 7.5V11.5C14.5 12.0523 14.0523 12.5 13.5 12.5H11.5M3.5 6.5V1.5C3.5 0.947715 3.94772 0.5 4.5 0.5H10.5C11.0523 0.5 11.5 0.947715 11.5 1.5V6.5M3.5 10.5H11.5V14.5H3.5V10.5Z"
-                                                        stroke="currentColor" />
-                                                </svg>
-                                                <span class="pl-1">@lang('messages.print')</span>
-                                            </x-anchor-secondary>
-                                        </div>
-                                    </div>
-
-                                    <div
-                                        class="flex flex-row flex-wrap lg:flex-nowrap items-center justify-end gap-2 md:gap-4">
+                                    <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
                                         <div class="dark:bg-black/10">
                                             <label
                                                 class="cursor-pointer flex flex-col items-center md:flex-row md:gap-2">
@@ -178,7 +140,7 @@
                                                     class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-7 h-7 rounded-lg shadow-md"
                                                     {{ $datas->approved == '1' ? 'checked' : '' }}>
                                                 <span
-                                                    class="pr-4 group-hover:text-blue-500 transition-colors duration-300 text-center w-3/4 md:text-left md:w-full">
+                                                    class="pr-4 group-hover:text-blue-500 transition-colors duration-300 text-right w-1/2 md:w-full">
                                                     @lang('messages.donecalculation')
                                                 </span>
                                             </label>
@@ -212,28 +174,6 @@
             </div>
         </div>
 
-        <div x-show.transition.duration.500ms="openModal"
-            class="fixed inset-0 flex items-center justify-center px-4 md:px-0 bg-white bg-opacity-75 dark:bg-black dark:bg-opacity-75">
-            <div @click.away="openModal = false"
-                class="flex flex-col p-2 h-full w-full shadow-2xl rounded-lg border-1 border-primary-100 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
-                <div class="flex justify-between mb-2">
-                    <div class="font-bold text-lg text-gray-900 dark:text-gray-50"><span x-html="modalTitle"></span>
-                    </div>
-                    <button @click="openModal = false">
-                        <svg class="w-5 h-5 text-gray-900 dark:text-gray-50" viewBox="0 0 24 24" fill="currentColor"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M5.293 5.293a1 1 0 0 1 1.414 0L12 10.586l5.293-5.293a1 1 0 1 1 1.414 1.414L13.414 12l5.293 5.293a1 1 0 0 1-1.414 1.414L12 13.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L10.586 12 5.293 6.707a1 1 0 0 1 0-1.414z"
-                                fill="currentColor" />
-                        </svg>
-                    </button>
-                </div>
-                <div class="flex items-center justify-center overflow-hidden rounded-lg h-full">
-                    <iframe src="{{ url($documents) }}" frameborder="0" style="width:100%; height:100%;"></iframe>
-                </div>
-            </div>
-        </div>
-
         <div class="flex flex-col lg:flex-row gap-4 px-4 py-2">
             <div class="w-full">
                 <div class="flex flex-col items-center">
@@ -253,14 +193,14 @@
                                     <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
                                         viewBox="0 0 52 52" enable-background="new 0 0 52 52" xml:space="preserve">
                                         <g>
-                                            <path
-                                                d="M24.3,36.5c0.7,0,1.4,0.1,2,0.3L15.5,6.2c0,0,0,0,0,0l-1-3c-0.3-0.9-1.2-1.3-2-1L3.1,5.3 c-0.9,0.3-1.3,1.2-1,2l1,3c0.3,0.9,1.2,1.3,2,1L10,9.7l9.9,28.1C21.2,37,22.7,36.5,24.3,36.5z" />
-                                            <path
-                                                d="M41.2,29.2l-9.9,3.5c-1,0.4-2.2-0.2-2.5-1.2l-3.5-9.9c-0.4-1,0.2-2.2,1.2-2.5l9.9-3.5 c1-0.4,2.2,0.2,2.5,1.2l3.5,9.9C42.8,27.7,42.2,28.8,41.2,29.2z" />
-                                            <path
-                                                d="M31.8,12.9l-6.7,2.3c-1,0.4-2.2-0.2-2.5-1.2l-2.3-6.7c-0.4-1,0.2-2.2,1.2-2.5l6.7-2.3 c1-0.4,2.2,0.2,2.5,1.2l2.3,6.7C33.4,11.3,32.9,12.5,31.8,12.9z" />
-                                            <path
-                                                d="M49.9,35.5l-1-3c-0.3-0.9-1.2-1.3-2-1l-18.2,6.3c1.9,1.2,3.2,3.2,3.6,5.5l16.7-5.7 C49.8,37.3,50.2,36.4,49.9,35.5z" />
+                                            <path d="M24.3,36.5c0.7,0,1.4,0.1,2,0.3L15.5,6.2c0,0,0,0,0,0l-1-3c-0.3-0.9-1.2-1.3-2-1L3.1,5.3
+  c-0.9,0.3-1.3,1.2-1,2l1,3c0.3,0.9,1.2,1.3,2,1L10,9.7l9.9,28.1C21.2,37,22.7,36.5,24.3,36.5z" />
+                                            <path d="M41.2,29.2l-9.9,3.5c-1,0.4-2.2-0.2-2.5-1.2l-3.5-9.9c-0.4-1,0.2-2.2,1.2-2.5l9.9-3.5
+  c1-0.4,2.2,0.2,2.5,1.2l3.5,9.9C42.8,27.7,42.2,28.8,41.2,29.2z" />
+                                            <path d="M31.8,12.9l-6.7,2.3c-1,0.4-2.2-0.2-2.5-1.2l-2.3-6.7c-0.4-1,0.2-2.2,1.2-2.5l6.7-2.3
+  c1-0.4,2.2,0.2,2.5,1.2l2.3,6.7C33.4,11.3,32.9,12.5,31.8,12.9z" />
+                                            <path d="M49.9,35.5l-1-3c-0.3-0.9-1.2-1.3-2-1l-18.2,6.3c1.9,1.2,3.2,3.2,3.6,5.5l16.7-5.7
+  C49.8,37.3,50.2,36.4,49.9,35.5z" />
                                             <path
                                                 d="M24.3,39.1c-3,0-5.5,2.5-5.5,5.5c0,3,2.5,5.5,5.5,5.5s5.5-2.5,5.5-5.5C29.8,41.5,27.3,39.1,24.3,39.1z" />
                                         </g>
@@ -277,19 +217,23 @@
                                             <thead>
                                                 <tr>
                                                     <th rowspan="2" class="w-1/5">@lang('messages.goods')</th>
-                                                    <th rowspan="2" class="w-auto">@lang('messages.unit')</th>
-                                                    <th colspan="3"
-                                                        class="w-auto border-b border-1 border-primary-500 dark:border-primary-700">
-                                                        @lang('messages.stock')
+                                                    <th colspan="2"
+                                                        class="w-auto border-b border-1 border-primary-50 dark:border-primary-700">
+                                                        @lang('messages.physic')
                                                     </th>
-                                                    <th rowspan="2" class="w-auto">@lang('messages.description')</th>
                                                     <th rowspan="2" class="w-1/12">@lang('messages.minstock')</th>
+                                                    <th rowspan="2" class="w-auto">@lang('messages.description')</th>
+                                                    <th colspan="2"
+                                                        class="w-auto border-b border-1 border-primary-50 dark:border-primary-700">
+                                                        @lang('messages.adjustment')
+                                                    </th>
                                                     <th rowspan="2" class="w-auto">&nbsp;</th>
                                                 </tr>
                                                 <tr>
-                                                    <th class="w-1/12">@lang('messages.system')</th>
-                                                    <th class="w-1/12">@lang('messages.physic')</th>
-                                                    <th class="w-1/12">@lang('messages.difference')</th>
+                                                    <th class="w-auto">@lang('messages.unit')</th>
+                                                    <th class="w-1/6">@lang('messages.stock')</th>
+                                                    <th class="w-auto">@lang('messages.unit')</th>
+                                                    <th class="w-1/6">@lang('messages.stock')</th>
                                                 </tr>
                                             </thead>
 
@@ -308,10 +252,8 @@
                                                         <input type="hidden" id="master_id" name="master_id"
                                                             value="{{ $datas->id }}" />
                                                         <input type="hidden" id="harga_beli" name="harga_beli" />
-                                                        <input type="hidden" id="before_satuan_id"
-                                                            name="before_satuan_id" />
-                                                        <input type="hidden" id="selisih_satuan_id"
-                                                            name="selisih_satuan_id" />
+                                                        <input type="hidden" id="stock_record"
+                                                            name="stock_record" />
                                                         <select id="barang_id" name="barang_id" required
                                                             tabindex="9"
                                                             class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
@@ -335,23 +277,30 @@
                                                     </td>
                                                     <td class="align-top">
                                                         <x-text-input type="number" min="0" step="0.01"
-                                                            id="before_stock" name="before_stock" tabindex="11" />
+                                                            id="stock" name="stock" required tabindex="11" />
                                                     </td>
                                                     <td class="align-top">
                                                         <x-text-input type="number" min="0" step="0.01"
-                                                            id="stock" name="stock" required tabindex="12" />
-                                                    </td>
-                                                    <td class="align-top">
-                                                        <x-text-input type="number" min="0" step="0.01"
-                                                            id="selisih_stock" name="selisih_stock" tabindex="13" />
+                                                            id="minstock" name="minstock" required tabindex="12" />
                                                     </td>
                                                     <td class="align-top">
                                                         <x-text-input type="text" id="keterangan"
-                                                            name="keterangan" tabindex="14" />
+                                                            name="keterangan" tabindex="13" />
+                                                    </td>
+                                                    <td class="align-top">
+                                                        <select id="adjust_satuan_id" name="adjust_satuan_id"
+                                                            tabindex="14"
+                                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                                            <option value="">@lang('messages.choose')...</option>
+                                                            @foreach ($satuans as $id => $name)
+                                                                <option value="{{ $id }}">
+                                                                    {{ $name }}</option>
+                                                            @endforeach
+                                                        </select>
                                                     </td>
                                                     <td class="align-top">
                                                         <x-text-input type="number" min="0" step="0.01"
-                                                            id="minstock" name="minstock" required tabindex="15" />
+                                                            id="adjust_stock" name="adjust_stock" tabindex="15" />
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -360,7 +309,7 @@
                                     </div>
 
                                     <div class="mt-4 mb-4 mr-4 flex flex-row flex-wrap justify-end gap-2 md:gap-4">
-                                        <x-primary-button id="submit-detail" tabindex="16"
+                                        <x-primary-button id="submit-detail" tabindex="14"
                                             x-bind:disabled="buttonDisabled">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -370,7 +319,7 @@
                                             </svg>
                                             <span class="pl-1">@lang('messages.save')</span>
                                         </x-primary-button>
-                                        <x-anchor-secondary href="{{ route('stock-opname.index') }}" tabindex="17">
+                                        <x-anchor-secondary href="{{ route('stock-opname.index') }}" tabindex="15">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                 class="size-5">
@@ -461,9 +410,9 @@
 
                 $("#stock").on("change keyup paste", function() {
                     var xst1 = $('#stock').val();
-                    var xst2 = $('#before_stock').val();
+                    var xst2 = $('#stock_record').val();
                     var xadjust = xst1 - xst2;
-                    $('#selisih_stock').val(xadjust);
+                    $('#adjust_stock').val(xadjust);
                 });
 
                 $("#barang_id").on("change keyup paste", function() {
@@ -479,13 +428,12 @@
                             var p3 = result.p3;
                             var p4 = result.p4;
                             $('#satuan_id').val(p1);
-                            $('#before_satuan_id').val(p1);
-                            $('#selisih_satuan_id').val(p1);
-                            $('#before_stock').val(p2);
+                            $('#adjust_satuan_id').val(p1);
+                            $('#stock').val(p2);
+                            $('#stock_record').val(p2);
                             $('#minstock').val(p3);
                             $('#harga_beli').val(p4);
-                            $('#stock').val(0);
-                            $('#selisih_stock').val(0);
+                            $('#adjust_stock').val(0);
                             $('#stock').focus();
                         }
                     });

@@ -65,10 +65,21 @@
                                         <label for="nama"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.locationname')</label>
                                         <x-text-input type="text" name="nama" id="nama" tabindex="2"
+                                            required
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.locationname') }}"
-                                            required value="{{ old('nama', $datas->nama) }}" />
+                                            value="{{ old('nama', $datas->nama) }}" />
 
                                         <x-input-error class="mt-2" :messages="$errors->get('nama')" />
+                                    </div>
+
+                                    <div class="w-auto pb-4">
+                                        <label for="keterangan"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</label>
+                                        <x-text-input type="text" name="keterangan" id="keterangan" tabindex="3"
+                                            placeholder="{{ __('messages.enter') }} {{ __('messages.description') }}"
+                                            value="{{ old('keterangan', $datas->keterangan) }}" />
+
+                                        <x-input-error class="mt-2" :messages="$errors->get('keterangan')" />
                                     </div>
                                 </div>
 
@@ -76,21 +87,43 @@
                                     <div class="w-auto pb-4">
                                         <label for="alamat"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.locationaddress')</label>
-                                        <x-text-input type="text" name="alamat" id="alamat" tabindex="3"
+                                        <x-text-input type="text" name="alamat" id="alamat" tabindex="4"
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.locationaddress') }}"
                                             required value="{{ old('alamat', $datas->alamat) }}" />
 
                                         <x-input-error class="mt-2" :messages="$errors->get('alamat')" />
                                     </div>
 
-                                    <div class="w-auto pb-4 lg:pb-12">
-                                        <label for="keterangan"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</label>
-                                        <x-text-input type="text" name="keterangan" id="keterangan" tabindex="4"
-                                            placeholder="{{ __('messages.enter') }} {{ __('messages.description') }}"
-                                            required value="{{ old('keterangan', $datas->keterangan) }}" />
+                                    <div class="w-auto pb-4">
+                                        <label for="propinsi_id"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.propinsi')</label>
+                                        <select name="propinsi_id" id="propinsi_id" tabindex="5" required
+                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                            <option value="">@lang('messages.choose')...</option>
+                                            @foreach ($propinsis as $id => $name)
+                                                <option value="{{ $id }}"
+                                                    {{ $datas->propinsi_id == $id ? 'selected' : '' }}>
+                                                    {{ $name }}</option>
+                                            @endforeach
+                                        </select>
 
-                                        <x-input-error class="mt-2" :messages="$errors->get('keterangan')" />
+                                        <x-input-error class="mt-2" :messages="$errors->get('propinsi_id')" />
+                                    </div>
+
+                                    <div class="w-auto pb-4 lg:pb-12">
+                                        <label for="kabupaten_id"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.kabupaten')</label>
+                                        <select name="kabupaten_id" id="kabupaten_id" tabindex="6" required
+                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                            <option value="">@lang('messages.choose')...</option>
+                                            @foreach ($kabupatens as $id => $name)
+                                                <option value="{{ $id }}"
+                                                    {{ $datas->kabupaten_id == $id ? 'selected' : '' }}>
+                                                    {{ $name }}</option>
+                                            @endforeach
+                                        </select>
+
+                                        <x-input-error class="mt-2" :messages="$errors->get('kabupaten_id')" />
                                     </div>
 
                                     <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
@@ -108,16 +141,18 @@
                                         </div>
 
                                         <x-primary-button type="submit" class="block" tabindex="6">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="currentColor" class="size-5">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                class="size-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
                                             </svg>
                                             <span class="pl-1">@lang('messages.save')</span>
                                         </x-primary-button>
                                         <x-anchor-secondary href="{{ route('gudang.index') }}" tabindex="7">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="currentColor" class="size-5">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                class="size-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M6 18 18 6M6 6l12 12" />
                                             </svg>
@@ -135,5 +170,40 @@
     </form>
 
     @push('scripts')
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <script>
+            $("#propinsi_id").on("change keyup paste", function() {
+                var xpr = $('#propinsi_id option:selected').val();
+                if (xpr.trim()) {
+                    xprop = xpr;
+                } else {
+                    xprop = '_';
+                }
+
+                $.ajax({
+                    url: '{{ url('/marketing/kecamatan/depend-drop-kab') }}' + "/" + xprop,
+                    type: "GET",
+                    dataType: 'json',
+                    success: function(result) {
+                        $('#kabupaten_id').empty();
+                        $('#kabupaten_id').append($('<option>', {
+                            value: null,
+                            text: "{{ __('messages.choose') }}..."
+                        }));
+                        var data = result.kabs;
+                        $.each(data, function(item, index) {
+                            $('#kabupaten_id').append($('<option>', {
+                                value: index,
+                                text: item,
+                                selected: (index === {{ $datas->kabupaten_id }} ?
+                                    true : false)
+                            }));
+                        });
+                        $("#kabupaten_id").focus();
+                    }
+                });
+            });
+        </script>
     @endpush
 </x-app-layout>

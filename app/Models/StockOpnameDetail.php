@@ -19,6 +19,8 @@ class StockOpnameDetail extends Model
         'before_stock',
         'before_minstock',
         'before_satuan_id',
+        'selisih_stock',
+        'selisih_satuan_id',
         'keterangan',
         'adjust_stock',
         'adjust_satuan_id',
@@ -42,6 +44,16 @@ class StockOpnameDetail extends Model
     public function satuan()
     {
         return $this->belongsTo(Satuan::class);
+    }
+
+    public function before_satuan()
+    {
+        return $this->belongsTo(Satuan::class, 'before_satuan_id');
+    }
+
+    public function selisih_satuan()
+    {
+        return $this->belongsTo(Satuan::class, 'selisih_satuan_id');
     }
 
     public function adjust_satuan()

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('gudangs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('branch_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('kabupaten_id')->constrained()->onUpdate('cascade')->onDelete('set null');
             $table->string('kode');
             $table->string('nama');
             $table->string('alamat')->nullable();

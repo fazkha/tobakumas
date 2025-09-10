@@ -5,22 +5,22 @@
                 <x-text-span>{{ $detail->barang->nama }}</x-text-span>
             </td>
             <td class="align-top">
-                <x-text-span>{{ $detail->satuan_id ? $detail->satuan->singkatan : '-' }}</x-text-span>
-            </td>
-            <td class="align-top text-right">
-                <x-text-span>{{ $detail->before_stock ? number_format($detail->before_stock, 2, ',', '.') : '-' }}</x-text-span>
+                <x-text-span>{{ $detail->satuan->singkatan }}</x-text-span>
             </td>
             <td class="align-top text-right">
                 <x-text-span>{{ number_format($detail->stock, 2, ',', '.') }}</x-text-span>
             </td>
             <td class="align-top text-right">
-                <x-text-span>{{ $detail->selisih_stock ? number_format($detail->selisih_stock, 2, ',', '.') : '-' }}</x-text-span>
+                <x-text-span>{{ number_format($detail->minstock, 2, ',', '.') }}</x-text-span>
             </td>
             <td class="align-top">
                 <x-text-span>{{ $detail->keterangan ? $detail->keterangan : '-' }}</x-text-span>
             </td>
+            <td class="align-top">
+                <x-text-span>{{ $detail->adjust_satuan_id ? $detail->adjust_satuan->singkatan : '-' }}</x-text-span>
+            </td>
             <td class="align-top text-right">
-                <x-text-span>{{ number_format($detail->minstock, 2, ',', '.') }}</x-text-span>
+                <x-text-span>{{ $detail->adjust_stock ? number_format($detail->adjust_stock, 2, ',', '.') : '-' }}</x-text-span>
             </td>
             @if ($viewMode == false)
                 <td class="align-top">

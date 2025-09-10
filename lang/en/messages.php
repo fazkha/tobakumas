@@ -222,6 +222,8 @@ return [
     'adjustmentunit' => 'Adjustment Unit',
     'adjustmentstock' => 'Adjustment Stock',
     'physic' => 'Physic',
+    'system' => 'System',
+    'difference' => 'Diffrerence',
     'print' => 'Print',
     'printed' => 'Printed',
     'invoice' => 'Invoice',
