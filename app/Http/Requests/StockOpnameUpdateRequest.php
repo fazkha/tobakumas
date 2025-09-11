@@ -16,10 +16,12 @@ class StockOpnameUpdateRequest extends FormRequest
         return [
             'gudang_id' => ['required', 'exists:gudangs,id'],
             'tanggal' => ['nullable', 'date'],
+            'tanggal_adjustment' => ['nullable', 'date'],
             'petugas_1_id' => ['nullable'],
             'petugas_2_id' => ['nullable'],
             'tanggungjawab_id' => ['nullable'],
             'keterangan' => ['nullable'],
+            'keterangan_adjustment' => ['nullable'],
         ];
     }
 }

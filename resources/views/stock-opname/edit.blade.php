@@ -312,6 +312,10 @@
                                                             name="before_satuan_id" />
                                                         <input type="hidden" id="selisih_satuan_id"
                                                             name="selisih_satuan_id" />
+                                                        <input type="hidden" id="adjust_satuan_id"
+                                                            name="adjust_satuan_id" />
+                                                        <input type="hidden" id="adjust_stock"
+                                                            name="adjust_stock" />
                                                         <select id="barang_id" name="barang_id" required
                                                             tabindex="9"
                                                             class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
@@ -464,6 +468,7 @@
                     var xst2 = $('#before_stock').val();
                     var xadjust = xst1 - xst2;
                     $('#selisih_stock').val(xadjust);
+                    $('#adjust_stock').val(xadjust);
                 });
 
                 $("#barang_id").on("change keyup paste", function() {
@@ -481,11 +486,13 @@
                             $('#satuan_id').val(p1);
                             $('#before_satuan_id').val(p1);
                             $('#selisih_satuan_id').val(p1);
+                            $('#adjust_satuan_id').val(p1);
                             $('#before_stock').val(p2);
                             $('#minstock').val(p3);
                             $('#harga_beli').val(p4);
                             $('#stock').val(0);
                             $('#selisih_stock').val(0);
+                            $('#adjust_stock').val(0);
                             $('#stock').focus();
                         }
                     });

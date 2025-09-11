@@ -344,6 +344,7 @@
                 substr(request()->getRequestUri(), 0, 17) == '/warehouse/gudang' ||
                 substr(request()->getRequestUri(), 0, 16) == '/warehouse/goods' ||
                 substr(request()->getRequestUri(), 0, 23) == '/warehouse/stock-opname' ||
+                substr(request()->getRequestUri(), 0, 27) == '/warehouse/stock-adjustment' ||
                 substr(request()->getRequestUri(), 0, 27) == '/warehouse/purchase-receipt'
                     ? '{isActive: true, open: true, currentlyOpen: "' . $controllerName . '"}'
                     : '{isActive: false, open: false}' }}">
@@ -480,6 +481,29 @@
                                         </svg>
                                     </span>
                                     @lang('messages.stockopname')
+                                </span>
+                            </a>
+                        </div>
+                    @endcan
+                    @can('stopname-list')
+                        <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="warehouse">
+                            <a href="{{ route('stock-adjustment.index') }}" role="menuitem"
+                                class="block p-2 text-sm text-gray-500 transition-colors duration-200 rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary">
+                                <span class="flex flex-row gap-1"
+                                    :class="{
+                                        'border-b border-b-1 border-primary-100 dark:border-primary-700': currentlyOpen ==
+                                            'stockadjustment'
+                                    }">
+                                    <span aria-hidden="true">
+                                        <svg class="w-5 h-5" viewBox="0 0 16 16" version="1.1"
+                                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <path fill="currentColor"
+                                                d="M12 6v-6h-8v6h-4v7h16v-7h-4zM7 12h-6v-5h2v1h2v-1h2v5zM5 6v-5h2v1h2v-1h2v5h-6zM15 12h-6v-5h2v1h2v-1h2v5z">
+                                            </path>
+                                            <path fill="currentColor" d="M0 16h3v-1h10v1h3v-2h-16v2z"></path>
+                                        </svg>
+                                    </span>
+                                    @lang('messages.stockadjustment')
                                 </span>
                             </a>
                         </div>

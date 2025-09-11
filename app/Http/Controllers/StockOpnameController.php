@@ -190,7 +190,13 @@ class StockOpnameController extends Controller implements HasMiddleware
         $datas = StockOpname::find(Crypt::decrypt($request->stock_opname));
         $details = StockOpnameDetail::where('stock_opname_id', Crypt::decrypt($request->stock_opname))->get();
 
-        return view('stock-opname.show', compact(['datas', 'details']));
+        if (session('documents')) {
+            $namafile = session('documents');
+        } else {
+            $namafile = Crypt::decrypt($request->stock_opname) . '-stockopname_' . str_replace('@', '(at)', str_replace('.', '_', auth()->user()->email)) . '.pdf';
+        }
+
+        return view('stock-opname.show', compact(['datas', 'details']))->with('documents', $namafile);
     }
 
     public function edit(Request $request): View
@@ -289,8 +295,8 @@ class StockOpnameController extends Controller implements HasMiddleware
             'before_satuan_id' => $request->before_satuan_id,
             'selisih_stock' => $request->selisih_stock,
             'selisih_satuan_id' => $request->selisih_satuan_id,
-            'adjust_stock' => $request->selisih_stock,
-            'adjust_satuan_id' => $request->selisih_satuan_id,
+            'adjust_stock' => $request->adjust_stock,
+            'adjust_satuan_id' => $request->adjust_satuan_id,
             'created_by' => auth()->user()->email,
             'updated_by' => auth()->user()->email,
         ]);

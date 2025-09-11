@@ -22,6 +22,7 @@ class StockOpnameDetail extends Model
         'selisih_stock',
         'selisih_satuan_id',
         'keterangan',
+        'keterangan_adjustment',
         'adjust_stock',
         'adjust_satuan_id',
         'adjust_harga',

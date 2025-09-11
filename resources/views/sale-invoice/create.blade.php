@@ -104,9 +104,9 @@
                                     </div>
 
                                     <div class="w-auto pb-4">
-                                        <label for="total_harga"
+                                        <span for="total_harga"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.totalprice')
-                                            (Rp.)</label>
+                                            (Rp.)</span>
                                         <x-text-span id="disp-total_harga">{{ old('total_harga', 0) }}</x-text-span>
                                         <x-text-input type="hidden" name="total_harga" id="total_harga"
                                             value="{{ old('total_harga') }}" />
@@ -115,8 +115,8 @@
                                     </div>
 
                                     <div class="w-auto pb-4 lg:pb-12">
-                                        <label for="no_order"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.ordernumber')</label>
+                                        <span for="no_order"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.ordernumber')</span>
                                         <x-text-span
                                             id="disp-no_order">{{ old('no_order', config('custom.so_prefix') . '/---/---/----/--/---') }}</x-text-span>
                                         <x-text-input type="hidden" name="no_order" id="no_order"

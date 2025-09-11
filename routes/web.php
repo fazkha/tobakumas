@@ -31,6 +31,7 @@ use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\SaleInvoiceController;
 use App\Http\Controllers\SaleOrderController;
 use App\Http\Controllers\SatuanController;
+use App\Http\Controllers\StockAdjustmentController;
 use App\Http\Controllers\StockOpnameController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
@@ -132,6 +133,11 @@ Route::prefix('warehouse')->middleware('auth')->group(function () {
     Route::get('stock-opname/fetchdb/{pp}/{gudang}/{tanggal}', [StockOpnameController::class, 'fetchdb'])->defaults('tanggal', '_');
     Route::post('stock-opname/store-detail/{detail}', [StockOpnameController::class, 'storeDetail']);
     Route::delete('stock-opname/delete-detail/{detail}', [StockOpnameController::class, 'deleteDetail']);
+
+    Route::resource('stock-adjustment', StockAdjustmentController::class);
+    Route::get('stock-adjustment/{stock_adjustment}/print', [StockAdjustmentController::class, 'print'])->name('stock-adjustment.print');
+    Route::get('stock-adjustment/fetchdb/{pp}/{gudang}/{tanggal}', [StockAdjustmentController::class, 'fetchdb'])->defaults('tanggal', '_');
+    Route::post('stock-adjustment/update-detail/{detail}', [StockAdjustmentController::class, 'updateDetail']);
 
     Route::resource('purchase-receipt', PurchaseReceiptController::class)->names('purchase-receipt');
     Route::get('purchase-receipt/fetchdb/{pp}/{isactive}/{tunai}/{supplier}/{no_order}/{tanggal}', [PurchaseReceiptController::class, 'fetchdb'])->defaults('no_order', '_')->defaults('tanggal', '_');

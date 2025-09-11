@@ -77,8 +77,8 @@
                                     </div>
 
                                     <div class="w-auto pb-4">
-                                        <label for="no_order"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.salesordernumber')</label>
+                                        <span for="no_order"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.salesordernumber')</span>
                                         <x-text-span>{{ $datas->order->no_order }}</x-text-span>
                                     </div>
                                 </div>

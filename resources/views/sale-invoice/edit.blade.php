@@ -49,8 +49,8 @@
 
                                     <div class="w-auto pb-4">
                                         <input type="hidden" name="branch_id" value="{{ $branch_id }}" />
-                                        <label for="customer_id"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.customer')</label>
+                                        <span for="customer_id"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.customer')</span>
                                         <x-text-span>{{ $datas->customer->nama }}</x-text-span>
                                         <div class="hidden">
                                             <select name="customer_id" id="customer_id" tabindex="1" required
@@ -69,8 +69,8 @@
                                     </div>
 
                                     <div class="w-auto pb-4">
-                                        <label for="tanggal"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.transactiondate')</label>
+                                        <span for="tanggal"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.transactiondate')</span>
                                         <x-text-span>{{ date_format(date_create($datas->tanggal), 'd/m/Y') }}</x-text-span>
                                         <div class="hidden">
                                             <x-text-input type="date" name="tanggal" id="tanggal"
@@ -120,9 +120,9 @@
                                     </div>
 
                                     <div class="w-auto pb-4">
-                                        <label for="total_harga"
+                                        <span for="total_harga"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.totalprice')
-                                            (Rp.)</label>
+                                            (Rp.)</span>
                                         <x-text-span
                                             id="disp-total_harga-master">{{ number_format($totals['total_price'], 0, ',', '.') }}</x-text-span>
                                         <x-text-input type="hidden" name="total_harga" id="total_harga"
@@ -132,8 +132,8 @@
                                     </div>
 
                                     <div class="w-auto pb-4 lg:pb-12">
-                                        <label for="no_order"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.ordernumber')</label>
+                                        <span for="no_order"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.ordernumber')</span>
                                         <x-text-span
                                             id="disp-no_order">{{ old('no_order', $datas->no_order) }}</x-text-span>
                                         <x-text-input type="hidden" name="no_order" id="no_order"

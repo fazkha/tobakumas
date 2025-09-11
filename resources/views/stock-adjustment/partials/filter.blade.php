@@ -32,15 +32,15 @@
                         <select id="pp-dropdown"
                             class="text-sm px-2 leading-tight pl-28 pr-9 py-2 appearance-none w-full h-full rounded-md border block bg-primary-20 border-primary-100 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800">
                             <option
-                                {{ session('stock-opname_pp') == config('custom.list_per_page_opt_1') ? 'selected' : '' }}
+                                {{ session('stock-adjustment_pp') == config('custom.list_per_page_opt_1') ? 'selected' : '' }}
                                 value="{{ config('custom.list_per_page_opt_1') }}">
                                 {{ config('custom.list_per_page_opt_1') }}</option>
                             <option
-                                {{ session('stock-opname_pp') == config('custom.list_per_page_opt_2') ? 'selected' : '' }}
+                                {{ session('stock-adjustment_pp') == config('custom.list_per_page_opt_2') ? 'selected' : '' }}
                                 value="{{ config('custom.list_per_page_opt_2') }}">
                                 {{ config('custom.list_per_page_opt_2') }}</option>
                             <option
-                                {{ session('stock-opname_pp') == config('custom.list_per_page_opt_3') ? 'selected' : '' }}
+                                {{ session('stock-adjustment_pp') == config('custom.list_per_page_opt_3') ? 'selected' : '' }}
                                 value="{{ config('custom.list_per_page_opt_3') }}">
                                 {{ config('custom.list_per_page_opt_3') }}</option>
                         </select>
@@ -56,10 +56,11 @@
                             class="w-24 text-xs h-full absolute inset-y-0 left-0 flex items-center px-2 border-r border-primary-100 dark:border-primary-800">@lang('messages.warehouse')</span>
                         <select id="gudang-dropdown"
                             class="text-sm px-2 leading-tight pl-28 pr-9 py-2 appearance-none w-full h-full rounded-md border block bg-primary-20 border-primary-100 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800">
-                            <option {{ session('stock-opname_gudang_id') == 'all' ? 'selected' : '' }} value="all">
+                            <option {{ session('stock-adjustment_gudang_id') == 'all' ? 'selected' : '' }}
+                                value="all">
                                 @lang('messages.all')</option>
                             @foreach ($gudangs as $id => $name)
-                                <option {{ session('stock-opname_gudang_id') == $id ? 'selected' : '' }}
+                                <option {{ session('stock-adjustment_gudang_id') == $id ? 'selected' : '' }}
                                     value="{{ $id }}">{{ $name }}</option>
                             @endforeach
                         </select>
@@ -72,7 +73,7 @@
                         <span
                             class="w-24 text-xs h-full absolute inset-y-0 left-0 flex items-center px-2 border-r border-primary-100 dark:border-primary-800">@lang('calendar.date')</span>
                         <input id="search-tanggal" type="date" placeholder="@lang('messages.search')"
-                            value="{{ session('stock-opname_tanggal') == '_' ? '' : session('stock-opname_tanggal') }}"
+                            value="{{ session('stock-adjustment_tanggal') == '_' ? '' : session('stock-adjustment_tanggal') }}"
                             class="text-sm pl-28 pr-6 pt-1.5 pb-2 appearance-none rounded-md border block w-full bg-primary-20 border-primary-100 placeholder-gray-400 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800" />
                     </div>
                 </div>
@@ -80,16 +81,6 @@
 
         </div>
 
-        <div>
-            @can('stopname-create')
-                <x-anchor-primary href="{{ route('stock-opname.create') }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="size-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                    </svg>
-                    <span class="pl-1">@lang('messages.new')</span>
-                </x-anchor-primary>
-            @endcan
-        </div>
+        <div>&nbsp;</div>
     </div>
 </div>

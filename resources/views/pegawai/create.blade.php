@@ -75,8 +75,8 @@
 
                                 <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
                                     <div class="w-auto pb-4">
-                                        <label
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.gender')</label>
+                                        <span
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.gender')</span>
                                         <x-text-span>
                                             <div class="flex flex-row gap-6">
                                                 <label class="relative flex items-center cursor-pointer">

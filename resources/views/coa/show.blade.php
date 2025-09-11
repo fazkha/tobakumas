@@ -40,8 +40,8 @@
                             <div class="flex flex-col lg:flex-row">
                                 <div class="w-full lg:w-1/2 px-2">
                                     <div class="pb-4">
-                                        <label
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">Title</label>
+                                        <span
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">Title</span>
                                         <x-text-span>{{ $datas->title }}</x-text-span>
                                     </div>
 
@@ -62,17 +62,17 @@
                                     </div>
 
                                     <div class="pb-4">
-                                        <label for="educationlevel_id"
+                                        <span for="educationlevel_id"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">Educational
-                                            Level</label>
+                                            Level</span>
                                         <x-text-span>{{ $datas->educationlevel->name }}</x-text-span>
                                     </div>
                                 </div>
 
                                 <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
                                     <div class="w-auto pb-4 lg:pb-12">
-                                        <label
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">Description</label>
+                                        <span
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">Description</span>
                                         <x-text-span>{{ $datas->description }}</x-text-span>
                                     </div>
 
