@@ -18,7 +18,7 @@
     <div class="flex items-center justify-start py-2.5 border-b border-primary-100 dark:border-primary-800">
         <div class="px-2">
             <a href="{{ route('dashboard') }}">
-                <x-application-logo class="!size-10" />
+                <x-application-logo class="!w-10" />
             </a>
         </div>
         <div class="text-md text-gray-800 dark:text-gray-200">{{ config('custom.company_name') }}</div>

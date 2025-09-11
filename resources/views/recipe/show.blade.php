@@ -86,10 +86,6 @@
             <div class="w-full">
                 <div class="flex flex-col items-center">
 
-                    <div class="w-full" role="alert">
-                        @include('recipe.partials.feedback')
-                    </div>
-
                     {{-- Detail --}}
                     <div
                         class="w-full shadow-lg rounded-md border bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">

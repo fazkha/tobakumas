@@ -251,30 +251,30 @@ class StockAdjustmentController extends Controller implements HasMiddleware
     {
         $id = Crypt::decrypt($request->stock_adjustment);
         $datas = StockOpname::find($id);
-        $details = StockOpnameDetail::where('stock_opname_id', $id)->get();
+        $details = StockOpnameDetail::where('stock_opname_id', $id)->where('adjust_stock', '<>', '0')->get();
 
         $namafile = $id . '-stockadjustment_' . str_replace('@', '(at)', str_replace('.', '_', auth()->user()->email)) . '.pdf';
         session()->put('documents', $namafile);
 
         if ($datas) {
             $print = true;
-            $nhari = date('w', strtotime($datas->tanggal));
-            $nbulan = date('n', strtotime($datas->tanggal)) - 1;
+            $nhari = date('w', strtotime($datas->tanggal_adjustment));
+            $nbulan = date('n', strtotime($datas->tanggal_adjustment)) - 1;
             $nbulanini = date('n') - 1;
             $hari = $this->array_hari[$nhari]['hari']['name'];
             $bulan = $this->array_bulan[$nbulan]['bulan']['name'];
             $bulanini = $this->array_bulan[$nbulanini]['bulan']['name'];
 
-            Pdf::view('stock-adjustment.pdf.perhitungan', ['datas' => $datas, 'details' => $details, 'bulanini' => $bulanini])
+            Pdf::view('stock-adjustment.pdf.penyesuaian', ['datas' => $datas, 'details' => $details, 'bulanini' => $bulanini])
                 ->orientation(Orientation::Landscape)
                 ->margins(3, 0.5, 1, 0.5, Unit::Centimeter)
-                ->headerView('stock-adjustment.pdf.perhitungan-header', ['datas' => $datas, 'hari' => $hari, 'bulan' => $bulan])
-                ->footerView('stock-adjustment.pdf.perhitungan-footer')
+                ->headerView('stock-adjustment.pdf.penyesuaian-header', ['datas' => $datas, 'hari' => $hari, 'bulan' => $bulan])
+                ->footerView('stock-adjustment.pdf.penyesuaian-footer')
                 ->format(Format::A4)
                 ->disk('pdfs')
                 ->save($namafile);
 
-            return redirect()->route('stock-adjustment.edit', Crypt::encrypt($id))->with('print', $print)->with('documents', $namafile)->with('success', __('messages.stockopname') . ' ' . __('messages.printed') . ' 👉 ' . $datas->tanggal);
+            return redirect()->route('stock-adjustment.edit', Crypt::encrypt($id))->with('print', $print)->with('documents', $namafile)->with('success', __('messages.stockopname') . ' ' . __('messages.printed') . ' 👉 ' . $datas->tanggal_adjustment);
         }
 
         return redirect()->back();
