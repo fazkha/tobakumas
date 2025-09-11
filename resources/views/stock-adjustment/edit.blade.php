@@ -117,7 +117,7 @@
                                     <div class="w-auto pb-4 lg:pb-12">
                                         <span for="tanggungjawab_id"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.supervisor')</span>
-                                        <x-text-span>{{ $datas->tanggungjawab->nama_lengkap }}</x-text-span>
+                                        <x-text-span>{{ $datas->tanggungjawab_id ? $datas->tanggungjawab->nama_lengkap : '-' }}</x-text-span>
                                     </div>
 
                                     <div class="w-auto pb-4">

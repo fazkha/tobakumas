@@ -50,4 +50,9 @@ class StockOpname extends Model
     {
         return $this->belongsTo(Pegawai::class, 'tanggungjawab_id');
     }
+
+    public function stock_opname_details()
+    {
+        return $this->hasMany(StockOpnameDetail::class);
+    }
 }

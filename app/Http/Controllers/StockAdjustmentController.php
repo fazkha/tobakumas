@@ -97,6 +97,7 @@ class StockAdjustmentController extends Controller implements HasMiddleware
         }
 
         $datas = $datas->where('branch_id', auth()->user()->profile->branch_id);
+        $datas = $datas->has('stock_opname_details');
         $datas = $datas->latest()->paginate(session('stock-adjustment_pp'));
 
         if ($request->page && $datas->count() == 0) {
@@ -134,6 +135,7 @@ class StockAdjustmentController extends Controller implements HasMiddleware
         }
 
         $datas = $datas->where('branch_id', auth()->user()->profile->branch_id);
+        $datas = $datas->has('stock_opname_details');
         $datas = $datas->latest()->paginate(session('stock-adjustment_pp'));
 
         $datas->withPath('/warehouse/stock-adjustment'); // pagination url to
