@@ -79,8 +79,8 @@
                             <div class="w-full lg:w-1/2 px-2">
 
                                 <div class="w-auto pb-4">
-                                    <label for="jenis_barang_id"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.warehouse')</label>
+                                    <span for="jenis_barang_id"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.warehouse')</span>
                                     <x-text-span>{{ $datas->gudang->nama }}</x-text-span>
                                 </div>
 
@@ -99,14 +99,14 @@
                                 </div>
 
                                 <div class="w-auto pb-4">
-                                    <label for="nama"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.nameofgoods')</label>
+                                    <span for="nama"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.nameofgoods')</span>
                                     <x-text-span>{{ $datas->nama }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
-                                    <label for="merk"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.brand')</label>
+                                    <span for="merk"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.brand')</span>
                                     <x-text-span>{{ $datas->merk }}</x-text-span>
                                 </div>
 
@@ -143,8 +143,8 @@
 
                             <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
                                 <div class="w-auto pb-4">
-                                    <label for="keterangan"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</label>
+                                    <span for="keterangan"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</span>
                                     <x-text-span>{{ $datas->keterangan }}</x-text-span>
                                 </div>
 

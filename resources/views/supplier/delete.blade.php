@@ -80,52 +80,52 @@
                             <div class="w-full lg:w-1/2 px-2">
 
                                 <div class="w-auto pb-4">
-                                    <label for="branch_id"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.branch')</label>
+                                    <span for="branch_id"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.branch')</span>
                                     <x-text-span>{{ $datas->branch->nama }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
-                                    <label for="kode"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.suppliercode')</label>
+                                    <span for="kode"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.suppliercode')</span>
                                     <x-text-span>{{ $datas->kode }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
-                                    <label for="nama"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.suppliername')</label>
+                                    <span for="nama"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.suppliername')</span>
                                     <x-text-span>{{ $datas->nama }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
-                                    <label for="alamat"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.supplieraddress')</label>
+                                    <span for="alamat"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.supplieraddress')</span>
                                     <x-text-span>{{ $datas->alamat }}</x-text-span>
                                 </div>
                             </div>
 
                             <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
                                 <div class="w-auto pb-4">
-                                    <label for="tanggal_gabung"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.joindate')</label>
+                                    <span for="tanggal_gabung"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.joindate')</span>
                                     <x-text-span>{{ date('d/m/Y', strtotime($datas->tanggal_gabung)) }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
-                                    <label for="kontak_nama"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.contactname')</label>
+                                    <span for="kontak_nama"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.contactname')</span>
                                     <x-text-span>{{ $datas->kontak_nama }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
-                                    <label for="kontak_telpon"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.contactphone')</label>
+                                    <span for="kontak_telpon"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.contactphone')</span>
                                     <x-text-span>{{ $datas->kontak_telpon }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4 lg:pb-12">
-                                    <label for="keterangan"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</label>
+                                    <span for="keterangan"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</span>
                                     <x-text-span>{{ $datas->keterangan ? $datas->keterangan : '...' }}</x-text-span>
                                 </div>
 

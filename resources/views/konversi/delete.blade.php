@@ -82,14 +82,14 @@
                             <div class="w-full lg:w-1/2 px-2">
 
                                 <div class="w-auto pb-4">
-                                    <label for="satuan_id"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.usedunit')</label>
+                                    <span for="satuan_id"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.usedunit')</span>
                                     <x-text-span>{{ $datas->satuan->nama_lengkap }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
-                                    <label for="satuan2_id"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.desiredunit')</label>
+                                    <span for="satuan2_id"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.desiredunit')</span>
                                     <x-text-span>{{ $datas->satuan2->nama_lengkap }}</x-text-span>
                                 </div>
                             </div>
@@ -121,8 +121,8 @@
                                 </div>
 
                                 <div class="w-auto pb-4 lg:pb-12">
-                                    <label for="bilangan"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.number')</label>
+                                    <span for="bilangan"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.number')</span>
                                     <x-text-span>{{ $datas->bilangan }}</x-text-span>
                                 </div>
 

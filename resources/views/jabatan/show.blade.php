@@ -35,22 +35,22 @@
                             <div class="w-full lg:w-1/2 px-2">
 
                                 <div class="w-auto pb-4">
-                                    <label for="nama"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.name')</label>
+                                    <span for="nama"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.name')</span>
                                     <x-text-span>{{ $datas->nama }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
-                                    <label for="islevel"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.positionlevel')</label>
+                                    <span for="islevel"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.positionlevel')</span>
                                     <x-text-span>{{ $datas->islevel }}</x-text-span>
                                 </div>
                             </div>
 
                             <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
                                 <div class="w-auto pb-4 lg:pb-12">
-                                    <label for="keterangan"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</label>
+                                    <span for="keterangan"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</span>
                                     <x-text-span>{{ $datas->keterangan ? $datas->keterangan : '-' }}</x-text-span>
                                 </div>
 

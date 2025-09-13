@@ -74,8 +74,8 @@
                                 </div>
 
                                 <div class="px-2 pb-2">
-                                    <label for="branch_id"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.branch')</label>
+                                    <span for="branch_id"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.branch')</span>
                                     <x-text-span>{{ $datas->profile->branch->nama }}</x-text-span>
                                 </div>
                             </x-text-span>

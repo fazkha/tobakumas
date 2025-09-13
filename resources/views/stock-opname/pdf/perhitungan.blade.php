@@ -118,14 +118,14 @@
                 <td class="w-1/3">
                     <table style="width: 100%; font-size: 14px;">
                         <tr>
-                            <td class="p-2 text-center">Petugas Opname</td>
+                            <td class="p-2 text-center">Petugas Gudang</td>
                         </tr>
                         <tr>
                             <td class="h-20">&nbsp;</td>
                         </tr>
                         <tr>
                             <td class="p-2 text-center border-t border-neutral-950">
-                                {{ $datas->petugas_1->nama_lengkap }}</td>
+                                {{ $datas->petugas_1_id ? $datas->petugas_1->nama_lengkap : '-' }}</td>
                         </tr>
                     </table>
                 </td>
@@ -140,7 +140,7 @@
                         </tr>
                         <tr>
                             <td class="p-2 text-center border-t border-neutral-950">
-                                {{ $datas->tanggungjawab->nama_lengkap }}</td>
+                                {{ $datas->tanggungjawab_id ? $datas->tanggungjawab->nama_lengkap : '-' }}</td>
                         </tr>
                     </table>
                 </td>

@@ -40,14 +40,14 @@
                             <div class="w-full lg:w-1/2 px-2">
 
                                 <div class="w-auto pb-4">
-                                    <label for="customer_id"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.customer')</label>
+                                    <span for="customer_id"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.customer')</span>
                                     <x-text-span>{{ $datas->customer->nama }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
-                                    <label for="tanggal"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.transactiondate')</label>
+                                    <span for="tanggal"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.transactiondate')</span>
                                     <x-text-span>{{ date('d/m/Y', strtotime($datas->tanggal)) }}</x-text-span>
                                 </div>
 
@@ -58,9 +58,9 @@
                                 </div>
 
                                 <div class="w-auto pb-4">
-                                    <label for="biaya_angkutan"
+                                    <span for="biaya_angkutan"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.deliverycost')
-                                        (Rp.)</label>
+                                        (Rp.)</span>
                                     <x-text-span>{{ number_format($datas->biaya_angkutan, 0, ',', '.') }}</x-text-span>
                                 </div>
                             </div>
@@ -75,25 +75,10 @@
                                 </div>
 
                                 <div class="w-auto pb-4 lg:pb-12">
-                                    <label for="tunai"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.payment')</label>
+                                    <span for="tunai"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.payment')</span>
                                     <x-text-span>{{ $datas->tunai == 1 ? __('messages.cash') : __('messages.credit') }}</x-text-span>
                                 </div>
-
-                                {{-- <div class="w-auto pb-4 lg:pb-12">
-                                            <label for="gambar"
-                                                class="block mb-2 font-medium text-primary-600 dark:text-primary-500">Picture</label>
-                                            <x-text-input type="file" name="gambar" id="gambar" tabindex="6"
-                                                accept=".jpg,.jpeg" placeholder="Choose Image"
-                                                class="!rounded-none border" />
-    
-                                            <x-input-error class="mt-2" :messages="$errors->get('gambar')" />
-    
-                                            <div class="mt-2 flex justify-center">
-                                                <img id="image-preview" class="w-full lg:w-3/4 h-auto border rounded-lg"
-                                                    src="/images/0cd6be830e32f80192d496e50cfa9dbc.jpg" alt="o.o">
-                                            </div>
-                                        </div> --}}
 
                                 <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
                                     <div class="pr-2">

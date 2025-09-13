@@ -1,9 +1,13 @@
-@section('title', __('messages.stockopname'))
+@php
+    $documents = 'documents/' . $documents;
+@endphp
+
+@section('title', __('messages.stockadjustment'))
 
 <x-app-layout>
     <div class="flex items-center justify-between px-4 py-4 border-b border-primary-100 lg:py-6 dark:border-primary-800">
         <h1 class="text-xl flex items-center justify-center">
-            <a href="{{ route('stock-opname.index') }}" class="flex items-center justify-center">
+            <a href="{{ route('stock-adjustment.index') }}" class="flex items-center justify-center">
                 <svg class="w-7 h-7" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg"
                     xmlns:xlink="http://www.w3.org/1999/xlink">
                     <path fill="currentColor"
@@ -13,7 +17,7 @@
                 </svg>
                 <div class="relative px-2 pt-2">
                     <span class="absolute top-0 left-2 text-xs w-40">@lang('messages.warehouse')</span>
-                    <span>@lang('messages.stockopname')</span>
+                    <span>@lang('messages.stockadjustment')</span>
                 </div>
             </a>
             <span class="px-2">&raquo;</span>
@@ -21,13 +25,17 @@
         </h1>
     </div>
 
-    <div class="py-2 flex flex-col">
+    <div x-data="{
+        openModal: false,
+        modalTitle: 'Title',
+        buttonDisabled: {{ $datas->approved == 1 ? 'true' : 'false' }}
+    }" class="py-2 flex flex-col">
 
         <div class="w-full px-4 py-2">
             <div class="flex flex-col items-center">
 
                 <div class="w-full" role="alert">
-                    @include('stock-opname.partials.feedback')
+                    @include('stock-adjustment.partials.feedback')
                 </div>
 
                 {{-- Master --}}
@@ -39,43 +47,72 @@
                             <div class="w-full lg:w-1/2 px-2">
 
                                 <div class="w-auto pb-4">
-                                    <label for="gudang_id"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.warehouse')</label>
+                                    <span for="gudang_id"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.warehouse')</span>
                                     <x-text-span>{{ $datas->gudang->nama }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
-                                    <label for="tanggal"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.transactiondate')</label>
-                                    <x-text-span>{{ date('d/m/Y', strtotime($datas->tanggal)) }}</x-text-span>
+                                    <span for="tanggal_adjustment"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.adjustmentdate')</span>
+                                    <x-text-span>{{ date('d/m/Y', strtotime($datas->tanggal_adjustment)) }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
-                                    <label for="keterangan"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</label>
-                                    <x-text-span>{{ $datas->keterangan }}</x-text-span>
+                                    <span for="keterangan_adjustment"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</span>
+                                    <x-text-span>{!! nl2br($datas->keterangan_adjustment) !!}</x-text-span>
                                 </div>
                             </div>
 
                             <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
                                 <div class="w-auto pb-4">
-                                    <label for="petugas_1_id"
+                                    <span for="petugas_1_id"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.officer')
-                                        1</label>
+                                        1</span>
                                     <x-text-span>{{ $datas->petugas_1_id ? $datas->petugas_1->view_pegawai_jabatan->nama_plus : '-' }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
-                                    <label for="petugas_2_id"
+                                    <span for="petugas_2_id"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.officer')
-                                        2</label>
+                                        2</span>
                                     <x-text-span>{{ $datas->petugas_2_id ? $datas->petugas_2->view_pegawai_jabatan->nama_plus : '-' }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4 lg:pb-12">
-                                    <label for="tanggungjawab_id"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.supervisor')</label>
+                                    <span for="tanggungjawab_id"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.supervisor')</span>
                                     <x-text-span>{{ $datas->tanggungjawab_id ? $datas->tanggungjawab->view_pegawai_jabatan->nama_plus : '-' }}</x-text-span>
+                                </div>
+
+                                <div class="w-auto pb-4">
+                                    <div
+                                        class="flex flex-row flex-wrap lg:flex-nowrap items-center justify-end gap-2 md:gap-4">
+                                        <x-anchor-secondary
+                                            href="{{ route('stock-adjustment.print', ['id' => Crypt::encrypt($datas->id), 'loader' => 'show']) }}"
+                                            tabindex="0"
+                                            class="bg-indigo-700 hover:bg-indigo-800 dark:bg-indigo-900 hover:dark:bg-indigo-950">
+                                            <svg class="size-5" viewBox="0 0 15 15" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M3.5 12.5H1.5C0.947715 12.5 0.5 12.0523 0.5 11.5V7.5C0.5 6.94772 0.947715 6.5 1.5 6.5H13.5C14.0523 6.5 14.5 6.94772 14.5 7.5V11.5C14.5 12.0523 14.0523 12.5 13.5 12.5H11.5M3.5 6.5V1.5C3.5 0.947715 3.94772 0.5 4.5 0.5H10.5C11.0523 0.5 11.5 0.947715 11.5 1.5V6.5M3.5 10.5H11.5V14.5H3.5V10.5Z"
+                                                    stroke="currentColor" />
+                                            </svg>
+                                            <span class="pl-1">@lang('messages.create')</span>
+                                        </x-anchor-secondary>
+                                        <x-anchor-secondary tabindex="0"
+                                            class="bg-indigo-700 hover:bg-indigo-800 dark:bg-indigo-900 hover:dark:bg-indigo-950"
+                                            @click="openModal = true; modalTitle = '{{ __('messages.stockadjustment') }}';">
+                                            <svg class="size-5" viewBox="0 0 15 15" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M3.5 12.5H1.5C0.947715 12.5 0.5 12.0523 0.5 11.5V7.5C0.5 6.94772 0.947715 6.5 1.5 6.5H13.5C14.0523 6.5 14.5 6.94772 14.5 7.5V11.5C14.5 12.0523 14.0523 12.5 13.5 12.5H11.5M3.5 6.5V1.5C3.5 0.947715 3.94772 0.5 4.5 0.5H10.5C11.0523 0.5 11.5 0.947715 11.5 1.5V6.5M3.5 10.5H11.5V14.5H3.5V10.5Z"
+                                                    stroke="currentColor" />
+                                            </svg>
+                                            <span class="pl-1">@lang('messages.print')</span>
+                                        </x-anchor-secondary>
+                                    </div>
                                 </div>
 
                                 <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
@@ -91,7 +128,7 @@
                                         </div>
                                     </div>
 
-                                    <x-anchor-secondary href="{{ route('stock-opname.index') }}" tabindex="1">
+                                    <x-anchor-secondary href="{{ route('stock-adjustment.index') }}" tabindex="8">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-5">
                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -103,6 +140,28 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <div x-show.transition.duration.500ms="openModal"
+            class="fixed inset-0 flex items-center justify-center px-4 md:px-0 bg-white bg-opacity-75 dark:bg-black dark:bg-opacity-75">
+            <div @click.away="openModal = false"
+                class="flex flex-col p-2 h-full w-full shadow-2xl rounded-lg border-1 border-primary-100 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
+                <div class="flex justify-between mb-2">
+                    <div class="font-bold text-lg text-gray-900 dark:text-gray-50"><span x-html="modalTitle"></span>
+                    </div>
+                    <button @click="openModal = false">
+                        <svg class="w-5 h-5 text-gray-900 dark:text-gray-50" viewBox="0 0 24 24" fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M5.293 5.293a1 1 0 0 1 1.414 0L12 10.586l5.293-5.293a1 1 0 1 1 1.414 1.414L13.414 12l5.293 5.293a1 1 0 0 1-1.414 1.414L12 13.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L10.586 12 5.293 6.707a1 1 0 0 1 0-1.414z"
+                                fill="currentColor" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="flex items-center justify-center overflow-hidden rounded-lg h-full">
+                    <iframe src="{{ url($documents) }}" frameborder="0" style="width:100%; height:100%;"></iframe>
                 </div>
             </div>
         </div>
@@ -139,41 +198,45 @@
                             <div
                                 class="border rounded-md border-primary-100 bg-primary-100 dark:border-primary-800 dark:bg-primary-850">
                                 <div class="p-2 overflow-scroll md:overflow-auto lg:overflow-hidden">
-                                    <table id="order_table" class="w-full border-separate border-spacing-2">
-                                        <thead>
-                                            <tr>
-                                                <th rowspan="2" class="w-1/5">@lang('messages.goods')</th>
-                                                <th colspan="2"
-                                                    class="w-auto border-b border-1 border-primary-50 dark:border-primary-700">
-                                                    @lang('messages.physic')
-                                                </th>
-                                                <th rowspan="2" class="w-1/12">@lang('messages.minstock')</th>
-                                                <th rowspan="2" class="w-auto">@lang('messages.description')</th>
-                                                <th colspan="2"
-                                                    class="w-auto border-b border-1 border-primary-50 dark:border-primary-700">
-                                                    @lang('messages.adjustment')
-                                                </th>
-                                                <th rowspan="2" class="w-auto">&nbsp;</th>
-                                            </tr>
-                                            <tr>
-                                                <th class="w-auto">@lang('messages.unit')</th>
-                                                <th class="w-1/6">@lang('messages.stock')</th>
-                                                <th class="w-auto">@lang('messages.unit')</th>
-                                                <th class="w-1/6">@lang('messages.stock')</th>
-                                            </tr>
-                                        </thead>
 
-                                        <tbody id="detailBody">
-                                            @include('stock-opname.partials.details', [
-                                                $details,
-                                                'viewMode' => true,
-                                            ])
-                                        </tbody>
-                                    </table>
+                                    <form id="form-order" method="POST" enctype="multipart/form-data"
+                                        class="w-full">
+                                        @csrf
+
+                                        <input type="hidden" id="master_id" name="master_id"
+                                            value="{{ $datas->id }}" />
+                                        <table id="order_table" class="w-full border-separate border-spacing-2">
+                                            <thead>
+                                                <tr>
+                                                    <th rowspan="2" class="w-1/5">@lang('messages.goods')</th>
+                                                    <th rowspan="2" class="w-auto">@lang('messages.unit')</th>
+                                                    <th colspan="4"
+                                                        class="w-auto border-b border-1 border-primary-500 dark:border-primary-700">
+                                                        @lang('messages.stock')
+                                                    </th>
+                                                    <th rowspan="2" class="w-auto">@lang('messages.description')</th>
+                                                </tr>
+                                                <tr>
+                                                    <th class="w-1/12">@lang('messages.system')</th>
+                                                    <th class="w-1/12">@lang('messages.physic')</th>
+                                                    <th class="w-1/12">@lang('messages.difference')</th>
+                                                    <th class="w-1/12">@lang('messages.adjustment')</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody id="detailBody">
+                                                @include('stock-adjustment.partials.details', [
+                                                    $details,
+                                                    'viewMode' => true,
+                                                ])
+                                            </tbody>
+
+                                        </table>
+                                    </form>
                                 </div>
 
                                 <div class="mt-4 mb-4 mr-4 flex flex-row flex-wrap justify-end gap-2 md:gap-4">
-                                    <x-anchor-secondary href="{{ route('stock-opname.index') }}" tabindex="2">
+                                    <x-anchor-secondary href="{{ route('stock-adjustment.index') }}" tabindex="12">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-5">
                                             <path stroke-linecap="round" stroke-linejoin="round"

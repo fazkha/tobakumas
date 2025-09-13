@@ -45,14 +45,14 @@ S254.158,299.966,218.317,299.966z" />
                             <div class="w-full lg:w-1/2 px-2">
 
                                 <div class="w-auto pb-4">
-                                    <label for="brandivjab_id"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.jobposition')</label>
+                                    <span for="brandivjab_id"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.jobposition')</span>
                                     <x-text-span>{{ $brandivjabs->nama }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
-                                    <label for="keterangan"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</label>
+                                    <span for="keterangan"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</span>
                                     <x-text-span>{{ $datas[0]->keterangan }}</x-text-span>
                                 </div>
 
@@ -60,8 +60,8 @@ S254.158,299.966,218.317,299.966z" />
 
                             <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
                                 <div class="w-auto pb-4 lg:pb-12">
-                                    <label for="propinsis"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.region')</label>
+                                    <span for="propinsis"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.region')</span>
                                     <x-text-span>
                                         <div class="p-2 flex flex-col gap-2">
                                             @foreach ($kecamatans as $kecamatan)

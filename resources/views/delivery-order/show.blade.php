@@ -43,54 +43,54 @@
                             <div class="w-full lg:w-1/2 px-2">
 
                                 <div class="w-auto pb-4">
-                                    <label for="no_order"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.salesordernumber')</label>
+                                    <span for="no_order"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.salesordernumber')</span>
                                     <x-text-span>{{ $datas->order->no_order }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
-                                    <label for="tanggal"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.deliverydate')</label>
+                                    <span for="tanggal"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.deliverydate')</span>
                                     <x-text-span>{{ date('d/m/Y', strtotime($datas->tanggal)) }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
-                                    <label for="alamat"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.deliveryaddress')</label>
+                                    <span for="alamat"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.deliveryaddress')</span>
                                     <x-text-span>{{ $datas->alamat }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
-                                    <label for="keterangan"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</label>
+                                    <span for="keterangan"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</span>
                                     <x-text-span>{{ $datas->keterangan }}</x-text-span>
                                 </div>
                             </div>
 
                             <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
                                 <div class="w-auto pb-4">
-                                    <label for="petugas_1_id"
+                                    <span for="petugas_1_id"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.officer')
-                                        1</label>
+                                        1</span>
                                     <x-text-span>{{ $datas->petugas_1_id ? $datas->petugas_1->view_pegawai_jabatan->nama_plus : '-' }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
-                                    <label for="petugas_2_id"
+                                    <span for="petugas_2_id"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.officer')
-                                        2</label>
+                                        2</span>
                                     <x-text-span>{{ $datas->petugas_2_id ? $datas->petugas_2->view_pegawai_jabatan->nama_plus : '-' }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
-                                    <label for="pengirim_id"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.deliveryman')</label>
+                                    <span for="pengirim_id"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.deliveryman')</span>
                                     <x-text-span>{{ $datas->pengirim_id ? $datas->pengirim->view_pegawai_jabatan->nama_plus : '-' }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4 lg:pb-12">
-                                    <label for="tanggungjawab_id"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.supervisor')</label>
+                                    <span for="tanggungjawab_id"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.supervisor')</span>
                                     <x-text-span>{{ $datas->tanggungjawab_id ? $datas->tanggungjawab->view_pegawai_jabatan->nama_plus : '-' }}</x-text-span>
                                 </div>
 

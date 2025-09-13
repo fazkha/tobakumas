@@ -251,7 +251,7 @@ class StockAdjustmentController extends Controller implements HasMiddleware
 
     public function print(Request $request)
     {
-        $id = Crypt::decrypt($request->stock_adjustment);
+        $id = Crypt::decrypt($request->id);
         $datas = StockOpname::find($id);
         $details = StockOpnameDetail::where('stock_opname_id', $id)->where('adjust_stock', '<>', '0')->get();
 
@@ -276,7 +276,8 @@ class StockAdjustmentController extends Controller implements HasMiddleware
                 ->disk('pdfs')
                 ->save($namafile);
 
-            return redirect()->route('stock-adjustment.edit', Crypt::encrypt($id))->with('print', $print)->with('documents', $namafile)->with('success', __('messages.stockopname') . ' ' . __('messages.printed') . ' 👉 ' . $datas->tanggal_adjustment);
+            $route = 'stock-adjustment.' . $request->loader;
+            return redirect()->route($route, Crypt::encrypt($id))->with('print', $print)->with('documents', $namafile)->with('success', __('messages.stockopname') . ' ' . __('messages.printed') . ' 👉 ' . $datas->tanggal_adjustment);
         }
 
         return redirect()->back();

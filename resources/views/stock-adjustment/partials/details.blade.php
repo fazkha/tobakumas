@@ -21,15 +21,24 @@
             <td class="align-top text-right">
                 <x-text-span>{{ number_format($detail->selisih_stock, 2, ',', '.') }}</x-text-span>
             </td>
-            <td class="align-top">
-                <x-text-input type="number" min="0" step="0.01"
-                    name="stocks[{{ $di }}][adjust_stock]" value="{{ $detail->adjust_stock }}" required
-                    tabindex="9" />
-            </td>
-            <td class="align-top">
-                <x-text-input type="text" name="stocks[{{ $di }}][keterangan_adjustment]" tabindex="10"
-                    value="{{ $detail->keterangan_adjustment }}" />
-            </td>
+            @if ($viewMode)
+                <td class="align-top text-right">
+                    <x-text-span>{{ number_format($detail->adjust_stock, 2, ',', '.') }}</x-text-span>
+                </td>
+                <td class="align-top">
+                    <x-text-span>{{ $detail->keterangan_adjustment }}</x-text-span>
+                </td>
+            @else
+                <td class="align-top">
+                    <x-text-input type="number" min="0" step="0.01"
+                        name="stocks[{{ $di }}][adjust_stock]" value="{{ $detail->adjust_stock }}" required
+                        tabindex="9" />
+                </td>
+                <td class="align-top">
+                    <x-text-input type="text" name="stocks[{{ $di }}][keterangan_adjustment]"
+                        tabindex="10" value="{{ $detail->keterangan_adjustment }}" />
+                </td>
+            @endif
         </tr>
 
         @php

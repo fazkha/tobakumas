@@ -84,22 +84,22 @@
                             <div class="w-full lg:w-1/2 px-2">
 
                                 <div class="w-auto pb-4">
-                                    <label for="propinsi_id"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.propinsi')</label>
+                                    <span for="propinsi_id"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.propinsi')</span>
                                     <x-text-span>{{ $datas->propinsi->nama }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
-                                    <label for="nama"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.kabupaten')</label>
+                                    <span for="nama"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.kabupaten')</span>
                                     <x-text-span>{{ $datas->nama }}</x-text-span>
                                 </div>
                             </div>
 
                             <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
                                 <div class="w-auto pb-4 lg:pb-12">
-                                    <label for="keterangan"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</label>
+                                    <span for="keterangan"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</span>
                                     <x-text-span>{{ $datas->keterangan }}</x-text-span>
                                 </div>
 

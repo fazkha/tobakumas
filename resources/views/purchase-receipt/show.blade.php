@@ -53,8 +53,8 @@
                                 <div class="w-auto pb-4">
                                     <input type="hidden" name="supplier_id" value="{{ $datas->supplier_id }}" />
                                     <input type="hidden" id="order_id" value="{{ $datas->id }}" />
-                                    <label for="supplier_id"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.supplier')</label>
+                                    <span for="supplier_id"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.supplier')</span>
                                     <x-text-span>{{ $datas->supplier->nama }}</x-text-span>
                                 </div>
 
@@ -70,22 +70,22 @@
                                 </div>
 
                                 <div class="w-auto pb-4">
-                                    <label for="tanggal"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.transactiondate')</label>
+                                    <span for="tanggal"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.transactiondate')</span>
                                     <x-text-span>{{ $datas->tanggal ? date_format(date_create($datas->tanggal), 'd/m/Y') : '' }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
-                                    <label for="tunai"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.payment')</label>
+                                    <span for="tunai"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.payment')</span>
                                     <x-text-span>{{ $datas->tunai == 1 ? __('messages.cash') : __('messages.credit') }}</x-text-span>
                                 </div>
                             </div>
 
                             <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
                                 <div class="w-auto pb-4">
-                                    <label for="tanggal_terima"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.receiptdate')</label>
+                                    <span for="tanggal_terima"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.receiptdate')</span>
                                     <x-text-span>{{ $datas->tanggal_terima ? date_format(date_create($datas->tanggal_terima), 'd/m/Y') : '-' }}</x-text-span>
                                 </div>
 
@@ -109,8 +109,8 @@
                                 </div>
 
                                 <div class="w-auto pb-4 lg:pb-12">
-                                    <label for="keterangan_terima"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.receiptdescription')</label>
+                                    <span for="keterangan_terima"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.receiptdescription')</span>
                                     <x-text-span>{{ $datas->keterangan_terima ? $datas->keterangan_terima : '-' }}</x-text-span>
                                 </div>
 

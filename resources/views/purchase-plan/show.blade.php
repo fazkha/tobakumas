@@ -41,8 +41,8 @@
                             <div class="w-full lg:w-1/2 px-2">
 
                                 <div class="w-auto pb-4">
-                                    <label for="supplier_id"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.supplier')</label>
+                                    <span for="supplier_id"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.supplier')</span>
                                     <x-text-span>{{ $datas->supplier->nama }}</x-text-span>
                                 </div>
 

@@ -124,7 +124,7 @@
                                         <div
                                             class="flex flex-row flex-wrap lg:flex-nowrap items-center justify-end gap-2 md:gap-4">
                                             <x-anchor-secondary
-                                                href="{{ route('stock-adjustment.print', Crypt::encrypt($datas->id)) }}"
+                                                href="{{ route('stock-adjustment.print', ['id' => Crypt::encrypt($datas->id), 'loader' => 'edit']) }}"
                                                 tabindex="0"
                                                 class="bg-indigo-700 hover:bg-indigo-800 dark:bg-indigo-900 hover:dark:bg-indigo-950">
                                                 <svg class="size-5" viewBox="0 0 15 15" fill="none"
@@ -137,7 +137,7 @@
                                             </x-anchor-secondary>
                                             <x-anchor-secondary tabindex="0"
                                                 class="bg-indigo-700 hover:bg-indigo-800 dark:bg-indigo-900 hover:dark:bg-indigo-950"
-                                                @click="openModal = true; modalTitle = '{{ __('messages.stockopname') }}';">
+                                                @click="openModal = true; modalTitle = '{{ __('messages.stockadjustment') }}';">
                                                 <svg class="size-5" viewBox="0 0 15 15" fill="none"
                                                     xmlns="http://www.w3.org/2000/svg">
                                                     <path
