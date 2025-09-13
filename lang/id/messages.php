@@ -233,4 +233,5 @@ return [
     'saleinvoice' => 'Faktur Penjualan',
     'create' => 'Susun',
     'hke' => 'HKE',
+    'datacount' => 'Jumlah Data',
 ];

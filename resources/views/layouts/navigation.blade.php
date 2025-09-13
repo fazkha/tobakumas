@@ -534,10 +534,10 @@
                                         viewBox="0 0 329.966 329.966" style="enable-background:new 0 0 329.966 329.966;"
                                         xml:space="preserve">
                                         <path id="XMLID_822_" d="M218.317,139.966h-38.334v-45V15c0-8.284-6.716-15-15-15h-120c-8.284,0-15,6.716-15,15v79.966
-                                                c0,8.284,6.716,15,15,15h105v30h-38.334c-52.383,0-95,42.617-95,95s42.617,95,95,95h106.668c52.383,0,95-42.617,95-95
-                                                S270.7,139.966,218.317,139.966z M59.983,79.966V30h90v49.966H59.983z M218.317,299.966H111.649c-35.841,0-65-29.159-65-65
-                                                s29.159-65,65-65h38.334v65c0,8.284,6.716,15,15,15c8.284,0,15-6.716,15-15v-65h38.334c35.841,0,65,29.159,65,65
-                                                S254.158,299.966,218.317,299.966z" />
+                                                        c0,8.284,6.716,15,15,15h105v30h-38.334c-52.383,0-95,42.617-95,95s42.617,95,95,95h106.668c52.383,0,95-42.617,95-95
+                                                        S270.7,139.966,218.317,139.966z M59.983,79.966V30h90v49.966H59.983z M218.317,299.966H111.649c-35.841,0-65-29.159-65-65
+                                                        s29.159-65,65-65h38.334v65c0,8.284,6.716,15,15,15c8.284,0,15-6.716,15-15v-65h38.334c35.841,0,65,29.159,65,65
+                                                        S254.158,299.966,218.317,299.966z" />
                                     </svg>
                                     @lang('messages.brandivjabkec')
                                 </span>
@@ -678,11 +678,7 @@
                         <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="warehouse">
                             <a href="{{ route('stock-adjustment.index') }}" role="menuitem"
                                 class="block p-2 text-sm text-gray-500 transition-colors duration-200 rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary">
-                                <span class="flex flex-row gap-1"
-                                    :class="{
-                                        'border-b border-b-1 border-primary-100 dark:border-primary-700': currentlyOpen ==
-                                            'stockadjustment'
-                                    }">
+                                <span class="flex flex-row gap-1">
                                     <span aria-hidden="true">
                                         <svg class="w-5 h-5" viewBox="0 0 16 16" version="1.1"
                                             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">

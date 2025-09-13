@@ -234,4 +234,5 @@ return [
     'saleinvoice' => 'Sale Invoice',
     'create' => 'Create',
     'hke' => 'EWD',
+    'datacount' => 'Data Count',
 ];

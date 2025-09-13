@@ -291,8 +291,6 @@ class StockOpnameController extends Controller implements HasMiddleware
             'stock' => $request->stock,
             'minstock' => $request->minstock,
             'keterangan' => $request->keterangan,
-            'before_stock' => $request->before_stock,
-            'before_satuan_id' => $request->before_satuan_id,
             'selisih_stock' => $request->selisih_stock,
             'selisih_satuan_id' => $request->selisih_satuan_id,
             'adjust_stock' => $request->adjust_stock,
@@ -300,6 +298,8 @@ class StockOpnameController extends Controller implements HasMiddleware
             'created_by' => auth()->user()->email,
             'updated_by' => auth()->user()->email,
         ]);
+        // 'before_stock' => $request->before_stock,
+        // 'before_satuan_id' => $request->before_satuan_id,
         // 'adjust_by' => $request->adjust_stock ? auth()->user()->email : NULL,
         // 'adjust_at' => $request->adjust_stock ? date('Y-m-d H:i:s') : NULL,
         // 'adjust_harga' => $request->adjust_harga, ===> otomatis dari trigger trg_stock_opname_details_before_insert

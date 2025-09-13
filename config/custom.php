@@ -55,4 +55,7 @@ return [
 
     // total_baris_tabel_laporan_suratjalan
     'total_baris_suratjalan' => 19,
+
+    // pdf baris per halaman indikator ganti halaman
+    'pdf_line_per_page' => 20,
 ];

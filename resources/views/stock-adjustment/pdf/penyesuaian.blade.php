@@ -52,7 +52,7 @@
 <body>
     @php
         $i = 1;
-        $pg = 1;
+        $pdf_line_per_page = config('custom.pdf_line_per_page');
     @endphp
     <div class="table_container">
         <table>
@@ -94,6 +94,10 @@
             </tbody>
         </table>
     </div>
+
+    @if (($i - 1) % $pdf_line_per_page == 0)
+        @pageBreak
+    @endif
 
     <div class="p-4">
         <table style="width: 100%; font-size: 14px;">

@@ -28,7 +28,7 @@
         <!-- Sidebar links -->
         <nav aria-label="Main" class="flex-1 max-h-[100%] px-2 py-4 space-y-2 overflow-y-hidden hover:overflow-y-auto">
 
-            <div x-data="{{ request()->getRequestUri() == '/admin/dashboard' ? '{isActive: true, open: true, currentlyOpen: "' . $controllerName . '"}' : '{isActive: false, open: false}' }}">
+            <div x-data="{{ request()->getRequestUri() == '/admin/dashboard' ? '{isActive: true, open: true, currentlyOpen: "' . $controllerName . '"}' : '{isActive: false, open: false, currentlyOpen: ""}' }}">
                 <a href="{{ route('dashboard') }}"
                     class="flex items-center p-2 transition-colors rounded-md text-gray-600 hover:bg-primary-100 dark:text-light dark:hover:bg-primary"
                     :class="{ 'bg-primary-100 dark:bg-primary': isActive || open }" aria-haspopup="true"
@@ -51,7 +51,7 @@
                 substr(request()->getRequestUri(), 0, 23) == '/general-affair/jabatan' ||
                 substr(request()->getRequestUri(), 0, 26) == '/general-affair/brandivjab'
                     ? '{isActive: true, open: true, currentlyOpen: "' . $controllerName . '"}'
-                    : '{isActive: false, open: false}' }}">
+                    : '{isActive: false, open: false, currentlyOpen: ""}' }}">
                     <a href="#" @click="$event.preventDefault(); open = !open"
                         class="flex items-center p-2 text-gray-600 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary"
                         :class="{ 'bg-primary-100 dark:bg-primary': isActive || open }" role="button" aria-haspopup="true"
@@ -176,7 +176,7 @@
             @can('pegawai-list')
                 <div x-data="{{ substr(request()->getRequestUri(), 0, 24) == '/human-resource/employee'
                     ? '{isActive: true, open: true, currentlyOpen: "' . $controllerName . '"}'
-                    : '{isActive: false, open: false}' }}">
+                    : '{isActive: false, open: false, currentlyOpen: ""}' }}">
                     <a href="#" @click="$event.preventDefault(); open = !open"
                         class="flex items-center p-2 text-gray-600 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary"
                         :class="{ 'bg-primary-100 dark:bg-primary': isActive || open }" role="button"
@@ -231,7 +231,7 @@
                 substr(request()->getRequestUri(), 0, 20) == '/marketing/kecamatan' ||
                 substr(request()->getRequestUri(), 0, 24) == '/marketing/brandivjabkec'
                     ? '{isActive: true, open: true, currentlyOpen: "' . $controllerName . '"}'
-                    : '{isActive: false, open: false}' }}">
+                    : '{isActive: false, open: false, currentlyOpen: ""}' }}">
                     <a href="#" @click="$event.preventDefault(); open = !open"
                         class="flex items-center p-2 text-gray-600 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary"
                         :class="{ 'bg-primary-100 dark:bg-primary': isActive || open }" role="button"
@@ -347,7 +347,7 @@
                 substr(request()->getRequestUri(), 0, 27) == '/warehouse/stock-adjustment' ||
                 substr(request()->getRequestUri(), 0, 27) == '/warehouse/purchase-receipt'
                     ? '{isActive: true, open: true, currentlyOpen: "' . $controllerName . '"}'
-                    : '{isActive: false, open: false}' }}">
+                    : '{isActive: false, open: false, currentlyOpen: ""}' }}">
                     <a href="#" @click="$event.preventDefault(); open = !open"
                         class="flex items-center p-2 text-gray-600 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary"
                         :class="{ 'bg-primary-100 dark:bg-primary': isActive || open }" role="button"
@@ -549,7 +549,7 @@
                 substr(request()->getRequestUri(), 0, 15) == '/purchase/order' ||
                 substr(request()->getRequestUri(), 0, 14) == '/purchase/plan'
                     ? '{isActive: true, open: true, currentlyOpen: "' . $controllerName . '"}'
-                    : '{isActive: false, open: false}' }}">
+                    : '{isActive: false, open: false, currentlyOpen: ""}' }}">
                     <a href="#" @click="$event.preventDefault(); open = !open"
                         class="flex items-center p-2 text-gray-600 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary"
                         :class="{ 'bg-primary-100 dark:bg-primary': isActive || open }" role="button"
@@ -637,7 +637,7 @@
                 substr(request()->getRequestUri(), 0, 11) == '/sale/order' ||
                 substr(request()->getRequestUri(), 0, 13) == '/sale/invoice'
                     ? '{isActive: true, open: true, currentlyOpen: "' . $controllerName . '"}'
-                    : '{isActive: false, open: false}' }}">
+                    : '{isActive: false, open: false, currentlyOpen: ""}' }}">
                     <a href="#" @click="$event.preventDefault(); open = !open"
                         class="flex items-center p-2 text-gray-600 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary"
                         :class="{ 'bg-primary-100 dark:bg-primary': isActive || open }" role="button"
@@ -745,7 +745,7 @@
                 <div x-data="{{ substr(request()->getRequestUri(), 0, 18) == '/production/recipe' ||
                 substr(request()->getRequestUri(), 0, 17) == '/production/order'
                     ? '{isActive: true, open: true, currentlyOpen: "' . $controllerName . '"}'
-                    : '{isActive: false, open: false}' }}">
+                    : '{isActive: false, open: false, currentlyOpen: ""}' }}">
                     <a href="#" @click="$event.preventDefault(); open = !open"
                         class="flex items-center p-2 text-gray-600 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary"
                         :class="{ 'bg-primary-100 dark:bg-primary': isActive || open }" role="button"
@@ -855,7 +855,7 @@
             @can('delivery-list')
                 <div x-data="{{ substr(request()->getRequestUri(), 0, 15) == '/delivery/order'
                     ? '{isActive: true, open: true, currentlyOpen: "' . $controllerName . '"}'
-                    : '{isActive: false, open: false}' }}">
+                    : '{isActive: false, open: false, currentlyOpen: ""}' }}">
                     <a href="#" @click="$event.preventDefault(); open = !open"
                         class="flex items-center p-2 text-gray-600 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary"
                         :class="{ 'bg-primary-100 dark:bg-primary': isActive || open }" role="button"
@@ -916,7 +916,7 @@
                 substr(request()->getRequestUri(), 0, 10) == '/admin/coa' ||
                 substr(request()->getRequestUri(), 0, 13) == '/admin/qrcode'
                     ? '{isActive: true, open: true, currentlyOpen: "' . $controllerName . '"}'
-                    : '{isActive: false, open: false}' }}">
+                    : '{isActive: false, open: false, currentlyOpen: ""}' }}">
                     <a href="#" @click="$event.preventDefault(); open = !open"
                         class="flex items-center p-2 text-gray-600 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary"
                         :class="{ 'bg-primary-100 dark:bg-primary': isActive || open }" role="button"
