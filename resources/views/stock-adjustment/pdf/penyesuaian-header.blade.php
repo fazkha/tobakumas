@@ -1,5 +1,5 @@
 <div style="width: 100%; margin: 0 auto; text-align: center;">
-    <h1 style="font-size: 16px">Laporan Penyesuaian Persediaan</h1>
+    <h1 style="font-size: 16px">Laporan @lang('messages.stockadjustment')</h1>
     <div style="font-size: 14px;">
         <table style="width: 100%;">
             <tr>

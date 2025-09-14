@@ -1,12 +1,8 @@
-@php
-    $documents = 'documents/' . $documents;
-@endphp
-
-<div x-data="{
+<div id="mainDiv" x-data="{
     openModal: false,
     modalTitle: 'Title'
 }">
-    <form id="index-form" action="{{ route('sale-invoice.print-selected') }}" method="POST" enctype="multipart/form-data">
+    <form id="index-form" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div class="w-full overflow-x-auto">
@@ -138,8 +134,9 @@
                                     style="vertical-align: middle;">
                                     <div class="flex items-center justify-center">
                                         @can('so-create')
-                                            <a href="{{ route('sale-invoice.print', Crypt::Encrypt($data->id)) }}"
-                                                title="{{ __('messages.print') }}" class="ml-2">
+                                            <x-anchor-transparent id="print_one-anchor-{{ $data->id }}"
+                                                onclick="print_one({{ $data->id }})" title="{{ __('messages.print') }}"
+                                                class="ml-2">
                                                 <span
                                                     class="relative inline-block px-2 py-2 font-semibold text-blue-800 dark:text-blue-50 leading-tight">
                                                     <span aria-hidden
@@ -151,7 +148,13 @@
                                                             stroke="currentColor" />
                                                     </svg>
                                                 </span>
-                                            </a>
+                                            </x-anchor-transparent>
+                                            <svg id="print_one-icon-{{ $data->id }}" class="hidden size-4 m-2"
+                                                viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M3.5 12.5H1.5C0.947715 12.5 0.5 12.0523 0.5 11.5V7.5C0.5 6.94772 0.947715 6.5 1.5 6.5H13.5C14.0523 6.5 14.5 6.94772 14.5 7.5V11.5C14.5 12.0523 14.0523 12.5 13.5 12.5H11.5M3.5 6.5V1.5C3.5 0.947715 3.94772 0.5 4.5 0.5H10.5C11.0523 0.5 11.5 0.947715 11.5 1.5V6.5M3.5 10.5H11.5V14.5H3.5V10.5Z"
+                                                    stroke="currentColor" />
+                                            </svg>
                                         @endcan
                                     </div>
                                 </td>
@@ -167,57 +170,51 @@
                 </div>
             </div>
         </div>
+    </form>
 
-        @can('so-create')
+    @can('so-create')
+        @if (count($datas) > 0)
             <div class="py-2">
-                <div class="flex flex-row flex-wrap items-center justify-start gap-2 md:gap-4">
-                    <x-primary-button type="submit" class="block" tabindex="1">
-                        <svg class="size-3" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M3.5 12.5H1.5C0.947715 12.5 0.5 12.0523 0.5 11.5V7.5C0.5 6.94772 0.947715 6.5 1.5 6.5H13.5C14.0523 6.5 14.5 6.94772 14.5 7.5V11.5C14.5 12.0523 14.0523 12.5 13.5 12.5H11.5M3.5 6.5V1.5C3.5 0.947715 3.94772 0.5 4.5 0.5H10.5C11.0523 0.5 11.5 0.947715 11.5 1.5V6.5M3.5 10.5H11.5V14.5H3.5V10.5Z"
-                                stroke="currentColor" />
-                        </svg>
-                        <span class="pl-1">@lang('messages.create')</span>
-                    </x-primary-button>
-                    <x-anchor-primary tabindex="2"
-                        @click="openModal = true; modalTitle = '{{ __('messages.invoice') }}';">
-                        <svg class="size-3" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <div class="flex flex-row flex-wrap lg:flex-nowrap items-center justify-start gap-2 md:gap-4">
+                    <x-secondary-button id="print-laporan" tabindex="0"
+                        class="bg-indigo-700 hover:bg-indigo-800 dark:bg-indigo-900 hover:dark:bg-indigo-950">
+                        <svg id="print-icon" class="size-4" viewBox="0 0 15 15" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M3.5 12.5H1.5C0.947715 12.5 0.5 12.0523 0.5 11.5V7.5C0.5 6.94772 0.947715 6.5 1.5 6.5H13.5C14.0523 6.5 14.5 6.94772 14.5 7.5V11.5C14.5 12.0523 14.0523 12.5 13.5 12.5H11.5M3.5 6.5V1.5C3.5 0.947715 3.94772 0.5 4.5 0.5H10.5C11.0523 0.5 11.5 0.947715 11.5 1.5V6.5M3.5 10.5H11.5V14.5H3.5V10.5Z"
                                 stroke="currentColor" />
                         </svg>
                         <span class="pl-1">@lang('messages.print')</span>
-                    </x-anchor-primary>
+                    </x-secondary-button>
                 </div>
             </div>
-        @endcan
+        @endif
+    @endcan
 
-        <div
-            class="my-2 flex flex-row items-center justify-start shadow-md rounded-md border border-solid border-primary-100 dark:border-primary-800">
-            <div
-                class="px-4 py-2 border-r border-primary-100 dark:border-primary-800 bg-primary-50 dark:bg-primary-800">
-                <span class="text-sm">@lang('messages.footnote')</span>
+    <div
+        class="my-2 flex flex-row items-center justify-start shadow-md rounded-md border border-solid border-primary-100 dark:border-primary-800">
+        <div class="px-4 py-2 border-r border-primary-100 dark:border-primary-800 bg-primary-50 dark:bg-primary-800">
+            <span class="text-sm">@lang('messages.footnote')</span>
+        </div>
+        <div class="px-4 py-2 flex flex-row flex-wrap gap-6 items-center">
+            <div class="flex flex-row gap-2 items-center">
+                <svg fill="currentColor" class="size-4" viewBox="0 0 256 256" id="Flat"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M128,20A108,108,0,1,0,236,128,108.12186,108.12186,0,0,0,128,20Zm0,192a84,84,0,1,1,84-84A84.09562,84.09562,0,0,1,128,212ZM144,84v92a12,12,0,0,1-24,0V106.417l-5.3457,3.5625a12.00027,12.00027,0,1,1-13.3086-19.97265l24-15.99317A12.00071,12.00071,0,0,1,144,84Z" />
+                </svg>
+                <span class="text-sm">@lang('messages.production')</span>
             </div>
-            <div class="px-4 py-2 flex flex-row flex-wrap gap-6 items-center">
-                <div class="flex flex-row gap-2 items-center">
-                    <svg fill="currentColor" class="size-4" viewBox="0 0 256 256" id="Flat"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M128,20A108,108,0,1,0,236,128,108.12186,108.12186,0,0,0,128,20Zm0,192a84,84,0,1,1,84-84A84.09562,84.09562,0,0,1,128,212ZM144,84v92a12,12,0,0,1-24,0V106.417l-5.3457,3.5625a12.00027,12.00027,0,1,1-13.3086-19.97265l24-15.99317A12.00071,12.00071,0,0,1,144,84Z" />
-                    </svg>
-                    <span class="text-sm">@lang('messages.production')</span>
-                </div>
-                <div class="flex flex-row gap-2 items-center">
-                    <svg fill="currentColor" class="size-4" viewBox="0 0 256 256" id="Flat"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M128,20A108,108,0,1,0,236,128,108.12186,108.12186,0,0,0,128,20Zm0,192a84,84,0,1,1,84-84A84.09562,84.09562,0,0,1,128,212Zm29.50391-87.38477-29.51075,39.37891H152a12,12,0,0,1,0,24H104.39648c-.13281.00488-.26464.00684-.39843.00684a12.00272,12.00272,0,0,1-9.47168-19.36914l43.56543-58.13379a12.00426,12.00426,0,1,0-21.1543-11.165A11.9998,11.9998,0,0,1,94.834,89.9834a36.00408,36.00408,0,1,1,63.01172,34.15234C157.73535,124.29883,157.62207,124.458,157.50391,124.61523Z" />
-                    </svg>
-                    <span class="text-sm">@lang('messages.packaging')</span>
-                </div>
+            <div class="flex flex-row gap-2 items-center">
+                <svg fill="currentColor" class="size-4" viewBox="0 0 256 256" id="Flat"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M128,20A108,108,0,1,0,236,128,108.12186,108.12186,0,0,0,128,20Zm0,192a84,84,0,1,1,84-84A84.09562,84.09562,0,0,1,128,212Zm29.50391-87.38477-29.51075,39.37891H152a12,12,0,0,1,0,24H104.39648c-.13281.00488-.26464.00684-.39843.00684a12.00272,12.00272,0,0,1-9.47168-19.36914l43.56543-58.13379a12.00426,12.00426,0,1,0-21.1543-11.165A11.9998,11.9998,0,0,1,94.834,89.9834a36.00408,36.00408,0,1,1,63.01172,34.15234C157.73535,124.29883,157.62207,124.458,157.50391,124.61523Z" />
+                </svg>
+                <span class="text-sm">@lang('messages.packaging')</span>
             </div>
         </div>
-    </form>
+    </div>
 
     @can('so-create')
         <div x-show.transition.duration.500ms="openModal"
@@ -237,7 +234,8 @@
                     </button>
                 </div>
                 <div class="flex items-center justify-center overflow-hidden rounded-lg h-full">
-                    <iframe src="{{ url($documents) }}" frameborder="0" style="width:100%; height:100%;"></iframe>
+                    <iframe id="iframe-laporan" src="{{ url($documents) }}" frameborder="0"
+                        style="width:100%; height:100%;"></iframe>
                 </div>
             </div>
         </div>

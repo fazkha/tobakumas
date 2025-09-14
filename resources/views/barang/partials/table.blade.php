@@ -110,7 +110,6 @@
                                 class="text-center px-3 py-3 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
                                 <div class="flex flex-row gap-2 text-gray-900 whitespace-no-wrap dark:text-white">
                                     <span class="w-1/2 text-right">{{ $data->stock }}</span>
-                                    <span>📦</span>
                                     <span
                                         class="w-1/2 text-left">{{ $data->satuan_stock_id ? $data->satuan_stock->nama_lengkap : '-' }}</span>
                                 </div>

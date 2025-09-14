@@ -160,6 +160,7 @@ return [
     'successupdated' => 'Berhasil diperbarukan',
     'successdeleted' => 'Berhasil dihapuskan',
     'successsaved' => 'Berhasil disimpan',
+    'successcreated' => 'Berhasil dibuat',
     'contact' => 'Narahubung',
     'contactname' => 'Nama Narahubung',
     'contactphone' => 'Telpon Narahubung',

@@ -1,3 +1,7 @@
+@php
+    $documents = 'documents/' . $documents;
+@endphp
+
 @section('title', __('messages.saleinvoice'))
 
 <x-app-layout>
@@ -82,6 +86,60 @@
                     $("#list-table").find("input[type='checkbox']").prop("checked", this.checked);
                 });
 
+                $("#print-laporan").on("click", function(e) {
+                    e.preventDefault();
+                    $('#print-icon').addClass('animate-spin');
+                    $('#print-icon').parent().prop('disabled', true);
+
+                    $.ajax({
+                        url: '{{ route('sale-invoice.print-selected') }}',
+                        type: 'post',
+                        dataType: 'json',
+                        data: $('form#index-form').serialize(),
+                        success: function(result) {
+                            if (result.status !== 'Not Found') {
+                                var namafile = result.namafile;
+                                $("#iframe-laporan").attr('src', namafile);
+                                // $("#iframe-laporan").attr('src', $("#iframe-laporan").attr('src'));
+                                const alpineElement = $('#mainDiv')[0];
+                                const alpineData = Alpine.$data(alpineElement);
+                                alpineData.openModal = true;
+                                alpineData.modalTitle = '{{ __('messages.saleinvoice') }}';
+                                flasher.success("{{ __('messages.successcreated') }}!", "Success");
+                            }
+                            $('#print-icon').parent().prop('disabled', false);
+                            $('#print-icon').removeClass('animate-spin');
+                        }
+                    });
+                });
+
+                print_one = function(xid) {
+                    let aname = '#print_one-anchor-' + xid;
+                    let idname = '#print_one-icon-' + xid;
+
+                    $(aname).addClass('hidden');
+                    $(idname).addClass('animate-spin');
+                    $(idname).removeClass('hidden');
+
+                    $.ajax({
+                        url: '{{ url('/sale/invoice/print') }}' + '/' + xid,
+                        type: 'get',
+                        success: function(result) {
+                            if (result.status !== 'Not Found') {
+                                var namafile = result.namafile;
+                                $("#iframe-laporan").attr('src', namafile);
+                                const alpineElement = $('#mainDiv')[0];
+                                const alpineData = Alpine.$data(alpineElement);
+                                alpineData.openModal = true;
+                                alpineData.modalTitle = '{{ __('messages.saleinvoice') }}';
+                                flasher.success("{{ __('messages.successcreated') }}!", "Success");
+                            }
+                            $(idname).removeClass('animate-spin');
+                            $(idname).addClass('hidden');
+                            $(aname).removeClass('hidden');
+                        }
+                    });
+                };
             });
         </script>
     @endpush

@@ -160,6 +160,7 @@ return [
     'successupdated' => 'Successfully Updated',
     'successdeleted' => 'Successfully Deleted',
     'successsaved' => 'Successfully Saved',
+    'successcreated' => 'Successfully Created',
     'contact' => 'Contact',
     'contactname' => 'Contact Person Name',
     'contactphone' => 'Contact Person Phone',

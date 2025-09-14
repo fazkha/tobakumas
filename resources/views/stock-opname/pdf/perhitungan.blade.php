@@ -1,7 +1,7 @@
 <html lang="en">
 
 <head>
-    <title>Stock Opname</title>
+    <title>@lang('messages.stockopname')</title>
     <style>
         body {
             font-family: 'Dosis', sans-serif;

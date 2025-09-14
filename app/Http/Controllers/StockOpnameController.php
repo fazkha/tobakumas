@@ -373,9 +373,13 @@ class StockOpnameController extends Controller implements HasMiddleware
                 ->disk('pdfs')
                 ->save($namafile);
 
-            return redirect()->route('stock-opname.edit', Crypt::encrypt($id))->with('print', $print)->with('documents', $namafile)->with('success', __('messages.stockopname') . ' ' . __('messages.printed') . ' 👉 ' . $datas->tanggal);
+            return response()->json([
+                'namafile' => url('documents/' . $namafile),
+            ], 200);
         }
 
-        return redirect()->back();
+        return response()->json([
+            'status' => 'Not Found',
+        ], 200);
     }
 }

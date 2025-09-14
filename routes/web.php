@@ -135,7 +135,7 @@ Route::prefix('warehouse')->middleware('auth')->group(function () {
     Route::delete('stock-opname/delete-detail/{detail}', [StockOpnameController::class, 'deleteDetail']);
 
     Route::resource('stock-adjustment', StockAdjustmentController::class);
-    Route::get('stock-adjustment/{id}/{loader}/print', [StockAdjustmentController::class, 'print'])->name('stock-adjustment.print');
+    Route::get('stock-adjustment/{stock_adjustment}/print', [StockAdjustmentController::class, 'print'])->name('stock-adjustment.print');
     Route::get('stock-adjustment/fetchdb/{pp}/{gudang}/{tanggal}', [StockAdjustmentController::class, 'fetchdb'])->defaults('tanggal', '_');
     Route::post('stock-adjustment/update-detail/{detail}', [StockAdjustmentController::class, 'updateDetail']);
 

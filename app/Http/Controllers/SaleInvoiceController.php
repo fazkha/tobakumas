@@ -160,15 +160,20 @@ class SaleInvoiceController extends Controller implements HasMiddleware
                 ->disk('pdfs')
                 ->save($namafile);
 
-            return redirect()->route('sale-invoice.index')->with('documents', $namafile)->with('success', __('messages.invoice') . ' ' . __('messages.printed') . ' 👉 ' . count($selected));
+            return response()->json([
+                'namafile' => url('documents/' . $namafile),
+            ], 200);
         }
 
-        return redirect()->back();
+        return response()->json([
+            'status' => 'Not Found',
+        ], 200);
     }
 
     public function print(Request $request)
     {
-        $id = Crypt::decrypt($request->invoice);
+        // $id = Crypt::decrypt($request->invoice);
+        $id = $request->invoice;
         $datas = SaleOrder::find($id);
         $details = SaleOrderDetail::where('sale_order_id', $id)->orderBy('barang_id')->get();
         $adonans = SaleOrderMitra::where('sale_order_id', $id)->orderBy('pegawai_id')->orderBy('barang_id')->get();
@@ -190,9 +195,13 @@ class SaleInvoiceController extends Controller implements HasMiddleware
                 ->disk('pdfs')
                 ->save($namafile);
 
-            return redirect()->route('sale-invoice.index')->with('documents', $namafile)->with('success', __('messages.invoice') . ' ' . __('messages.printed') . ' 👉 ' . $datas->no_order);
+            return response()->json([
+                'namafile' => url('documents/' . $namafile),
+            ], 200);
         }
 
-        return redirect()->back();
+        return response()->json([
+            'status' => 'Not Found',
+        ], 200);
     }
 }

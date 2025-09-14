@@ -26,7 +26,7 @@
                     <x-text-span>{{ number_format($detail->adjust_stock, 2, ',', '.') }}</x-text-span>
                 </td>
                 <td class="align-top">
-                    <x-text-span>{{ $detail->keterangan_adjustment }}</x-text-span>
+                    <x-text-span>{{ $detail->keterangan_adjustment ? $detail->keterangan_adjustment : '-' }}</x-text-span>
                 </td>
             @else
                 <td class="align-top">

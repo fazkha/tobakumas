@@ -25,7 +25,7 @@
         </h1>
     </div>
 
-    <div x-data="{
+    <div id="mainDiv" x-data="{
         openModal: false,
         modalTitle: 'Title',
         buttonDisabled: {{ $datas->approved == 1 ? 'true' : 'false' }}
@@ -120,34 +120,23 @@
                                         <x-text-span>{{ $datas->tanggungjawab_id ? $datas->tanggungjawab->nama_lengkap : '-' }}</x-text-span>
                                     </div>
 
-                                    <div class="w-auto pb-4">
-                                        <div
-                                            class="flex flex-row flex-wrap lg:flex-nowrap items-center justify-end gap-2 md:gap-4">
-                                            <x-anchor-secondary
-                                                href="{{ route('stock-adjustment.print', ['id' => Crypt::encrypt($datas->id), 'loader' => 'edit']) }}"
-                                                tabindex="0"
-                                                class="bg-indigo-700 hover:bg-indigo-800 dark:bg-indigo-900 hover:dark:bg-indigo-950">
-                                                <svg class="size-5" viewBox="0 0 15 15" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="M3.5 12.5H1.5C0.947715 12.5 0.5 12.0523 0.5 11.5V7.5C0.5 6.94772 0.947715 6.5 1.5 6.5H13.5C14.0523 6.5 14.5 6.94772 14.5 7.5V11.5C14.5 12.0523 14.0523 12.5 13.5 12.5H11.5M3.5 6.5V1.5C3.5 0.947715 3.94772 0.5 4.5 0.5H10.5C11.0523 0.5 11.5 0.947715 11.5 1.5V6.5M3.5 10.5H11.5V14.5H3.5V10.5Z"
-                                                        stroke="currentColor" />
-                                                </svg>
-                                                <span class="pl-1">@lang('messages.create')</span>
-                                            </x-anchor-secondary>
-                                            <x-anchor-secondary tabindex="0"
-                                                class="bg-indigo-700 hover:bg-indigo-800 dark:bg-indigo-900 hover:dark:bg-indigo-950"
-                                                @click="openModal = true; modalTitle = '{{ __('messages.stockadjustment') }}';">
-                                                <svg class="size-5" viewBox="0 0 15 15" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="M3.5 12.5H1.5C0.947715 12.5 0.5 12.0523 0.5 11.5V7.5C0.5 6.94772 0.947715 6.5 1.5 6.5H13.5C14.0523 6.5 14.5 6.94772 14.5 7.5V11.5C14.5 12.0523 14.0523 12.5 13.5 12.5H11.5M3.5 6.5V1.5C3.5 0.947715 3.94772 0.5 4.5 0.5H10.5C11.0523 0.5 11.5 0.947715 11.5 1.5V6.5M3.5 10.5H11.5V14.5H3.5V10.5Z"
-                                                        stroke="currentColor" />
-                                                </svg>
-                                                <span class="pl-1">@lang('messages.print')</span>
-                                            </x-anchor-secondary>
+                                    @if (count($details) > 0)
+                                        <div class="w-auto pb-4">
+                                            <div
+                                                class="flex flex-row flex-wrap lg:flex-nowrap items-center justify-end gap-2 md:gap-4">
+                                                <x-secondary-button id="print-laporan" tabindex="0"
+                                                    class="bg-indigo-700 hover:bg-indigo-800 dark:bg-indigo-900 hover:dark:bg-indigo-950">
+                                                    <svg id="print-icon" class="size-4" viewBox="0 0 15 15"
+                                                        fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M3.5 12.5H1.5C0.947715 12.5 0.5 12.0523 0.5 11.5V7.5C0.5 6.94772 0.947715 6.5 1.5 6.5H13.5C14.0523 6.5 14.5 6.94772 14.5 7.5V11.5C14.5 12.0523 14.0523 12.5 13.5 12.5H11.5M3.5 6.5V1.5C3.5 0.947715 3.94772 0.5 4.5 0.5H10.5C11.0523 0.5 11.5 0.947715 11.5 1.5V6.5M3.5 10.5H11.5V14.5H3.5V10.5Z"
+                                                            stroke="currentColor" />
+                                                    </svg>
+                                                    <span class="pl-1">@lang('messages.print')</span>
+                                                </x-secondary-button>
+                                            </div>
                                         </div>
-                                    </div>
+                                    @endif
 
                                     <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
                                         <div class="dark:bg-black/10">
@@ -209,7 +198,8 @@
                     </button>
                 </div>
                 <div class="flex items-center justify-center overflow-hidden rounded-lg h-full">
-                    <iframe src="{{ url($documents) }}" frameborder="0" style="width:100%; height:100%;"></iframe>
+                    <iframe id="iframe-laporan" src="{{ url($documents) }}" frameborder="0"
+                        style="width:100%; height:100%;"></iframe>
                 </div>
             </div>
         </div>
@@ -358,6 +348,28 @@
                 }
 
                 const myFormInitialValues = getInitialFormValues('master-form');
+
+                $("#print-laporan").on("click", function(e) {
+                    e.preventDefault();
+                    $('#print-icon').addClass('animate-spin');
+
+                    $.ajax({
+                        url: '{{ route('stock-adjustment.print', Crypt::encrypt($datas->id)) }}',
+                        type: 'get',
+                        success: function(result) {
+                            if (result.status !== 'Not Found') {
+                                var namafile = result.namafile;
+                                $("#iframe-laporan").attr('src', namafile);
+                                const alpineElement = $('#mainDiv')[0];
+                                const alpineData = Alpine.$data(alpineElement);
+                                alpineData.openModal = true;
+                                alpineData.modalTitle = '{{ __('messages.stockadjustment') }}';
+                                flasher.success("{{ __('messages.successcreated') }}!", "Success");
+                            }
+                            $('#print-icon').removeClass('animate-spin');
+                        }
+                    });
+                });
 
                 $("#submit-detail").on("click", function(e) {
                     e.preventDefault();

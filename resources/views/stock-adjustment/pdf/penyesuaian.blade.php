@@ -1,7 +1,7 @@
 <html lang="en">
 
 <head>
-    <title>Penyesuaian Persediaan</title>
+    <title>@lang('messages.stockadjustment')</title>
     <style>
         body {
             font-family: 'Dosis', sans-serif;
