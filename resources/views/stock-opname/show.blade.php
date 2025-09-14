@@ -1,7 +1,3 @@
-@php
-    $documents = 'documents/' . $documents;
-@endphp
-
 @section('title', __('messages.stockopname'))
 
 <x-app-layout>
@@ -150,7 +146,7 @@
                     </button>
                 </div>
                 <div class="flex items-center justify-center overflow-hidden rounded-lg h-full">
-                    <iframe id="iframe-laporan" src="{{ url($documents) }}" frameborder="0"
+                    <iframe id="iframe-laporan" src="" frameborder="0"
                         style="width:100%; height:100%;"></iframe>
                 </div>
             </div>
