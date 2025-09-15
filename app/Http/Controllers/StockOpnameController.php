@@ -22,6 +22,8 @@ use Spatie\LaravelPdf\Enums\Format;
 use Spatie\LaravelPdf\Enums\Orientation;
 use Spatie\LaravelPdf\Enums\Unit;
 use Spatie\LaravelPdf\Facades\Pdf;
+use Spatie\Browsershot\Browsershot;
+// use Barryvdh\DomPDF\Facade\Pdf;
 
 class StockOpnameController extends Controller implements HasMiddleware
 {
@@ -356,7 +358,6 @@ class StockOpnameController extends Controller implements HasMiddleware
         session()->put('documents', $namafile);
 
         if ($datas) {
-            $print = true;
             $nhari = date('w', strtotime($datas->tanggal));
             $nbulan = date('n', strtotime($datas->tanggal)) - 1;
             $nbulanini = date('n') - 1;
@@ -365,13 +366,21 @@ class StockOpnameController extends Controller implements HasMiddleware
             $bulanini = $this->array_bulan[$nbulanini]['bulan']['name'];
 
             Pdf::view('stock-opname.pdf.perhitungan', ['datas' => $datas, 'details' => $details, 'bulanini' => $bulanini])
-                ->orientation(Orientation::Landscape)
-                ->margins(3, 0.5, 1, 0.5, Unit::Centimeter)
                 ->headerView('stock-opname.pdf.perhitungan-header', ['datas' => $datas, 'hari' => $hari, 'bulan' => $bulan])
                 ->footerView('stock-opname.pdf.perhitungan-footer')
+                ->orientation(Orientation::Landscape)
+                ->margins(3, 0.5, 1, 0.5, Unit::Centimeter)
                 ->format(Format::A4)
                 ->disk('pdfs')
+                ->withBrowsershot(function (Browsershot $browsershot) {
+                    $browsershot->noSandbox();
+                })
                 ->save($namafile);
+
+            // $pdf = Pdf::loadView('stock-opname.pdf.perhitungan', ['datas' => $datas, 'details' => $details, 'bulanini' => $bulanini])
+            //     ->setPaper('a4', 'landscape')
+            //     ->disk('pdfs')
+            //     ->save($namafile);
 
             return response()->json([
                 'namafile' => url('documents/' . $namafile),
