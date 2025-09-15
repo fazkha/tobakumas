@@ -374,6 +374,9 @@ class StockOpnameController extends Controller implements HasMiddleware
                 ->disk('pdfs')
                 ->withBrowsershot(function (Browsershot $browsershot) {
                     $browsershot->noSandbox();
+                    $browsershot->addChromiumArguments([
+                        'headless=shell',
+                    ]);
                 })
                 ->save($namafile);
 
