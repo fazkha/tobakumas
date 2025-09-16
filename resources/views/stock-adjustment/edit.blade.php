@@ -364,7 +364,6 @@
                                 const alpineData = Alpine.$data(alpineElement);
                                 alpineData.openModal = true;
                                 alpineData.modalTitle = '{{ __('messages.stockadjustment') }}';
-                                flasher.success("{{ __('messages.successcreated') }}!", "Success");
                             }
                             $('#print-icon').removeClass('animate-spin');
                         }

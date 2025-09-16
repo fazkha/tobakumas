@@ -5,6 +5,21 @@
     <style>
         body {
             font-family: 'Dosis', sans-serif;
+            margin: 0;
+        }
+
+        @page {
+            margin-top: 110px;
+            margin-bottom: 20px;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+
+        header {
+            position: fixed;
+            top: -90px;
+            left: 0px;
+            right: 0px;
         }
 
         .table_container {
@@ -46,7 +61,6 @@
             font-size: 12px;
         }
     </style>
-    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>
@@ -54,59 +68,75 @@
         $i = 1;
         $pdf_line_per_page = config('custom.pdf_line_per_page');
     @endphp
-    <div class="table_container">
-        <table>
-            <thead>
-                <tr>
-                    <th rowspan="2" class="w-10">No.</th>
-                    <th rowspan="2" class="w-1/6">Nama Barang</th>
-                    <th rowspan="2" class="w-auto">Satuan</th>
-                    <th colspan="3" class="w-auto">Persediaan</th>
-                    <th rowspan="2" class="w-auto">Harga Disesuaikan (Rp.)</th>
-                    <th rowspan="2" class="w-1/4">Keterangan</th>
-                </tr>
-                <tr>
-                    <th class="w-1/12">Sistem</th>
-                    <th class="w-1/12">Disesuaikan</th>
-                    <th class="w-1/12">Penyesuaian</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($details as $detail)
-                    @php
-                        $hasil = $detail->before_stock + $detail->adjust_stock;
-                        $harga = ($detail->before_stock + $detail->adjust_stock) * $detail->adjust_harga;
-                    @endphp
+
+    <header>
+        @include('stock-adjustment.pdf.penyesuaian-header', [
+            'datas' => $datas,
+            'hari' => $hari,
+            'bulan' => $bulan,
+        ])
+    </header>
+
+    <main>
+        <div class="table_container">
+            <table>
+                <thead>
                     <tr>
-                        <td class="align-top text-center">{{ $i }}</td>
-                        <td class="align-top">{{ $detail->barang->nama }}</td>
-                        <td class="align-top">{{ $detail->satuan->nama_lengkap }}</td>
-                        <td class="align-top text-right">{{ number_format($detail->before_stock, '1', ',', '.') }}</td>
-                        <td class="align-top text-right">{{ number_format($detail->adjust_stock, '1', ',', '.') }}</td>
-                        <td class="align-top text-right">{{ number_format($hasil, '1', ',', '.') }}</td>
-                        <td class="align-top text-right">{{ number_format($harga, '0', ',', '.') }}</td>
-                        <td class="align-top">{{ $detail->keterangan_adjustment }}</td>
+                        <th rowspan="2" style="width: 5%">No.</th>
+                        <th rowspan="2" style="width: 15%">Nama Barang</th>
+                        <th rowspan="2" style="width: auto">Satuan</th>
+                        <th colspan="3" style="width: auto">Persediaan</th>
+                        <th rowspan="2" style="width: auto">Harga Disesuaikan (Rp.)</th>
+                        <th rowspan="2" style="width: 25%">Keterangan</th>
                     </tr>
-                    @php
-                        $i++;
-                    @endphp
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+                    <tr>
+                        <th style="width: 8%">Sistem</th>
+                        <th style="width: 8%">Disesuaikan</th>
+                        <th style="width: 8%">Penyesuaian</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($details as $detail)
+                        @php
+                            $hasil = $detail->before_stock + $detail->adjust_stock;
+                            $harga = ($detail->before_stock + $detail->adjust_stock) * $detail->adjust_harga;
+                        @endphp
+                        <tr>
+                            <td style="vertical-align: top; text-align: center;">{{ $i }}</td>
+                            <td style="vertical-align: top;">{{ $detail->barang->nama }}</td>
+                            <td style="vertical-align: top;">{{ $detail->satuan->nama_lengkap }}</td>
+                            <td style="vertical-align: top; text-align: right;">
+                                {{ number_format($detail->before_stock, '1', ',', '.') }}</td>
+                            <td style="vertical-align: top; text-align: right;">
+                                {{ number_format($detail->adjust_stock, '1', ',', '.') }}</td>
+                            <td style="vertical-align: top; text-align: right;">
+                                {{ number_format($hasil, '1', ',', '.') }}</td>
+                            <td style="vertical-align: top; text-align: right;">
+                                {{ number_format($harga, '0', ',', '.') }}</td>
+                            <td style="vertical-align: top;">{{ $detail->keterangan_adjustment }}</td>
+                        </tr>
+                        @php
+                            $i++;
+                        @endphp
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </main>
 
     @if (($i - 1) % $pdf_line_per_page == 0)
         @pageBreak
     @endif
 
-    <div class="p-4">
+    <div style="padding: 10px;">
         <table style="width: 100%; font-size: 14px;">
             <tr>
-                <td class="text-left" colspan="3">
+                <td style="text-align: left;" colspan="3">
                     <table style="width: auto; font-size: 14px;">
                         <tr>
-                            <td class="p-2 align-top">Catatan:</td>
-                            <td class="p-2 align-top">{!! nl2br($datas->keterangan_adjustment) !!}</td>
+                            <td style="padding: 10px; vertical-align: top">Catatan:</td>
+                            <td style="padding: 8px; vertical-align: top; line-height: 20px;">
+                                {!! nl2br($datas->keterangan_adjustment) !!}</td>
                         </tr>
                     </table>
                 </td>
@@ -114,7 +144,7 @@
             <tr>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
-                <td class="p-2 text-center">
+                <td style="padding: 10px; text-align: center;">
                     @php
                         $find = ['kabupaten', 'Kabupaten', 'kota', 'Kota'];
                         $replace = ['', '', '', ''];
@@ -123,31 +153,31 @@
                 </td>
             </tr>
             <tr>
-                <td class="w-1/3">
+                <td style="width: 25%">
                     <table style="width: 100%; font-size: 14px;">
                         <tr>
-                            <td class="p-2 text-center">Petugas Gudang</td>
+                            <td style="padding: 10px; text-align: center;">Petugas Gudang</td>
                         </tr>
                         <tr>
-                            <td class="h-20">&nbsp;</td>
+                            <td style="height: 50px;">&nbsp;</td>
                         </tr>
                         <tr>
-                            <td class="p-2 text-center border-t border-neutral-950">
+                            <td style="padding: 10px; text-align: center; border-top: 1px solid #909090;">
                                 {{ $datas->petugas_1_id ? $datas->petugas_1->nama_lengkap : '-' }}</td>
                         </tr>
                     </table>
                 </td>
-                <td class="w-1/3">&nbsp;</td>
-                <td class="w-1/3">
+                <td style="width: 50%">&nbsp;</td>
+                <td style="width: 25%">
                     <table style="width: 100%; font-size: 14px;">
                         <tr>
-                            <td class="p-2 text-center">Mengetahui</td>
+                            <td style="padding: 10px; text-align: center;">Mengetahui</td>
                         </tr>
                         <tr>
-                            <td class="h-20">&nbsp;</td>
+                            <td style="height: 50px;">&nbsp;</td>
                         </tr>
                         <tr>
-                            <td class="p-2 text-center border-t border-neutral-950">
+                            <td style="padding: 10px; text-align: center; border-top: 1px solid #909090;">
                                 {{ $datas->tanggungjawab_id ? $datas->tanggungjawab->nama_lengkap : '-' }}</td>
                         </tr>
                     </table>

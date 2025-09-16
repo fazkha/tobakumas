@@ -375,8 +375,9 @@ class StockOpnameController extends Controller implements HasMiddleware
             //     ->disk('pdfs')
             //     ->save($namafile);
 
-            $pdf = Pdf::loadView('stock-opname.pdf.perhitungan', ['datas' => $datas, 'details' => $details, 'bulanini' => $bulanini])
-                ->setPaper('a4', 'landscape');
+            $pdf = Pdf::loadView('stock-opname.pdf.perhitungan', ['datas' => $datas, 'details' => $details, 'hari' => $hari, 'bulan' => $bulan, 'bulanini' => $bulanini])
+                ->setPaper('a4', 'landscape')
+                ->setOptions(['enable_php' => true]);
 
             $output = $pdf->output();
             Storage::disk('pdfs')->put($namafile, $output);
