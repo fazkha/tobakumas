@@ -328,7 +328,7 @@ class StockOpnameController extends Controller implements HasMiddleware
         try {
             $detail->delete();
         } catch (\Illuminate\Database\QueryException $e) {
-            return response()->json(['status' => 'Not Found'], 404);
+            return response()->json(['QueryException' => $e->getMessage()], 500);
         }
 
         $details = StockOpnameDetail::where('stock_opname_id', $master_id)->get();

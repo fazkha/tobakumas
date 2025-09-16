@@ -54,7 +54,7 @@
                 @else
                     <x-text-input type="number" min="0" step="0.01"
                         name="items[{{ $i }}][kuantiti_terima]" tabindex="8"
-                        value="{{ $detail->kuantiti_terima ? $detail->kuantiti_terima : $detail->kuantiti }}" />
+                        value="{{ $detail->kuantiti_terima }}" />
                 @endif
             </td>
             <td class="align-top">
