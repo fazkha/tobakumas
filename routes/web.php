@@ -120,6 +120,7 @@ Route::prefix('warehouse')->middleware('auth')->group(function () {
     Route::get('gudang/{gudang}/delete', [GudangController::class, 'delete'])->name('gudang.delete');
     Route::get('gudang/fetchdb/{pp}/{isactive}/{kode}/{nama}/{alamat}', [GudangController::class, 'fetchdb'])->defaults('kode', '_')->defaults('nama', '_')->defaults('alamat', '_');
 
+    Route::get('goods/print-mutasi', [BarangController::class, 'printMutasi'])->name('goods.print-mutasi');
     Route::resource('goods', BarangController::class);
     Route::get('goods/{good}/delete', [BarangController::class, 'delete'])->name('goods.delete');
     Route::get('goods/fetchdb/{pp}/{isactive}/{satuan}/{jenis_barang}/{nama}/{merk}', [BarangController::class, 'fetchdb'])->defaults('nama', '_')->defaults('merk', '_');

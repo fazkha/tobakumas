@@ -42,7 +42,7 @@ S254.158,299.966,218.317,299.966z" />
     @push('scripts')
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-        <script>
+        <script type="text/javascript">
             $("#pp-dropdown, #isactive-dropdown, #propinsi-dropdown, #kabupaten-dropdown").on(
                 "change keyup paste",
                 function() {

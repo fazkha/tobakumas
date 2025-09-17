@@ -236,4 +236,6 @@ return [
     'create' => 'Create',
     'hke' => 'EWD',
     'datacount' => 'Data Count',
+    'mutationreport' => 'Mutation Report',
+    'stockmutation' => 'Stock Mutation',
 ];

@@ -1,5 +1,5 @@
 <div class="my-2">
-    <div class="flex flex-col-reverse md:flex-row gap-4 justify-between">
+    <div class="flex flex-col-reverse md:flex-row gap-4 items-start justify-between">
         <div
             class="p-2 md:p-4 border rounded-md bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
 
@@ -120,7 +120,7 @@
 
         </div>
 
-        <div>
+        <div class="flex flex-row flex-wrap gap-2">
             @can('barang-create')
                 <x-anchor-primary href="{{ route('goods.create') }}">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -129,6 +129,19 @@
                     </svg>
                     <span class="pl-1">@lang('messages.new')</span>
                 </x-anchor-primary>
+            @endcan
+
+            @can('barang-show')
+                <x-secondary-button id="print-mutasi"
+                    class="bg-indigo-700 hover:bg-indigo-800 dark:bg-indigo-900 hover:dark:bg-indigo-950">
+                    <svg id="print-icon" class="size-4" viewBox="0 0 15 15" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M3.5 12.5H1.5C0.947715 12.5 0.5 12.0523 0.5 11.5V7.5C0.5 6.94772 0.947715 6.5 1.5 6.5H13.5C14.0523 6.5 14.5 6.94772 14.5 7.5V11.5C14.5 12.0523 14.0523 12.5 13.5 12.5H11.5M3.5 6.5V1.5C3.5 0.947715 3.94772 0.5 4.5 0.5H10.5C11.0523 0.5 11.5 0.947715 11.5 1.5V6.5M3.5 10.5H11.5V14.5H3.5V10.5Z"
+                            stroke="currentColor" />
+                    </svg>
+                    <span class="pl-1">@lang('messages.mutationreport')</span>
+                </x-secondary-button>
             @endcan
         </div>
     </div>

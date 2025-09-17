@@ -176,7 +176,7 @@
         @if (count($datas) > 0)
             <div class="py-2">
                 <div class="flex flex-row flex-wrap lg:flex-nowrap items-center justify-start gap-2 md:gap-4">
-                    <x-secondary-button id="print-laporan" tabindex="0"
+                    <x-secondary-button id="print-laporan"
                         class="bg-indigo-700 hover:bg-indigo-800 dark:bg-indigo-900 hover:dark:bg-indigo-950">
                         <svg id="print-icon" class="size-4" viewBox="0 0 15 15" fill="none"
                             xmlns="http://www.w3.org/2000/svg">

@@ -47,7 +47,7 @@
         </div>
     </div>
 
-    <script>
+    <script type="text/javascript">
         const setup = () => {
             const getTheme = () => {
                 if (window.localStorage.getItem('dark')) {

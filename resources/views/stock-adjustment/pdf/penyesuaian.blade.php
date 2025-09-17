@@ -3,16 +3,15 @@
 <head>
     <title>@lang('messages.stockadjustment')</title>
     <style>
-        body {
-            font-family: 'Dosis', sans-serif;
-            margin: 0;
-        }
-
         @page {
+            margin: 0;
             margin-top: 110px;
             margin-bottom: 20px;
             margin-left: 20px;
             margin-right: 20px;
+            font-family: 'Dosis', sans-serif;
+            font-size: 14px;
+            font-weight: normal;
         }
 
         header {
@@ -25,7 +24,6 @@
         .table_container {
             overflow: auto;
             width: 100%;
-            font-size: 12px;
         }
 
         .table_container table {
@@ -35,14 +33,10 @@
             table-layout: fixed;
             border-collapse: collapse;
             border-spacing: 1px;
-            text-align: container;
-            font-size: 12px;
         }
 
         .table_container caption {
             caption-side: top;
-            text-align: container;
-            font-size: 12px;
         }
 
         .table_container th {
@@ -50,7 +44,6 @@
             background-color: #eceff1;
             color: #000000;
             padding: 6px;
-            font-size: 12px;
         }
 
         .table_container td {
@@ -58,7 +51,6 @@
             background-color: #ffffff;
             color: #000000;
             padding: 6px;
-            font-size: 12px;
         }
     </style>
 </head>
@@ -122,69 +114,72 @@
                 </tbody>
             </table>
         </div>
+
+        @if (($i - 1) % $pdf_line_per_page == 0)
+            @pageBreak
+        @endif
+
+        <div style="padding: 10px;">
+            <table style="width: 100%; font-size: 14px;">
+                <tr>
+                    <td style="text-align: left;" colspan="3">
+                        <table style="width: auto; font-size: 14px;">
+                            <tr>
+                                <td style="padding: 10px; vertical-align: top">Catatan:</td>
+                                <td style="padding: 8px; vertical-align: top; line-height: 20px;">
+                                    {!! nl2br($datas->keterangan_adjustment) !!}</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td style="padding: 10px; text-align: center;">
+                        @php
+                            $find = ['kabupaten', 'Kabupaten', 'kota', 'Kota'];
+                            $replace = ['', '', '', ''];
+                        @endphp
+                        {{ trim(str_replace($find, $replace, $datas->gudang->kabupaten->nama)) . ', ' . date('j', strtotime(date('Y-m-d H:i:s'))) . ' ' . $bulanini . ' ' . date('Y', strtotime(date('Y-m-d H:i:s'))) }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 25%">
+                        <table style="width: 100%; font-size: 14px;">
+                            <tr>
+                                <td style="padding: 10px; text-align: center;">Petugas Gudang</td>
+                            </tr>
+                            <tr>
+                                <td style="height: 50px;">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px; text-align: center; border-top: 1px solid #909090;">
+                                    {{ $datas->petugas_1_id ? $datas->petugas_1->nama_lengkap : '-' }}</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td style="width: 50%">&nbsp;</td>
+                    <td style="width: 25%">
+                        <table style="width: 100%; font-size: 14px;">
+                            <tr>
+                                <td style="padding: 10px; text-align: center;">Mengetahui</td>
+                            </tr>
+                            <tr>
+                                <td style="height: 50px;">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px; text-align: center; border-top: 1px solid #909090;">
+                                    {{ $datas->tanggungjawab_id ? $datas->tanggungjawab->nama_lengkap : '-' }}</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </main>
 
-    @if (($i - 1) % $pdf_line_per_page == 0)
-        @pageBreak
-    @endif
+    @include('stock-adjustment.pdf.penyesuaian-footer')
 
-    <div style="padding: 10px;">
-        <table style="width: 100%; font-size: 14px;">
-            <tr>
-                <td style="text-align: left;" colspan="3">
-                    <table style="width: auto; font-size: 14px;">
-                        <tr>
-                            <td style="padding: 10px; vertical-align: top">Catatan:</td>
-                            <td style="padding: 8px; vertical-align: top; line-height: 20px;">
-                                {!! nl2br($datas->keterangan_adjustment) !!}</td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td style="padding: 10px; text-align: center;">
-                    @php
-                        $find = ['kabupaten', 'Kabupaten', 'kota', 'Kota'];
-                        $replace = ['', '', '', ''];
-                    @endphp
-                    {{ trim(str_replace($find, $replace, $datas->gudang->kabupaten->nama)) . ', ' . date('j', strtotime(date('Y-m-d H:i:s'))) . ' ' . $bulanini . ' ' . date('Y', strtotime(date('Y-m-d H:i:s'))) }}
-                </td>
-            </tr>
-            <tr>
-                <td style="width: 25%">
-                    <table style="width: 100%; font-size: 14px;">
-                        <tr>
-                            <td style="padding: 10px; text-align: center;">Petugas Gudang</td>
-                        </tr>
-                        <tr>
-                            <td style="height: 50px;">&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px; text-align: center; border-top: 1px solid #909090;">
-                                {{ $datas->petugas_1_id ? $datas->petugas_1->nama_lengkap : '-' }}</td>
-                        </tr>
-                    </table>
-                </td>
-                <td style="width: 50%">&nbsp;</td>
-                <td style="width: 25%">
-                    <table style="width: 100%; font-size: 14px;">
-                        <tr>
-                            <td style="padding: 10px; text-align: center;">Mengetahui</td>
-                        </tr>
-                        <tr>
-                            <td style="height: 50px;">&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px; text-align: center; border-top: 1px solid #909090;">
-                                {{ $datas->tanggungjawab_id ? $datas->tanggungjawab->nama_lengkap : '-' }}</td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        </table>
-    </div>
 </body>
 
 </html>

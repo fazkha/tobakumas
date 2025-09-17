@@ -3,16 +3,15 @@
 <head>
     <title>@lang('messages.stockopname')</title>
     <style>
-        body {
-            font-family: 'Dosis', sans-serif;
-            margin: 0;
-        }
-
         @page {
+            margin: 0;
             margin-top: 110px;
             margin-bottom: 20px;
             margin-left: 20px;
             margin-right: 20px;
+            font-family: 'Dosis', sans-serif;
+            font-size: 14px;
+            font-weight: normal;
         }
 
         header {
@@ -25,7 +24,6 @@
         .table_container {
             overflow: auto;
             width: 100%;
-            font-size: 12px;
         }
 
         .table_container table {
@@ -35,14 +33,10 @@
             table-layout: fixed;
             border-collapse: collapse;
             border-spacing: 1px;
-            text-align: container;
-            font-size: 12px;
         }
 
         .table_container caption {
             caption-side: top;
-            text-align: container;
-            font-size: 12px;
         }
 
         .table_container th {
@@ -50,7 +44,6 @@
             background-color: #eceff1;
             color: #000000;
             padding: 6px;
-            font-size: 12px;
         }
 
         .table_container td {
@@ -58,7 +51,6 @@
             background-color: #ffffff;
             color: #000000;
             padding: 6px;
-            font-size: 12px;
         }
     </style>
 </head>

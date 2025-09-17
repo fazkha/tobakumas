@@ -9,6 +9,7 @@ use App\Models\Gudang;
 use App\Http\Requests\BarangRequest;
 use App\Http\Requests\BarangUpdateRequest;
 use App\Models\SubjenisBarang;
+use App\Models\ViewMutasiStock;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
@@ -17,9 +18,41 @@ use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\File;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
 
 class BarangController extends Controller implements HasMiddleware
 {
+    protected $array_hari, $array_bulan;
+
+    public function __construct()
+    {
+        $this->array_hari = [
+            ['hari' => ['id' => 0, 'name' => __('calendar.sunday')]],
+            ['hari' => ['id' => 1, 'name' => __('calendar.monday')]],
+            ['hari' => ['id' => 2, 'name' => __('calendar.tuesday')]],
+            ['hari' => ['id' => 3, 'name' => __('calendar.wednesday')]],
+            ['hari' => ['id' => 4, 'name' => __('calendar.thursday')]],
+            ['hari' => ['id' => 5, 'name' => __('calendar.friday')]],
+            ['hari' => ['id' => 6, 'name' => __('calendar.saturday')]],
+        ];
+
+        $this->array_bulan = [
+            ['bulan' => ['id' => 1, 'name' => __('calendar.january')]],
+            ['bulan' => ['id' => 2, 'name' => __('calendar.february')]],
+            ['bulan' => ['id' => 3, 'name' => __('calendar.march')]],
+            ['bulan' => ['id' => 4, 'name' => __('calendar.apryl')]],
+            ['bulan' => ['id' => 5, 'name' => __('calendar.may')]],
+            ['bulan' => ['id' => 6, 'name' => __('calendar.june')]],
+            ['bulan' => ['id' => 7, 'name' => __('calendar.july')]],
+            ['bulan' => ['id' => 8, 'name' => __('calendar.august')]],
+            ['bulan' => ['id' => 9, 'name' => __('calendar.september')]],
+            ['bulan' => ['id' => 10, 'name' => __('calendar.october')]],
+            ['bulan' => ['id' => 11, 'name' => __('calendar.november')]],
+            ['bulan' => ['id' => 12, 'name' => __('calendar.december')]],
+        ];
+    }
+
     public static function middleware(): array
     {
         return [
@@ -384,6 +417,38 @@ class BarangController extends Controller implements HasMiddleware
             'p2' => $stock,
             'p3' => $minstock,
             'p4' => $harga_beli,
+        ], 200);
+    }
+
+    public function printMutasi()
+    {
+        $datas = ViewMutasiStock::get();
+
+        $namafile = '_mutasistock_' . str_replace('@', '(at)', str_replace('.', '_', auth()->user()->email)) . '.pdf';
+        session()->put('documents', $namafile);
+
+        if ($datas) {
+            $nhari = date('w');
+            $nbulan = date('n') - 1;
+            $nbulanini = date('n') - 1;
+            $hari = $this->array_hari[$nhari]['hari']['name'];
+            $bulan = $this->array_bulan[$nbulan]['bulan']['name'];
+            $bulanini = $this->array_bulan[$nbulanini]['bulan']['name'];
+
+            $pdf = Pdf::loadView('barang.pdf.mutasi-stock', ['datas' => $datas, 'hari' => $hari, 'bulan' => $bulan, 'bulanini' => $bulanini])
+                ->setPaper('a4', 'landscape')
+                ->setOptions(['enable_php' => true]);
+
+            $output = $pdf->output();
+            Storage::disk('pdfs')->put($namafile, $output);
+
+            return response()->json([
+                'namafile' => url('documents/' . $namafile),
+            ], 200);
+        }
+
+        return response()->json([
+            'status' => 'Not Found',
         ], 200);
     }
 }

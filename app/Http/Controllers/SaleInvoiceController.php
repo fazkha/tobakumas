@@ -12,9 +12,8 @@ use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
-use Spatie\LaravelPdf\Facades\Pdf;
-use Spatie\LaravelPdf\Enums\Orientation;
-use Spatie\LaravelPdf\Enums\Format;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
 
 class SaleInvoiceController extends Controller implements HasMiddleware
 {
@@ -154,11 +153,12 @@ class SaleInvoiceController extends Controller implements HasMiddleware
 
         if ($selected) {
             // foreach ($selected as $select) {}
-            Pdf::view('sale-invoice.pdf.multi_invoice', ['selected' => $selected])
-                ->orientation(Orientation::Landscape)
-                ->format(Format::A4)
-                ->disk('pdfs')
-                ->save($namafile);
+            $pdf = Pdf::loadView('sale-invoice.pdf.multi_invoice', ['selected' => $selected])
+                ->setPaper('a4', 'landscape')
+                ->setOptions(['enable_php' => true]);
+
+            $output = $pdf->output();
+            Storage::disk('pdfs')->put($namafile, $output);
 
             return response()->json([
                 'namafile' => url('documents/' . $namafile),
@@ -189,11 +189,12 @@ class SaleInvoiceController extends Controller implements HasMiddleware
         session()->put('documents', $namafile);
 
         if ($datas) {
-            Pdf::view('sale-invoice.pdf.invoice', ['datas' => $datas, 'details' => $details, 'adonans' => $adonans, 'totals' => $totals])
-                ->orientation(Orientation::Landscape)
-                ->format(Format::A4)
-                ->disk('pdfs')
-                ->save($namafile);
+            $pdf = Pdf::loadView('sale-invoice.pdf.invoice', ['datas' => $datas, 'details' => $details, 'adonans' => $adonans, 'totals' => $totals])
+                ->setPaper('a4', 'landscape')
+                ->setOptions(['enable_php' => true]);
+
+            $output = $pdf->output();
+            Storage::disk('pdfs')->put($namafile, $output);
 
             return response()->json([
                 'namafile' => url('documents/' . $namafile),

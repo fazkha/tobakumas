@@ -18,11 +18,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Gate;
-// use Spatie\LaravelPdf\Enums\Format;
-// use Spatie\LaravelPdf\Enums\Orientation;
-// use Spatie\LaravelPdf\Enums\Unit;
-// use Spatie\LaravelPdf\Facades\Pdf;
-// use Spatie\Browsershot\Browsershot;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
 
@@ -365,15 +360,6 @@ class StockOpnameController extends Controller implements HasMiddleware
             $hari = $this->array_hari[$nhari]['hari']['name'];
             $bulan = $this->array_bulan[$nbulan]['bulan']['name'];
             $bulanini = $this->array_bulan[$nbulanini]['bulan']['name'];
-
-            // Pdf::view('stock-opname.pdf.perhitungan', ['datas' => $datas, 'details' => $details, 'bulanini' => $bulanini])
-            //     ->headerView('stock-opname.pdf.perhitungan-header', ['datas' => $datas, 'hari' => $hari, 'bulan' => $bulan])
-            //     ->footerView('stock-opname.pdf.perhitungan-footer')
-            //     ->orientation(Orientation::Landscape)
-            //     ->margins(3, 0.5, 1, 0.5, Unit::Centimeter)
-            //     ->format(Format::A4)
-            //     ->disk('pdfs')
-            //     ->save($namafile);
 
             $pdf = Pdf::loadView('stock-opname.pdf.perhitungan', ['datas' => $datas, 'details' => $details, 'hari' => $hari, 'bulan' => $bulan, 'bulanini' => $bulanini])
                 ->setPaper('a4', 'landscape')

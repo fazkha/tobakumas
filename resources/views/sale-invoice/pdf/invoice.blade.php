@@ -3,15 +3,20 @@
 <head>
     <title>Invoice</title>
     <style>
-        body {
+        @page {
+            margin: 0;
+            margin-top: 110px;
+            margin-bottom: 20px;
+            margin-left: 20px;
+            margin-right: 20px;
             font-family: 'Dosis', sans-serif;
             font-size: 10px;
+            font-weight: normal;
         }
 
         .table_left {
             overflow: auto;
             width: 90%;
-            font-size: 10px;
         }
 
         .table_left table {
@@ -22,13 +27,11 @@
             border-collapse: collapse;
             border-spacing: 1px;
             text-align: left;
-            font-size: 10px;
         }
 
         .table_left caption {
             caption-side: top;
             text-align: left;
-            font-size: 10px;
         }
 
         .table_left th {
@@ -36,7 +39,6 @@
             background-color: #eceff1;
             color: #000000;
             padding: 3px;
-            font-size: 10px;
         }
 
         .table_left td {
@@ -44,13 +46,11 @@
             background-color: #ffffff;
             color: #000000;
             padding: 3px;
-            font-size: 10px;
         }
 
         .table_right {
             overflow: auto;
             width: 110%;
-            font-size: 10px;
         }
 
         .table_right table {
@@ -61,13 +61,11 @@
             border-collapse: collapse;
             border-spacing: 1px;
             text-align: left;
-            font-size: 10px;
         }
 
         .table_right caption {
             caption-side: top;
             text-align: left;
-            font-size: 10px;
         }
 
         .table_right th {
@@ -75,7 +73,6 @@
             background-color: #eceff1;
             color: #000000;
             padding: 3px;
-            font-size: 10px;
         }
 
         .table_right td {
@@ -83,10 +80,8 @@
             background-color: #ffffff;
             color: #000000;
             padding: 3px;
-            font-size: 10px;
         }
     </style>
-    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>

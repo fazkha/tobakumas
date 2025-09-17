@@ -105,7 +105,6 @@
                                 const alpineData = Alpine.$data(alpineElement);
                                 alpineData.openModal = true;
                                 alpineData.modalTitle = '{{ __('messages.saleinvoice') }}';
-                                flasher.success("{{ __('messages.successcreated') }}!", "Success");
                             }
                             $('#print-icon').parent().prop('disabled', false);
                             $('#print-icon').removeClass('animate-spin');
@@ -132,7 +131,6 @@
                                 const alpineData = Alpine.$data(alpineElement);
                                 alpineData.openModal = true;
                                 alpineData.modalTitle = '{{ __('messages.saleinvoice') }}';
-                                flasher.success("{{ __('messages.successcreated') }}!", "Success");
                             }
                             $(idname).removeClass('animate-spin');
                             $(idname).addClass('hidden');
