@@ -82,9 +82,9 @@
                         <th rowspan="2" style="width: 25%">Keterangan</th>
                     </tr>
                     <tr>
-                        <th style="width: 8%">Sistem</th>
-                        <th style="width: 8%">Disesuaikan</th>
-                        <th style="width: 8%">Penyesuaian</th>
+                        <th style="width: 9%">Sistem</th>
+                        <th style="width: 9%">Disesuaikan</th>
+                        <th style="width: 9%">Penyesuaian</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -120,10 +120,10 @@
         @endif
 
         <div style="padding: 10px;">
-            <table style="width: 100%; font-size: 14px;">
+            <table style="width: 100%;">
                 <tr>
                     <td style="text-align: left;" colspan="3">
-                        <table style="width: auto; font-size: 14px;">
+                        <table style="width: auto;">
                             <tr>
                                 <td style="padding: 10px; vertical-align: top">Catatan:</td>
                                 <td style="padding: 8px; vertical-align: top; line-height: 20px;">
@@ -144,8 +144,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 25%">
-                        <table style="width: 100%; font-size: 14px;">
+                    <td style="width: 30%">
+                        <table style="width: 100%;">
                             <tr>
                                 <td style="padding: 10px; text-align: center;">Petugas Gudang</td>
                             </tr>
@@ -158,9 +158,9 @@
                             </tr>
                         </table>
                     </td>
-                    <td style="width: 50%">&nbsp;</td>
-                    <td style="width: 25%">
-                        <table style="width: 100%; font-size: 14px;">
+                    <td style="width: 40%">&nbsp;</td>
+                    <td style="width: 30%">
+                        <table style="width: 100%;">
                             <tr>
                                 <td style="padding: 10px; text-align: center;">Mengetahui</td>
                             </tr>

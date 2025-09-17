@@ -269,15 +269,6 @@ class StockAdjustmentController extends Controller implements HasMiddleware
             $bulan = $this->array_bulan[$nbulan]['bulan']['name'];
             $bulanini = $this->array_bulan[$nbulanini]['bulan']['name'];
 
-            // Pdf::view('stock-adjustment.pdf.penyesuaian', ['datas' => $datas, 'details' => $details, 'bulanini' => $bulanini])
-            //     ->orientation(Orientation::Landscape)
-            //     ->margins(3, 0.5, 1, 0.5, Unit::Centimeter)
-            //     ->headerView('stock-adjustment.pdf.penyesuaian-header', ['datas' => $datas, 'hari' => $hari, 'bulan' => $bulan])
-            //     ->footerView('stock-adjustment.pdf.penyesuaian-footer')
-            //     ->format(Format::A4)
-            //     ->disk('pdfs')
-            //     ->save($namafile);
-
             $pdf = Pdf::loadView('stock-adjustment.pdf.penyesuaian', ['datas' => $datas, 'details' => $details, 'hari' => $hari, 'bulan' => $bulan, 'bulanini' => $bulanini])
                 ->setPaper('a4', 'landscape')
                 ->setOptions(['enable_php' => true]);
