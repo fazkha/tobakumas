@@ -54,7 +54,7 @@ return [
     'simbol_kali' => '✖️',
 
     // total_baris_tabel_laporan_suratjalan
-    'total_baris_suratjalan' => 19,
+    'total_baris_suratjalan' => 17,
 
     // pdf baris per halaman indikator ganti halaman
     'pdf_line_per_page' => 20,
