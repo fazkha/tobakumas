@@ -10,13 +10,14 @@ class PdfController extends Controller
 {
     public function show(string $filename)
     {
-        $path = 'pdfs/' . $filename;
+        // $path = 'pdfs/' . $filename;
 
-        if (!Storage::exists($path)) {
+        if (!Storage::disk('pdfs')->exists($filename)) {
+            // if (!Storage::exists($path)) {
             abort(404);
         }
 
-        return Response::make(Storage::get($path), 200, [
+        return Response::make(Storage::disk('pdfs')->get($filename), 200, [
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'inline; filename="' . $filename . '"',
         ]);
