@@ -107,10 +107,20 @@
                                         </x-text-span>
                                     </div>
 
+                                    <div class="w-auto pb-4">
+                                        <label for="email"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.emailaddress')</label>
+                                        <x-text-input type="text" name="email" id="email" tabindex="6"
+                                            placeholder="{{ __('messages.enter') }} {{ __('messages.description') }}"
+                                            value="{{ old('email', $datas->email) }}" />
+
+                                        <x-input-error class="mt-2" :messages="$errors->get('email')" />
+                                    </div>
+
                                     <div class="w-auto pb-4 lg:pb-12">
                                         <label for="keterangan"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</label>
-                                        <x-text-input type="text" name="keterangan" id="keterangan" tabindex="6"
+                                        <x-text-input type="text" name="keterangan" id="keterangan" tabindex="7"
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.description') }}"
                                             value="{{ old('keterangan', $datas->keterangan) }}" />
 
@@ -118,10 +128,10 @@
                                     </div>
 
                                     <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
-                                        <div class="dark:bg-black/10">
+                                        <div class="w-auto">
                                             <label
                                                 class="cursor-pointer flex flex-col items-center md:flex-row md:gap-2">
-                                                <input type="checkbox" id="isactive" name="isactive"
+                                                <input type="checkbox" id="isactive" name="isactive" tabindex="8"
                                                     class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-7 h-7 rounded-lg shadow-md"
                                                     {{ $datas->isactive == '1' ? 'checked' : '' }}>
                                                 <span
@@ -131,7 +141,7 @@
                                             </label>
                                         </div>
 
-                                        <x-primary-button type="submit" class="block" tabindex="8">
+                                        <x-primary-button type="submit" class="block" tabindex="9">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                 class="size-5">
@@ -140,7 +150,7 @@
                                             </svg>
                                             <span class="pl-1">@lang('messages.save')</span>
                                         </x-primary-button>
-                                        <x-anchor-secondary href="{{ route('employee.index') }}" tabindex="9">
+                                        <x-anchor-secondary href="{{ route('employee.index') }}" tabindex="10">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                 class="size-5">
@@ -234,7 +244,7 @@
                                                             name="keterangan" tabindex="13" />
                                                     </td>
                                                     <td class="text-center">
-                                                        <div class="dark:bg-black/10">
+                                                        <div class="w-auto">
                                                             <input type="checkbox" id="isactive" name="isactive"
                                                                 class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-7 h-7 rounded-lg shadow-md"
                                                                 checked>

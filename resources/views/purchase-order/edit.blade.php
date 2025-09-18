@@ -125,7 +125,7 @@
                                     </div>
 
                                     <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
-                                        <div class="dark:bg-black/10">
+                                        <div class="w-auto">
                                             <label
                                                 class="cursor-pointer flex flex-col items-center md:flex-row md:gap-2">
                                                 <input type="checkbox" id="isactive" name="isactive"

@@ -23,6 +23,9 @@ return new class extends Migration
             $table->unsignedTinyInteger('approved')->default(0);
             $table->string('approved_by')->nullable();
             $table->dateTime('approved_at')->nullable();
+            $table->unsignedTinyInteger('adjusted')->default(0);
+            $table->string('adjusted_by')->nullable();
+            $table->dateTime('adjusted_at')->nullable();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->timestamps();

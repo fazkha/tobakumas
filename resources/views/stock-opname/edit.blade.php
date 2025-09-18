@@ -156,18 +156,32 @@
 
                                     <div
                                         class="flex flex-row flex-wrap lg:flex-nowrap items-center justify-end gap-2 md:gap-4">
-                                        <div class="dark:bg-black/10">
-                                            <label
-                                                class="cursor-pointer flex flex-col items-center md:flex-row md:gap-2">
-                                                <input type="checkbox" id="approved" name="approved"
-                                                    class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-7 h-7 rounded-lg shadow-md"
-                                                    {{ $datas->approved == '1' ? 'checked' : '' }}>
-                                                <span
-                                                    class="pr-4 group-hover:text-blue-500 transition-colors duration-300 text-center w-3/4 md:text-left md:w-full">
-                                                    @lang('messages.donecalculation')
-                                                </span>
-                                            </label>
-                                        </div>
+                                        @php
+                                            $can_approve = false;
+
+                                            if ($datas->tanggungjawab_id) {
+                                                if (
+                                                    $datas->tanggungjawab->email == auth()->user()->email ||
+                                                    auth()->user()->hasRole('Super Admin')
+                                                ) {
+                                                    $can_approve = true;
+                                                }
+                                            }
+                                        @endphp
+                                        @if ($can_approve)
+                                            <div class="w-auto">
+                                                <label
+                                                    class="cursor-pointer flex flex-col items-center md:flex-row md:gap-2">
+                                                    <input type="checkbox" id="approved" name="approved"
+                                                        class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-7 h-7 rounded-lg shadow-md"
+                                                        {{ $datas->approved == '1' ? 'checked' : '' }}>
+                                                    <span
+                                                        class="pr-4 group-hover:text-blue-500 transition-colors duration-300 text-center w-3/4 md:text-left md:w-full">
+                                                        @lang('messages.donecalculation')
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        @endif
 
                                         <x-primary-button type="submit" class="block" tabindex="7"
                                             x-bind:disabled="buttonDisabled">

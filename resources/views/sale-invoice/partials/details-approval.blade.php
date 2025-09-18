@@ -22,7 +22,7 @@
             @if ($viewMode == false)
                 <td>
                     <div class="flex items-center justify-center space-x-3">
-                        <div class="dark:bg-black/10">
+                        <div class="w-auto">
                             <label class="cursor-pointer">
                                 <input type="checkbox" onclick="approveDetail({{ $detail->id }})"
                                     id="approved-{{ $detail->id }}" name="approved-{{ $detail->id }}"

@@ -75,7 +75,7 @@
                 <thead>
                     <tr>
                         <th style="width: 5%">No.</th>
-                        <th style="width: 18%">Transaksi</th>
+                        <th style="width: 22%">Transaksi</th>
                         <th style="width: 18%">No. Bukti</th>
                         <th style="width: auto">Tanggal</th>
                         <th style="width: auto">Jumlah</th>

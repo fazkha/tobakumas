@@ -107,13 +107,13 @@
                                 <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
                                     <div class="pr-2">
                                         <div class="inline-flex items-center">
-                                            @if ($datas->approved == '1')
+                                            @if ($datas->adjusted == '1')
                                                 <span>✔️</span>
                                             @endif
-                                            @if ($datas->approved == '0')
+                                            @if ($datas->adjusted == '0')
                                                 <span>❌</span>
                                             @endif
-                                            <span class='pl-2'>@lang('messages.donecalculation')</span>
+                                            <span class='pl-2'>@lang('messages.doneadjustment')</span>
                                         </div>
                                     </div>
 

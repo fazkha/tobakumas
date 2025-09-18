@@ -22,6 +22,9 @@ class StockOpname extends Model
         'approved',
         'approved_by',
         'approved_at',
+        'adjusted',
+        'adjusted_by',
+        'adjusted_at',
         'created_by',
         'updated_by',
     ];

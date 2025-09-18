@@ -207,10 +207,13 @@ class StockAdjustmentController extends Controller implements HasMiddleware
                 'keterangan_adjustment' => $request->keterangan_adjustment,
                 'petugas_1_id' => $request->petugas_1_id,
                 'petugas_2_id' => $request->petugas_2_id,
+                'adjusted' => (config('custom.stockopname_approval') == false) ? 1 : ($request->adjusted == 'on' ? 1 : 0),
+                'adjusted_by' => (config('custom.stockopname_approval') == false) ? 'system' : ($request->adjusted == 'on' ? auth()->user()->email : NULL),
+                'adjusted_at' => (config('custom.stockopname_approval') == false) ? date('Y-m-d H:i:s') : ($request->adjusted == 'on' ? date('Y-m-d H:i:s') : NULL),
                 'updated_by' => auth()->user()->email,
             ]);
 
-            if ($request->approved == 'on') {
+            if ($request->adjusted == 'on') {
                 return redirect()->route('stock-adjustment.index')->with('success', __('messages.successupdated') . ' 👉 ' . $request->tanggal_adjustment);
             } else {
                 return redirect()->back()->with('success', __('messages.successupdated') . ' 👉 ' . $request->tanggal_adjustment);

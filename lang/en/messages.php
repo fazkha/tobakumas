@@ -223,6 +223,7 @@ return [
     'receiptdescription' => 'Receipt Note',
     'periode' => 'Period',
     'donecalculation' => 'Done Calculation',
+    'doneadjustment' => 'Done Adjustment',
     'adjustment' => 'Adjustment',
     'adjustmentunit' => 'Adjustment Unit',
     'adjustmentstock' => 'Adjustment Stock',

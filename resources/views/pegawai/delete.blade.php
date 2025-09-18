@@ -107,6 +107,12 @@
                                     <x-text-span>{{ $datas->kelamin == 'L' ? 'Laki-laki' : 'Perempuan' }}</x-text-span>
                                 </div>
 
+                                <div class="w-auto pb-4">
+                                    <span for="email"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.emailaddress')</span>
+                                    <x-text-span>{{ $datas->email }}</x-text-span>
+                                </div>
+
                                 <div class="w-auto pb-4 lg:pb-12">
                                     <span for="keterangan"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</span>

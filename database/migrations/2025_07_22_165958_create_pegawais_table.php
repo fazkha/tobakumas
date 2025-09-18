@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('tanggal_lahir')->nullable();
             $table->char('kelamin', 1)->default('L');
             $table->string('keterangan')->nullable();
+            $table->string('email')->nullable();
             $table->tinyInteger('isactive')->default(0);
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();

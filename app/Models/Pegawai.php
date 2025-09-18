@@ -15,6 +15,7 @@ class Pegawai extends Model
         'telpon',
         'kelamin',
         'keterangan',
+        'email',
         'isactive',
         'created_by',
         'updated_by',

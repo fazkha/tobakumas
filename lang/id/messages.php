@@ -222,6 +222,7 @@ return [
     'receiptquantity' => 'Kuantitas Penerimaan',
     'periode' => 'Periode',
     'donecalculation' => 'Selesai Perhitungan',
+    'doneadjustment' => 'Selesai Penyesuaian',
     'adjustment' => 'Penyesuaian',
     'adjustmentunit' => 'Satuan Penyesuaian',
     'adjustmentstock' => 'Persediaan Penyesuaian',

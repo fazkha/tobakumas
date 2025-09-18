@@ -100,10 +100,20 @@
                                         </x-text-span>
                                     </div>
 
+                                    <div class="w-auto pb-4">
+                                        <label for="email"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.emailaddress')</label>
+                                        <x-text-input type="text" name="email" id="email" tabindex="6"
+                                            placeholder="{{ __('messages.enter') }} {{ __('messages.description') }}"
+                                            value="{{ old('email') }}" />
+
+                                        <x-input-error class="mt-2" :messages="$errors->get('email')" />
+                                    </div>
+
                                     <div class="w-auto pb-4 lg:pb-12">
                                         <label for="keterangan"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</label>
-                                        <x-text-input type="text" name="keterangan" id="keterangan" tabindex="6"
+                                        <x-text-input type="text" name="keterangan" id="keterangan" tabindex="7"
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.description') }}"
                                             value="{{ old('keterangan') }}" />
 
@@ -111,10 +121,10 @@
                                     </div>
 
                                     <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
-                                        <div class="dark:bg-black/10">
+                                        <div class="w-auto">
                                             <label
                                                 class="cursor-pointer flex flex-col items-center md:flex-row md:gap-2">
-                                                <input type="checkbox" id="isactive" name="isactive" tabindex="5"
+                                                <input type="checkbox" id="isactive" name="isactive" tabindex="8"
                                                     class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-7 h-7 rounded-lg shadow-md"
                                                     checked>
                                                 <span
@@ -124,15 +134,16 @@
                                             </label>
                                         </div>
 
-                                        <x-primary-button type="submit" class="block" tabindex="8">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="currentColor" class="size-5">
+                                        <x-primary-button type="submit" class="block" tabindex="9">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                class="size-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
                                             </svg>
                                             <span class="pl-1">@lang('messages.save')</span>
                                         </x-primary-button>
-                                        <x-anchor-secondary href="{{ route('employee.index') }}" tabindex="9">
+                                        <x-anchor-secondary href="{{ route('employee.index') }}" tabindex="10">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                 class="size-5">
