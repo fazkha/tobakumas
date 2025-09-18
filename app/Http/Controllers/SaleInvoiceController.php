@@ -172,7 +172,6 @@ class SaleInvoiceController extends Controller implements HasMiddleware
 
     public function print(Request $request)
     {
-        // $id = Crypt::decrypt($request->invoice);
         $id = $request->invoice;
         $datas = SaleOrder::find($id);
         $details = SaleOrderDetail::where('sale_order_id', $id)->orderBy('barang_id')->get();
