@@ -126,7 +126,7 @@
                                                 class="flex flex-row flex-wrap lg:flex-nowrap items-center justify-end gap-2 md:gap-4">
                                                 <x-secondary-button id="print-laporan" tabindex="0"
                                                     class="bg-indigo-700 hover:bg-indigo-800 dark:bg-indigo-900 hover:dark:bg-indigo-950">
-                                                    <svg id="print-icon" class="size-4" viewBox="0 0 15 15"
+                                                    <svg id="print-icon" class="size-5" viewBox="0 0 15 15"
                                                         fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path
                                                             d="M3.5 12.5H1.5C0.947715 12.5 0.5 12.0523 0.5 11.5V7.5C0.5 6.94772 0.947715 6.5 1.5 6.5H13.5C14.0523 6.5 14.5 6.94772 14.5 7.5V11.5C14.5 12.0523 14.0523 12.5 13.5 12.5H11.5M3.5 6.5V1.5C3.5 0.947715 3.94772 0.5 4.5 0.5H10.5C11.0523 0.5 11.5 0.947715 11.5 1.5V6.5M3.5 10.5H11.5V14.5H3.5V10.5Z"
@@ -139,18 +139,32 @@
                                     @endif
 
                                     <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
-                                        <div class="w-auto">
-                                            <label
-                                                class="cursor-pointer flex flex-col items-center md:flex-row md:gap-2">
-                                                <input type="checkbox" id="adjusted" name="adjusted"
-                                                    class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-7 h-7 rounded-lg shadow-md"
-                                                    {{ $datas->adjusted == '1' ? 'checked' : '' }}>
-                                                <span
-                                                    class="pr-4 group-hover:text-blue-500 transition-colors duration-300 text-right w-1/2 md:w-full">
-                                                    @lang('messages.doneadjustment')
-                                                </span>
-                                            </label>
-                                        </div>
+                                        @php
+                                            $can_approve = false;
+
+                                            if ($datas->tanggungjawab_id) {
+                                                if (
+                                                    $datas->tanggungjawab->email == auth()->user()->email ||
+                                                    auth()->user()->hasRole('Super Admin')
+                                                ) {
+                                                    $can_approve = true;
+                                                }
+                                            }
+                                        @endphp
+                                        @if ($can_approve)
+                                            <div class="w-auto">
+                                                <label
+                                                    class="cursor-pointer flex flex-col items-center md:flex-row md:gap-2">
+                                                    <input type="checkbox" id="adjusted" name="adjusted"
+                                                        class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-7 h-7 rounded-lg shadow-md"
+                                                        {{ $datas->adjusted == '1' ? 'checked' : '' }}>
+                                                    <span
+                                                        class="pr-4 group-hover:text-blue-500 transition-colors duration-300 text-right w-1/2 md:w-full">
+                                                        @lang('messages.doneadjustment')
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        @endif
 
                                         <x-primary-button type="submit" class="block" tabindex="7"
                                             x-bind:disabled="buttonDisabled">
