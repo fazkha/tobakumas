@@ -10,10 +10,7 @@ class PdfController extends Controller
 {
     public function show(string $filename)
     {
-        // $path = 'pdfs/' . $filename;
-
         if (!Storage::disk('pdfs')->exists($filename)) {
-            // if (!Storage::exists($path)) {
             abort(404);
         }
 
