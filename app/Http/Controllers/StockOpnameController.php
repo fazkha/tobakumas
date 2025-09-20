@@ -366,10 +366,14 @@ class StockOpnameController extends Controller implements HasMiddleware
                 ->setOptions(['enable_php' => true]);
 
             $output = $pdf->output();
-            if (Storage::disk('pdfs')->exists($namafile)) {
-                Storage::disk('pdfs')->delete($namafile);
-            }
-            Storage::disk('pdfs')->put($namafile, $output);
+            $content = $pdf->download()->getOriginalContent();
+
+            // if (Storage::disk('pdfs')->exists($namafile)) {
+            //     Storage::disk('pdfs')->delete($namafile);
+            // }
+
+            // Storage::disk('pdfs')->put($namafile, $output);
+            Storage::disk('pdfs')->put($namafile, $content);
 
             return response()->json([
                 'namafile' => url('documents/' . $namafile),
