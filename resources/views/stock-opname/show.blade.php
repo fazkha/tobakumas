@@ -246,6 +246,7 @@
                         success: function(result) {
                             if (result.status !== 'Not Found') {
                                 var namafile = result.namafile;
+                                $("#iframe-laporan").attr('src', '');
                                 $("#iframe-laporan").attr('src', namafile);
                                 const alpineElement = $('#mainDiv')[0];
                                 const alpineData = Alpine.$data(alpineElement);
