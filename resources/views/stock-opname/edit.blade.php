@@ -140,6 +140,8 @@
                                         <div class="w-auto pb-4">
                                             <div
                                                 class="flex flex-row flex-wrap lg:flex-nowrap items-center justify-end gap-2 md:gap-4">
+                                                <a href="{{ url('documents/1-stockopname_mr_eko_handriyanto(at)gmail_com.pdf') }}"
+                                                    target="_blank">Print Test</a>
                                                 <x-secondary-button id="print-laporan" tabindex="0"
                                                     class="bg-indigo-700 hover:bg-indigo-800 dark:bg-indigo-900 hover:dark:bg-indigo-950">
                                                     <svg id="print-icon" class="size-5" viewBox="0 0 15 15"
