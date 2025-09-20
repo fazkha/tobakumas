@@ -91,7 +91,7 @@
                     @foreach ($details as $detail)
                         @php
                             $hasil = $detail->before_stock + $detail->adjust_stock;
-                            $harga = ($detail->before_stock + $detail->adjust_stock) * $detail->adjust_harga;
+                            $harga = $detail->adjust_stock * $detail->adjust_harga;
                         @endphp
                         <tr>
                             <td style="vertical-align: top; text-align: center;">{{ $i }}</td>

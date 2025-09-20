@@ -1,7 +1,3 @@
-@php
-    $documents = 'documents/' . $documents;
-@endphp
-
 @section('title', __('messages.saleinvoice'))
 
 <x-app-layout>
@@ -99,12 +95,7 @@
                         success: function(result) {
                             if (result.status !== 'Not Found') {
                                 var namafile = result.namafile;
-                                $("#iframe-laporan").attr('src', namafile);
-                                // $("#iframe-laporan").attr('src', $("#iframe-laporan").attr('src'));
-                                const alpineElement = $('#mainDiv')[0];
-                                const alpineData = Alpine.$data(alpineElement);
-                                alpineData.openModal = true;
-                                alpineData.modalTitle = '{{ __('messages.saleinvoice') }}';
+                                window.open(namafile, '_blank');
                             }
                             $('#print-icon').parent().prop('disabled', false);
                             $('#print-icon').removeClass('animate-spin');
@@ -126,11 +117,7 @@
                         success: function(result) {
                             if (result.status !== 'Not Found') {
                                 var namafile = result.namafile;
-                                $("#iframe-laporan").attr('src', namafile);
-                                const alpineElement = $('#mainDiv')[0];
-                                const alpineData = Alpine.$data(alpineElement);
-                                alpineData.openModal = true;
-                                alpineData.modalTitle = '{{ __('messages.saleinvoice') }}';
+                                window.open(namafile, '_blank');
                             }
                             $(idname).removeClass('animate-spin');
                             $(idname).addClass('hidden');
