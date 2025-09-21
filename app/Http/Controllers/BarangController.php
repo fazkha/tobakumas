@@ -187,6 +187,7 @@ class BarangController extends Controller implements HasMiddleware
             $gambarNamaAwal = NULL;
             $harga_satuan = NULL;
             $harga_satuan_jual = NULL;
+            $satuan_jual_id = $request->satuan_jual_id;
 
             if ($image) {
                 $imageName = $image->hashName();
@@ -200,12 +201,18 @@ class BarangController extends Controller implements HasMiddleware
                 $harga_satuan_jual = str_replace('.', '', str_replace('Rp. ', '', $request->harga_satuan_jual));
             }
 
+            if ($harga_satuan_jual > 0) {
+                if ($request->satuan_jual_id == NULL) {
+                    $satuan_jual_id = $request->satuan_beli_id;
+                }
+            }
+
             $barang = Barang::create([
                 'branch_id' => $request->branch_id,
                 'gudang_id' => $request->gudang_id,
                 'satuan_beli_id' => $request->satuan_beli_id,
-                'satuan_jual_id' => $request->satuan_jual_id,
-                'satuan_stock_id' => $request->satuan_jual_id,
+                'satuan_jual_id' => $satuan_jual_id,
+                'satuan_stock_id' => $satuan_jual_id,
                 'jenis_barang_id' => $request->jenis_barang_id,
                 'subjenis_barang_id' => $request->subjenis_barang_id,
                 'nama' => $request->nama,
@@ -264,6 +271,7 @@ class BarangController extends Controller implements HasMiddleware
             $deletePath = $barang->lokasi;
             $harga_satuan = NULL;
             $harga_satuan_jual = NULL;
+            $satuan_jual_id = $request->satuan_jual_id;
 
             $lokasi = $this->GetLokasiUpload();
             $pathym = $lokasi['path'] . '/' . $lokasi['ym'];
@@ -280,12 +288,17 @@ class BarangController extends Controller implements HasMiddleware
             if ($request->harga_satuan_jual) {
                 $harga_satuan_jual = str_replace('.', '', str_replace('Rp. ', '', $request->harga_satuan_jual));
             }
+            if ($harga_satuan_jual > 0) {
+                if ($request->satuan_jual_id == NULL) {
+                    $satuan_jual_id = $request->satuan_beli_id;
+                }
+            }
 
             $barang->update([
                 'gudang_id' => $request->gudang_id,
                 'satuan_beli_id' => $request->satuan_beli_id,
-                'satuan_jual_id' => $request->satuan_jual_id,
-                'satuan_stock_id' => $request->satuan_jual_id,
+                'satuan_jual_id' => $satuan_jual_id,
+                'satuan_stock_id' => $satuan_jual_id,
                 'jenis_barang_id' => $request->jenis_barang_id,
                 'subjenis_barang_id' => $request->subjenis_barang_id,
                 'nama' => $request->nama,
