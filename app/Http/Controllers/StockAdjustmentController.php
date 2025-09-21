@@ -15,10 +15,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Gate;
-// use Spatie\LaravelPdf\Enums\Format;
-// use Spatie\LaravelPdf\Enums\Orientation;
-// use Spatie\LaravelPdf\Enums\Unit;
-// use Spatie\LaravelPdf\Facades\Pdf;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
 

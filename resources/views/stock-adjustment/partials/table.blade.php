@@ -77,7 +77,7 @@
                                 @endcan
 
                                 @can('stopname-edit')
-                                    @if ($data->approved == 0)
+                                    @if ($data->adjusted == 0)
                                         <a href="{{ route('stock-adjustment.edit', Crypt::Encrypt($data->id)) }}"
                                             title="{{ __('messages.edit') }}" class="ml-2">
                                             <span
