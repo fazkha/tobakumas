@@ -200,11 +200,8 @@ class BarangController extends Controller implements HasMiddleware
             if ($request->harga_satuan_jual) {
                 $harga_satuan_jual = str_replace('.', '', str_replace('Rp. ', '', $request->harga_satuan_jual));
             }
-
-            if ($harga_satuan_jual > 0) {
-                if ($request->satuan_jual_id == NULL) {
-                    $satuan_jual_id = $request->satuan_beli_id;
-                }
+            if ($request->satuan_jual_id == NULL) {
+                $satuan_jual_id = $request->satuan_beli_id;
             }
 
             $barang = Barang::create([
@@ -288,10 +285,8 @@ class BarangController extends Controller implements HasMiddleware
             if ($request->harga_satuan_jual) {
                 $harga_satuan_jual = str_replace('.', '', str_replace('Rp. ', '', $request->harga_satuan_jual));
             }
-            if ($harga_satuan_jual > 0) {
-                if ($request->satuan_jual_id == NULL) {
-                    $satuan_jual_id = $request->satuan_beli_id;
-                }
+            if ($request->satuan_jual_id == NULL) {
+                $satuan_jual_id = $request->satuan_beli_id;
             }
 
             $barang->update([
