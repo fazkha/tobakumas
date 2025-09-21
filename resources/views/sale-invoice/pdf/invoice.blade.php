@@ -9,7 +9,7 @@
             margin-bottom: 2px;
             margin-left: 2px;
             margin-right: 2px;
-            font-family: 'Dosis', sans-serif;
+            font-family: Arial, sans-serif;
             font-size: 10px;
             font-weight: normal;
         }

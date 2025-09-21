@@ -46,6 +46,14 @@
             padding: 6px;
         }
 
+        .table_container tfoot td {
+            border: 1px solid #dededf;
+            background-color: #eceff1;
+            color: #000000;
+            padding: 6px;
+            font-weight: bold;
+        }
+
         .table_container td {
             border: 1px solid #dededf;
             background-color: #ffffff;
@@ -60,10 +68,14 @@
         $i = 1;
         $pdf_line_per_page = config('custom.pdf_line_per_page');
         $kel_barang = '';
+        $c6_1 = 0;
+        $c6_2 = 0;
+        $c6_3 = 0;
     @endphp
 
     <header>
-        @include('barang.pdf.mutasi-stock-header', [
+        @include('barang.pdf.mutasi-one-stock-header', [
+            'barang' => $barang,
             'gudang' => $gudang,
             'hari' => $hari,
             'bulan' => $bulan,
@@ -76,45 +88,78 @@
                 <thead>
                     <tr>
                         <th style="width: 5%">No.</th>
-                        <th style="width: auto">Nama Barang</th>
+                        <th style="width: 8%">Tanggal</th>
+                        <th style="width: 18%">No. Bukti</th>
                         <th style="width: auto">Satuan</th>
                         <th style="width: 8%">Saldo Awal</th>
                         <th style="width: 8%">Masuk</th>
                         <th style="width: 8%">Keluar</th>
                         <th style="width: 8%">Penyesu aian</th>
                         <th style="width: 8%">Saldo Akhir</th>
+                        <th style="width: 20%">Keterangan</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($datas as $data)
-                        @php
-                            $stawal = $data->c12 - ($data->c61 + $data->c62 + $data->c63);
-                        @endphp
                         <tr>
                             <td style="vertical-align: top; text-align: center;">{{ $i }}</td>
-                            <td style="vertical-align: top;">{{ $data->c4 }}</td>
+                            <td style="vertical-align: top;">{{ date_format(date_create($data->c3), 'd/m/Y') }}</td>
+                            <td style="vertical-align: top;">{{ $data->c2 }}</td>
                             <td style="vertical-align: top;">{{ $data->c5 }}</td>
-                            <td style="vertical-align: top; text-align: right;">
-                                {{ number_format($stawal, '1', ',', '.') }}
-                            </td>
-                            <td style="vertical-align: top; text-align: right;">
-                                {{ number_format($data->c61, '1', ',', '.') }}
-                            </td>
-                            <td style="vertical-align: top; text-align: right;">
-                                {{ number_format($data->c62, '1', ',', '.') }}
-                            </td>
-                            <td style="vertical-align: top; text-align: right;">
-                                {{ number_format($data->c63, '1', ',', '.') }}
-                            </td>
-                            <td style="vertical-align: top; text-align: right;">
-                                {{ number_format($data->c12, '1', ',', '.') }}
-                            </td>
+                            <td style="vertical-align: top;">&nbsp;</td>
+
+                            @if ($data->c10 == 'in')
+                                <td style="vertical-align: top; text-align: right;">
+                                    {{ number_format($data->c6, '1', ',', '.') }}
+                                </td>
+                                <td style="vertical-align: top;">&nbsp;</td>
+                                <td style="vertical-align: top;">&nbsp;</td>
+                                @php
+                                    $c6_1 = $c6_1 + $data->c6;
+                                @endphp
+                            @endif
+
+                            @if ($data->c10 == 'out')
+                                <td style="vertical-align: top;">&nbsp;</td>
+                                <td style="vertical-align: top; text-align: right;">
+                                    {{ number_format($data->c6, '1', ',', '.') }}
+                                </td>
+                                <td style="vertical-align: top;">&nbsp;</td>
+                                @php
+                                    $c6_2 = $c6_2 + $data->c6;
+                                @endphp
+                            @endif
+
+                            @if ($data->c10 == 'adjust')
+                                <td style="vertical-align: top;">&nbsp;</td>
+                                <td style="vertical-align: top;">&nbsp;</td>
+                                <td style="vertical-align: top; text-align: right;">
+                                    {{ number_format($data->c6, '1', ',', '.') }}
+                                </td>
+                                @php
+                                    $c6_3 = $c6_3 + $data->c6;
+                                @endphp
+                            @endif
+
+                            <td style="vertical-align: top;">&nbsp;</td>
+                            <td style="vertical-align: top;">{{ $data->c7 }}</td>
                         </tr>
                         @php
                             $i++;
                         @endphp
                     @endforeach
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" style="text-align: center">Jumlah</td>
+                        <td style="text-align: right">{{ number_format($stakhir - $stawal, '1', ',', '.') }}</td>
+                        <td style="text-align: right">{{ number_format($c6_1, '1', ',', '.') }}</td>
+                        <td style="text-align: right">{{ number_format($c6_2, '1', ',', '.') }}</td>
+                        <td style="text-align: right">{{ number_format($c6_3, '1', ',', '.') }}</td>
+                        <td style="text-align: right">{{ number_format($stakhir, '1', ',', '.') }}</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
 

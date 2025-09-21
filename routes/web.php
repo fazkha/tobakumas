@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\BarangController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\BrandivjabController;
 use App\Http\Controllers\BrandivjabkecController;
@@ -12,11 +11,9 @@ use App\Http\Controllers\DeliveryOrderDetailController;
 use App\Http\Controllers\DeliveryOrderMitraController;
 use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\PegawaiController;
-use App\Http\Controllers\GudangController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\KabupatenController;
 use App\Http\Controllers\KecamatanController;
-use App\Http\Controllers\KonversiController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\ProdOrderController;
@@ -24,17 +21,20 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PropinsiController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\PurchasePlanController;
-use App\Http\Controllers\PurchaseReceiptController;
 use App\Http\Controllers\QRController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\SaleInvoiceController;
 use App\Http\Controllers\SaleOrderController;
+use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\BarangController;
+use App\Http\Controllers\GudangController;
+use App\Http\Controllers\KonversiController;
+use App\Http\Controllers\PurchaseReceiptController;
 use App\Http\Controllers\SatuanController;
 use App\Http\Controllers\StockAdjustmentController;
 use App\Http\Controllers\StockOpnameController;
-use App\Http\Controllers\SupplierController;
-use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
@@ -103,46 +103,6 @@ Route::prefix('delivery')->middleware('auth')->group(function () {
     Route::get('order/finish-order/{order}', [DeliveryOrderController::class, 'finishOrder']);
     Route::resource('order-detail', DeliveryOrderDetailController::class)->names('delivery-order-detail');
     Route::resource('order-mitra', DeliveryOrderMitraController::class)->names('delivery-order-mitra');
-})->missing(function (Request $request) {
-    return Redirect::route('dashboard');
-});
-
-Route::prefix('warehouse')->middleware('auth')->group(function () {
-    Route::resource('units', SatuanController::class);
-    Route::get('units/{unit}/delete', [SatuanController::class, 'delete'])->name('units.delete');
-    Route::get('units/fetchdb/{pp}/{isactive}/{singkatan}/{nama_lengkap}', [SatuanController::class, 'fetchdb'])->defaults('singkatan', '_')->defaults('nama_lengkap', '_');
-
-    Route::resource('conversions', KonversiController::class);
-    Route::get('conversions/{conversion}/delete', [KonversiController::class, 'delete'])->name('conversions.delete');
-    Route::get('conversions/fetchdb/{pp}/{isactive}', [KonversiController::class, 'fetchdb']);
-
-    Route::resource('gudang', GudangController::class);
-    Route::get('gudang/{gudang}/delete', [GudangController::class, 'delete'])->name('gudang.delete');
-    Route::get('gudang/fetchdb/{pp}/{isactive}/{kode}/{nama}/{alamat}', [GudangController::class, 'fetchdb'])->defaults('kode', '_')->defaults('nama', '_')->defaults('alamat', '_');
-
-    Route::get('goods/print-mutasi', [BarangController::class, 'printMutasi'])->name('goods.print-mutasi');
-    Route::resource('goods', BarangController::class);
-    Route::get('goods/{good}/delete', [BarangController::class, 'delete'])->name('goods.delete');
-    Route::get('goods/fetchdb/{pp}/{isactive}/{satuan}/{jenis_barang}/{nama}/{merk}', [BarangController::class, 'fetchdb'])->defaults('nama', '_')->defaults('merk', '_');
-    Route::get('goods/get-goods-buy/{id}', [BarangController::class, 'getGoodsBuy']);
-    Route::get('goods/get-goods-sell/{id}', [BarangController::class, 'getGoodsSell']);
-    Route::get('goods/get-goods-stock/{id}', [BarangController::class, 'getGoodsStock']);
-
-    Route::resource('stock-opname', StockOpnameController::class);
-    Route::get('stock-opname/{stock_opname}/delete', [StockOpnameController::class, 'delete'])->name('stock-opname.delete');
-    Route::get('stock-opname/{stock_opname}/print', [StockOpnameController::class, 'print'])->name('stock-opname.print');
-    Route::get('stock-opname/fetchdb/{pp}/{gudang}/{tanggal}', [StockOpnameController::class, 'fetchdb'])->defaults('tanggal', '_');
-    Route::post('stock-opname/store-detail/{detail}', [StockOpnameController::class, 'storeDetail']);
-    Route::delete('stock-opname/delete-detail/{detail}', [StockOpnameController::class, 'deleteDetail']);
-
-    Route::resource('stock-adjustment', StockAdjustmentController::class);
-    Route::get('stock-adjustment/{stock_adjustment}/print', [StockAdjustmentController::class, 'print'])->name('stock-adjustment.print');
-    Route::get('stock-adjustment/fetchdb/{pp}/{gudang}/{tanggal}', [StockAdjustmentController::class, 'fetchdb'])->defaults('tanggal', '_');
-    Route::post('stock-adjustment/update-detail/{detail}', [StockAdjustmentController::class, 'updateDetail']);
-
-    Route::resource('purchase-receipt', PurchaseReceiptController::class)->names('purchase-receipt');
-    Route::get('purchase-receipt/fetchdb/{pp}/{isactive}/{tunai}/{supplier}/{no_order}/{tanggal}', [PurchaseReceiptController::class, 'fetchdb'])->defaults('no_order', '_')->defaults('tanggal', '_');
-    Route::post('purchase-receipt/update-detail/{detail}', [PurchaseReceiptController::class, 'updateDetail']);
 })->missing(function (Request $request) {
     return Redirect::route('dashboard');
 });
@@ -249,6 +209,47 @@ Route::prefix('sale')->middleware('auth')->group(function () {
     return Redirect::route('dashboard');
 });
 
+Route::prefix('warehouse')->middleware('auth')->group(function () {
+    Route::resource('units', SatuanController::class);
+    Route::get('units/{unit}/delete', [SatuanController::class, 'delete'])->name('units.delete');
+    Route::get('units/fetchdb/{pp}/{isactive}/{singkatan}/{nama_lengkap}', [SatuanController::class, 'fetchdb'])->defaults('singkatan', '_')->defaults('nama_lengkap', '_');
+
+    Route::resource('conversions', KonversiController::class);
+    Route::get('conversions/{conversion}/delete', [KonversiController::class, 'delete'])->name('conversions.delete');
+    Route::get('conversions/fetchdb/{pp}/{isactive}', [KonversiController::class, 'fetchdb']);
+
+    Route::resource('gudang', GudangController::class);
+    Route::get('gudang/{gudang}/delete', [GudangController::class, 'delete'])->name('gudang.delete');
+    Route::get('gudang/fetchdb/{pp}/{isactive}/{kode}/{nama}/{alamat}', [GudangController::class, 'fetchdb'])->defaults('kode', '_')->defaults('nama', '_')->defaults('alamat', '_');
+
+    Route::get('goods/print-mutasi', [BarangController::class, 'printMutasi']);
+    Route::get('goods/print-one-mutasi/{id}', [BarangController::class, 'printOneMutasi']);
+    Route::resource('goods', BarangController::class);
+    Route::get('goods/{good}/delete', [BarangController::class, 'delete'])->name('goods.delete');
+    Route::get('goods/fetchdb/{pp}/{isactive}/{satuan}/{jenis_barang}/{nama}/{merk}', [BarangController::class, 'fetchdb'])->defaults('nama', '_')->defaults('merk', '_');
+    Route::get('goods/get-goods-buy/{id}', [BarangController::class, 'getGoodsBuy']);
+    Route::get('goods/get-goods-sell/{id}', [BarangController::class, 'getGoodsSell']);
+    Route::get('goods/get-goods-stock/{id}', [BarangController::class, 'getGoodsStock']);
+
+    Route::resource('stock-opname', StockOpnameController::class);
+    Route::get('stock-opname/{stock_opname}/delete', [StockOpnameController::class, 'delete'])->name('stock-opname.delete');
+    Route::get('stock-opname/{stock_opname}/print', [StockOpnameController::class, 'print'])->name('stock-opname.print');
+    Route::get('stock-opname/fetchdb/{pp}/{gudang}/{tanggal}', [StockOpnameController::class, 'fetchdb'])->defaults('tanggal', '_');
+    Route::post('stock-opname/store-detail/{detail}', [StockOpnameController::class, 'storeDetail']);
+    Route::delete('stock-opname/delete-detail/{detail}', [StockOpnameController::class, 'deleteDetail']);
+
+    Route::resource('stock-adjustment', StockAdjustmentController::class);
+    Route::get('stock-adjustment/{stock_adjustment}/print', [StockAdjustmentController::class, 'print'])->name('stock-adjustment.print');
+    Route::get('stock-adjustment/fetchdb/{pp}/{gudang}/{tanggal}', [StockAdjustmentController::class, 'fetchdb'])->defaults('tanggal', '_');
+    Route::post('stock-adjustment/update-detail/{detail}', [StockAdjustmentController::class, 'updateDetail']);
+
+    Route::resource('purchase-receipt', PurchaseReceiptController::class)->names('purchase-receipt');
+    Route::get('purchase-receipt/fetchdb/{pp}/{isactive}/{tunai}/{supplier}/{no_order}/{tanggal}', [PurchaseReceiptController::class, 'fetchdb'])->defaults('no_order', '_')->defaults('tanggal', '_');
+    Route::post('purchase-receipt/update-detail/{detail}', [PurchaseReceiptController::class, 'updateDetail']);
+})->missing(function (Request $request) {
+    return Redirect::route('dashboard');
+});
+
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::resource('coa', CoaController::class);
     Route::get('coa/{coa}/delete', [CoaController::class, 'delete'])->name('coa.delete');
@@ -264,3 +265,4 @@ Route::prefix('admin')->middleware('auth')->group(function () {})->missing(funct
 Route::prefix('admin')->get('/qrcode', [QRController::class, 'index'])->name('qrcode');
 
 require __DIR__ . '/auth.php';
+require __DIR__ . '/warehouse.php';

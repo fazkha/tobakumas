@@ -10,6 +10,7 @@ use App\Http\Requests\BarangRequest;
 use App\Http\Requests\BarangUpdateRequest;
 use App\Models\SubjenisBarang;
 use App\Models\ViewMutasiStock;
+use App\Models\ViewMutasiStockRekap;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
@@ -422,27 +423,66 @@ class BarangController extends Controller implements HasMiddleware
 
     public function printMutasi()
     {
-        $datas = ViewMutasiStock::get();
+        $ntahun = date('Y');
+        $nhari = date('w');
+        $nbulan = date('n');
+        $nbulanini = date('n');
+        $hari = $this->array_hari[$nhari]['hari']['name'];
+        $bulan = $this->array_bulan[$nbulan - 1]['bulan']['name'];
+        $bulanini = $this->array_bulan[$nbulanini - 1]['bulan']['name'];
+
+        $datas = ViewMutasiStockRekap::where('c8', $ntahun)->where('c9', $nbulan)->get();
 
         $namafile = '_mutasistock_' . str_replace('@', '(at)', str_replace('.', '_', auth()->user()->email)) . '.pdf';
         session()->put('documents', $namafile);
 
-        if ($datas) {
-            $nhari = date('w');
-            $nbulan = date('n') - 1;
-            $nbulanini = date('n') - 1;
-            $hari = $this->array_hari[$nhari]['hari']['name'];
-            $bulan = $this->array_bulan[$nbulan]['bulan']['name'];
-            $bulanini = $this->array_bulan[$nbulanini]['bulan']['name'];
+        if (count($datas) > 0) {
+            $gudang = 'Semua';
 
-            $pdf = Pdf::loadView('barang.pdf.mutasi-stock', ['datas' => $datas, 'hari' => $hari, 'bulan' => $bulan, 'bulanini' => $bulanini])
+            $pdf = Pdf::loadView('barang.pdf.mutasi-stock', ['datas' => $datas, 'gudang' => $gudang, 'hari' => $hari, 'bulan' => $bulan, 'bulanini' => $bulanini])
                 ->setPaper('a4', 'landscape')
                 ->setOptions(['enable_php' => true]);
 
             $output = $pdf->output();
-            if (Storage::disk('pdfs')->exists($namafile)) {
-                Storage::disk('pdfs')->delete($namafile);
-            }
+            Storage::disk('pdfs')->put($namafile, $output);
+
+            return response()->json([
+                'namafile' => url('documents/' . $namafile),
+            ], 200);
+        }
+
+        return response()->json([
+            'status' => 'Not Found',
+        ], 200);
+    }
+
+    public function printOneMutasi(Request $request)
+    {
+        $id = $request->id;
+        $ntahun = date('Y');
+        $nhari = date('w');
+        $nbulan = date('n');
+        $nbulanini = date('n');
+        $hari = $this->array_hari[$nhari]['hari']['name'];
+        $bulan = $this->array_bulan[$nbulan - 1]['bulan']['name'];
+        $bulanini = $this->array_bulan[$nbulanini - 1]['bulan']['name'];
+
+        $datas = ViewMutasiStock::where('c11', $id)->where('c8', $ntahun)->where('c9', $nbulan)->get();
+
+        $namafile = $id . '-mutasistock_' . str_replace('@', '(at)', str_replace('.', '_', auth()->user()->email)) . '.pdf';
+        session()->put('documents', $namafile);
+
+        if (count($datas) > 0) {
+            $barang = Barang::where('id', $id)->first();
+            $gudang = $barang->gudang->nama;
+            $stawal = $datas->sum('c6');
+            $stakhir = $barang->stock;
+
+            $pdf = Pdf::loadView('barang.pdf.mutasi-one-stock', ['datas' => $datas, 'barang' => $barang->nama, 'gudang' => $gudang, 'stawal' => $stawal, 'stakhir' => $stakhir, 'hari' => $hari, 'bulan' => $bulan, 'bulanini' => $bulanini])
+                ->setPaper('a4', 'landscape')
+                ->setOptions(['enable_php' => true]);
+
+            $output = $pdf->output();
             Storage::disk('pdfs')->put($namafile, $output);
 
             return response()->json([

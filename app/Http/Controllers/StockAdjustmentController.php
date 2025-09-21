@@ -164,7 +164,7 @@ class StockAdjustmentController extends Controller implements HasMiddleware
     public function show(Request $request): View
     {
         $datas = StockOpname::find(Crypt::decrypt($request->stock_adjustment));
-        $details = StockOpnameDetail::where('stock_opname_id', Crypt::decrypt($request->stock_adjustment))->get();
+        $details = StockOpnameDetail::where('stock_opname_id', Crypt::decrypt($request->stock_adjustment))->where('adjust_stock', '<>', 0)->get();
 
         if (session('documents')) {
             $namafile = session('documents');
@@ -179,7 +179,7 @@ class StockAdjustmentController extends Controller implements HasMiddleware
     {
         $branch_id = auth()->user()->profile->branch_id;
         $datas = StockOpname::find(Crypt::decrypt($request->stock_adjustment));
-        $details = StockOpnameDetail::where('stock_opname_id', Crypt::decrypt($request->stock_adjustment))->get();
+        $details = StockOpnameDetail::where('stock_opname_id', Crypt::decrypt($request->stock_adjustment))->where('selisih_stock', '<>', 0)->get();
 
         Gate::authorize('update', $datas);
 
@@ -244,7 +244,7 @@ class StockAdjustmentController extends Controller implements HasMiddleware
             ]);
         }
 
-        $details = StockOpnameDetail::where('stock_opname_id', $master_id)->get();
+        $details = StockOpnameDetail::where('stock_opname_id', $master_id)->where('selisih_stock', '<>', 0)->get();
         $viewMode = false;
 
         $view = view('stock-adjustment.partials.details', compact(['details', 'viewMode']))->render();
@@ -258,7 +258,7 @@ class StockAdjustmentController extends Controller implements HasMiddleware
     {
         $id = Crypt::decrypt($request->stock_adjustment);
         $datas = StockOpname::find($id);
-        $details = StockOpnameDetail::where('stock_opname_id', $id)->where('adjust_stock', '<>', '0')->get();
+        $details = StockOpnameDetail::where('stock_opname_id', $id)->where('adjust_stock', '<>', 0)->get();
 
         $namafile = $id . '-stockadjustment_' . str_replace('@', '(at)', str_replace('.', '_', auth()->user()->email)) . '.pdf';
         session()->put('documents', $namafile);
@@ -266,20 +266,17 @@ class StockAdjustmentController extends Controller implements HasMiddleware
         if ($datas) {
             $print = true;
             $nhari = date('w', strtotime($datas->tanggal_adjustment));
-            $nbulan = date('n', strtotime($datas->tanggal_adjustment)) - 1;
-            $nbulanini = date('n') - 1;
+            $nbulan = date('n', strtotime($datas->tanggal_adjustment));
+            $nbulanini = date('n');
             $hari = $this->array_hari[$nhari]['hari']['name'];
-            $bulan = $this->array_bulan[$nbulan]['bulan']['name'];
-            $bulanini = $this->array_bulan[$nbulanini]['bulan']['name'];
+            $bulan = $this->array_bulan[$nbulan - 1]['bulan']['name'];
+            $bulanini = $this->array_bulan[$nbulanini - 1]['bulan']['name'];
 
             $pdf = Pdf::loadView('stock-adjustment.pdf.penyesuaian', ['datas' => $datas, 'details' => $details, 'hari' => $hari, 'bulan' => $bulan, 'bulanini' => $bulanini])
                 ->setPaper('a4', 'landscape')
                 ->setOptions(['enable_php' => true]);
 
             $output = $pdf->output();
-            if (Storage::disk('pdfs')->exists($namafile)) {
-                Storage::disk('pdfs')->delete($namafile);
-            }
             Storage::disk('pdfs')->put($namafile, $output);
 
             return response()->json([

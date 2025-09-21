@@ -5,18 +5,18 @@
     <style>
         @page {
             margin: 0;
-            margin-top: 110px;
+            margin-top: 140px;
             margin-bottom: 20px;
             margin-left: 20px;
             margin-right: 20px;
-            font-family: 'Dosis', sans-serif;
+            font-family: Arial, sans-serif;
             font-size: 14px;
             font-weight: normal;
         }
 
         header {
             position: fixed;
-            top: -90px;
+            top: -140px;
             left: 0px;
             right: 0px;
         }

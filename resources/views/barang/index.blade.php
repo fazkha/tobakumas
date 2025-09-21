@@ -127,6 +127,29 @@
                         }
                     });
                 });
+
+                print_one_mutasi = function(xid) {
+                    let aname = '#print_one_mutasi-anchor-' + xid;
+                    let idname = '#print_one-icon-' + xid;
+
+                    $(aname).addClass('hidden');
+                    $(idname).addClass('animate-spin');
+                    $(idname).removeClass('hidden');
+
+                    $.ajax({
+                        url: "{{ url('/warehouse/goods/print-one-mutasi') }}" + "/" + xid,
+                        type: 'get',
+                        success: function(result) {
+                            if (result.status !== 'Not Found') {
+                                var namafile = result.namafile;
+                                window.open(namafile, '_blank');
+                            }
+                            $(idname).removeClass('animate-spin');
+                            $(idname).addClass('hidden');
+                            $(aname).removeClass('hidden');
+                        }
+                    });
+                };
             });
         </script>
     @endpush

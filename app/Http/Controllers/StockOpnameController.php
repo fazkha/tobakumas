@@ -355,25 +355,18 @@ class StockOpnameController extends Controller implements HasMiddleware
 
         if ($datas) {
             $nhari = date('w', strtotime($datas->tanggal));
-            $nbulan = date('n', strtotime($datas->tanggal)) - 1;
-            $nbulanini = date('n') - 1;
+            $nbulan = date('n', strtotime($datas->tanggal));
+            $nbulanini = date('n');
             $hari = $this->array_hari[$nhari]['hari']['name'];
-            $bulan = $this->array_bulan[$nbulan]['bulan']['name'];
-            $bulanini = $this->array_bulan[$nbulanini]['bulan']['name'];
+            $bulan = $this->array_bulan[$nbulan - 1]['bulan']['name'];
+            $bulanini = $this->array_bulan[$nbulanini - 1]['bulan']['name'];
 
             $pdf = Pdf::loadView('stock-opname.pdf.perhitungan', ['datas' => $datas, 'details' => $details, 'hari' => $hari, 'bulan' => $bulan, 'bulanini' => $bulanini])
                 ->setPaper('a4', 'landscape')
                 ->setOptions(['enable_php' => true]);
 
             $output = $pdf->output();
-            $content = $pdf->download()->getOriginalContent();
-
-            // if (Storage::disk('pdfs')->exists($namafile)) {
-            //     Storage::disk('pdfs')->delete($namafile);
-            // }
-
-            // Storage::disk('pdfs')->put($namafile, $output);
-            Storage::disk('pdfs')->put($namafile, $content);
+            Storage::disk('pdfs')->put($namafile, $output);
 
             return response()->json([
                 'namafile' => url('documents/' . $namafile),

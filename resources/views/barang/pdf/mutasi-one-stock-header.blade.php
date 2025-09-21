@@ -14,6 +14,11 @@
                 <td style="width: 20px; text-align: center;">:</td>
                 <td style="width: 50%; text-align: left;">{{ $gudang }}</td>
             </tr>
+            <tr>
+                <td style="width: 50%; text-align: left;">Nama Barang</td>
+                <td style="width: 20px; text-align: center;">:</td>
+                <td style="width: 50%; text-align: left;">{{ $barang }}</td>
+            </tr>
         </table>
     </div>
 </div>
