@@ -408,16 +408,17 @@
                     var xbar = $('#barang_id option:selected').val();
 
                     $.ajax({
-                        url: '{{ url('/warehouse/goods/get-goods-stock') }}' + "/" + xbar,
+                        url: '{{ url('/warehouse/goods/get-goods-buy') }}' + "/" + xbar,
                         type: "GET",
                         dataType: 'json',
                         success: function(result) {
                             var p1 = result.p1;
                             var p2 = result.p2;
                             var p3 = result.p3;
-                            $('#satuan_id').val(p1);
-                            $('#stock').val(p2);
-                            $('#minstock').val(p3);
+                            var p4 = result.p4;
+                            $('#satuan_id').val(p2);
+                            $('#stock').val(p3);
+                            $('#minstock').val(p4);
                             $('#kuantiti').focus();
                         }
                     });

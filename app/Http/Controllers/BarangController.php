@@ -392,10 +392,14 @@ class BarangController extends Controller implements HasMiddleware
         $get = Barang::where('id', $request->id)->get();
         $satuan_id = $get[0]->satuan_beli_id;
         $harga_satuan = $get[0]->harga_satuan;
+        $stock = $get[0]->stock;
+        $minstock = $get[0]->minstock;
 
         return response()->json([
             'p1' => $harga_satuan,
             'p2' => $satuan_id,
+            'p3' => $stock,
+            'p4' => $minstock,
         ], 200);
     }
 

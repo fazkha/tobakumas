@@ -195,7 +195,11 @@ class PurchaseReceiptController extends Controller implements HasMiddleware
                 'updated_by' => auth()->user()->email,
             ]);
 
-            return redirect()->back()->with('success', __('messages.successupdated') . ' 👉 ' . $request->no_order);
+            if ($request->isaccepted == 'on') {
+                return redirect()->route('purchase-receipt.show', $request->purchase_receipt)->with('success', __('messages.successupdated') . ' 👉 ' . $request->no_order);
+            } else {
+                return redirect()->back()->with('success', __('messages.successupdated') . ' 👉 ' . $request->no_order);
+            }
         } else {
             return redirect()->back()->withInput()->with('error', 'Error occured while updating!');
         }

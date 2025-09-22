@@ -80,6 +80,17 @@
 
                                         <x-input-error class="mt-2" :messages="$errors->get('tunai')" />
                                     </div>
+
+                                    <div id="div-jatuhtempo" class="w-auto pb-4">
+                                        <label for="jatuhtempo"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.duedate')</label>
+                                        <x-text-input type="date" name="jatuhtempo" id="jatuhtempo"
+                                            data-date-format="dd-mm-yyyy" tabindex="4"
+                                            placeholder="{{ __('messages.enter') }} {{ __('calendar.date') }}"
+                                            required value="{{ old('jatuhtempo') }}" />
+
+                                        <x-input-error class="mt-2" :messages="$errors->get('jatuhtempo')" />
+                                    </div>
                                 </div>
 
                                 <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
@@ -88,7 +99,7 @@
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.deliverycost')
                                             (Rp.)</label>
                                         <x-text-input type="text" name="biaya_angkutan" id="biaya_angkutan"
-                                            tabindex="4" value="{{ old('biaya_angkutan', 0) }}" />
+                                            tabindex="5" value="{{ old('biaya_angkutan', 0) }}" />
 
                                         <x-input-error class="mt-2" :messages="$errors->get('biaya_angkutan')" />
                                     </div>
@@ -130,8 +141,9 @@
                                         </div>
 
                                         <x-primary-button type="submit" class="block" tabindex="6">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="currentColor" class="size-5">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                class="size-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
                                             </svg>
@@ -246,7 +258,24 @@
                         }
                         reader.readAsDataURL(this.files[0]);
                     });
-                })
+                });
+
+                $("#tunai").on("change keyup paste", function() {
+                    var _xtunai = $('#tunai').val();
+
+                    if (_xtunai === '2') {
+                        var now = new Date();
+                        var day = ("0" + now.getDate()).slice(-2);
+                        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+                        var year = now.getFullYear();
+                        var today = year + "-" + month + "-" + day;
+                        $("#jatuhtempo").val(today);
+                        $("#div-jatuhtempo").show();
+                    } else {
+                        $("#jatuhtempo").val("");
+                        $("#div-jatuhtempo").hide();
+                    }
+                });
             });
         </script>
     @endpush

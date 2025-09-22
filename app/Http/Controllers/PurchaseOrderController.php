@@ -162,6 +162,7 @@ class PurchaseOrderController extends Controller implements HasMiddleware
                 'biaya_angkutan' => str_replace('.', '', str_replace('Rp. ', '', $biaya_angkutan)),
                 'total_harga' => $total_harga,
                 'tunai' => $tunai,
+                'jatuhtempo' => $tunai == 2 ? $request->jatuhtempo : NULL,
                 'isactive' => ($request->isactive == 'on' ? 1 : 0),
                 'isaccepted' => 0,
                 'created_by' => auth()->user()->email,
@@ -227,6 +228,7 @@ class PurchaseOrderController extends Controller implements HasMiddleware
                 'biaya_angkutan' => str_replace('.', '', str_replace('Rp. ', '', $biaya_angkutan)),
                 'no_order' => $request->no_order,
                 'tunai' => $tunai,
+                'jatuhtempo' => $tunai == 2 ? $request->jatuhtempo : NULL,
                 'isactive' => ($request->isactive == 'on' ? 1 : 0),
                 'updated_by' => auth()->user()->email,
             ]);

@@ -116,6 +116,7 @@ return [
     'startdate' => 'Tanggal Awal',
     'enddate' => 'Tanggal Akhir',
     'transactiondate' => 'Tanggal Transaksi',
+    'duedate' => 'Tanggal Jatuh Tempo',
     'plan' => 'Perencanaan',
     'purchaseplan' => 'Rencana Belanja',
     'quota' => 'Kuota',

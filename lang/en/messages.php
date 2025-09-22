@@ -116,6 +116,7 @@ return [
     'startdate' => 'Start Date',
     'enddate' => 'End Date',
     'transactiondate' => 'Transaction Date',
+    'duedate' => 'Due Date',
     'plan' => 'Plan',
     'purchaseplan' => 'Purchase Plan',
     'quota' => 'Quota',
