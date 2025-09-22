@@ -15,7 +15,7 @@ class RecipeOutgoodsRequest extends FormRequest
     {
         return [
             'kuantiti_outgoods' => ['required', 'numeric', 'min:1'],
-            'hpp_outgoods' => ['required', 'numeric', 'min:1'],
+            'harga_satuan_outgoods' => ['required', 'numeric', 'min:1'],
         ];
     }
 

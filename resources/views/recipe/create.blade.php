@@ -138,11 +138,11 @@
                                         <table id="order_table" class="w-full border-separate border-spacing-2">
                                             <thead>
                                                 <tr>
-                                                    <th class="w-auto">@lang('messages.goods')</th>
-                                                    <th class="w-auto">@lang('messages.unit')</th>
-                                                    <th class="w-auto">@lang('messages.price') (@lang('messages.currencysymbol'))</th>
-                                                    <th class="w-auto">@lang('messages.quantity')</th>
-                                                    <th class="w-auto">&nbsp;</th>
+                                                    <th class="w-1/4">@lang('messages.goods')</th>
+                                                    <th class="w-1/5">@lang('messages.unit')</th>
+                                                    <th class="w-1/5">@lang('messages.price') (@lang('messages.currencysymbol'))</th>
+                                                    <th class="w-1/6">@lang('messages.quantity')</th>
+                                                    <th class="w-1/5">@lang('messages.subtotalprice') (@lang('messages.currencysymbol'))</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -193,11 +193,11 @@
                                         <table id="order_table" class="w-full border-separate border-spacing-2">
                                             <thead>
                                                 <tr>
-                                                    <th class="w-auto">@lang('messages.goods')</th>
-                                                    <th class="w-auto">@lang('messages.unit')</th>
-                                                    <th class="w-auto">@lang('messages.price') (@lang('messages.currencysymbol'))</th>
-                                                    <th class="w-auto">@lang('messages.quantity')</th>
-                                                    <th class="w-auto">&nbsp;</th>
+                                                    <th class="w-1/4">@lang('messages.goods')</th>
+                                                    <th class="w-1/5">@lang('messages.unit')</th>
+                                                    <th class="w-1/5">@lang('messages.price') (@lang('messages.currencysymbol'))</th>
+                                                    <th class="w-1/6">@lang('messages.quantity')</th>
+                                                    <th class="w-1/5">@lang('messages.subtotalprice') (@lang('messages.currencysymbol'))</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

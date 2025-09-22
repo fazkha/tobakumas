@@ -350,8 +350,9 @@
                                                         </select>
                                                     </td>
                                                     <td class="align-top">
-                                                        <x-text-input type="number" min="0" id="hpp_outgoods"
-                                                            name="hpp_outgoods" required tabindex="18" />
+                                                        <x-text-input type="number" min="0"
+                                                            id="harga_satuan_outgoods" name="harga_satuan_outgoods"
+                                                            required tabindex="18" />
                                                     </td>
                                                     <td class="align-top">
                                                         <x-text-input type="number" min="0"
@@ -659,7 +660,7 @@
 
                 $("#barang_id_outgoods").on("change keyup paste", function() {
                     var xbar = $('#barang_id_outgoods option:selected').val();
-                    var xhpp = $('#total_ingoods_value').val();
+                    var xharga_satuan = $('#total_ingoods_value').val();
 
                     $.ajax({
                         url: '{{ url('/warehouse/goods/get-goods-stock') }}' + "/" + xbar,
@@ -669,8 +670,8 @@
                             var p1 = result.p1;
                             var p6 = result.p6;
                             $('#satuan_id_outgoods').val(p1);
-                            $('#hpp_outgoods').val(p6);
-                            $('#hpp_outgoods').val(xhpp);
+                            $('#harga_satuan_outgoods').val(p6);
+                            $('#harga_satuan_outgoods').val(xharga_satuan);
                             $('#kuantiti_outgoods').focus();
                         }
                     });

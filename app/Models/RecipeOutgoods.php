@@ -14,7 +14,7 @@ class RecipeOutgoods extends Model
         'barang_id',
         'satuan_id',
         'kuantiti',
-        'hpp',
+        'harga_satuan',
         'created_by',
         'updated_by',
     ];
