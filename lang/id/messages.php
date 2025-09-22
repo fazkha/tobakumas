@@ -240,4 +240,5 @@ return [
     'datacount' => 'Jumlah Data',
     'mutationreport' => 'Laporan Mutasi',
     'stockmutation' => 'Mutasi Persediaan',
+    'currencysymbol' => 'Rp.',
 ];

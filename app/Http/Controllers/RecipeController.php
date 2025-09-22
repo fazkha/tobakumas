@@ -146,7 +146,7 @@ class RecipeController extends Controller implements HasMiddleware
         $ingoods = RecipeIngoods::where('recipe_id', Crypt::decrypt($request->recipe))->get();
         $outgoods = RecipeOutgoods::where('recipe_id', Crypt::decrypt($request->recipe))->get();
         $sums = RecipeIngoods::where('recipe_id', Crypt::decrypt($request->recipe))->selectRaw('SUM(kuantiti*harga_satuan) as total_ingoods')->first();
-        $total_ingoods = $sums->total_ingoods;
+        $total_ingoods = round($sums->total_ingoods, 0);
         $sums = RecipeOutgoods::where('recipe_id', Crypt::decrypt($request->recipe))->selectRaw('SUM(kuantiti*hpp) as total_outgoods')->first();
         $total_outgoods = $sums->total_outgoods;
 
@@ -162,7 +162,7 @@ class RecipeController extends Controller implements HasMiddleware
         $ingoods = RecipeIngoods::where('recipe_id', Crypt::decrypt($request->recipe))->get();
         $outgoods = RecipeOutgoods::where('recipe_id', Crypt::decrypt($request->recipe))->get();
         $sums = RecipeIngoods::where('recipe_id', Crypt::decrypt($request->recipe))->selectRaw('SUM(kuantiti*harga_satuan) as total_ingoods')->first();
-        $total_ingoods = $sums->total_ingoods;
+        $total_ingoods = round($sums->total_ingoods, 0);
         $sums = RecipeOutgoods::where('recipe_id', Crypt::decrypt($request->recipe))->selectRaw('SUM(kuantiti*hpp) as total_outgoods')->first();
         $total_outgoods = $sums->total_outgoods;
 
@@ -298,7 +298,7 @@ class RecipeController extends Controller implements HasMiddleware
 
             $ingoods = RecipeIngoods::where('recipe_id', $recipe_id)->get();
             $sums = RecipeIngoods::where('recipe_id', $recipe_id)->selectRaw('SUM(kuantiti*harga_satuan) as total_ingoods')->first();
-            $total_ingoods = $sums->total_ingoods;
+            $total_ingoods = round($sums->total_ingoods, 0);
             $viewMode = false;
 
             $view = view('recipe.partials.details-ingoods', compact(['ingoods', 'viewMode']))->render();
@@ -330,7 +330,7 @@ class RecipeController extends Controller implements HasMiddleware
 
         $ingoods = RecipeIngoods::where('recipe_id', $recipe_id)->get();
         $sums = RecipeIngoods::where('recipe_id', $recipe_id)->selectRaw('SUM(kuantiti*harga_satuan) as total_ingoods')->first();
-        $total_ingoods = $sums->total_ingoods;
+        $total_ingoods = round($sums->total_ingoods, 0);
         $viewMode = false;
 
         if ($ingoods->count() > 0) {

@@ -140,7 +140,7 @@
                                                 <tr>
                                                     <th class="w-auto">@lang('messages.goods')</th>
                                                     <th class="w-auto">@lang('messages.unit')</th>
-                                                    <th class="w-auto">@lang('messages.price')</th>
+                                                    <th class="w-auto">@lang('messages.price') (@lang('messages.currencysymbol'))</th>
                                                     <th class="w-auto">@lang('messages.quantity')</th>
                                                     <th class="w-auto">&nbsp;</th>
                                                 </tr>
@@ -195,7 +195,7 @@
                                                 <tr>
                                                     <th class="w-auto">@lang('messages.goods')</th>
                                                     <th class="w-auto">@lang('messages.unit')</th>
-                                                    <th class="w-auto">@lang('messages.price')</th>
+                                                    <th class="w-auto">@lang('messages.price') (@lang('messages.currencysymbol'))</th>
                                                     <th class="w-auto">@lang('messages.quantity')</th>
                                                     <th class="w-auto">&nbsp;</th>
                                                 </tr>

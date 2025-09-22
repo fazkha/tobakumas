@@ -176,9 +176,9 @@
                                                 <tr>
                                                     <th class="w-1/4">@lang('messages.goods')</th>
                                                     <th class="w-1/5">@lang('messages.unit')</th>
-                                                    <th class="w-1/5">@lang('messages.price')</th>
+                                                    <th class="w-1/5">@lang('messages.price') (@lang('messages.currencysymbol'))</th>
                                                     <th class="w-1/6">@lang('messages.quantity')</th>
-                                                    <th class="w-1/5">@lang('messages.subtotalprice')</th>
+                                                    <th class="w-1/5">@lang('messages.subtotalprice') (@lang('messages.currencysymbol'))</th>
                                                     <th class="w-auto">&nbsp;</th>
                                                 </tr>
                                             </thead>
@@ -263,6 +263,8 @@
                     </form>
                 </div>
             </div>
+            <input type="text" class="hidden" id="total_ingoods_value" readonly
+                value="{{ round($total_ingoods, 0) }}" />
         </div>
 
         <div class="flex flex-col lg:flex-row gap-4 px-4 py-2">
@@ -307,9 +309,9 @@
                                                 <tr>
                                                     <th class="w-1/4">@lang('messages.goods')</th>
                                                     <th class="w-1/5">@lang('messages.unit')</th>
-                                                    <th class="w-1/5">@lang('messages.price')</th>
+                                                    <th class="w-1/5">@lang('messages.price') (@lang('messages.currencysymbol'))</th>
                                                     <th class="w-1/6">@lang('messages.quantity')</th>
-                                                    <th class="w-1/5">@lang('messages.subtotalprice')</th>
+                                                    <th class="w-1/5">@lang('messages.subtotalprice') (@lang('messages.currencysymbol'))</th>
                                                     <th class="w-auto">&nbsp;</th>
                                                 </tr>
                                             </thead>
@@ -491,6 +493,7 @@
                                 var formattedNumber = new Intl.NumberFormat('de-DE').format(result
                                     .total_ingoods);
                                 $("#total_ingoods").html(formattedNumber);
+                                $('#total_ingoods_value').val(result.total_ingoods);
                                 $('#ingoods-form')[0].reset();
                             },
                             error: function(xhr) {
@@ -516,6 +519,7 @@
                                 var formattedNumber = new Intl.NumberFormat('de-DE').format(result
                                     .total_ingoods);
                                 $("#total_ingoods").html(formattedNumber);
+                                $('#total_ingoods_value').val(result.total_ingoods);
                                 flasher.success("{{ __('messages.successsaved') }}!", "Success");
                             }
                         }
@@ -655,6 +659,7 @@
 
                 $("#barang_id_outgoods").on("change keyup paste", function() {
                     var xbar = $('#barang_id_outgoods option:selected').val();
+                    var xhpp = $('#total_ingoods_value').val();
 
                     $.ajax({
                         url: '{{ url('/warehouse/goods/get-goods-stock') }}' + "/" + xbar,
@@ -665,6 +670,7 @@
                             var p6 = result.p6;
                             $('#satuan_id_outgoods').val(p1);
                             $('#hpp_outgoods').val(p6);
+                            $('#hpp_outgoods').val(xhpp);
                             $('#kuantiti_outgoods').focus();
                         }
                     });
