@@ -25,6 +25,7 @@ class Barang extends Model
         'keterangan',
         'harga_satuan',
         'harga_satuan_jual',
+        'hpp',
         'stock',
         'minstock',
         'lokasi',

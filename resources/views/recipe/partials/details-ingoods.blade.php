@@ -7,8 +7,14 @@
             <td class="align-top">
                 <x-text-span>{{ $ingood->satuan->singkatan }}</x-text-span>
             </td>
-            <td class="align-top">
+            <td class="align-top text-right">
+                <x-text-span>{{ number_format($ingood->harga_satuan, '0', ',', '.') }}</x-text-span>
+            </td>
+            <td class="align-top text-right">
                 <x-text-span>{{ $ingood->kuantiti }}</x-text-span>
+            </td>
+            <td class="align-top text-right">
+                <x-text-span>{{ number_format($ingood->harga_satuan * $ingood->kuantiti, '0', ',', '.') }}</x-text-span>
             </td>
             @if ($viewMode == false)
                 <td class="align-top">

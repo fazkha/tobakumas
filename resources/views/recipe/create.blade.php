@@ -107,59 +107,6 @@
                 <div class="w-full">
                     <div class="flex flex-col items-center">
 
-                        {{-- Detail --}}
-                        <div
-                            class="w-full shadow-lg rounded-md border bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
-                            <div class="p-4 space-y-2">
-                                <div class="flex flex-row items-center gap-2">
-                                    <svg class="w-5 h-5" viewBox="0 0 48 48" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <rect width="48" height="48" fill="white" fill-opacity="0.01" />
-                                        <path d="M5 10L8 13L14 7" stroke="currentColor" stroke-width="4"
-                                            stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M5 24L8 27L14 21" stroke="currentColor" stroke-width="4"
-                                            stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M5 38L8 41L14 35" stroke="currentColor" stroke-width="4"
-                                            stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M21 24H43" stroke="currentColor" stroke-width="4"
-                                            stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M21 38H43" stroke="currentColor" stroke-width="4"
-                                            stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M21 10H43" stroke="currentColor" stroke-width="4"
-                                            stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                    <span class="block font-medium text-primary-600 dark:text-primary-500">
-                                        @lang('messages.process_steps')
-                                    </span>
-                                </div>
-
-                                <div
-                                    class="border rounded-md border-primary-100 bg-primary-100 dark:border-primary-800 dark:bg-primary-850">
-                                    <div class="p-2 overflow-scroll md:overflow-auto lg:overflow-hidden">
-                                        <table id="order_table" class="w-full border-separate border-spacing-2">
-                                            <thead>
-                                                <tr>
-                                                    <th class="w-auto">@lang('messages.stepsno')</th>
-                                                    <th class="w-1/4">@lang('messages.process')</th>
-                                                    <th class="w-auto">@lang('messages.description')</th>
-                                                    <th class="w-auto">&nbsp;</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="flex flex-col lg:flex-row gap-4 px-4 py-2">
-                <div class="w-full">
-                    <div class="flex flex-col items-center">
-
                         {{-- Input --}}
                         <div
                             class="w-full shadow-lg rounded-md border bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
@@ -192,7 +139,8 @@
                                             <thead>
                                                 <tr>
                                                     <th class="w-auto">@lang('messages.goods')</th>
-                                                    <th class="w-1/4">@lang('messages.unit')</th>
+                                                    <th class="w-auto">@lang('messages.unit')</th>
+                                                    <th class="w-auto">@lang('messages.price')</th>
                                                     <th class="w-auto">@lang('messages.quantity')</th>
                                                     <th class="w-auto">&nbsp;</th>
                                                 </tr>
@@ -206,7 +154,9 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
+            <div class="flex flex-col lg:flex-row gap-4 px-4 py-2">
                 <div class="w-full">
                     <div class="flex flex-col items-center">
 
@@ -244,7 +194,8 @@
                                             <thead>
                                                 <tr>
                                                     <th class="w-auto">@lang('messages.goods')</th>
-                                                    <th class="w-1/4">@lang('messages.unit')</th>
+                                                    <th class="w-auto">@lang('messages.unit')</th>
+                                                    <th class="w-auto">@lang('messages.price')</th>
                                                     <th class="w-auto">@lang('messages.quantity')</th>
                                                     <th class="w-auto">&nbsp;</th>
                                                 </tr>

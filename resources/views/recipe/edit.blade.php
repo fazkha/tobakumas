@@ -140,99 +140,6 @@
             <div class="w-full">
                 <div class="flex flex-col items-center">
 
-                    <form id="detail-form" method="POST" enctype="multipart/form-data" class="w-full">
-                        @csrf
-
-                        {{-- Detail --}}
-                        <div
-                            class="w-full shadow-lg rounded-md border bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
-                            <div class="p-4 space-y-2">
-                                <div class="flex flex-row items-center gap-2">
-                                    <svg class="w-5 h-5" viewBox="0 0 48 48" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <rect width="48" height="48" fill="white" fill-opacity="0.01" />
-                                        <path d="M5 10L8 13L14 7" stroke="currentColor" stroke-width="4"
-                                            stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M5 24L8 27L14 21" stroke="currentColor" stroke-width="4"
-                                            stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M5 38L8 41L14 35" stroke="currentColor" stroke-width="4"
-                                            stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M21 24H43" stroke="currentColor" stroke-width="4"
-                                            stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M21 38H43" stroke="currentColor" stroke-width="4"
-                                            stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M21 10H43" stroke="currentColor" stroke-width="4"
-                                            stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                    <span class="block font-medium text-primary-600 dark:text-primary-500">
-                                        @lang('messages.process_steps')
-                                    </span>
-                                </div>
-
-                                <div
-                                    class="border rounded-md border-primary-100 bg-primary-100 dark:border-primary-800 dark:bg-primary-850">
-                                    <div class="p-2 overflow-scroll md:overflow-auto lg:overflow-hidden">
-                                        <table id="order_table" class="w-full border-separate border-spacing-2">
-                                            <thead>
-                                                <tr>
-                                                    <th class="w-1/12">@lang('messages.stepsno')</th>
-                                                    <th class="w-1/2">@lang('messages.process')</th>
-                                                    <th class="w-auto">@lang('messages.description')</th>
-                                                    <th class="w-auto">&nbsp;</th>
-                                                </tr>
-                                            </thead>
-
-                                            <tbody id="detailBody">
-                                                @include('recipe.partials.details', [
-                                                    $details,
-                                                    'viewMode' => false,
-                                                ])
-                                            </tbody>
-
-                                            <tbody>
-                                                <tr>
-                                                    <td class="align-top">
-                                                        <input type="hidden" id="master_id" name="master_id"
-                                                            value="{{ $datas->id }}" />
-                                                        <x-text-input type="number" min="0" id="urutan"
-                                                            name="urutan" required tabindex="6" />
-                                                    </td>
-                                                    <td class="align-top">
-                                                        <x-text-input type="text" id="tahapan" name="tahapan"
-                                                            required tabindex="7" />
-                                                    </td>
-                                                    <td class="align-top">
-                                                        <x-text-input type="text" id="keterangan"
-                                                            name="keterangan" tabindex="8" />
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                    <div class="mt-4 mb-4 mr-4 flex flex-row flex-wrap justify-end gap-2 md:gap-4">
-                                        <x-primary-button id="submit-detail" tabindex="9">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                class="size-5">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
-                                            </svg>
-                                            <span class="pl-1">@lang('messages.save')</span>
-                                        </x-primary-button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <div class="flex flex-col lg:flex-row gap-4 px-4 py-2">
-            <div class="w-full">
-                <div class="flex flex-col items-center">
-
                     <form id="ingoods-form" method="POST" enctype="multipart/form-data" class="w-full">
                         @csrf
 
@@ -267,9 +174,11 @@
                                         <table id="order_table" class="w-full border-separate border-spacing-2">
                                             <thead>
                                                 <tr>
-                                                    <th class="w-1/2">@lang('messages.goods')</th>
-                                                    <th class="w-1/4">@lang('messages.unit')</th>
-                                                    <th class="w-auto">@lang('messages.quantity')</th>
+                                                    <th class="w-1/4">@lang('messages.goods')</th>
+                                                    <th class="w-1/5">@lang('messages.unit')</th>
+                                                    <th class="w-1/5">@lang('messages.price')</th>
+                                                    <th class="w-1/6">@lang('messages.quantity')</th>
+                                                    <th class="w-1/5">@lang('messages.subtotalprice')</th>
                                                     <th class="w-auto">&nbsp;</th>
                                                 </tr>
                                             </thead>
@@ -307,13 +216,33 @@
                                                             @endforeach
                                                         </select>
                                                     </td>
+                                                    <td class="align-top text-right">
+                                                        <x-text-input type="number" min="0" readonly
+                                                            id="harga_satuan_ingoods" name="harga_satuan_ingoods"
+                                                            required tabindex="0" />
+                                                    </td>
                                                     <td class="align-top">
                                                         <x-text-input type="number" min="0"
                                                             id="kuantiti_ingoods" name="kuantiti_ingoods" required
                                                             tabindex="13" />
                                                     </td>
+                                                    <td class="align-top">
+                                                        <x-text-span>&nbsp;</x-text-span>
+                                                    </td>
                                                 </tr>
                                             </tbody>
+
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="4" class="align-top text-center">
+                                                        <x-text-span class="font-bold">@lang('messages.totalprice')</x-text-span>
+                                                    </td>
+                                                    <td class="align-top text-right">
+                                                        <x-text-span class="font-bold"
+                                                            id="total_ingoods">{{ number_format($total_ingoods, '0', ',', '.') }}</x-text-span>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
                                         </table>
                                     </div>
 
@@ -334,7 +263,9 @@
                     </form>
                 </div>
             </div>
+        </div>
 
+        <div class="flex flex-col lg:flex-row gap-4 px-4 py-2">
             <div class="w-full">
                 <div class="flex flex-col items-center">
 
@@ -374,9 +305,11 @@
                                         <table id="order_table" class="w-full border-separate border-spacing-2">
                                             <thead>
                                                 <tr>
-                                                    <th class="w-1/2">@lang('messages.goods')</th>
-                                                    <th class="w-1/4">@lang('messages.unit')</th>
-                                                    <th class="w-auto">@lang('messages.quantity')</th>
+                                                    <th class="w-1/4">@lang('messages.goods')</th>
+                                                    <th class="w-1/5">@lang('messages.unit')</th>
+                                                    <th class="w-1/5">@lang('messages.price')</th>
+                                                    <th class="w-1/6">@lang('messages.quantity')</th>
+                                                    <th class="w-1/5">@lang('messages.subtotalprice')</th>
                                                     <th class="w-auto">&nbsp;</th>
                                                 </tr>
                                             </thead>
@@ -415,12 +348,31 @@
                                                         </select>
                                                     </td>
                                                     <td class="align-top">
+                                                        <x-text-input type="number" min="0" id="hpp_outgoods"
+                                                            name="hpp_outgoods" required tabindex="18" />
+                                                    </td>
+                                                    <td class="align-top">
                                                         <x-text-input type="number" min="0"
                                                             id="kuantiti_outgoods" name="kuantiti_outgoods" required
                                                             tabindex="18" />
                                                     </td>
+                                                    <td class="align-top">
+                                                        <x-text-span>&nbsp;</x-text-span>
+                                                    </td>
                                                 </tr>
                                             </tbody>
+
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="4" class="align-top text-center">
+                                                        <x-text-span class="font-bold">@lang('messages.totalprice')</x-text-span>
+                                                    </td>
+                                                    <td class="align-top text-right">
+                                                        <x-text-span class="font-bold"
+                                                            id="total_outgoods">{{ number_format($total_outgoods, '0', ',', '.') }}</x-text-span>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
                                         </table>
                                     </div>
 
@@ -536,6 +488,9 @@
                                     $('#ingoodsBody').html(result.view);
                                     flasher.error("{{ __('messages.successdeleted') }}!", "Success");
                                 }
+                                var formattedNumber = new Intl.NumberFormat('de-DE').format(result
+                                    .total_ingoods);
+                                $("#total_ingoods").html(formattedNumber);
                                 $('#ingoods-form')[0].reset();
                             },
                             error: function(xhr) {
@@ -558,6 +513,9 @@
                             if (result.status !== 'Not Found') {
                                 $('#ingoodsBody').html(result.view);
                                 $('#ingoods-form')[0].reset();
+                                var formattedNumber = new Intl.NumberFormat('de-DE').format(result
+                                    .total_ingoods);
+                                $("#total_ingoods").html(formattedNumber);
                                 flasher.success("{{ __('messages.successsaved') }}!", "Success");
                             }
                         }
@@ -586,6 +544,9 @@
                                     $('#outgoodsBody').html(result.view);
                                     flasher.error("{{ __('messages.successdeleted') }}!", "Success");
                                 }
+                                var formattedNumber = new Intl.NumberFormat('de-DE').format(result
+                                    .total_outgoods);
+                                $("#total_outgoods").html(formattedNumber);
                                 $('#outgoods-form')[0].reset();
                             },
                             error: function(xhr) {
@@ -608,6 +569,9 @@
                             if (result.status !== 'Not Found') {
                                 $('#outgoodsBody').html(result.view);
                                 $('#outgoods-form')[0].reset();
+                                var formattedNumber = new Intl.NumberFormat('de-DE').format(result
+                                    .total_outgoods);
+                                $("#total_outgoods").html(formattedNumber);
                                 flasher.success("{{ __('messages.successsaved') }}!", "Success");
                             }
                         }
@@ -681,7 +645,9 @@
                         dataType: 'json',
                         success: function(result) {
                             var p1 = result.p1;
+                            var p5 = result.p5;
                             $('#satuan_id_ingoods').val(p1);
+                            $('#harga_satuan_ingoods').val(p5);
                             $('#kuantiti_ingoods').focus();
                         }
                     });
@@ -696,7 +662,9 @@
                         dataType: 'json',
                         success: function(result) {
                             var p1 = result.p1;
+                            var p6 = result.p6;
                             $('#satuan_id_outgoods').val(p1);
+                            $('#hpp_outgoods').val(p6);
                             $('#kuantiti_outgoods').focus();
                         }
                     });

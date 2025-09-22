@@ -424,12 +424,16 @@ class BarangController extends Controller implements HasMiddleware
         $stock = $get[0]->stock;
         $minstock = $get[0]->minstock;
         $harga_beli = $get[0]->harga_satuan;
+        $harga_jual = $get[0]->harga_satuan_jual;
+        $hpp = $get[0]->hpp;
 
         return response()->json([
             'p1' => $satuan_id,
             'p2' => $stock,
             'p3' => $minstock,
             'p4' => $harga_beli,
+            'p5' => $harga_jual,
+            'p6' => $hpp,
         ], 200);
     }
 

@@ -40,6 +40,7 @@ return [
     'designation' => 'Designation',
     'nameofgoods' => 'Name Of Goods',
     'brand' => 'Brand',
+    'price' => 'Price',
     'unitprice' => 'Unit Price',
     'unitpricebuy' => 'Buying Unit Price',
     'unitpricesell' => 'Selling Unit Price',

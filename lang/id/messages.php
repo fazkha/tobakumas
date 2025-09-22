@@ -40,6 +40,7 @@ return [
     'designation' => 'Kelompok',
     'nameofgoods' => 'Nama Barang',
     'brand' => 'Merk',
+    'price' => 'Harga',
     'unitprice' => 'Harga Satuan',
     'unitpricebuy' => 'Harga Beli Satuan',
     'unitpricesell' => 'Harga Jual Satuan',

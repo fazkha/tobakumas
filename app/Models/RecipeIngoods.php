@@ -14,6 +14,7 @@ class RecipeIngoods extends Model
         'barang_id',
         'satuan_id',
         'kuantiti',
+        'harga_satuan',
         'created_by',
         'updated_by',
     ];

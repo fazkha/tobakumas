@@ -7,8 +7,14 @@
             <td class="align-top">
                 <x-text-span>{{ $outgood->satuan->singkatan }}</x-text-span>
             </td>
-            <td class="align-top">
+            <td class="align-top text-right">
+                <x-text-span>{{ number_format($outgood->hpp, '0', ',', '.') }}</x-text-span>
+            </td>
+            <td class="align-top text-right">
                 <x-text-span>{{ $outgood->kuantiti }}</x-text-span>
+            </td>
+            <td class="align-top text-right">
+                <x-text-span>{{ number_format($outgood->hpp * $outgood->kuantiti, '0', ',', '.') }}</x-text-span>
             </td>
             @if ($viewMode == false)
                 <td class="align-top">
