@@ -14,7 +14,7 @@
                 <x-text-span>{{ $outgood->kuantiti }}</x-text-span>
             </td>
             <td class="align-top text-right">
-                <x-text-span>{{ number_format($outgood->harga_satuan * $outgood->kuantiti, '0', ',', '.') }}</x-text-span>
+                <x-text-span>{{ number_format($outgood->harga_satuan / $outgood->kuantiti, '0', ',', '.') }}</x-text-span>
             </td>
             @if ($viewMode == false)
                 <td class="align-top">

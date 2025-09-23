@@ -311,7 +311,7 @@
                                                     <th class="w-1/5">@lang('messages.unit')</th>
                                                     <th class="w-1/5">@lang('messages.price') (@lang('messages.currencysymbol'))</th>
                                                     <th class="w-1/6">@lang('messages.quantity')</th>
-                                                    <th class="w-1/5">@lang('messages.subtotalprice') (@lang('messages.currencysymbol'))</th>
+                                                    <th class="w-1/5">@lang('messages.hpp') (@lang('messages.currencysymbol'))</th>
                                                     <th class="w-auto">&nbsp;</th>
                                                 </tr>
                                             </thead>
@@ -364,18 +364,6 @@
                                                     </td>
                                                 </tr>
                                             </tbody>
-
-                                            <tfoot>
-                                                <tr>
-                                                    <td colspan="4" class="align-top text-center">
-                                                        <x-text-span class="font-bold">@lang('messages.totalprice')</x-text-span>
-                                                    </td>
-                                                    <td class="align-top text-right">
-                                                        <x-text-span class="font-bold"
-                                                            id="total_outgoods">{{ number_format($total_outgoods, '0', ',', '.') }}</x-text-span>
-                                                    </td>
-                                                </tr>
-                                            </tfoot>
                                         </table>
                                     </div>
 

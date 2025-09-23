@@ -366,6 +366,16 @@ class RecipeController extends Controller implements HasMiddleware
             ]);
 
             $outgoods = RecipeOutgoods::where('recipe_id', $recipe_id)->get();
+
+            $hpp = $request->harga_satuan_outgoods / $request->kuantiti_outgoods;
+            $barang = Barang::where('id', $request->barang_id_outgoods)
+                ->where('branch_id', auth()->user()->profile->branch_id)
+                ->first();
+
+            $barang->update([
+                'hpp' => $hpp
+            ]);
+
             $sums = RecipeOutgoods::where('recipe_id', $recipe_id)->selectRaw('SUM(kuantiti*harga_satuan) as total_outgoods')->first();
             $total_outgoods = $sums->total_outgoods;
             $viewMode = false;
