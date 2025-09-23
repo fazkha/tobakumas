@@ -241,4 +241,6 @@ return [
     'mutationreport' => 'Laporan Mutasi',
     'stockmutation' => 'Mutasi Persediaan',
     'currencysymbol' => 'Rp.',
+    'hpp' => 'Harga Pokok Penjualan',
+    'profit' => 'Laba',
 ];

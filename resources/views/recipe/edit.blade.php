@@ -489,8 +489,8 @@
                             success: function(result) {
                                 if (result.status !== 'Not Found') {
                                     $('#ingoodsBody').html(result.view);
-                                    flasher.error("{{ __('messages.successdeleted') }}!", "Success");
                                 }
+                                flasher.error("{{ __('messages.successdeleted') }}!", "Success");
                                 var formattedNumber = new Intl.NumberFormat('de-DE').format(result
                                     .total_ingoods);
                                 $("#total_ingoods").html(formattedNumber);
@@ -547,8 +547,8 @@
                             success: function(result) {
                                 if (result.status !== 'Not Found') {
                                     $('#outgoodsBody').html(result.view);
-                                    flasher.error("{{ __('messages.successdeleted') }}!", "Success");
                                 }
+                                flasher.error("{{ __('messages.successdeleted') }}!", "Success");
                                 var formattedNumber = new Intl.NumberFormat('de-DE').format(result
                                     .total_outgoods);
                                 $("#total_outgoods").html(formattedNumber);
@@ -603,8 +603,8 @@
                             success: function(result) {
                                 if (result.status !== 'Not Found') {
                                     $('#detailBody').html(result.view);
-                                    flasher.error("{{ __('messages.successdeleted') }}!", "Success");
                                 }
+                                flasher.error("{{ __('messages.successdeleted') }}!", "Success");
                                 $('#detail-form')[0].reset();
                             },
                             error: function(xhr) {

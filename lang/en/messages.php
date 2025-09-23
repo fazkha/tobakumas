@@ -242,4 +242,6 @@ return [
     'mutationreport' => 'Mutation Report',
     'stockmutation' => 'Stock Mutation',
     'currencysymbol' => '$',
+    'hpp' => 'Cost Of Sales',
+    'profit' => 'Profit',
 ];

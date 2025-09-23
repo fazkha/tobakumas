@@ -139,6 +139,21 @@
                                         <x-text-span>{{ $datas->satuan_jual_id ? $datas->satuan_jual->nama_lengkap : '-' }}</x-text-span>
                                     </div>
                                 </div>
+
+                                <div class="flex flex-row justify-between gap-4">
+                                    <div class="w-1/2 pb-4">
+                                        <span for="hpp"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.hpp')</span>
+                                        <x-text-span>Rp.
+                                            {{ number_format($datas->hpp, 0, ',', '.') }}</x-text-span>
+                                    </div>
+
+                                    <div class="w-1/2 pb-4">
+                                        <span for="profit"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.profit')</span>
+                                        <x-text-span id="profit">{!! $dprof !!}</x-text-span>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">

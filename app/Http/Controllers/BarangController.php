@@ -187,6 +187,7 @@ class BarangController extends Controller implements HasMiddleware
             $gambarNamaAwal = NULL;
             $harga_satuan = NULL;
             $harga_satuan_jual = NULL;
+            $hpp = NULL;
             $satuan_jual_id = $request->satuan_jual_id;
 
             if ($image) {
@@ -199,6 +200,9 @@ class BarangController extends Controller implements HasMiddleware
             }
             if ($request->harga_satuan_jual) {
                 $harga_satuan_jual = str_replace('.', '', str_replace('Rp. ', '', $request->harga_satuan_jual));
+            }
+            if ($request->hpp) {
+                $hpp = str_replace('.', '', str_replace('Rp. ', '', $request->hpp));
             }
             if ($request->satuan_jual_id == NULL) {
                 $satuan_jual_id = $request->satuan_beli_id;
@@ -217,6 +221,7 @@ class BarangController extends Controller implements HasMiddleware
                 'keterangan' => $request->keterangan,
                 'harga_satuan' => $harga_satuan,
                 'harga_satuan_jual' => $harga_satuan_jual,
+                'hpp' => $hpp,
                 'lokasi' => is_null($image) ? NULL : $pathym,
                 'gambar' => is_null($image) ? NULL : $imageName,
                 'gambar_nama_awal' => $gambarNamaAwal,
@@ -240,20 +245,31 @@ class BarangController extends Controller implements HasMiddleware
     public function show(Request $request): View
     {
         $datas = Barang::find(Crypt::decrypt($request->good));
+        $hju = $datas->harga_satuan_jual ? $datas->harga_satuan_jual : 0;
+        $hpp = $datas->hpp ? $datas->hpp : 0;
+        $prof = $hju - $hpp;
+        $prof2 = ($prof / $hju) * 100;
+        $dprof = $prof . '&nbsp;&nbsp;&nbsp;(' . round($prof2) . '%)';
 
-        return view('barang.show', compact(['datas']));
+        return view('barang.show', compact(['datas', 'dprof']));
     }
 
     public function edit(Request $request): View
     {
         $branch_id = auth()->user()->profile->branch_id;
         $datas = Barang::find(Crypt::decrypt($request->good));
+        $hju = $datas->harga_satuan_jual ? $datas->harga_satuan_jual : 0;
+        $hpp = $datas->hpp ? $datas->hpp : 0;
+        $prof = $hju - $hpp;
+        $prof2 = ($prof / $hju) * 100;
+        $dprof = $prof . '&nbsp;&nbsp;&nbsp;(' . round($prof2) . '%)';
+
         $gudangs = Gudang::where('branch_id', $branch_id)->where('isactive', 1)->pluck('nama', 'id');
         $satuans = Satuan::where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
         $jenis_barangs = JenisBarang::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $subjenis_barangs = SubjenisBarang::where('isactive', 1)->pluck('nama', 'id');
 
-        return view('barang.edit', compact(['datas', 'satuans', 'jenis_barangs', 'subjenis_barangs', 'gudangs']));
+        return view('barang.edit', compact(['datas', 'satuans', 'jenis_barangs', 'subjenis_barangs', 'gudangs', 'dprof']));
     }
 
     public function update(BarangUpdateRequest $request): RedirectResponse
@@ -268,6 +284,7 @@ class BarangController extends Controller implements HasMiddleware
             $deletePath = $barang->lokasi;
             $harga_satuan = NULL;
             $harga_satuan_jual = NULL;
+            $hpp = NULL;
             $satuan_jual_id = $request->satuan_jual_id;
 
             $lokasi = $this->GetLokasiUpload();
@@ -285,6 +302,9 @@ class BarangController extends Controller implements HasMiddleware
             if ($request->harga_satuan_jual) {
                 $harga_satuan_jual = str_replace('.', '', str_replace('Rp. ', '', $request->harga_satuan_jual));
             }
+            if ($request->hpp) {
+                $hpp = str_replace('.', '', str_replace('Rp. ', '', $request->hpp));
+            }
             if ($request->satuan_jual_id == NULL) {
                 $satuan_jual_id = $request->satuan_beli_id;
             }
@@ -301,6 +321,7 @@ class BarangController extends Controller implements HasMiddleware
                 'keterangan' => $request->keterangan,
                 'harga_satuan' => $harga_satuan,
                 'harga_satuan_jual' => $harga_satuan_jual,
+                'hpp' => $hpp,
                 'lokasi' => is_null($image) ? $barang->lokasi : $pathym,
                 'gambar' => is_null($image) ? $barang->gambar : $imageName,
                 'gambar_nama_awal' => $gambarNamaAwal,
@@ -319,8 +340,13 @@ class BarangController extends Controller implements HasMiddleware
         $barang = Barang::find(Crypt::decrypt($request->good));
 
         $datas = $barang;
+        $hju = $datas->harga_satuan_jual ? $datas->harga_satuan_jual : 0;
+        $hpp = $datas->hpp ? $datas->hpp : 0;
+        $prof = $hju - $hpp;
+        $prof2 = ($prof / $hju) * 100;
+        $dprof = $prof . '&nbsp;&nbsp;&nbsp;(' . round($prof2) . '%)';
 
-        return view('barang.delete', compact(['datas']));
+        return view('barang.delete', compact(['datas', 'dprof']));
     }
 
     public function destroy(Request $request): RedirectResponse

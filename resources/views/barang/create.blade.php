@@ -113,7 +113,7 @@
                                             <label for="harga_satuan"
                                                 class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.unitpricebuy')</label>
                                             <x-text-input type="text" name="harga_satuan" id="harga_satuan"
-                                                tabindex="8" value="{{ old('harga_satuan') }}" />
+                                                tabindex="6" value="{{ old('harga_satuan') }}" />
 
                                             <x-input-error class="mt-2" :messages="$errors->get('harga_satuan')" />
                                         </div>
@@ -121,7 +121,7 @@
                                         <div class="w-1/2 pb-4">
                                             <label for="satuan_beli_id"
                                                 class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.buyunit')</label>
-                                            <select name="satuan_beli_id" id="satuan_beli_id" tabindex="6"
+                                            <select name="satuan_beli_id" id="satuan_beli_id" tabindex="7"
                                                 class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                                 <option value="">@lang('messages.choose')...</option>
                                                 @foreach ($satuans as $id => $name)
@@ -141,7 +141,7 @@
                                             <label for="harga_satuan_jual"
                                                 class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.unitpricesell')</label>
                                             <x-text-input type="text" name="harga_satuan_jual"
-                                                id="harga_satuan_jual" tabindex="9"
+                                                id="harga_satuan_jual" tabindex="8"
                                                 value="{{ old('harga_satuan_jual') }}" />
 
                                             <x-input-error class="mt-2" :messages="$errors->get('harga_satuan_jual')" />
@@ -150,7 +150,7 @@
                                         <div class="w-1/2 pb-4">
                                             <label for="satuan_jual_id"
                                                 class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.sellunit')</label>
-                                            <select name="satuan_jual_id" id="satuan_jual_id" tabindex="7"
+                                            <select name="satuan_jual_id" id="satuan_jual_id" tabindex="9"
                                                 class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                                 <option value="">@lang('messages.choose')...</option>
                                                 @foreach ($satuans as $id => $name)
@@ -163,6 +163,23 @@
                                             <x-input-error class="mt-2" :messages="$errors->get('satuan_jual_id')" />
                                         </div>
                                     </div>
+
+                                    <div class="flex flex-row justify-between gap-4">
+                                        <div class="w-1/2 pb-4">
+                                            <label for="hpp"
+                                                class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.hpp')</label>
+                                            <x-text-input type="text" name="hpp" id="hpp"
+                                                tabindex="10" value="{{ old('hpp') }}" />
+
+                                            <x-input-error class="mt-2" :messages="$errors->get('hpp')" />
+                                        </div>
+
+                                        <div class="w-1/2 pb-4">
+                                            <span for="profit"
+                                                class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.profit')</span>
+                                            <x-text-span id="profit">&nbsp;</x-text-span>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
@@ -170,7 +187,7 @@
                                         <label for="keterangan"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</label>
                                         <x-text-input type="text" name="keterangan" id="keterangan"
-                                            tabindex="10"
+                                            tabindex="11"
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.description') }}"
                                             value="{{ old('keterangan') }}" />
 
@@ -180,7 +197,7 @@
                                     <div class="w-auto pb-4 lg:pb-12">
                                         <label for="gambar"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.picture')</label>
-                                        <x-text-input type="file" name="gambar" id="gambar" tabindex="11"
+                                        <x-text-input type="file" name="gambar" id="gambar" tabindex="12"
                                             accept=".jpg,.jpeg" placeholder="@lang('messages.choose')"
                                             class="!rounded-none border" />
 
@@ -242,14 +259,14 @@
         <script type="text/javascript">
             $(document).ready(function(e) {
                 $(function() {
-                    $('#harga_satuan, #harga_satuan_jual').maskMoney({
-                        prefix: 'Rp. ',
-                        allowNegative: false,
-                        thousands: '.',
-                        decimal: ',',
-                        precision: 0,
-                        affixesStay: false
-                    });
+                    // $('#harga_satuan, #harga_satuan_jual, #hpp').maskMoney({
+                    //     prefix: 'Rp. ',
+                    //     allowNegative: false,
+                    //     thousands: '.',
+                    //     decimal: ',',
+                    //     precision: 0,
+                    //     affixesStay: false
+                    // });
 
                     $('#gambar').change(function() {
                         let reader = new FileReader();
@@ -258,6 +275,25 @@
                         }
                         reader.readAsDataURL(this.files[0]);
                     });
+
+                    $("#harga_satuan, #harga_satuan_jual, #hpp")
+                        .on("change keyup paste", function() {
+                            var _xhs = $('#harga_satuan').val();
+                            var _xhsj = $('#harga_satuan_jual').val();
+                            var _xhpp = $('#hpp').val();
+
+                            var xhs = (_xhs > 0) ? _xhs : 0;
+                            var xhsj = (_xhsj > 0) ? _xhsj : 0;
+                            var xhpp = (_xhpp > 0) ? _xhpp : 0;
+                            var xprof = xhsj - xhpp;
+                            var xprof2 = (xprof / xhsj) * 100;
+                            if (isNaN(xprof2)) xprof2 = 0;
+                            var formattedNumber = new Intl.NumberFormat('de-DE').format(xprof);
+                            var fulltext = formattedNumber + '&nbsp;&nbsp;&nbsp;(' + Math.round(xprof2) +
+                                '%)';
+
+                            $("#profit").html(fulltext);
+                        });
                 })
             });
         </script>
