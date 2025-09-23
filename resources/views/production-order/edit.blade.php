@@ -32,7 +32,7 @@
         </h1>
     </div>
 
-    <div x-data="{ buttonDisabled: {{ $datas->order->isready == 1 ? 'true' : 'false' }} }" class="py-2 flex flex-col">
+    <div id="maindiv" x-data="{ buttonDisabled: {{ $datas->order->isready == 1 ? 'true' : 'false' }} }" class="py-2 flex flex-col">
 
         <div class="w-full px-4 py-2">
             <div class="flex flex-col items-center">
@@ -195,16 +195,19 @@
                                 @include('production-order.partials.combines', [$sales])
                             </div>
 
-                            <div class="my-4 flex flex-row justify-end gap-4">
-                                <x-primary-button id="submit-combine" tabindex="14" x-bind:disabled="buttonDisabled">
-                                    <svg class="size-5" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"
-                                        fill="currentColor">
-                                        <path fill-rule="evenodd" clip-rule="evenodd"
-                                            d="M1.5 1l-.5.5v3l.5.5h3l.5-.5v-3L4.5 1h-3zM2 4V2h2v2H2zm-.5 2l-.5.5v3l.5.5h3l.5-.5v-3L4.5 6h-3zM2 9V7h2v2H2zm-1 2.5l.5-.5h3l.5.5v3l-.5.5h-3l-.5-.5v-3zm1 .5v2h2v-2H2zm10.5-7l-.5.5v6l.5.5h3l.5-.5v-6l-.5-.5h-3zM15 8h-2V6h2v2zm0 3h-2V9h2v2zM9.1 8H6v1h3.1l-1 1 .7.6 1.8-1.8v-.7L8.8 6.3l-.7.7 1 1z" />
-                                    </svg>
-                                    <span class="pl-1">@lang('messages.combine')</span>
-                                </x-primary-button>
-                            </div>
+                            @if (count($sales) > 0)
+                                <div class="my-4 flex flex-row justify-end gap-4">
+                                    <x-primary-button id="submit-combine" tabindex="14"
+                                        x-bind:disabled="buttonDisabled">
+                                        <svg class="size-5" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"
+                                            fill="currentColor">
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                d="M1.5 1l-.5.5v3l.5.5h3l.5-.5v-3L4.5 1h-3zM2 4V2h2v2H2zm-.5 2l-.5.5v3l.5.5h3l.5-.5v-3L4.5 6h-3zM2 9V7h2v2H2zm-1 2.5l.5-.5h3l.5.5v3l-.5.5h-3l-.5-.5v-3zm1 .5v2h2v-2H2zm10.5-7l-.5.5v6l.5.5h3l.5-.5v-6l-.5-.5h-3zM15 8h-2V6h2v2zm0 3h-2V9h2v2zM9.1 8H6v1h3.1l-1 1 .7.6 1.8-1.8v-.7L8.8 6.3l-.7.7 1 1z" />
+                                        </svg>
+                                        <span class="pl-1">@lang('messages.combine')</span>
+                                    </x-primary-button>
+                                </div>
+                            @endif
                         </div>
                     </div>
 
@@ -286,7 +289,7 @@
 
                                     <div class="mt-4 mb-4 mr-4 flex flex-row flex-wrap justify-end gap-2 md:gap-4">
                                         <x-primary-button id="submit-detail" tabindex="14"
-                                            x-on:click="buttonDisabled = true" x-bind:disabled="buttonDisabled">
+                                            x-bind:disabled="buttonDisabled">
                                             <svg id="svg-loading" class="hidden animate-spin size-5"
                                                 viewBox="0 0 48 48" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">
@@ -433,19 +436,21 @@
                     e.preventDefault();
                     let key = '{{ $datas->id }}';
 
-                    $.ajax({
-                        url: '{{ url('/production/order/finish-order') }}' + '/' + key,
-                        type: 'get',
-                        dataType: 'json',
-                        success: function(result) {
-                            if (result.status !== 'Not Found') {
-                                $('#targetDiv').removeClass('hidden');
-                                $('#targetDiv').addClass('block');
-                                flasher.success("{{ __('messages.productionfinish') }}",
-                                    "Success");
+                    var confirmation = confirm("Are you sure you want to do this?");
+                    if (confirmation) {
+                        $.ajax({
+                            url: '{{ url('/production/order/finish-order') }}' + '/' + key,
+                            type: 'get',
+                            dataType: 'json',
+                            success: function(result) {
+                                if (result.status !== 'Not Found') {
+                                    $('#targetDiv').removeClass('hidden');
+                                    $('#targetDiv').addClass('block');
+                                    $('form#master-form').submit();
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
 
                     if (isFormDirty('master-form', myFormInitialValues)) {
                         $('form#master-form').submit();
