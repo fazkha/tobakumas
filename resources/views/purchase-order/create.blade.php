@@ -87,7 +87,7 @@
                                         <x-text-input type="date" name="jatuhtempo" id="jatuhtempo"
                                             data-date-format="dd-mm-yyyy" tabindex="4"
                                             placeholder="{{ __('messages.enter') }} {{ __('calendar.date') }}"
-                                            required value="{{ old('jatuhtempo') }}" />
+                                            value="{{ old('jatuhtempo') }}" />
 
                                         <x-input-error class="mt-2" :messages="$errors->get('jatuhtempo')" />
                                     </div>
@@ -269,8 +269,8 @@
                         var month = ("0" + (now.getMonth() + 1)).slice(-2);
                         var year = now.getFullYear();
                         var today = year + "-" + month + "-" + day;
-                        $("#jatuhtempo").val(today);
                         $("#div-jatuhtempo").show();
+                        $("#jatuhtempo").val(today);
                     } else {
                         $("#jatuhtempo").val("");
                         $("#div-jatuhtempo").hide();

@@ -166,10 +166,50 @@
 
                                     <div class="flex flex-row justify-between gap-4">
                                         <div class="w-1/2 pb-4">
+                                            <label for="operator"
+                                                class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.operator')</label>
+                                            <select name="operator" id="operator" tabindex="10" required
+                                                class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                                <option value="">@lang('messages.choose')...</option>
+                                                <option value="{{ config('custom.nilai_tambah') }}"
+                                                    {{ old('operator') == config('custom.nilai_tambah') ? 'selected' : '' }}>
+                                                    {{ config('custom.simbol_tambah') }}
+                                                </option>
+                                                <option value="{{ config('custom.nilai_kurang') }}"
+                                                    {{ old('operator') == config('custom.nilai_kurang') ? 'selected' : '' }}>
+                                                    {{ config('custom.simbol_kurang') }}
+                                                </option>
+                                                <option value="{{ config('custom.nilai_bagi') }}"
+                                                    {{ old('operator') == config('custom.nilai_bagi') ? 'selected' : '' }}>
+                                                    {{ config('custom.simbol_bagi') }}
+                                                </option>
+                                                <option value="{{ config('custom.nilai_kali') }}"
+                                                    {{ old('operator') == config('custom.nilai_kali') ? 'selected' : '' }}>
+                                                    {{ config('custom.simbol_kali') }}
+                                                </option>
+                                            </select>
+
+                                            <x-input-error class="mt-2" :messages="$errors->get('operator')" />
+                                        </div>
+
+                                        <div class="w-1/2 pb-4">
+                                            <label for="bilangan"
+                                                class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.number')</label>
+                                            <x-text-input type="number" min="0" step="0.01"
+                                                name="bilangan" id="bilangan" tabindex="11"
+                                                placeholder="{{ __('messages.enter') }} {{ __('messages.number') }}"
+                                                required value="{{ old('bilangan') }}" />
+
+                                            <x-input-error class="mt-2" :messages="$errors->get('bilangan')" />
+                                        </div>
+                                    </div>
+
+                                    <div class="flex flex-row justify-between gap-4">
+                                        <div class="w-1/2 pb-4">
                                             <label for="hpp"
                                                 class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.hpp')</label>
                                             <x-text-input type="text" name="hpp" id="hpp"
-                                                tabindex="10" value="{{ old('hpp') }}" />
+                                                tabindex="12" value="{{ old('hpp') }}" />
 
                                             <x-input-error class="mt-2" :messages="$errors->get('hpp')" />
                                         </div>
@@ -187,7 +227,7 @@
                                         <label for="keterangan"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</label>
                                         <x-text-input type="text" name="keterangan" id="keterangan"
-                                            tabindex="11"
+                                            tabindex="13"
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.description') }}"
                                             value="{{ old('keterangan') }}" />
 

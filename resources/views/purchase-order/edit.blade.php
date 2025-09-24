@@ -93,7 +93,7 @@
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.duedate')</label>
                                         <x-text-input type="date" name="jatuhtempo" id="jatuhtempo"
                                             data-date-format="dd-mm-yyyy" tabindex="4"
-                                            placeholder="{{ __('messages.enter') }} {{ __('calendar.date') }}" required
+                                            placeholder="{{ __('messages.enter') }} {{ __('calendar.date') }}"
                                             value="{{ old('jatuhtempo', $datas->jatuhtempo) }}" />
 
                                         <x-input-error class="mt-2" :messages="$errors->get('jatuhtempo')" />
@@ -449,8 +449,8 @@
                         var month = ("0" + (now.getMonth() + 1)).slice(-2);
                         var year = now.getFullYear();
                         var today = year + "-" + month + "-" + day;
-                        $("#jatuhtempo").val(today);
                         $("#div-jatuhtempo").show();
+                        $("#jatuhtempo").val(today);
                     } else {
                         $("#jatuhtempo").val("");
                         $("#div-jatuhtempo").hide();

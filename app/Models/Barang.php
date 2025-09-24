@@ -31,6 +31,8 @@ class Barang extends Model
         'lokasi',
         'gambar',
         'gambar_nama_awal',
+        'operator',
+        'bilangan',
         'isactive',
         'created_by',
         'updated_by',

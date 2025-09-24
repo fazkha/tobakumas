@@ -33,6 +33,8 @@ return new class extends Migration
             $table->string('lokasi')->nullable();
             $table->string('gambar')->nullable();
             $table->string('gambar_nama_awal')->nullable();
+            $table->char('operator', 1)->default(1);
+            $table->integer('bilangan')->default(0);
             $table->tinyInteger('isactive')->default(0);
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();

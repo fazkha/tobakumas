@@ -142,6 +142,39 @@
 
                                 <div class="flex flex-row justify-between gap-4">
                                     <div class="w-1/2 pb-4">
+                                        <label for="operator"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.operator')</label>
+                                        @php
+                                            switch ($datas->operator) {
+                                                case config('custom.nilai_tambah'):
+                                                    $simbol = config('custom.simbol_tambah');
+                                                    break;
+                                                case config('custom.nilai_kurang'):
+                                                    $simbol = config('custom.simbol_kurang');
+                                                    break;
+                                                case config('custom.nilai_bagi'):
+                                                    $simbol = config('custom.simbol_bagi');
+                                                    break;
+                                                case config('custom.nilai_kali'):
+                                                    $simbol = config('custom.simbol_kali');
+                                                    break;
+                                                default:
+                                                    $simbol = '-';
+                                                    break;
+                                            }
+                                        @endphp
+                                        <x-text-span>{{ $simbol }}</x-text-span>
+                                    </div>
+
+                                    <div class="w-1/2 pb-4">
+                                        <span for="bilangan"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.number')</span>
+                                        <x-text-span>{{ $datas->bilangan }}</x-text-span>
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-row justify-between gap-4">
+                                    <div class="w-1/2 pb-4">
                                         <span for="hpp"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.hpp')</span>
                                         <x-text-span>Rp.
