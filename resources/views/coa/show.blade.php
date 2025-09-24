@@ -56,7 +56,7 @@
                                         <div class="w-1/2 pb-4">
                                             <label
                                                 class="block mb-2 font-medium text-primary-600 dark:text-primary-500">Price
-                                                (Rp.)</label>
+                                                (@lang('messages.currencysymbol'))</label>
                                             <x-text-span>{{ number_format($datas->price, 0, ',', '.') }}</x-text-span>
                                         </div>
                                     </div>

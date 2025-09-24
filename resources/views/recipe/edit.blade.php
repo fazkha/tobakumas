@@ -235,7 +235,8 @@
                                             <tfoot>
                                                 <tr>
                                                     <td colspan="4" class="align-top text-center">
-                                                        <x-text-span class="font-bold">@lang('messages.totalprice')</x-text-span>
+                                                        <x-text-span class="font-bold">@lang('messages.totalprice')
+                                                            (@lang('messages.currencysymbol'))</x-text-span>
                                                     </td>
                                                     <td class="align-top text-right">
                                                         <x-text-span class="font-bold"

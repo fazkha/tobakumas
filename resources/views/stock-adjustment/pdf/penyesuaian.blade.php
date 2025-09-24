@@ -78,7 +78,7 @@
                         <th rowspan="2" style="width: 15%">Nama Barang</th>
                         <th rowspan="2" style="width: auto">Satuan</th>
                         <th colspan="3" style="width: auto">Persediaan</th>
-                        <th rowspan="2" style="width: auto">Harga Disesuaikan (Rp.)</th>
+                        <th rowspan="2" style="width: auto">Harga Disesuaikan (@lang('messages.currencysymbol'))</th>
                         <th rowspan="2" style="width: 25%">Keterangan</th>
                     </tr>
                     <tr>

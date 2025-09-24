@@ -36,7 +36,7 @@
                         <th
                             class="px-3 py-1 text-center text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
                             <div class="flex flex-col ">
-                                <span>@lang('messages.unitprice') (Rp.)</span>
+                                <span>@lang('messages.unitprice') (@lang('messages.currencysymbol'))</span>
                                 <span>@lang('messages.buy&sell')</span>
                             </div>
                         </th>

@@ -86,7 +86,7 @@
                                     <div class="w-auto pb-4">
                                         <label for="biaya_angkutan"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.deliverycost')
-                                            (Rp.)</label>
+                                            (@lang('messages.currencysymbol'))</label>
                                         <x-text-input type="text" name="biaya_angkutan" id="biaya_angkutan"
                                             tabindex="4" value="{{ old('biaya_angkutan', 0) }}" />
 
@@ -96,7 +96,7 @@
                                     <div class="w-auto pb-4">
                                         <span for="total_harga"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.totalprice')
-                                            (Rp.)</span>
+                                            (@lang('messages.currencysymbol'))</span>
                                         <x-text-span id="disp-total_harga">{{ old('total_harga', 0) }}</x-text-span>
                                         <input type="hidden" name="total_harga" id="total_harga"
                                             value="{{ old('total_harga') }}" class="hidden" />
@@ -194,12 +194,12 @@
                                             <thead>
                                                 <tr>
                                                     <th class="w-1/4">@lang('messages.goods')</th>
-                                                    <th class="w-1/6">@lang('messages.unitprice') (Rp.)</th>
+                                                    <th class="w-1/6">@lang('messages.unitprice') (@lang('messages.currencysymbol'))</th>
                                                     <th class="w-auto">@lang('messages.unit')</th>
                                                     <th class="w-auto">@lang('messages.quantity')</th>
                                                     <th class="w-auto">@lang('messages.discount') (%)</th>
                                                     <th class="w-auto">@lang('messages.tax') (%)</th>
-                                                    <th class="w-1/5">@lang('messages.subtotalprice') (Rp.)</th>
+                                                    <th class="w-1/5">@lang('messages.subtotalprice') (@lang('messages.currencysymbol'))</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
