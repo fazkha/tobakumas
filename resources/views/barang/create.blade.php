@@ -327,7 +327,7 @@
                             var xhsj = (_xhsj > 0) ? _xhsj : 0;
                             var xhpp = (_xhpp > 0) ? _xhpp : 0;
                             var xbil = (_xbil > 0) ? _xbil : 0;
-                            xhpp = xhs / xbil;
+                            xhpp = Math.round(xhs / xbil);
                             var xprof = xhsj - xhpp;
                             var xprof2 = (xprof / xhsj) * 100;
                             if (isNaN(xprof2)) xprof2 = 0;
