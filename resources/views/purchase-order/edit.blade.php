@@ -222,7 +222,7 @@
                                                     <th class="w-auto">@lang('messages.quantity')</th>
                                                     <th class="w-auto">@lang('messages.discount') (%)</th>
                                                     <th class="w-auto">@lang('messages.tax') (%)</th>
-                                                    <th class="w-1/5">@lang('messages.subtotalprice') (@lang('messages.currencysymbol'))</th>
+                                                    <th class="w-auto">@lang('messages.subtotalprice') (@lang('messages.currencysymbol'))</th>
                                                     <th class="w-auto">&nbsp;</th>
                                                 </tr>
                                             </thead>

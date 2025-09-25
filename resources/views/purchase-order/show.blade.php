@@ -152,13 +152,13 @@
                                     <table id="order_table" class="w-full border-separate border-spacing-2">
                                         <thead>
                                             <tr>
-                                                <th class="w-1/4">@lang('messages.goods')</th>
+                                                <th class="w-1/5">@lang('messages.goods')</th>
                                                 <th class="w-1/6">@lang('messages.unitprice') (@lang('messages.currencysymbol'))</th>
                                                 <th class="w-auto">@lang('messages.unit')</th>
                                                 <th class="w-auto">@lang('messages.quantity')</th>
                                                 <th class="w-auto">@lang('messages.discount') (%)</th>
                                                 <th class="w-auto">@lang('messages.tax') (%)</th>
-                                                <th class="w-1/5">@lang('messages.subtotalprice') (@lang('messages.currencysymbol'))</th>
+                                                <th class="w-auto">@lang('messages.subtotalprice') (@lang('messages.currencysymbol'))</th>
                                             </tr>
                                         </thead>
 
