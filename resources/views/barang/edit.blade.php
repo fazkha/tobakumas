@@ -312,15 +312,18 @@
                         reader.readAsDataURL(this.files[0]);
                     });
 
-                    $("#harga_satuan, #harga_satuan_jual, #hpp")
+                    $("#harga_satuan, #harga_satuan_jual, #hpp, #bilangan")
                         .on("change keyup paste", function() {
                             var _xhs = $('#harga_satuan').val();
                             var _xhsj = $('#harga_satuan_jual').val();
                             var _xhpp = $('#hpp').val();
+                            var _xbil = $('#bilangan').val();
 
                             var xhs = (_xhs > 0) ? _xhs : 0;
                             var xhsj = (_xhsj > 0) ? _xhsj : 0;
                             var xhpp = (_xhpp > 0) ? _xhpp : 0;
+                            var xbil = (_xbil > 0) ? _xbil : 0;
+                            xhpp = xhs / xbil;
                             var xprof = xhsj - xhpp;
                             var xprof2 = (xprof / xhsj) * 100;
                             if (isNaN(xprof2)) xprof2 = 0;
@@ -329,6 +332,7 @@
                                 '%)';
 
                             $("#profit").html(fulltext);
+                            $('#hpp').val(xhpp);
                         });
                 })
             });
