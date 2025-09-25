@@ -88,7 +88,8 @@
                                         <x-input-error class="mt-2" :messages="$errors->get('tunai')" />
                                     </div>
 
-                                    <div class="w-auto pb-4">
+                                    <div id="div-jatuhtempo"
+                                        class="{{ $datas->tunai == 1 ? 'hidden ' : '' }}w-auto pb-4">
                                         <label for="jatuhtempo"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.duedate')</label>
                                         <x-text-input type="date" name="jatuhtempo" id="jatuhtempo"
