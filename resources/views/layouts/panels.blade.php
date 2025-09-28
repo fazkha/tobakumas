@@ -1,5 +1,6 @@
 @php
     $notifs = notif_data();
+    dd($notif);
 @endphp
 
 <!-- Panels -->
@@ -220,7 +221,6 @@
                 @if (count($notifs) > 0)
                     @foreach ($notifs as $notif)
                         @php
-                            dd($notif);
                             $currentDateTime = new DateTime()->format('Y-m-d H:i:s');
                             $et = elapsed_interval($notif->tanggal_awal, $currentDateTime);
                         @endphp
