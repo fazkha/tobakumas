@@ -220,7 +220,8 @@
                 {{-- @if (count($notifs) > 0) --}}
                 {{-- @foreach ($notifs as $notif) --}}
                 @php
-                    $currentDateTime = new DateTime()->format('Y-m-d H:i:s');
+                    $newdate = new DateTime();
+                    $currentDateTime = $newdate->format('Y-m-d H:i:s');
                     // $et = elapsed_interval($notif->tanggal_awal, $currentDateTime);
                 @endphp
                 {{-- <a href="{{ route($notif->route) }}" class="block">
