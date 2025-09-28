@@ -10,6 +10,7 @@ class Notif extends Model
     protected $table = 'notifs';
 
     protected $fillable = [
+        'title',
         'message',
         'tanggal_awal',
         'tanggal_akhir',
