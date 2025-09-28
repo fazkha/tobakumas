@@ -68,16 +68,23 @@
                 </div>
             </button>
 
-            <!-- Notification button
+            <!-- Notification button -->
             <button @click="openNotificationsPanel"
-                class="p-2 transition-colors duration-200 rounded-full text-primary bg-primary-50 hover:text-primary hover:bg-primary-100 dark:text-primary-500 dark:hover:text-light dark:hover:bg-primary-600 dark:bg-primary-700 focus:outline-none focus:bg-primary-100 dark:focus:bg-primary-600 focus:ring-primary-700">
+                class="relative p-2 transition-colors duration-200 rounded-full text-primary bg-primary-50 hover:text-primary hover:bg-primary-100 dark:text-primary-500 dark:hover:text-light dark:hover:bg-primary-600 dark:bg-primary-700 focus:outline-none focus:bg-primary-100 dark:focus:bg-primary-600 focus:ring-primary-700">
                 <span class="sr-only">Open Notification panel</span>
                 <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                 </svg>
-            </button> -->
+                @if (notif_count() > 0)
+                    <div class="absolute -top-2 -right-1">
+                        <span class="px-[0.45rem] py-1 rounded-xl text-[10px] text-white bg-red-600">
+                            {{ notif_count() }}
+                        </span>
+                    </div>
+                @endif
+            </button>
 
             <!-- Search button
             <button @click="openSearchPanel"
@@ -171,16 +178,23 @@
                     </div>
                 </button>
 
-                <!-- Notification button
+                <!-- Notification button -->
                 <button @click="openNotificationsPanel(); $nextTick(() => { isMobileSubMenuOpen = false })"
-                    class="p-2 transition-colors duration-200 rounded-full text-primary bg-primary-50 hover:text-primary hover:bg-primary-100 dark:text-primary-500 dark:hover:text-light dark:hover:bg-primary-600 dark:bg-primary-700 focus:outline-none focus:bg-primary-100 dark:focus:bg-primary-600 focus:ring-primary-700">
+                    class="relative p-2 transition-colors duration-200 rounded-full text-primary bg-primary-50 hover:text-primary hover:bg-primary-100 dark:text-primary-500 dark:hover:text-light dark:hover:bg-primary-600 dark:bg-primary-700 focus:outline-none focus:bg-primary-100 dark:focus:bg-primary-600 focus:ring-primary-700">
                     <span class="sr-only">Open notifications panel</span>
                     <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                     </svg>
-                </button> -->
+                    @if (notif_count() > 0)
+                        <div class="absolute -top-2 -right-1">
+                            <span class="px-[0.45rem] py-1 rounded-xl text-[10px] text-white bg-red-600">
+                                {{ notif_count() }}
+                            </span>
+                        </div>
+                    @endif
+                </button>
 
                 <!-- Search button
                 <button
@@ -533,11 +547,12 @@
                                         xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                         viewBox="0 0 329.966 329.966" style="enable-background:new 0 0 329.966 329.966;"
                                         xml:space="preserve">
-                                        <path id="XMLID_822_" d="M218.317,139.966h-38.334v-45V15c0-8.284-6.716-15-15-15h-120c-8.284,0-15,6.716-15,15v79.966
-                                                        c0,8.284,6.716,15,15,15h105v30h-38.334c-52.383,0-95,42.617-95,95s42.617,95,95,95h106.668c52.383,0,95-42.617,95-95
-                                                        S270.7,139.966,218.317,139.966z M59.983,79.966V30h90v49.966H59.983z M218.317,299.966H111.649c-35.841,0-65-29.159-65-65
-                                                        s29.159-65,65-65h38.334v65c0,8.284,6.716,15,15,15c8.284,0,15-6.716,15-15v-65h38.334c35.841,0,65,29.159,65,65
-                                                        S254.158,299.966,218.317,299.966z" />
+                                        <path id="XMLID_822_"
+                                            d="M218.317,139.966h-38.334v-45V15c0-8.284-6.716-15-15-15h-120c-8.284,0-15,6.716-15,15v79.966
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        c0,8.284,6.716,15,15,15h105v30h-38.334c-52.383,0-95,42.617-95,95s42.617,95,95,95h106.668c52.383,0,95-42.617,95-95
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        S270.7,139.966,218.317,139.966z M59.983,79.966V30h90v49.966H59.983z M218.317,299.966H111.649c-35.841,0-65-29.159-65-65
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        s29.159-65,65-65h38.334v65c0,8.284,6.716,15,15,15c8.284,0,15-6.716,15-15v-65h38.334c35.841,0,65,29.159,65,65
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        S254.158,299.966,218.317,299.966z" />
                                     </svg>
                                     @lang('messages.brandivjabkec')
                                 </span>

@@ -1,3 +1,7 @@
+@php
+    $notifs = notif_data();
+@endphp
+
 <!-- Panels -->
 
 <!-- Settings Panel -->
@@ -213,60 +217,12 @@
         <div class="flex-1 pt-4 overflow-y-hidden hover:overflow-y-auto">
             <!-- Action tab -->
             <div class="space-y-4" x-show.transition.in="activeTabe == 'action'">
-                <a href="#" class="block">
-                    <div class="flex px-4 space-x-4">
-                        <div class="relative flex-shrink-0">
-                            <span
-                                class="z-10 inline-block p-2 overflow-visible rounded-full bg-primary-50 text-primary-500 dark:bg-primary-700">
-                                <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                                </svg>
-                            </span>
-                            <div class="absolute h-24 p-px -mt-3 -ml-px bg-primary-50 left-1/2 dark:bg-primary-700">
-                            </div>
-                        </div>
-                        <div class="flex-1 overflow-hidden">
-                            <h5 class="text-sm font-semibold text-gray-600 dark:text-light">
-                                New project "KWD Dashboard" created
-                            </h5>
-                            <p class="text-sm font-normal text-gray-400 truncate dark:text-primary-400">
-                                Looks like there might be a new theme soon
-                            </p>
-                            <span class="text-sm font-normal text-gray-400 dark:text-primary-500"> 9h ago
-                            </span>
-                        </div>
-                    </div>
-                </a>
-                <a href="#" class="block">
-                    <div class="flex px-4 space-x-4">
-                        <div class="relative flex-shrink-0">
-                            <span
-                                class="inline-block p-2 overflow-visible rounded-full bg-primary-50 text-primary-500 dark:bg-primary-700">
-                                <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                                </svg>
-                            </span>
-                            <div class="absolute h-24 p-px -mt-3 -ml-px bg-primary-50 left-1/2 dark:bg-primary-700">
-                            </div>
-                        </div>
-                        <div class="flex-1 overflow-hidden">
-                            <h5 class="text-sm font-semibold text-gray-600 dark:text-light">
-                                KWD Dashboard v0.0.2 was released
-                            </h5>
-                            <p class="text-sm font-normal text-gray-400 truncate dark:text-primary-400">
-                                Successful new version was released
-                            </p>
-                            <span class="text-sm font-normal text-gray-400 dark:text-primary-500"> 2d ago
-                            </span>
-                        </div>
-                    </div>
-                </a>
-                <template x-for="i in 20" x-key="i">
-                    <a href="#" class="block">
+                @foreach ($notifs as $notif)
+                    @php
+                        $currentDateTime = new DateTime()->format('Y-m-d H:i:s');
+                        $et = elapsed_interval($notif->tanggal_awal, $currentDateTime);
+                    @endphp
+                    <a href="{{ route($notif->route) }}" class="block">
                         <div class="flex px-4 space-x-4">
                             <div class="relative flex-shrink-0">
                                 <span
@@ -282,85 +238,34 @@
                                 </div>
                             </div>
                             <div class="flex-1 overflow-hidden">
-                                <h5 class="text-sm font-semibold text-gray-600 dark:text-light">
-                                    New project "KWD Dashboard" created
+                                <h5 class="text-sm font-semibold text-primary dark:text-primary-500">
+                                    {{ $notif->title }}
                                 </h5>
-                                <p class="text-sm font-normal text-gray-400 truncate dark:text-primary-400">
-                                    Looks like there might be a new theme soon
+                                <p class="text-sm font-normal text-primary-500 dark:text-primary-600">
+                                    {{ $notif->message }}
                                 </p>
-                                <span class="text-sm font-normal text-gray-400 dark:text-primary-500"> 9h ago
+                                <span class="text-sm font-normal text-primary-400 dark:text-primary-700">
+                                    {{ $et }} ago
                                 </span>
                             </div>
                         </div>
                     </a>
-                </template>
+                @endforeach
             </div>
 
             <!-- User tab -->
             <div class="space-y-4" x-show.transition.in="activeTabe == 'user'">
-                <a href="#" class="block">
-                    <div class="flex px-4 space-x-4">
-                        <div class="relative flex-shrink-0">
-                            <span class="relative z-10 inline-block overflow-visible rounded-ful">
-                                <img class="object-cover rounded-full w-9 h-9" src="" alt="User" />
-                            </span>
-                            <div class="absolute h-24 p-px -mt-3 -ml-px bg-primary-50 left-1/2 dark:bg-primary-700">
-                            </div>
-                        </div>
-                        <div class="flex-1 overflow-hidden">
-                            <h5 class="text-sm font-semibold text-gray-600 dark:text-light">User</h5>
-                            <p class="text-sm font-normal text-gray-400 truncate dark:text-primary-400">
-                                Shared new project "Dashboard"
-                            </p>
-                            <span class="text-sm font-normal text-gray-400 dark:text-primary-500"> 1d ago
-                            </span>
-                        </div>
-                    </div>
-                </a>
-                <a href="#" class="block">
-                    <div class="flex px-4 space-x-4">
-                        <div class="relative flex-shrink-0">
-                            <span class="relative z-10 inline-block overflow-visible rounded-ful">
-                                <img class="object-cover rounded-full w-9 h-9" src="" alt="User" />
-                            </span>
-                            <div class="absolute h-24 p-px -mt-3 -ml-px bg-primary-50 left-1/2 dark:bg-primary-700">
-                            </div>
-                        </div>
-                        <div class="flex-1 overflow-hidden">
-                            <h5 class="text-sm font-semibold text-gray-600 dark:text-light">John</h5>
-                            <p class="text-sm font-normal text-gray-400 truncate dark:text-primary-400">
-                                Commit new changes to Dashboard project.
-                            </p>
-                            <span class="text-sm font-normal text-gray-400 dark:text-primary-500"> 10h ago
-                            </span>
-                        </div>
-                    </div>
-                </a>
-                <a href="#" class="block">
-                    <div class="flex px-4 space-x-4">
-                        <div class="relative flex-shrink-0">
-                            <span class="relative z-10 inline-block overflow-visible rounded-ful">
-                                <img class="object-cover rounded-full w-9 h-9" src="" alt="User" />
-                            </span>
-                            <div class="absolute h-24 p-px -mt-3 -ml-px bg-primary-50 left-1/2 dark:bg-primary-700">
-                            </div>
-                        </div>
-                        <div class="flex-1 overflow-hidden">
-                            <h5 class="text-sm font-semibold text-gray-600 dark:text-light">User</h5>
-                            <p class="text-sm font-normal text-gray-400 truncate dark:text-primary-400">
-                                Release new version "Dashboard"
-                            </p>
-                            <span class="text-sm font-normal text-gray-400 dark:text-primary-500"> 20d ago
-                            </span>
-                        </div>
-                    </div>
-                </a>
-                <template x-for="i in 10" x-key="i">
+                {{-- <template x-for="i in 10" x-key="i">
                     <a href="#" class="block">
                         <div class="flex px-4 space-x-4">
                             <div class="relative flex-shrink-0">
-                                <span class="relative z-10 inline-block overflow-visible rounded-ful">
-                                    <img class="object-cover rounded-full w-9 h-9" src="" alt="User" />
+                                <span
+                                    class="inline-block p-2 overflow-visible rounded-full bg-primary-50 text-primary-500 dark:bg-primary-700">
+                                    <svg fill="currentColor" class="size-7" viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M15.71,12.71a6,6,0,1,0-7.42,0,10,10,0,0,0-6.22,8.18,1,1,0,0,0,2,.22,8,8,0,0,1,15.9,0,1,1,0,0,0,1,.89h.11a1,1,0,0,0,.88-1.1A10,10,0,0,0,15.71,12.71ZM12,12a4,4,0,1,1,4-4A4,4,0,0,1,12,12Z" />
+                                    </svg>
                                 </span>
                                 <div
                                     class="absolute h-24 p-px -mt-3 -ml-px bg-primary-50 left-1/2 dark:bg-primary-700">
@@ -377,7 +282,7 @@
                             </div>
                         </div>
                     </a>
-                </template>
+                </template> --}}
             </div>
         </div>
     </div>
