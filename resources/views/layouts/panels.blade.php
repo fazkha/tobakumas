@@ -217,7 +217,7 @@
         <div class="flex-1 pt-4 overflow-y-hidden hover:overflow-y-auto">
             <!-- Action tab -->
             <div class="space-y-4" x-show.transition.in="activeTabe == 'action'">
-                @if (count($notif) > 0)
+                @if (count($notifs) > 0)
                     @foreach ($notifs as $notif)
                         @php
                             $currentDateTime = new DateTime()->format('Y-m-d H:i:s');
