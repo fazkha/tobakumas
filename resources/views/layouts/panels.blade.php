@@ -224,7 +224,7 @@
                             $currentDateTime = $newdate->format('Y-m-d H:i:s');
                             $et = elapsed_interval($notif->tanggal_awal, $currentDateTime);
                         @endphp
-                        <a href="{{ route($notif->route) }}" class="block">
+                        <a href="{{ route($notif->route, ['parm' => 'notif_restock']) }}" class="block">
                             <div class="flex px-4 space-x-4">
                                 <div class="relative flex-shrink-0">
                                     <span

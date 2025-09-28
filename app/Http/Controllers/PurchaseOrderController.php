@@ -9,6 +9,7 @@ use App\Models\PurchaseOrderDetail;
 use App\Models\Satuan;
 use App\Http\Requests\PurchaseOrderRequest;
 use App\Http\Requests\PurchaseOrderUpdateRequest;
+use App\Models\Notif;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
@@ -135,10 +136,64 @@ class PurchaseOrderController extends Controller implements HasMiddleware
         }
     }
 
-    public function create(): View
+    public function create(Request $request)
     {
         $branch_id = auth()->user()->profile->branch_id;
         $suppliers = Supplier::where('branch_id', $branch_id)->where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+
+        // AUTO BUY BASE ON NOTIFICATION
+        // if (count($request->all()) > 0) {
+        //     if ($request->parm == 'notif_restock') {
+        //         $notifs = Notif::where('isactive', 1)->where('route', 'purchase-order.create')->get(['route_parm']);
+
+        //         $_po = PurchaseOrder::join('purchase_order_details', 'purchase_order_details.purchase_order_id', '=', 'purchase_orders.id')
+        //             ->selectRaw('purchase_orders.supplier_id, COUNT(*) AS cnt')
+        //             ->groupBy('purchase_orders.supplier_id')
+        //             ->orderByRaw('cnt DESC')
+        //             ->first();
+
+        //         $po = PurchaseOrder::create([
+        //             'branch_id' => auth()->user()->profile->branch_id,
+        //             'supplier_id' => $_po->supplier_id,
+        //             'tanggal' => date("Y-m-d"),
+        //             'tunai' => 1,
+        //             'isactive' => 1,
+        //             'isaccepted' => 0,
+        //             'created_by' => auth()->user()->email,
+        //             'updated_by' => auth()->user()->email,
+        //             'approved' => (config('custom.purchase_approval') == false) ? 1 : 0,
+        //             'approved_by' => (config('custom.purchase_approval') == false) ? 'system' : NULL,
+        //         ]);
+
+        //         foreach ($notifs as $notif) {
+        //             $barang = Barang::find($notif->route_parm);
+        //             $satuan_id = $barang->satuan_beli_id;
+        //             $harga_satuan = $barang->harga_satuan;
+        //             $kuantiti = $barang->minstock * (1 + 0.10);
+        //             // dd($barang);
+
+        //             $detail = PurchaseOrderDetail::create([
+        //                 'purchase_order_id' => $po->id,
+        //                 'branch_id' => auth()->user()->profile->branch_id,
+        //                 'barang_id' => $notif->route_parm,
+        //                 'satuan_id' => $satuan_id,
+        //                 'harga_satuan' => $harga_satuan,
+        //                 'kuantiti' => $kuantiti,
+        //                 'pajak' => 0,
+        //                 'discount' => 0,
+        //                 'isaccepted' => 0,
+        //                 'satuan_terima_id' => $satuan_id,
+        //                 'kuantiti_terima' => NULL,
+        //                 'created_by' => auth()->user()->email,
+        //                 'updated_by' => auth()->user()->email,
+        //                 'approved' => (config('custom.purchase_approval') == false) ? 1 : 0,
+        //                 'approved_by' => (config('custom.purchase_approval') == false) ? 'system' : NULL,
+        //             ]);
+        //         }
+
+        //         return redirect()->route('purchase-order.edit', Crypt::encrypt($po->id));
+        //     }
+        // }
 
         return view('purchase-order.create', compact(['suppliers', 'branch_id']));
     }
