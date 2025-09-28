@@ -217,40 +217,42 @@
         <div class="flex-1 pt-4 overflow-y-hidden hover:overflow-y-auto">
             <!-- Action tab -->
             <div class="space-y-4" x-show.transition.in="activeTabe == 'action'">
-                @foreach ($notifs as $notif)
-                    @php
-                        $currentDateTime = new DateTime()->format('Y-m-d H:i:s');
-                        $et = elapsed_interval($notif->tanggal_awal, $currentDateTime);
-                    @endphp
-                    <a href="{{ route($notif->route) }}" class="block">
-                        <div class="flex px-4 space-x-4">
-                            <div class="relative flex-shrink-0">
-                                <span
-                                    class="inline-block p-2 overflow-visible rounded-full bg-primary-50 text-primary-500 dark:bg-primary-700">
-                                    <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                                    </svg>
-                                </span>
-                                <div
-                                    class="absolute h-24 p-px -mt-3 -ml-px bg-primary-50 left-1/2 dark:bg-primary-700">
+                @if (count($notif) > 0)
+                    @foreach ($notifs as $notif)
+                        @php
+                            $currentDateTime = new DateTime()->format('Y-m-d H:i:s');
+                            $et = elapsed_interval($notif->tanggal_awal, $currentDateTime);
+                        @endphp
+                        <a href="{{ route($notif->route) }}" class="block">
+                            <div class="flex px-4 space-x-4">
+                                <div class="relative flex-shrink-0">
+                                    <span
+                                        class="inline-block p-2 overflow-visible rounded-full bg-primary-50 text-primary-500 dark:bg-primary-700">
+                                        <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                                        </svg>
+                                    </span>
+                                    <div
+                                        class="absolute h-24 p-px -mt-3 -ml-px bg-primary-50 left-1/2 dark:bg-primary-700">
+                                    </div>
+                                </div>
+                                <div class="flex-1 overflow-hidden">
+                                    <h5 class="text-sm font-semibold text-primary dark:text-primary-500">
+                                        {{ $notif->title }}
+                                    </h5>
+                                    <p class="text-sm font-normal text-primary-500 dark:text-primary-600">
+                                        {{ $notif->message }}
+                                    </p>
+                                    <span class="text-sm font-normal text-primary-400 dark:text-primary-700">
+                                        {{ $et }} ago
+                                    </span>
                                 </div>
                             </div>
-                            <div class="flex-1 overflow-hidden">
-                                <h5 class="text-sm font-semibold text-primary dark:text-primary-500">
-                                    {{ $notif->title }}
-                                </h5>
-                                <p class="text-sm font-normal text-primary-500 dark:text-primary-600">
-                                    {{ $notif->message }}
-                                </p>
-                                <span class="text-sm font-normal text-primary-400 dark:text-primary-700">
-                                    {{ $et }} ago
-                                </span>
-                            </div>
-                        </div>
-                    </a>
-                @endforeach
+                        </a>
+                    @endforeach
+                @endif
             </div>
 
             <!-- User tab -->
