@@ -244,7 +244,7 @@
                                         {{ $notif->title }}
                                     </h5>
                                     <p class="text-sm font-normal text-primary-500 dark:text-primary-600">
-                                        {{ $notif->message }}
+                                        {!! $notif->message !!}
                                     </p>
                                     <span class="text-sm font-normal text-primary-400 dark:text-primary-700">
                                         {{ $et }} ago
