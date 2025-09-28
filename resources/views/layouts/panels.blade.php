@@ -1,6 +1,5 @@
 @php
     $notifs = notif_data();
-    dd($notifs);
 @endphp
 
 <!-- Panels -->
@@ -218,13 +217,13 @@
         <div class="flex-1 pt-4 overflow-y-hidden hover:overflow-y-auto">
             <!-- Action tab -->
             <div class="space-y-4" x-show.transition.in="activeTabe == 'action'">
-                @if (count($notifs) > 0)
-                    @foreach ($notifs as $notif)
-                        @php
+                {{-- @if (count($notifs) > 0) --}}
+                {{-- @foreach ($notifs as $notif) --}}
+                {{-- @php
                             $currentDateTime = new DateTime()->format('Y-m-d H:i:s');
                             $et = elapsed_interval($notif->tanggal_awal, $currentDateTime);
-                        @endphp
-                        <a href="{{ route($notif->route) }}" class="block">
+                        @endphp --}}
+                {{-- <a href="{{ route($notif->route) }}" class="block">
                             <div class="flex px-4 space-x-4">
                                 <div class="relative flex-shrink-0">
                                     <span
@@ -251,9 +250,9 @@
                                     </span>
                                 </div>
                             </div>
-                        </a>
-                    @endforeach
-                @endif
+                        </a> --}}
+                {{-- @endforeach --}}
+                {{-- @endif --}}
             </div>
 
             <!-- User tab -->
