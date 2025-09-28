@@ -1,6 +1,6 @@
 @php
     $notifs = notif_data();
-    dd($notif);
+    dd($notifs);
 @endphp
 
 <!-- Panels -->
