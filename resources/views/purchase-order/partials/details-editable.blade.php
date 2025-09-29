@@ -1,26 +1,42 @@
 @if ($details->count() > 0)
+    @php
+        $i = 0;
+    @endphp
     @foreach ($details as $detail)
         <tr>
             <td class="align-top">
+                <input type="hidden" name="items[{{ $detail->id }}][id]" />
                 <x-text-span>{{ $detail->barang->nama }}</x-text-span>
             </td>
             <td class="align-top text-right">
-                <x-text-span>{{ number_format($detail->harga_satuan, 0, ',', '.') }}</x-text-span>
+                <x-text-input type="number" min="0" name="items[{{ $detail->id }}][harga_satuan]"
+                    value="{{ $detail->harga_satuan }}" required tabindex="11" />
             </td>
             <td class="align-top">
-                <x-text-span>{{ $detail->satuan->singkatan }}</x-text-span>
+                <select name="items[{{ $detail->id }}][satuan_id]" required tabindex="12"
+                    class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                    <option value="">@lang('messages.choose')...</option>
+                    @foreach ($satuans as $id => $name)
+                        <option value="{{ $id }}" {{ $detail->satuan_id == $id ? 'selected' : '' }}>
+                            {{ $name }}</option>
+                    @endforeach
+                </select>
             </td>
             <td class="align-top text-right">
-                <x-text-span>{{ $detail->kuantiti }}</x-text-span>
+                <x-text-input type="number" min="0" name="items[{{ $detail->id }}][kuantiti]"
+                    value="{{ $detail->kuantiti }}" required tabindex="13" />
             </td>
             <td class="align-top text-right">
-                <x-text-span>{{ $detail->discount }}</x-text-span>
+                <x-text-input type="number" min="0" name="items[{{ $detail->id }}][discount]"
+                    value="{{ $detail->discount }}" tabindex="14" />
             </td>
             <td class="align-top text-right">
-                <x-text-span>{{ $detail->pajak }}</x-text-span>
+                <x-text-input type="number" min="0" name="items[{{ $detail->id }}][pajak]"
+                    value="{{ $detail->pajak }}" tabindex="15" />
             </td>
             <td class="align-top text-right">
-                <x-text-span>{{ number_format($detail->harga_satuan * (1 + $detail->pajak / 100 - $detail->discount / 100) * $detail->kuantiti, 0, ',', '.') }}</x-text-span>
+                <x-text-span id="disp-sub_harga"
+                    class="text-right">{{ number_format($detail->harga_satuan * (1 + $detail->pajak / 100 - $detail->discount / 100) * $detail->kuantiti, 0, ',', '.') }}</x-text-span>
             </td>
             @if ($viewMode == false)
                 @if ($detail->kuantiti_terima > 0)
@@ -40,5 +56,8 @@
                 @endif
             @endif
         </tr>
+        @php
+            $i++;
+        @endphp
     @endforeach
 @endif

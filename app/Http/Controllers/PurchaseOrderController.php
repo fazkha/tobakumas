@@ -142,58 +142,64 @@ class PurchaseOrderController extends Controller implements HasMiddleware
         $suppliers = Supplier::where('branch_id', $branch_id)->where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
 
         // AUTO BUY BASE ON NOTIFICATION
-        // if (count($request->all()) > 0) {
-        //     if ($request->parm == 'notif_restock') {
-        //         $notifs = Notif::where('isactive', 1)->where('route', 'purchase-order.create')->get(['route_parm']);
+        if (count($request->all()) > 0) {
+            if ($request->parm == 'notif_restock') {
+                $notifs = Notif::where('isactive', 1)->where('route', 'purchase-order.create')->get(['route_parm']);
 
-        //         $_po = PurchaseOrder::join('purchase_order_details', 'purchase_order_details.purchase_order_id', '=', 'purchase_orders.id')
-        //             ->selectRaw('purchase_orders.supplier_id, COUNT(*) AS cnt')
-        //             ->groupBy('purchase_orders.supplier_id')
-        //             ->orderByRaw('cnt DESC')
-        //             ->first();
+                if (count($notifs) > 0) {
+                    $update = Notif::where('route', 'purchase-order.create')->update([
+                        'isactive' => 0
+                    ]);
 
-        //         $po = PurchaseOrder::create([
-        //             'branch_id' => auth()->user()->profile->branch_id,
-        //             'supplier_id' => $_po->supplier_id,
-        //             'tanggal' => date("Y-m-d"),
-        //             'tunai' => 1,
-        //             'isactive' => 1,
-        //             'isaccepted' => 0,
-        //             'created_by' => auth()->user()->email,
-        //             'updated_by' => auth()->user()->email,
-        //             'approved' => (config('custom.purchase_approval') == false) ? 1 : 0,
-        //             'approved_by' => (config('custom.purchase_approval') == false) ? 'system' : NULL,
-        //         ]);
+                    $_po = PurchaseOrder::join('purchase_order_details', 'purchase_order_details.purchase_order_id', '=', 'purchase_orders.id')
+                        ->selectRaw('purchase_orders.supplier_id, COUNT(*) AS cnt')
+                        ->groupBy('purchase_orders.supplier_id')
+                        ->orderByRaw('cnt DESC')
+                        ->first();
 
-        //         foreach ($notifs as $notif) {
-        //             $barang = Barang::find($notif->route_parm);
-        //             $satuan_id = $barang->satuan_beli_id;
-        //             $harga_satuan = $barang->harga_satuan;
-        //             $kuantiti = $barang->minstock * (1 + 0.10);
-        //             // dd($barang);
+                    $po = PurchaseOrder::create([
+                        'branch_id' => auth()->user()->profile->branch_id,
+                        'supplier_id' => $_po->supplier_id,
+                        'tanggal' => date("Y-m-d"),
+                        'tunai' => 1,
+                        'isactive' => 1,
+                        'isaccepted' => 0,
+                        'created_by' => auth()->user()->email,
+                        'updated_by' => auth()->user()->email,
+                        'approved' => (config('custom.purchase_approval') == false) ? 1 : 0,
+                        'approved_by' => (config('custom.purchase_approval') == false) ? 'system' : NULL,
+                    ]);
 
-        //             $detail = PurchaseOrderDetail::create([
-        //                 'purchase_order_id' => $po->id,
-        //                 'branch_id' => auth()->user()->profile->branch_id,
-        //                 'barang_id' => $notif->route_parm,
-        //                 'satuan_id' => $satuan_id,
-        //                 'harga_satuan' => $harga_satuan,
-        //                 'kuantiti' => $kuantiti,
-        //                 'pajak' => 0,
-        //                 'discount' => 0,
-        //                 'isaccepted' => 0,
-        //                 'satuan_terima_id' => $satuan_id,
-        //                 'kuantiti_terima' => NULL,
-        //                 'created_by' => auth()->user()->email,
-        //                 'updated_by' => auth()->user()->email,
-        //                 'approved' => (config('custom.purchase_approval') == false) ? 1 : 0,
-        //                 'approved_by' => (config('custom.purchase_approval') == false) ? 'system' : NULL,
-        //             ]);
-        //         }
+                    foreach ($notifs as $notif) {
+                        $barang = Barang::find($notif->route_parm);
+                        $satuan_id = $barang->satuan_beli_id;
+                        $harga_satuan = $barang->harga_satuan;
+                        $kuantiti = $barang->minstock * (1 + 0.10);
+                        // dd($barang);
 
-        //         return redirect()->route('purchase-order.edit', Crypt::encrypt($po->id));
-        //     }
-        // }
+                        $detail = PurchaseOrderDetail::create([
+                            'purchase_order_id' => $po->id,
+                            'branch_id' => auth()->user()->profile->branch_id,
+                            'barang_id' => $notif->route_parm,
+                            'satuan_id' => $satuan_id,
+                            'harga_satuan' => $harga_satuan,
+                            'kuantiti' => $kuantiti,
+                            'pajak' => 0,
+                            'discount' => 0,
+                            'isaccepted' => 0,
+                            'satuan_terima_id' => $satuan_id,
+                            'kuantiti_terima' => NULL,
+                            'created_by' => auth()->user()->email,
+                            'updated_by' => auth()->user()->email,
+                            'approved' => (config('custom.purchase_approval') == false) ? 1 : 0,
+                            'approved_by' => (config('custom.purchase_approval') == false) ? 'system' : NULL,
+                        ]);
+                    }
+
+                    return redirect()->route('purchase-order.edit', Crypt::encrypt($po->id));
+                }
+            }
+        }
 
         return view('purchase-order.create', compact(['suppliers', 'branch_id']));
     }
@@ -379,13 +385,55 @@ class PurchaseOrderController extends Controller implements HasMiddleware
         $details = PurchaseOrderDetail::where('purchase_order_id', $order_id)->get();
         $viewMode = false;
 
-        $view = view('purchase-order.partials.details', compact(['details', 'viewMode']))->render();
+        $view = view('purchase-order.partials.details-editable', compact(['details', 'viewMode']))->render();
 
         return response()->json([
             'view' => $view,
             'total_harga_master' => $totals['total_price'],
             'total_harga_detail' => $totals['sub_price'],
         ], 200);
+    }
+
+    public function updateDetail(Request $request): JsonResponse
+    {
+        $detail = PurchaseOrderDetail::find($request->id);
+        $order = PurchaseOrder::where('id', $detail->purchase_order_id)->get();
+
+        $order_id = $detail->purchase_order_id;
+        $view = [];
+
+        $detail->update([
+            $request->field => $request->nilai
+        ]);
+
+        $po = PurchaseOrder::find($order_id);
+        $total_price = PurchaseOrderDetail::where('purchase_order_id', $order_id)->select(DB::raw('SUM((harga_satuan * (1 + (pajak/100) - (discount/100))) * kuantiti) as total_price'))->value('total_price');
+        $totals = [
+            'sub_price' => $total_price * 1,
+            'total_price' => $po->total_harga,
+        ];
+
+        $details = PurchaseOrderDetail::where('purchase_order_id', $order_id)->get();
+        $satuans = Satuan::where('isactive', 1)->orderBy('singkatan')->pluck('singkatan', 'id');
+        $viewMode = false;
+
+        if ($details->count() > 0) {
+            $view = view('purchase-order.partials.details-editable', compact(['details', 'satuans', 'viewMode']))->render();
+        }
+
+        if ($view) {
+            return response()->json([
+                'view' => $view,
+                'total_harga_master' => $totals['total_price'],
+                'total_harga_detail' => $totals['sub_price'],
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 'Not Found',
+                'total_harga_master' => $totals['total_price'],
+                'total_harga_detail' => $totals['sub_price'],
+            ], 200);
+        }
     }
 
     public function deleteDetail(Request $request): JsonResponse
@@ -417,7 +465,7 @@ class PurchaseOrderController extends Controller implements HasMiddleware
         $viewMode = false;
 
         if ($details->count() > 0) {
-            $view = view('purchase-order.partials.details', compact(['details', 'viewMode']))->render();
+            $view = view('purchase-order.partials.details-editable', compact(['details', 'viewMode']))->render();
         }
 
         if ($view) {

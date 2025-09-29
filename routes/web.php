@@ -87,6 +87,7 @@ Route::prefix('purchase')->middleware('auth')->group(function () {
     Route::get('order/fetchdb/{pp}/{isactive}/{tunai}/{supplier}/{no_order}/{tanggal}', [PurchaseOrderController::class, 'fetchdb'])->defaults('no_order', '_')->defaults('tanggal', '_');
     Route::post('order/store-detail/{detail}', [PurchaseOrderController::class, 'storeDetail']);
     Route::delete('order/delete-detail/{detail}', [PurchaseOrderController::class, 'deleteDetail']);
+    Route::get('order/update-detail/{id}/{field}/{nilai}', [PurchaseOrderController::class, 'updateDetail']);
 
     Route::resource('plan', PurchasePlanController::class)->names('purchase-plan');
     Route::get('plan/{plan}/delete', [PurchasePlanController::class, 'delete'])->name('purchase-plan.delete');

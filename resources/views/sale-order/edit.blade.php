@@ -798,8 +798,3 @@
         </script>
     @endpush
 </x-app-layout>
-
-{{-- const mySelect = document.getElementById('mySelectElement');
-const indexToSelect = 1; // The index of the option to select (0-based)
-
-mySelect.selectedIndex = indexToSelect; --}}

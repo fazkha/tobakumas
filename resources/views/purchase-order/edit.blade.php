@@ -228,7 +228,7 @@
                                             </thead>
 
                                             <tbody id="detailBody">
-                                                @include('purchase-order.partials.details', [
+                                                @include('purchase-order.partials.details-editable', [
                                                     $details,
                                                     'viewMode' => false,
                                                 ])
@@ -395,6 +395,31 @@
                     });
                 })
 
+                $('input[name^="items["]').on('change', function() {
+                    var inputName = $(this).attr('name');
+                    var inputValue = $(this).val();
+
+                    var match = inputName.match(/\[(\d+)\]\[(.*?)\]/);
+                    if (match) {
+                        var row = match[1];
+                        var column = match[2];
+
+                        $.ajax({
+                            url: '{{ url('/purchase/order/update-detail') }}' + "/" + row + "/" +
+                                column + "/" + inputValue,
+                            type: "GET",
+                            dataType: 'json',
+                            success: function(result) {
+                                if (result.status !== 'Not Found') {
+                                    $('#detailBody').html(result.view);
+                                    flasher.success("{{ __('messages.successsaved') }}!",
+                                        "Success");
+                                }
+                            }
+                        });
+                    }
+                });
+
                 deleteDetail = function(detailId) {
                     let idname = '#a-delete-detail-' + detailId;
 
@@ -506,8 +531,3 @@
         </script>
     @endpush
 </x-app-layout>
-
-{{-- const mySelect = document.getElementById('mySelectElement');
-const indexToSelect = 1; // The index of the option to select (0-based)
-
-mySelect.selectedIndex = indexToSelect; --}}
