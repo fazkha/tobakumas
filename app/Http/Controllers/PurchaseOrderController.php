@@ -174,7 +174,16 @@ class PurchaseOrderController extends Controller implements HasMiddleware
                         $barang = Barang::find($notif->route_parm);
                         $satuan_id = $barang->satuan_beli_id;
                         $harga_satuan = $barang->harga_satuan;
-                        $kuantiti = $barang->minstock * (1 + 0.10);
+
+                        $history = PurchaseOrderDetail::join('purchase_orders', 'purchase_orders.id', '=', 'purchase_order_details.purchase_order_id')
+                            ->select('kuantiti')
+                            ->where('barang_id', $notif->route_parm)
+                            ->where('satuan_id', $satuan_id)
+                            ->where('purchase_orders.isactive', 1)
+                            ->orderByRaw('purchase_orders.tanggal DESC')
+                            ->first();
+
+                        $kuantiti = $history ? $history->kuantiti : 0;
                         // dd($barang);
 
                         $detail = PurchaseOrderDetail::create([

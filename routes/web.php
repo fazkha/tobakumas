@@ -266,4 +266,3 @@ Route::prefix('admin')->middleware('auth')->group(function () {})->missing(funct
 Route::prefix('admin')->get('/qrcode', [QRController::class, 'index'])->name('qrcode');
 
 require __DIR__ . '/auth.php';
-require __DIR__ . '/warehouse.php';
