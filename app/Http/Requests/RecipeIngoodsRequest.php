@@ -14,8 +14,8 @@ class RecipeIngoodsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'kuantiti_ingoods' => ['required', 'numeric', 'min:1'],
-            'harga_satuan_ingoods' => ['required', 'numeric', 'min:1'],
+            'kuantiti_ingoods' => ['required', 'numeric', 'min:0'],
+            'harga_satuan_ingoods' => ['required', 'numeric', 'min:0'],
         ];
     }
 
