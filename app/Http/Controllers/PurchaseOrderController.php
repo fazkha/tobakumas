@@ -147,10 +147,6 @@ class PurchaseOrderController extends Controller implements HasMiddleware
                 $notifs = Notif::where('isactive', 1)->where('route', 'purchase-order.create')->get(['route_parm']);
 
                 if (count($notifs) > 0) {
-                    $update = Notif::where('route', 'purchase-order.create')->update([
-                        'isactive' => 0
-                    ]);
-
                     $_po = PurchaseOrder::join('purchase_order_details', 'purchase_order_details.purchase_order_id', '=', 'purchase_orders.id')
                         ->selectRaw('purchase_orders.supplier_id, COUNT(*) AS cnt')
                         ->groupBy('purchase_orders.supplier_id')
@@ -168,6 +164,11 @@ class PurchaseOrderController extends Controller implements HasMiddleware
                         'updated_by' => auth()->user()->email,
                         'approved' => (config('custom.purchase_approval') == false) ? 1 : 0,
                         'approved_by' => (config('custom.purchase_approval') == false) ? 'system' : NULL,
+                    ]);
+
+                    $update = Notif::where('route', 'purchase-order.create')->update([
+                        'isactive' => 0,
+                        'respond_id' => $po->id
                     ]);
 
                     foreach ($notifs as $notif) {
@@ -392,9 +393,10 @@ class PurchaseOrderController extends Controller implements HasMiddleware
         // ]);
 
         $details = PurchaseOrderDetail::where('purchase_order_id', $order_id)->get();
+        $satuans = Satuan::where('isactive', 1)->orderBy('singkatan')->pluck('singkatan', 'id');
         $viewMode = false;
 
-        $view = view('purchase-order.partials.details-editable', compact(['details', 'viewMode']))->render();
+        $view = view('purchase-order.partials.details-editable', compact(['details', 'satuans', 'viewMode']))->render();
 
         return response()->json([
             'view' => $view,

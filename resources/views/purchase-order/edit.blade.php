@@ -230,6 +230,7 @@
                                             <tbody id="detailBody">
                                                 @include('purchase-order.partials.details-editable', [
                                                     $details,
+                                                    $satuans,
                                                     'viewMode' => false,
                                                 ])
                                             </tbody>
