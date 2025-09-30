@@ -216,8 +216,11 @@ class SaleOrderController extends Controller implements HasMiddleware
         ];
 
         $customers = Customer::where('branch_id', $branch_id)->where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        // jenis_barang_id = 2 = barang-dagangan
-        $barangs = Barang::where('branch_id', $branch_id)->where('isactive', 1)->where('jenis_barang_id', 2)->orderBy('nama')->pluck('nama', 'id');
+        // jenis_barang_id = "Gula Pasir", 2, 7, 8, 9, 10 = barang-dagangan
+        $barangs = Barang::where('branch_id', $branch_id)->where('isactive', 1)->where(function ($q) {
+            $q->whereIn('jenis_barang_id', [2, 7, 8, 9, 10])
+                ->orWhere('nama', 'like', '%gula pasir%');
+        })->orderBy('nama')->pluck('nama', 'id');
         // jenis_barang_id = 4 = adonan
         $barang2s = Barang::where('branch_id', $branch_id)->where('isactive', 1)->where('jenis_barang_id', 4)->orderBy('nama')->pluck('nama', 'id');
         $satuans = Satuan::where('isactive', 1)->orderBy('singkatan')->pluck('singkatan', 'id');

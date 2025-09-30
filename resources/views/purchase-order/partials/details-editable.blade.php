@@ -35,7 +35,7 @@
                     value="{{ $detail->pajak }}" tabindex="15" />
             </td>
             <td class="align-top text-right">
-                <x-text-span id="disp-sub_harga"
+                <x-text-span
                     class="text-right">{{ number_format($detail->harga_satuan * (1 + $detail->pajak / 100 - $detail->discount / 100) * $detail->kuantiti, 0, ',', '.') }}</x-text-span>
             </td>
             @if ($viewMode == false)
