@@ -373,6 +373,7 @@ class RecipeController extends Controller implements HasMiddleware
                 ->first();
 
             $barang->update([
+                'harga_satuan' => $hpp,
                 'hpp' => $hpp
             ]);
 

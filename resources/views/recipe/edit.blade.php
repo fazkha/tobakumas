@@ -176,7 +176,7 @@
                                                 <tr>
                                                     <th class="w-1/4">@lang('messages.goods')</th>
                                                     <th class="w-1/5">@lang('messages.unit')</th>
-                                                    <th class="w-1/5">@lang('messages.price') (@lang('messages.currencysymbol'))</th>
+                                                    <th class="w-1/5">@lang('messages.unitprice') (@lang('messages.currencysymbol'))</th>
                                                     <th class="w-1/6">@lang('messages.quantity')</th>
                                                     <th class="w-1/5">@lang('messages.subtotalprice') (@lang('messages.currencysymbol'))</th>
                                                     <th class="w-auto">&nbsp;</th>
@@ -208,7 +208,7 @@
                                                     <td class="align-top">
                                                         <select id="satuan_id_ingoods" name="satuan_id_ingoods"
                                                             required tabindex="12"
-                                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                                            class="readonly-select w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                                             <option value="">@lang('messages.choose')...</option>
                                                             @foreach ($satuans as $id => $name)
                                                                 <option value="{{ $id }}">
@@ -342,7 +342,7 @@
                                                     <td class="align-top">
                                                         <select id="satuan_id_outgoods" name="satuan_id_outgoods"
                                                             required tabindex="17"
-                                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                                            class="readonly-select w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                                             <option value="">@lang('messages.choose')...</option>
                                                             @foreach ($satuans as $id => $name)
                                                                 <option value="{{ $id }}">
@@ -353,7 +353,7 @@
                                                     <td class="align-top">
                                                         <x-text-input type="number" min="0"
                                                             id="harga_satuan_outgoods" name="harga_satuan_outgoods"
-                                                            required tabindex="18" />
+                                                            required tabindex="18" readonly />
                                                     </td>
                                                     <td class="align-top">
                                                         <x-text-input type="number" min="0"
@@ -397,11 +397,26 @@
         </div>
     </div>
 
+    @push('styles')
+        <style>
+            .readonly-select {
+                cursor: not-allowed;
+                opacity: 1;
+            }
+        </style>
+    @endpush
+
     @push('scripts')
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script type="text/javascript">
             $(document).ready(function(e) {
+                $("#satuan_id_ingoods, #satuan_id_outgoods").on("mousedown", function(e) {
+                    e.preventDefault();
+                    this.blur();
+                    window.focus();
+                });
+
                 function getInitialFormValues(formId) {
                     const form = document.getElementById(formId);
                     const initialValues = {};
