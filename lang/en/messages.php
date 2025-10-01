@@ -246,4 +246,6 @@ return [
     'profit' => 'Profit',
     'reportfilter' => 'Report Filter',
     'notfound' => 'Data not found',
+    'target' => 'Target',
+    'damage' => 'Damage',
 ];

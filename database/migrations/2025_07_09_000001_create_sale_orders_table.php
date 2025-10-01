@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('total_harga')->default(0);
             $table->decimal('pajak', 5, 2)->default(0);
             $table->tinyInteger('tunai')->default(0);
+            $table->date('jatuhtempo')->nullable();
             $table->tinyInteger('isactive')->default(0);
             $table->text('kalimat')->nullable();
             $table->unsignedTinyInteger('isready')->default(0);

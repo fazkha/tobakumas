@@ -245,4 +245,6 @@ return [
     'profit' => 'Laba',
     'reportfilter' => 'Periode Laporan',
     'notfound' => 'Data tidak ditemukan',
+    'target' => 'Sasaran',
+    'damage' => 'Rusak',
 ];

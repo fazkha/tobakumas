@@ -107,6 +107,18 @@
                                         <x-input-error class="mt-2" :messages="$errors->get('tunai')" />
                                     </div>
 
+                                    <div id="div-jatuhtempo"
+                                        class="{{ $datas->tunai == 1 ? 'hidden ' : '' }}w-auto pb-4">
+                                        <label for="jatuhtempo"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.duedate')</label>
+                                        <x-text-input type="date" name="jatuhtempo" id="jatuhtempo"
+                                            data-date-format="dd-mm-yyyy" tabindex="4"
+                                            placeholder="{{ __('messages.enter') }} {{ __('calendar.date') }}"
+                                            value="{{ old('jatuhtempo', $datas->jatuhtempo) }}" />
+
+                                        <x-input-error class="mt-2" :messages="$errors->get('jatuhtempo')" />
+                                    </div>
+
                                     <div class="w-auto pb-4">
                                         <label for="biaya_angkutan"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.deliverycost')
@@ -125,7 +137,8 @@
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.tax')
                                             (%)</label>
                                         <x-text-input type="number" min="0" step="0.01" name="pajak"
-                                            id="pajak" tabindex="4" value="{{ old('pajak', $datas->pajak) }}" />
+                                            id="pajak" tabindex="4"
+                                            value="{{ old('pajak', $datas->pajak) }}" />
 
                                         <x-input-error class="mt-2" :messages="$errors->get('pajak')" />
                                     </div>
@@ -736,6 +749,23 @@
                     });
                 });
 
+                $("#tunai").on("change keyup paste", function() {
+                    var _xtunai = $('#tunai').val();
+
+                    if (_xtunai === '2') {
+                        var now = new Date();
+                        var day = ("0" + now.getDate()).slice(-2);
+                        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+                        var year = now.getFullYear();
+                        var today = year + "-" + month + "-" + day;
+                        $("#div-jatuhtempo").show();
+                        $("#jatuhtempo").val(today);
+                    } else {
+                        $("#jatuhtempo").val("");
+                        $("#div-jatuhtempo").hide();
+                    }
+                });
+
                 $("#barang_id").on("change keyup paste", function() {
                     var xbar = $('#barang_id option:selected').val();
 
@@ -787,10 +817,6 @@
                 $("#submit-detail").on("click", function(e) {
                     e.preventDefault();
                     let key = $('#order_id').val();
-
-                    // let data = $("form#form-order").serializeArray();
-                    // let key = data[2].value;
-                    // jQuery.each(data, function(i, data) {});
 
                     $.ajax({
                         url: '{{ url('/sale/order/store-detail') }}' + '/' + key,

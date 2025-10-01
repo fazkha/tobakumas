@@ -198,8 +198,9 @@ class ProdOrderController extends Controller implements HasMiddleware
 
         $syntax = 'CALL sp_target_produksi(' . Crypt::decrypt($request->order) . ')';
         $targets = DB::select($syntax);
+        $satuanTarget = $targets[0]->satuan;
 
-        return view('production-order.edit', compact(['datas', 'details', 'barangs', 'satuans', 'petugas', 'petugas2', 'branch_id', 'sales', 'bahans', 'targets']));
+        return view('production-order.edit', compact(['datas', 'details', 'barangs', 'satuans', 'petugas', 'petugas2', 'branch_id', 'sales', 'bahans', 'targets', 'satuanTarget']));
     }
 
     public function update(ProdOrderRequest $request): RedirectResponse
@@ -207,8 +208,15 @@ class ProdOrderController extends Controller implements HasMiddleware
         $order = ProdOrder::find(Crypt::decrypt($request->order));
 
         if ($request->validated()) {
+            $jumlah_rusak = $request->jumlah_rusak ? $request->jumlah_rusak : 0;
+            $jumlah_sasaran = $request->jumlah_sasaran ? $request->jumlah_sasaran : 0;
+            $sisa_persediaan = $request->sisa_persediaan ? $request->sisa_persediaan : 0;
+
             $order->update([
                 'tanggal' => $request->tanggal,
+                'jumlah_rusak' => $jumlah_rusak,
+                'jumlah_sasaran' => $jumlah_sasaran,
+                'sisa_persediaan' => $sisa_persediaan,
                 'petugas_1_id' => $request->petugas_1_id,
                 'petugas_2_id' => $request->petugas_2_id,
                 'tanggungjawab_id' => $request->tanggungjawab_id,

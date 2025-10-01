@@ -81,6 +81,32 @@
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.salesordernumber')</span>
                                         <x-text-span>{{ $datas->order->no_order }}</x-text-span>
                                     </div>
+
+                                    <div class="w-auto pb-4">
+                                        <span for="no_order"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.productionresult')</span>
+                                        <x-text-span class="!text-md">
+                                            <div class="flex flex-row gap-2 p-2">
+                                                <div class="w-1/2 pb-4">
+                                                    <label for="jumlah_sasaran"
+                                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.target')
+                                                        ({{ $satuanTarget }})</label>
+                                                    <x-text-input type="number" min="0" step="0.01"
+                                                        name="jumlah_sasaran" tabindex="3"
+                                                        value="{{ $datas->jumlah_sasaran }}" />
+                                                </div>
+
+                                                <div class="w-1/2 pb-4">
+                                                    <label for="jumlah_rusak"
+                                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.damage')
+                                                        ({{ $satuanTarget }})</label>
+                                                    <x-text-input type="number" min="0" step="0.01"
+                                                        name="jumlah_rusak" tabindex="4"
+                                                        value="{{ $datas->jumlah_rusak }}" />
+                                                </div>
+                                            </div>
+                                        </x-text-span>
+                                    </div>
                                 </div>
 
                                 <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
@@ -88,7 +114,7 @@
                                         <label for="petugas_1_id"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.officer')
                                             1</label>
-                                        <select name="petugas_1_id" id="petugas_1_id" tabindex="3"
+                                        <select name="petugas_1_id" id="petugas_1_id" tabindex="5"
                                             class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                             <option value="">@lang('messages.choose')...</option>
                                             @foreach ($petugas as $id => $name)
@@ -105,7 +131,7 @@
                                         <label for="petugas_2_id"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.officer')
                                             2</label>
-                                        <select name="petugas_2_id" id="petugas_2_id" tabindex="4"
+                                        <select name="petugas_2_id" id="petugas_2_id" tabindex="6"
                                             class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                             <option value="">@lang('messages.choose')...</option>
                                             @foreach ($petugas as $id => $name)
@@ -121,7 +147,7 @@
                                     <div class="w-auto pb-4 lg:pb-12">
                                         <label for="tanggungjawab_id"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.supervisor')</label>
-                                        <select name="tanggungjawab_id" id="tanggungjawab_id" tabindex="5"
+                                        <select name="tanggungjawab_id" id="tanggungjawab_id" tabindex="7"
                                             class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                             <option value="">@lang('messages.choose')...</option>
                                             @foreach ($petugas2 as $id => $name)
@@ -143,7 +169,7 @@
                                             </div>
                                         </div>
 
-                                        <x-primary-button type="submit" class="block" tabindex="6"
+                                        <x-primary-button type="submit" class="block" tabindex="8"
                                             x-bind:disabled="buttonDisabled">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -154,7 +180,7 @@
                                             <span class="pl-1">@lang('messages.save')</span>
                                         </x-primary-button>
                                         <x-anchor-secondary href="{{ route('production-order.index') }}"
-                                            tabindex="7">
+                                            tabindex="9">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                 class="size-5">

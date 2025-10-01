@@ -233,7 +233,7 @@
                                         <x-text-input type="text" name="keterangan" id="keterangan"
                                             tabindex="13"
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.description') }}"
-                                            required value="{{ old('keterangan', $datas->keterangan) }}" />
+                                            value="{{ old('keterangan', $datas->keterangan) }}" />
 
                                         <x-input-error class="mt-2" :messages="$errors->get('keterangan')" />
                                     </div>

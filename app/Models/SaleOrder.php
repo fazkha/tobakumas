@@ -22,6 +22,7 @@ class SaleOrder extends Model
         'total_harga',
         'biaya_angkutan',
         'tunai',
+        'jatuhtempo',
         'pajak',
         'isactive',
         'isready',

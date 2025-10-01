@@ -299,15 +299,6 @@
         <script type="text/javascript">
             $(document).ready(function(e) {
                 $(function() {
-                    // $('#harga_satuan, #harga_satuan_jual, #hpp').maskMoney({
-                    //     prefix: 'Rp. ',
-                    //     allowNegative: false,
-                    //     thousands: '.',
-                    //     decimal: ',',
-                    //     precision: 0,
-                    //     affixesStay: false
-                    // });
-
                     $('#gambar').change(function() {
                         let reader = new FileReader();
                         reader.onload = (e) => {

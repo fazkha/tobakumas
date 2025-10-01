@@ -92,6 +92,17 @@
                                         <x-input-error class="mt-2" :messages="$errors->get('tunai')" />
                                     </div>
 
+                                    <div id="div-jatuhtempo" class="w-auto pb-4">
+                                        <label for="jatuhtempo"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.duedate')</label>
+                                        <x-text-input type="date" name="jatuhtempo" id="jatuhtempo"
+                                            data-date-format="dd-mm-yyyy" tabindex="4"
+                                            placeholder="{{ __('messages.enter') }} {{ __('calendar.date') }}"
+                                            value="{{ old('jatuhtempo') }}" />
+
+                                        <x-input-error class="mt-2" :messages="$errors->get('jatuhtempo')" />
+                                    </div>
+
                                     <div class="w-auto pb-4">
                                         <label for="biaya_angkutan"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.deliverycost')
@@ -338,6 +349,23 @@
                         reader.readAsDataURL(this.files[0]);
                     });
                 })
+
+                $("#tunai").on("change keyup paste", function() {
+                    var _xtunai = $('#tunai').val();
+
+                    if (_xtunai === '2') {
+                        var now = new Date();
+                        var day = ("0" + now.getDate()).slice(-2);
+                        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+                        var year = now.getFullYear();
+                        var today = year + "-" + month + "-" + day;
+                        $("#div-jatuhtempo").show();
+                        $("#jatuhtempo").val(today);
+                    } else {
+                        $("#jatuhtempo").val("");
+                        $("#div-jatuhtempo").hide();
+                    }
+                });
             });
         </script>
     @endpush
