@@ -244,4 +244,6 @@ return [
     'currencysymbol' => '$',
     'hpp' => 'Cost Of Sales',
     'profit' => 'Profit',
+    'reportfilter' => 'Report Filter',
+    'notfound' => 'Data not found',
 ];

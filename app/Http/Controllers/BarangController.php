@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\File;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Arr;
 
 class BarangController extends Controller implements HasMiddleware
 {
@@ -85,11 +86,18 @@ class BarangController extends Controller implements HasMiddleware
         if (!$request->session()->exists('barang_merk')) {
             $request->session()->put('barang_merk', '_');
         }
+        if (!$request->session()->exists('barang_periode_bulan')) {
+            $request->session()->put('barang_periode_bulan', 'all');
+        }
+        if (!$request->session()->exists('barang_periode_tahun')) {
+            $request->session()->put('barang_periode_tahun', '_');
+        }
 
         $search_arr = ['barang_isactive', 'barang_satuan_beli_id', 'barang_jenis_barang_id', 'barang_nama', 'barang_merk'];
 
         $satuans = Satuan::where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
         $jenis_barangs = JenisBarang::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+        $bulans = Arr::pluck($this->array_bulan, 'bulan.name', 'bulan.id');
         $datas = Barang::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
@@ -116,7 +124,7 @@ class BarangController extends Controller implements HasMiddleware
             return redirect()->route('dashboard');
         }
 
-        return view('barang.index', compact(['datas', 'satuans', 'jenis_barangs']))->with('i', (request()->input('page', 1) - 1) * session('barang_pp'));
+        return view('barang.index', compact(['datas', 'satuans', 'jenis_barangs', 'bulans']))->with('i', (request()->input('page', 1) - 1) * session('barang_pp'));
     }
 
     public function fetchdb(Request $request): JsonResponse
@@ -127,11 +135,14 @@ class BarangController extends Controller implements HasMiddleware
         $request->session()->put('barang_jenis_barang_id', $request->jenis_barang);
         $request->session()->put('barang_nama', $request->nama);
         $request->session()->put('barang_merk', $request->merk);
+        $request->session()->put('barang_periode_tahun', $request->tahun);
+        $request->session()->put('barang_periode_bulan', $request->bulan);
 
         $search_arr = ['barang_isactive', 'barang_satuan_beli_id', 'barang_jenis_barang_id', 'barang_nama', 'barang_merk'];
 
         $satuans = Satuan::where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
         $jenis_barangs = JenisBarang::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+        $bulans = Arr::pluck($this->array_bulan, 'bulan.name', 'bulan.id');
         $datas = Barang::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
@@ -156,7 +167,7 @@ class BarangController extends Controller implements HasMiddleware
 
         $datas->withPath('/warehouse/goods'); // pagination url to
 
-        $view = view('barang.partials.table', compact(['datas', 'satuans', 'jenis_barangs']))->with('i', (request()->input('page', 1) - 1) * session('barang_pp'))->render();
+        $view = view('barang.partials.table', compact(['datas', 'satuans', 'jenis_barangs', 'bulans']))->with('i', (request()->input('page', 1) - 1) * session('barang_pp'))->render();
 
         if ($view) {
             return response()->json($view, 200);
@@ -467,17 +478,27 @@ class BarangController extends Controller implements HasMiddleware
         ], 200);
     }
 
-    public function printMutasi()
+    public function printMutasi(Request $request)
     {
-        $ntahun = date('Y');
-        $nhari = date('w');
-        $nbulan = date('n');
+        $ntahun = $request->year; // date('Y');
+        $nbulan = $request->month; // date('n');
         $nbulanini = date('n');
+        $nhari = date('w');
         $hari = $this->array_hari[$nhari]['hari']['name'];
-        $bulan = $this->array_bulan[$nbulan - 1]['bulan']['name'];
+        if ($nbulan == 'all') {
+            $bulan = 'Semua';
+        } else {
+            $bulan = $this->array_bulan[$nbulan - 1]['bulan']['name'];
+        }
         $bulanini = $this->array_bulan[$nbulanini - 1]['bulan']['name'];
 
-        $datas = ViewMutasiStockRekap::where('c8', $ntahun)->where('c9', $nbulan)->get();
+        if ($ntahun == '_') {
+            $datas = ViewMutasiStockRekap::get();
+        } elseif ($nbulan == 'all') {
+            $datas = ViewMutasiStockRekap::where('c8', $ntahun)->get();
+        } else {
+            $datas = ViewMutasiStockRekap::where('c8', $ntahun)->where('c9', $nbulan)->get();
+        }
 
         $namafile = '_mutasistock_' . str_replace('@', '(at)', str_replace('.', '_', auth()->user()->email)) . '.pdf';
         session()->put('documents', $namafile);
@@ -505,15 +526,25 @@ class BarangController extends Controller implements HasMiddleware
     public function printOneMutasi(Request $request)
     {
         $id = $request->id;
-        $ntahun = date('Y');
-        $nhari = date('w');
-        $nbulan = date('n');
+        $ntahun = $request->year; // date('Y');
+        $nbulan = $request->month; // date('n');
         $nbulanini = date('n');
+        $nhari = date('w');
         $hari = $this->array_hari[$nhari]['hari']['name'];
-        $bulan = $this->array_bulan[$nbulan - 1]['bulan']['name'];
+        if ($nbulan == 'all') {
+            $bulan = 'Semua';
+        } else {
+            $bulan = $this->array_bulan[$nbulan - 1]['bulan']['name'];
+        }
         $bulanini = $this->array_bulan[$nbulanini - 1]['bulan']['name'];
 
-        $datas = ViewMutasiStock::where('c11', $id)->where('c8', $ntahun)->where('c9', $nbulan)->get();
+        if ($ntahun == '_') {
+            $datas = ViewMutasiStock::where('c11', $id)->get();
+        } elseif ($nbulan == 'all') {
+            $datas = ViewMutasiStock::where('c11', $id)->where('c8', $ntahun)->get();
+        } else {
+            $datas = ViewMutasiStock::where('c11', $id)->where('c8', $ntahun)->where('c9', $nbulan)->get();
+        }
 
         $namafile = $id . '-mutasistock_' . str_replace('@', '(at)', str_replace('.', '_', auth()->user()->email)) . '.pdf';
         session()->put('documents', $namafile);

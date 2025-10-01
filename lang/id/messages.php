@@ -243,4 +243,6 @@ return [
     'currencysymbol' => 'Rp.',
     'hpp' => 'Harga Pokok Penjualan',
     'profit' => 'Laba',
+    'reportfilter' => 'Periode Laporan',
+    'notfound' => 'Data tidak ditemukan',
 ];
