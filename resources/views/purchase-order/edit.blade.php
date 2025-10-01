@@ -230,7 +230,6 @@
                                             <tbody id="detailBody">
                                                 @include('purchase-order.partials.details-editable', [
                                                     $details,
-                                                    $satuans,
                                                     'viewMode' => false,
                                                 ])
                                             </tbody>
@@ -254,12 +253,12 @@
                                                     </td>
                                                     <td class="align-top">
                                                         <x-text-input type="number" min="0" id="harga_satuan"
-                                                            name="harga_satuan" required tabindex="11" />
+                                                            name="harga_satuan" required tabindex="11" readonly />
                                                     </td>
                                                     <td class="align-top">
                                                         <select id="satuan_id" name="satuan_id" required
                                                             tabindex="12"
-                                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                                            class="readonly-select w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                                             <option value="">@lang('messages.choose')...</option>
                                                             @foreach ($satuans as $id => $name)
                                                                 <option value="{{ $id }}">
@@ -333,12 +332,27 @@
         </div>
     </div>
 
+    @push('styles')
+        <style>
+            .readonly-select {
+                cursor: not-allowed;
+                opacity: 1;
+            }
+        </style>
+    @endpush
+
     @push('scripts')
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script type="text/javascript" src="{{ url('js/jquery.maskMoney.min.js') }}"></script>
         <script type="text/javascript">
             $(document).ready(function(e) {
+                $("#satuan_id").on("mousedown", function(e) {
+                    e.preventDefault();
+                    this.blur();
+                    window.focus();
+                });
+
                 function getInitialFormValues(formId) {
                     const form = document.getElementById(formId);
                     const initialValues = {};
@@ -412,7 +426,24 @@
                             dataType: 'json',
                             success: function(result) {
                                 if (result.status !== 'Not Found') {
-                                    $('#detailBody').html(result.view);
+                                    var _input_hargasatuan = 'input[name="items[' + row +
+                                        '][harga_satuan]"]';
+                                    var harga_satuan = $(_input_hargasatuan).val();
+                                    var _input_kuantiti = 'input[name="items[' + row +
+                                        '][kuantiti]"]';
+                                    var kuantiti = $(_input_kuantiti).val();
+                                    var _input_discount = 'input[name="items[' + row +
+                                        '][discount]"]';
+                                    var discount = $(_input_discount).val();
+                                    var _input_pajak = 'input[name="items[' + row +
+                                        '][pajak]"]';
+                                    var pajak = $(_input_pajak).val();
+                                    var xsub = (harga_satuan * (1 + (pajak / 100) - (discount /
+                                        100))) * kuantiti;
+                                    var formattedNumber = new Intl.NumberFormat('de-DE').format(
+                                        xsub);
+                                    var _subtotal = '#subtotal_' + row;
+                                    $(_subtotal).html(formattedNumber);
                                     flasher.success("{{ __('messages.successsaved') }}!",
                                         "Success");
                                 }

@@ -265,6 +265,7 @@ class BarangController extends Controller implements HasMiddleware
         $prof = $hju - $hpp;
         $prof2 = ($prof / $hju) * 100;
         $dprof = $prof . '&nbsp;&nbsp;&nbsp;(' . round($prof2) . '%)';
+        dd($hju);
 
         $gudangs = Gudang::where('branch_id', $branch_id)->where('isactive', 1)->pluck('nama', 'id');
         $satuans = Satuan::where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');

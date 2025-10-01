@@ -393,10 +393,9 @@ class PurchaseOrderController extends Controller implements HasMiddleware
         // ]);
 
         $details = PurchaseOrderDetail::where('purchase_order_id', $order_id)->get();
-        $satuans = Satuan::where('isactive', 1)->orderBy('singkatan')->pluck('singkatan', 'id');
         $viewMode = false;
 
-        $view = view('purchase-order.partials.details-editable', compact(['details', 'satuans', 'viewMode']))->render();
+        $view = view('purchase-order.partials.details-editable', compact(['details', 'viewMode']))->render();
 
         return response()->json([
             'view' => $view,
@@ -425,11 +424,10 @@ class PurchaseOrderController extends Controller implements HasMiddleware
         ];
 
         $details = PurchaseOrderDetail::where('purchase_order_id', $order_id)->get();
-        $satuans = Satuan::where('isactive', 1)->orderBy('singkatan')->pluck('singkatan', 'id');
         $viewMode = false;
 
         if ($details->count() > 0) {
-            $view = view('purchase-order.partials.details-editable', compact(['details', 'satuans', 'viewMode']))->render();
+            $view = view('purchase-order.partials.details-editable', compact(['details', 'viewMode']))->render();
         }
 
         if ($view) {

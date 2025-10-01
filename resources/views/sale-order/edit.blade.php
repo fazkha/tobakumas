@@ -209,14 +209,14 @@
                                     <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
                                         viewBox="0 0 52 52" enable-background="new 0 0 52 52" xml:space="preserve">
                                         <g>
-                                            <path d="M24.3,36.5c0.7,0,1.4,0.1,2,0.3L15.5,6.2c0,0,0,0,0,0l-1-3c-0.3-0.9-1.2-1.3-2-1L3.1,5.3
-  c-0.9,0.3-1.3,1.2-1,2l1,3c0.3,0.9,1.2,1.3,2,1L10,9.7l9.9,28.1C21.2,37,22.7,36.5,24.3,36.5z" />
-                                            <path d="M41.2,29.2l-9.9,3.5c-1,0.4-2.2-0.2-2.5-1.2l-3.5-9.9c-0.4-1,0.2-2.2,1.2-2.5l9.9-3.5
-  c1-0.4,2.2,0.2,2.5,1.2l3.5,9.9C42.8,27.7,42.2,28.8,41.2,29.2z" />
-                                            <path d="M31.8,12.9l-6.7,2.3c-1,0.4-2.2-0.2-2.5-1.2l-2.3-6.7c-0.4-1,0.2-2.2,1.2-2.5l6.7-2.3
-  c1-0.4,2.2,0.2,2.5,1.2l2.3,6.7C33.4,11.3,32.9,12.5,31.8,12.9z" />
-                                            <path d="M49.9,35.5l-1-3c-0.3-0.9-1.2-1.3-2-1l-18.2,6.3c1.9,1.2,3.2,3.2,3.6,5.5l16.7-5.7
-  C49.8,37.3,50.2,36.4,49.9,35.5z" />
+                                            <path
+                                                d="M24.3,36.5c0.7,0,1.4,0.1,2,0.3L15.5,6.2c0,0,0,0,0,0l-1-3c-0.3-0.9-1.2-1.3-2-1L3.1,5.3 c-0.9,0.3-1.3,1.2-1,2l1,3c0.3,0.9,1.2,1.3,2,1L10,9.7l9.9,28.1C21.2,37,22.7,36.5,24.3,36.5z" />
+                                            <path
+                                                d="M41.2,29.2l-9.9,3.5c-1,0.4-2.2-0.2-2.5-1.2l-3.5-9.9c-0.4-1,0.2-2.2,1.2-2.5l9.9-3.5 c1-0.4,2.2,0.2,2.5,1.2l3.5,9.9C42.8,27.7,42.2,28.8,41.2,29.2z" />
+                                            <path
+                                                d="M31.8,12.9l-6.7,2.3c-1,0.4-2.2-0.2-2.5-1.2l-2.3-6.7c-0.4-1,0.2-2.2,1.2-2.5l6.7-2.3 c1-0.4,2.2,0.2,2.5,1.2l2.3,6.7C33.4,11.3,32.9,12.5,31.8,12.9z" />
+                                            <path
+                                                d="M49.9,35.5l-1-3c-0.3-0.9-1.2-1.3-2-1l-18.2,6.3c1.9,1.2,3.2,3.2,3.6,5.5l16.7-5.7 C49.8,37.3,50.2,36.4,49.9,35.5z" />
                                             <path
                                                 d="M24.3,39.1c-3,0-5.5,2.5-5.5,5.5c0,3,2.5,5.5,5.5,5.5s5.5-2.5,5.5-5.5C29.8,41.5,27.3,39.1,24.3,39.1z" />
                                         </g>
@@ -269,12 +269,12 @@
                                                     </td>
                                                     <td class="align-top">
                                                         <x-text-input type="number" min="0" id="harga_satuan"
-                                                            name="harga_satuan" required tabindex="11" />
+                                                            name="harga_satuan" required tabindex="11" readonly />
                                                     </td>
                                                     <td class="align-top">
                                                         <select id="satuan_id" name="satuan_id" required
                                                             tabindex="12"
-                                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                                            class="readonly-select w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                                             <option value="">@lang('messages.choose')...</option>
                                                             @foreach ($satuans as $id => $name)
                                                                 <option value="{{ $id }}">
@@ -406,8 +406,8 @@
                                                     <th class="w-1/12">@lang('messages.unit')</th>
                                                     <th class="w-auto">@lang('messages.quantity')</th>
                                                     {{-- <th class="w-auto">@lang('messages.tax') (%)</th> --}}
-                                                    <th class="w-auto">@lang('messages.description')</th>
-                                                    <th class="w-1/6">@lang('messages.subtotalprice') (@lang('messages.currencysymbol'))</th>
+                                                    <th class="w-1/6">@lang('messages.description')</th>
+                                                    <th class="w-auto">@lang('messages.subtotalprice') (@lang('messages.currencysymbol'))</th>
                                                 </tr>
                                             </thead>
 
@@ -449,12 +449,12 @@
                                                     <td class="align-top">
                                                         <x-text-input type="number" min="0"
                                                             id="harga_satuan_adonan" name="harga_satuan_adonan"
-                                                            required tabindex="19" />
+                                                            required tabindex="19" readonly />
                                                     </td>
                                                     <td class="align-top">
                                                         <select id="satuan_id_adonan" name="satuan_id_adonan" required
                                                             tabindex="20"
-                                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                                            class="readonly-select w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                                             <option value="">@lang('messages.choose')...</option>
                                                             @foreach ($satuans as $id => $name)
                                                                 <option value="{{ $id }}">
@@ -468,8 +468,15 @@
                                                             tabindex="21" />
                                                     </td>
                                                     <td class="align-top">
-                                                        <x-text-input type="text" id="keterangan_adonan"
-                                                            name="keterangan_adonan" tabindex="22" />
+                                                        <select id="keterangan_adonan" name="keterangan_adonan"
+                                                            tabindex="22"
+                                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                                            <option value="">@lang('messages.choose')...</option>
+                                                            <option value="Adonan Regular">Adonan Regular</option>
+                                                            <option value="Adonan Jumat">Adonan Jumat</option>
+                                                            <option value="Adonan Ganti Hari">Adonan Ganti Hari
+                                                            </option>
+                                                        </select>
                                                     </td>
                                                     {{-- <td class="align-top">
                                                         <x-text-input type="number" min="0" id="pajak_adonan" name="pajak_adonan"
@@ -526,12 +533,27 @@
         </div>
     </div>
 
+    @push('styles')
+        <style>
+            .readonly-select {
+                cursor: not-allowed;
+                opacity: 1;
+            }
+        </style>
+    @endpush
+
     @push('scripts')
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script type="text/javascript" src="{{ url('js/jquery.maskMoney.min.js') }}"></script>
         <script type="text/javascript">
             $(document).ready(function(e) {
+                $("#satuan_id, #satuan_id_adonan").on("mousedown", function(e) {
+                    e.preventDefault();
+                    this.blur();
+                    window.focus();
+                });
+
                 function getInitialFormValues(formId) {
                     const form = document.getElementById(formId);
                     const initialValues = {};

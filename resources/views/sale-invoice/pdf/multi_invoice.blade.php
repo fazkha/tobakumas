@@ -89,7 +89,7 @@
         $urut = 0;
     @endphp
 
-    <table style="width: 100%">
+    <table style="width: {{ count($selected) > 1 ? '100' : '50' }}%">
         <tr>
             @foreach ($selected as $select)
                 @php
