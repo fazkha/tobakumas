@@ -198,7 +198,7 @@
                             <td style="padding: 10px; text-align: center;">Petugas Gudang</td>
                         </tr>
                         <tr>
-                            <td style="height: 50px;">&nbsp;</td>
+                            <td style="height: 80px;">&nbsp;</td>
                         </tr>
                         <tr>
                             <td style="padding: 10px; text-align: center; border-top: 1px solid #909090;">
@@ -213,7 +213,7 @@
                             <td style="padding: 10px; text-align: center;">Mengetahui</td>
                         </tr>
                         <tr>
-                            <td style="height: 50px;">&nbsp;</td>
+                            <td style="height: 80px;">&nbsp;</td>
                         </tr>
                         <tr>
                             <td style="padding: 10px; text-align: center; border-top: 1px solid #909090;">

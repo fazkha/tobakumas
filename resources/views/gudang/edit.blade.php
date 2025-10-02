@@ -173,35 +173,38 @@
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script type="text/javascript">
-            $("#propinsi_id").on("change keyup paste", function() {
-                var xpr = $('#propinsi_id option:selected').val();
-                if (xpr.trim()) {
-                    xprop = xpr;
-                } else {
-                    xprop = '_';
-                }
-
-                $.ajax({
-                    url: '{{ url('/marketing/kecamatan/depend-drop-kab') }}' + "/" + xprop,
-                    type: "GET",
-                    dataType: 'json',
-                    success: function(result) {
-                        $('#kabupaten_id').empty();
-                        $('#kabupaten_id').append($('<option>', {
-                            value: null,
-                            text: "{{ __('messages.choose') }}..."
-                        }));
-                        var data = result.kabs;
-                        $.each(data, function(item, index) {
-                            $('#kabupaten_id').append($('<option>', {
-                                value: index,
-                                text: item,
-                                selected: (index === {{ $datas->kabupaten_id }} ?
-                                    true : false)
-                            }));
-                        });
-                        $("#kabupaten_id").focus();
+            $(document).ready(function(e) {
+                $("#propinsi_id").on("change keyup paste", function() {
+                    var xpr = $('#propinsi_id option:selected').val();
+                    if (xpr.trim()) {
+                        xprop = xpr;
+                    } else {
+                        xprop = '_';
                     }
+
+                    $.ajax({
+                        url: '{{ url('/marketing/kecamatan/depend-drop-kab') }}' + "/" + xprop,
+                        type: "GET",
+                        dataType: 'json',
+                        success: function(result) {
+                            $('#kabupaten_id').empty();
+                            $('#kabupaten_id').append($('<option>', {
+                                value: null,
+                                text: "{{ __('messages.choose') }}..."
+                            }));
+                            var data = result.kabs;
+                            $.each(data, function(item, index) {
+                                $('#kabupaten_id').append($('<option>', {
+                                    value: index,
+                                    text: item,
+                                    selected: (index ===
+                                        {{ $datas->kabupaten_id }} ?
+                                        true : false)
+                                }));
+                            });
+                            $("#kabupaten_id").focus();
+                        }
+                    });
                 });
             });
         </script>

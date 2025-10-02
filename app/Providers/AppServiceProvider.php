@@ -19,20 +19,6 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        app()->bind(PdfFactory::class, function ($service, $app) {
-            return (new PdfFactory())->withBrowsershot(
-                function ($browserShot) {
-                    $browserShot->setOption(
-                        'args',
-                        [
-                            '--disable-web-security',
-                            '--allow-file-access-from-files',
-                        ],
-                    );
-                }
-            );
-        });
-
         Gate::before(function ($user, $ability) {
             return $user->hasRole('Super Admin') ? true : null;
         });

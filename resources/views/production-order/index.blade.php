@@ -52,39 +52,74 @@
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script type="text/javascript">
-            $("#pp-dropdown, #produksi-dropdown, #search-tanggal, #search-nomor").on("change keyup paste", function() {
-                var xpp = $('#pp-dropdown option:selected').val();
-                var xpr = $('#produksi-dropdown option:selected').val();
-                var xtanggal = $('#search-tanggal').val();
-                var xnomor = $('#search-nomor').val();
-                if (!xtanggal.trim()) {
-                    xtanggal = '_';
-                }
-                if (!xnomor.trim()) {
-                    xnomor = '_';
-                }
+            $(document).ready(function(e) {
+                $("#pp-dropdown, #produksi-dropdown, #search-tanggal, #search-nomor").on("change keyup paste",
+                    function() {
+                        var xpp = $('#pp-dropdown option:selected').val();
+                        var xpr = $('#produksi-dropdown option:selected').val();
+                        var xtanggal = $('#search-tanggal').val();
+                        var xnomor = $('#search-nomor').val();
+                        if (!xtanggal.trim()) {
+                            xtanggal = '_';
+                        }
+                        if (!xnomor.trim()) {
+                            xnomor = '_';
+                        }
 
-                $('#filter-loading').show();
+                        $('#filter-loading').show();
 
-                var newURL = '{{ url('/production/order') }}';
-                var newState = {
-                    page: 'index-production-order'
-                };
-                var newTitle = '{{ __('messages.production') }}';
+                        var newURL = '{{ url('/production/order') }}';
+                        var newState = {
+                            page: 'index-production-order'
+                        };
+                        var newTitle = '{{ __('messages.production') }}';
 
-                window.history.pushState(newState, newTitle, newURL);
+                        window.history.pushState(newState, newTitle, newURL);
 
-                $.ajax({
-                    url: '{{ url('/production/order/fetchdb') }}' + "/" + xpp + "/" + xpr + "/" + xtanggal +
-                        "/" + xnomor,
-                    type: "get",
-                    dataType: 'json',
-                    success: function(result) {
-                        $('#table-container').html(result);
-                        $("#table-container").focus();
-                        $('#filter-loading').hide();
+                        $.ajax({
+                            url: '{{ url('/production/order/fetchdb') }}' + "/" + xpp + "/" + xpr + "/" +
+                                xtanggal +
+                                "/" + xnomor,
+                            type: "get",
+                            dataType: 'json',
+                            success: function(result) {
+                                $('#table-container').html(result);
+                                $("#table-container").focus();
+                                $('#filter-loading').hide();
+                            }
+                        });
+                    });
+
+                print_one = function(xid) {
+                    let aname = '#print_one-anchor-' + xid;
+                    let idname = '#print_one-icon-' + xid;
+                    var xbulan = $('#bulan-dropdown option:selected').val();
+                    var xtahun = $('#search-tahun').val();
+                    if (!xtahun.trim()) {
+                        xtahun = '_';
                     }
-                });
+
+                    $(aname).addClass('hidden');
+                    $(idname).addClass('animate-spin');
+                    $(idname).removeClass('hidden');
+
+                    $.ajax({
+                        url: "{{ url('/production/order/print-one') }}" + "/" + xtahun + "/" +
+                            xbulan + "/" + xid,
+                        type: 'get',
+                        success: function(result) {
+                            if (result.status !== 'Not Found') {
+                                var namafile = result.namafile;
+                                window.open(namafile, '_blank');
+                            } else {
+                                flasher.error("{{ __('messages.notfound') }}!", "Error");
+                            }
+                            $(idname).removeClass('animate-spin');
+                            $(idname).addClass('hidden');
+                            $(aname).removeClass('hidden');
+                        }
+                    });
+                };
             });
         </script>
     @endpush

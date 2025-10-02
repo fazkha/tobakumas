@@ -225,7 +225,7 @@
                             $et = elapsed_interval($notif->tanggal_awal, $currentDateTime);
                         @endphp
                         {{-- <a href="{{ route($notif->route, ['parm' => 'notif_restock']) }}" class="block"> --}}
-                        <button id="restockButton"
+                        <button name="restockButton"
                             style="border: none; float: left; text-align: left; padding-left: 0;">
                             <div class="flex px-4 space-x-4">
                                 <div class="relative flex-shrink-0">
@@ -396,8 +396,9 @@
 
 @push('scripts')
     <script type="text/javascript">
-        $(function() {
-            $('#restockButton').on('click', function() {
+        $(document).ready(function(e) {
+            // $('#restockButton').on('click', function() {
+            $('[name*="restockButton"]').on('click', function() {
                 if (confirm('Are you sure you want to make new purchase order?')) {
                     window.location.replace(
                         "{{ route('purchase-order.create', ['parm' => 'notif_restock']) }}");

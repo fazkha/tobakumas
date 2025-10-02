@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Branch;
 use App\Http\Requests\BranchRequest;
+use App\Models\Kabupaten;
+use App\Models\Propinsi;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
@@ -111,13 +113,18 @@ class BranchController extends Controller implements HasMiddleware
 
     public function create(): View
     {
-        return view('branch.create');
+        $propinsis = Propinsi::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+        $kabupatens = Kabupaten::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+
+        return view('branch.create', compact('propinsis', 'kabupatens'));
     }
 
     public function store(BranchRequest $request): RedirectResponse
     {
         if ($request->validated()) {
             $branch = Branch::create([
+                'propinsi_id' => $request->propinsi_id,
+                'kabupaten_id' => $request->kabupaten_id,
                 'kode' => $request->kode,
                 'nama' => $request->nama,
                 'alamat' => $request->alamat,
@@ -145,8 +152,10 @@ class BranchController extends Controller implements HasMiddleware
     public function edit(Request $request): View
     {
         $datas = Branch::find(Crypt::decrypt($request->branch));
+        $propinsis = Propinsi::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+        $kabupatens = Kabupaten::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
 
-        return view('branch.edit', compact(['datas']));
+        return view('branch.edit', compact(['datas', 'propinsis', 'kabupatens']));
     }
 
     public function update(BranchRequest $request): RedirectResponse
@@ -156,6 +165,8 @@ class BranchController extends Controller implements HasMiddleware
         if ($request->validated()) {
 
             $branch->update([
+                'propinsi_id' => $request->propinsi_id,
+                'kabupaten_id' => $request->kabupaten_id,
                 'kode' => $request->kode,
                 'nama' => $request->nama,
                 'alamat' => $request->alamat,

@@ -13,6 +13,8 @@ class Branch extends Model
     protected $table = 'branches';
 
     protected $fillable = [
+        'propinsi_id',
+        'kabupaten_id',
         'kode',
         'nama',
         'alamat',

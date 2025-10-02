@@ -239,6 +239,7 @@ return [
     'hke' => 'HKE',
     'datacount' => 'Jumlah Data',
     'mutationreport' => 'Laporan Mutasi',
+    'productionreport' => 'Laporan Produksi',
     'stockmutation' => 'Mutasi Persediaan',
     'currencysymbol' => 'Rp.',
     'hpp' => 'Harga Pokok Penjualan',

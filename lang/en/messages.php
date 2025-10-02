@@ -240,6 +240,7 @@ return [
     'hke' => 'EWD',
     'datacount' => 'Data Count',
     'mutationreport' => 'Mutation Report',
+    'productionreport' => 'Production Report',
     'stockmutation' => 'Stock Mutation',
     'currencysymbol' => '$',
     'hpp' => 'Cost Of Sales',

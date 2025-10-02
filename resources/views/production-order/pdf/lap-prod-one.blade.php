@@ -1,11 +1,11 @@
 <html lang="en">
 
 <head>
-    <title>@lang('messages.stockadjustment')</title>
+    <title>@lang('messages.productionreport')</title>
     <style>
         @page {
             margin: 0;
-            margin-top: 140px;
+            margin-top: 170px;
             margin-bottom: 20px;
             margin-left: 20px;
             margin-right: 20px;
@@ -16,7 +16,7 @@
 
         header {
             position: fixed;
-            top: -140px;
+            top: -170px;
             left: 0px;
             right: 0px;
         }
@@ -59,13 +59,22 @@
     @php
         $i = 1;
         $pdf_line_per_page = config('custom.pdf_line_per_page');
+        $jmlprod = $datas->sum('c8');
+        $jmlsas = $datas[0]->c11;
+        $jmlrus = $datas[0]->c12;
+        $jmlsis = $datas[0]->c13;
+        $petugas = $datas[0]->c2;
+        $tanggungjawab = $datas[0]->c3;
+        $kota = $datas[0]->c14;
+        $hke = $datas[0]->c4;
+        $satuan = $datas[0]->c10;
     @endphp
 
     <header>
-        @include('stock-adjustment.pdf.penyesuaian-header', [
-            'datas' => $datas,
-            'hari' => $hari,
-            'bulan' => $bulan,
+        @include('production-order.pdf.lap-prod-one-header', [
+            'petugas' => $petugas,
+            'tanggungjawab' => $tanggungjawab,
+            'hke' => $hke,
         ])
     </header>
 
@@ -74,38 +83,29 @@
             <table>
                 <thead>
                     <tr>
-                        <th rowspan="2" style="width: 5%">No.</th>
-                        <th rowspan="2" style="width: 15%">Nama Barang</th>
-                        <th rowspan="2" style="width: auto">Satuan</th>
-                        <th colspan="3" style="width: auto">Persediaan</th>
-                        <th rowspan="2" style="width: auto">Harga Disesuaikan (@lang('messages.currencysymbol'))</th>
-                        <th rowspan="2" style="width: 25%">Keterangan</th>
-                    </tr>
-                    <tr>
-                        <th style="width: 9%">Sistem</th>
-                        <th style="width: 9%">Disesuaikan</th>
-                        <th style="width: 9%">Penyesuaian</th>
+                        <th style="width: 5%">No.</th>
+                        <th style="width: auto">Cabang</th>
+                        <th style="width: auto">Mitra</th>
+                        <th style="width: auto">Jenis Adonan</th>
+                        <th style="width: 8%">Kuantitas</th>
+                        <th style="width: 10%">Satuan</th>
+                        <th style="width: 12%">Harga (Rp.)</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($details as $detail)
-                        @php
-                            $hasil = $detail->before_stock + $detail->adjust_stock;
-                            $harga = $detail->adjust_stock * $detail->adjust_harga;
-                        @endphp
+                    @foreach ($datas as $data)
                         <tr>
                             <td style="vertical-align: top; text-align: center;">{{ $i }}</td>
-                            <td style="vertical-align: top;">{{ $detail->barang->nama }}</td>
-                            <td style="vertical-align: top;">{{ $detail->satuan->nama_lengkap }}</td>
+                            <td style="vertical-align: top;">{{ $data->c5 }}</td>
+                            <td style="vertical-align: top;">{{ $data->c6 }}</td>
+                            <td style="vertical-align: top;">{{ $data->c7 }}</td>
                             <td style="vertical-align: top; text-align: right;">
-                                {{ number_format($detail->before_stock, '1', ',', '.') }}</td>
+                                {{ number_format($data->c8, '1', ',', '.') }}
+                            </td>
+                            <td style="vertical-align: top;">{{ $data->c10 }}</td>
                             <td style="vertical-align: top; text-align: right;">
-                                {{ number_format($detail->adjust_stock, '1', ',', '.') }}</td>
-                            <td style="vertical-align: top; text-align: right;">
-                                {{ number_format($hasil, '1', ',', '.') }}</td>
-                            <td style="vertical-align: top; text-align: right;">
-                                {{ number_format($harga, '0', ',', '.') }}</td>
-                            <td style="vertical-align: top;">{{ $detail->keterangan_adjustment }}</td>
+                                {{ number_format($data->c9, '0', ',', '.') }}
+                            </td>
                         </tr>
                         @php
                             $i++;
@@ -119,17 +119,37 @@
             @pageBreak
         @endif
 
+        <table style="width: auto; margin-top: 20px;">
+            <tr>
+                <td style="text-align: left;">Jumlah Pesanan</td>
+                <td style="width: 20px; text-align: center;">:</td>
+                <td style="text-align: right;">{{ $jmlprod }}</td>
+                <td style="text-align: left;">{{ $satuan }}</td>
+            </tr>
+            <tr>
+                <td style="width: 50%; text-align: left;">Jumlah Produksi</td>
+                <td style="width: 20px; text-align: center;">:</td>
+                <td style="width: 50%; text-align: right;">{{ $jmlsas }}</td>
+                <td style="text-align: left;">{{ $satuan }}</td>
+            </tr>
+            <tr>
+                <td style="width: 50%; text-align: left;">Rusak</td>
+                <td style="width: 20px; text-align: center;">:</td>
+                <td style="width: 50%; text-align: right;">{{ $jmlrus }}</td>
+                <td style="text-align: left;">{{ $satuan }}</td>
+            </tr>
+            <tr>
+                <td style="width: 50%; text-align: left;">Sisa Persediaan</td>
+                <td style="width: 20px; text-align: center;">:</td>
+                <td style="width: 50%; text-align: right;">{{ $jmlsis }}</td>
+                <td style="text-align: left;">{{ $satuan }}</td>
+            </tr>
+        </table>
+
         <div style="padding: 10px;">
             <table style="width: 100%;">
                 <tr>
                     <td style="text-align: left;" colspan="3">
-                        <table style="width: auto;">
-                            <tr>
-                                <td style="padding: 10px; vertical-align: top">Catatan:</td>
-                                <td style="padding: 8px; vertical-align: top; line-height: 20px;">
-                                    {!! nl2br($datas->keterangan_adjustment) !!}</td>
-                            </tr>
-                        </table>
                     </td>
                 </tr>
                 <tr>
@@ -140,21 +160,21 @@
                             $find = ['kabupaten', 'Kabupaten', 'kota', 'Kota'];
                             $replace = ['', '', '', ''];
                         @endphp
-                        {{ trim(str_replace($find, $replace, $datas->gudang->kabupaten->nama)) . ', ' . date('j', strtotime(date('Y-m-d H:i:s'))) . ' ' . $bulanini . ' ' . date('Y', strtotime(date('Y-m-d H:i:s'))) }}
+                        {{ trim(str_replace($find, $replace, $kota)) . ', ' . date('j', strtotime(date('Y-m-d H:i:s'))) . ' ' . $bulanini . ' ' . date('Y', strtotime(date('Y-m-d H:i:s'))) }}
                     </td>
                 </tr>
                 <tr>
                     <td style="width: 30%">
                         <table style="width: 100%;">
                             <tr>
-                                <td style="padding: 10px; text-align: center;">Petugas Gudang</td>
+                                <td style="padding: 10px; text-align: center;">Petugas Produksi</td>
                             </tr>
                             <tr>
                                 <td style="height: 80px;">&nbsp;</td>
                             </tr>
                             <tr>
                                 <td style="padding: 10px; text-align: center; border-top: 1px solid #909090;">
-                                    {{ $datas->petugas_1_id ? $datas->petugas_1->nama_lengkap : '-' }}</td>
+                                    {{ $petugas }}</td>
                             </tr>
                         </table>
                     </td>
@@ -169,7 +189,7 @@
                             </tr>
                             <tr>
                                 <td style="padding: 10px; text-align: center; border-top: 1px solid #909090;">
-                                    {{ $datas->tanggungjawab_id ? $datas->tanggungjawab->nama_lengkap : '-' }}</td>
+                                    {{ $tanggungjawab }}</td>
                             </tr>
                         </table>
                     </td>
@@ -178,8 +198,7 @@
         </div>
     </main>
 
-    @include('stock-adjustment.pdf.penyesuaian-footer')
-
+    @include('production-order.pdf.lap-prod-one-footer')
 </body>
 
 </html>

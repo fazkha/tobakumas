@@ -182,6 +182,8 @@ Route::prefix('production')->middleware('auth')->group(function () {
     Route::get('order/combine/{order}/{join}', [ProdOrderController::class, 'combineJoin']);
     Route::get('order/hitung-bahanbaku-produksi/{order}', [ProdOrderController::class, 'hitungBahanbakuProduksi']);
     Route::get('order/finish-order/{order}', [ProdOrderController::class, 'finishOrder']);
+    Route::get('order/print-one/{year}/{month}/{id}', [ProdOrderController::class, 'PrintOne']);
+    Route::get('order/print-rekap/{year}/{month}', [ProdOrderController::class, 'PrintRekap']);
 })->missing(function (Request $request) {
     return Redirect::route('dashboard');
 });

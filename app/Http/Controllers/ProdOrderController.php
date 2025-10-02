@@ -3,24 +3,58 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProdOrder;
-use App\Http\Requests\ProdOrderRequest;
 use App\Models\Barang;
 use App\Models\Pegawai;
 use App\Models\ProdOrderDetail;
 use App\Models\SaleOrder;
 use App\Models\Satuan;
 use App\Models\ViewPegawaiJabatan;
+use App\Models\ViewLaporanProduksi;
+use App\Http\Requests\ProdOrderRequest;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Arr;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ProdOrderController extends Controller implements HasMiddleware
 {
+    protected $array_hari, $array_bulan;
+
+    public function __construct()
+    {
+        $this->array_hari = [
+            ['hari' => ['id' => 0, 'name' => __('calendar.sunday')]],
+            ['hari' => ['id' => 1, 'name' => __('calendar.monday')]],
+            ['hari' => ['id' => 2, 'name' => __('calendar.tuesday')]],
+            ['hari' => ['id' => 3, 'name' => __('calendar.wednesday')]],
+            ['hari' => ['id' => 4, 'name' => __('calendar.thursday')]],
+            ['hari' => ['id' => 5, 'name' => __('calendar.friday')]],
+            ['hari' => ['id' => 6, 'name' => __('calendar.saturday')]],
+        ];
+
+        $this->array_bulan = [
+            ['bulan' => ['id' => 1, 'name' => __('calendar.january')]],
+            ['bulan' => ['id' => 2, 'name' => __('calendar.february')]],
+            ['bulan' => ['id' => 3, 'name' => __('calendar.march')]],
+            ['bulan' => ['id' => 4, 'name' => __('calendar.apryl')]],
+            ['bulan' => ['id' => 5, 'name' => __('calendar.may')]],
+            ['bulan' => ['id' => 6, 'name' => __('calendar.june')]],
+            ['bulan' => ['id' => 7, 'name' => __('calendar.july')]],
+            ['bulan' => ['id' => 8, 'name' => __('calendar.august')]],
+            ['bulan' => ['id' => 9, 'name' => __('calendar.september')]],
+            ['bulan' => ['id' => 10, 'name' => __('calendar.october')]],
+            ['bulan' => ['id' => 11, 'name' => __('calendar.november')]],
+            ['bulan' => ['id' => 12, 'name' => __('calendar.december')]],
+        ];
+    }
+
     public static function middleware(): array
     {
         return [
@@ -46,9 +80,16 @@ class ProdOrderController extends Controller implements HasMiddleware
         if (!$request->session()->exists('production-order_nomor')) {
             $request->session()->put('production-order_nomor', '_');
         }
+        if (!$request->session()->exists('production-order_periode_bulan')) {
+            $request->session()->put('production-order_periode_bulan', 'all');
+        }
+        if (!$request->session()->exists('production-order_periode_tahun')) {
+            $request->session()->put('production-order_periode_tahun', '_');
+        }
 
         $search_arr = ['production-order_selesai', 'production-order_tanggal', 'production-order_nomor'];
 
+        $bulans = Arr::pluck($this->array_bulan, 'bulan.name', 'bulan.id');
         $datas = ProdOrder::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
@@ -80,7 +121,7 @@ class ProdOrderController extends Controller implements HasMiddleware
             return redirect()->route('dashboard');
         }
 
-        return view('production-order.index', compact(['datas']))->with('i', (request()->input('page', 1) - 1) * session('production-order_pp'));
+        return view('production-order.index', compact(['datas', 'bulans']))->with('i', (request()->input('page', 1) - 1) * session('production-order_pp'));
     }
 
     public function fetchdb(Request $request): JsonResponse
@@ -89,9 +130,12 @@ class ProdOrderController extends Controller implements HasMiddleware
         $request->session()->put('production-order_selesai', $request->pr);
         $request->session()->put('production-order_tanggal', $request->tanggal);
         $request->session()->put('production-order_nomor', $request->nomor);
+        $request->session()->put('production-order_periode_tahun', $request->tahun);
+        $request->session()->put('production-order_periode_bulan', $request->bulan);
 
         $search_arr = ['production-order_selesai', 'production-order_tanggal', 'production-order_nomor'];
 
+        $bulans = Arr::pluck($this->array_bulan, 'bulan.name', 'bulan.id');
         $datas = ProdOrder::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
@@ -121,7 +165,7 @@ class ProdOrderController extends Controller implements HasMiddleware
 
         $datas->withPath('/production/production-order'); // pagination url to
 
-        $view = view('production-order.partials.table', compact(['datas']))->with('i', (request()->input('page', 1) - 1) * session('production-order_pp'))->render();
+        $view = view('production-order.partials.table', compact(['datas', 'bulans']))->with('i', (request()->input('page', 1) - 1) * session('production-order_pp'))->render();
 
         if ($view) {
             return response()->json($view, 200);
@@ -290,6 +334,89 @@ class ProdOrderController extends Controller implements HasMiddleware
 
         return response()->json([
             'status' => 'success',
+        ], 200);
+    }
+
+    public function printRekap(Request $request)
+    {
+        $ntahun = $request->year; // date('Y');
+        $nbulan = $request->month; // date('n');
+        $nbulanini = date('n');
+        $nhari = date('w');
+        $hari = $this->array_hari[$nhari]['hari']['name'];
+        if ($nbulan == 'all') {
+            $bulan = 'Semua';
+        } else {
+            $bulan = $this->array_bulan[$nbulan - 1]['bulan']['name'];
+        }
+        $bulanini = $this->array_bulan[$nbulanini - 1]['bulan']['name'];
+
+        if ($ntahun == '_') {
+            $datas = ViewLaporanProduksi::get();
+        } elseif ($nbulan == 'all') {
+            $datas = ViewLaporanProduksi::where('c8', $ntahun)->get();
+        } else {
+            $datas = ViewLaporanProduksi::where('c8', $ntahun)->where('c9', $nbulan)->get();
+        }
+
+        $namafile = '_laporanproduksi_' . str_replace('@', '(at)', str_replace('.', '_', auth()->user()->email)) . '.pdf';
+        session()->put('documents', $namafile);
+
+        if (count($datas) > 0) {
+            $gudang = 'Semua';
+
+            $pdf = Pdf::loadView('production-order.pdf.lap-prod-rekap', ['datas' => $datas, 'gudang' => $gudang, 'hari' => $hari, 'bulan' => $bulan, 'bulanini' => $bulanini])
+                ->setPaper('a4', 'landscape')
+                ->setOptions(['enable_php' => true]);
+
+            $output = $pdf->output();
+            Storage::disk('pdfs')->put($namafile, $output);
+
+            return response()->json([
+                'namafile' => url('documents/' . $namafile),
+            ], 200);
+        }
+
+        return response()->json([
+            'status' => 'Not Found',
+        ], 200);
+    }
+
+    public function printOne(Request $request)
+    {
+        $id = $request->id;
+        $ntahun = $request->year; // date('Y');
+        $nbulan = $request->month; // date('n');
+        $nbulanini = date('n');
+        $nhari = date('w');
+        $hari = $this->array_hari[$nhari]['hari']['name'];
+        if ($nbulan == 'all') {
+            $bulan = 'Semua';
+        } else {
+            $bulan = $this->array_bulan[$nbulan - 1]['bulan']['name'];
+        }
+        $bulanini = $this->array_bulan[$nbulanini - 1]['bulan']['name'];
+
+        $datas = ViewLaporanProduksi::where('c1', $id)->get();
+
+        $namafile = $id . '-laporanproduksi_' . str_replace('@', '(at)', str_replace('.', '_', auth()->user()->email)) . '.pdf';
+        session()->put('documents', $namafile);
+
+        if (count($datas) > 0) {
+            $pdf = Pdf::loadView('production-order.pdf.lap-prod-one', ['datas' => $datas, 'bulanini' => $bulanini])
+                ->setPaper('a4', 'landscape')
+                ->setOptions(['enable_php' => true]);
+
+            $output = $pdf->output();
+            Storage::disk('pdfs')->put($namafile, $output);
+
+            return response()->json([
+                'namafile' => url('documents/' . $namafile),
+            ], 200);
+        }
+
+        return response()->json([
+            'status' => 'Not Found',
         ], 200);
     }
 }
