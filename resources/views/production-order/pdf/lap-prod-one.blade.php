@@ -100,7 +100,7 @@
                             <td style="vertical-align: top;">{{ $data->c6 }}</td>
                             <td style="vertical-align: top;">{{ $data->c7 }}</td>
                             <td style="vertical-align: top; text-align: right;">
-                                {{ number_format($data->c8, '1', ',', '.') }}
+                                {{ number_format($data->c8, '2', ',', '.') }}
                             </td>
                             <td style="vertical-align: top;">{{ $data->c10 }}</td>
                             <td style="vertical-align: top; text-align: right;">
@@ -123,25 +123,25 @@
             <tr>
                 <td style="text-align: left;">Jumlah Pesanan</td>
                 <td style="width: 20px; text-align: center;">:</td>
-                <td style="text-align: right;">{{ $jmlprod }}</td>
+                <td style="text-align: right;">{{ number_format($jmlprod, '2', ',', '.') }}</td>
                 <td style="text-align: left;">{{ $satuan }}</td>
             </tr>
             <tr>
                 <td style="width: 50%; text-align: left;">Jumlah Produksi</td>
                 <td style="width: 20px; text-align: center;">:</td>
-                <td style="width: 50%; text-align: right;">{{ $jmlsas }}</td>
+                <td style="width: 50%; text-align: right;">{{ number_format($jmlsas, '2', ',', '.') }}</td>
                 <td style="text-align: left;">{{ $satuan }}</td>
             </tr>
             <tr>
                 <td style="width: 50%; text-align: left;">Rusak</td>
                 <td style="width: 20px; text-align: center;">:</td>
-                <td style="width: 50%; text-align: right;">{{ $jmlrus }}</td>
+                <td style="width: 50%; text-align: right;">{{ number_format($jmlrus, '2', ',', '.') }}</td>
                 <td style="text-align: left;">{{ $satuan }}</td>
             </tr>
             <tr>
                 <td style="width: 50%; text-align: left;">Sisa Persediaan</td>
                 <td style="width: 20px; text-align: center;">:</td>
-                <td style="width: 50%; text-align: right;">{{ $jmlsis }}</td>
+                <td style="width: 50%; text-align: right;">{{ number_format($jmlsis, '2', ',', '.') }}</td>
                 <td style="text-align: left;">{{ $satuan }}</td>
             </tr>
         </table>
