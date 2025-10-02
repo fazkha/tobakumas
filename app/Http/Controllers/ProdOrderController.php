@@ -354,18 +354,16 @@ class ProdOrderController extends Controller implements HasMiddleware
         if ($ntahun == '_') {
             $datas = ViewLaporanProduksi::get();
         } elseif ($nbulan == 'all') {
-            $datas = ViewLaporanProduksi::where('c8', $ntahun)->get();
+            $datas = ViewLaporanProduksi::where('c15', $ntahun)->get();
         } else {
-            $datas = ViewLaporanProduksi::where('c8', $ntahun)->where('c9', $nbulan)->get();
+            $datas = ViewLaporanProduksi::where('c15', $ntahun)->where('c16', $nbulan)->get();
         }
 
         $namafile = '_laporanproduksi_' . str_replace('@', '(at)', str_replace('.', '_', auth()->user()->email)) . '.pdf';
         session()->put('documents', $namafile);
 
         if (count($datas) > 0) {
-            $gudang = 'Semua';
-
-            $pdf = Pdf::loadView('production-order.pdf.lap-prod-rekap', ['datas' => $datas, 'gudang' => $gudang, 'hari' => $hari, 'bulan' => $bulan, 'bulanini' => $bulanini])
+            $pdf = Pdf::loadView('production-order.pdf.lap-prod', ['datas' => $datas, 'bulan' => $bulan, 'bulanini' => $bulanini])
                 ->setPaper('a4', 'landscape')
                 ->setOptions(['enable_php' => true]);
 

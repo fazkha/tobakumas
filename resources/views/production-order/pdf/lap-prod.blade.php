@@ -60,21 +60,18 @@
         $i = 1;
         $pdf_line_per_page = config('custom.pdf_line_per_page');
         $jmlprod = $datas->sum('c8');
-        $jmlsas = $datas[0]->c11;
-        $jmlrus = $datas[0]->c12;
-        $jmlsis = $datas[0]->c13;
+        $jmlsas = 0;
+        $jmlrus = 0;
+        $jmlsis = 0;
         $petugas = $datas[0]->c2;
         $tanggungjawab = $datas[0]->c3;
         $kota = $datas[0]->c14;
-        $hke = $datas[0]->c4;
         $satuan = $datas[0]->c10;
     @endphp
 
     <header>
-        @include('production-order.pdf.lap-prod-one-header', [
-            'petugas' => $petugas,
-            'tanggungjawab' => $tanggungjawab,
-            'hke' => $hke,
+        @include('production-order.pdf.lap-prod-header', [
+            'bulan' => $bulan,
         ])
     </header>
 
@@ -84,6 +81,7 @@
                 <thead>
                     <tr>
                         <th style="width: 5%">No.</th>
+                        <th style="width: 5%">HKE</th>
                         <th style="width: auto">Cabang</th>
                         <th style="width: auto">Mitra</th>
                         <th style="width: auto">Jenis Adonan</th>
@@ -96,6 +94,7 @@
                     @foreach ($datas as $data)
                         <tr>
                             <td style="vertical-align: top; text-align: center;">{{ $i }}</td>
+                            <td style="vertical-align: top; text-align: center;">{{ $data->c4 }}</td>
                             <td style="vertical-align: top;">{{ $data->c5 }}</td>
                             <td style="vertical-align: top;">{{ $data->c6 }}</td>
                             <td style="vertical-align: top;">{{ $data->c7 }}</td>

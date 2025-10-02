@@ -95,7 +95,7 @@
                 @endcan
 
                 @can('prodo-show')
-                    <x-secondary-button id="print-mutasi"
+                    <x-secondary-button id="print-laporan"
                         class="bg-indigo-700 hover:bg-indigo-800 dark:bg-indigo-900 hover:dark:bg-indigo-950">
                         <svg id="print-icon" class="size-5" viewBox="0 0 15 15" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
