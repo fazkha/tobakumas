@@ -60,9 +60,9 @@
         $i = 1;
         $pdf_line_per_page = config('custom.pdf_line_per_page');
         $jmlprod = $datas->sum('c8');
-        $jmlsas = 0;
-        $jmlrus = 0;
-        $jmlsis = 0;
+        $jmlsas = $datas->sum('c11');
+        $jmlrus = $datas->sum('c12');
+        $jmlsis = $datas->sum('c13');
         $petugas = $datas[0]->c2;
         $tanggungjawab = $datas[0]->c3;
         $kota = $datas[0]->c14;
