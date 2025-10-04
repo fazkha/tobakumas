@@ -112,6 +112,8 @@
                     var xtahun = $('#search-tahun').val();
                     if (!xtahun.trim()) {
                         xtahun = '_';
+                        xbulan = 'all';
+                        $("#bulan-dropdown").val("all");
                     }
 
                     $.ajax({
