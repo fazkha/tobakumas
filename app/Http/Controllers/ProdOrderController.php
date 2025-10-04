@@ -371,7 +371,7 @@ class ProdOrderController extends Controller implements HasMiddleware
             Storage::disk('pdfs')->put($namafile, $output);
 
             return response()->json([
-                'namafile' => url('documents/' . $namafile),
+                'namafile' => url('documents/' . $namafile . '?v=' . time()),
             ], 200);
         }
 
@@ -409,7 +409,7 @@ class ProdOrderController extends Controller implements HasMiddleware
             Storage::disk('pdfs')->put($namafile, $output);
 
             return response()->json([
-                'namafile' => url('documents/' . $namafile),
+                'namafile' => url('documents/' . $namafile . '?v=' . time()),
             ], 200);
         }
 
