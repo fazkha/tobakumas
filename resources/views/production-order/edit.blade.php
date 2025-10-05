@@ -88,18 +88,18 @@
                                         <x-text-span class="!text-md">
                                             <div class="flex flex-row gap-2 p-2">
                                                 <div class="w-1/2 pb-4">
-                                                    <label for="jumlah_sasaran"
+                                                    <span for="jumlah_sasaran"
                                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.target')
-                                                        ({{ $satuanTarget }})</label>
+                                                        ({{ $satuanTarget }})</span>
                                                     <x-text-input type="number" min="0" step="0.01"
                                                         name="jumlah_sasaran" tabindex="3"
                                                         value="{{ $datas->jumlah_sasaran }}" />
                                                 </div>
 
                                                 <div class="w-1/2 pb-4">
-                                                    <label for="jumlah_rusak"
+                                                    <span for="jumlah_rusak"
                                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.damage')
-                                                        ({{ $satuanTarget }})</label>
+                                                        ({{ $satuanTarget }})</span>
                                                     <x-text-input type="number" min="0" step="0.01"
                                                         name="jumlah_rusak" tabindex="4"
                                                         value="{{ $datas->jumlah_rusak }}" />
@@ -466,7 +466,7 @@
                     if (confirmation) {
                         $.ajax({
                             url: '{{ url('/production/order/finish-order') }}' + '/' + key,
-                            type: 'get',
+                            type: 'put',
                             data: $('form#master-form').serialize(),
                             dataType: 'json',
                             success: function(result) {
