@@ -467,6 +467,7 @@
                         $.ajax({
                             url: '{{ url('/production/order/finish-order') }}' + '/' + key,
                             type: 'get',
+                            data: $('form#master-form').serialize(),
                             dataType: 'json',
                             success: function(result) {
                                 if (result.status !== 'Not Found') {
@@ -476,10 +477,6 @@
                                 }
                             }
                         });
-                    }
-
-                    if (isFormDirty('master-form', myFormInitialValues)) {
-                        $('form#master-form').submit();
                     }
                 });
             });

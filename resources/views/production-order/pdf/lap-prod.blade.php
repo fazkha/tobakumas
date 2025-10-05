@@ -140,7 +140,7 @@
             <tr>
                 <td style="width: 50%; text-align: left;">Sisa Persediaan</td>
                 <td style="width: 20px; text-align: center;">:</td>
-                <td style="width: 50%; text-align: right;">-</td>
+                <td style="width: 50%; text-align: right;">{{ number_format($jmlsis, '2', ',', '.') }}</td>
                 <td style="text-align: left;">{{ $satuan }}</td>
             </tr>
         </table>

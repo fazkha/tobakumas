@@ -260,13 +260,13 @@ class ProdOrderController extends Controller implements HasMiddleware
                 'tanggal' => $request->tanggal,
                 'jumlah_rusak' => $jumlah_rusak,
                 'jumlah_sasaran' => $jumlah_sasaran,
-                'sisa_persediaan' => $sisa_persediaan,
                 'petugas_1_id' => $request->petugas_1_id,
                 'petugas_2_id' => $request->petugas_2_id,
                 'tanggungjawab_id' => $request->tanggungjawab_id,
                 'keterangan' => $request->keterangan,
                 'updated_by' => auth()->user()->email,
             ]);
+            // 'sisa_persediaan' => $sisa_persediaan,
 
             return redirect()->back()->with('success', __('messages.successupdated') . ' 👉 ' . $request->tanggal);
         } else {
@@ -328,6 +328,24 @@ class ProdOrderController extends Controller implements HasMiddleware
 
     public function finishOrder(Request $request): JsonResponse
     {
+        $order = ProdOrder::find($request->order);
+
+        if ($order) {
+            $jumlah_rusak = $request->jumlah_rusak ? $request->jumlah_rusak : 0;
+            $jumlah_sasaran = $request->jumlah_sasaran ? $request->jumlah_sasaran : 0;
+
+            $order->update([
+                'tanggal' => $request->tanggal,
+                'jumlah_rusak' => $jumlah_rusak,
+                'jumlah_sasaran' => $jumlah_sasaran,
+                'petugas_1_id' => $request->petugas_1_id,
+                'petugas_2_id' => $request->petugas_2_id,
+                'tanggungjawab_id' => $request->tanggungjawab_id,
+                'keterangan' => $request->keterangan,
+                'updated_by' => auth()->user()->email,
+            ]);
+        }
+
         $syntax = 'CALL sp_finish_produksi(' . $request->order . ',\'' . auth()->user()->email . '\',' . auth()->user()->profile->branch_id . ')';
 
         $finish = DB::select($syntax);
