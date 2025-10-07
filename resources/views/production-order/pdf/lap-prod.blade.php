@@ -62,7 +62,7 @@
         $jmlprod = $datas->sum('c8');
         $jmlsas = $datas->sum('c11');
         $jmlrus = $datas->sum('c12');
-        $jmlsis = $datas->sum('c13');
+        $jmlsis = $jmlsas - $jmlprod - $jmlrus;
         $petugas = $datas[0]->c2;
         $tanggungjawab = $datas[0]->c3;
         $kota = $datas[0]->c14;
@@ -72,6 +72,7 @@
     <header>
         @include('production-order.pdf.lap-prod-header', [
             'bulan' => $bulan,
+            'customer' => $cust,
         ])
     </header>
 

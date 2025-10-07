@@ -62,7 +62,7 @@
         $jmlprod = $datas->sum('c8');
         $jmlsas = $datas[0]->c11;
         $jmlrus = $datas[0]->c12;
-        $jmlsis = $datas[0]->c13;
+        $jmlsis = $jmlsas - $jmlprod - $jmlrus;
         $petugas = $datas[0]->c2;
         $tanggungjawab = $datas[0]->c3;
         $kota = $datas[0]->c14;

@@ -23,62 +23,123 @@
                 <span>@lang('messages.searchpanel')</span>
             </div>
 
-            <div class="flex flex-col lg:flex-row justify-start">
-                <div class="flex-row justify-start">
-                    <div class="relative shadow-md mr-2 mb-2">
-                        <span
-                            class="w-24 text-xs h-full absolute inset-y-0 left-0 flex items-center px-2 border-r border-primary-100 dark:border-primary-800">Per
-                            @lang('messages.page')</span>
-                        <select id="pp-dropdown"
-                            class="text-sm px-2 leading-tight pl-28 pr-9 py-2 appearance-none w-full h-full rounded-md border block bg-primary-20 border-primary-100 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800">
-                            <option {{ session('production-order_pp') == 5 ? 'selected' : '' }} value="5">5
-                            </option>
-                            <option {{ session('production-order_pp') == 24 ? 'selected' : '' }} value="24">24
-                            </option>
-                            <option {{ session('production-order_pp') == 36 ? 'selected' : '' }} value="36">36
-                            </option>
-                        </select>
-                        <div
-                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-white">
-                        </div>
-                    </div>
-                </div>
+            <form id="form-filter">
+                @csrf
 
-                <div class="flex-row justify-start">
-                    <div class="relative shadow-md mr-2 mb-2">
-                        <span
-                            class="w-24 text-xs h-full absolute inset-y-0 left-0 flex items-center px-2 border-r border-primary-100 dark:border-primary-800">@lang('messages.productionfinish')</span>
-                        <select id="produksi-dropdown"
-                            class="text-sm px-2 leading-tight pl-28 pr-9 py-2 appearance-none w-full h-full rounded-md border block bg-primary-20 border-primary-100 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800">
-                            <option {{ session('production-order_selesai') == 'all' ? 'selected' : '' }} value="all">
-                                @lang('messages.all')</option>
-                            <option {{ session('production-order_selesai') == '1' ? 'selected' : '' }} value="1">
-                                @lang('messages.yes')</option>
-                            <option {{ session('production-order_selesai') == '0' ? 'selected' : '' }} value="0">
-                                @lang('messages.no')</option>
-                        </select>
-                        <div
-                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-white">
+                <div class="flex flex-col lg:flex-row justify-start">
+                    <div class="flex-row justify-start">
+                        <div class="relative shadow-md mr-2 mb-2">
+                            <span
+                                class="w-24 text-xs h-full absolute inset-y-0 left-0 flex items-center px-2 border-r border-primary-100 dark:border-primary-800">Per
+                                @lang('messages.page')</span>
+                            <select id="pp-dropdown" name="pp-dropdown"
+                                class="text-sm px-2 leading-tight pl-28 pr-9 py-2 appearance-none w-full h-full rounded-md border block bg-primary-20 border-primary-100 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800">
+                                <option
+                                    {{ session('production-order_pp') == config('custom.list_per_page_opt_1') ? 'selected' : '' }}
+                                    value="{{ config('custom.list_per_page_opt_1') }}">
+                                    {{ config('custom.list_per_page_opt_1') }}</option>
+                                <option
+                                    {{ session('production-order_pp') == config('custom.list_per_page_opt_2') ? 'selected' : '' }}
+                                    value="{{ config('custom.list_per_page_opt_2') }}">
+                                    {{ config('custom.list_per_page_opt_2') }}</option>
+                                <option
+                                    {{ session('production-order_pp') == config('custom.list_per_page_opt_3') ? 'selected' : '' }}
+                                    value="{{ config('custom.list_per_page_opt_3') }}">
+                                    {{ config('custom.list_per_page_opt_3') }}</option>
+                            </select>
+                            <div
+                                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-white">
+                            </div>
                         </div>
                     </div>
 
-                    <div class="relative shadow-md mr-2 mb-2">
-                        <span
-                            class="w-24 text-xs h-full absolute inset-y-0 left-0 flex items-center px-2 border-r border-primary-100 dark:border-primary-800">@lang('messages.ordernumber')</span>
-                        <input id="search-nomor" placeholder="@lang('messages.search')"
-                            value="{{ session('production-order_nomor') == '_' ? '' : session('production-order_nomor') }}"
-                            class="text-sm pl-28 pr-6 pt-1.5 pb-2 appearance-none rounded-md border block w-full bg-primary-20 border-primary-100 placeholder-gray-400 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800" />
-                    </div>
+                    <div class="flex-row justify-start">
+                        <div class="relative shadow-md mr-2 mb-2">
+                            <span
+                                class="w-24 text-xs h-full absolute inset-y-0 left-0 flex items-center px-2 border-r border-primary-100 dark:border-primary-800">@lang('messages.productionfinish')</span>
+                            <select id="produksi-dropdown" name="produksi-dropdown"
+                                class="text-sm px-2 leading-tight pl-28 pr-9 py-2 appearance-none w-full h-full rounded-md border block bg-primary-20 border-primary-100 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800">
+                                <option {{ session('production-order_selesai') == 'all' ? 'selected' : '' }}
+                                    value="all">
+                                    @lang('messages.all')</option>
+                                <option {{ session('production-order_selesai') == '1' ? 'selected' : '' }}
+                                    value="1">
+                                    @lang('messages.yes')</option>
+                                <option {{ session('production-order_selesai') == '0' ? 'selected' : '' }}
+                                    value="0">
+                                    @lang('messages.no')</option>
+                            </select>
+                            <div
+                                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-white">
+                            </div>
+                        </div>
 
-                    <div class="relative shadow-md mr-2 mb-2">
-                        <span
-                            class="w-24 text-xs h-full absolute inset-y-0 left-0 flex items-center px-2 border-r border-primary-100 dark:border-primary-800">@lang('calendar.date')</span>
-                        <input id="search-tanggal" type="date" placeholder="@lang('messages.search')"
-                            value="{{ session('production-order_tanggal') == '_' ? '' : session('production-order_tanggal') }}"
-                            class="text-sm pl-28 pr-6 pt-1.5 pb-2 appearance-none rounded-md border block w-full bg-primary-20 border-primary-100 placeholder-gray-400 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800" />
+                        <div class="relative shadow-md mr-2 mb-2">
+                            <span
+                                class="w-24 text-xs h-full absolute inset-y-0 left-0 flex items-center px-2 border-r border-primary-100 dark:border-primary-800">@lang('messages.ordernumber')</span>
+                            <input id="search-nomor" name="search-nomor" placeholder="@lang('messages.search')"
+                                value="{{ session('production-order_nomor') == '_' ? '' : session('production-order_nomor') }}"
+                                class="text-sm pl-28 pr-6 pt-1.5 pb-2 appearance-none rounded-md border block w-full bg-primary-20 border-primary-100 placeholder-gray-400 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800" />
+                        </div>
+
+                        <div class="relative shadow-md mr-2 mb-2">
+                            <span
+                                class="w-24 text-xs h-full absolute inset-y-0 left-0 flex items-center px-2 border-r border-primary-100 dark:border-primary-800">@lang('calendar.date')</span>
+                            <input id="search-tanggal" name="search-tanggal" type="date"
+                                placeholder="@lang('messages.search')"
+                                value="{{ session('production-order_tanggal') == '_' ? '' : session('production-order_tanggal') }}"
+                                class="text-sm pl-28 pr-6 pt-1.5 pb-2 appearance-none rounded-md border block w-full bg-primary-20 border-primary-100 placeholder-gray-400 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800" />
+                        </div>
+
+                        <div class="relative shadow-md mr-2 mb-2">
+                            <span
+                                class="w-24 text-xs h-full absolute inset-y-0 left-0 flex items-center px-2 border-r border-primary-100 dark:border-primary-800">@lang('calendar.month')</span>
+                            <select id="bulan-dropdown" name="bulan-dropdown"
+                                class="text-sm px-2 leading-tight pl-28 pr-9 py-2 appearance-none w-full h-full rounded-md border block bg-primary-20 border-primary-100 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800">
+                                <option {{ session('production-order_periode_bulan') == 'all' ? 'selected' : '' }}
+                                    value="all">
+                                    @lang('messages.all')
+                                </option>
+                                @foreach ($bulans as $id => $name)
+                                    <option {{ session('production-order_periode_bulan') == $id ? 'selected' : '' }}
+                                        value="{{ $id }}">{{ $name }}</option>
+                                @endforeach
+                            </select>
+                            <div
+                                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-white">
+                            </div>
+                        </div>
+
+                        <div class="relative shadow-md mr-2 mb-2">
+                            <span
+                                class="w-24 text-xs h-full absolute inset-y-0 left-0 flex items-center px-2 border-r border-primary-100 dark:border-primary-800">@lang('calendar.year')</span>
+                            <input id="search-tahun" name="search-tahun" type="number" min="0"
+                                placeholder="@lang('messages.search')"
+                                value="{{ session('production-order_periode_tahun') == '_' ? date('Y') : session('production-order_periode_tahun') }}"
+                                class="text-sm pl-28 pr-6 pt-1.5 pb-2 appearance-none rounded-md border block w-full bg-primary-20 border-primary-100 placeholder-gray-400 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800" />
+                        </div>
+
+                        <div class="relative shadow-md mr-2 mb-2">
+                            <span
+                                class="w-24 text-xs h-full absolute inset-y-0 left-0 flex items-center px-2 border-r border-primary-100 dark:border-primary-800">@lang('messages.customer')</span>
+                            <select id="customer-dropdown" name="customer-dropdown"
+                                class="text-sm px-2 leading-tight pl-28 pr-9 py-2 appearance-none w-full h-full rounded-md border block bg-primary-20 border-primary-100 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800">
+                                <option {{ session('purchase-order_customer') == 'all' ? 'selected' : '' }}
+                                    value="all">
+                                    @lang('messages.all')
+                                </option>
+                                @foreach ($customers as $id => $name)
+                                    <option {{ session('purchase-order_customer') == $id ? 'selected' : '' }}
+                                        value="{{ $id }}">{{ $name }}</option>
+                                @endforeach
+                            </select>
+                            <div
+                                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-white">
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </form>
 
         </div>
 
@@ -110,7 +171,7 @@
 
             @can('prodo-show')
                 <div
-                    class="w-full p-2 md:p-4 border rounded-md bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
+                    class="hidden w-full p-2 md:p-4 border rounded-md bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
 
                     <div class="relative flex flex-row gap-2 mb-2 md:mb-4">
                         <div id="filter-loading" class="absolute top-[0%] right-[2%] z-10 hidden">
@@ -119,10 +180,12 @@
                                 <rect width="48" height="48" fill="white" fill-opacity="0.0" />
                                 <path
                                     d="M4 24C4 35.0457 12.9543 44 24 44V44C35.0457 44 44 35.0457 44 24C44 12.9543 35.0457 4 24 4"
-                                    stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                                    stroke="currentColor" stroke-width="4" stroke-linecap="round"
+                                    stroke-linejoin="round" />
                                 <path
                                     d="M36 24C36 17.3726 30.6274 12 24 12C17.3726 12 12 17.3726 12 24C12 30.6274 17.3726 36 24 36V36"
-                                    stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                                    stroke="currentColor" stroke-width="4" stroke-linecap="round"
+                                    stroke-linejoin="round" />
                             </svg>
                         </div>
 
@@ -135,32 +198,6 @@
 
                     <div class="flex flex-col lg:flex-row justify-start">
                         <div class="flex-row justify-start">
-                            <div class="relative shadow-md mr-2 mb-2">
-                                <span
-                                    class="w-24 text-xs h-full absolute inset-y-0 left-0 flex items-center px-2 border-r border-primary-100 dark:border-primary-800">@lang('calendar.month')</span>
-                                <select id="bulan-dropdown"
-                                    class="text-sm px-2 leading-tight pl-28 pr-9 py-2 appearance-none w-full h-full rounded-md border block bg-primary-20 border-primary-100 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800">
-                                    <option {{ session('production-order_periode_bulan') == 'all' ? 'selected' : '' }}
-                                        value="all">
-                                        @lang('messages.all')
-                                    </option>
-                                    @foreach ($bulans as $id => $name)
-                                        <option {{ session('production-order_periode_bulan') == $id ? 'selected' : '' }}
-                                            value="{{ $id }}">{{ $name }}</option>
-                                    @endforeach
-                                </select>
-                                <div
-                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-white">
-                                </div>
-                            </div>
-
-                            <div class="relative shadow-md mr-2 mb-2">
-                                <span
-                                    class="w-24 text-xs h-full absolute inset-y-0 left-0 flex items-center px-2 border-r border-primary-100 dark:border-primary-800">@lang('calendar.year')</span>
-                                <input id="search-tahun" type="number" min="0" placeholder="@lang('messages.search')"
-                                    value="{{ session('production-order_periode_tahun') == '_' ? date('Y') : session('production-order_periode_tahun') }}"
-                                    class="text-sm pl-28 pr-6 pt-1.5 pb-2 appearance-none rounded-md border block w-full bg-primary-20 border-primary-100 placeholder-gray-400 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800" />
-                            </div>
                         </div>
                     </div>
                 </div>

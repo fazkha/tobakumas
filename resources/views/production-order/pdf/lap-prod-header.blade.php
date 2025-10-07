@@ -19,6 +19,11 @@
                 <td style="width: 20px; text-align: center;">:</td>
                 <td style="width: 50%; text-align: left;">{{ date('d/m/Y') }}</td>
             </tr>
+            <tr>
+                <td style="width: 50%; text-align: left;">@lang('messages.customer')</td>
+                <td style="width: 20px; text-align: center;">:</td>
+                <td style="width: 50%; text-align: left;">{{ $cust }}</td>
+            </tr>
         </table>
     </div>
 </div>

@@ -53,46 +53,56 @@
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script type="text/javascript">
             $(document).ready(function(e) {
-                $("#pp-dropdown, #produksi-dropdown, #search-tanggal, #search-nomor").on("change keyup paste",
-                    function() {
-                        var xpp = $('#pp-dropdown option:selected').val();
-                        var xpr = $('#produksi-dropdown option:selected').val();
-                        var xtanggal = $('#search-tanggal').val();
-                        var xnomor = $('#search-nomor').val();
-                        if (!xtanggal.trim()) {
-                            xtanggal = '_';
-                        }
-                        if (!xnomor.trim()) {
-                            xnomor = '_';
-                        }
-
-                        $('#filter-loading').show();
-
-                        var newURL = '{{ url('/production/order') }}';
-                        var newState = {
-                            page: 'index-production-order'
-                        };
-                        var newTitle = '{{ __('messages.production') }}';
-
-                        window.history.pushState(newState, newTitle, newURL);
-
-                        $.ajax({
-                            url: '{{ url('/production/order/fetchdb') }}' + "/" + xpp + "/" + xpr + "/" +
-                                xtanggal +
-                                "/" + xnomor,
-                            type: "get",
-                            dataType: 'json',
-                            success: function(result) {
-                                $('#table-container').html(result);
-                                $("#table-container").focus();
-                                $('#filter-loading').hide();
+                $("#pp-dropdown, #produksi-dropdown, #bulan-dropdown, #customer-dropdown, #search-tanggal, #search-nomor, #search-tahun")
+                    .on("change keyup paste",
+                        function() {
+                            var xpp = $('#pp-dropdown option:selected').val();
+                            var xpr = $('#produksi-dropdown option:selected').val();
+                            var xbl = $('#bulan-dropdown option:selected').val();
+                            var xcustomer = $('#customer-dropdown option:selected').val();
+                            var xtanggal = $('#search-tanggal').val();
+                            var xnomor = $('#search-nomor').val();
+                            var xtahun = $('#search-tahun').val();
+                            if (!xtanggal.trim()) {
+                                xtanggal = '_';
                             }
+                            if (!xnomor.trim()) {
+                                xnomor = '_';
+                            }
+                            if (!xtahun.trim()) {
+                                xtahun = '_';
+                            }
+
+                            $('#filter-loading').show();
+
+                            var newURL = '{{ url('/production/order') }}';
+                            var newState = {
+                                page: 'index-production-order'
+                            };
+                            var newTitle = '{{ __('messages.production') }}';
+
+                            window.history.pushState(newState, newTitle, newURL);
+
+                            $.ajax({
+                                url: '{{ url('/production/order/fetchdb') }}' + "/" + xpp + "/" + xpr + "/" +
+                                    xtanggal + "/" + xnomor + "/" + xbl + "/" + xtahun + "/" + xcustomer,
+                                type: "get",
+                                dataType: 'json',
+                                success: function(result) {
+                                    $('#table-container').html(result);
+                                    $("#table-container").focus();
+                                    $('#filter-loading').hide();
+                                }
+                            });
                         });
-                    });
 
                 $("#print-laporan").on("click", function(e) {
                     e.preventDefault();
                     $('#print-icon').addClass('animate-spin');
+                    var xtanggal = $('#search-tanggal').val();
+                    if (!xtanggal.trim()) {
+                        xtanggal = '_';
+                    }
                     var xbulan = $('#bulan-dropdown option:selected').val();
                     var xtahun = $('#search-tahun').val();
                     if (!xtahun.trim()) {
@@ -102,8 +112,9 @@
                     }
 
                     $.ajax({
-                        url: "{{ url('/production/order/print-rekap') }}" + "/" + xtahun + "/" + xbulan,
-                        type: 'get',
+                        url: "{{ url('/production/order/print-rekap') }}",
+                        type: 'post',
+                        data: $('form#form-filter').serialize(),
                         dataType: 'json',
                         success: function(result) {
                             if (result.status !== 'Not Found') {

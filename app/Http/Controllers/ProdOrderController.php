@@ -11,6 +11,7 @@ use App\Models\Satuan;
 use App\Models\ViewPegawaiJabatan;
 use App\Models\ViewLaporanProduksi;
 use App\Http\Requests\ProdOrderRequest;
+use App\Models\Customer;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -86,10 +87,14 @@ class ProdOrderController extends Controller implements HasMiddleware
         if (!$request->session()->exists('production-order_periode_tahun')) {
             $request->session()->put('production-order_periode_tahun', '_');
         }
+        if (!$request->session()->exists('production-order_customer')) {
+            $request->session()->put('production-order_customer', '_');
+        }
 
-        $search_arr = ['production-order_selesai', 'production-order_tanggal', 'production-order_nomor'];
+        $search_arr = ['production-order_selesai', 'production-order_tanggal', 'production-order_nomor', 'production-order_customer'];
 
         $bulans = Arr::pluck($this->array_bulan, 'bulan.name', 'bulan.id');
+        $customers = Customer::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $datas = ProdOrder::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
@@ -105,12 +110,25 @@ class ProdOrderController extends Controller implements HasMiddleware
                 if (session($search_arr[$i]) !== 'all') {
                     $datas = $datas->whereRelation('order', 'isready', session($search_arr[$i]));
                 }
+            } else if ($search_arr[$i] == 'production-order_customer') {
+                if (session($search_arr[$i]) !== 'all') {
+                    $datas = $datas->whereRelation('order', 'customer_id', session($search_arr[$i]));
+                }
             } else {
                 if (session($search_arr[$i]) == '_' or session($search_arr[$i]) == '') {
                 } else {
                     $like = '%' . session($search_arr[$i]) . '%';
                     $datas = $datas->where($field, 'LIKE', $like);
                 }
+            }
+        }
+
+        if (session('production-order_tanggal') == '_' or session('production-order_tanggal') == '') {
+            if (session('production-order_periode_bulan') == 'all' and session('production-order_periode_tahun') != '_') {
+                $datas = $datas->whereRaw('YEAR(tanggal) = ?', [session('production-order_periode_tahun')]);
+            } elseif (session('production-order_periode_bulan') != 'all' and session('production-order_periode_tahun') != '_') {
+                $datas = $datas->whereRaw('MONTH(tanggal) = ?', [session('production-order_periode_bulan')])
+                    ->whereRaw('YEAR(tanggal) = ?', [session('production-order_periode_tahun')]);
             }
         }
 
@@ -121,7 +139,7 @@ class ProdOrderController extends Controller implements HasMiddleware
             return redirect()->route('dashboard');
         }
 
-        return view('production-order.index', compact(['datas', 'bulans']))->with('i', (request()->input('page', 1) - 1) * session('production-order_pp'));
+        return view('production-order.index', compact(['datas', 'bulans', 'customers']))->with('i', (request()->input('page', 1) - 1) * session('production-order_pp'));
     }
 
     public function fetchdb(Request $request): JsonResponse
@@ -132,10 +150,12 @@ class ProdOrderController extends Controller implements HasMiddleware
         $request->session()->put('production-order_nomor', $request->nomor);
         $request->session()->put('production-order_periode_tahun', $request->tahun);
         $request->session()->put('production-order_periode_bulan', $request->bulan);
+        $request->session()->put('production-order_customer', $request->customer);
 
-        $search_arr = ['production-order_selesai', 'production-order_tanggal', 'production-order_nomor'];
+        $search_arr = ['production-order_selesai', 'production-order_tanggal', 'production-order_nomor', 'production-order_customer'];
 
         $bulans = Arr::pluck($this->array_bulan, 'bulan.name', 'bulan.id');
+        $customers = Customer::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $datas = ProdOrder::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
@@ -151,6 +171,10 @@ class ProdOrderController extends Controller implements HasMiddleware
                 if (session($search_arr[$i]) !== 'all') {
                     $datas = $datas->whereRelation('order', 'isready', session($search_arr[$i]));
                 }
+            } else if ($search_arr[$i] == 'production-order_customer') {
+                if (session($search_arr[$i]) !== 'all') {
+                    $datas = $datas->whereRelation('order', 'customer_id', session($search_arr[$i]));
+                }
             } else {
                 if (session($search_arr[$i]) == '_' or session($search_arr[$i]) == '') {
                 } else {
@@ -160,12 +184,29 @@ class ProdOrderController extends Controller implements HasMiddleware
             }
         }
 
+        if (session('production-order_tanggal') == '_' or session('production-order_tanggal') == '') {
+            if (session('production-order_periode_bulan') == 'all' and session('production-order_periode_tahun') != '_') {
+                $datas = $datas->whereRaw('YEAR(tanggal) = ?', [session('production-order_periode_tahun')]);
+            } elseif (session('production-order_periode_bulan') != 'all' and session('production-order_periode_tahun') != '_') {
+                $datas = $datas->whereRaw('MONTH(tanggal) = ?', [session('production-order_periode_bulan')])
+                    ->whereRaw('YEAR(tanggal) = ?', [session('production-order_periode_tahun')]);
+            }
+        }
+
         $datas = $datas->where('isactive', 1)->where('branch_id', auth()->user()->profile->branch_id);
+
+        // $sql = $datas->toSql();
+        // $bindings = $datas->getBindings();
+        // foreach ($bindings as $binding) {
+        //     $sql = preg_replace('/\?/', "'" . addslashes($binding) . "'", $sql, 1);
+        // }
+        // dd($sql);
+
         $datas = $datas->latest()->paginate(session('production-order_pp'));
 
         $datas->withPath('/production/production-order'); // pagination url to
 
-        $view = view('production-order.partials.table', compact(['datas', 'bulans']))->with('i', (request()->input('page', 1) - 1) * session('production-order_pp'))->render();
+        $view = view('production-order.partials.table', compact(['datas', 'bulans', 'customers']))->with('i', (request()->input('page', 1) - 1) * session('production-order_pp'))->render();
 
         if ($view) {
             return response()->json($view, 200);
@@ -357,8 +398,11 @@ class ProdOrderController extends Controller implements HasMiddleware
 
     public function printRekap(Request $request)
     {
-        $ntahun = $request->year; // date('Y');
-        $nbulan = $request->month; // date('n');
+        $ntanggal = $request['search-tanggal'];
+        $ntahun = $request['search-tahun']; // date('Y');
+        $nbulan = $request['bulan-dropdown']; // date('n');
+        $ncust = $request['customer-dropdown'];
+
         $nbulanini = date('n');
         $nhari = date('w');
         $hari = $this->array_hari[$nhari]['hari']['name'];
@@ -369,19 +413,33 @@ class ProdOrderController extends Controller implements HasMiddleware
         }
         $bulanini = $this->array_bulan[$nbulanini - 1]['bulan']['name'];
 
-        if ($ntahun == '_') {
-            $datas = ViewLaporanProduksi::get();
-        } elseif ($nbulan == 'all') {
-            $datas = ViewLaporanProduksi::where('c15', $ntahun)->get();
+        if ($ntanggal) {
+            $datas = ViewLaporanProduksi::where('c17', $ntanggal);
         } else {
-            $datas = ViewLaporanProduksi::where('c15', $ntahun)->where('c16', $nbulan)->get();
+            if ($ntahun == '') {
+                $datas = ViewLaporanProduksi::get();
+            } elseif ($nbulan == 'all') {
+                $datas = ViewLaporanProduksi::where('c15', $ntahun);
+            } else {
+                $datas = ViewLaporanProduksi::where('c15', $ntahun)->where('c16', $nbulan);
+            }
         }
+
+        if ($ncust !== 'all') {
+            $datas = $datas->where('c18', $ncust);
+            $mcust = Customer::find($ncust);
+            $cust = $mcust->nama;
+        } else {
+            $cust = __('messages.all');
+        }
+
+        $datas = $datas->get();
 
         $namafile = '_laporanproduksi_' . str_replace('@', '(at)', str_replace('.', '_', auth()->user()->email)) . '.pdf';
         session()->put('documents', $namafile);
 
         if (count($datas) > 0) {
-            $pdf = Pdf::loadView('production-order.pdf.lap-prod', ['datas' => $datas, 'bulan' => $bulan, 'bulanini' => $bulanini])
+            $pdf = Pdf::loadView('production-order.pdf.lap-prod', ['datas' => $datas, 'bulan' => $bulan, 'bulanini' => $bulanini, 'cust' => $cust])
                 ->setPaper('a4', 'landscape')
                 ->setOptions(['enable_php' => true]);
 
