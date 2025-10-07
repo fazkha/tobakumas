@@ -88,7 +88,7 @@ class ProdOrderController extends Controller implements HasMiddleware
             $request->session()->put('production-order_periode_tahun', '_');
         }
         if (!$request->session()->exists('production-order_customer')) {
-            $request->session()->put('production-order_customer', '_');
+            $request->session()->put('production-order_customer', 'all');
         }
 
         $search_arr = ['production-order_selesai', 'production-order_tanggal', 'production-order_nomor', 'production-order_customer'];
