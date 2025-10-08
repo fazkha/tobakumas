@@ -107,6 +107,7 @@ Route::prefix('delivery')->middleware('auth')->group(function () {
     Route::resource('order-mitra', DeliveryOrderMitraController::class)->names('delivery-order-mitra');
 
     Route::resource('officer', AreaOfficerController::class)->names('area-officer');
+    Route::get('officer/fetchdb/{pp}/{isactive}/{propinsi}/{kabupaten}', [AreaOfficerController::class, 'fetchdb']);
     Route::get('officer/{officer}/delete', [AreaOfficerController::class, 'delete'])->name('area-officer.delete');
     Route::post('officer/updateDetail/{officer}', [AreaOfficerController::class, 'updateDetail'])->name('area-officer.updateDetail');
 })->missing(function (Request $request) {

@@ -48,36 +48,113 @@
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script type="text/javascript">
-            $("#pp-dropdown, #isactive-dropdown, #propinsi-dropdown, #kabupaten-dropdown").on(
-                "change keyup paste",
-                function() {
-                    var xpp = $('#pp-dropdown option:selected').val();
-                    var xisactive = $('#isactive-dropdown option:selected').val();
-                    var xprop = $('#propinsi-dropdown option:selected').val();
-                    var xkab = $('#kabupaten-dropdown option:selected').val();
+            $(document).ready(function(e) {
+                $("#pp-dropdown, #isactive-dropdown, #propinsi-dropdown, #kabupaten-dropdown").on(
+                    "change keyup paste",
+                    function() {
+                        var xpp = $('#pp-dropdown option:selected').val();
+                        var xisactive = $('#isactive-dropdown option:selected').val();
+                        var xprop = $('#propinsi-dropdown option:selected').val();
+                        var xkab = $('#kabupaten-dropdown option:selected').val();
 
-                    $('#filter-loading').show();
+                        $('#filter-loading').show();
 
-                    var newURL = '{{ url('/delivery/officer') }}';
-                    var newState = {
-                        page: 'index-brandivjabkec'
-                    };
-                    var newTitle = '{{ __('messages.brandivjabkec') }}';
+                        var newURL = '{{ url('/delivery/officer') }}';
+                        var newState = {
+                            page: 'index-brandivjabkec'
+                        };
+                        var newTitle = '{{ __('messages.brandivjabkec') }}';
 
-                    window.history.pushState(newState, newTitle, newURL);
+                        window.history.pushState(newState, newTitle, newURL);
 
-                    $.ajax({
-                        url: '{{ url('/delivery/officer/fetchdb') }}' + "/" + xpp + "/" + xisactive + "/" +
-                            xprop + "/" + xkab,
-                        type: "GET",
-                        dataType: 'json',
-                        success: function(result) {
-                            $('#table-container').html(result);
-                            $("#table-container").focus();
-                            $('#filter-loading').hide();
-                        }
-                    });
-                });
+                        $.ajax({
+                            url: '{{ url('/delivery/officer/fetchdb') }}' + "/" + xpp + "/" + xisactive +
+                                "/" + xprop + "/" + xkab,
+                            type: "GET",
+                            dataType: 'json',
+                            success: function(result) {
+                                $('#table-container').html(result);
+                                $("#table-container").focus();
+                                $('#filter-loading').hide();
+                            }
+                        });
+                    }
+                );
+
+                // $("#propinsi-dropdown").on("change keyup paste", function() {
+                //     var xpr = $('#propinsi-dropdown option:selected').val();
+                //     if (xpr.trim()) {
+                //         xprop = xpr;
+                //     } else {
+                //         xprop = '_';
+                //     }
+
+                //     $.ajax({
+                //         url: '{{ url('/marketing/kecamatan/depend-drop-kab') }}' + "/" + xprop,
+                //         type: "GET",
+                //         dataType: 'json',
+                //         success: function(result) {
+                //             $('#kabupaten-dropdown').empty();
+                //             $('#kecamatan-dropdown').empty();
+                //             $('#kabupaten-dropdown').append($('<option>', {
+                //                 value: null,
+                //                 text: "{{ __('messages.choose') }}..."
+                //             }));
+                //             var data = result.kabs;
+                //             $.each(data, function(item, index) {
+                //                 $('#kabupaten-dropdown').append($('<option>', {
+                //                     value: index,
+                //                     text: item,
+                //                     selected: (index ===
+                //                         {{ old('kabupaten-dropdown') }} ?
+                //                         true : false)
+                //                 }));
+                //             });
+                //             $("#kabupaten-dropdown").focus();
+                //         }
+                //     });
+                // });
+
+                // $("#kabupaten-dropdown").on("change keyup paste", function() {
+                //     var xpr = $('#propinsi-dropdown option:selected').val();
+                //     if (xpr.trim()) {
+                //         xprop = xpr;
+                //     } else {
+                //         xprop = '_';
+                //     }
+                //     var xkb = $('#kabupaten-dropdown option:selected').val();
+                //     if (xkb.trim()) {
+                //         xkab = xkb;
+                //     } else {
+                //         xkab = '_';
+                //     }
+
+                //     $.ajax({
+                //         url: '{{ url('/marketing/kecamatan/depend-drop-kec') }}' + "/" + xprop + "/" +
+                //             xkab,
+                //         type: "GET",
+                //         dataType: 'json',
+                //         success: function(result) {
+                //             $('#kecamatan-dropdown').empty();
+                //             $('#kecamatan-dropdown').append($('<option>', {
+                //                 value: null,
+                //                 text: "{{ __('messages.choose') }}..."
+                //             }));
+                //             var data = result.kecs;
+                //             $.each(data, function(item, index) {
+                //                 $('#kecamatan-dropdown').append($('<option>', {
+                //                     value: index,
+                //                     text: item,
+                //                     selected: (index ===
+                //                         {{ old('kecamatan-dropdown') }} ?
+                //                         true : false)
+                //                 }));
+                //             });
+                //             $("#kecamatan-dropdown").focus();
+                //         }
+                //     });
+                // });
+            });
         </script>
     @endpush
 </x-app-layout>

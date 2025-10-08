@@ -58,7 +58,13 @@ class AreaOfficerController extends Controller implements HasMiddleware
 
             if ($search_arr[$i] == 'area-officer_isactive' || $search_arr[$i] == 'area-officer_propinsi_id' || $search_arr[$i] == 'area-officer_kabupaten_id') {
                 if (session($search_arr[$i]) != 'all') {
-                    $datas = $datas->where([$field => session($search_arr[$i])]);
+                    if ($search_arr[$i] == 'area-officer_propinsi_id') {
+                        $datas = $datas->whereRelation('customer', 'propinsi_id', session($search_arr[$i]));
+                    } elseif ($search_arr[$i] == 'area-officer_kabupaten_id') {
+                        $datas = $datas->whereRelation('customer', 'kabupaten_id', session($search_arr[$i]));
+                    } else {
+                        $datas = $datas->where([$field => session($search_arr[$i])]);
+                    }
                 }
             } else {
                 if (session($search_arr[$i]) == '_' or session($search_arr[$i]) == '') {
@@ -80,7 +86,7 @@ class AreaOfficerController extends Controller implements HasMiddleware
             return redirect()->route('dashboard');
         }
 
-        return view('delivery-officer.index', compact(['datas', 'propinsis', 'kabupatens', 'kecamatans']))->with('i', (request()->input('page', 1) - 1) * session('area-officer_pp'));
+        return view('delivery-officer.index', compact(['datas', 'propinsis', 'kabupatens']))->with('i', (request()->input('page', 1) - 1) * session('area-officer_pp'));
     }
 
     public function fetchdb(Request $request): JsonResponse
@@ -95,14 +101,20 @@ class AreaOfficerController extends Controller implements HasMiddleware
         $propinsis = Propinsi::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $kabupatens = Kabupaten::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $kecamatans = Kecamatan::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $datas = Brandivjabkec::query();
+        $datas = AreaOfficer::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
             $field = substr($search_arr[$i], strlen('area-officer_'));
 
             if ($search_arr[$i] == 'area-officer_isactive' || $search_arr[$i] == 'area-officer_propinsi_id' || $search_arr[$i] == 'area-officer_kabupaten_id') {
                 if (session($search_arr[$i]) != 'all') {
-                    $datas = $datas->where([$field => session($search_arr[$i])]);
+                    if ($search_arr[$i] == 'area-officer_propinsi_id') {
+                        $datas = $datas->whereRelation('customer', 'propinsi_id', session($search_arr[$i]));
+                    } elseif ($search_arr[$i] == 'area-officer_kabupaten_id') {
+                        $datas = $datas->whereRelation('customer', 'kabupaten_id', session($search_arr[$i]));
+                    } else {
+                        $datas = $datas->where([$field => session($search_arr[$i])]);
+                    }
                 }
             } else {
                 if (session($search_arr[$i]) == '_' or session($search_arr[$i]) == '') {
