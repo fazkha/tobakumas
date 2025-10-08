@@ -61,6 +61,7 @@ class AreaOfficerController extends Controller implements HasMiddleware
                     if ($search_arr[$i] == 'area-officer_propinsi_id') {
                         $datas = $datas->whereRelation('customer', 'propinsi_id', session($search_arr[$i]));
                     } elseif ($search_arr[$i] == 'area-officer_kabupaten_id') {
+                        // dd(session($search_arr[$i]));
                         $datas = $datas->whereRelation('customer', 'kabupaten_id', session($search_arr[$i]));
                     } else {
                         $datas = $datas->where([$field => session($search_arr[$i])]);

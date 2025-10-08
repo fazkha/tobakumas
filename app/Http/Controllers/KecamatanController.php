@@ -203,7 +203,11 @@ class KecamatanController extends Controller implements HasMiddleware
     {
         $pr = $request->pr;
 
-        $kabs = Kabupaten::where('isactive', 1)->where('propinsi_id', $pr)->orderBy('nama')->pluck('id', 'nama');
+        if ($pr == 'all') {
+            $kabs = Kabupaten::where('isactive', 1)->orderBy('nama')->pluck('id', 'nama');
+        } else {
+            $kabs = Kabupaten::where('isactive', 1)->where('propinsi_id', $pr)->orderBy('nama')->pluck('id', 'nama');
+        }
 
         return response()->json([
             'status' => 200,

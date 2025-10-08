@@ -78,42 +78,30 @@
                                 $('#filter-loading').hide();
                             }
                         });
+
+                        $.ajax({
+                            url: '{{ url('/marketing/kecamatan/depend-drop-kab') }}' + "/" + xprop,
+                            type: "GET",
+                            dataType: 'json',
+                            success: function(result) {
+                                $('#kabupaten-dropdown').empty();
+                                $('#kabupaten-dropdown').append($('<option>', {
+                                    value: 'all',
+                                    text: "{{ __('messages.all') }}"
+                                }));
+                                var data = result.kabs;
+                                $.each(data, function(item, index) {
+                                    $('#kabupaten-dropdown').append($('<option>', {
+                                        value: index,
+                                        text: item,
+                                        selected: (index == xkab ? true : false)
+                                    }));
+                                });
+                                $("#kabupaten-dropdown").focus();
+                            }
+                        });
                     }
                 );
-
-                // $("#propinsi-dropdown").on("change keyup paste", function() {
-                //     var xpr = $('#propinsi-dropdown option:selected').val();
-                //     if (xpr.trim()) {
-                //         xprop = xpr;
-                //     } else {
-                //         xprop = '_';
-                //     }
-
-                //     $.ajax({
-                //         url: '{{ url('/marketing/kecamatan/depend-drop-kab') }}' + "/" + xprop,
-                //         type: "GET",
-                //         dataType: 'json',
-                //         success: function(result) {
-                //             $('#kabupaten-dropdown').empty();
-                //             $('#kecamatan-dropdown').empty();
-                //             $('#kabupaten-dropdown').append($('<option>', {
-                //                 value: null,
-                //                 text: "{{ __('messages.choose') }}..."
-                //             }));
-                //             var data = result.kabs;
-                //             $.each(data, function(item, index) {
-                //                 $('#kabupaten-dropdown').append($('<option>', {
-                //                     value: index,
-                //                     text: item,
-                //                     selected: (index ===
-                //                         {{ old('kabupaten-dropdown') }} ?
-                //                         true : false)
-                //                 }));
-                //             });
-                //             $("#kabupaten-dropdown").focus();
-                //         }
-                //     });
-                // });
 
                 // $("#kabupaten-dropdown").on("change keyup paste", function() {
                 //     var xpr = $('#propinsi-dropdown option:selected').val();
