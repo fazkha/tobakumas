@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AreaOfficerController;
+use App\Http\Controllers\BarangController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\BrandivjabController;
 use App\Http\Controllers\BrandivjabkecController;
@@ -10,31 +12,30 @@ use App\Http\Controllers\DeliveryOrderController;
 use App\Http\Controllers\DeliveryOrderDetailController;
 use App\Http\Controllers\DeliveryOrderMitraController;
 use App\Http\Controllers\DivisionController;
-use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\GudangController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\KabupatenController;
 use App\Http\Controllers\KecamatanController;
+use App\Http\Controllers\KonversiController;
 use App\Http\Controllers\LocaleController;
+use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\ProdOrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PropinsiController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\PurchasePlanController;
+use App\Http\Controllers\PurchaseReceiptController;
 use App\Http\Controllers\QRController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\SaleInvoiceController;
 use App\Http\Controllers\SaleOrderController;
-use App\Http\Controllers\SupplierController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\BarangController;
-use App\Http\Controllers\GudangController;
-use App\Http\Controllers\KonversiController;
-use App\Http\Controllers\PurchaseReceiptController;
 use App\Http\Controllers\SatuanController;
 use App\Http\Controllers\StockAdjustmentController;
 use App\Http\Controllers\StockOpnameController;
+use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
@@ -104,6 +105,10 @@ Route::prefix('delivery')->middleware('auth')->group(function () {
     Route::get('order/finish-order/{order}', [DeliveryOrderController::class, 'finishOrder']);
     Route::resource('order-detail', DeliveryOrderDetailController::class)->names('delivery-order-detail');
     Route::resource('order-mitra', DeliveryOrderMitraController::class)->names('delivery-order-mitra');
+
+    Route::resource('officer', AreaOfficerController::class)->names('area-officer');
+    Route::get('officer/{officer}/delete', [AreaOfficerController::class, 'delete'])->name('area-officer.delete');
+    Route::post('officer/updateDetail/{officer}', [AreaOfficerController::class, 'updateDetail'])->name('area-officer.updateDetail');
 })->missing(function (Request $request) {
     return Redirect::route('dashboard');
 });
@@ -135,6 +140,7 @@ Route::prefix('marketing')->middleware('auth')->group(function () {
     Route::get('kecamatan/{kecamatan}/delete', [KecamatanController::class, 'delete'])->name('kecamatan.delete');
     Route::get('kecamatan/fetchdb/{pp}/{isactive}/{nama}', [KecamatanController::class, 'fetchdb'])->defaults('nama', '_');
     Route::get('kecamatan/depend-drop-kab/{pr}', [KecamatanController::class, 'dependDropKab'])->defaults('pr', '_');
+    Route::get('kecamatan/depend-drop-kec/{pr}/{kb}', [KecamatanController::class, 'dependDropKec'])->defaults('pr', '_')->defaults('kb', '_');
 
     Route::resource('brandivjabkec', BrandivjabkecController::class);
     Route::get('brandivjabkec/{brandivjabkec}/delete', [BrandivjabkecController::class, 'delete'])->name('brandivjabkec.delete');

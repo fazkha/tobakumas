@@ -853,7 +853,8 @@
             @endcan
 
             @can('delivery-list')
-                <div x-data="{{ substr(request()->getRequestUri(), 0, 15) == '/delivery/order'
+                <div x-data="{{ substr(request()->getRequestUri(), 0, 15) == '/delivery/order' ||
+                substr(request()->getRequestUri(), 0, 17) == '/delivery/officer'
                     ? '{isActive: true, open: true, currentlyOpen: "' . $controllerName . '"}'
                     : '{isActive: false, open: false, currentlyOpen: ""}' }}">
                     <a href="#" @click="$event.preventDefault(); open = !open"
@@ -877,6 +878,35 @@
                             </svg>
                         </span>
                     </a>
+                    @can('delivery-edit')
+                        <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="delivery">
+                            <a href="{{ route('area-officer.index') }}" role="menuitem"
+                                class="block p-2 text-sm text-gray-500 transition-colors duration-200 rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary">
+                                <span class="flex flex-row gap-1"
+                                    :class="{
+                                        'border-b border-b-1 border-primary-100 dark:border-primary-700': currentlyOpen ==
+                                            'areaofficer'
+                                    }">
+                                    <svg class="size-5" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <g id="style=linear">
+                                            <g id="notification-direct">
+                                                <path id="vector"
+                                                    d="M2.99219 14L6.49219 14C7.1217 14 7.71448 14.2964 8.09219 14.8L9.14219 16.2C9.5199 16.7036 10.1127 17 10.7422 17L11.9922 17L13.2422 17C13.8717 17 14.4645 16.7036 14.8422 16.2L15.8922 14.8C16.2699 14.2964 16.8627 14 17.4922 14L20.9922 14"
+                                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                                <path id="vector_2"
+                                                    d="M13.8469 2.75L8.74219 2.75C5.42848 2.75 2.74219 5.43629 2.74219 8.75L2.74219 15.2578C2.74219 18.5715 5.42848 21.2578 8.74218 21.2578L15.25 21.2578C18.5637 21.2578 21.25 18.5715 21.25 15.2578L21.25 10.1531"
+                                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                                <circle id="vector_3" cx="18.4738" cy="5.52617" r="2.77617"
+                                                    stroke="currentColor" stroke-width="1.5" />
+                                            </g>
+                                        </g>
+                                    </svg>
+                                    @lang('messages.brandivjabkec')
+                                </span>
+                            </a>
+                        </div>
+                    @endcan
                     @can('delivery-list')
                         <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="delivery">
                             <a href="{{ route('delivery-order.index') }}" role="menuitem"

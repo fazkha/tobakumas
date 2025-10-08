@@ -9,6 +9,9 @@ use App\Models\Salelastnumber;
 use App\Http\Requests\CustomerRequest;
 use App\Http\Requests\CustomerUpdateRequest;
 use App\Models\CustomerGroup;
+use App\Models\Kabupaten;
+use App\Models\Kecamatan;
+use App\Models\Propinsi;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
@@ -140,8 +143,11 @@ class CustomerController extends Controller implements HasMiddleware
         $branch_id = auth()->user()->profile->branch_id;
         $branch = Branch::find($branch_id);
         $groups = CustomerGroup::where('isactive', 1)->pluck('nama', 'id');
+        $propinsis = Propinsi::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+        $kabupatens = Kabupaten::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+        $kecamatans = Kecamatan::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
 
-        return view('customer.create', compact('branch_id', 'branch', 'groups'));
+        return view('customer.create', compact('branch_id', 'branch', 'groups', 'propinsis', 'kabupatens', 'kecamatans'));
     }
 
     public function store(CustomerRequest $request): RedirectResponse
@@ -150,6 +156,9 @@ class CustomerController extends Controller implements HasMiddleware
             $customer = Customer::create([
                 'branch_id' => $request->branch_id,
                 'customer_group_id' => $request->customer_group_id,
+                'propinsi_id' => $request->propinsi_id,
+                'kabupaten_id' => $request->kabupaten_id,
+                'kecamatan_id' => $request->kecamatan_id,
                 'kode' => $request->kode,
                 'nama' => $request->nama,
                 'alamat' => $request->alamat,
@@ -181,8 +190,11 @@ class CustomerController extends Controller implements HasMiddleware
     {
         $datas = Customer::find(Crypt::decrypt($request->customer));
         $groups = CustomerGroup::where('isactive', 1)->pluck('nama', 'id');
+        $propinsis = Propinsi::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+        $kabupatens = Kabupaten::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+        $kecamatans = Kecamatan::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
 
-        return view('customer.edit', compact(['datas', 'groups']));
+        return view('customer.edit', compact(['datas', 'groups', 'propinsis', 'kabupatens', 'kecamatans']));
     }
 
     public function update(CustomerUpdateRequest $request): RedirectResponse
@@ -193,6 +205,9 @@ class CustomerController extends Controller implements HasMiddleware
 
             $customer->update([
                 'customer_group_id' => $request->customer_group_id,
+                'propinsi_id' => $request->propinsi_id,
+                'kabupaten_id' => $request->kabupaten_id,
+                'kecamatan_id' => $request->kecamatan_id,
                 'kode' => $request->kode,
                 'nama' => $request->nama,
                 'alamat' => $request->alamat,

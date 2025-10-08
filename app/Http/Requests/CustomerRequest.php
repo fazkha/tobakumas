@@ -16,6 +16,9 @@ class CustomerRequest extends FormRequest
         return [
             'branch_id' => ['required', 'exists:branches,id'],
             'customer_group_id' => ['required', 'exists:customer_groups,id'],
+            'propinsi_id' => ['required', 'exists:propinsis,id'],
+            'kabupaten_id' => ['required', 'exists:kabupatens,id'],
+            'kecamatan_id' => ['required', 'exists:kecamatans,id'],
             'kode' => ['required', 'string', 'min:3', 'max:200'],
             'nama' => ['required', 'string', 'max:200'],
             'alamat' => ['required', 'string', 'max:200'],

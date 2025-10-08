@@ -15,6 +15,9 @@ class Customer extends Model
     protected $fillable = [
         'branch_id',
         'customer_group_id',
+        'propinsi_id',
+        'kabupaten_id',
+        'kecamatan_id',
         'kode',
         'nama',
         'alamat',
@@ -30,6 +33,21 @@ class Customer extends Model
     public function branch()
     {
         return $this->belongsTo(Branch::class);
+    }
+
+    public function propinsi()
+    {
+        return $this->belongsTo(Propinsi::class);
+    }
+
+    public function kabupaten()
+    {
+        return $this->belongsTo(Kabupaten::class);
+    }
+
+    public function kecamatan()
+    {
+        return $this->belongsTo(Kecamatan::class);
     }
 
     public function customer_group()

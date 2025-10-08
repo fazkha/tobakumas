@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('branch_id')->constrained()->onUpdate('cascade')->onDelete('set null');
             $table->foreignId('customer_group_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('kecamatan_id')->constrained()->onUpdate('cascade')->onDelete('set null');
             $table->string('kode');
             $table->string('nama');
             $table->string('alamat')->nullable();

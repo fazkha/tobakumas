@@ -49,8 +49,8 @@
                                 <div class="w-full lg:w-1/2 px-2">
 
                                     <div class="w-auto pb-4">
-                                        <label for="branch_id"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.branch')</label>
+                                        <span for="branch_id"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.branch')</span>
                                         <input type="hidden" name="branch_id" value="{{ $datas->branch_id }}" />
                                         <x-text-span>{{ $datas->branch->nama }}</x-text-span>
                                     </div>
@@ -101,6 +101,54 @@
 
                                         <x-input-error class="mt-2" :messages="$errors->get('alamat')" />
                                     </div>
+
+                                    <div class="w-auto pb-4">
+                                        <label for="propinsi_id"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.propinsi')</label>
+                                        <select name="propinsi_id" id="propinsi_id" tabindex="5" required
+                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                            <option value="">@lang('messages.choose')...</option>
+                                            @foreach ($propinsis as $id => $name)
+                                                <option value="{{ $id }}"
+                                                    {{ $datas->propinsi_id == $id ? 'selected' : '' }}>
+                                                    {{ $name }}</option>
+                                            @endforeach
+                                        </select>
+
+                                        <x-input-error class="mt-2" :messages="$errors->get('propinsi_id')" />
+                                    </div>
+
+                                    <div class="w-auto pb-4">
+                                        <label for="kabupaten_id"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.kabupaten')</label>
+                                        <select name="kabupaten_id" id="kabupaten_id" tabindex="6" required
+                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                            <option value="">@lang('messages.choose')...</option>
+                                            @foreach ($kabupatens as $id => $name)
+                                                <option value="{{ $id }}"
+                                                    {{ $datas->kabupaten_id == $id ? 'selected' : '' }}>
+                                                    {{ $name }}</option>
+                                            @endforeach
+                                        </select>
+
+                                        <x-input-error class="mt-2" :messages="$errors->get('kabupaten_id')" />
+                                    </div>
+
+                                    <div class="w-auto pb-4">
+                                        <label for="kecamatan_id"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.kecamatan')</label>
+                                        <select name="kecamatan_id" id="kecamatan_id" tabindex="6" required
+                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                            <option value="">@lang('messages.choose')...</option>
+                                            @foreach ($kecamatans as $id => $name)
+                                                <option value="{{ $id }}"
+                                                    {{ $datas->kecamatan_id == $id ? 'selected' : '' }}>
+                                                    {{ $name }}</option>
+                                            @endforeach
+                                        </select>
+
+                                        <x-input-error class="mt-2" :messages="$errors->get('kecamatan_id')" />
+                                    </div>
                                 </div>
 
                                 <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
@@ -117,7 +165,8 @@
                                     <div class="w-auto pb-4">
                                         <label for="kontak_nama"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.contactname')</label>
-                                        <x-text-input type="text" name="kontak_nama" id="kontak_nama" tabindex="6"
+                                        <x-text-input type="text" name="kontak_nama" id="kontak_nama"
+                                            tabindex="6"
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.contactname') }}"
                                             value="{{ old('kontak_nama', $datas->kontak_nama) }}" />
 
@@ -190,5 +239,84 @@
     </form>
 
     @push('scripts')
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <script type="text/javascript">
+            $(document).ready(function(e) {
+                $("#propinsi_id").on("change keyup paste", function() {
+                    var xpr = $('#propinsi_id option:selected').val();
+                    if (xpr.trim()) {
+                        xprop = xpr;
+                    } else {
+                        xprop = '_';
+                    }
+
+                    $.ajax({
+                        url: '{{ url('/marketing/kecamatan/depend-drop-kab') }}' + "/" + xprop,
+                        type: "GET",
+                        dataType: 'json',
+                        success: function(result) {
+                            $('#kabupaten_id').empty();
+                            $('#kecamatan_id').empty();
+                            $('#kabupaten_id').append($('<option>', {
+                                value: null,
+                                text: "{{ __('messages.choose') }}..."
+                            }));
+                            var data = result.kabs;
+                            $.each(data, function(item, index) {
+                                $('#kabupaten_id').append($('<option>', {
+                                    value: index,
+                                    text: item,
+                                    selected: (index ===
+                                        {{ $datas->kabupaten_id }} ?
+                                        true : false)
+                                }));
+                            });
+                            $("#kabupaten_id").focus();
+                        }
+                    });
+                });
+
+                $("#kabupaten_id").on("change keyup paste", function() {
+                    var xpr = $('#propinsi_id option:selected').val();
+                    if (xpr.trim()) {
+                        xprop = xpr;
+                    } else {
+                        xprop = '_';
+                    }
+                    var xkb = $('#kabupaten_id option:selected').val();
+                    if (xkb.trim()) {
+                        xkab = xkb;
+                    } else {
+                        xkab = '_';
+                    }
+
+                    $.ajax({
+                        url: '{{ url('/marketing/kecamatan/depend-drop-kec') }}' + "/" + xprop + "/" +
+                            xkab,
+                        type: "GET",
+                        dataType: 'json',
+                        success: function(result) {
+                            $('#kecamatan_id').empty();
+                            $('#kecamatan_id').append($('<option>', {
+                                value: null,
+                                text: "{{ __('messages.choose') }}..."
+                            }));
+                            var data = result.kecs;
+                            $.each(data, function(item, index) {
+                                $('#kecamatan_id').append($('<option>', {
+                                    value: index,
+                                    text: item,
+                                    selected: (index ===
+                                        {{ $datas->kecamatan_id }} ?
+                                        true : false)
+                                }));
+                            });
+                            $("#kecamatan_id").focus();
+                        }
+                    });
+                });
+            });
+        </script>
     @endpush
 </x-app-layout>

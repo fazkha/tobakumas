@@ -210,4 +210,17 @@ class KecamatanController extends Controller implements HasMiddleware
             'kabs' => $kabs,
         ]);
     }
+
+    public function dependDropKec(Request $request): JsonResponse
+    {
+        $pr = $request->pr;
+        $kb = $request->kb;
+
+        $kecs = Kecamatan::where('isactive', 1)->where('propinsi_id', $pr)->where('kabupaten_id', $kb)->orderBy('nama')->pluck('id', 'nama');
+
+        return response()->json([
+            'status' => 200,
+            'kecs' => $kecs,
+        ]);
+    }
 }
