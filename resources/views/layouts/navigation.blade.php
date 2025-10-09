@@ -1042,11 +1042,7 @@
                         <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="delivery">
                             <a href="{{ route('area-officer.index') }}" role="menuitem"
                                 class="block p-2 text-sm text-gray-500 transition-colors duration-200 rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary">
-                                <span class="flex flex-row gap-1"
-                                    :class="{
-                                        'border-b border-b-1 border-primary-100 dark:border-primary-700': currentlyOpen ==
-                                            'areaofficer'
-                                    }">
+                                <span class="flex flex-row gap-1">
                                     <svg class="size-5" viewBox="0 0 24 24" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <g id="style=linear">

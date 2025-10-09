@@ -102,46 +102,6 @@
                         });
                     }
                 );
-
-                // $("#kabupaten-dropdown").on("change keyup paste", function() {
-                //     var xpr = $('#propinsi-dropdown option:selected').val();
-                //     if (xpr.trim()) {
-                //         xprop = xpr;
-                //     } else {
-                //         xprop = '_';
-                //     }
-                //     var xkb = $('#kabupaten-dropdown option:selected').val();
-                //     if (xkb.trim()) {
-                //         xkab = xkb;
-                //     } else {
-                //         xkab = '_';
-                //     }
-
-                //     $.ajax({
-                //         url: '{{ url('/marketing/kecamatan/depend-drop-kec') }}' + "/" + xprop + "/" +
-                //             xkab,
-                //         type: "GET",
-                //         dataType: 'json',
-                //         success: function(result) {
-                //             $('#kecamatan-dropdown').empty();
-                //             $('#kecamatan-dropdown').append($('<option>', {
-                //                 value: null,
-                //                 text: "{{ __('messages.choose') }}..."
-                //             }));
-                //             var data = result.kecs;
-                //             $.each(data, function(item, index) {
-                //                 $('#kecamatan-dropdown').append($('<option>', {
-                //                     value: index,
-                //                     text: item,
-                //                     selected: (index ===
-                //                         {{ old('kecamatan-dropdown') }} ?
-                //                         true : false)
-                //                 }));
-                //             });
-                //             $("#kecamatan-dropdown").focus();
-                //         }
-                //     });
-                // });
             });
         </script>
     @endpush
