@@ -10,9 +10,7 @@ class DeliveryPackage extends Model
     protected $table = 'delivery_packages';
 
     protected $fillable = [
-        'branch_id',
-        'delivery_order_id',
-        'sale_order_id',
+        'delivery_officer_id',
         'barang_id',
         'satuan_id',
         'harga_satuan',

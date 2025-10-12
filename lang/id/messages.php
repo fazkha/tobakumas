@@ -248,4 +248,5 @@ return [
     'notfound' => 'Data tidak ditemukan',
     'target' => 'Sasaran',
     'damage' => 'Rusak',
+    'deliveryordernumber' => 'No. Transaksi Pengiriman',
 ];

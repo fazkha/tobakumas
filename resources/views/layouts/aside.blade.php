@@ -914,7 +914,7 @@
                                 <span class="flex flex-row gap-1"
                                     :class="{
                                         'border-b border-b-1 border-primary-100 dark:border-primary-700': currentlyOpen ==
-                                            'deliveryorder'
+                                            'deliveryofficer'
                                     }">
                                     <svg class="w-5 h-5" viewBox="0 0 48 48" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">

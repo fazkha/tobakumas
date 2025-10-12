@@ -249,4 +249,5 @@ return [
     'notfound' => 'Data not found',
     'target' => 'Target',
     'damage' => 'Damage',
+    'deliveryordernumber' => 'Delivery Order Number',
 ];

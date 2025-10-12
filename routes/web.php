@@ -8,6 +8,7 @@ use App\Http\Controllers\BrandivjabkecController;
 use App\Http\Controllers\BrandivjabpegController;
 use App\Http\Controllers\CoaController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DeliveryOfficerController;
 use App\Http\Controllers\DeliveryOrderController;
 use App\Http\Controllers\DeliveryOrderDetailController;
 use App\Http\Controllers\DeliveryOrderMitraController;
@@ -100,13 +101,14 @@ Route::prefix('purchase')->middleware('auth')->group(function () {
 });
 
 Route::prefix('delivery')->middleware('auth')->group(function () {
-    Route::resource('order', DeliveryOrderController::class)->names('delivery-order');
-    Route::get('order/fetchdb/{pp}/{isdelivered}/{customer}/{tanggal}/{alamat}', [DeliveryOrderController::class, 'fetchdb'])->defaults('alamat', '_')->defaults('tanggal', '_');
-    Route::get('order/finish-order/{order}', [DeliveryOrderController::class, 'finishOrder']);
-    Route::post('order/store-package/{order}', [DeliveryOrderController::class, 'storePackage']);
-    Route::delete('order/delete-package/{package}', [DeliveryOrderController::class, 'deletePackage']);
-    Route::resource('order-detail', DeliveryOrderDetailController::class)->names('delivery-order-detail');
-    Route::resource('order-mitra', DeliveryOrderMitraController::class)->names('delivery-order-mitra');
+    Route::resource('order', DeliveryOfficerController::class)->names('delivery-order');
+    Route::get('order/fetchdb/{pp}/{isdone}/{propinsi}/{kabupaten}', [DeliveryOfficerController::class, 'fetchdb']);
+    Route::get('order/{order}/delete', [DeliveryOfficerController::class, 'delete'])->name('delivery-order.delete');
+    Route::post('order/store-package/{package}', [DeliveryOfficerController::class, 'storePackage']);
+    Route::delete('order/delete-package/{package}', [DeliveryOfficerController::class, 'deletePackage']);
+    // Route::get('order/finish-order/{order}', [DeliveryOrderController::class, 'finishOrder']);
+    // Route::resource('order-detail', DeliveryOrderDetailController::class)->names('delivery-order-detail');
+    // Route::resource('order-mitra', DeliveryOrderMitraController::class)->names('delivery-order-mitra');
 
     Route::resource('officer', AreaOfficerController::class)->names('area-officer');
     Route::get('officer/fetchdb/{pp}/{isactive}/{propinsi}/{kabupaten}', [AreaOfficerController::class, 'fetchdb']);
