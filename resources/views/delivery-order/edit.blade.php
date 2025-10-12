@@ -198,424 +198,288 @@
         <div class="flex flex-col lg:flex-row gap-4 px-4 py-2">
             <div class="w-full">
                 <div class="flex flex-col items-center">
+
+                    <form id="package-form" method="POST" enctype="multipart/form-data" class="w-full">
+                        @csrf
+
+                        {{-- Package --}}
+                        <div
+                            class="w-full shadow-lg bg-primary-50 rounded-md border border-primary-100 dark:bg-primary-900 dark:border-primary-800">
+                            <div class="p-4 space-y-2">
+                                <div class="flex flex-row items-center gap-2">
+                                    <svg class="size-5" version="1.1" id="Capa_1"
+                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        x="0px" y="0px" viewBox="0 0 458.868 458.868"
+                                        style="enable-background:new 0 0 458.868 458.868;" xml:space="preserve">
+                                        <path
+                                            d="M451.986,36.005c-5.813-2.55-12.599,0.093-15.152,5.91l-41.289,94.088H63.323L22.034,41.915 c-2.552-5.816-9.338-8.46-15.152-5.91c-5.816,2.552-8.462,9.336-5.91,15.152L46.36,154.584v249.972 c0,10.63,8.648,19.278,19.278,19.278H394.26c10.63,0,19.278-8.648,19.278-19.278V152.237l44.358-101.08 C460.448,45.341,457.802,38.558,451.986,36.005z M195.003,159.003h66v149.538h-66V159.003z M390.538,400.835H69.36V159.003h102.643 v161.038c0,6.351,5.149,11.5,11.5,11.5h89c6.351,0,11.5-5.149,11.5-11.5V159.003h106.535V400.835z" />
+                                    </svg>
+                                    <span class="block font-medium text-primary-600 dark:text-primary-500">
+                                        @lang('messages.packaging')
+                                    </span>
+                                </div>
+
+                                <div
+                                    class="border rounded-md border-primary-100 bg-primary-100 dark:border-primary-800 dark:bg-primary-850">
+                                    <div class="p-2 overflow-scroll md:overflow-auto lg:overflow-hidden">
+                                        <table id="order_table" class="w-full border-separate border-spacing-2">
+                                            <thead>
+                                                <tr>
+                                                    <th class="w-1/5">@lang('messages.package')</th>
+                                                    <th class="w-1/6">@lang('messages.unitprice')</th>
+                                                    <th class="w-auto">@lang('messages.unit')</th>
+                                                    <th class="w-auto">@lang('messages.quantity')</th>
+                                                    <th class="w-auto">@lang('messages.subtotalprice') (@lang('messages.currencysymbol'))</th>
+                                                    <th class="w-auto">&nbsp;</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody id="packageBody">
+                                                @include('delivery-order.partials.details', [
+                                                    $packages,
+                                                    'viewMode' => false,
+                                                ])
+                                            </tbody>
+
+                                            <tbody>
+                                                <tr>
+                                                    <td class="align-top">
+                                                        <input type="hidden" id="delivery_order_id"
+                                                            name="delivery_order_id" value="{{ $datas->id }}" />
+                                                        <input type="hidden" id="sale_order_id" name="sale_order_id"
+                                                            value="{{ $datas->sale_order_id }}" />
+                                                        <select id="barang_id" name="barang_id" required
+                                                            tabindex="9"
+                                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                                            <option value="">@lang('messages.choose')...</option>
+                                                            @foreach ($barangs as $id => $name)
+                                                                <option value="{{ $id }}">
+                                                                    {{ $name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </td>
+                                                    <td class="align-top">
+                                                        <x-text-input type="number" min="0" id="harga_satuan"
+                                                            name="harga_satuan" required tabindex="10" readonly />
+                                                    </td>
+                                                    <td class="align-top">
+                                                        <select id="satuan_id" name="satuan_id" required
+                                                            tabindex="11"
+                                                            class="readonly-select w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                                            <option value="">@lang('messages.choose')...</option>
+                                                            @foreach ($satuans as $id => $name)
+                                                                <option value="{{ $id }}">
+                                                                    {{ $name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </td>
+                                                    <td class="align-top">
+                                                        <x-text-input type="number" min="0" id="kuantiti"
+                                                            name="kuantiti" required tabindex="12" />
+                                                    </td>
+                                                    <td class="align-top">
+                                                        <x-text-span id="disp-sub_harga"
+                                                            class="text-right">0</x-text-span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+
+                                            <tfoot>
+                                                <tr>
+                                                    <td class="align-top text-center" colspan="4">
+                                                        <x-text-span class="font-extrabold">@lang('messages.totalprice')
+                                                            (@lang('messages.currencysymbol'))</x-text-span>
+                                                    </td>
+                                                    <td class="align-top">
+                                                        <x-text-span id="disp-total_harga-detail"
+                                                            class="font-extrabold text-right">{{ number_format($totals['sub_price'], 0, ',', '.') }}</x-text-span>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+
+                                        <div class="mt-4 mb-4 mr-4 flex flex-row flex-wrap justify-end gap-2 md:gap-4">
+                                            <x-primary-button id="submit-detail" tabindex="13">
+                                                <div id="icon-save" class="block">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                        class="size-5">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
+                                                    </svg>
+                                                </div>
+                                                <span class="pl-1">@lang('messages.save')</span>
+                                            </x-primary-button>
+                                            <x-anchor-secondary href="{{ route('delivery-order.index') }}"
+                                                tabindex="14">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                    class="size-5">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M6 18 18 6M6 6l12 12" />
+                                                </svg>
+                                                <span class="pl-1">@lang('messages.close')</span>
+                                            </x-anchor-secondary>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-4 px-4 py-2">
+            <div class="w-full lg:w-1/2">
+                <div class="flex flex-col items-center">
+
+                    {{-- Detail --}}
                     <div
                         class="w-full shadow-lg bg-primary-50 rounded-md border border-primary-100 dark:bg-primary-900 dark:border-primary-800">
                         <div class="p-4 space-y-2">
                             <div class="flex flex-row items-center gap-2">
-                                <svg class="size-5" viewBox="0 0 16 16" version="1.1"
-                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                    <path fill="currentColor"
-                                        d="M8 0l-8 2v10l8 4 8-4v-10l-8-2zM8 1l2.1 0.5-5.9 1.9-2.3-0.8 6.1-1.6zM8 14.9l-7-3.5v-8.1l3 1v3.4l1 0.3v-3.3l3 1v9.2zM8.5 4.8l-2.7-0.9 6.2-1.9 2.4 0.6-5.9 2.2z">
-                                    </path>
+                                <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
+                                    viewBox="0 0 52 52" enable-background="new 0 0 52 52" xml:space="preserve">
+                                    <g>
+                                        <path
+                                            d="M24.3,36.5c0.7,0,1.4,0.1,2,0.3L15.5,6.2c0,0,0,0,0,0l-1-3c-0.3-0.9-1.2-1.3-2-1L3.1,5.3 c-0.9,0.3-1.3,1.2-1,2l1,3c0.3,0.9,1.2,1.3,2,1L10,9.7l9.9,28.1C21.2,37,22.7,36.5,24.3,36.5z" />
+                                        <path
+                                            d="M41.2,29.2l-9.9,3.5c-1,0.4-2.2-0.2-2.5-1.2l-3.5-9.9c-0.4-1,0.2-2.2,1.2-2.5l9.9-3.5 c1-0.4,2.2,0.2,2.5,1.2l3.5,9.9C42.8,27.7,42.2,28.8,41.2,29.2z" />
+                                        <path
+                                            d="M31.8,12.9l-6.7,2.3c-1,0.4-2.2-0.2-2.5-1.2l-2.3-6.7c-0.4-1,0.2-2.2,1.2-2.5l6.7-2.3 c1-0.4,2.2,0.2,2.5,1.2l2.3,6.7C33.4,11.3,32.9,12.5,31.8,12.9z" />
+                                        <path
+                                            d="M49.9,35.5l-1-3c-0.3-0.9-1.2-1.3-2-1l-18.2,6.3c1.9,1.2,3.2,3.2,3.6,5.5l16.7-5.7 C49.8,37.3,50.2,36.4,49.9,35.5z" />
+                                        <path
+                                            d="M24.3,39.1c-3,0-5.5,2.5-5.5,5.5c0,3,2.5,5.5,5.5,5.5s5.5-2.5,5.5-5.5C29.8,41.5,27.3,39.1,24.3,39.1z" />
+                                    </g>
                                 </svg>
                                 <span class="block font-medium text-primary-600 dark:text-primary-500">
-                                    @lang('messages.packagespecification')
+                                    @lang('messages.solditem')
                                 </span>
                             </div>
 
-                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                @foreach ($pakets as $id => $name)
-                                    @php
-                                        $paketdetails = App\Models\PaketDetail::where('paket_id', $id)->get();
-                                    @endphp
-                                    <div
-                                        class="flex flex-row items-center justify-start shadow rounded-md border border-solid border-primary-100 dark:border-primary-800">
-                                        <div
-                                            class="px-4 py-2 border border-primary-100 bg-primary-20 dark:border-primary-800 dark:bg-primary-850">
-                                            <span class="text-sm font-bold">{{ $name }}</span>
-                                        </div>
-                                        <div class="px-4 py-2 flex flex-col gap-2">
-                                            @foreach ($paketdetails as $paketdetail)
-                                                <span
-                                                    class="text-sm">{{ '📦 ' . $paketdetail->barang->nama . ': ' . number_format($paketdetail->kuantiti, 0, ',', '.') . ' ' . $paketdetail->satuan->singkatan }}</span>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                @endforeach
+                            <div
+                                class="border rounded-md border-primary-100 bg-primary-100 dark:border-primary-800 dark:bg-primary-850">
+                                <div class="p-2 overflow-scroll md:overflow-auto lg:overflow-hidden">
+                                    <table id="order_table" class="w-full border-separate border-spacing-2">
+                                        <thead>
+                                            <tr>
+                                                <th class="w-auto">@lang('messages.goods')</th>
+                                                <th class="w-auto">@lang('messages.description')</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            @if ($details->count() > 0)
+                                                @foreach ($details as $detail)
+                                                    <tr>
+                                                        <td class="align-top">
+                                                            <input type="hidden" id="detail_id" name="detail_id[]"
+                                                                value="{{ $detail->id }}" />
+                                                            <x-text-span>{{ $detail->view_order_detail->barang }}</x-text-span>
+                                                        </td>
+                                                        <td class="align-top">
+                                                            <x-text-span>{{ $detail->order_detail->keterangan ? $detail->order_detail->keterangan : '-' }}</x-text-span>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @endif
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="mt-4 mb-4 mr-4 flex flex-row flex-wrap justify-end gap-2 md:gap-4">
+                                    <x-anchor-secondary href="{{ route('delivery-order.index') }}" tabindex="14">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="size-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M6 18 18 6M6 6l12 12" />
+                                        </svg>
+                                        <span class="pl-1">@lang('messages.close')</span>
+                                    </x-anchor-secondary>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="flex flex-col lg:flex-row gap-4 px-4 py-2">
-            <div class="w-full">
-                <div class="flex flex-col items-center">
-
-                    <form id="detail-form"
-                        action="{{ route('delivery-order-detail.update', Crypt::Encrypt($datas->id)) }}"
-                        method="POST" enctype="multipart/form-data" class="w-full">
-                        @csrf
-                        @method('PUT')
-
-                        {{-- Detail --}}
-                        <div
-                            class="w-full shadow-lg bg-primary-50 rounded-md border border-primary-100 dark:bg-primary-900 dark:border-primary-800">
-                            <div class="p-4 space-y-2">
-                                <div class="flex flex-row items-center gap-2">
-                                    <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
-                                        viewBox="0 0 52 52" enable-background="new 0 0 52 52" xml:space="preserve">
-                                        <g>
-                                            <path d="M24.3,36.5c0.7,0,1.4,0.1,2,0.3L15.5,6.2c0,0,0,0,0,0l-1-3c-0.3-0.9-1.2-1.3-2-1L3.1,5.3
-  c-0.9,0.3-1.3,1.2-1,2l1,3c0.3,0.9,1.2,1.3,2,1L10,9.7l9.9,28.1C21.2,37,22.7,36.5,24.3,36.5z" />
-                                            <path d="M41.2,29.2l-9.9,3.5c-1,0.4-2.2-0.2-2.5-1.2l-3.5-9.9c-0.4-1,0.2-2.2,1.2-2.5l9.9-3.5
-  c1-0.4,2.2,0.2,2.5,1.2l3.5,9.9C42.8,27.7,42.2,28.8,41.2,29.2z" />
-                                            <path d="M31.8,12.9l-6.7,2.3c-1,0.4-2.2-0.2-2.5-1.2l-2.3-6.7c-0.4-1,0.2-2.2,1.2-2.5l6.7-2.3
-  c1-0.4,2.2,0.2,2.5,1.2l2.3,6.7C33.4,11.3,32.9,12.5,31.8,12.9z" />
-                                            <path d="M49.9,35.5l-1-3c-0.3-0.9-1.2-1.3-2-1l-18.2,6.3c1.9,1.2,3.2,3.2,3.6,5.5l16.7-5.7
-  C49.8,37.3,50.2,36.4,49.9,35.5z" />
-                                            <path
-                                                d="M24.3,39.1c-3,0-5.5,2.5-5.5,5.5c0,3,2.5,5.5,5.5,5.5s5.5-2.5,5.5-5.5C29.8,41.5,27.3,39.1,24.3,39.1z" />
-                                        </g>
-                                    </svg>
-                                    <span class="block font-medium text-primary-600 dark:text-primary-500">
-                                        @lang('messages.solditem')
-                                    </span>
-                                </div>
-
-                                <div
-                                    class="border rounded-md border-primary-100 bg-primary-100 dark:border-primary-800 dark:bg-primary-850">
-                                    <div class="p-2 overflow-scroll md:overflow-auto lg:overflow-hidden">
-                                        <table id="order_table" class="w-full border-separate border-spacing-2">
-                                            <thead>
-                                                <tr>
-                                                    <th class="w-1/5">@lang('messages.goods')</th>
-                                                    <th class="w-auto">@lang('messages.description')</th>
-                                                    <th class="w-1/6">@lang('messages.package')</th>
-                                                    <th class="w-1/6">@lang('messages.packaging')</th>
-                                                    <th class="w-1/6">@lang('messages.unit')</th>
-                                                    <th class="w-1/12">@lang('messages.quantity')</th>
-                                                </tr>
-                                            </thead>
-
-                                            <tbody>
-                                                @if ($details->count() > 0)
-                                                    @foreach ($details as $detail)
-                                                        <tr>
-                                                            <td class="align-top">
-                                                                <input type="hidden" id="detail_id"
-                                                                    name="detail_id[]" value="{{ $detail->id }}" />
-                                                                <x-text-span>{{ $detail->view_order_detail->barang }}</x-text-span>
-                                                            </td>
-                                                            <td class="align-top">
-                                                                <x-text-span>{{ $detail->order_detail->keterangan ? $detail->order_detail->keterangan : '-' }}</x-text-span>
-                                                            </td>
-                                                            <td class="align-top">
-                                                                <select name="paket_id[]" tabindex="9"
-                                                                    x-bind:disabled="buttonDisabled"
-                                                                    class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
-                                                                    <option value="">@lang('messages.choose')...
-                                                                    </option>
-                                                                    @foreach ($pakets as $id => $name)
-                                                                        <option value="{{ $id }}"
-                                                                            {{ $detail->paket_id == $id ? 'selected' : '' }}>
-                                                                            {{ $name }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </td>
-                                                            <td class="align-top">
-                                                                <select name="barang_id[]" tabindex="10"
-                                                                    x-bind:disabled="buttonDisabled"
-                                                                    class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
-                                                                    <option value="">@lang('messages.choose')...
-                                                                    </option>
-                                                                    @foreach ($barangs as $id => $name)
-                                                                        <option value="{{ $id }}"
-                                                                            {{ $detail->barang_id == $id ? 'selected' : '' }}>
-                                                                            {{ $name }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </td>
-                                                            <td class="align-top">
-                                                                <select name="satuan_id[]" tabindex="11"
-                                                                    class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300"
-                                                                    x-bind:disabled="buttonDisabled">
-                                                                    <option value="">@lang('messages.choose')...
-                                                                    </option>
-                                                                    @foreach ($satuans as $id => $name)
-                                                                        <option value="{{ $id }}"
-                                                                            {{ $detail->satuan_id == $id ? 'selected' : '' }}>
-                                                                            {{ $name }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </td>
-                                                            <td class="align-top">
-                                                                <x-text-input type="number" min="0"
-                                                                    name="kuantiti[]" tabindex="12"
-                                                                    value="{{ $detail->kuantiti }}"
-                                                                    x-bind:disabled="buttonDisabled" />
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                @endif
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                    <div class="mt-4 mb-4 mr-4 flex flex-row flex-wrap justify-end gap-2 md:gap-4">
-                                        <x-primary-button tabindex="13" x-bind:disabled="buttonDisabled">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                class="size-5">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
-                                            </svg>
-                                            <span class="pl-1">@lang('messages.save')</span>
-                                        </x-primary-button>
-                                        <x-anchor-secondary href="{{ route('delivery-order.index') }}"
-                                            tabindex="14">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                class="size-5">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M6 18 18 6M6 6l12 12" />
-                                            </svg>
-                                            <span class="pl-1">@lang('messages.close')</span>
-                                        </x-anchor-secondary>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <div class="flex flex-col lg:flex-row gap-4 px-4 py-2">
-            <div class="w-full">
-                <div class="flex flex-col items-center">
-
-                    <form id="adonan-form"
-                        action="{{ route('delivery-order-mitra.update', Crypt::Encrypt($datas->id)) }}"
-                        method="POST" enctype="multipart/form-data" class="w-full">
-                        @csrf
-                        @method('PUT')
-
-                        <div
-                            class="w-full shadow-lg rounded-md border bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
-                            <div class="p-4 space-y-2">
-                                <div class="flex flex-row items-center gap-2">
-                                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M12.916 8.48581L17.4943 3.90753C18.1349 3.26696 19.1735 3.26696 19.814 3.90753V3.90753C20.4546 4.5481 20.4546 5.58667 19.814 6.22724L18.4073 7.63391L17.7657 8.27555"
-                                            stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
-                                        <path d="M2.9259 19.3746H21.074" stroke="currentColor" stroke-width="1.7"
-                                            stroke-linecap="round" />
-                                        <path
-                                            d="M20.3149 8.48584H3.68498C3.26575 8.48584 2.9259 8.82569 2.9259 9.24492V10.3006C2.9259 15.3121 6.98849 19.3747 12 19.3747C17.0114 19.3747 21.074 15.3121 21.074 10.3006V9.24492C21.074 8.82569 20.7342 8.48584 20.3149 8.48584Z"
-                                            stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
-                                        <path
-                                            d="M12.916 8.48581L17.4943 3.90753C18.1349 3.26696 19.1735 3.26696 19.814 3.90753V3.90753C20.4546 4.5481 20.4546 5.58667 19.814 6.22724L18.4073 7.63391L17.7657 8.27555"
-                                            stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
-                                        <path d="M2.9259 19.3746H21.074" stroke="currentColor" stroke-width="1.7"
-                                            stroke-linecap="round" />
-                                        <path
-                                            d="M20.3149 8.48584H3.68498C3.26575 8.48584 2.9259 8.82569 2.9259 9.24492V10.3006C2.9259 15.3121 6.98849 19.3747 12 19.3747C17.0114 19.3747 21.074 15.3121 21.074 10.3006V9.24492C21.074 8.82569 20.7342 8.48584 20.3149 8.48584Z"
-                                            stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
-                                    </svg>
-                                    <span class="block font-medium text-primary-600 dark:text-primary-500">
-                                        @lang('messages.dough')
-                                    </span>
-                                </div>
-
-                                <div
-                                    class="border rounded-md border-primary-100 bg-primary-100 dark:border-primary-800 dark:bg-primary-850">
-                                    <div class="p-2 overflow-scroll md:overflow-auto lg:overflow-hidden">
-                                        <table id="order_table" class="w-full border-separate border-spacing-2">
-                                            <thead>
-                                                <tr>
-                                                    <th class="w-1/5">@lang('messages.partner')</th>
-                                                    <th class="w-1/5">@lang('messages.goods')</th>
-                                                    <th class="w-auto">@lang('messages.description')</th>
-                                                    <th class="w-1/6">@lang('messages.package')</th>
-                                                    <th class="w-1/6">@lang('messages.packaging')</th>
-                                                    <th class="w-1/6">@lang('messages.unit')</th>
-                                                    <th class="w-1/12">@lang('messages.quantity')</th>
-                                                </tr>
-                                            </thead>
-
-                                            <tbody>
-                                                @if ($mitras->count() > 0)
-                                                    @foreach ($mitras as $mitra)
-                                                        <tr>
-                                                            <td class="align-top">
-                                                                <input type="hidden" name="mitra_id[]"
-                                                                    value="{{ $mitra->id }}" />
-                                                                <x-text-span>{{ $mitra->view_order_mitra->mitra }}</x-text-span>
-                                                            </td>
-                                                            <td class="align-top">
-                                                                <x-text-span>{{ $mitra->view_order_mitra->barang }}</x-text-span>
-                                                            </td>
-                                                            <td class="align-top">
-                                                                <x-text-span>{{ $mitra->order_mitra->keterangan ? $mitra->order_mitra->keterangan : '-' }}</x-text-span>
-                                                            </td>
-                                                            <td class="align-top">
-                                                                <select name="mitra_paket_id[]" tabindex="15"
-                                                                    class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300"
-                                                                    x-bind:disabled="buttonDisabled">
-                                                                    <option value="">@lang('messages.choose')...
-                                                                    </option>
-                                                                    @foreach ($pakets as $id => $name)
-                                                                        <option value="{{ $id }}"
-                                                                            {{ $mitra->paket_id == $id ? 'selected' : '' }}>
-                                                                            {{ $name }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </td>
-                                                            <td class="align-top">
-                                                                <select name="mitra_barang_id[]" tabindex="16"
-                                                                    class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300"
-                                                                    x-bind:disabled="buttonDisabled">
-                                                                    <option value="">@lang('messages.choose')...
-                                                                    </option>
-                                                                    @foreach ($barangs as $id => $name)
-                                                                        <option value="{{ $id }}"
-                                                                            {{ $mitra->barang_id == $id ? 'selected' : '' }}>
-                                                                            {{ $name }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </td>
-                                                            <td class="align-top">
-                                                                <select name="mitra_satuan_id[]" tabindex="17"
-                                                                    class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300"
-                                                                    x-bind:disabled="buttonDisabled">
-                                                                    <option value="">@lang('messages.choose')...
-                                                                    </option>
-                                                                    @foreach ($satuans as $id => $name)
-                                                                        <option value="{{ $id }}"
-                                                                            {{ $mitra->satuan_id == $id ? 'selected' : '' }}>
-                                                                            {{ $name }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </td>
-                                                            <td class="align-top">
-                                                                <x-text-input type="number" min="0"
-                                                                    name="mitra_kuantiti[]" tabindex="18"
-                                                                    value="{{ $mitra->kuantiti }}"
-                                                                    x-bind:disabled="buttonDisabled" />
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                @endif
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                    <div class="mt-4 mb-4 mr-4 flex flex-row flex-wrap justify-end gap-2 md:gap-4">
-                                        <x-primary-button tabindex="19" x-bind:disabled="buttonDisabled">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                class="size-5">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
-                                            </svg>
-                                            <span class="pl-1">@lang('messages.save')</span>
-                                        </x-primary-button>
-                                        <x-anchor-secondary href="{{ route('delivery-order.index') }}"
-                                            tabindex="20">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                class="size-5">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M6 18 18 6M6 6l12 12" />
-                                            </svg>
-                                            <span class="pl-1">@lang('messages.close')</span>
-                                        </x-anchor-secondary>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <div class="flex flex-col lg:flex-row gap-4 px-4 py-2 justify-end">
-            <div class="w-full md:w-1/2">
+            <div class="w-full lg:w-1/2">
                 <div class="flex flex-col items-center">
 
                     <div
                         class="w-full shadow-lg rounded-md border bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
                         <div class="p-4 space-y-2">
                             <div class="flex flex-row items-center gap-2">
-                                <svg class="size-5" viewBox="0 0 16 16" version="1.1"
-                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                    <path fill="currentColor"
-                                        d="M8 0l-8 2v10l8 4 8-4v-10l-8-2zM8 1l2.1 0.5-5.9 1.9-2.3-0.8 6.1-1.6zM8 14.9l-7-3.5v-8.1l3 1v3.4l1 0.3v-3.3l3 1v9.2zM8.5 4.8l-2.7-0.9 6.2-1.9 2.4 0.6-5.9 2.2z">
-                                    </path>
+                                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M12.916 8.48581L17.4943 3.90753C18.1349 3.26696 19.1735 3.26696 19.814 3.90753V3.90753C20.4546 4.5481 20.4546 5.58667 19.814 6.22724L18.4073 7.63391L17.7657 8.27555"
+                                        stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+                                    <path d="M2.9259 19.3746H21.074" stroke="currentColor" stroke-width="1.7"
+                                        stroke-linecap="round" />
+                                    <path
+                                        d="M20.3149 8.48584H3.68498C3.26575 8.48584 2.9259 8.82569 2.9259 9.24492V10.3006C2.9259 15.3121 6.98849 19.3747 12 19.3747C17.0114 19.3747 21.074 15.3121 21.074 10.3006V9.24492C21.074 8.82569 20.7342 8.48584 20.3149 8.48584Z"
+                                        stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+                                    <path
+                                        d="M12.916 8.48581L17.4943 3.90753C18.1349 3.26696 19.1735 3.26696 19.814 3.90753V3.90753C20.4546 4.5481 20.4546 5.58667 19.814 6.22724L18.4073 7.63391L17.7657 8.27555"
+                                        stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+                                    <path d="M2.9259 19.3746H21.074" stroke="currentColor" stroke-width="1.7"
+                                        stroke-linecap="round" />
+                                    <path
+                                        d="M20.3149 8.48584H3.68498C3.26575 8.48584 2.9259 8.82569 2.9259 9.24492V10.3006C2.9259 15.3121 6.98849 19.3747 12 19.3747C17.0114 19.3747 21.074 15.3121 21.074 10.3006V9.24492C21.074 8.82569 20.7342 8.48584 20.3149 8.48584Z"
+                                        stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
                                 </svg>
                                 <span class="block font-medium text-primary-600 dark:text-primary-500">
-                                    @lang('messages.packaging')
+                                    @lang('messages.dough')
                                 </span>
                             </div>
 
-                            <div class="p-2 overflow-scroll md:overflow-auto lg:overflow-hidden">
-                                <table id="target_table" class="w-full">
-                                    <thead>
-                                        <tr>
-                                            <th class="w-auto text-left">@lang('messages.goods')</th>
-                                            <th class="w-auto text-right">@lang('messages.quantity')</th>
-                                            <th class="w-auto">@lang('messages.unit')</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-                                        @if (count($kemasans) > 0)
-                                            @foreach ($kemasans as $kemasan)
-                                                <tr class="border-t border-primary-100 dark:border-primary-700">
-                                                    <td class="py-2"><span>{{ $kemasan->barang }}</span></td>
-                                                    <td class="text-right">
-                                                        {{ number_format($kemasan->kuantiti, 2, ',', '.') }}</td>
-                                                    <td><span class="pl-2">{{ $kemasan->satuan }}</span></td>
-                                                </tr>
-                                            @endforeach
-                                        @else
+                            <div
+                                class="border rounded-md border-primary-100 bg-primary-100 dark:border-primary-800 dark:bg-primary-850">
+                                <div class="p-2 overflow-scroll md:overflow-auto lg:overflow-hidden">
+                                    <table id="order_table" class="w-full border-separate border-spacing-2">
+                                        <thead>
                                             <tr>
-                                                <td colspan="3" class="text-sm bg-primary-20 dark:bg-primary-900">
-                                                    <div class="flex items-center justify-center p-5">
-                                                        @lang('messages.datanotavailable')</div>
-                                                </td>
+                                                <th class="w-auto">@lang('messages.partner')</th>
+                                                <th class="w-auto">@lang('messages.goods')</th>
+                                                <th class="w-auto">@lang('messages.description')</th>
                                             </tr>
-                                        @endif
-                                    </tbody>
-                                </table>
-                            </div>
+                                        </thead>
 
-                            <div class="mt-4 mb-4 mr-4 flex flex-row flex-wrap justify-end gap-2 md:gap-4">
-                                @if (count($kemasans) > 0)
-                                    <x-primary-button id="submit-detail" tabindex="15"
-                                        x-on:click="buttonDisabled = true" x-bind:disabled="buttonDisabled">
-                                        <svg id="svg-loading" class="hidden animate-spin size-5" viewBox="0 0 48 48"
-                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <rect width="48" height="48" fill="white"
-                                                fill-opacity="0.01" />
-                                            <path
-                                                d="M4 24C4 35.0457 12.9543 44 24 44V44C35.0457 44 44 35.0457 44 24C44 12.9543 35.0457 4 24 4"
-                                                stroke="currentColor" stroke-width="4" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path
-                                                d="M36 24C36 17.3726 30.6274 12 24 12C17.3726 12 12 17.3726 12 24C12 30.6274 17.3726 36 24 36V36"
-                                                stroke="currentColor" stroke-width="4" stroke-linecap="round"
-                                                stroke-linejoin="round" />
+                                        <tbody>
+                                            @if ($mitras->count() > 0)
+                                                @foreach ($mitras as $mitra)
+                                                    <tr>
+                                                        <td class="align-top">
+                                                            <input type="hidden" name="mitra_id[]"
+                                                                value="{{ $mitra->id }}" />
+                                                            <x-text-span>{{ $mitra->view_order_mitra->mitra }}</x-text-span>
+                                                        </td>
+                                                        <td class="align-top">
+                                                            <x-text-span>{{ $mitra->view_order_mitra->barang }}</x-text-span>
+                                                        </td>
+                                                        <td class="align-top">
+                                                            <x-text-span>{{ $mitra->order_mitra->keterangan ? $mitra->order_mitra->keterangan : '-' }}</x-text-span>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @endif
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="mt-4 mb-4 mr-4 flex flex-row flex-wrap justify-end gap-2 md:gap-4">
+                                    <x-anchor-secondary href="{{ route('delivery-order.index') }}" tabindex="20">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="size-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M6 18 18 6M6 6l12 12" />
                                         </svg>
-                                        <svg id="svg-default" class="size-5" viewBox="0 0 1024 1024" class="icon"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path fill="currentColor"
-                                                d="M280.768 753.728L691.456 167.04a32 32 0 1152.416 36.672L314.24 817.472a32 32 0 01-45.44 7.296l-230.4-172.8a32 32 0 0138.4-51.2l203.968 152.96zM736 448a32 32 0 110-64h192a32 32 0 110 64H736zM608 640a32 32 0 010-64h319.936a32 32 0 110 64H608zM480 832a32 32 0 110-64h447.936a32 32 0 110 64H480z" />
-                                        </svg>
-                                        <span class="pl-1">@lang('messages.packagedfinish')</span>
-                                    </x-primary-button>
-                                @endif
-                                <x-anchor-secondary href="{{ route('delivery-order.index') }}" tabindex="16">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor" class="size-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M6 18 18 6M6 6l12 12" />
-                                    </svg>
-                                    <span class="pl-1">@lang('messages.close')</span>
-                                </x-anchor-secondary>
+                                        <span class="pl-1">@lang('messages.close')</span>
+                                    </x-anchor-secondary>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -623,6 +487,15 @@
             </div>
         </div>
     </div>
+
+    @push('styles')
+        <style>
+            .readonly-select {
+                cursor: not-allowed;
+                opacity: 1;
+            }
+        </style>
+    @endpush
 
     @push('scripts')
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -666,32 +539,24 @@
                 }
 
                 const myFormInitialValues = getInitialFormValues('master-form');
-                const status_order_packaged = '{{ $datas->order->ispackaged }}';
-
-                if (status_order_packaged === '1') {
-                    $('#targetDiv').removeClass('hidden');
-                    $('#targetDiv').addClass('block');
-                }
-
-                $('select[name="satuan_id[]"]').each(function() {
-                    $(this).prop('selectedIndex', 1);
-                });
-
-                $('select[name="mitra_satuan_id[]"]').each(function() {
-                    $(this).prop('selectedIndex', 1);
-                });
 
                 $("#submit-detail").on("click", function(e) {
                     e.preventDefault();
-                    let key = '{{ $datas->sale_order_id }}';
+                    let key = $('#delivery_order_id').val();
 
                     $.ajax({
-                        url: '{{ url('/delivery/order/finish-order') }}' + '/' + key,
-                        type: 'get',
+                        url: '{{ url('/delivery/order/store-package') }}' + '/' + key,
+                        type: 'post',
                         dataType: 'json',
+                        data: $('form#package-form').serialize(),
                         success: function(result) {
                             if (result.status !== 'Not Found') {
-                                flasher.success("{{ __('messages.packagedfinish') }}");
+                                $('#packageBody').html(result.view);
+                                $('#disp-total_harga-detail').html(result.total_harga_detail
+                                    .toLocaleString('de-DE'));
+                                $('#package-form')[0].reset();
+                                $("#disp-sub_harga").html(0);
+                                flasher.success("{{ __('messages.successsaved') }}!", "Success");
                             }
                         }
                     });
@@ -700,6 +565,63 @@
                         $('form#master-form').submit();
                     }
                 });
+
+                $("#harga_satuan, #kuantiti").on("change keyup paste", function() {
+                    var _xhs = $('#harga_satuan').val();
+                    var _xku = $('#kuantiti').val();
+                    var xhs = (_xhs > 0) ? _xhs : 0;
+                    var xku = (_xku > 0) ? _xku : 0;
+                    var xsub = xhs * xku;
+                    var formattedNumber = new Intl.NumberFormat('de-DE').format(xsub);
+
+                    $("#disp-sub_harga").html(formattedNumber);
+                });
+
+                $("#barang_id").on("change keyup paste", function() {
+                    var xbar = $('#barang_id option:selected').val();
+
+                    $.ajax({
+                        url: '{{ url('/warehouse/goods/get-goods-sell') }}' + "/" + xbar,
+                        type: "GET",
+                        dataType: 'json',
+                        success: function(result) {
+                            var p1 = result.p1;
+                            var p2 = result.p2;
+                            $('#harga_satuan').val(p1);
+                            $('#satuan_id').val(p2);
+                            $('#kuantiti').focus();
+                        }
+                    });
+                });
+
+                deleteDetail = function(detailId) {
+                    let idname = '#a-delete-detail-' + detailId;
+
+                    var confirmation = confirm("Are you sure you want to delete this?");
+                    if (confirmation) {
+                        $(idname).closest("tr").remove();
+                        $.ajax({
+                            url: '{{ url('/delivery/order/delete-package') }}' + '/' + detailId,
+                            type: 'delete',
+                            dataType: 'json',
+                            data: {
+                                '_token': '{{ csrf_token() }}',
+                            },
+                            success: function(result) {
+                                $('#packageBody').html(result.view);
+                                $('#disp-total_harga-detail').html(result.total_harga_detail
+                                    .toLocaleString('de-DE'));
+                                $('#package-form')[0].reset();
+                                $("#disp-sub_harga").html(0);
+                                flasher.error("{{ __('messages.successdeleted') }}!", "Success");
+                            },
+                            error: function(xhr) {
+                                console.log(xhr.responseText);
+                            }
+                        });
+                    }
+                };
+
             });
         </script>
     @endpush

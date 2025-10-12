@@ -56,8 +56,10 @@
                         <td
                             class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
                             @php
-                                $areas = AreaOfficer::where('pegawai_id', $data->pegawai_id)
-                                    ->orderBy('customer_id')
+                                $areas = AreaOfficer::selectRaw('area_officers.*')
+                                    ->join('customers', 'customers.id', '=', 'area_officers.customer_id')
+                                    ->where('area_officers.pegawai_id', $data->pegawai_id)
+                                    ->orderBy('customers.nama')
                                     ->get();
                             @endphp
                             <div class="flex flex-col flex-wrap lg:flex-row gap-2 text-gray-900 dark:text-white">

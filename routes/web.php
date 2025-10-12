@@ -103,6 +103,8 @@ Route::prefix('delivery')->middleware('auth')->group(function () {
     Route::resource('order', DeliveryOrderController::class)->names('delivery-order');
     Route::get('order/fetchdb/{pp}/{isdelivered}/{customer}/{tanggal}/{alamat}', [DeliveryOrderController::class, 'fetchdb'])->defaults('alamat', '_')->defaults('tanggal', '_');
     Route::get('order/finish-order/{order}', [DeliveryOrderController::class, 'finishOrder']);
+    Route::post('order/store-package/{order}', [DeliveryOrderController::class, 'storePackage']);
+    Route::delete('order/delete-package/{package}', [DeliveryOrderController::class, 'deletePackage']);
     Route::resource('order-detail', DeliveryOrderDetailController::class)->names('delivery-order-detail');
     Route::resource('order-mitra', DeliveryOrderMitraController::class)->names('delivery-order-mitra');
 

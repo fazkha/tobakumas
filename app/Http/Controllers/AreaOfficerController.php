@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\AreaOfficer;
-use App\Models\Brandivjab;
-use App\Models\Brandivjabkec;
 use App\Models\Customer;
 use App\Models\Kabupaten;
 use App\Models\Kecamatan;
@@ -76,11 +74,10 @@ class AreaOfficerController extends Controller implements HasMiddleware
             }
         }
 
-        $datas = $datas->selectRaw('pegawai_id, keterangan, isactive')
-            ->orderBy('pegawai_id')
-            ->groupBy('pegawai_id')
-            ->groupBy('keterangan')
-            ->groupBy('isactive');
+        $datas = $datas->selectRaw('area_officers.pegawai_id, area_officers.keterangan, area_officers.isactive, pegawais.nama_lengkap')
+            ->join('pegawais', 'pegawais.id', '=', 'area_officers.pegawai_id')
+            ->orderBy('pegawais.nama_lengkap')
+            ->distinct();
         $datas = $datas->paginate(session('area-officer_pp'));
 
         if ($request->page && $datas->count() == 0) {
@@ -126,11 +123,10 @@ class AreaOfficerController extends Controller implements HasMiddleware
             }
         }
 
-        $datas = $datas->selectRaw('pegawai_id, keterangan, isactive')
-            ->orderBy('pegawai_id')
-            ->groupBy('pegawai_id')
-            ->groupBy('keterangan')
-            ->groupBy('isactive');
+        $datas = $datas->selectRaw('area_officers.pegawai_id, area_officers.keterangan, area_officers.isactive, pegawais.nama_lengkap')
+            ->join('pegawais', 'pegawais.id', '=', 'area_officers.pegawai_id')
+            ->orderBy('pegawais.nama_lengkap')
+            ->distinct();
         $datas = $datas->paginate(session('area-officer_pp'));
 
         $datas->withPath('/delivery/officer'); // pagination url to

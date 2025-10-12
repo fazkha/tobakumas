@@ -11,6 +11,7 @@ use App\Models\Barang;
 use App\Models\JenisBarang;
 use App\Http\Requests\DeliveryOrderRequest;
 use App\Http\Requests\DeliveryOrderUpdateRequest;
+use App\Models\DeliveryPackage;
 use App\Models\Satuan;
 use App\Models\ViewPegawaiJabatan;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -156,16 +157,19 @@ class DeliveryOrderController extends Controller implements HasMiddleware
         // islevel = 7 = staff; islevel = 3 = kepala divisi
         $petugas = ViewPegawaiJabatan::where('islevel', 7)->where('kode_branch', 'PST')->orderBy('nama_plus')->pluck('nama_plus', 'pegawai_id');
         $petugas2 = ViewPegawaiJabatan::where('islevel', 3)->where('kode_branch', 'PST')->orderBy('nama_plus')->pluck('nama_plus', 'pegawai_id');
-        $pakets = Paket::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $jenis = JenisBarang::where('nama', 'Packaging')->first();
         $satuanJenis = Barang::where('isactive', 1)->where('jenis_barang_id', $jenis->id)->first('satuan_stock_id');
         $barangs = Barang::where('isactive', 1)->where('jenis_barang_id', $jenis->id)->orderBy('nama')->pluck('nama', 'id');
         $satuans = Satuan::where('isactive', 1)->where('id', $satuanJenis->satuan_stock_id)->pluck('singkatan', 'id');
+        $packages = DeliveryPackage::where('delivery_order_id', Crypt::decrypt($request->order))->get();
 
-        $syntax = 'CALL sp_hitung_kemasan(' . Crypt::decrypt($request->order) . ',' . auth()->user()->profile->branch_id . ')';
-        $kemasans = DB::select($syntax);
+        $total_price = DeliveryPackage::where('delivery_order_id', Crypt::decrypt($request->order))->select(DB::raw('SUM(harga_satuan * kuantiti) as total_price'))->value('total_price');
+        $totals = [
+            'sub_price' => $total_price * 1,
+            'total_price' => 0,
+        ];
 
-        return view('delivery-order.edit', compact(['datas', 'petugas', 'petugas2', 'pakets', 'barangs', 'satuans', 'details', 'mitras', 'kemasans']));
+        return view('delivery-order.edit', compact(['datas', 'petugas', 'petugas2', 'barangs', 'satuans', 'details', 'mitras', 'packages', 'totals']));
     }
 
     public function update(DeliveryOrderUpdateRequest $request): RedirectResponse
@@ -188,6 +192,83 @@ class DeliveryOrderController extends Controller implements HasMiddleware
             return redirect()->back()->with('success', __('messages.successupdated') . ' 👉 ' . $request->alamat);
         } else {
             return redirect()->back()->withInput()->with('error', 'Error occured while updating!');
+        }
+    }
+
+    public function storePackage(Request $request)
+    {
+        // dd($request->all());
+        $dp = DeliveryPackage::create([
+            'branch_id' => auth()->user()->profile->branch_id,
+            'delivery_order_id' => $request->delivery_order_id,
+            'sale_order_id' => $request->sale_order_id,
+            'barang_id' => $request->barang_id,
+            'satuan_id' => $request->satuan_id,
+            'harga_satuan' => $request->harga_satuan,
+            'kuantiti' => $request->kuantiti,
+            'created_by' => auth()->user()->email,
+            'updated_by' => auth()->user()->email,
+        ]);
+
+        $total_price = DeliveryPackage::where('delivery_order_id', $request->delivery_order_id)->select(DB::raw('SUM(harga_satuan * kuantiti) as total_price'))->value('total_price');
+
+        $totals = [
+            'sub_price' => $total_price * 1,
+            'total_price' => 0,
+        ];
+
+        $packages = DeliveryPackage::where('delivery_order_id', $request->delivery_order_id)->get();
+        $viewMode = false;
+
+        $view = view('delivery-order.partials.details', compact(['packages', 'viewMode']))->render();
+
+        return response()->json([
+            'view' => $view,
+            'total_harga_detail' => $totals['sub_price'],
+        ], 200);
+    }
+
+    public function deletePackage(Request $request): JsonResponse
+    {
+        $detail = DeliveryPackage::find($request->package);
+        $order = DeliveryOrder::where('id', $detail->delivery_order_id)->get();
+
+        $order_id = $detail->delivery_order_id;
+        $view = [];
+
+        try {
+            $detail->delete();
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json(['QueryException' => $e->getMessage()], 500);
+        }
+
+        $total_price = DeliveryPackage::where('delivery_order_id', $order_id)->select(DB::raw('SUM((harga_satuan * kuantiti) as total_price'))->value('total_price');
+        $totals = [
+            'sub_price' => $total_price * 1,
+            'total_price' => 0,
+        ];
+
+        // $po->update([
+        //     'total_harga' => $totals['total_price'],
+        // ]);
+
+        $packages = DeliveryPackage::where('delivery_order_id', $order_id)->get();
+        $viewMode = false;
+
+        if ($packages->count() > 0) {
+            $view = view('delivery-order.partials.details', compact(['packages', 'viewMode']))->render();
+        }
+
+        if ($view) {
+            return response()->json([
+                'view' => $view,
+                'total_harga_detail' => $totals['sub_price'],
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 'Not Found',
+                'total_harga_detail' => $totals['sub_price'],
+            ], 200);
         }
     }
 
