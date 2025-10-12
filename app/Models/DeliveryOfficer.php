@@ -10,7 +10,23 @@ class DeliveryOfficer extends Model
     protected $table = 'delivery_officers';
 
     protected $fillable = [
-        'delivery_order_id',
-        'area_officer_id',
+        'branch_id',
+        'pegawai_id',
+        'tanggal',
+        'no_order',
+        'keterangan',
+        'isdone',
+        'created_by',
+        'updated_by',
     ];
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
+    }
+
+    public function pegawai()
+    {
+        return $this->belongsTo(Pegawai::class);
+    }
 }

@@ -39,7 +39,7 @@
             <div class="flex flex-col items-center">
 
                 <div class="w-full" role="alert">
-                    @include('delivery-officer.partials.feedback')
+                    @include('area-officer.partials.feedback')
                 </div>
 
                 <div

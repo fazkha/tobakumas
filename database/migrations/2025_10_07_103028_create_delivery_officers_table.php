@@ -13,8 +13,14 @@ return new class extends Migration
     {
         Schema::create('delivery_officers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('delivery_order_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('area_officer_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('branch_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('pegawai_id')->constrained()->onUpdate('cascade');
+            $table->date('tanggal')->nullable();
+            $table->string('no_order')->nullable();
+            $table->string('keterangan')->nullable();
+            $table->unsignedTinyInteger('isdone')->default(0);
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
             $table->timestamps();
         });
     }

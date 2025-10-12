@@ -84,7 +84,7 @@ class AreaOfficerController extends Controller implements HasMiddleware
             return redirect()->route('dashboard');
         }
 
-        return view('delivery-officer.index', compact(['datas', 'propinsis', 'kabupatens']))->with('i', (request()->input('page', 1) - 1) * session('area-officer_pp'));
+        return view('area-officer.index', compact(['datas', 'propinsis', 'kabupatens']))->with('i', (request()->input('page', 1) - 1) * session('area-officer_pp'));
     }
 
     public function fetchdb(Request $request): JsonResponse
@@ -131,7 +131,7 @@ class AreaOfficerController extends Controller implements HasMiddleware
 
         $datas->withPath('/delivery/officer'); // pagination url to
 
-        $view = view('delivery-officer.partials.table', compact(['datas', 'propinsis', 'kabupatens']))->with('i', (request()->input('page', 1) - 1) * session('area-officer_pp'))->render();
+        $view = view('area-officer.partials.table', compact(['datas', 'propinsis', 'kabupatens']))->with('i', (request()->input('page', 1) - 1) * session('area-officer_pp'))->render();
 
         if ($view) {
             return response()->json($view, 200);
@@ -150,7 +150,7 @@ class AreaOfficerController extends Controller implements HasMiddleware
         // level 7 = staf
         $petugas = ViewPegawaiJabatan::where('islevel', 7)->where('kode_branch', 'PST')->orderBy('nama_plus')->pluck('nama_plus', 'pegawai_id');
 
-        return view('delivery-officer.create', compact(['customers', 'petugas']));
+        return view('area-officer.create', compact(['customers', 'petugas']));
     }
 
     public function store(Request $request): RedirectResponse
@@ -197,7 +197,7 @@ class AreaOfficerController extends Controller implements HasMiddleware
             // level 7 = staf
             $petugas = ViewPegawaiJabatan::where('islevel', 7)->where('kode_branch', 'PST')->orderBy('nama_plus')->pluck('nama_plus', 'pegawai_id');
 
-            return view('delivery-officer.show', compact(['datas', 'customers', 'petugas']));
+            return view('area-officer.show', compact(['datas', 'customers', 'petugas']));
         }
 
         return redirect()->back();
@@ -223,7 +223,7 @@ class AreaOfficerController extends Controller implements HasMiddleware
             // level 7 = staf
             $petugas = ViewPegawaiJabatan::where('islevel', 7)->where('kode_branch', 'PST')->orderBy('nama_plus')->pluck('nama_plus', 'pegawai_id');
 
-            return view('delivery-officer.edit', compact(['datas', 'customers', 'petugas']));
+            return view('area-officer.edit', compact(['datas', 'customers', 'petugas']));
         }
 
         return redirect()->back();

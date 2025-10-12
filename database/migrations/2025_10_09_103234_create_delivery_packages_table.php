@@ -13,9 +13,7 @@ return new class extends Migration
     {
         Schema::create('delivery_packages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('branch_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('delivery_order_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('sale_order_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('delivery_officer_id')->constrained()->onUpdate('cascade');
             $table->foreignId('barang_id')->constrained()->onUpdate('cascade');
             $table->foreignId('satuan_id')->constrained()->onUpdate('cascade');
             $table->integer('harga_satuan')->default(0);

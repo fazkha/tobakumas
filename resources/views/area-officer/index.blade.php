@@ -30,15 +30,15 @@
         <div class="flex flex-col items-center">
 
             <div class="w-full" role="alert">
-                @include('delivery-officer.partials.feedback')
+                @include('area-officer.partials.feedback')
             </div>
 
             <div class="w-full">
-                @include('delivery-officer.partials.filter')
+                @include('area-officer.partials.filter')
             </div>
 
             <div id="table-container" class="w-full">
-                @include('delivery-officer.partials.table')
+                @include('area-officer.partials.table')
             </div>
 
         </div>
