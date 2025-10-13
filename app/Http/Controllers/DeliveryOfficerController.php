@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\DeliveryOfficerUpdateRequest;
 use App\Models\Barang;
 use App\Models\Customer;
 use App\Models\DeliveryOfficer;
@@ -13,6 +12,7 @@ use App\Models\Kecamatan;
 use App\Models\Propinsi;
 use App\Models\Satuan;
 use App\Models\ViewPegawaiJabatan;
+use App\Http\Requests\DeliveryOfficerUpdateRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
@@ -149,27 +149,26 @@ class DeliveryOfficerController extends Controller implements HasMiddleware
 
     public function show(Request $request)
     {
-        $data1 = DeliveryOfficer::where('pegawai_id', Crypt::decrypt($request->order))->first();
+        $datas = DeliveryOfficer::find(Crypt::decrypt($request->order));
+        $details = DeliveryPackage::where('delivery_officer_id', Crypt::decrypt($request->order))->get();
 
-        if ($data1) {
-            $datas =  DeliveryOfficer::join('customers', 'customers.id', 'area_officers.customer_id')
-                ->where('pegawai_id', $data1->pegawai_id)
-                ->orderBy('customers.propinsi_id')
-                ->orderBy('customers.kabupaten_id')
-                ->orderBy('area_officers.customer_id')
-                ->get();
-            $customers = Customer::join('kabupatens', 'kabupatens.id', 'customers.kabupaten_id')
-                ->join('propinsis', 'propinsis.id', 'customers.propinsi_id')
-                ->selectRaw('propinsis.nama as namapropinsi, kabupatens.nama as namakabupaten, customers.nama as nama, customers.id as id')
-                ->where('customers.isactive', 1)->where('kabupatens.isactive', 1)->where('propinsis.isactive', 1)
-                ->orderBy('customers.propinsi_id')->orderBy('customers.kabupaten_id')->orderBy('customers.nama')->get();
-            // level 7 = staf
-            $petugas = ViewPegawaiJabatan::where('islevel', 7)->where('kode_branch', 'PST')->orderBy('nama_plus')->pluck('nama_plus', 'pegawai_id');
+        $total_price = DeliveryPackage::where('delivery_officer_id', Crypt::decrypt($request->order))->select(DB::raw('SUM(harga_satuan * kuantiti) as total_price'))->value('total_price');
+        $totals = [
+            'sub_price' => $total_price * 1,
+            'total_price' => 0,
+        ];
 
-            return view('delivery-officer.show', compact(['datas', 'customers', 'petugas']));
-        }
+        $customers = Customer::join('kabupatens', 'kabupatens.id', 'customers.kabupaten_id')
+            ->join('propinsis', 'propinsis.id', 'customers.propinsi_id')
+            ->join('area_officers', function ($join) use ($datas) {
+                $join->on('customers.id', '=', 'area_officers.customer_id')
+                    ->where('area_officers.pegawai_id', '=', $datas->pegawai_id);
+            })
+            ->selectRaw('propinsis.nama as namapropinsi, kabupatens.nama as namakabupaten, customers.nama as nama, customers.id as id')
+            ->where('customers.isactive', 1)->where('kabupatens.isactive', 1)->where('propinsis.isactive', 1)
+            ->orderBy('customers.propinsi_id')->orderBy('customers.kabupaten_id')->orderBy('customers.nama')->get();
 
-        return redirect()->back();
+        return view('delivery-officer.show', compact(['datas', 'details', 'totals', 'customers']));
     }
 
     public function edit(Request $request)
@@ -188,7 +187,17 @@ class DeliveryOfficerController extends Controller implements HasMiddleware
             'total_price' => 0,
         ];
 
-        return view('delivery-officer.edit', compact(['datas', 'details', 'barangs', 'satuans', 'totals']));
+        $customers = Customer::join('kabupatens', 'kabupatens.id', 'customers.kabupaten_id')
+            ->join('propinsis', 'propinsis.id', 'customers.propinsi_id')
+            ->join('area_officers', function ($join) use ($datas) {
+                $join->on('customers.id', '=', 'area_officers.customer_id')
+                    ->where('area_officers.pegawai_id', '=', $datas->pegawai_id);
+            })
+            ->selectRaw('propinsis.nama as namapropinsi, kabupatens.nama as namakabupaten, customers.nama as nama, customers.id as id')
+            ->where('customers.isactive', 1)->where('kabupatens.isactive', 1)->where('propinsis.isactive', 1)
+            ->orderBy('customers.propinsi_id')->orderBy('customers.kabupaten_id')->orderBy('customers.nama')->get();
+
+        return view('delivery-officer.edit', compact(['datas', 'details', 'barangs', 'satuans', 'totals', 'customers']));
     }
 
     public function update(DeliveryOfficerUpdateRequest $request): RedirectResponse
