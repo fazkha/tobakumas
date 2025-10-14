@@ -175,7 +175,8 @@
                                                 @endphp
                                                 @foreach ($adonans as $adonan)
                                                     <tr>
-                                                        <td>{{ $adonan->pegawai->nama_lengkap }}</td>
+                                                        <td>{{ $adonan->pegawai_id ? $adonan->pegawai->nama_lengkap : '-' }}
+                                                        </td>
                                                         <td>{{ $adonan->barang->nama }}</td>
                                                         <td style="text-align: right">
                                                             <div>

@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreignId('branch_id')->constrained()->onUpdate('cascade');
             $table->foreignId('pegawai_id')->constrained()->onUpdate('cascade');
             $table->date('tanggal')->nullable();
+            $table->time('jam_awal')->nullable();
+            $table->time('jam_akhir')->nullable();
             $table->string('no_order')->nullable();
             $table->string('keterangan')->nullable();
             $table->unsignedTinyInteger('isdone')->default(0);
