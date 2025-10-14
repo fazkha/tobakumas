@@ -215,8 +215,8 @@
                                                         </select>
                                                     </td>
                                                     <td class="align-top">
-                                                        <x-text-input type="number" min="0" id="kuantiti"
-                                                            name="kuantiti" required tabindex="12" />
+                                                        <x-text-input type="number" min="0" step="0.01"
+                                                            id="kuantiti" name="kuantiti" required tabindex="12" />
                                                     </td>
                                                     <td class="align-top">
                                                         <x-text-span id="disp-sub_harga"
