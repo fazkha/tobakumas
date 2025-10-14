@@ -17,7 +17,7 @@
                 <x-text-span>{{ number_format($detail->harga_satuan * $detail->kuantiti, 0, ',', '.') }}</x-text-span>
             </td>
             @if ($viewMode == false)
-                @if ($datas->isdone == 0)
+                @if ($detail->delivery_officer->isdone == 0)
                     <td class="align-top">
                         <x-anchor-danger id="a-delete-detail-{{ $detail->id }}"
                             onclick="deleteDetail({{ $detail->id }})" class="!px-1" title="{{ __('messages.delete') }}">

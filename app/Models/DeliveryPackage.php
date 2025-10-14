@@ -19,11 +19,6 @@ class DeliveryPackage extends Model
         'updated_by',
     ];
 
-    public function branch()
-    {
-        return $this->belongsTo(Branch::class);
-    }
-
     public function barang()
     {
         return $this->belongsTo(Barang::class);
@@ -34,13 +29,8 @@ class DeliveryPackage extends Model
         return $this->belongsTo(Satuan::class);
     }
 
-    public function delivery_order()
+    public function delivery_officer()
     {
-        return $this->belongsTo(DeliveryOrder::class, 'delivery_order_id');
-    }
-
-    public function order()
-    {
-        return $this->belongsTo(SaleOrder::class, 'sale_order_id');
+        return $this->belongsTo(DeliveryOfficer::class);
     }
 }
