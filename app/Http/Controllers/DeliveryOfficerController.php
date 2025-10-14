@@ -209,6 +209,7 @@ class DeliveryOfficerController extends Controller implements HasMiddleware
             $delivery->update([
                 'tanggal' => $request->tanggal,
                 'keterangan' => $request->keterangan,
+                'isdone' => ($request->isdone == 'on' ? 1 : 0),
                 'updated_by' => auth()->user()->email,
             ]);
 
