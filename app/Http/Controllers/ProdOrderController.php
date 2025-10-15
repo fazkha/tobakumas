@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\ProdOrder;
 use App\Models\Barang;
-use App\Models\Pegawai;
 use App\Models\ProdOrderDetail;
 use App\Models\SaleOrder;
 use App\Models\Satuan;
@@ -283,7 +282,7 @@ class ProdOrderController extends Controller implements HasMiddleware
 
         $syntax = 'CALL sp_target_produksi(' . Crypt::decrypt($request->order) . ')';
         $targets = DB::select($syntax);
-        $satuanTarget = $targets[0]->satuan;
+        $satuanTarget = $targets ? $targets[0]->satuan : '-';
 
         return view('production-order.edit', compact(['datas', 'details', 'barangs', 'satuans', 'petugas', 'petugas2', 'branch_id', 'sales', 'bahans', 'targets', 'satuanTarget']));
     }
@@ -340,7 +339,8 @@ class ProdOrderController extends Controller implements HasMiddleware
 
         $syntax = 'CALL sp_hitung_bahanbaku_produksi(' . $request->order . ')';
         $bahans = DB::select($syntax);
-        $view3 = view('production-order.partials.bahanbakuproduksi', compact(['bahans']))->render();
+        $isready = $master->order->isready;
+        $view3 = view('production-order.partials.bahanbakuproduksi', compact(['bahans', 'isready']))->render();
 
         $syntax = 'CALL sp_target_produksi(' . $request->order . ')';
         $targets = DB::select($syntax);

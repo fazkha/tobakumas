@@ -1,3 +1,6 @@
+@php
+    $isready = $datas->order->isready;
+@endphp
 @section('title', __('messages.production'))
 
 <x-app-layout>
@@ -154,7 +157,10 @@
 
                             {{-- Bahan baku --}}
                             <div id="bahanBody">
-                                @include('production-order.partials.bahanbakuproduksi', [$bahans])
+                                @include('production-order.partials.bahanbakuproduksi', [
+                                    $bahans,
+                                    $isready,
+                                ])
                             </div>
                         </div>
                     </div>
