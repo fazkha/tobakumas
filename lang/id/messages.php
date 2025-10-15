@@ -249,4 +249,6 @@ return [
     'target' => 'Sasaran',
     'damage' => 'Rusak',
     'deliveryordernumber' => 'No. Transaksi Pengiriman',
+    'departure' => 'Jam Berangkat',
+    'arrival' => 'Jam Pulang',
 ];

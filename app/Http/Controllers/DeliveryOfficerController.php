@@ -67,7 +67,7 @@ class DeliveryOfficerController extends Controller implements HasMiddleware
                     } elseif ($search_arr[$i] == 'delivery-officer_kabupaten_id') {
                         // $datas = $datas->whereRelation('customer', 'kabupaten_id', session($search_arr[$i]));
                     } else {
-                        $datas = $datas->where('area_officers.isdone', session($search_arr[$i]));
+                        $datas = $datas->where('delivery_officers.isdone', session($search_arr[$i]));
                     }
                 }
             } else {
@@ -91,7 +91,7 @@ class DeliveryOfficerController extends Controller implements HasMiddleware
     public function fetchdb(Request $request): JsonResponse
     {
         $request->session()->put('delivery-officer_pp', $request->pp);
-        $request->session()->put('delivery-officer_isdone', $request->isactive);
+        $request->session()->put('delivery-officer_isdone', $request->isdone);
         $request->session()->put('delivery-officer_propinsi_id', $request->propinsi);
         $request->session()->put('delivery-officer_kabupaten_id', $request->kabupaten);
 
@@ -208,6 +208,8 @@ class DeliveryOfficerController extends Controller implements HasMiddleware
 
             $delivery->update([
                 'tanggal' => $request->tanggal,
+                'jam_awal' => $request->jam_awal,
+                'jam_akhir' => $request->jam_akhir,
                 'keterangan' => $request->keterangan,
                 'isdone' => ($request->isdone == 'on' ? 1 : 0),
                 'updated_by' => auth()->user()->email,

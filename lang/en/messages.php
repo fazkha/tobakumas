@@ -250,4 +250,6 @@ return [
     'target' => 'Target',
     'damage' => 'Damage',
     'deliveryordernumber' => 'Delivery Order Number',
+    'departure' => 'Departure',
+    'arrival' => 'Arrival',
 ];

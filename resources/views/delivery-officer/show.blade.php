@@ -58,6 +58,20 @@
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.deliverydate')</span>
                                     <x-text-span>{{ date('d/m/Y', strtotime($datas->tanggal)) }}</x-text-span>
                                 </div>
+
+                                <div class="flex flex-row gap-4">
+                                    <div class="w-1/2 pb-4">
+                                        <span for="jam_awal"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.departure')</span>
+                                        <x-text-span>{{ old('jam_awal', $datas->jam_awal ? $datas->jam_awal : '') }}</x-text-span>
+                                    </div>
+
+                                    <div class="w-1/2 pb-4">
+                                        <span for="jam_akhir"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.arrival')</span>
+                                        <x-text-span>{{ old('jam_akhir', $datas->jam_akhir ? $datas->jam_akhir : '') }}</x-text-span>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
@@ -156,7 +170,8 @@
                                     </table>
 
                                     <div class="mt-4 mb-4 mr-4 flex flex-row flex-wrap justify-end gap-2 md:gap-4">
-                                        <x-anchor-secondary href="{{ route('delivery-order.index') }}" tabindex="14">
+                                        <x-anchor-secondary href="{{ route('delivery-order.index') }}"
+                                            tabindex="14">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                 class="size-5">

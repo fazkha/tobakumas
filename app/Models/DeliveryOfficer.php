@@ -13,6 +13,8 @@ class DeliveryOfficer extends Model
         'branch_id',
         'pegawai_id',
         'tanggal',
+        'jam_awal',
+        'jam_akhir',
         'no_order',
         'keterangan',
         'isdone',
