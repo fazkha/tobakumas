@@ -99,6 +99,65 @@
                         });
                     }
                 );
+
+                $("#print-rekap").on("click", function(e) {
+                    e.preventDefault();
+                    $('#print-icon').addClass('animate-spin');
+                    var xbulan = $('#bulan-dropdown option:selected').val();
+                    var xtahun = $('#search-tahun').val();
+                    if (!xtahun.trim()) {
+                        xtahun = '_';
+                        xbulan = 'all';
+                        $("#bulan-dropdown").val("all");
+                    }
+
+                    $.ajax({
+                        url: "{{ url('/delivery/order/print-rekap') }}" + "/" + xtahun + "/" + xbulan,
+                        type: 'get',
+                        dataType: 'json',
+                        success: function(result) {
+                            if (result.status !== 'Not Found') {
+                                var namafile = result.namafile;
+                                $("#iframe-laporan").attr('src', namafile);
+                                window.open(namafile, '_blank');
+                            } else {
+                                flasher.error("{{ __('messages.notfound') }}!", "Error");
+                            }
+                            $('#print-icon').removeClass('animate-spin');
+                        }
+                    });
+                });
+
+                print_one = function(xid) {
+                    let aname = '#print_one-anchor-' + xid;
+                    let idname = '#print_one-icon-' + xid;
+                    var xbulan = $('#bulan-dropdown option:selected').val();
+                    var xtahun = $('#search-tahun').val();
+                    if (!xtahun.trim()) {
+                        xtahun = '_';
+                    }
+
+                    $(aname).addClass('hidden');
+                    $(idname).addClass('animate-spin');
+                    $(idname).removeClass('hidden');
+
+                    $.ajax({
+                        url: "{{ url('/delivery/order/print-one') }}" + "/" + xtahun + "/" + xbulan + "/" +
+                            xid,
+                        type: 'get',
+                        success: function(result) {
+                            if (result.status !== 'Not Found') {
+                                var namafile = result.namafile;
+                                window.open(namafile, '_blank');
+                            } else {
+                                flasher.error("{{ __('messages.notfound') }}!", "Error");
+                            }
+                            $(idname).removeClass('animate-spin');
+                            $(idname).addClass('hidden');
+                            $(aname).removeClass('hidden');
+                        }
+                    });
+                };
             });
         </script>
     @endpush

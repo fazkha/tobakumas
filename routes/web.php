@@ -106,6 +106,8 @@ Route::prefix('delivery')->middleware('auth')->group(function () {
     Route::get('order/{order}/delete', [DeliveryOfficerController::class, 'delete'])->name('delivery-order.delete');
     Route::post('order/store-package/{package}', [DeliveryOfficerController::class, 'storePackage']);
     Route::delete('order/delete-package/{package}', [DeliveryOfficerController::class, 'deletePackage']);
+    Route::get('order/print-one/{year}/{month}/{id}', [DeliveryOfficerController::class, 'printOne']);
+    Route::get('order/print-rekap/{year}/{month}', [DeliveryOfficerController::class, 'printRekap']);
     // Route::get('order/finish-order/{order}', [DeliveryOrderController::class, 'finishOrder']);
     // Route::resource('order-detail', DeliveryOrderDetailController::class)->names('delivery-order-detail');
     // Route::resource('order-mitra', DeliveryOrderMitraController::class)->names('delivery-order-mitra');

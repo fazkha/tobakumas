@@ -238,6 +238,7 @@ return [
     'create' => 'Susun',
     'hke' => 'HKE',
     'datacount' => 'Jumlah Data',
+    'deliveryreport' => 'Laporan Pengiriman',
     'mutationreport' => 'Laporan Mutasi',
     'productionreport' => 'Laporan Produksi',
     'stockmutation' => 'Mutasi Persediaan',

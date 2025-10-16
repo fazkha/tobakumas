@@ -11,19 +11,51 @@ use App\Models\Kabupaten;
 use App\Models\Kecamatan;
 use App\Models\Propinsi;
 use App\Models\Satuan;
-use App\Models\ViewPegawaiJabatan;
 use App\Http\Requests\DeliveryOfficerUpdateRequest;
+use App\Models\ViewDelivery;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
-use Illuminate\View\View;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Arr;
 
 class DeliveryOfficerController extends Controller implements HasMiddleware
 {
+    protected $array_hari, $array_bulan;
+
+    public function __construct()
+    {
+        $this->array_hari = [
+            ['hari' => ['id' => 0, 'name' => __('calendar.sunday')]],
+            ['hari' => ['id' => 1, 'name' => __('calendar.monday')]],
+            ['hari' => ['id' => 2, 'name' => __('calendar.tuesday')]],
+            ['hari' => ['id' => 3, 'name' => __('calendar.wednesday')]],
+            ['hari' => ['id' => 4, 'name' => __('calendar.thursday')]],
+            ['hari' => ['id' => 5, 'name' => __('calendar.friday')]],
+            ['hari' => ['id' => 6, 'name' => __('calendar.saturday')]],
+        ];
+
+        $this->array_bulan = [
+            ['bulan' => ['id' => 1, 'name' => __('calendar.january')]],
+            ['bulan' => ['id' => 2, 'name' => __('calendar.february')]],
+            ['bulan' => ['id' => 3, 'name' => __('calendar.march')]],
+            ['bulan' => ['id' => 4, 'name' => __('calendar.apryl')]],
+            ['bulan' => ['id' => 5, 'name' => __('calendar.may')]],
+            ['bulan' => ['id' => 6, 'name' => __('calendar.june')]],
+            ['bulan' => ['id' => 7, 'name' => __('calendar.july')]],
+            ['bulan' => ['id' => 8, 'name' => __('calendar.august')]],
+            ['bulan' => ['id' => 9, 'name' => __('calendar.september')]],
+            ['bulan' => ['id' => 10, 'name' => __('calendar.october')]],
+            ['bulan' => ['id' => 11, 'name' => __('calendar.november')]],
+            ['bulan' => ['id' => 12, 'name' => __('calendar.december')]],
+        ];
+    }
+
     public static function middleware(): array
     {
         return [
@@ -49,12 +81,19 @@ class DeliveryOfficerController extends Controller implements HasMiddleware
         if (!$request->session()->exists('delivery-officer_kabupaten_id')) {
             $request->session()->put('delivery-officer_kabupaten_id', 'all');
         }
+        if (!$request->session()->exists('delivery-officer_periode_bulan')) {
+            $request->session()->put('delivery-officer_periode_bulan', 'all');
+        }
+        if (!$request->session()->exists('delivery-officer_periode_tahun')) {
+            $request->session()->put('delivery-officer_periode_tahun', '_');
+        }
 
         $search_arr = ['delivery-officer_isdone', 'delivery-officer_propinsi_id', 'delivery-officer_kabupaten_id'];
 
         $propinsis = Propinsi::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $kabupatens = Kabupaten::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $kecamatans = Kecamatan::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+        $bulans = Arr::pluck($this->array_bulan, 'bulan.name', 'bulan.id');
         $datas = DeliveryOfficer::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
@@ -85,7 +124,7 @@ class DeliveryOfficerController extends Controller implements HasMiddleware
             return redirect()->route('dashboard');
         }
 
-        return view('delivery-officer.index', compact(['datas', 'propinsis', 'kabupatens']))->with('i', (request()->input('page', 1) - 1) * session('delivery-officer_pp'));
+        return view('delivery-officer.index', compact(['datas', 'propinsis', 'kabupatens', 'bulans']))->with('i', (request()->input('page', 1) - 1) * session('delivery-officer_pp'));
     }
 
     public function fetchdb(Request $request): JsonResponse
@@ -94,12 +133,15 @@ class DeliveryOfficerController extends Controller implements HasMiddleware
         $request->session()->put('delivery-officer_isdone', $request->isdone);
         $request->session()->put('delivery-officer_propinsi_id', $request->propinsi);
         $request->session()->put('delivery-officer_kabupaten_id', $request->kabupaten);
+        $request->session()->put('delivery-officer_periode_tahun', $request->tahun);
+        $request->session()->put('delivery-officer_periode_bulan', $request->bulan);
 
         $search_arr = ['delivery-officer_isdone', 'delivery-officer_propinsi_id', 'delivery-officer_kabupaten_id'];
 
         $propinsis = Propinsi::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $kabupatens = Kabupaten::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $kecamatans = Kecamatan::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+        $bulans = Arr::pluck($this->array_bulan, 'bulan.name', 'bulan.id');
         $datas = DeliveryOfficer::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
@@ -128,7 +170,7 @@ class DeliveryOfficerController extends Controller implements HasMiddleware
 
         $datas->withPath('/delivery/order'); // pagination url to
 
-        $view = view('delivery-officer.partials.table', compact(['datas', 'propinsis', 'kabupatens']))->with('i', (request()->input('page', 1) - 1) * session('delivery-officer_pp'))->render();
+        $view = view('delivery-officer.partials.table', compact(['datas', 'propinsis', 'kabupatens', 'bulans']))->with('i', (request()->input('page', 1) - 1) * session('delivery-officer_pp'))->render();
 
         if ($view) {
             return response()->json($view, 200);
@@ -294,5 +336,92 @@ class DeliveryOfficerController extends Controller implements HasMiddleware
     public function delete(Request $request): RedirectResponse
     {
         return redirect()->back();
+    }
+
+    public function printOne(Request $request)
+    {
+        $id = $request->id;
+        $ntahun = $request->year; // date('Y');
+        $nbulan = $request->month; // date('n');
+        $nbulanini = date('n');
+        $nhari = date('w');
+        $hari = $this->array_hari[$nhari]['hari']['name'];
+        if ($nbulan == 'all') {
+            $bulan = 'Semua';
+        } else {
+            $bulan = $this->array_bulan[$nbulan - 1]['bulan']['name'];
+        }
+        $bulanini = $this->array_bulan[$nbulanini - 1]['bulan']['name'];
+
+        if ($ntahun == '_') {
+            $datas = ViewDelivery::where('c10', $id)->get();
+        } elseif ($nbulan == 'all') {
+            $datas = ViewDelivery::where('c10', $id)->where('c12', $ntahun)->get();
+        } else {
+            $datas = ViewDelivery::where('c10', $id)->where('c12', $ntahun)->where('c13', $nbulan)->get();
+        }
+
+        $namafile = $id . '-laporandelivery_' . str_replace('@', '(at)', str_replace('.', '_', auth()->user()->email)) . '.pdf';
+        session()->put('documents', $namafile);
+
+        if (count($datas) > 0) {
+            $pdf = Pdf::loadView('delivery-officer.pdf.delivery-one', ['datas' => $datas, 'bulan' => $bulan, 'bulanini' => $bulanini])
+                ->setPaper('a4', 'landscape')
+                ->setOptions(['enable_php' => true]);
+
+            $output = $pdf->output();
+            Storage::disk('pdfs')->put($namafile, $output);
+
+            return response()->json([
+                'namafile' => url('documents/' . $namafile . '?v=' . time()),
+            ], 200);
+        }
+
+        return response()->json([
+            'status' => 'Not Found',
+        ], 200);
+    }
+
+    public function printRekap(Request $request)
+    {
+        $ntahun = $request->year; // date('Y');
+        $nbulan = $request->month; // date('n');
+        $nbulanini = date('n');
+        $nhari = date('w');
+        $hari = $this->array_hari[$nhari]['hari']['name'];
+        if ($nbulan == 'all') {
+            $bulan = 'Semua';
+        } else {
+            $bulan = $this->array_bulan[$nbulan - 1]['bulan']['name'];
+        }
+        $bulanini = $this->array_bulan[$nbulanini - 1]['bulan']['name'];
+
+        if ($ntahun == '_') {
+            $datas = ViewDelivery::get();
+        } elseif ($nbulan == 'all') {
+            $datas = ViewDelivery::where('c12', $ntahun)->get();
+        } else {
+            $datas = ViewDelivery::where('c12', $ntahun)->where('c13', $nbulan)->get();
+        }
+
+        $namafile = '_laporandelivery_' . str_replace('@', '(at)', str_replace('.', '_', auth()->user()->email)) . '.pdf';
+        session()->put('documents', $namafile);
+
+        if (count($datas) > 0) {
+            $pdf = Pdf::loadView('delivery-officer.pdf.delivery', ['datas' => $datas, 'bulan' => $bulan, 'bulanini' => $bulanini])
+                ->setPaper('a4', 'landscape')
+                ->setOptions(['enable_php' => true]);
+
+            $output = $pdf->output();
+            Storage::disk('pdfs')->put($namafile, $output);
+
+            return response()->json([
+                'namafile' => url('documents/' . $namafile . '?v=' . time()),
+            ], 200);
+        }
+
+        return response()->json([
+            'status' => 'Not Found',
+        ], 200);
     }
 }

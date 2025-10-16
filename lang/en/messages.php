@@ -239,6 +239,7 @@ return [
     'create' => 'Create',
     'hke' => 'EWD',
     'datacount' => 'Data Count',
+    'deliveryreport' => 'Delivery Report',
     'mutationreport' => 'Mutation Report',
     'productionreport' => 'Production Report',
     'stockmutation' => 'Stock Mutation',
