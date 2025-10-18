@@ -59,14 +59,14 @@
                                 $areas = AreaOfficer::selectRaw('area_officers.*')
                                     ->join('customers', 'customers.id', '=', 'area_officers.customer_id')
                                     ->where('area_officers.pegawai_id', $data->pegawai_id)
-                                    ->orderBy('customers.nama')
+                                    ->orderBy('area_officers.urutan')
                                     ->get();
                             @endphp
                             <div class="flex flex-col flex-wrap lg:flex-row gap-2 text-gray-900 dark:text-white">
                                 @foreach ($areas as $area)
                                     <div
                                         class="flex px-2 py-1 border rounded items-center bg-primary-100 border-primary-400 dark:bg-primary-700 dark:border-primary-600">
-                                        <span>&bull;</span><span class="pl-2">{{ $area->customer->nama }}</span>
+                                        <span>&bull;</span><span class="pl-2">{{ $area->customer->kode }}</span>
                                     </div>
                                 @endforeach
                             </div>

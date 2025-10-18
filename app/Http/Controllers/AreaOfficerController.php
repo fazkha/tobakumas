@@ -212,11 +212,11 @@ class AreaOfficerController extends Controller implements HasMiddleware
                 ->orderBy('customers.propinsi_id')
                 ->orderBy('customers.kabupaten_id')
                 ->orderBy('area_officers.customer_id')
-                ->selectRaw('area_officers.id AS id, area_officers.pegawai_id AS pegawai_id, area_officers.customer_id AS customer_id, area_officers.keterangan AS keterangan, area_officers.isactive AS isactive')
+                ->selectRaw('area_officers.id AS id, area_officers.pegawai_id AS pegawai_id, area_officers.customer_id AS customer_id, area_officers.keterangan AS keterangan, area_officers.isactive AS isactive, area_officers.urutan AS urutan')
                 ->get();
             $customers = Customer::join('kabupatens', 'kabupatens.id', 'customers.kabupaten_id')
                 ->join('propinsis', 'propinsis.id', 'customers.propinsi_id')
-                ->selectRaw('propinsis.nama as namapropinsi, kabupatens.nama as namakabupaten, customers.nama as nama, customers.id as id')
+                ->selectRaw('propinsis.nama as namapropinsi, kabupatens.nama as namakabupaten, customers.nama as nama, customers.id as id, 1 as urutan')
                 ->where('customers.isactive', 1)->where('kabupatens.isactive', 1)->where('propinsis.isactive', 1)
                 ->orderBy('customers.propinsi_id')->orderBy('customers.kabupaten_id')->orderBy('customers.id')->get();
             // level 7 = staf
@@ -259,14 +259,18 @@ class AreaOfficerController extends Controller implements HasMiddleware
     {
         $areaofficer = AreaOfficer::where('pegawai_id', Crypt::decrypt($request->officer));
         $custs = $request->input('custs');
+        $urutans = $request->input('urutans');
+        $filtered = array_filter($urutans);
+        $indexed = array_values($filtered);
 
         if ($custs) {
             $areaofficer->delete();
 
-            foreach ($custs as $cust) {
+            foreach ($custs as $key => $value) {
                 $areaofficer = AreaOfficer::create([
-                    'customer_id' => $cust,
+                    'customer_id' => $value,
                     'pegawai_id' => $request->pegawai_id,
+                    'urutan' => $indexed ? $indexed[$key] : 0,
                     'keterangan' => $request->keterangan,
                     'isactive' => ($request->isactive == 'on' ? 1 : 0),
                     'created_by' => auth()->user()->email,

@@ -12,6 +12,7 @@ class AreaOfficer extends Model
     protected $fillable = [
         'pegawai_id',
         'customer_id',
+        'urutan',
         'keterangan',
         'isactive',
         'created_by',

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('pegawai_id')->constrained()->onUpdate('cascade')->onDelete('set null');
             $table->foreignId('customer_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->unsignedTinyInteger('urutan')->default(0);
             $table->string('keterangan')->nullable();
             $table->unsignedTinyInteger('isactive')->default(0);
             $table->string('created_by')->nullable();

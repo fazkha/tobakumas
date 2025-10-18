@@ -63,7 +63,7 @@
                                 $areas = AreaOfficer::selectRaw('area_officers.*')
                                     ->join('customers', 'customers.id', '=', 'area_officers.customer_id')
                                     ->where('area_officers.pegawai_id', $data->pegawai_id)
-                                    ->orderBy('customers.nama')
+                                    ->orderBy('area_officers.urutan')
                                     ->get();
                             @endphp
                             <div class="flex flex-col lg:flex-row lg:flex-wrap gap-2 text-gray-900 dark:text-white">

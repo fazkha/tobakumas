@@ -92,8 +92,8 @@
                         <th style="width: auto">Nomor DO/Surat Jalan<br />Tanggal</th>
                         <th style="width: auto">Nama Pengirim</th>
                         <th style="width: 8%">Rute/ Tujuan</th>
-                        <th style="width: auto">Barang</th>
-                        <th style="width: 8%">Status Pengiriman</th>
+                        <th style="width: auto">Pesanan</th>
+                        <th style="width: 9%">Status Pengiriman</th>
                         <th style="width: auto">Keterangan/Kendala</th>
                     </tr>
                 </thead>

@@ -24,6 +24,11 @@
                 <td style="width: 20px; text-align: center;">:</td>
                 <td style="width: 50%; text-align: left;">{{ $jam1 . ' - ' . $jam2 }}</td>
             </tr>
+            <tr>
+                <td style="width: 50%; text-align: left;">Rute Penugasan</td>
+                <td style="width: 20px; text-align: center;">:</td>
+                <td style="width: 50%; text-align: left;">{{ $rute }}</td>
+            </tr>
         </table>
     </div>
 </div>

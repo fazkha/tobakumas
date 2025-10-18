@@ -79,6 +79,7 @@
             'jabatan' => $datas[0]->c11,
             'jam1' => $datas[0]->c4,
             'jam2' => $datas[0]->c5,
+            'rute' => $datas[0]->c14,
             'bulan' => $bulan,
         ])
     </header>
@@ -92,8 +93,8 @@
                         <th style="width: 8%">Tanggal</th>
                         <th style="width: auto">Nomor DO/Surat Jalan</th>
                         <th style="width: 8%">Rute/ Tujuan</th>
-                        <th style="width: auto">Barang</th>
-                        <th style="width: 8%">Status Pengiriman</th>
+                        <th style="width: auto">Pesanan</th>
+                        <th style="width: 9%">Status Pengiriman</th>
                         <th style="width: auto">Keterangan/Kendala</th>
                     </tr>
                 </thead>
