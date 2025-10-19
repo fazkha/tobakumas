@@ -82,9 +82,35 @@
                             <div class="w-full lg:w-1/2 px-2">
 
                                 <div class="w-auto pb-4">
+                                    <span for="nik"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.nik')</span>
+                                    <x-text-span>{{ $datas->nik }}</x-text-span>
+                                </div>
+
+                                <div class="w-auto pb-4">
                                     <span for="nama_lengkap"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.fullname')</span>
                                     <x-text-span>{{ $datas->nama_lengkap }}</x-text-span>
+                                </div>
+
+                                <div class="w-auto pb-4">
+                                    <span for="nama_panggilan"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.shortname')</span>
+                                    <x-text-span>{{ $datas->nama_panggilan }}</x-text-span>
+                                </div>
+
+                                <div class="w-auto pb-4">
+                                    <span for="alamat_asal"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.originaddress')</span>
+                                    <x-text-span>{{ $datas->alamat_asal }}</x-text-span>
+                                </div>
+                            </div>
+
+                            <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
+                                <div class="w-auto pb-4">
+                                    <span for="nip"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.nip')</span>
+                                    <x-text-span>{{ $datas->nip }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
@@ -98,9 +124,7 @@
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.phonenumber')</span>
                                     <x-text-span>{{ $datas->telpon }}</x-text-span>
                                 </div>
-                            </div>
 
-                            <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
                                 <div class="w-auto pb-4">
                                     <span
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.gender')</span>

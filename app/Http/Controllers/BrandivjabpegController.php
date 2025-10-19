@@ -28,7 +28,7 @@ class BrandivjabpegController extends Controller
             ]);
 
             if ($jabatan) {
-                $details = Brandivjabpeg::where('pegawai_id', $request->pegawai_id)->get();
+                $details = Brandivjabpeg::where('pegawai_id', $request->pegawai_id)->orderBy('tanggal_mulai', 'desc')->get();
                 $viewMode = false;
 
                 $view = view('pegawai.partials.details', compact(['details', 'viewMode']))->render();
@@ -54,7 +54,7 @@ class BrandivjabpegController extends Controller
 
         $detail->update([
             'isactive' => 0,
-            'tanggal_akhir' => date('Y-m-d'),
+            'tanggal_akhir' => $detail->tanggal_akhir ? $detail->tanggal_akhir : date('Y-m-d'),
         ]);
 
         // try {
@@ -63,7 +63,7 @@ class BrandivjabpegController extends Controller
         //     return response()->json(['status' => 'Not Found'], 404);
         // }
 
-        $details = Brandivjabpeg::where('pegawai_id', $pegawai_id)->get();
+        $details = Brandivjabpeg::where('pegawai_id', $pegawai_id)->orderBy('tanggal_mulai', 'desc')->get();
         $viewMode = true;
 
         if ($details->count() > 0) {

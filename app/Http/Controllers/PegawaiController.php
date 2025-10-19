@@ -7,7 +7,6 @@ use App\Models\Brandivjabpeg;
 use App\Models\Brandivjab;
 use App\Http\Requests\PegawaiRequest;
 use App\Http\Requests\PegawaiUpdateRequest;
-use App\Http\Requests\BrandivjabpegRequest;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Http\Request;
@@ -131,10 +130,16 @@ class PegawaiController extends Controller implements HasMiddleware
         if ($request->validated()) {
             $pegawai = Pegawai::create([
                 'nama_lengkap' => $request->nama_lengkap,
+                'nama_panggilan' => $request->nama_panggilan,
+                'alamat_asal' => $request->alamat_asal,
                 'alamat_tinggal' => $request->alamat_tinggal,
                 'telpon' => $request->telpon,
                 'kelamin' => $request->kelamin,
                 'email' => $request->email,
+                'nik' => $request->nik,
+                'nip' => $request->nip,
+                'tempat_lahir' => $request->tempat_lahir,
+                'tanggal_lahir' => $request->tanggal_lahir,
                 'keterangan' => $request->keterangan,
                 'isactive' => ($request->isactive == 'on' ? 1 : 0),
                 'created_by' => auth()->user()->email,
@@ -174,10 +179,16 @@ class PegawaiController extends Controller implements HasMiddleware
         if ($request->validated()) {
             $pegawai->update([
                 'nama_lengkap' => $request->nama_lengkap,
+                'nama_panggilan' => $request->nama_panggilan,
+                'alamat_asal' => $request->alamat_asal,
                 'alamat_tinggal' => $request->alamat_tinggal,
                 'telpon' => $request->telpon,
                 'kelamin' => $request->kelamin,
                 'email' => $request->email,
+                'nik' => $request->nik,
+                'nip' => $request->nip,
+                'tempat_lahir' => $request->tempat_lahir,
+                'tanggal_lahir' => $request->tanggal_lahir,
                 'keterangan' => $request->keterangan,
                 'isactive' => ($request->isactive == 'on' ? 1 : 0),
                 'updated_by' => auth()->user()->email,

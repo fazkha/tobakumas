@@ -14,8 +14,13 @@ return new class extends Migration
         Schema::create('pegawais', function (Blueprint $table) {
             $table->id();
             $table->string('nama_lengkap');
+            $table->string('nama_panggilan')->nullable();
+            $table->string('nik', 50)->nullable();
+            $table->string('nip', 50)->nullable();
+            $table->string('alamat_asal')->nullable();
             $table->string('alamat_tinggal');
             $table->string('telpon');
+            $table->string('tempat_lahir')->nullable();
             $table->date('tanggal_lahir')->nullable();
             $table->char('kelamin', 1)->default('L');
             $table->string('keterangan')->nullable();

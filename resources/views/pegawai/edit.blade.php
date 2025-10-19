@@ -45,10 +45,21 @@
                                 <div class="w-full lg:w-1/2 px-2">
 
                                     <div class="w-auto pb-4">
+                                        <label for="nik"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.nik')</label>
+                                        <x-text-input type="text" name="nik" id="nik" tabindex="1"
+                                            autofocus required
+                                            placeholder="{{ __('messages.enter') }} {{ __('messages.fullname') }}"
+                                            value="{{ old('nik', $datas->nik) }}" />
+
+                                        <x-input-error class="mt-2" :messages="$errors->get('nik')" />
+                                    </div>
+
+                                    <div class="w-auto pb-4">
                                         <label for="nama_lengkap"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.fullname')</label>
                                         <x-text-input type="text" name="nama_lengkap" id="nama_lengkap"
-                                            tabindex="1" autofocus required
+                                            tabindex="1" required
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.fullname') }}"
                                             value="{{ old('nama_lengkap', $datas->nama_lengkap) }}" />
 
@@ -56,10 +67,64 @@
                                     </div>
 
                                     <div class="w-auto pb-4">
+                                        <label for="nama_panggilan"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.shortname')</label>
+                                        <x-text-input type="text" name="nama_panggilan" id="nama_panggilan"
+                                            tabindex="1"
+                                            placeholder="{{ __('messages.enter') }} {{ __('messages.shortname') }}"
+                                            value="{{ old('nama_panggilan', $datas->nama_panggilan) }}" />
+
+                                        <x-input-error class="mt-2" :messages="$errors->get('nama_panggilan')" />
+                                    </div>
+
+                                    <div class="w-auto pb-4">
+                                        <label for="tempat_lahir"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.birthplace')</label>
+                                        <x-text-input type="text" name="tempat_lahir" id="tempat_lahir"
+                                            tabindex="2"
+                                            placeholder="{{ __('messages.enter') }} {{ __('messages.birthplace') }}"
+                                            value="{{ old('tempat_lahir', $datas->tempat_lahir) }}" />
+
+                                        <x-input-error class="mt-2" :messages="$errors->get('tempat_lahir')" />
+                                    </div>
+
+                                    <div class="w-auto pb-4">
+                                        <label for="tanggal_lahir"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.birthdate')</label>
+                                        <x-text-input type="date" name="tanggal_lahir" id="tanggal_lahir"
+                                            data-date-format="dd-mm-yyyy" tabindex="2"
+                                            value="{{ old('tanggal_lahir', $datas->tanggal_lahir) }}" />
+
+                                        <x-input-error class="mt-2" :messages="$errors->get('tanggal_lahir')" />
+                                    </div>
+
+                                    <div class="w-auto pb-4">
+                                        <label for="alamat_asal"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.originaddress')</label>
+                                        <x-text-input type="text" name="alamat_asal" id="alamat_asal" tabindex="2"
+                                            placeholder="{{ __('messages.enter') }} {{ __('messages.originaddress') }}"
+                                            value="{{ old('alamat_asal', $datas->alamat_asal) }}" />
+
+                                        <x-input-error class="mt-2" :messages="$errors->get('alamat_asal')" />
+                                    </div>
+                                </div>
+
+                                <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
+                                    <div class="w-auto pb-4">
+                                        <label for="nip"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.nip')</label>
+                                        <x-text-input type="text" name="nip" id="nip" tabindex="3"
+                                            placeholder="{{ __('messages.enter') }} {{ __('messages.fullname') }}"
+                                            value="{{ old('nip', $datas->nip) }}" />
+
+                                        <x-input-error class="mt-2" :messages="$errors->get('nip')" />
+                                    </div>
+
+                                    <div class="w-auto pb-4">
                                         <label for="alamat_tinggal"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.residentialaddress')</label>
                                         <x-text-input type="text" name="alamat_tinggal" id="alamat_tinggal"
-                                            tabindex="2" required
+                                            tabindex="3" required
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.residentialaddress') }}"
                                             value="{{ old('alamat_tinggal', $datas->alamat_tinggal) }}" />
 
@@ -76,9 +141,7 @@
 
                                         <x-input-error class="mt-2" :messages="$errors->get('telpon')" />
                                     </div>
-                                </div>
 
-                                <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
                                     <div class="w-auto pb-4">
                                         <span
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.gender')</span>
@@ -91,7 +154,8 @@
                                                     <div
                                                         class="w-5 h-5 bg-transparent border-2 border-blue-500 rounded-full peer-checked:bg-blue-500 peer-checked:border-blue-500 peer-hover:shadow-lg peer-hover:shadow-blue-500/50 peer-checked:shadow-lg peer-checked:shadow-blue-500/50 transition duration-300 ease-in-out">
                                                     </div>
-                                                    <label for="kelamin-laki" class="ml-2">@lang('messages.genderman')</label>
+                                                    <label for="kelamin-laki"
+                                                        class="ml-2">@lang('messages.genderman')</label>
                                                 </label>
                                                 <label class="relative flex items-center cursor-pointer">
                                                     <input {{ $datas->kelamin == 'P' ? 'checked' : '' }}
@@ -120,7 +184,8 @@
                                     <div class="w-auto pb-4 lg:pb-12">
                                         <label for="keterangan"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</label>
-                                        <x-text-input type="text" name="keterangan" id="keterangan" tabindex="7"
+                                        <x-text-input type="text" name="keterangan" id="keterangan"
+                                            tabindex="7"
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.description') }}"
                                             value="{{ old('keterangan', $datas->keterangan) }}" />
 
