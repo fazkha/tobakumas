@@ -42,25 +42,25 @@
                                 <div class="w-auto pb-4">
                                     <span for="nik"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.nik')</span>
-                                    <x-text-span>{{ $datas->nik }}</x-text-span>
+                                    <x-text-span>{{ $datas->nik ? $datas->nik : '-' }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
                                     <span for="nama_lengkap"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.fullname')</span>
-                                    <x-text-span>{{ $datas->nama_lengkap }}</x-text-span>
+                                    <x-text-span>{{ $datas->nama_lengkap ? $datas->nama_lengkap : '-' }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
                                     <span for="nama_panggilan"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.shortname')</span>
-                                    <x-text-span>{{ $datas->nama_panggilan }}</x-text-span>
+                                    <x-text-span>{{ $datas->nama_panggilan ? $datas->nama_panggilan : '-' }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
                                     <span for="tempat_lahir"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.birthplace')</span>
-                                    <x-text-span>{{ $datas->tempat_lahir }}</x-text-span>
+                                    <x-text-span>{{ $datas->tempat_lahir ? $datas->tempat_lahir : '-' }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
@@ -72,7 +72,7 @@
                                 <div class="w-auto pb-4">
                                     <span for="alamat_asal"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.originaddress')</span>
-                                    <x-text-span>{{ $datas->alamat_asal }}</x-text-span>
+                                    <x-text-span>{{ $datas->alamat_asal ? $datas->alamat_asal : '-' }}</x-text-span>
                                 </div>
                             </div>
 
@@ -80,19 +80,19 @@
                                 <div class="w-auto pb-4">
                                     <span for="nip"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.nip')</span>
-                                    <x-text-span>{{ $datas->nip }}</x-text-span>
+                                    <x-text-span>{{ $datas->nip ? $datas->nip : '-' }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
                                     <span for="alamat_tinggal"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.residentialaddress')</span>
-                                    <x-text-span>{{ $datas->alamat_tinggal }}</x-text-span>
+                                    <x-text-span>{{ $datas->alamat_tinggal ? $datas->alamat_tinggal : '-' }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
                                     <span for="telpon"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.phonenumber')</span>
-                                    <x-text-span>{{ $datas->telpon }}</x-text-span>
+                                    <x-text-span>{{ $datas->telpon ? $datas->telpon : '-' }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
@@ -110,7 +110,7 @@
                                 <div class="w-auto pb-4 lg:pb-12">
                                     <span for="keterangan"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</span>
-                                    <x-text-span>{{ $datas->keterangan }}</x-text-span>
+                                    <x-text-span>{{ $datas->keterangan ? $datas->keterangan : '-' }}</x-text-span>
                                 </div>
 
                                 <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
