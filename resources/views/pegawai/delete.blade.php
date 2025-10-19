@@ -100,6 +100,18 @@
                                 </div>
 
                                 <div class="w-auto pb-4">
+                                    <span for="tempat_lahir"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.birthplace')</span>
+                                    <x-text-span>{{ $datas->tempat_lahir }}</x-text-span>
+                                </div>
+
+                                <div class="w-auto pb-4">
+                                    <span for="tanggal_lahir"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.birthdate')</span>
+                                    <x-text-span>{{ date('d/m/Y', strtotime($datas->tanggal_lahir)) }}</x-text-span>
+                                </div>
+
+                                <div class="w-auto pb-4">
                                     <span for="alamat_asal"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.originaddress')</span>
                                     <x-text-span>{{ $datas->alamat_asal }}</x-text-span>
