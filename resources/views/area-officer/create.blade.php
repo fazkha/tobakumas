@@ -1,6 +1,7 @@
 @php
     $pro = '';
     $kab = '';
+    $i = 0;
 @endphp
 @section('title', __('messages.brandivjabkec'))
 
@@ -88,33 +89,65 @@
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.customer')</span>
                                         <x-text-span>
                                             <div class="p-2 flex flex-col gap-2">
-                                                @foreach ($customers as $customer)
-                                                    @if ($pro !== $customer->namapropinsi)
-                                                        @php
-                                                            $pro = $customer->namapropinsi;
-                                                        @endphp
-                                                        <span class="font-bold">{{ $customer->namapropinsi }}</span>
-                                                    @endif
+                                                <table>
+                                                    @foreach ($customers as $customer)
+                                                        @if ($pro !== $customer->namapropinsi)
+                                                            @php
+                                                                $pro = $customer->namapropinsi;
+                                                            @endphp
+                                                            <tr>
+                                                                <td colspan="{{ $i > 0 ? '2' : '0' }}"
+                                                                    class="border-b-2 border-primary-100">
+                                                                    <span
+                                                                        class="font-bold">{{ $customer->namapropinsi }}</span>
+                                                                </td>
+                                                                @if ($i < 1)
+                                                                    <td class="border-b-2 border-primary-100">
+                                                                        Urutan Rute
+                                                                    </td>
+                                                                @endif
+                                                            </tr>
+                                                        @endif
 
-                                                    @if ($kab !== $customer->namakabupaten)
+                                                        @if ($kab !== $customer->namakabupaten)
+                                                            @php
+                                                                $kab = $customer->namakabupaten;
+                                                            @endphp
+                                                            <tr>
+                                                                <td colspan="2">
+                                                                    <span
+                                                                        class="font-bold px-4 md:px-8">{{ $customer->namakabupaten }}</span>
+                                                                </td>
+                                                            </tr>
+                                                        @endif
+                                                        <tr>
+                                                            <td class="w-4/5">
+                                                                <div class="pl-8 md:pl-16 py-2">
+                                                                    <label
+                                                                        class="cursor-pointer flex flex-row gap-2 items-center">
+                                                                        <input type="checkbox" name="custs[]"
+                                                                            value="{{ $customer->id }}"
+                                                                            class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-7 h-7 rounded-lg shadow-md" />
+                                                                        <span
+                                                                            class="pr-4 group-hover:text-blue-500 transition-colors duration-300">
+                                                                            {{ $customer->nama }}
+                                                                        </span>
+                                                                    </label>
+                                                                </div>
+                                                            </td>
+                                                            <td class="w-1/5">
+                                                                <div>
+                                                                    <input type="number" min="0"
+                                                                        name="urutans[]"
+                                                                        class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border bg-primary-20 border-primary-100 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300 disabled:bg-primary-50 disabled:dark:bg-primary-800 disabled:text-gray-900 disabled:border-primary-100 disabled:dark:border-primary-800" />
+                                                                </div>
+                                                            </td>
+                                                        </tr>
                                                         @php
-                                                            $kab = $customer->namakabupaten;
+                                                            $i++;
                                                         @endphp
-                                                        <span
-                                                            class="font-bold px-8">{{ $customer->namakabupaten }}</span>
-                                                    @endif
-                                                    <span class="px-16">
-                                                        <label class="cursor-pointer flex flex-row gap-2 items-center">
-                                                            <input type="checkbox" name="custs[]"
-                                                                value="{{ $customer->id }}"
-                                                                class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-7 h-7 rounded-lg shadow-md">
-                                                            <span
-                                                                class="pr-4 group-hover:text-blue-500 transition-colors duration-300">
-                                                                {{ $customer->nama }}
-                                                            </span>
-                                                        </label>
-                                                    </span>
-                                                @endforeach
+                                                    @endforeach
+                                                </table>
                                             </div>
                                         </x-text-span>
                                     </div>
@@ -142,8 +175,9 @@
                                             <span class="pl-1">@lang('messages.save')</span>
                                         </x-primary-button>
                                         <x-anchor-secondary href="{{ route('area-officer.index') }}" tabindex="6">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="currentColor" class="size-5">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                class="size-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M6 18 18 6M6 6l12 12" />
                                             </svg>

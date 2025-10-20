@@ -143,7 +143,7 @@ class AreaOfficerController extends Controller implements HasMiddleware
     {
         $customers = Customer::join('kabupatens', 'kabupatens.id', 'customers.kabupaten_id')
             ->join('propinsis', 'propinsis.id', 'customers.propinsi_id')
-            ->selectRaw('propinsis.nama as namapropinsi, kabupatens.nama as namakabupaten, customers.nama as nama, customers.id as id')
+            ->selectRaw('propinsis.nama as namapropinsi, kabupatens.nama as namakabupaten, customers.nama as nama, customers.id as id, 1 as urutan')
             ->where('customers.isactive', 1)->where('kabupatens.isactive', 1)->where('propinsis.isactive', 1)
             ->orderBy('customers.propinsi_id')->orderBy('customers.kabupaten_id')->orderBy('customers.nama')->get();
         // level 7 = staf
@@ -154,14 +154,20 @@ class AreaOfficerController extends Controller implements HasMiddleware
 
     public function store(Request $request): RedirectResponse
     {
+        $areaofficer = AreaOfficer::where('pegawai_id', $request->pegawai_id);
         $custs = $request->input('custs');
+        $urutans = $request->input('urutans');
+        $filtered = array_filter($urutans);
+        $indexed = array_values($filtered);
 
         if ($custs) {
-            foreach ($custs as $cust) {
-                $sel = Customer::find($cust);
-                $area_officer = AreaOfficer::create([
-                    'customer_id' => $cust,
+            if ($areaofficer) $areaofficer->delete();
+
+            foreach ($custs as $key => $value) {
+                $areaofficer = AreaOfficer::create([
+                    'customer_id' => $value,
                     'pegawai_id' => $request->pegawai_id,
+                    'urutan' => $indexed ? $indexed[$key] : 0,
                     'keterangan' => $request->keterangan,
                     'isactive' => ($request->isactive == 'on' ? 1 : 0),
                     'created_by' => auth()->user()->email,
@@ -169,8 +175,8 @@ class AreaOfficerController extends Controller implements HasMiddleware
                 ]);
             }
 
-            if ($area_officer) {
-                return redirect()->back()->with('success', __('messages.successadded') . ' 👉 ' . $area_officer->pegawai->nama_lengkap);
+            if ($areaofficer) {
+                return redirect()->back()->with('success', __('messages.successadded') . ' 👉 ' . $areaofficer->pegawai->nama_lengkap);
             }
         }
 
@@ -183,14 +189,15 @@ class AreaOfficerController extends Controller implements HasMiddleware
 
         if ($data1) {
             $datas =  AreaOfficer::join('customers', 'customers.id', 'area_officers.customer_id')
-                ->where('pegawai_id', $data1->pegawai_id)
+                ->where('area_officers.pegawai_id', $data1->pegawai_id)
                 ->orderBy('customers.propinsi_id')
                 ->orderBy('customers.kabupaten_id')
                 ->orderBy('area_officers.customer_id')
+                ->selectRaw('area_officers.id AS id, area_officers.pegawai_id AS pegawai_id, area_officers.customer_id AS customer_id, area_officers.keterangan AS keterangan, area_officers.isactive AS isactive, area_officers.urutan AS urutan')
                 ->get();
             $customers = Customer::join('kabupatens', 'kabupatens.id', 'customers.kabupaten_id')
                 ->join('propinsis', 'propinsis.id', 'customers.propinsi_id')
-                ->selectRaw('propinsis.nama as namapropinsi, kabupatens.nama as namakabupaten, customers.nama as nama, customers.id as id')
+                ->selectRaw('propinsis.nama as namapropinsi, kabupatens.nama as namakabupaten, customers.nama as nama, customers.id as id, 1 as urutan')
                 ->where('customers.isactive', 1)->where('kabupatens.isactive', 1)->where('propinsis.isactive', 1)
                 ->orderBy('customers.propinsi_id')->orderBy('customers.kabupaten_id')->orderBy('customers.nama')->get();
             // level 7 = staf
@@ -218,7 +225,7 @@ class AreaOfficerController extends Controller implements HasMiddleware
                 ->join('propinsis', 'propinsis.id', 'customers.propinsi_id')
                 ->selectRaw('propinsis.nama as namapropinsi, kabupatens.nama as namakabupaten, customers.nama as nama, customers.id as id, 1 as urutan')
                 ->where('customers.isactive', 1)->where('kabupatens.isactive', 1)->where('propinsis.isactive', 1)
-                ->orderBy('customers.propinsi_id')->orderBy('customers.kabupaten_id')->orderBy('customers.id')->get();
+                ->orderBy('customers.propinsi_id')->orderBy('customers.kabupaten_id')->orderBy('customers.nama')->get();
             // level 7 = staf
             $petugas = ViewPegawaiJabatan::where('islevel', 7)->where('kode_branch', main_office_code())->orderBy('nama_plus')->pluck('nama_plus', 'pegawai_id');
 

@@ -86,7 +86,7 @@
 
                                 <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
                                     <div class="w-auto pb-4 lg:pb-12">
-                                        <span for="propinsis"
+                                        <span for="customers"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.customer')</span>
                                         <x-text-span>
                                             <div class="p-2 flex flex-col gap-2">
