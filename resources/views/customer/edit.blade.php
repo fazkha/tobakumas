@@ -55,20 +55,39 @@
                                         <x-text-span>{{ $datas->branch->nama }}</x-text-span>
                                     </div>
 
-                                    <div class="w-auto pb-4">
-                                        <label for="customer_group_id"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.customergroup')</label>
-                                        <select name="customer_group_id" id="customer_group_id" tabindex="1" autofocus
-                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
-                                            <option value="">@lang('messages.choose')...</option>
-                                            @foreach ($groups as $id => $name)
-                                                <option value="{{ $id }}"
-                                                    {{ old('customer_group_id', $datas->customer_group_id) == $id ? 'selected' : '' }}>
-                                                    {{ $name }}</option>
-                                            @endforeach
-                                        </select>
+                                    <div class="flex flex-row gap-2">
+                                        <div class="w-1/3 pb-4">
+                                            <label for="customer_group_id"
+                                                class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.group')</label>
+                                            <select name="customer_group_id" id="customer_group_id" tabindex="1"
+                                                autofocus
+                                                class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                                <option value="">@lang('messages.choose')...</option>
+                                                @foreach ($groups as $id => $name)
+                                                    <option value="{{ $id }}"
+                                                        {{ old('customer_group_id', $datas->customer_group_id) == $id ? 'selected' : '' }}>
+                                                        {{ $name }}</option>
+                                                @endforeach
+                                            </select>
 
-                                        <x-input-error class="mt-2" :messages="$errors->get('customer_group_id')" />
+                                            <x-input-error class="mt-2" :messages="$errors->get('customer_group_id')" />
+                                        </div>
+
+                                        <div class="w-2/3 pb-4">
+                                            <label for="branch_link_id"
+                                                class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.relatedbranch')</label>
+                                            <select name="branch_link_id" id="branch_link_id" tabindex="1" autofocus
+                                                class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                                <option value="">@lang('messages.choose')...</option>
+                                                @foreach ($branches as $id => $name)
+                                                    <option value="{{ $id }}"
+                                                        {{ old('branch_link_id', $datas->branch_link_id) == $id ? 'selected' : '' }}>
+                                                        {{ $name }}</option>
+                                                @endforeach
+                                            </select>
+
+                                            <x-input-error class="mt-2" :messages="$errors->get('branch_link_id')" />
+                                        </div>
                                     </div>
 
                                     <div class="w-auto pb-4">
@@ -316,6 +335,32 @@
                         }
                     });
                 });
+
+                $("#branch_link_id").on("change keyup paste", function() {
+                    var xbr = $('#branch_link_id option:selected').val();
+                    if (xbr.trim()) {
+                        xbrl = xbr;
+                    } else {
+                        xbrl = '_';
+                    }
+
+                    $.ajax({
+                        url: '{{ url('/general-affair/branch/get-attribute') }}' + "/" + xbrl,
+                        type: "GET",
+                        dataType: 'json',
+                        success: function(result) {
+                            $('#kode').val(result.kode);
+                            $('#nama').val(result.nama);
+                            $('#alamat').val(result.alamat);
+                            $('#propinsi_id').val(result.propinsi_id);
+                            $("#propinsi_id").trigger("change");
+                            $('#kabupaten_id').val(result.kabupaten_id);
+                            $("#kabupaten_id").trigger("change");
+                            $('#kecamatan_id').val(result.kecamatan_id);
+                        }
+                    });
+                });
+
             });
         </script>
     @endpush

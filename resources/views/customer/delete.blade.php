@@ -92,10 +92,18 @@
                                     <x-text-span>{{ $datas->branch->nama }}</x-text-span>
                                 </div>
 
-                                <div class="w-auto pb-4">
-                                    <span for="customer_group_id"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.customergroup')</span>
-                                    <x-text-span>{{ $datas->customer_group->nama }}</x-text-span>
+                                <div class="flex flex-row gap-2">
+                                    <div class="w-1/3 pb-4">
+                                        <span for="customer_group_id"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.customergroup')</span>
+                                        <x-text-span>{{ $datas->customer_group->nama }}</x-text-span>
+                                    </div>
+
+                                    <div class="w-2/3 pb-4">
+                                        <span for="customer_group_id"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.relatedbranch')</span>
+                                        <x-text-span>{{ $datas->branch_link->nama }}</x-text-span>
+                                    </div>
                                 </div>
 
                                 <div class="w-auto pb-4">

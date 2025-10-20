@@ -72,6 +72,26 @@
 
                                         <x-input-error class="mt-2" :messages="$errors->get('alamat')" />
                                     </div>
+
+                                    <div class="w-auto pb-4">
+                                        <label for="kodepos"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.zipcode')</label>
+                                        <x-text-input type="text" name="kodepos" id="kodepos" tabindex="3"
+                                            placeholder="{{ __('messages.enter') }} {{ __('messages.zipcode') }}"
+                                            value="{{ old('kodepos', $datas->kodepos) }}" />
+
+                                        <x-input-error class="mt-2" :messages="$errors->get('kodepos')" />
+                                    </div>
+
+                                    <div class="w-auto pb-4">
+                                        <label for="email"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.email')</label>
+                                        <x-text-input type="text" name="email" id="email" tabindex="3"
+                                            placeholder="{{ __('messages.enter') }} {{ __('messages.email') }}"
+                                            value="{{ old('email', $datas->email) }}" />
+
+                                        <x-input-error class="mt-2" :messages="$errors->get('email')" />
+                                    </div>
                                 </div>
 
                                 <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
@@ -107,10 +127,27 @@
                                         <x-input-error class="mt-2" :messages="$errors->get('kabupaten_id')" />
                                     </div>
 
+                                    <div class="w-auto pb-4">
+                                        <label for="kecamatan_id"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.kecamatan')</label>
+                                        <select name="kecamatan_id" id="kecamatan_id" tabindex="5" required
+                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                            <option value="">@lang('messages.choose')...</option>
+                                            @foreach ($kecamatans as $id => $name)
+                                                <option value="{{ $id }}"
+                                                    {{ $datas->kecamatan_id == $id ? 'selected' : '' }}>
+                                                    {{ $name }}</option>
+                                            @endforeach
+                                        </select>
+
+                                        <x-input-error class="mt-2" :messages="$errors->get('kecamatan_id')" />
+                                    </div>
+
                                     <div class="w-auto pb-4 lg:pb-12">
                                         <label for="keterangan"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</label>
-                                        <x-text-input type="text" name="keterangan" id="keterangan" tabindex="6"
+                                        <x-text-input type="text" name="keterangan" id="keterangan"
+                                            tabindex="6"
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.description') }}"
                                             value="{{ old('keterangan', $datas->keterangan) }}" />
 
@@ -132,8 +169,9 @@
                                         </div>
 
                                         <x-primary-button type="submit" class="block" tabindex="7">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="currentColor" class="size-5">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                class="size-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
                                             </svg>
@@ -193,6 +231,43 @@
                                 }));
                             });
                             $("#kabupaten_id").focus();
+                        }
+                    });
+                });
+
+                $("#kabupaten_id").on("change keyup paste", function() {
+                    var xpr = $('#propinsi_id option:selected').val();
+                    if (xpr.trim()) {
+                        xprop = xpr;
+                    } else {
+                        xprop = '_';
+                    }
+                    var xkb = $('#kabupaten_id option:selected').val();
+                    if (xkb.trim()) {
+                        xkab = xkb;
+                    } else {
+                        xkab = '_';
+                    }
+
+                    $.ajax({
+                        url: '{{ url('/marketing/kecamatan/depend-drop-kec') }}' + "/" + xprop + "/" +
+                            xkab,
+                        type: "GET",
+                        dataType: 'json',
+                        success: function(result) {
+                            $('#kecamatan_id').empty();
+                            $('#kecamatan_id').append($('<option>', {
+                                value: null,
+                                text: "{{ __('messages.choose') }}..."
+                            }));
+                            var data = result.kecs;
+                            $.each(data, function(item, index) {
+                                $('#kecamatan_id').append($('<option>', {
+                                    value: index,
+                                    text: item
+                                }));
+                            });
+                            $("#kecamatan_id").focus();
                         }
                     });
                 });

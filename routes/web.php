@@ -161,6 +161,7 @@ Route::prefix('general-affair')->middleware('auth')->group(function () {
     Route::resource('branch', BranchController::class);
     Route::get('branch/{branch}/delete', [BranchController::class, 'delete'])->name('branch.delete');
     Route::get('branch/fetchdb/{pp}/{isactive}/{nama}/{alamat}', [BranchController::class, 'fetchdb'])->defaults('nama', '_')->defaults('alamat', '_');
+    Route::get('branch/get-attribute/{id}', [BranchController::class, 'getAttribute'])->defaults('id', '_');
 
     Route::resource('division', DivisionController::class);
     Route::get('division/{division}/delete', [DivisionController::class, 'delete'])->name('division.delete');

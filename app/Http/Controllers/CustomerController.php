@@ -142,12 +142,13 @@ class CustomerController extends Controller implements HasMiddleware
     {
         $branch_id = auth()->user()->profile->branch_id;
         $branch = Branch::find($branch_id);
+        $branches = Branch::where('isactive', 1)->where('kode', '!=', 'PST')->orderby('nama')->pluck('nama', 'id');
         $groups = CustomerGroup::where('isactive', 1)->pluck('nama', 'id');
         $propinsis = Propinsi::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $kabupatens = Kabupaten::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $kecamatans = Kecamatan::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
 
-        return view('customer.create', compact('branch_id', 'branch', 'groups', 'propinsis', 'kabupatens', 'kecamatans'));
+        return view('customer.create', compact('branch_id', 'branch', 'branches', 'groups', 'propinsis', 'kabupatens', 'kecamatans'));
     }
 
     public function store(CustomerRequest $request): RedirectResponse
@@ -155,6 +156,7 @@ class CustomerController extends Controller implements HasMiddleware
         if ($request->validated()) {
             $customer = Customer::create([
                 'branch_id' => $request->branch_id,
+                'branch_link_id' => $request->branch_link_id,
                 'customer_group_id' => $request->customer_group_id,
                 'propinsi_id' => $request->propinsi_id,
                 'kabupaten_id' => $request->kabupaten_id,
@@ -193,8 +195,9 @@ class CustomerController extends Controller implements HasMiddleware
         $propinsis = Propinsi::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $kabupatens = Kabupaten::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $kecamatans = Kecamatan::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+        $branches = Branch::where('isactive', 1)->where('kode', '!=', 'PST')->orderby('nama')->pluck('nama', 'id');
 
-        return view('customer.edit', compact(['datas', 'groups', 'propinsis', 'kabupatens', 'kecamatans']));
+        return view('customer.edit', compact(['datas', 'groups', 'branches', 'propinsis', 'kabupatens', 'kecamatans']));
     }
 
     public function update(CustomerUpdateRequest $request): RedirectResponse
@@ -205,6 +208,7 @@ class CustomerController extends Controller implements HasMiddleware
 
             $customer->update([
                 'customer_group_id' => $request->customer_group_id,
+                'branch_link_id' => $request->branch_link_id,
                 'propinsi_id' => $request->propinsi_id,
                 'kabupaten_id' => $request->kabupaten_id,
                 'kecamatan_id' => $request->kecamatan_id,

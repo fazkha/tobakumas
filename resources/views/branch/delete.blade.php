@@ -89,13 +89,43 @@
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.name')</span>
                                     <x-text-span>{{ $datas->nama }}</x-text-span>
                                 </div>
-                            </div>
 
-                            <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
                                 <div class="w-auto pb-4">
                                     <span for="alamat"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.address')</span>
                                     <x-text-span>{{ $datas->alamat }}</x-text-span>
+                                </div>
+
+                                <div class="w-auto pb-4">
+                                    <span for="kodepos"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.zipcode')</span>
+                                    <x-text-span>{{ $datas->kodepos }}</x-text-span>
+                                </div>
+
+                                <div class="w-auto pb-4">
+                                    <span for="email"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.email')</span>
+                                    <x-text-span>{{ $datas->email }}</x-text-span>
+                                </div>
+                            </div>
+
+                            <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
+                                <div class="w-auto pb-4">
+                                    <span for="propinsi"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.propinsi')</span>
+                                    <x-text-span>{{ $datas->propinsi->nama }}</x-text-span>
+                                </div>
+
+                                <div class="w-auto pb-4">
+                                    <span for="kabupaten"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.kabupaten')</span>
+                                    <x-text-span>{{ $datas->kabupaten->nama }}</x-text-span>
+                                </div>
+
+                                <div class="w-auto pb-4">
+                                    <span for="kecamatan"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.kecamatan')</span>
+                                    <x-text-span>{{ $datas->kecamatan->nama }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4 lg:pb-12">

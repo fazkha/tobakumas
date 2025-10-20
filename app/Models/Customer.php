@@ -14,6 +14,7 @@ class Customer extends Model
 
     protected $fillable = [
         'branch_id',
+        'branch_link_id',
         'customer_group_id',
         'propinsi_id',
         'kabupaten_id',
@@ -33,6 +34,11 @@ class Customer extends Model
     public function branch()
     {
         return $this->belongsTo(Branch::class);
+    }
+
+    public function branch_link()
+    {
+        return $this->belongsTo(Branch::class, 'branch_link_id');
     }
 
     public function propinsi()

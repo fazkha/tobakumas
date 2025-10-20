@@ -265,7 +265,7 @@
                                                     <th class="w-1/12">@lang('messages.startdate')</th>
                                                     <th class="w-1/12">@lang('messages.enddate')</th>
                                                     <th class="w-auto">@lang('messages.description')</th>
-                                                    <th class="w-auto">@lang('messages.active')</th>
+                                                    <th class="w-auto">@lang('messages.status')</th>
                                                 </tr>
                                             </thead>
 
@@ -310,9 +310,14 @@
                                                     </td>
                                                     <td class="text-center">
                                                         <div class="w-auto">
-                                                            <input type="checkbox" id="isactive" name="isactive"
-                                                                class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-7 h-7 rounded-lg shadow-md"
-                                                                checked>
+                                                            <select name="isactive" id="isactive" tabindex="14"
+                                                                x-bind:disabled="buttonDisabled"
+                                                                class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                                                <option value="1" selected>@lang('messages.active')
+                                                                </option>
+                                                                <option value="2">@lang('messages.resign')</option>
+                                                                <option value="3">@lang('messages.fired')</option>
+                                                            </select>
                                                         </div>
                                                     </td>
                                                 </tr>

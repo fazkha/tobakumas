@@ -14,21 +14,13 @@
                 <x-text-span>{{ $detail->keterangan ? $detail->keterangan : '-' }}</x-text-span>
             </td>
             <td class="align-top">
-                <span class="flex items-center justify-center pt-2">
-                    @if ($detail->isactive == '1')
-                        <span>✔️</span>
-                    @endif
-                    @if ($detail->isactive == '0')
-                        <span>❌</span>
-                    @endif
-                </span>
+                <x-text-span>{{ $detail->isactive == '1' ? __('messages.active') : ($detail->isactive == '3' ? __('messages.fired') : __('messages.resign')) }}</x-text-span>
             </td>
             @if ($viewMode == false)
                 @if ($detail->isactive == '1')
                     <td class="align-top">
                         <x-anchor-danger id="a-delete-detail-{{ $detail->id }}"
-                            onclick="deleteDetail({{ $detail->id }})" class="!px-1"
-                            title="{{ __('messages.delete') }}">
+                            onclick="deleteDetail({{ $detail->id }})" class="!px-1" title="{{ __('messages.delete') }}">
                             <svg class="size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="1.5" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round"

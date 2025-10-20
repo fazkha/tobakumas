@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Branch;
-use App\Http\Requests\BranchRequest;
 use App\Models\Kabupaten;
 use App\Models\Propinsi;
+use App\Http\Requests\BranchRequest;
+use App\Models\Kecamatan;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
@@ -115,8 +116,9 @@ class BranchController extends Controller implements HasMiddleware
     {
         $propinsis = Propinsi::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $kabupatens = Kabupaten::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+        $kecamatans = Kecamatan::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
 
-        return view('branch.create', compact('propinsis', 'kabupatens'));
+        return view('branch.create', compact('propinsis', 'kabupatens', 'kecamatans'));
     }
 
     public function store(BranchRequest $request): RedirectResponse
@@ -125,10 +127,13 @@ class BranchController extends Controller implements HasMiddleware
             $branch = Branch::create([
                 'propinsi_id' => $request->propinsi_id,
                 'kabupaten_id' => $request->kabupaten_id,
+                'kecamatan_id' => $request->kecamatan_id,
                 'kode' => $request->kode,
                 'nama' => $request->nama,
                 'alamat' => $request->alamat,
+                'kodepos' => $request->kodepos,
                 'keterangan' => $request->keterangan,
+                'email' => $request->email,
                 'isactive' => ($request->isactive == 'on' ? 1 : 0),
                 'created_by' => auth()->user()->email,
                 'updated_by' => auth()->user()->email,
@@ -154,8 +159,9 @@ class BranchController extends Controller implements HasMiddleware
         $datas = Branch::find(Crypt::decrypt($request->branch));
         $propinsis = Propinsi::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $kabupatens = Kabupaten::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+        $kecamatans = Kecamatan::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
 
-        return view('branch.edit', compact(['datas', 'propinsis', 'kabupatens']));
+        return view('branch.edit', compact(['datas', 'propinsis', 'kabupatens', 'kecamatans']));
     }
 
     public function update(BranchRequest $request): RedirectResponse
@@ -167,10 +173,13 @@ class BranchController extends Controller implements HasMiddleware
             $branch->update([
                 'propinsi_id' => $request->propinsi_id,
                 'kabupaten_id' => $request->kabupaten_id,
+                'kecamatan_id' => $request->kecamatan_id,
                 'kode' => $request->kode,
                 'nama' => $request->nama,
                 'alamat' => $request->alamat,
+                'kodepos' => $request->kodepos,
                 'keterangan' => $request->keterangan,
+                'email' => $request->email,
                 'isactive' => ($request->isactive == 'on' ? 1 : 0),
                 'updated_by' => auth()->user()->email,
             ]);
@@ -205,5 +214,37 @@ class BranchController extends Controller implements HasMiddleware
 
         return redirect()->route('branch.index')
             ->with('success', __('messages.successdeleted') . ' 👉 ' . $branch->nama);
+    }
+
+    public function getAttribute(Request $request): JsonResponse
+    {
+        $get = Branch::find($request->id);
+
+        if ($get) {
+            $kode = $get->kode;
+            $nama = $get->nama;
+            $alamat = $get->alamat;
+            $propinsi_id = $get->propinsi_id;
+            $kabupaten_id = $get->kabupaten_id;
+            $kecamatan_id = $get->kecamatan_id;
+
+            return response()->json([
+                'kode' => $kode,
+                'nama' => $nama,
+                'alamat' => $alamat,
+                'propinsi_id' => $propinsi_id,
+                'kabupaten_id' => $kabupaten_id,
+                'kecamatan_id' => $kecamatan_id,
+            ], 200);
+        }
+
+        return response()->json([
+            'kode' => '-',
+            'nama' => '-',
+            'alamat' => '-',
+            'propinsi_id' => null,
+            'kabupaten_id' => null,
+            'kecamatan_id' => null,
+        ], 200);
     }
 }

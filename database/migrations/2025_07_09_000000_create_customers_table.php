@@ -15,7 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('branch_id')->constrained()->onUpdate('cascade')->onDelete('set null');
             $table->foreignId('customer_group_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('propinsi_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('kabupaten_id')->constrained()->onUpdate('cascade')->onDelete('set null');
             $table->foreignId('kecamatan_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->unsignedBigInteger('branch_link_id')->nullable();
             $table->string('kode');
             $table->string('nama');
             $table->string('alamat')->nullable();

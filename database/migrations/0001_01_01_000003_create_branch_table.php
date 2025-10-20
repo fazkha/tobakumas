@@ -13,10 +13,15 @@ return new class extends Migration
     {
         Schema::create('branches', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('propinsi_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('kabupaten_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('kecamatan_id')->constrained()->onUpdate('cascade')->onDelete('set null');
             $table->string('kode');
             $table->string('nama');
             $table->string('alamat')->nullable();
+            $table->string('kodepos', 50)->nullable();
             $table->string('keterangan')->nullable();
+            $table->string('email')->nullable();
             $table->tinyInteger('isactive')->default(0);
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
