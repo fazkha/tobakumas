@@ -2,6 +2,7 @@
     $pro = '';
     $kab = '';
     $i = 0;
+    $a = 0;
 @endphp
 @section('title', __('messages.brandivjabkec'))
 
@@ -97,10 +98,16 @@
                                                                 $pro = $customer->namapropinsi;
                                                             @endphp
                                                             <tr>
-                                                                <td colspan="2">
+                                                                <td colspan="{{ $a > 0 ? '2' : '0' }}"
+                                                                    class="border-b-2 border-primary-100">
                                                                     <span
                                                                         class="font-bold">{{ $customer->namapropinsi }}</span>
                                                                 </td>
+                                                                @if ($a < 1)
+                                                                    <td class="border-b-2 border-primary-100">
+                                                                        Urutan Rute
+                                                                    </td>
+                                                                @endif
                                                             </tr>
                                                         @endif
 
@@ -148,6 +155,7 @@
                                                             </td>
                                                         </tr>
                                                         @php
+                                                            $a++;
                                                             if ($i < count($datas)) {
                                                                 if ($datas[$i]->customer_id == $customer->id) {
                                                                     $i++;

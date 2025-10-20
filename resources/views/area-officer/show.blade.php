@@ -2,6 +2,7 @@
     $pro = '';
     $kab = '';
     $i = 0;
+    $a = 0;
 @endphp
 @section('title', __('messages.brandivjabkec'))
 
@@ -51,7 +52,7 @@
 
                                 <div class="w-auto pb-4">
                                     <span for="brandivjab_id"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.jobposition')</span>
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.officer')</span>
                                     <x-text-span>{{ $datas[0]->pegawai->nama_lengkap }}</x-text-span>
                                 </div>
 
@@ -65,47 +66,81 @@
 
                             <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
                                 <div class="w-auto pb-4 lg:pb-12">
-                                    <span for="propinsis"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.region')</span>
+                                    <span for="customers"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.customer')</span>
                                     <x-text-span>
                                         <div class="p-2 flex flex-col gap-2">
-                                            @foreach ($customers as $customer)
-                                                @if ($pro !== $customer->namapropinsi)
-                                                    @php
-                                                        $pro = $customer->namapropinsi;
-                                                    @endphp
-                                                    <span class="font-bold">{{ $customer->namapropinsi }}</span>
-                                                @endif
-
-                                                @if ($kab !== $customer->namakabupaten)
-                                                    @php
-                                                        $kab = $customer->namakabupaten;
-                                                    @endphp
-                                                    <span class="font-bold px-8">{{ $customer->namakabupaten }}</span>
-                                                @endif
-                                                <span class="px-16">
-                                                    <div class="inline-flex items-center">
+                                            <table>
+                                                @foreach ($customers as $customer)
+                                                    @if ($pro !== $customer->namapropinsi)
                                                         @php
-                                                            if ($i < count($datas)) {
-                                                                if ($datas[$i]->customer_id == $customer->id) {
-                                                                    echo '<span>✔️</span>';
-                                                                } else {
-                                                                    echo '<span class="opacity-30">🚫</span>';
-                                                                }
-                                                            } else {
-                                                                echo '<span class="opacity-30">🚫</span>';
-                                                        } @endphp
-                                                        <label class='pl-2'>{{ $customer->nama }}</label>
-                                                    </div>
-                                                </span>
-                                                @php
-                                                    if ($i < count($datas)) {
-                                                        if ($datas[$i]->customer_id == $customer->id) {
-                                                            $i++;
+                                                            $pro = $customer->namapropinsi;
+                                                        @endphp
+                                                        <tr>
+                                                            <td colspan="{{ $a > 0 ? '2' : '0' }}"
+                                                                class="border-b-2 border-primary-100">
+                                                                <span
+                                                                    class="font-bold">{{ $customer->namapropinsi }}</span>
+                                                            </td>
+                                                            @if ($a < 1)
+                                                                <td class="border-b-2 border-primary-100">
+                                                                    Urutan Rute
+                                                                </td>
+                                                            @endif
+                                                        </tr>
+                                                    @endif
+
+                                                    @if ($kab !== $customer->namakabupaten)
+                                                        @php
+                                                            $kab = $customer->namakabupaten;
+                                                        @endphp
+                                                        <tr>
+                                                            <td colspan="2">
+                                                                <span
+                                                                    class="font-bold px-4 md:px-8">{{ $customer->namakabupaten }}</span>
+                                                            </td>
+                                                        </tr>
+                                                    @endif
+                                                    <tr>
+                                                        <td class="w-4/5">
+                                                            <div class="pl-8 md:pl-16 py-2">
+                                                                <div class="inline-flex items-center">
+                                                                    @php
+                                                                        if ($i < count($datas)) {
+                                                                            if (
+                                                                                $datas[$i]->customer_id == $customer->id
+                                                                            ) {
+                                                                                echo '<span>✔️</span>';
+                                                                            } else {
+                                                                                echo '<span class="opacity-30">🚫</span>';
+                                                                            }
+                                                                        } else {
+                                                                            echo '<span class="opacity-30">🚫</span>';
+                                                                    } @endphp
+                                                                    <label class='pl-2'>{{ $customer->nama }}</label>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="w-1/5">
+                                                            <div>
+                                                                @if ($i < count($datas))
+                                                                    @if ($datas[$i]->customer_id == $customer->id)
+                                                                        {{ $datas[$i]->urutan }}
+                                                                    @endif
+                                                                @endif
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    @php
+                                                        $a++;
+                                                        if ($i < count($datas)) {
+                                                            if ($datas[$i]->customer_id == $customer->id) {
+                                                                $i++;
+                                                            }
                                                         }
-                                                    }
-                                                @endphp
-                                            @endforeach
+                                                    @endphp
+                                                @endforeach
+                                            </table>
                                         </div>
                                     </x-text-span>
                                 </div>
