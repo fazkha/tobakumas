@@ -180,8 +180,8 @@ class StockAdjustmentController extends Controller implements HasMiddleware
         Gate::authorize('update', $datas);
 
         // islevel = 7 = staff; islevel = 3 = kepala divisi
-        $petugas = ViewPegawaiJabatan::where('islevel', 7)->where('kode_branch', 'PST')->orderBy('nama_plus')->pluck('nama_plus', 'pegawai_id');
-        $petugas2 = ViewPegawaiJabatan::where('islevel', 3)->where('kode_branch', 'PST')->orderBy('nama_plus')->pluck('nama_plus', 'pegawai_id');
+        $petugas = ViewPegawaiJabatan::where('islevel', 7)->where('kode_branch', main_office_code())->orderBy('nama_plus')->pluck('nama_plus', 'pegawai_id');
+        $petugas2 = ViewPegawaiJabatan::where('islevel', 3)->where('kode_branch', main_office_code())->orderBy('nama_plus')->pluck('nama_plus', 'pegawai_id');
 
         if (session('documents')) {
             $namafile = session('documents');

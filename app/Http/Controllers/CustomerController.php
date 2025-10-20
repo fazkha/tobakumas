@@ -142,7 +142,7 @@ class CustomerController extends Controller implements HasMiddleware
     {
         $branch_id = auth()->user()->profile->branch_id;
         $branch = Branch::find($branch_id);
-        $branches = Branch::where('isactive', 1)->where('kode', '!=', 'PST')->orderby('nama')->pluck('nama', 'id');
+        $branches = Branch::where('isactive', 1)->where('kode', '!=', main_office_code())->orderby('nama')->pluck('nama', 'id');
         $groups = CustomerGroup::where('isactive', 1)->pluck('nama', 'id');
         $propinsis = Propinsi::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $kabupatens = Kabupaten::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
@@ -195,7 +195,7 @@ class CustomerController extends Controller implements HasMiddleware
         $propinsis = Propinsi::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $kabupatens = Kabupaten::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $kecamatans = Kecamatan::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $branches = Branch::where('isactive', 1)->where('kode', '!=', 'PST')->orderby('nama')->pluck('nama', 'id');
+        $branches = Branch::where('isactive', 1)->where('kode', '!=', main_office_code())->orderby('nama')->pluck('nama', 'id');
 
         return view('customer.edit', compact(['datas', 'groups', 'branches', 'propinsis', 'kabupatens', 'kecamatans']));
     }

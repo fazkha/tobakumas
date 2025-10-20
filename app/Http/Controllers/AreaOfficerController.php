@@ -147,7 +147,7 @@ class AreaOfficerController extends Controller implements HasMiddleware
             ->where('customers.isactive', 1)->where('kabupatens.isactive', 1)->where('propinsis.isactive', 1)
             ->orderBy('customers.propinsi_id')->orderBy('customers.kabupaten_id')->orderBy('customers.nama')->get();
         // level 7 = staf
-        $petugas = ViewPegawaiJabatan::where('islevel', 7)->where('kode_branch', 'PST')->orderBy('nama_plus')->pluck('nama_plus', 'pegawai_id');
+        $petugas = ViewPegawaiJabatan::where('islevel', 7)->where('kode_branch', main_office_code())->orderBy('nama_plus')->pluck('nama_plus', 'pegawai_id');
 
         return view('area-officer.create', compact(['customers', 'petugas']));
     }
@@ -194,7 +194,7 @@ class AreaOfficerController extends Controller implements HasMiddleware
                 ->where('customers.isactive', 1)->where('kabupatens.isactive', 1)->where('propinsis.isactive', 1)
                 ->orderBy('customers.propinsi_id')->orderBy('customers.kabupaten_id')->orderBy('customers.nama')->get();
             // level 7 = staf
-            $petugas = ViewPegawaiJabatan::where('islevel', 7)->where('kode_branch', 'PST')->orderBy('nama_plus')->pluck('nama_plus', 'pegawai_id');
+            $petugas = ViewPegawaiJabatan::where('islevel', 7)->where('kode_branch', main_office_code())->orderBy('nama_plus')->pluck('nama_plus', 'pegawai_id');
 
             return view('area-officer.show', compact(['datas', 'customers', 'petugas']));
         }
@@ -220,7 +220,7 @@ class AreaOfficerController extends Controller implements HasMiddleware
                 ->where('customers.isactive', 1)->where('kabupatens.isactive', 1)->where('propinsis.isactive', 1)
                 ->orderBy('customers.propinsi_id')->orderBy('customers.kabupaten_id')->orderBy('customers.id')->get();
             // level 7 = staf
-            $petugas = ViewPegawaiJabatan::where('islevel', 7)->where('kode_branch', 'PST')->orderBy('nama_plus')->pluck('nama_plus', 'pegawai_id');
+            $petugas = ViewPegawaiJabatan::where('islevel', 7)->where('kode_branch', main_office_code())->orderBy('nama_plus')->pluck('nama_plus', 'pegawai_id');
 
             return view('area-officer.edit', compact(['datas', 'customers', 'petugas']));
         }

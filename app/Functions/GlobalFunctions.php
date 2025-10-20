@@ -1,6 +1,14 @@
 <?php
 
+use App\Models\AppSetting;
 use App\Models\Notif;
+
+function main_office_code()
+{
+    $setting = AppSetting::where('parm', 'main_office_code')->first();
+    $value = $setting ? $setting->value : 'NOT';
+    return $value;
+}
 
 function notif_count()
 {
