@@ -202,7 +202,7 @@
                                                 <span
                                                     class="block mb-2 font-medium text-primary-600 dark:text-primary-500">
                                                     <span>@lang('messages.picture')-1</span>
-                                                    <a data-title="Slipping Away by Jerry Fryer"
+                                                    <a data-title="{{ __('messages.picture') }}-1"
                                                         href="{{ $datas->gambar_1_nama ? asset($datas->gambar_1_lokasi . '/' . $datas->gambar_1_nama) : url('/images/0cd6be830e32f80192d496e50cfa9dbc.jpg') }}">
                                                         <img id="image_1-preview"
                                                             src="{{ $datas->gambar_1_nama ? asset($datas->gambar_1_lokasi . '/' . $datas->gambar_1_nama) : url('/images/0cd6be830e32f80192d496e50cfa9dbc.jpg') }}"
@@ -219,7 +219,7 @@
                                                 <span
                                                     class="block mb-2 font-medium text-primary-600 dark:text-primary-500">
                                                     <span>@lang('messages.picture')-2</span>
-                                                    <a data-title="Mi Fuego by albert dros"
+                                                    <a data-title="{{ __('messages.picture') }}-2"
                                                         href="{{ $datas->gambar_2_nama ? asset($datas->gambar_2_lokasi . '/' . $datas->gambar_2_nama) : url('/images/0cd6be830e32f80192d496e50cfa9dbc.jpg') }}">
                                                         <img id="image_2-preview"
                                                             src="{{ $datas->gambar_2_nama ? asset($datas->gambar_2_lokasi . '/' . $datas->gambar_2_nama) : url('/images/0cd6be830e32f80192d496e50cfa9dbc.jpg') }}"
@@ -236,7 +236,7 @@
                                                 <span
                                                     class="block mb-2 font-medium text-primary-600 dark:text-primary-500">
                                                     <span>@lang('messages.picture')-3</span>
-                                                    <a data-title="Winter Fairytale by Achim Thomae"
+                                                    <a data-title="{{ __('messages.picture') }}-3"
                                                         href="{{ $datas->gambar_3_nama ? asset($datas->gambar_3_lokasi . '/' . $datas->gambar_3_nama) : url('/images/0cd6be830e32f80192d496e50cfa9dbc.jpg') }}">
                                                         <img id="image_3-preview"
                                                             src="{{ $datas->gambar_3_nama ? asset($datas->gambar_3_lokasi . '/' . $datas->gambar_3_nama) : url('/images/0cd6be830e32f80192d496e50cfa9dbc.jpg') }}"
@@ -253,7 +253,7 @@
                                                 <span
                                                     class="block mb-2 font-medium text-primary-600 dark:text-primary-500">
                                                     <span>@lang('messages.picture')-4</span>
-                                                    <a data-title="Slipping Away by Jerry Fryer 2"
+                                                    <a data-title="{{ __('messages.picture') }}-4"
                                                         href="{{ $datas->gambar_4_nama ? asset($datas->gambar_4_lokasi . '/' . $datas->gambar_4_nama) : url('/images/0cd6be830e32f80192d496e50cfa9dbc.jpg') }}">
                                                         <img id="image_4-preview"
                                                             src="{{ $datas->gambar_4_nama ? asset($datas->gambar_4_lokasi . '/' . $datas->gambar_4_nama) : url('/images/0cd6be830e32f80192d496e50cfa9dbc.jpg') }}"
@@ -270,7 +270,7 @@
                                                 <span
                                                     class="block mb-2 font-medium text-primary-600 dark:text-primary-500">
                                                     <span>@lang('messages.picture')-5</span>
-                                                    <a data-title="Mi Fuego by albert dros 2"
+                                                    <a data-title="{{ __('messages.picture') }}-5"
                                                         href="{{ $datas->gambar_5_nama ? asset($datas->gambar_5_lokasi . '/' . $datas->gambar_5_nama) : url('/images/0cd6be830e32f80192d496e50cfa9dbc.jpg') }}">
                                                         <img id="image_5-preview"
                                                             src="{{ $datas->gambar_5_nama ? asset($datas->gambar_5_lokasi . '/' . $datas->gambar_5_nama) : url('/images/0cd6be830e32f80192d496e50cfa9dbc.jpg') }}"
