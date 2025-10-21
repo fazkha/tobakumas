@@ -49,8 +49,6 @@
     </div>
 
     @push('scripts')
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script type="text/javascript">
             $(document).ready(function(e) {
                 $("#pp-dropdown, #produksi-dropdown, #bulan-dropdown, #customer-dropdown, #search-tanggal, #search-nomor, #search-tahun")

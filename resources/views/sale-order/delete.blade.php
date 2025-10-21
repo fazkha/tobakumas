@@ -142,7 +142,7 @@
     
                                             <div class="mt-2 flex justify-center">
                                                 <img id="image-preview" class="w-full lg:w-3/4 h-auto border rounded-lg"
-                                                    src="/images/0cd6be830e32f80192d496e50cfa9dbc.jpg" alt="o.o">
+                                                    src="{{ url('/') }}/images/0cd6be830e32f80192d496e50cfa9dbc.jpg" alt="o.o">
                                             </div>
                                         </div> --}}
 

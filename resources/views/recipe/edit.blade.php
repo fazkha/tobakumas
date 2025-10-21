@@ -407,8 +407,6 @@
     @endpush
 
     @push('scripts')
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script type="text/javascript">
             $(document).ready(function(e) {
                 $("#satuan_id_ingoods, #satuan_id_outgoods").on("mousedown", function(e) {

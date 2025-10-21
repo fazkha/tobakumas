@@ -14,6 +14,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class PegawaiController extends Controller implements HasMiddleware
 {
@@ -147,6 +149,99 @@ class PegawaiController extends Controller implements HasMiddleware
             ]);
 
             if ($pegawai) {
+                $lokasi = $this->GetLokasiUpload($pegawai->id);
+                $pathym = $lokasi['path'] . '/' . $lokasi['id'];
+
+                $image_1 = $request->file('gambar_1_nama');
+                $image_1Name = NULL;
+                $gambar_1NamaAwal = NULL;
+
+                if ($image_1) {
+                    $image_1Name = $image_1->hashName();
+                    $gambar_1NamaAwal = $image_1->getClientOriginalName();
+
+                    $pegawai->update([
+                        'gambar_1_lokasi' => is_null($image_1) ? NULL : $pathym,
+                        'gambar_1_nama' => is_null($image_1) ? NULL : $image_1Name,
+                    ]);
+
+                    if (!is_null($image_1)) {
+                        $dest = $this->compress_image($image_1, $image_1->path(), public_path($pathym), $image_1Name, 50);
+                    }
+                }
+
+                $image_2 = $request->file('gambar_2_nama');
+                $image_2Name = NULL;
+                $gambar_2NamaAwal = NULL;
+
+                if ($image_2) {
+                    $image_2Name = $image_2->hashName();
+                    $gambar_2NamaAwal = $image_2->getClientOriginalName();
+
+                    $pegawai->update([
+                        'gambar_2_lokasi' => is_null($image_2) ? NULL : $pathym,
+                        'gambar_2_nama' => is_null($image_2) ? NULL : $image_2Name,
+                    ]);
+
+                    if (!is_null($image_2)) {
+                        $dest = $this->compress_image($image_2, $image_2->path(), public_path($pathym), $image_2Name, 50);
+                    }
+                }
+
+                $image_3 = $request->file('gambar_3_nama');
+                $image_3Name = NULL;
+                $gambar_3NamaAwal = NULL;
+
+                if ($image_3) {
+                    $image_3Name = $image_3->hashName();
+                    $gambar_3NamaAwal = $image_3->getClientOriginalName();
+
+                    $pegawai->update([
+                        'gambar_3_lokasi' => is_null($image_3) ? NULL : $pathym,
+                        'gambar_3_nama' => is_null($image_3) ? NULL : $image_3Name,
+                    ]);
+
+                    if (!is_null($image_3)) {
+                        $dest = $this->compress_image($image_3, $image_3->path(), public_path($pathym), $image_3Name, 50);
+                    }
+                }
+
+                $image_4 = $request->file('gambar_4_nama');
+                $image_4Name = NULL;
+                $gambar_4NamaAwal = NULL;
+
+                if ($image_4) {
+                    $image_4Name = $image_4->hashName();
+                    $gambar_4NamaAwal = $image_4->getClientOriginalName();
+
+                    $pegawai->update([
+                        'gambar_4_lokasi' => is_null($image_4) ? NULL : $pathym,
+                        'gambar_4_nama' => is_null($image_4) ? NULL : $image_4Name,
+                    ]);
+
+                    if (!is_null($image_4)) {
+                        $dest = $this->compress_image($image_4, $image_4->path(), public_path($pathym), $image_4Name, 50);
+                    }
+                }
+
+                $image_5 = $request->file('gambar_5_nama');
+                $image_5Name = NULL;
+                $gambar_5NamaAwal = NULL;
+
+                if ($image_5) {
+                    $image_5Name = $image_5->hashName();
+                    $gambar_5NamaAwal = $image_5->getClientOriginalName();
+
+                    $pegawai->update([
+                        'gambar_5_lokasi' => is_null($image_5) ? NULL : $pathym,
+                        'gambar_5_nama' => is_null($image_5) ? NULL : $image_5Name,
+                    ]);
+
+                    if (!is_null($image_5)) {
+                        $dest = $this->compress_image($image_5, $image_5->path(), public_path($pathym), $image_5Name, 50);
+                    }
+                }
+
                 return redirect()->route('employee.edit', Crypt::encrypt($pegawai->id))->with('success', __('messages.successadded') . ' 👉 ' . $request->nama_lengkap);
             }
         }
@@ -194,10 +289,107 @@ class PegawaiController extends Controller implements HasMiddleware
                 'updated_by' => auth()->user()->email,
             ]);
 
-            return redirect()->back()->with('success', __('messages.successupdated') . ' 👉 ' . $request->nama_lengkap);
-        } else {
-            return redirect()->back()->withInput()->with('error', 'Error occured while updating!');
+            if ($pegawai) {
+                $lokasi = $this->GetLokasiUpload($pegawai->id);
+                $pathym = $lokasi['path'] . '/' . $lokasi['id'];
+
+                $image_1 = $request->file('gambar_1_nama');
+                $image_1Name = $pegawai->gambar_1_nama;
+                $delete_1Name = $pegawai->gambar_1_nama;
+                $delete_1Path = $pegawai->gambar_1_lokasi;
+
+                if ($image_1) {
+                    File::delete(public_path($delete_1Path) . '/' . $delete_1Name);
+                    $image_1Name = $image_1->hashName();
+                    $gambar_1NamaAwal = $image_1->getClientOriginalName();
+
+                    $pegawai->update([
+                        'gambar_1_lokasi' => is_null($image_1) ? NULL : $pathym,
+                        'gambar_1_nama' => is_null($image_1) ? NULL : $image_1Name,
+                    ]);
+
+                    if (!is_null($image_1)) {
+                        $dest = $this->compress_image($image_1, $image_1->path(), public_path($pathym), $image_1Name, 50);
+                    }
+                }
+
+                $image_2 = $request->file('gambar_2_nama');
+                $image_2Name = NULL;
+                $gambar_2NamaAwal = NULL;
+
+                if ($image_2) {
+                    $image_2Name = $image_2->hashName();
+                    $gambar_2NamaAwal = $image_2->getClientOriginalName();
+
+                    $pegawai->update([
+                        'gambar_2_lokasi' => is_null($image_2) ? NULL : $pathym,
+                        'gambar_2_nama' => is_null($image_2) ? NULL : $image_2Name,
+                    ]);
+
+                    if (!is_null($image_2)) {
+                        $dest = $this->compress_image($image_2, $image_2->path(), public_path($pathym), $image_2Name, 50);
+                    }
+                }
+
+                $image_3 = $request->file('gambar_3_nama');
+                $image_3Name = NULL;
+                $gambar_3NamaAwal = NULL;
+
+                if ($image_3) {
+                    $image_3Name = $image_3->hashName();
+                    $gambar_3NamaAwal = $image_3->getClientOriginalName();
+
+                    $pegawai->update([
+                        'gambar_3_lokasi' => is_null($image_3) ? NULL : $pathym,
+                        'gambar_3_nama' => is_null($image_3) ? NULL : $image_3Name,
+                    ]);
+
+                    if (!is_null($image_3)) {
+                        $dest = $this->compress_image($image_3, $image_3->path(), public_path($pathym), $image_3Name, 50);
+                    }
+                }
+
+                $image_4 = $request->file('gambar_4_nama');
+                $image_4Name = NULL;
+                $gambar_4NamaAwal = NULL;
+
+                if ($image_4) {
+                    $image_4Name = $image_4->hashName();
+                    $gambar_4NamaAwal = $image_4->getClientOriginalName();
+
+                    $pegawai->update([
+                        'gambar_4_lokasi' => is_null($image_4) ? NULL : $pathym,
+                        'gambar_4_nama' => is_null($image_4) ? NULL : $image_4Name,
+                    ]);
+
+                    if (!is_null($image_4)) {
+                        $dest = $this->compress_image($image_4, $image_4->path(), public_path($pathym), $image_4Name, 50);
+                    }
+                }
+
+                $image_5 = $request->file('gambar_5_nama');
+                $image_5Name = NULL;
+                $gambar_5NamaAwal = NULL;
+
+                if ($image_5) {
+                    $image_5Name = $image_5->hashName();
+                    $gambar_5NamaAwal = $image_5->getClientOriginalName();
+
+                    $pegawai->update([
+                        'gambar_5_lokasi' => is_null($image_5) ? NULL : $pathym,
+                        'gambar_5_nama' => is_null($image_5) ? NULL : $image_5Name,
+                    ]);
+
+                    if (!is_null($image_5)) {
+                        $dest = $this->compress_image($image_5, $image_5->path(), public_path($pathym), $image_5Name, 50);
+                    }
+                }
+
+                return redirect()->back()->with('success', __('messages.successupdated') . ' 👉 ' . $request->nama_lengkap);
+            }
         }
+
+        return redirect()->back()->withInput()->with('error', 'Error occured while updating!');
     }
 
     public function delete(Request $request): View
@@ -223,5 +415,51 @@ class PegawaiController extends Controller implements HasMiddleware
 
         return redirect()->route('pegawai.index')
             ->with('success', __('messages.successdeleted') . ' 👉 ' . $pegawai->nama_lengkap);
+    }
+
+    public function compress_image($image, $src, $dest, $filename, $quality)
+    {
+        $info = getimagesize($src);
+
+        if ($info['mime'] == 'image/jpeg' || $info['mime'] == 'image/jpg') {
+            $image = imagecreatefromjpeg($src);
+            $pathfile = $dest . '/' . $filename;
+            imagejpeg($image, $pathfile, $quality);
+        } elseif ($info['mime'] == 'image/gif') {
+            $image->storeAs($dest, $image->hashName());
+            // $image = imagecreatefromgif($src);
+            // imagejpeg($image, $dest, $quality);
+        } elseif ($info['mime'] == 'image/png') {
+            $image->storeAs($dest, $image->hashName());
+            // $image = imagecreatefrompng($src);
+            // imagepng($image, $dest, 5);
+        } else {
+            die('Unknown image file format');
+        }
+
+        //compress and save file to jpg
+        //usage
+        // $compressed = compress_image('boy.jpg', 'destination.jpg', 50);
+        //return destination file
+        return $dest;
+    }
+
+    public function GetLokasiUpload($id)
+    {
+        $path = 'storage/uploads/pegawai';
+        $ym = date('Ym');
+        // $dir = $path . '/' . $ym;
+        $dir = $path . '/' . $id;
+        $is_dir = is_dir($dir);
+
+        if (!$is_dir) {
+            mkdir($dir, 0700);
+        }
+
+        return [
+            'path' => $path,
+            'ym' => $ym,
+            'id' => $id,
+        ];
     }
 }

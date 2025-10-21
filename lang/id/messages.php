@@ -49,6 +49,7 @@ return [
     'description' => 'Keterangan',
     'picture' => 'Gambar',
     'active' => 'Aktif',
+    'relocate' => 'Pindah',
     'resign' => 'Berhenti',
     'fired' => 'Dipecat',
     'save' => 'Simpan',

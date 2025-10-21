@@ -181,7 +181,7 @@
                                         <x-input-error class="mt-2" :messages="$errors->get('email')" />
                                     </div>
 
-                                    <div class="w-auto pb-4 lg:pb-12">
+                                    <div class="w-auto pb-4">
                                         <label for="keterangan"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</label>
                                         <x-text-input type="text" name="keterangan" id="keterangan"
@@ -191,41 +191,131 @@
 
                                         <x-input-error class="mt-2" :messages="$errors->get('keterangan')" />
                                     </div>
-
-                                    <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
-                                        <div class="w-auto">
-                                            <label
-                                                class="cursor-pointer flex flex-col items-center md:flex-row md:gap-2">
-                                                <input type="checkbox" id="isactive" name="isactive" tabindex="8"
-                                                    class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-7 h-7 rounded-lg shadow-md"
-                                                    {{ $datas->isactive == '1' ? 'checked' : '' }}>
-                                                <span
-                                                    class="pr-4 group-hover:text-blue-500 transition-colors duration-300 text-right w-1/2 md:w-full">
-                                                    @lang('messages.active')
-                                                </span>
-                                            </label>
-                                        </div>
-
-                                        <x-primary-button type="submit" class="block" tabindex="9">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                class="size-5">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
-                                            </svg>
-                                            <span class="pl-1">@lang('messages.save')</span>
-                                        </x-primary-button>
-                                        <x-anchor-secondary href="{{ route('employee.index') }}" tabindex="10">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                class="size-5">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M6 18 18 6M6 6l12 12" />
-                                            </svg>
-                                            <span class="pl-1">@lang('messages.close')</span>
-                                        </x-anchor-secondary>
-                                    </div>
                                 </div>
+                            </div>
+
+                            <div class="pb-4 lg:pb-12">
+                                <x-text-span>
+                                    <div class="image-set">
+                                        <div class="flex flex-row flex-wrap gap-4 md:gap-6 text-center justify-center">
+                                            <div class="w-1/3 md:w-1/4 lg:w-1/6">
+                                                <span
+                                                    class="block mb-2 font-medium text-primary-600 dark:text-primary-500">
+                                                    <span>@lang('messages.picture')-1</span>
+                                                    <a data-title="Slipping Away by Jerry Fryer"
+                                                        href="{{ $datas->gambar_1_nama ? asset($datas->gambar_1_lokasi . '/' . $datas->gambar_1_nama) : url('/images/0cd6be830e32f80192d496e50cfa9dbc.jpg') }}">
+                                                        <img id="image_1-preview"
+                                                            src="{{ $datas->gambar_1_nama ? asset($datas->gambar_1_lokasi . '/' . $datas->gambar_1_nama) : url('/images/0cd6be830e32f80192d496e50cfa9dbc.jpg') }}"
+                                                            alt="o.o">
+                                                    </a>
+                                                </span>
+                                                <label for="gambar_1_nama"
+                                                    class="cursor-pointer">📁&nbsp;Select&nbsp;file...</label>
+                                                <input type="file" id="gambar_1_nama" name="gambar_1_nama"
+                                                    style="display: none;" />
+                                            </div>
+
+                                            <div class="w-1/3 md:w-1/4 lg:w-1/6">
+                                                <span
+                                                    class="block mb-2 font-medium text-primary-600 dark:text-primary-500">
+                                                    <span>@lang('messages.picture')-2</span>
+                                                    <a data-title="Mi Fuego by albert dros"
+                                                        href="{{ $datas->gambar_2_nama ? asset($datas->gambar_2_lokasi . '/' . $datas->gambar_2_nama) : url('/images/0cd6be830e32f80192d496e50cfa9dbc.jpg') }}">
+                                                        <img id="image_2-preview"
+                                                            src="{{ $datas->gambar_2_nama ? asset($datas->gambar_2_lokasi . '/' . $datas->gambar_2_nama) : url('/images/0cd6be830e32f80192d496e50cfa9dbc.jpg') }}"
+                                                            alt="o.o">
+                                                    </a>
+                                                </span>
+                                                <label for="gambar_2_nama"
+                                                    class="cursor-pointer">📁&nbsp;Select&nbsp;file...</label>
+                                                <input type="file" id="gambar_2_nama" name="gambar_2_nama"
+                                                    style="display: none;" />
+                                            </div>
+
+                                            <div class="w-1/3 md:w-1/4 lg:w-1/6">
+                                                <span
+                                                    class="block mb-2 font-medium text-primary-600 dark:text-primary-500">
+                                                    <span>@lang('messages.picture')-3</span>
+                                                    <a data-title="Winter Fairytale by Achim Thomae"
+                                                        href="{{ $datas->gambar_3_nama ? asset($datas->gambar_3_lokasi . '/' . $datas->gambar_3_nama) : url('/images/0cd6be830e32f80192d496e50cfa9dbc.jpg') }}">
+                                                        <img id="image_3-preview"
+                                                            src="{{ $datas->gambar_3_nama ? asset($datas->gambar_3_lokasi . '/' . $datas->gambar_3_nama) : url('/images/0cd6be830e32f80192d496e50cfa9dbc.jpg') }}"
+                                                            alt="o.o">
+                                                    </a>
+                                                </span>
+                                                <label for="gambar_3_nama"
+                                                    class="cursor-pointer">📁&nbsp;Select&nbsp;file...</label>
+                                                <input type="file" id="gambar_3_nama" name="gambar_3_nama"
+                                                    style="display: none;" />
+                                            </div>
+
+                                            <div class="w-1/3 md:w-1/4 lg:w-1/6">
+                                                <span
+                                                    class="block mb-2 font-medium text-primary-600 dark:text-primary-500">
+                                                    <span>@lang('messages.picture')-4</span>
+                                                    <a data-title="Slipping Away by Jerry Fryer 2"
+                                                        href="{{ $datas->gambar_4_nama ? asset($datas->gambar_4_lokasi . '/' . $datas->gambar_4_nama) : url('/images/0cd6be830e32f80192d496e50cfa9dbc.jpg') }}">
+                                                        <img id="image_4-preview"
+                                                            src="{{ $datas->gambar_4_nama ? asset($datas->gambar_4_lokasi . '/' . $datas->gambar_4_nama) : url('/images/0cd6be830e32f80192d496e50cfa9dbc.jpg') }}"
+                                                            alt="o.o">
+                                                    </a>
+                                                </span>
+                                                <label for="gambar_4_nama"
+                                                    class="cursor-pointer">📁&nbsp;Select&nbsp;file...</label>
+                                                <input type="file" id="gambar_4_nama" name="gambar_4_nama"
+                                                    style="display: none;" />
+                                            </div>
+
+                                            <div class="w-1/3 md:w-1/4 lg:w-1/6">
+                                                <span
+                                                    class="block mb-2 font-medium text-primary-600 dark:text-primary-500">
+                                                    <span>@lang('messages.picture')-5</span>
+                                                    <a data-title="Mi Fuego by albert dros 2"
+                                                        href="{{ $datas->gambar_5_nama ? asset($datas->gambar_5_lokasi . '/' . $datas->gambar_5_nama) : url('/images/0cd6be830e32f80192d496e50cfa9dbc.jpg') }}">
+                                                        <img id="image_5-preview"
+                                                            src="{{ $datas->gambar_5_nama ? asset($datas->gambar_5_lokasi . '/' . $datas->gambar_5_nama) : url('/images/0cd6be830e32f80192d496e50cfa9dbc.jpg') }}"
+                                                            alt="o.o">
+                                                    </a>
+                                                </span>
+                                                <label for="gambar_5_nama"
+                                                    class="cursor-pointer">📁&nbsp;Select&nbsp;file...</label>
+                                                <input type="file" id="gambar_5_nama" name="gambar_5_nama"
+                                                    style="display: none;" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </x-text-span>
+                            </div>
+
+                            <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
+                                <div class="w-auto">
+                                    <label class="cursor-pointer flex flex-col items-center md:flex-row md:gap-2">
+                                        <input type="checkbox" id="isactive" name="isactive" tabindex="8"
+                                            class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-7 h-7 rounded-lg shadow-md"
+                                            {{ $datas->isactive == '1' ? 'checked' : '' }}>
+                                        <span
+                                            class="pr-4 group-hover:text-blue-500 transition-colors duration-300 text-right w-1/2 md:w-full">
+                                            @lang('messages.active')
+                                        </span>
+                                    </label>
+                                </div>
+
+                                <x-primary-button type="submit" class="block" tabindex="9">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="size-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
+                                    </svg>
+                                    <span class="pl-1">@lang('messages.save')</span>
+                                </x-primary-button>
+                                <x-anchor-secondary href="{{ route('employee.index') }}" tabindex="10">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="size-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M6 18 18 6M6 6l12 12" />
+                                    </svg>
+                                    <span class="pl-1">@lang('messages.close')</span>
+                                </x-anchor-secondary>
                             </div>
                         </div>
                     </div>
@@ -311,12 +401,12 @@
                                                     <td class="text-center">
                                                         <div class="w-auto">
                                                             <select name="isactive" id="isactive" tabindex="14"
-                                                                x-bind:disabled="buttonDisabled"
                                                                 class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                                                 <option value="1" selected>@lang('messages.active')
                                                                 </option>
-                                                                <option value="2">@lang('messages.resign')</option>
-                                                                <option value="3">@lang('messages.fired')</option>
+                                                                <option value="2">@lang('messages.relocate')</option>
+                                                                <option value="3">@lang('messages.resign')</option>
+                                                                <option value="9">@lang('messages.fired')</option>
                                                             </select>
                                                         </div>
                                                     </td>
@@ -354,11 +444,33 @@
         </div>
     </div>
 
+    @push('styles')
+        <link rel="stylesheet" href="{{ url('/') }}/css/photoviewer.min.css">
+    @endpush
+
     @push('scripts')
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="{{ url('/') }}/js/photoviewer.min.js"></script>
         <script type="text/javascript">
             $(document).ready(function(e) {
+                $('.image-set a').click(function(e) {
+                    e.preventDefault();
+
+                    var items = $('.image-set a').get().map(function(el) {
+                        return {
+                            src: $(el).attr('href'),
+                            title: $(el).attr('data-title')
+                        }
+                    });
+
+                    var options = {
+                        index: $(this).index(),
+                        positionFixed: false
+                    };
+
+                    new PhotoViewer(items, options);
+
+                });
+
                 function getInitialFormValues(formId) {
                     const form = document.getElementById(formId);
                     const initialValues = {};
@@ -445,6 +557,42 @@
                     // if (isFormDirty('master-form', myFormInitialValues)) {
                     //     $('form#master-form').submit();
                     // }
+                });
+
+                $('#gambar_1_nama').change(function() {
+                    let reader = new FileReader();
+                    reader.onload = (e) => {
+                        $('#image_1-preview').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                });
+                $('#gambar_2_nama').change(function() {
+                    let reader = new FileReader();
+                    reader.onload = (e) => {
+                        $('#image_2-preview').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                });
+                $('#gambar_3_nama').change(function() {
+                    let reader = new FileReader();
+                    reader.onload = (e) => {
+                        $('#image_3-preview').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                });
+                $('#gambar_4_nama').change(function() {
+                    let reader = new FileReader();
+                    reader.onload = (e) => {
+                        $('#image_4-preview').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                });
+                $('#gambar_5_nama').change(function() {
+                    let reader = new FileReader();
+                    reader.onload = (e) => {
+                        $('#image_5-preview').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(this.files[0]);
                 });
             });
         </script>

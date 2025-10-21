@@ -26,6 +26,16 @@ return new class extends Migration
             $table->string('keterangan')->nullable();
             $table->string('email')->nullable();
             $table->tinyInteger('isactive')->default(0);
+            $table->string('gambar_1_lokasi')->nullable();
+            $table->string('gambar_1_nama')->nullable();
+            $table->string('gambar_2_lokasi')->nullable();
+            $table->string('gambar_2_nama')->nullable();
+            $table->string('gambar_3_lokasi')->nullable();
+            $table->string('gambar_3_nama')->nullable();
+            $table->string('gambar_4_lokasi')->nullable();
+            $table->string('gambar_4_nama')->nullable();
+            $table->string('gambar_5_lokasi')->nullable();
+            $table->string('gambar_5_nama')->nullable();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->timestamps();

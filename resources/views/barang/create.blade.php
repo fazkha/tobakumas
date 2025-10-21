@@ -245,7 +245,8 @@
 
                                         <div class="mt-2 flex justify-center">
                                             <img id="image-preview" class="w-full lg:w-3/5 h-auto border rounded-lg"
-                                                src="/images/0cd6be830e32f80192d496e50cfa9dbc.jpg" alt="o.o">
+                                                src="{{ url('/') }}/images/0cd6be830e32f80192d496e50cfa9dbc.jpg"
+                                                alt="o.o">
                                         </div>
                                     </div>
 
@@ -293,8 +294,6 @@
     </form>
 
     @push('scripts')
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script type="text/javascript" src="{{ url('js/jquery.maskMoney.min.js') }}"></script>
         <script type="text/javascript">
             $(document).ready(function(e) {

@@ -222,7 +222,7 @@
                                         class="text-center block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.picture')</label>
                                     <div class="mt-2 flex justify-center">
                                         <img id="image-preview" class="w-full lg:w-3/5 h-auto border rounded-lg"
-                                            @if ($datas->gambar) src="{{ asset($datas->lokasi . '/' . $datas->gambar) }}" @else src="/images/0cd6be830e32f80192d496e50cfa9dbc.jpg" @endif
+                                            @if ($datas->gambar) src="{{ asset($datas->lokasi . '/' . $datas->gambar) }}" @else src="{{ url('/') }}/images/0cd6be830e32f80192d496e50cfa9dbc.jpg" @endif
                                             alt="o.o" />
                                     </div>
                                 </div>

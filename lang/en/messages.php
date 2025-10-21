@@ -49,6 +49,7 @@ return [
     'description' => 'Description',
     'picture' => 'Picture',
     'active' => 'Active',
+    'relocate' => 'Relocate',
     'resign' => 'Resign',
     'fired' => 'Fired',
     'save' => 'Save',

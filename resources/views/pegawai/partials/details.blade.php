@@ -14,7 +14,7 @@
                 <x-text-span>{{ $detail->keterangan ? $detail->keterangan : '-' }}</x-text-span>
             </td>
             <td class="align-top">
-                <x-text-span>{{ $detail->isactive == '1' ? __('messages.active') : ($detail->isactive == '3' ? __('messages.fired') : __('messages.resign')) }}</x-text-span>
+                <x-text-span>{{ $detail->isactive == '1' ? __('messages.active') : ($detail->isactive == '2' ? __('messages.relocate') : ($detail->isactive == '3' ? __('messages.resign') : __('messages.fired'))) }}</x-text-span>
             </td>
             @if ($viewMode == false)
                 @if ($detail->isactive == '1')

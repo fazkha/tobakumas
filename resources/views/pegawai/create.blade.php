@@ -183,42 +183,116 @@
 
                                         <x-input-error class="mt-2" :messages="$errors->get('keterangan')" />
                                     </div>
-
-                                    <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
-                                        <div class="w-auto">
-                                            <label
-                                                class="cursor-pointer flex flex-col items-center md:flex-row md:gap-2">
-                                                <input type="checkbox" id="isactive" name="isactive" tabindex="8"
-                                                    class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-7 h-7 rounded-lg shadow-md"
-                                                    checked>
-                                                <span
-                                                    class="pr-4 group-hover:text-blue-500 transition-colors duration-300 text-right w-1/2 md:w-full">
-                                                    @lang('messages.active')
-                                                </span>
-                                            </label>
-                                        </div>
-
-                                        <x-primary-button type="submit" class="block" tabindex="9">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                class="size-5">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
-                                            </svg>
-                                            <span class="pl-1">@lang('messages.save')</span>
-                                        </x-primary-button>
-                                        <x-anchor-secondary href="{{ route('employee.index') }}" tabindex="10">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                class="size-5">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M6 18 18 6M6 6l12 12" />
-                                            </svg>
-                                            <span class="pl-1">@lang('messages.close')</span>
-                                        </x-anchor-secondary>
-                                    </div>
                                 </div>
                             </div>
+
+                            <div class="pb-4 lg:pb-12">
+                                <x-text-span>
+                                    <div class="flex flex-row flex-wrap gap-4 md:gap-6 text-center justify-center">
+                                        <div class="w-1/3 md:w-1/4 lg:w-1/6">
+                                            <label for="gambar_1_nama"
+                                                class="cursor-pointer block mb-2 font-medium text-primary-600 dark:text-primary-500">
+                                                <span>@lang('messages.picture')-1</span>
+                                                <div class="mt-2 flex justify-center">
+                                                    <img id="image_1-preview" class="w-full h-auto border rounded-lg"
+                                                        src="{{ url('/') }}/images/0cd6be830e32f80192d496e50cfa9dbc.jpg"
+                                                        alt="o.o">
+                                                </div>
+                                            </label>
+                                            <input type="file" id="gambar_1_nama" id="gambar_1_nama"
+                                                style="display: none;">
+                                        </div>
+
+                                        <div class="w-1/3 md:w-1/4 lg:w-1/6">
+                                            <label for="gambar_2_nama"
+                                                class="cursor-pointer block mb-2 font-medium text-primary-600 dark:text-primary-500">
+                                                <span>@lang('messages.picture')-2</span>
+                                                <div class="mt-2 flex justify-center">
+                                                    <img id="image_2-preview" class="w-full h-auto border rounded-lg"
+                                                        src="{{ url('/') }}/images/0cd6be830e32f80192d496e50cfa9dbc.jpg"
+                                                        alt="o.o">
+                                                </div>
+                                            </label>
+                                            <input type="file" id="gambar_2_nama" id="gambar_2_nama"
+                                                style="display: none;">
+                                        </div>
+
+                                        <div class="w-1/3 md:w-1/4 lg:w-1/6">
+                                            <label for="gambar_3_nama"
+                                                class="cursor-pointer block mb-2 font-medium text-primary-600 dark:text-primary-500">
+                                                <span>@lang('messages.picture')-3</span>
+                                                <div class="mt-2 flex justify-center">
+                                                    <img id="image_3-preview" class="w-full h-auto border rounded-lg"
+                                                        src="{{ url('/') }}/images/0cd6be830e32f80192d496e50cfa9dbc.jpg"
+                                                        alt="o.o">
+                                                </div>
+                                            </label>
+                                            <input type="file" id="gambar_3_nama" id="gambar_3_nama"
+                                                style="display: none;">
+                                        </div>
+
+                                        <div class="w-1/3 md:w-1/4 lg:w-1/6">
+                                            <label for="gambar_4_nama"
+                                                class="cursor-pointer block mb-2 font-medium text-primary-600 dark:text-primary-500">
+                                                <span>@lang('messages.picture')-4</span>
+                                                <div class="mt-2 flex justify-center">
+                                                    <img id="image_4-preview" class="w-full h-auto border rounded-lg"
+                                                        src="{{ url('/') }}/images/0cd6be830e32f80192d496e50cfa9dbc.jpg"
+                                                        alt="o.o">
+                                                </div>
+                                            </label>
+                                            <input type="file" id="gambar_4_nama" id="gambar_4_nama"
+                                                style="display: none;">
+                                        </div>
+
+                                        <div class="w-1/3 md:w-1/4 lg:w-1/6">
+                                            <label for="gambar_5_nama"
+                                                class="cursor-pointer block mb-2 font-medium text-primary-600 dark:text-primary-500">
+                                                <span>@lang('messages.picture')-5</span>
+                                                <div class="mt-2 flex justify-center">
+                                                    <img id="image_5-preview" class="w-full h-auto border rounded-lg"
+                                                        src="{{ url('/') }}/images/0cd6be830e32f80192d496e50cfa9dbc.jpg"
+                                                        alt="o.o">
+                                                </div>
+                                            </label>
+                                            <input type="file" id="gambar_5_nama" id="gambar_5_nama"
+                                                style="display: none;">
+                                        </div>
+                                    </div>
+                                </x-text-span>
+                            </div>
+
+                            <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
+                                <div class="w-auto">
+                                    <label class="cursor-pointer flex flex-col items-center md:flex-row md:gap-2">
+                                        <input type="checkbox" id="isactive" name="isactive" tabindex="8"
+                                            class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-7 h-7 rounded-lg shadow-md"
+                                            checked>
+                                        <span
+                                            class="pr-4 group-hover:text-blue-500 transition-colors duration-300 text-right w-1/2 md:w-full">
+                                            @lang('messages.active')
+                                        </span>
+                                    </label>
+                                </div>
+
+                                <x-primary-button type="submit" class="block" tabindex="9">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="size-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
+                                    </svg>
+                                    <span class="pl-1">@lang('messages.save')</span>
+                                </x-primary-button>
+                                <x-anchor-secondary href="{{ route('employee.index') }}" tabindex="10">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="size-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M6 18 18 6M6 6l12 12" />
+                                    </svg>
+                                    <span class="pl-1">@lang('messages.close')</span>
+                                </x-anchor-secondary>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -227,5 +301,44 @@
     </form>
 
     @push('scripts')
+        <script type="text/javascript">
+            $(document).ready(function(e) {
+                $('#gambar_1_nama').change(function() {
+                    let reader = new FileReader();
+                    reader.onload = (e) => {
+                        $('#image_1-preview').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                });
+                $('#gambar_2_nama').change(function() {
+                    let reader = new FileReader();
+                    reader.onload = (e) => {
+                        $('#image_2-preview').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                });
+                $('#gambar_3_nama').change(function() {
+                    let reader = new FileReader();
+                    reader.onload = (e) => {
+                        $('#image_3-preview').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                });
+                $('#gambar_4_nama').change(function() {
+                    let reader = new FileReader();
+                    reader.onload = (e) => {
+                        $('#image_4-preview').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                });
+                $('#gambar_5_nama').change(function() {
+                    let reader = new FileReader();
+                    reader.onload = (e) => {
+                        $('#image_5-preview').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                });
+            });
+        </script>
     @endpush
 </x-app-layout>
