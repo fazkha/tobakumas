@@ -53,7 +53,7 @@ class BrandivjabpegController extends Controller
         $view = [];
 
         $detail->update([
-            'isactive' => 0,
+            'isactive' => 3,
             'tanggal_akhir' => $detail->tanggal_akhir ? $detail->tanggal_akhir : date('Y-m-d'),
         ]);
 
