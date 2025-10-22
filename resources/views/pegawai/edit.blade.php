@@ -49,7 +49,7 @@
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.nik')</label>
                                         <x-text-input type="text" name="nik" id="nik" tabindex="1"
                                             autofocus required
-                                            placeholder="{{ __('messages.enter') }} {{ __('messages.fullname') }}"
+                                            placeholder="{{ __('messages.enter') }} {{ __('messages.nik') }}"
                                             value="{{ old('nik', $datas->nik) }}" />
 
                                         <x-input-error class="mt-2" :messages="$errors->get('nik')" />
@@ -114,7 +114,7 @@
                                         <label for="nip"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.nip')</label>
                                         <x-text-input type="text" name="nip" id="nip" tabindex="7"
-                                            placeholder="{{ __('messages.enter') }} {{ __('messages.fullname') }}"
+                                            placeholder="{{ __('messages.enter') }} {{ __('messages.nip') }}"
                                             value="{{ old('nip', $datas->nip) }}" />
 
                                         <x-input-error class="mt-2" :messages="$errors->get('nip')" />
