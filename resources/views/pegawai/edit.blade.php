@@ -59,7 +59,7 @@
                                         <label for="nama_lengkap"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.fullname')</label>
                                         <x-text-input type="text" name="nama_lengkap" id="nama_lengkap"
-                                            tabindex="1" required
+                                            tabindex="2" required
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.fullname') }}"
                                             value="{{ old('nama_lengkap', $datas->nama_lengkap) }}" />
 
@@ -70,7 +70,7 @@
                                         <label for="nama_panggilan"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.shortname')</label>
                                         <x-text-input type="text" name="nama_panggilan" id="nama_panggilan"
-                                            tabindex="1"
+                                            tabindex="3"
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.shortname') }}"
                                             value="{{ old('nama_panggilan', $datas->nama_panggilan) }}" />
 
@@ -81,7 +81,7 @@
                                         <label for="tempat_lahir"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.birthplace')</label>
                                         <x-text-input type="text" name="tempat_lahir" id="tempat_lahir"
-                                            tabindex="2"
+                                            tabindex="4"
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.birthplace') }}"
                                             value="{{ old('tempat_lahir', $datas->tempat_lahir) }}" />
 
@@ -92,7 +92,7 @@
                                         <label for="tanggal_lahir"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.birthdate')</label>
                                         <x-text-input type="date" name="tanggal_lahir" id="tanggal_lahir"
-                                            data-date-format="dd-mm-yyyy" tabindex="2"
+                                            data-date-format="dd-mm-yyyy" tabindex="5"
                                             value="{{ old('tanggal_lahir', $datas->tanggal_lahir) }}" />
 
                                         <x-input-error class="mt-2" :messages="$errors->get('tanggal_lahir')" />
@@ -101,7 +101,7 @@
                                     <div class="w-auto pb-4">
                                         <label for="alamat_asal"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.originaddress')</label>
-                                        <x-text-input type="text" name="alamat_asal" id="alamat_asal" tabindex="2"
+                                        <x-text-input type="text" name="alamat_asal" id="alamat_asal" tabindex="6"
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.originaddress') }}"
                                             value="{{ old('alamat_asal', $datas->alamat_asal) }}" />
 
@@ -113,7 +113,7 @@
                                     <div class="w-auto pb-4">
                                         <label for="nip"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.nip')</label>
-                                        <x-text-input type="text" name="nip" id="nip" tabindex="3"
+                                        <x-text-input type="text" name="nip" id="nip" tabindex="7"
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.fullname') }}"
                                             value="{{ old('nip', $datas->nip) }}" />
 
@@ -124,7 +124,7 @@
                                         <label for="alamat_tinggal"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.residentialaddress')</label>
                                         <x-text-input type="text" name="alamat_tinggal" id="alamat_tinggal"
-                                            tabindex="3" required
+                                            tabindex="8" required
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.residentialaddress') }}"
                                             value="{{ old('alamat_tinggal', $datas->alamat_tinggal) }}" />
 
@@ -134,7 +134,7 @@
                                     <div class="w-auto pb-4">
                                         <label for="telpon"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.phonenumber')</label>
-                                        <x-text-input type="text" name="telpon" id="telpon" tabindex="3"
+                                        <x-text-input type="text" name="telpon" id="telpon" tabindex="9"
                                             required
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.phonenumber') }}"
                                             value="{{ old('telpon', $datas->telpon) }}" />
@@ -174,8 +174,8 @@
                                     <div class="w-auto pb-4">
                                         <label for="email"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.emailaddress')</label>
-                                        <x-text-input type="text" name="email" id="email" tabindex="6"
-                                            placeholder="{{ __('messages.enter') }} {{ __('messages.description') }}"
+                                        <x-text-input type="text" name="email" id="email" tabindex="10"
+                                            placeholder="{{ __('messages.enter') }} {{ __('messages.emailaddress') }}"
                                             value="{{ old('email', $datas->email) }}" />
 
                                         <x-input-error class="mt-2" :messages="$errors->get('email')" />
@@ -185,7 +185,7 @@
                                         <label for="keterangan"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</label>
                                         <x-text-input type="text" name="keterangan" id="keterangan"
-                                            tabindex="7"
+                                            tabindex="11"
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.description') }}"
                                             value="{{ old('keterangan', $datas->keterangan) }}" />
 
@@ -194,8 +194,140 @@
                                 </div>
                             </div>
 
+                            <div class="flex flex-col lg:flex-row">
+                                <div class="w-full lg:w-1/2 px-2">
+                                    <h1
+                                        class="text-xl font-bold leading-tight pb-2 mb-4 border-b-2 border-primary-100 dark:border-primary-800">
+                                        @lang('messages.penggajian')</h1>
+                                    <div class="w-auto pb-4">
+                                        <label for="gaji_pokok"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.gapok')
+                                            (@lang('messages.currencysymbol'))</label>
+                                        <x-text-input type="number" min="0" name="gaji_pokok"
+                                            id="gaji_pokok" tabindex="12"
+                                            placeholder="{{ __('messages.enter') }} {{ __('messages.gapok') }}"
+                                            value="{{ old('gaji_pokok', $penggajian ? $penggajian->gaji_pokok : null) }}" />
+
+                                        <x-input-error class="mt-2" :messages="$errors->get('gaji_pokok')" />
+                                    </div>
+
+                                    <div class="flex flex-row gap-2">
+                                        <div class="w-2/3 pb-4">
+                                            <label for="t1_keterangan"
+                                                class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.tunjangan')</label>
+                                            <x-text-input type="text" name="t1_keterangan" id="t1_keterangan"
+                                                tabindex="13"
+                                                placeholder="{{ __('messages.enter') }} {{ __('messages.tunjangan') }}"
+                                                value="{{ old('t1_keterangan', $penggajian ? $penggajian->t1_keterangan : null) }}" />
+
+                                            <x-input-error class="mt-2" :messages="$errors->get('t1_keterangan')" />
+                                        </div>
+
+                                        <div class="w-1/3 pb-4">
+                                            <label for="t1_gaji"
+                                                class="block mb-2 font-medium text-primary-600 dark:text-primary-500">Rp.</label>
+                                            <x-text-input type="number" min="0" name="t1_gaji"
+                                                id="t1_gaji" tabindex="14"
+                                                placeholder="{{ __('messages.enter') }} {{ __('messages.tunjangan') }}"
+                                                value="{{ old('t1_gaji', $penggajian ? $penggajian->t1_gaji : null) }}" />
+
+                                            <x-input-error class="mt-2" :messages="$errors->get('t1_gaji')" />
+                                        </div>
+                                    </div>
+
+                                    <div class="flex flex-row gap-2">
+                                        <div class="w-2/3 pb-4">
+                                            <label for="t2_keterangan"
+                                                class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.tunjangan')</label>
+                                            <x-text-input type="text" name="t2_keterangan" id="t2_keterangan"
+                                                tabindex="15"
+                                                placeholder="{{ __('messages.enter') }} {{ __('messages.tunjangan') }}"
+                                                value="{{ old('t2_keterangan', $penggajian ? $penggajian->t2_keterangan : null) }}" />
+
+                                            <x-input-error class="mt-2" :messages="$errors->get('t2_keterangan')" />
+                                        </div>
+
+                                        <div class="w-1/3 pb-4">
+                                            <label for="t2_gaji"
+                                                class="block mb-2 font-medium text-primary-600 dark:text-primary-500">Rp.</label>
+                                            <x-text-input type="number" min="0" name="t2_gaji"
+                                                id="t2_gaji" tabindex="16"
+                                                placeholder="{{ __('messages.enter') }} {{ __('messages.tunjangan') }}"
+                                                value="{{ old('t2_gaji', $penggajian ? $penggajian->t2_gaji : null) }}" />
+
+                                            <x-input-error class="mt-2" :messages="$errors->get('t2_gaji')" />
+                                        </div>
+                                    </div>
+
+                                    <div class="flex flex-row gap-2">
+                                        <div class="w-2/3 pb-4">
+                                            <label for="t3_keterangan"
+                                                class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.tunjangan')</label>
+                                            <x-text-input type="text" name="t3_keterangan" id="t3_keterangan"
+                                                tabindex="17"
+                                                placeholder="{{ __('messages.enter') }} {{ __('messages.tunjangan') }}"
+                                                value="{{ old('t3_keterangan', $penggajian ? $penggajian->t3_keterangan : null) }}" />
+
+                                            <x-input-error class="mt-2" :messages="$errors->get('t3_keterangan')" />
+                                        </div>
+
+                                        <div class="w-1/3 pb-4">
+                                            <label for="t3_gaji"
+                                                class="block mb-2 font-medium text-primary-600 dark:text-primary-500">Rp.</label>
+                                            <x-text-input type="number" min="0" name="t3_gaji"
+                                                id="t3_gaji" tabindex="18"
+                                                placeholder="{{ __('messages.enter') }} {{ __('messages.tunjangan') }}"
+                                                value="{{ old('t3_gaji', $penggajian ? $penggajian->t3_gaji : null) }}" />
+
+                                            <x-input-error class="mt-2" :messages="$errors->get('t3_gaji')" />
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="w-full lg:w-1/2 px-2">
+                                    <h1
+                                        class="text-xl font-bold leading-tight pb-2 mb-4 border-b-2 border-primary-100 dark:border-primary-800">
+                                        @lang('messages.rekening')</h1>
+                                    <div class="w-auto pb-4">
+                                        <label for="rek_nama_bank"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.bankname')</label>
+                                        <x-text-input type="text" name="rek_nama_bank" id="rek_nama_bank"
+                                            tabindex="19"
+                                            placeholder="{{ __('messages.enter') }} {{ __('messages.bankname') }}"
+                                            value="{{ old('rek_nama_bank', $penggajian ? $penggajian->rek_nama_bank : null) }}" />
+
+                                        <x-input-error class="mt-2" :messages="$errors->get('rek_nama_bank')" />
+                                    </div>
+
+                                    <div class="w-auto pb-4">
+                                        <label for="rek_nomor"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.bankaccountnumber')</label>
+                                        <x-text-input type="text" name="rek_nomor" id="rek_nomor" tabindex="20"
+                                            placeholder="{{ __('messages.enter') }} {{ __('messages.bankaccountnumber') }}"
+                                            value="{{ old('rek_nomor', $penggajian ? $penggajian->rek_nomor : null) }}" />
+
+                                        <x-input-error class="mt-2" :messages="$errors->get('rek_nomor')" />
+                                    </div>
+
+                                    <div class="w-auto pb-4">
+                                        <label for="rek_nama_pemilik"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.bankaccountname')</label>
+                                        <x-text-input type="text" name="rek_nama_pemilik" id="rek_nama_pemilik"
+                                            tabindex="21"
+                                            placeholder="{{ __('messages.enter') }} {{ __('messages.bankaccountname') }}"
+                                            value="{{ old('rek_nama_pemilik', $penggajian ? $penggajian->rek_nama_pemilik : null) }}" />
+
+                                        <x-input-error class="mt-2" :messages="$errors->get('rek_nama_pemilik')" />
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="pb-4 lg:pb-12">
                                 <x-text-span>
+                                    <h1
+                                        class="text-xl font-bold leading-tight pb-2 mb-4 border-b-2 border-primary-100 dark:border-primary-800">
+                                        @lang('messages.attachment')</h1>
                                     <div class="image-set">
                                         <div class="flex flex-row flex-wrap gap-4 md:gap-6 text-center justify-center">
                                             <div class="w-1/3 md:w-1/4 lg:w-1/6">
@@ -290,7 +422,7 @@
                             <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
                                 <div class="w-auto">
                                     <label class="cursor-pointer flex flex-col items-center md:flex-row md:gap-2">
-                                        <input type="checkbox" id="isactive" name="isactive" tabindex="8"
+                                        <input type="checkbox" id="isactive" name="isactive" tabindex="22"
                                             class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-7 h-7 rounded-lg shadow-md"
                                             {{ $datas->isactive == '1' ? 'checked' : '' }}>
                                         <span
@@ -300,7 +432,7 @@
                                     </label>
                                 </div>
 
-                                <x-primary-button type="submit" class="block" tabindex="9">
+                                <x-primary-button type="submit" class="block" tabindex="23">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="size-5">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -308,7 +440,7 @@
                                     </svg>
                                     <span class="pl-1">@lang('messages.save')</span>
                                 </x-primary-button>
-                                <x-anchor-secondary href="{{ route('employee.index') }}" tabindex="10">
+                                <x-anchor-secondary href="{{ route('employee.index') }}" tabindex="24">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="size-5">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -372,7 +504,7 @@
                                                         <input type="hidden" id="pegawai_id" name="pegawai_id"
                                                             value="{{ $datas->id }}" />
                                                         <select name="brandivjab_id" id="brandivjab_id"
-                                                            tabindex="10" required
+                                                            tabindex="25" required
                                                             class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                                             <option value="">@lang('messages.choose')...
                                                             </option>
@@ -388,19 +520,19 @@
                                                     </td>
                                                     <td>
                                                         <x-text-input type="date" id="tanggal_mulai"
-                                                            name="tanggal_mulai" tabindex="11" />
+                                                            name="tanggal_mulai" tabindex="26" />
                                                     </td>
                                                     <td>
                                                         <x-text-input type="date" id="tanggal_akhir"
-                                                            name="tanggal_akhir" tabindex="12" />
+                                                            name="tanggal_akhir" tabindex="27" />
                                                     </td>
                                                     <td>
                                                         <x-text-input type="text" id="keterangan"
-                                                            name="keterangan" tabindex="13" />
+                                                            name="keterangan" tabindex="28" />
                                                     </td>
                                                     <td class="text-center">
                                                         <div class="w-auto">
-                                                            <select name="isactive" id="isactive" tabindex="14"
+                                                            <select name="isactive" id="isactive" tabindex="29"
                                                                 class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                                                 <option value="1" selected>@lang('messages.active')
                                                                 </option>
@@ -416,7 +548,7 @@
                                     </div>
 
                                     <div class="mt-4 mb-4 mr-4 flex flex-row flex-wrap justify-end gap-2 md:gap-4">
-                                        <x-primary-button id="submit-detail" tabindex="15">
+                                        <x-primary-button id="submit-detail" tabindex="30">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                 class="size-5">
@@ -425,7 +557,7 @@
                                             </svg>
                                             <span class="pl-1">@lang('messages.save')</span>
                                         </x-primary-button>
-                                        <x-anchor-secondary href="{{ route('employee.index') }}" tabindex="16">
+                                        <x-anchor-secondary href="{{ route('employee.index') }}" tabindex="31">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                 class="size-5">
@@ -454,8 +586,15 @@
             $(document).ready(function(e) {
                 $('.image-set a').click(function(e) {
                     e.preventDefault();
+                    var this_title = $(this).attr('data-title');
+                    var this_index = 0;
+                    var counter = 0;
 
                     var items = $('.image-set a').get().map(function(el) {
+                        if ($(el).attr('data-title') == this_title) {
+                            this_index = counter;
+                        }
+                        counter = counter + 1;
                         return {
                             src: $(el).attr('href'),
                             title: $(el).attr('data-title')
@@ -463,9 +602,10 @@
                     });
 
                     var options = {
-                        index: $(this).index(),
+                        index: this_index,
                         positionFixed: false
                     };
+                    // index: $(this).index(),
 
                     new PhotoViewer(items, options);
 

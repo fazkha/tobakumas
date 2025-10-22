@@ -265,4 +265,12 @@ return [
     'birthplace' => 'Tempat Kelahiran',
     'birthdate' => 'Tanggal Lahir',
     'status' => 'Status',
+    'penggajian' => 'Penggajian',
+    'gapok' => 'Gaji Pokok',
+    'tunjangan' => 'Tunjangan',
+    'rekening' => 'Rekening Bank',
+    'bankname' => 'Nama Bank',
+    'bankaccountnumber' => 'No. Rekening',
+    'bankaccountname' => 'Nama Pemilik',
+    'attachment' => 'Tautan',
 ];

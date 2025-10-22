@@ -54,7 +54,7 @@
                                         <label for="nama_lengkap"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.fullname')</label>
                                         <x-text-input type="text" name="nama_lengkap" id="nama_lengkap"
-                                            tabindex="1" required
+                                            tabindex="2" required
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.fullname') }}"
                                             value="{{ old('nama_lengkap') }}" />
 
@@ -65,7 +65,7 @@
                                         <label for="nama_panggilan"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.shortname')</label>
                                         <x-text-input type="text" name="nama_panggilan" id="nama_panggilan"
-                                            tabindex="1"
+                                            tabindex="3"
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.shortname') }}"
                                             value="{{ old('nama_panggilan') }}" />
 
@@ -76,7 +76,7 @@
                                         <label for="tempat_lahir"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.birthplace')</label>
                                         <x-text-input type="text" name="tempat_lahir" id="tempat_lahir"
-                                            tabindex="2"
+                                            tabindex="4"
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.birthplace') }}"
                                             value="{{ old('tempat_lahir') }}" />
 
@@ -87,7 +87,7 @@
                                         <label for="tanggal_lahir"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.birthdate')</label>
                                         <x-text-input type="date" name="tanggal_lahir" id="tanggal_lahir"
-                                            data-date-format="dd-mm-yyyy" tabindex="2" value="{{ date('Y-m-d') }}" />
+                                            data-date-format="dd-mm-yyyy" tabindex="5" value="{{ date('Y-m-d') }}" />
 
                                         <x-input-error class="mt-2" :messages="$errors->get('tanggal_lahir')" />
                                     </div>
@@ -95,7 +95,7 @@
                                     <div class="w-auto pb-4">
                                         <label for="alamat_asal"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.originaddress')</label>
-                                        <x-text-input type="text" name="alamat_asal" id="alamat_asal" tabindex="2"
+                                        <x-text-input type="text" name="alamat_asal" id="alamat_asal" tabindex="6"
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.originaddress') }}"
                                             value="{{ old('alamat_asal') }}" />
 
@@ -107,7 +107,7 @@
                                     <div class="w-auto pb-4">
                                         <label for="nip"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.nip')</label>
-                                        <x-text-input type="text" name="nip" id="nip" tabindex="3"
+                                        <x-text-input type="text" name="nip" id="nip" tabindex="7"
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.nip') }}"
                                             value="{{ old('nip') }}" />
 
@@ -118,7 +118,7 @@
                                         <label for="alamat_tinggal"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.residentialaddress')</label>
                                         <x-text-input type="text" name="alamat_tinggal" id="alamat_tinggal"
-                                            tabindex="3" required
+                                            tabindex="8" required
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.residentialaddress') }}"
                                             value="{{ old('alamat_tinggal') }}" />
 
@@ -128,7 +128,7 @@
                                     <div class="w-auto pb-4">
                                         <label for="telpon"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.phonenumber')</label>
-                                        <x-text-input type="text" name="telpon" id="telpon" tabindex="3"
+                                        <x-text-input type="text" name="telpon" id="telpon" tabindex="9"
                                             required
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.phonenumber') }}"
                                             value="{{ old('telpon') }}" />
@@ -166,7 +166,7 @@
                                     <div class="w-auto pb-4">
                                         <label for="email"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.emailaddress')</label>
-                                        <x-text-input type="text" name="email" id="email" tabindex="6"
+                                        <x-text-input type="text" name="email" id="email" tabindex="10"
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.description') }}"
                                             value="{{ old('email') }}" />
 
@@ -177,7 +177,7 @@
                                         <label for="keterangan"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</label>
                                         <x-text-input type="text" name="keterangan" id="keterangan"
-                                            tabindex="7"
+                                            tabindex="11"
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.description') }}"
                                             value="{{ old('keterangan') }}" />
 
@@ -186,86 +186,10 @@
                                 </div>
                             </div>
 
-                            <div class="pb-4 lg:pb-12">
-                                <x-text-span>
-                                    <div class="flex flex-row flex-wrap gap-4 md:gap-6 text-center justify-center">
-                                        <div class="w-1/3 md:w-1/4 lg:w-1/6">
-                                            <label for="gambar_1_nama"
-                                                class="cursor-pointer block mb-2 font-medium text-primary-600 dark:text-primary-500">
-                                                <span>@lang('messages.picture')-1</span>
-                                                <div class="mt-2 flex justify-center">
-                                                    <img id="image_1-preview" class="w-full h-auto border rounded-lg"
-                                                        src="{{ url('/') }}/images/0cd6be830e32f80192d496e50cfa9dbc.jpg"
-                                                        alt="o.o">
-                                                </div>
-                                            </label>
-                                            <input type="file" id="gambar_1_nama" id="gambar_1_nama"
-                                                style="display: none;">
-                                        </div>
-
-                                        <div class="w-1/3 md:w-1/4 lg:w-1/6">
-                                            <label for="gambar_2_nama"
-                                                class="cursor-pointer block mb-2 font-medium text-primary-600 dark:text-primary-500">
-                                                <span>@lang('messages.picture')-2</span>
-                                                <div class="mt-2 flex justify-center">
-                                                    <img id="image_2-preview" class="w-full h-auto border rounded-lg"
-                                                        src="{{ url('/') }}/images/0cd6be830e32f80192d496e50cfa9dbc.jpg"
-                                                        alt="o.o">
-                                                </div>
-                                            </label>
-                                            <input type="file" id="gambar_2_nama" id="gambar_2_nama"
-                                                style="display: none;">
-                                        </div>
-
-                                        <div class="w-1/3 md:w-1/4 lg:w-1/6">
-                                            <label for="gambar_3_nama"
-                                                class="cursor-pointer block mb-2 font-medium text-primary-600 dark:text-primary-500">
-                                                <span>@lang('messages.picture')-3</span>
-                                                <div class="mt-2 flex justify-center">
-                                                    <img id="image_3-preview" class="w-full h-auto border rounded-lg"
-                                                        src="{{ url('/') }}/images/0cd6be830e32f80192d496e50cfa9dbc.jpg"
-                                                        alt="o.o">
-                                                </div>
-                                            </label>
-                                            <input type="file" id="gambar_3_nama" id="gambar_3_nama"
-                                                style="display: none;">
-                                        </div>
-
-                                        <div class="w-1/3 md:w-1/4 lg:w-1/6">
-                                            <label for="gambar_4_nama"
-                                                class="cursor-pointer block mb-2 font-medium text-primary-600 dark:text-primary-500">
-                                                <span>@lang('messages.picture')-4</span>
-                                                <div class="mt-2 flex justify-center">
-                                                    <img id="image_4-preview" class="w-full h-auto border rounded-lg"
-                                                        src="{{ url('/') }}/images/0cd6be830e32f80192d496e50cfa9dbc.jpg"
-                                                        alt="o.o">
-                                                </div>
-                                            </label>
-                                            <input type="file" id="gambar_4_nama" id="gambar_4_nama"
-                                                style="display: none;">
-                                        </div>
-
-                                        <div class="w-1/3 md:w-1/4 lg:w-1/6">
-                                            <label for="gambar_5_nama"
-                                                class="cursor-pointer block mb-2 font-medium text-primary-600 dark:text-primary-500">
-                                                <span>@lang('messages.picture')-5</span>
-                                                <div class="mt-2 flex justify-center">
-                                                    <img id="image_5-preview" class="w-full h-auto border rounded-lg"
-                                                        src="{{ url('/') }}/images/0cd6be830e32f80192d496e50cfa9dbc.jpg"
-                                                        alt="o.o">
-                                                </div>
-                                            </label>
-                                            <input type="file" id="gambar_5_nama" id="gambar_5_nama"
-                                                style="display: none;">
-                                        </div>
-                                    </div>
-                                </x-text-span>
-                            </div>
-
                             <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
                                 <div class="w-auto">
                                     <label class="cursor-pointer flex flex-col items-center md:flex-row md:gap-2">
-                                        <input type="checkbox" id="isactive" name="isactive" tabindex="8"
+                                        <input type="checkbox" id="isactive" name="isactive" tabindex="12"
                                             class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-7 h-7 rounded-lg shadow-md"
                                             checked>
                                         <span
@@ -275,7 +199,7 @@
                                     </label>
                                 </div>
 
-                                <x-primary-button type="submit" class="block" tabindex="9">
+                                <x-primary-button type="submit" class="block" tabindex="13">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="size-5">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -283,7 +207,7 @@
                                     </svg>
                                     <span class="pl-1">@lang('messages.save')</span>
                                 </x-primary-button>
-                                <x-anchor-secondary href="{{ route('employee.index') }}" tabindex="10">
+                                <x-anchor-secondary href="{{ route('employee.index') }}" tabindex="14">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="size-5">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -300,9 +224,32 @@
         </div>
     </form>
 
+    @push('styles')
+        <link rel="stylesheet" href="{{ url('/') }}/css/photoviewer.min.css">
+    @endpush
+
     @push('scripts')
+        <script type="text/javascript" src="{{ url('/') }}/js/photoviewer.min.js"></script>
         <script type="text/javascript">
             $(document).ready(function(e) {
+                $('.image-set a').click(function(e) {
+                    e.preventDefault();
+
+                    var items = $('.image-set a').get().map(function(el) {
+                        return {
+                            src: $(el).attr('href'),
+                            title: $(el).attr('data-title')
+                        }
+                    });
+
+                    var options = {
+                        index: $(this).index(),
+                        positionFixed: false
+                    };
+
+                    new PhotoViewer(items, options);
+
+                });
                 $('#gambar_1_nama').change(function() {
                     let reader = new FileReader();
                     reader.onload = (e) => {
