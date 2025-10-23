@@ -38,7 +38,7 @@
 
     @push('scripts')
         <script type="text/javascript">
-            $("#pp-dropdown, #isactive-dropdown, #kelamin-dropdown, #cabang_id-dropdown, #search-telpon, #search-nama, #search-alamat")
+            $("#pp-dropdown, #isactive-dropdown, #kelamin-dropdown, #cabang_id-dropdown, #jabatan_id-dropdown, #search-telpon, #search-nama, #search-alamat")
                 .on(
                     "change keyup paste",
                     function() {
@@ -46,6 +46,7 @@
                         var xisactive = $('#isactive-dropdown option:selected').val();
                         var xkelamin = $('#kelamin-dropdown option:selected').val();
                         var xcabang_id = $('#cabang_id-dropdown option:selected').val();
+                        var xjabatan_id = $('#jabatan_id-dropdown option:selected').val();
                         var xtelpon = $('#search-telpon').val();
                         var xnama = $('#search-nama').val();
                         var xalamat = $('#search-alamat').val();
@@ -71,7 +72,8 @@
 
                         $.ajax({
                             url: '{{ url('/human-resource/employee/fetchdb') }}' + "/" + xpp + "/" + xisactive + "/" +
-                                xkelamin + "/" + xnama + "/" + xalamat + "/" + xtelpon + "/" + xcabang_id,
+                                xkelamin + "/" + xnama + "/" + xalamat + "/" + xtelpon + "/" + xcabang_id + "/" +
+                                xjabatan_id,
                             type: "GET",
                             dataType: 'json',
                             success: function(result) {
