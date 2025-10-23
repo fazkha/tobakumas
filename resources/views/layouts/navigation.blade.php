@@ -427,21 +427,6 @@
                             </svg>
                         </span>
                     </a>
-                    @can('jabatan-list')
-                        <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="humanresource">
-                            <a href="{{ route('jabatan.index') }}" role="menuitem"
-                                class="block p-2 text-sm text-gray-500 transition-colors duration-200 rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary">
-                                <span class="flex flex-row gap-1">
-                                    <svg fill="currentColor" class="size-5" viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68a1,1,0,0,0,.4,1,1,1,0,0,0,1.05.07L12,18.76l5.1,2.68a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.89l.72,4.19-3.76-2a1,1,0,0,0-.94,0l-3.76,2,.72-4.19a1,1,0,0,0-.29-.89l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z" />
-                                    </svg>
-                                    @lang('messages.jobposition')
-                                </span>
-                            </a>
-                        </div>
-                    @endcan
                     @can('pegawai-list')
                         <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="humanresource">
                             <a href="{{ route('employee.index') }}" role="menuitem"
@@ -560,7 +545,6 @@
 
             @can('satuan-list')
                 <div x-data="{{ substr(request()->getRequestUri(), 0, 17) == '/warehouse/satuan' ||
-                substr(request()->getRequestUri(), 0, 22) == '/warehouse/conversions' ||
                 substr(request()->getRequestUri(), 0, 17) == '/warehouse/gudang' ||
                 substr(request()->getRequestUri(), 0, 17) == '/warehouse/goods' ||
                 substr(request()->getRequestUri(), 0, 23) == '/warehouse/stock-opname' ||
@@ -610,24 +594,6 @@
                                         </svg>
                                     </span>
                                     @lang('messages.unit')
-                                </span>
-                            </a>
-                        </div>
-                    @endcan
-                    @can('konversi-list')
-                        <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="warehouse">
-                            <a href="{{ route('conversions.index') }}" role="menuitem"
-                                class="block p-2 text-sm text-gray-500 transition-colors duration-200 rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary">
-                                <span class="flex flex-row gap-1">
-                                    <span aria-hidden="true">
-                                        <svg class="size-5" viewBox="0 0 17 17" version="1.1"
-                                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                            <path
-                                                d="M6 8h-6v-6h1v4.109c1.013-3.193 4.036-5.484 7.5-5.484 3.506 0 6.621 2.36 7.574 5.739l-0.963 0.271c-0.832-2.95-3.551-5.011-6.611-5.011-3.226 0.001-6.016 2.276-6.708 5.376h4.208v1zM11 9v1h4.208c-0.693 3.101-3.479 5.375-6.708 5.375-3.062 0-5.78-2.061-6.611-5.011l-0.963 0.271c0.952 3.379 4.067 5.739 7.574 5.739 3.459 0 6.475-2.28 7.5-5.482v4.108h1v-6h-6z"
-                                                fill="currentColor" />
-                                        </svg>
-                                    </span>
-                                    @lang('messages.conversion')
                                 </span>
                             </a>
                         </div>
