@@ -274,4 +274,6 @@ return [
     'bankaccountnumber' => 'Account No.',
     'bankaccountname' => 'Account Name.',
     'attachment' => 'Attachment',
+    'personincharge' => 'Person In Charge',
+    'leader' => 'Leader',
 ];

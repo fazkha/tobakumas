@@ -273,4 +273,6 @@ return [
     'bankaccountnumber' => 'No. Rekening',
     'bankaccountname' => 'Nama Pemilik',
     'attachment' => 'Tautan',
+    'personincharge' => 'Penanggung-jawab',
+    'leader' => 'Pimpinan',
 ];

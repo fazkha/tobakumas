@@ -189,6 +189,50 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="flex flex-col lg:flex-row">
+                                <div class="w-full lg:w-1/2 px-2">
+                                    <h1
+                                        class="text-xl font-bold leading-tight pb-2 mb-4 border-b-2 border-primary-100 dark:border-primary-800">
+                                        @lang('messages.personincharge')</h1>
+                                    @foreach ($pcmitra as $pc)
+                                        @if ($pc->islevel == 5)
+                                            <div class="w-auto pb-4">
+                                                <span
+                                                    class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.name')</span>
+                                                <x-text-span>{{ $pc->nama_lengkap }}</x-text-span>
+                                            </div>
+
+                                            <div class="w-auto pb-4">
+                                                <span
+                                                    class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.jobposition')</span>
+                                                <x-text-span>{{ $pc->jabatan }}</x-text-span>
+                                            </div>
+
+                                            <div class="w-auto pb-4">
+                                                <span
+                                                    class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.phonenumber')</span>
+                                                <x-text-span>{{ $pc->telpon }}</x-text-span>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                </div>
+
+                                <div class="w-full lg:w-1/2 px-2">
+                                    <h1
+                                        class="text-xl font-bold leading-tight pb-2 mb-4 border-b-2 border-primary-100 dark:border-primary-800">
+                                        @lang('messages.partner') (@lang('messages.active'))</h1>
+                                    <div class="w-auto pb-4">
+                                        @foreach ($pcmitra as $pc)
+                                            @if ($pc->islevel == 6)
+                                                <div class="w-auto pb-2">
+                                                    <x-text-span>{{ $pc->nama_lengkap . ' / ' . $pc->telpon }}</x-text-span>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -14,6 +14,7 @@ use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 
 class BranchController extends Controller implements HasMiddleware
 {
@@ -161,7 +162,11 @@ class BranchController extends Controller implements HasMiddleware
         $kabupatens = Kabupaten::where('isactive', 1)->where('propinsi_id', $datas->propinsi_id)->orderBy('nama')->pluck('nama', 'id');
         $kecamatans = Kecamatan::where('isactive', 1)->where('kabupaten_id', $datas->kabupaten_id)->orderBy('nama')->pluck('nama', 'id');
 
-        return view('branch.edit', compact(['datas', 'propinsis', 'kabupatens', 'kecamatans']));
+        $syntax = 'CALL sp_mitra_cabang(' . Crypt::decrypt($request->branch) . ')';
+        $pcmitra = DB::select($syntax);
+        // dd($pcmitra);
+
+        return view('branch.edit', compact(['datas', 'propinsis', 'kabupatens', 'kecamatans', 'pcmitra']));
     }
 
     public function update(BranchRequest $request): RedirectResponse
