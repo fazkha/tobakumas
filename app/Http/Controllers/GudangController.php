@@ -164,7 +164,7 @@ class GudangController extends Controller implements HasMiddleware
     {
         $datas = Gudang::find(Crypt::decrypt($request->gudang));
         $propinsis = Propinsi::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $kabupatens = Kabupaten::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+        $kabupatens = Kabupaten::where('isactive', 1)->where('propinsi_id', $datas->propinsi_id)->orderBy('nama')->pluck('nama', 'id');
 
         return view('gudang.edit', compact(['datas', 'propinsis', 'kabupatens']));
     }

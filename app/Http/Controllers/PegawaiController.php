@@ -18,7 +18,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 
 class PegawaiController extends Controller implements HasMiddleware
 {
@@ -63,7 +62,7 @@ class PegawaiController extends Controller implements HasMiddleware
         $search_arr = ['pegawai_isactive', 'pegawai_kelamin', 'pegawai_nama_lengkap', 'pegawai_alamat_tinggal', 'pegawai_telpon', 'pegawai_cabang_id', 'pegawai_jabatan_id'];
 
         $cabangs = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $jabatans = Jabatan::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+        $jabatans = Jabatan::where('isactive', 1)->orderBy('islevel')->pluck('nama', 'id');
         $datas = Pegawai::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
@@ -108,7 +107,7 @@ class PegawaiController extends Controller implements HasMiddleware
         $search_arr = ['pegawai_isactive', 'pegawai_kelamin', 'pegawai_nama_lengkap', 'pegawai_alamat_tinggal', 'pegawai_telpon', 'pegawai_cabang_id', 'pegawai_jabatan_id'];
 
         $cabangs = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $jabatans = Jabatan::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+        $jabatans = Jabatan::where('isactive', 1)->orderBy('islevel')->pluck('nama', 'id');
         $datas = Pegawai::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {

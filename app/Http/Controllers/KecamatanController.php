@@ -147,7 +147,7 @@ class KecamatanController extends Controller implements HasMiddleware
     {
         $datas = Kecamatan::find(Crypt::decrypt($request->kecamatan));
         $propinsis = Propinsi::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $kabupatens = Kabupaten::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+        $kabupatens = Kabupaten::where('isactive', 1)->where('propinsi_id', $datas->propinsi_id)->orderBy('nama')->pluck('nama', 'id');
 
         return view('kecamatan.edit', compact(['datas', 'propinsis', 'kabupatens']));
     }

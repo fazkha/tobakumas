@@ -134,6 +134,7 @@ class BrandivjabkabController extends Controller implements HasMiddleware
         $kabupatens = Kabupaten::join('propinsis', 'propinsis.id', 'kabupatens.propinsi_id')
             ->selectRaw('propinsis.nama as namapropinsi, kabupatens.nama as nama, kabupatens.id as id')
             ->where('kabupatens.isactive', 1)->orderBy('kabupatens.propinsi_id')->orderBy('kabupatens.nama')->get();
+        // jabatans.islevel in (4,5) = kepala area/cabang
         $brandivjabs = Brandivjab::join('branches', 'branches.id', 'brandivjabs.branch_id')
             ->join('jabatans', 'jabatans.id', 'brandivjabs.jabatan_id')
             ->leftJoin('divisions', 'divisions.id', 'brandivjabs.division_id')
@@ -219,6 +220,7 @@ class BrandivjabkabController extends Controller implements HasMiddleware
                 ->orderBy('kabupatens.propinsi_id')
                 ->orderBy('kabupatens.id')
                 ->get();
+            // jabatans.islevel in (4,5) = kepala area/cabang
             $brandivjabs = Brandivjab::join('branches', 'branches.id', 'brandivjabs.branch_id')
                 ->join('jabatans', 'jabatans.id', 'brandivjabs.jabatan_id')
                 ->leftJoin('divisions', 'divisions.id', 'brandivjabs.division_id')

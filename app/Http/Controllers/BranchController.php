@@ -158,8 +158,8 @@ class BranchController extends Controller implements HasMiddleware
     {
         $datas = Branch::find(Crypt::decrypt($request->branch));
         $propinsis = Propinsi::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $kabupatens = Kabupaten::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $kecamatans = Kecamatan::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+        $kabupatens = Kabupaten::where('isactive', 1)->where('propinsi_id', $datas->propinsi_id)->orderBy('nama')->pluck('nama', 'id');
+        $kecamatans = Kecamatan::where('isactive', 1)->where('kabupaten_id', $datas->kabupaten_id)->orderBy('nama')->pluck('nama', 'id');
 
         return view('branch.edit', compact(['datas', 'propinsis', 'kabupatens', 'kecamatans']));
     }
