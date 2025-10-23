@@ -38,47 +38,49 @@
 
     @push('scripts')
         <script type="text/javascript">
-            $("#pp-dropdown, #isactive-dropdown, #kelamin-dropdown, #search-telpon, #search-nama, #search-alamat").on(
-                "change keyup paste",
-                function() {
-                    var xpp = $('#pp-dropdown option:selected').val();
-                    var xisactive = $('#isactive-dropdown option:selected').val();
-                    var xkelamin = $('#kelamin-dropdown option:selected').val();
-                    var xtelpon = $('#search-telpon').val();
-                    var xnama = $('#search-nama').val();
-                    var xalamat = $('#search-alamat').val();
-                    if (!xtelpon.trim()) {
-                        xtelpon = '_';
-                    }
-                    if (!xnama.trim()) {
-                        xnama = '_';
-                    }
-                    if (!xalamat.trim()) {
-                        xalamat = '_';
-                    }
-
-                    $('#filter-loading').show();
-
-                    var newURL = '{{ url('/human-resource/employee') }}';
-                    var newState = {
-                        page: 'index-employee'
-                    };
-                    var newTitle = '{{ __('messages.employee') }}';
-
-                    window.history.pushState(newState, newTitle, newURL);
-
-                    $.ajax({
-                        url: '{{ url('/human-resource/employee/fetchdb') }}' + "/" + xpp + "/" + xisactive + "/" +
-                            xkelamin + "/" + xnama + "/" + xalamat + "/" + xtelpon,
-                        type: "GET",
-                        dataType: 'json',
-                        success: function(result) {
-                            $('#table-container').html(result);
-                            $("#table-container").focus();
-                            $('#filter-loading').hide();
+            $("#pp-dropdown, #isactive-dropdown, #kelamin-dropdown, #cabang_id-dropdown, #search-telpon, #search-nama, #search-alamat")
+                .on(
+                    "change keyup paste",
+                    function() {
+                        var xpp = $('#pp-dropdown option:selected').val();
+                        var xisactive = $('#isactive-dropdown option:selected').val();
+                        var xkelamin = $('#kelamin-dropdown option:selected').val();
+                        var xcabang_id = $('#cabang_id-dropdown option:selected').val();
+                        var xtelpon = $('#search-telpon').val();
+                        var xnama = $('#search-nama').val();
+                        var xalamat = $('#search-alamat').val();
+                        if (!xtelpon.trim()) {
+                            xtelpon = '_';
                         }
+                        if (!xnama.trim()) {
+                            xnama = '_';
+                        }
+                        if (!xalamat.trim()) {
+                            xalamat = '_';
+                        }
+
+                        $('#filter-loading').show();
+
+                        var newURL = '{{ url('/human-resource/employee') }}';
+                        var newState = {
+                            page: 'index-employee'
+                        };
+                        var newTitle = '{{ __('messages.employee') }}';
+
+                        window.history.pushState(newState, newTitle, newURL);
+
+                        $.ajax({
+                            url: '{{ url('/human-resource/employee/fetchdb') }}' + "/" + xpp + "/" + xisactive + "/" +
+                                xkelamin + "/" + xnama + "/" + xalamat + "/" + xtelpon + "/" + xcabang_id,
+                            type: "GET",
+                            dataType: 'json',
+                            success: function(result) {
+                                $('#table-container').html(result);
+                                $("#table-container").focus();
+                                $('#filter-loading').hide();
+                            }
+                        });
                     });
-                });
         </script>
     @endpush
 </x-app-layout>

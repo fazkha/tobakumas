@@ -123,7 +123,7 @@ Route::prefix('delivery')->middleware('auth')->group(function () {
 Route::prefix('human-resource')->middleware('auth')->group(function () {
     Route::resource('employee', PegawaiController::class);
     Route::get('employee/{employee}/delete', [PegawaiController::class, 'delete'])->name('employee.delete');
-    Route::get('employee/fetchdb/{pp}/{isactive}/{kelamin}/{nama_lengkap}/{alamat_tinggal}/{telpon}', [PegawaiController::class, 'fetchdb'])->defaults('nama_lengkap', '_')->defaults('alamat_tinggal', '_')->defaults('telpon', '_');
+    Route::get('employee/fetchdb/{pp}/{isactive}/{kelamin}/{nama_lengkap}/{alamat_tinggal}/{telpon}/{cabang}', [PegawaiController::class, 'fetchdb'])->defaults('nama_lengkap', '_')->defaults('alamat_tinggal', '_')->defaults('telpon', '_');
 
     Route::post('employee/store-jabatan/{employee}', [BrandivjabpegController::class, 'storeJabatan']);
     Route::delete('employee/delete-jabatan/{jabatan}', [BrandivjabpegController::class, 'deleteJabatan']);

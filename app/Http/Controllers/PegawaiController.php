@@ -7,6 +7,7 @@ use App\Models\Brandivjabpeg;
 use App\Models\Brandivjab;
 use App\Http\Requests\PegawaiRequest;
 use App\Http\Requests\PegawaiUpdateRequest;
+use App\Models\Branch;
 use App\Models\PegawaiGaji;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -42,6 +43,9 @@ class PegawaiController extends Controller implements HasMiddleware
         if (!$request->session()->exists('pegawai_kelamin')) {
             $request->session()->put('pegawai_kelamin', 'all');
         }
+        if (!$request->session()->exists('pegawai_cabang_id')) {
+            $request->session()->put('pegawai_cabang_id', 'all');
+        }
         if (!$request->session()->exists('pegawai_nama_lengkap')) {
             $request->session()->put('pegawai_nama_lengkap', '_');
         }
@@ -52,16 +56,20 @@ class PegawaiController extends Controller implements HasMiddleware
             $request->session()->put('pegawai_telpon', '_');
         }
 
-        $search_arr = ['pegawai_isactive', 'pegawai_kelamin', 'pegawai_nama_lengkap', 'pegawai_alamat_tinggal', 'pegawai_telpon'];
+        $search_arr = ['pegawai_isactive', 'pegawai_kelamin', 'pegawai_nama_lengkap', 'pegawai_alamat_tinggal', 'pegawai_telpon', 'pegawai_cabang_id'];
 
+        $cabangs = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $datas = Pegawai::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
             $field = substr($search_arr[$i], strlen('pegawai_'));
 
-            if ($search_arr[$i] == 'pegawai_isactive' || $search_arr[$i] == 'pegawai_kelamin') {
+            if ($search_arr[$i] == 'pegawai_isactive' || $search_arr[$i] == 'pegawai_kelamin' || $search_arr[$i] == 'pegawai_cabang_id') {
                 if (session($search_arr[$i]) != 'all') {
-                    $datas = $datas->where([$field => session($search_arr[$i])]);
+                    if ($search_arr[$i] == 'pegawai_cabang_id') {
+                    } else {
+                        $datas = $datas->where([$field => session($search_arr[$i])]);
+                    }
                 }
             } else {
                 if (session($search_arr[$i]) == '_' or session($search_arr[$i]) == '') {
@@ -78,7 +86,7 @@ class PegawaiController extends Controller implements HasMiddleware
             return redirect()->route('dashboard');
         }
 
-        return view('pegawai.index', compact(['datas']))->with('i', (request()->input('page', 1) - 1) * session('pegawai_pp'));
+        return view('pegawai.index', compact(['datas', 'cabangs']))->with('i', (request()->input('page', 1) - 1) * session('pegawai_pp'));
     }
 
     public function fetchdb(Request $request): JsonResponse
@@ -86,20 +94,29 @@ class PegawaiController extends Controller implements HasMiddleware
         $request->session()->put('pegawai_pp', $request->pp);
         $request->session()->put('pegawai_isactive', $request->isactive);
         $request->session()->put('pegawai_kelamin', $request->kelamin);
+        $request->session()->put('pegawai_cabang_id', $request->cabang);
         $request->session()->put('pegawai_nama_lengkap', $request->nama_lengkap);
         $request->session()->put('pegawai_alamat_tinggal', $request->alamat_tinggal);
         $request->session()->put('pegawai_telpon', $request->telpon);
 
-        $search_arr = ['pegawai_isactive', 'pegawai_kelamin', 'pegawai_nama_lengkap', 'pegawai_alamat_tinggal', 'pegawai_telpon'];
+        $search_arr = ['pegawai_isactive', 'pegawai_kelamin', 'pegawai_nama_lengkap', 'pegawai_alamat_tinggal', 'pegawai_telpon', 'pegawai_cabang_id'];
 
+        $cabangs = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $datas = Pegawai::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
             $field = substr($search_arr[$i], strlen('pegawai_'));
 
-            if ($search_arr[$i] == 'pegawai_isactive' || $search_arr[$i] == 'pegawai_kelamin') {
+            if ($search_arr[$i] == 'pegawai_isactive' || $search_arr[$i] == 'pegawai_kelamin' || $search_arr[$i] == 'pegawai_cabang_id') {
                 if (session($search_arr[$i]) != 'all') {
-                    $datas = $datas->where([$field => session($search_arr[$i])]);
+                    if ($search_arr[$i] == 'pegawai_cabang_id') {
+                        $datas = $datas->join('brandivjabpegs', 'brandivjabpegs.pegawai_id', 'pegawais.id')
+                            ->join('brandivjabs', 'brandivjabs.id', 'brandivjabpegs.brandivjab_id')
+                            ->where('brandivjabs.branch_id', session($search_arr[$i]))
+                            ->select('pegawais.*');
+                    } else {
+                        $datas = $datas->where([$field => session($search_arr[$i])]);
+                    }
                 }
             } else {
                 if (session($search_arr[$i]) == '_' or session($search_arr[$i]) == '') {
@@ -109,12 +126,19 @@ class PegawaiController extends Controller implements HasMiddleware
                 }
             }
         }
-        // $datas = $datas->where('user_id', auth()->user()->id);
+
+        // $sql = $datas->toSql();
+        // $bindings = $datas->getBindings();
+        // foreach ($bindings as $binding) {
+        //     $sql = preg_replace('/\?/', "'" . addslashes($binding) . "'", $sql, 1);
+        // }
+        // dd($sql);
+
         $datas = $datas->latest()->paginate(session('pegawai_pp'));
 
         $datas->withPath('/human-resource/employee'); // pagination url to
 
-        $view = view('pegawai.partials.table', compact(['datas']))->with('i', (request()->input('page', 1) - 1) * session('pegawai_pp'))->render();
+        $view = view('pegawai.partials.table', compact(['datas', 'cabangs']))->with('i', (request()->input('page', 1) - 1) * session('pegawai_pp'))->render();
 
         if ($view) {
             return response()->json($view, 200);
