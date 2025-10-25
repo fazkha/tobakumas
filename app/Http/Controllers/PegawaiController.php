@@ -206,10 +206,13 @@ class PegawaiController extends Controller implements HasMiddleware
         $penggajian = PegawaiGaji::find(Crypt::decrypt($request->employee));
         $details = Brandivjabpeg::where('pegawai_id', Crypt::decrypt($request->employee))->orderBy('tanggal_mulai', 'desc')->get();
         $brandivjabs = Brandivjab::join('jabatans', 'jabatans.id', 'brandivjabs.jabatan_id')
+            ->join('branches', 'branches.id', 'brandivjabs.branch_id')
             ->select('brandivjabs.*')
             ->where('brandivjabs.isactive', 1)
             ->orderBy('jabatans.islevel')
             ->orderBy('jabatans.nama')
+            ->orderBy('brandivjabs.keterangan')
+            ->orderBy('branches.nama')
             ->get();
 
         return view('pegawai.edit', compact(['datas', 'details', 'brandivjabs', 'penggajian']));
