@@ -11,6 +11,9 @@ use App\Models\SaleOrderMitra;
 use Illuminate\Http\Request;
 use App\Http\Requests\SaleOrderRequest;
 use App\Http\Requests\SaleOrderUpdateRequest;
+use App\Models\Brandivjab;
+use App\Models\Brandivjabpeg;
+use App\Models\Pegawai;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -332,6 +335,44 @@ class SaleOrderController extends Controller implements HasMiddleware
             'approved_at' => (config('custom.sale_approval') == false) ? date('Y-m-d H:i:s') : NULL,
         ]);
 
+        $sale = SaleOrder::find($order_id);
+        $customer = Customer::find($sale->customer_id);
+
+        if ($customer->branch_link_id) {
+            // jabatan_id = 3 = Mitra
+            $brandivjab = Brandivjab::where('isactive', 1)
+                ->where('jabatan_id', 3)
+                ->where('branch_id', $customer->branch_link_id)
+                ->first();
+
+            if (!$brandivjab) {
+                $brandivjab = Brandivjab::create([
+                    'branch_id' => $customer->branch_link_id,
+                    'jabatan_id' => 3,
+                    'isactive' => 1,
+                    'created_by' => auth()->user()->email,
+                ]);
+            }
+
+            if ($brandivjab) {
+                $pegawai = Pegawai::create([
+                    'nama_lengkap' => $request->nama_mitra,
+                    'alamat_tinggal' => '-',
+                    'telpon' => '-',
+                    'kelamin' => 'L',
+                    'isactive' => 1,
+                ]);
+
+                Brandivjabpeg::create([
+                    'brandivjab_id' => $brandivjab->id,
+                    'pegawai_id' => $pegawai->id,
+                    'isactive' => 1,
+                    'tanggal_mulai' => date('Y-m-d'),
+                    'created_by' => auth()->user()->email,
+                ]);
+            }
+        }
+
         $selaluUpdateHargaJual = config('custom.selaluUpdateHargaJual');
 
         if ($selaluUpdateHargaJual) {
@@ -358,10 +399,14 @@ class SaleOrderController extends Controller implements HasMiddleware
 
         $view = view('sale-order.partials.details-adonan', compact(['adonans', 'viewMode']))->render();
 
+        $syntax = 'CALL sp_mitra_order(' . '\'Mitra\'' . ',' . $order_id . ')';
+        $pegawais = DB::select($syntax);
+
         return response()->json([
             'view' => $view,
             'total_harga_master' => $totals['total_price'],
             'total_harga_adonan' => $totals['sub_price'],
+            'pegawais' => $pegawais,
         ], 200);
     }
 

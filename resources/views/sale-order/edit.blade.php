@@ -808,6 +808,22 @@
                                     .toLocaleString('de-DE'));
                                 $('#adonan-form')[0].reset();
                                 $("#disp-sub_harga-adonan").html(0);
+
+                                $('#pegawai_id').empty();
+                                $('#pegawai_id').append($('<option>', {
+                                    value: null,
+                                    text: "{{ __('messages.choose') }}..."
+                                }));
+                                var data = result.pegawais;
+
+                                $.each(data, function(index, item) {
+                                    $('#pegawai_id').append($('<option>', {
+                                        value: item.id,
+                                        text: item.nama
+                                    }));
+                                });
+                                $("#pegawai_id").focus();
+
                                 flasher.success("{{ __('messages.successsaved') }}!", "Success");
                             }
                         }
