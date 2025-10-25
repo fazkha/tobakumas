@@ -9,9 +9,6 @@ use App\Http\Controllers\BrandivjabpegController;
 use App\Http\Controllers\CoaController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DeliveryOfficerController;
-use App\Http\Controllers\DeliveryOrderController;
-use App\Http\Controllers\DeliveryOrderDetailController;
-use App\Http\Controllers\DeliveryOrderMitraController;
 use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\GudangController;
 use App\Http\Controllers\JabatanController;
@@ -19,6 +16,7 @@ use App\Http\Controllers\KabupatenController;
 use App\Http\Controllers\KecamatanController;
 use App\Http\Controllers\KonversiController;
 use App\Http\Controllers\LocaleController;
+use App\Http\Controllers\MitraController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\ProdOrderController;
@@ -108,9 +106,6 @@ Route::prefix('delivery')->middleware('auth')->group(function () {
     Route::delete('order/delete-package/{package}', [DeliveryOfficerController::class, 'deletePackage']);
     Route::get('order/print-one/{year}/{month}/{id}', [DeliveryOfficerController::class, 'printOne']);
     Route::get('order/print-rekap/{year}/{month}', [DeliveryOfficerController::class, 'printRekap']);
-    // Route::get('order/finish-order/{order}', [DeliveryOrderController::class, 'finishOrder']);
-    // Route::resource('order-detail', DeliveryOrderDetailController::class)->names('delivery-order-detail');
-    // Route::resource('order-mitra', DeliveryOrderMitraController::class)->names('delivery-order-mitra');
 
     Route::resource('officer', AreaOfficerController::class)->names('area-officer');
     Route::get('officer/fetchdb/{pp}/{isactive}/{propinsi}/{kabupaten}', [AreaOfficerController::class, 'fetchdb']);
@@ -127,9 +122,13 @@ Route::prefix('human-resource')->middleware('auth')->group(function () {
 
     Route::post('employee/store-jabatan/{employee}', [BrandivjabpegController::class, 'storeJabatan']);
     Route::delete('employee/delete-jabatan/{jabatan}', [BrandivjabpegController::class, 'deleteJabatan']);
-    // Route::resource('brandivjabpeg', BrandivjabpegController::class);
-    // Route::get('brandivjabpeg/{brandivjabpeg}/delete', [BrandivjabpegController::class, 'delete'])->name('brandivjabpeg.delete');
-    // Route::get('brandivjabpeg/fetchdb/{pp}/{isactive}/{branch}/{division}/{jabatan}/{pegawai}', [BrandivjabpegController::class, 'fetchdb']);
+
+    Route::resource('mitra', MitraController::class);
+    Route::get('mitra/{mitra}/delete', [MitraController::class, 'delete'])->name('mitra.delete');
+    Route::get('mitra/fetchdb/{pp}/{isactive}/{kelamin}/{nama_lengkap}/{alamat_tinggal}/{telpon}/{cabang}/{jabatan}', [MitraController::class, 'fetchdb'])->defaults('nama_lengkap', '_')->defaults('alamat_tinggal', '_')->defaults('telpon', '_');
+
+    Route::post('mitra/store-jabatan/{mitra}', [BrandivjabpegController::class, 'storeJabatan']);
+    Route::delete('mitra/delete-jabatan/{jabatan}', [BrandivjabpegController::class, 'deleteJabatan']);
 })->missing(function (Request $request) {
     return Redirect::route('dashboard');
 });

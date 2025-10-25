@@ -19,7 +19,7 @@ use Illuminate\View\View;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\File;
 
-class PegawaiController extends Controller implements HasMiddleware
+class MitraController extends Controller implements HasMiddleware
 {
     public static function middleware(): array
     {
@@ -194,30 +194,26 @@ class PegawaiController extends Controller implements HasMiddleware
 
     public function show(Request $request): View
     {
-        $datas = Pegawai::find(Crypt::decrypt($request->employee));
-        $details = Brandivjabpeg::where('pegawai_id', Crypt::decrypt($request->employee))->orderBy('tanggal_mulai', 'desc')->get();
+        $datas = Pegawai::find(Crypt::decrypt($request->mitra));
+        $details = Brandivjabpeg::where('pegawai_id', Crypt::decrypt($request->mitra))->orderBy('tanggal_mulai', 'desc')->get();
 
         return view('pegawai.show', compact(['datas', 'details']));
     }
 
     public function edit(Request $request): View
     {
-        $datas = Pegawai::find(Crypt::decrypt($request->employee));
-        $penggajian = PegawaiGaji::find(Crypt::decrypt($request->employee));
-        $details = Brandivjabpeg::where('pegawai_id', Crypt::decrypt($request->employee))->orderBy('tanggal_mulai', 'desc')->get();
-        $brandivjabs = Brandivjab::join('jabatans', 'jabatans.id', 'brandivjabs.jabatan_id')
-            ->select('brandivjabs.*')
-            ->where('brandivjabs.isactive', 1)
-            ->orderBy('jabatans.islevel')
-            ->orderBy('jabatans.nama')
-            ->get();
+        $datas = Pegawai::find(Crypt::decrypt($request->mitra));
+        $penggajian = PegawaiGaji::find(Crypt::decrypt($request->mitra));
+        $details = Brandivjabpeg::where('pegawai_id', Crypt::decrypt($request->mitra))->orderBy('tanggal_mulai', 'desc')->get();
+        // $brandivjabs = Brandivjab::where('brandivjabs.isactive', 1)->join('jabatans', 'jabatans.id', 'brandivjabs.jabatan_id')->orderBy('jabatans.islevel')->get();
+        $brandivjabs = Brandivjab::where('isactive', 1)->orderBy('jabatan_id')->get();
 
         return view('pegawai.edit', compact(['datas', 'details', 'brandivjabs', 'penggajian']));
     }
 
     public function update(PegawaiUpdateRequest $request): RedirectResponse
     {
-        $pegawai = Pegawai::find(Crypt::decrypt($request->employee));
+        $pegawai = Pegawai::find(Crypt::decrypt($request->mitra));
 
         if ($request->validated()) {
             $pegawai->update([
@@ -238,11 +234,11 @@ class PegawaiController extends Controller implements HasMiddleware
             ]);
 
             if ($pegawai) {
-                $n_penggajian = PegawaiGaji::where('pegawai_id', Crypt::decrypt($request->employee))->count();
+                $n_penggajian = PegawaiGaji::where('pegawai_id', Crypt::decrypt($request->mitra))->count();
                 // dd($n_penggajian);
 
                 if ($n_penggajian > 0) {
-                    $penggajian = PegawaiGaji::where('pegawai_id', Crypt::decrypt($request->employee));
+                    $penggajian = PegawaiGaji::where('pegawai_id', Crypt::decrypt($request->mitra));
                     $penggajian->update([
                         'gaji_pokok' => $request->gaji_pokok,
                         't1_keterangan' => $request->t1_keterangan,
@@ -258,7 +254,7 @@ class PegawaiController extends Controller implements HasMiddleware
                     ]);
                 } else {
                     $penggajian = PegawaiGaji::create([
-                        'pegawai_id' => Crypt::decrypt($request->employee),
+                        'pegawai_id' => Crypt::decrypt($request->mitra),
                         'gaji_pokok' => $request->gaji_pokok,
                         't1_keterangan' => $request->t1_keterangan,
                         't1_gaji' => $request->t1_gaji,
@@ -386,15 +382,15 @@ class PegawaiController extends Controller implements HasMiddleware
 
     public function delete(Request $request): View
     {
-        $datas = Pegawai::find(Crypt::decrypt($request->employee));
-        $details = Brandivjabpeg::where('pegawai_id', Crypt::decrypt($request->employee))->orderBy('tanggal_mulai', 'desc')->get();
+        $datas = Pegawai::find(Crypt::decrypt($request->mitra));
+        $details = Brandivjabpeg::where('pegawai_id', Crypt::decrypt($request->mitra))->orderBy('tanggal_mulai', 'desc')->get();
 
         return view('pegawai.delete', compact(['datas', 'details']));
     }
 
     public function destroy(Request $request): RedirectResponse
     {
-        $pegawai = Pegawai::find(Crypt::decrypt($request->employee));
+        $pegawai = Pegawai::find(Crypt::decrypt($request->mitra));
 
         try {
             $pegawai->delete();
