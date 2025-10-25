@@ -438,15 +438,21 @@
                                                             value="{{ $branch_id }}" />
                                                         <input type="hidden" id="order_id" name="order_id"
                                                             value="{{ $datas->id }}" />
-                                                        <select id="pegawai_id" name="pegawai_id" required
-                                                            tabindex="18"
-                                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
-                                                            <option value="">@lang('messages.choose')...</option>
-                                                            @foreach ($pegawais as $pegawai)
-                                                                <option value="{{ $pegawai->id }}">
-                                                                    {{ $pegawai->nama }}</option>
-                                                            @endforeach
-                                                        </select>
+                                                        <div class="flex flex-col gap-2">
+                                                            <select id="pegawai_id" name="pegawai_id" required
+                                                                tabindex="18"
+                                                                class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                                                <option value="">@lang('messages.choose')...</option>
+                                                                @foreach ($pegawais as $pegawai)
+                                                                    <option value="{{ $pegawai->id }}">
+                                                                        {{ $pegawai->nama }}</option>
+                                                                @endforeach
+                                                            </select>
+
+                                                            <x-text-input type="text" id="nama_mitra"
+                                                                placeholder="{{ __('messages.enter') }} {{ __('messages.name') }}"
+                                                                name="nama_mitra" tabindex="18" />
+                                                        </div>
                                                     </td>
                                                     <td class="align-top">
                                                         <select id="barang_id_adonan" name="barang_id_adonan" required

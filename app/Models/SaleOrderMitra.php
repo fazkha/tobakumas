@@ -15,6 +15,7 @@ class SaleOrderMitra extends Model
         'pegawai_id',
         'barang_id',
         'satuan_id',
+        'nama_mitra',
         'kuantiti',
         'harga_satuan',
         'keterangan',

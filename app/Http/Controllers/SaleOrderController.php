@@ -321,6 +321,7 @@ class SaleOrderController extends Controller implements HasMiddleware
             'barang_id' => $request->barang_id_adonan,
             'satuan_id' => $request->satuan_id_adonan,
             'kuantiti' => $request->kuantiti_adonan,
+            'nama_mitra' => $request->nama_mitra,
             'pajak' => $pajak,
             'harga_satuan' => $request->harga_satuan_adonan,
             'keterangan' => $request->keterangan_adonan,
