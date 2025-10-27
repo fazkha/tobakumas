@@ -44,7 +44,7 @@ class KecamatanController extends Controller implements HasMiddleware
         $datas = Kecamatan::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
-            $field = substr($search_arr[$i], strlen('kecamatan_'));
+            $field = 'kecamatans.' . substr($search_arr[$i], strlen('kecamatan_'));
 
             if ($search_arr[$i] == 'kecamatan_isactive') {
                 if (session($search_arr[$i]) != 'all') {
@@ -58,7 +58,11 @@ class KecamatanController extends Controller implements HasMiddleware
                 }
             }
         }
-        // $datas = $datas->where('user_id', auth()->user()->id);
+
+        $datas = $datas->select('kecamatans.*')
+            ->join('propinsis', 'propinsis.id', 'kecamatans.propinsi_id')
+            ->join('kabupatens', 'kabupatens.id', 'kecamatans.kabupaten_id')
+            ->orderByRaw('propinsis.nama, kabupatens.nama');
         $datas = $datas->latest()->paginate(session('kecamatan_pp'));
 
         if ($request->page && $datas->count() == 0) {
@@ -79,7 +83,7 @@ class KecamatanController extends Controller implements HasMiddleware
         $datas = Kecamatan::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
-            $field = substr($search_arr[$i], strlen('kecamatan_'));
+            $field = 'kecamatans.' . substr($search_arr[$i], strlen('kecamatan_'));
 
             if ($search_arr[$i] == 'kecamatan_isactive') {
                 if (session($search_arr[$i]) != 'all') {
@@ -93,7 +97,11 @@ class KecamatanController extends Controller implements HasMiddleware
                 }
             }
         }
-        // $datas = $datas->where('user_id', auth()->user()->id);
+
+        $datas = $datas->select('kecamatans.*')
+            ->join('propinsis', 'propinsis.id', 'kecamatans.propinsi_id')
+            ->join('kabupatens', 'kabupatens.id', 'kecamatans.kabupaten_id')
+            ->orderByRaw('propinsis.nama, kabupatens.nama');
         $datas = $datas->latest()->paginate(session('kecamatan_pp'));
 
         $datas->withPath('/marketing/kecamatan'); // pagination url to

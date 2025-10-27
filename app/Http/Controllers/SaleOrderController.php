@@ -361,6 +361,7 @@ class SaleOrderController extends Controller implements HasMiddleware
                     'telpon' => '-',
                     'kelamin' => 'L',
                     'isactive' => 1,
+                    'created_by' => 'PenjualanMitra',
                 ]);
 
                 Brandivjabpeg::create([

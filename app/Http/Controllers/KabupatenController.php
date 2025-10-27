@@ -43,7 +43,7 @@ class KabupatenController extends Controller implements HasMiddleware
         $datas = Kabupaten::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
-            $field = substr($search_arr[$i], strlen('kabupaten_'));
+            $field = 'kabupatens.' . substr($search_arr[$i], strlen('kabupaten_'));
 
             if ($search_arr[$i] == 'kabupaten_isactive') {
                 if (session($search_arr[$i]) != 'all') {
@@ -57,7 +57,10 @@ class KabupatenController extends Controller implements HasMiddleware
                 }
             }
         }
-        // $datas = $datas->where('user_id', auth()->user()->id);
+
+        $datas = $datas->select('kabupatens.*')
+            ->join('propinsis', 'propinsis.id', 'kabupatens.propinsi_id')
+            ->orderByRaw('propinsis.nama, kabupatens.nama');
         $datas = $datas->latest()->paginate(session('kabupaten_pp'));
 
         if ($request->page && $datas->count() == 0) {
@@ -78,7 +81,7 @@ class KabupatenController extends Controller implements HasMiddleware
         $datas = Kabupaten::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
-            $field = substr($search_arr[$i], strlen('kabupaten_'));
+            $field = 'kabupatens.' . substr($search_arr[$i], strlen('kabupaten_'));
 
             if ($search_arr[$i] == 'kabupaten_isactive') {
                 if (session($search_arr[$i]) != 'all') {
@@ -92,7 +95,10 @@ class KabupatenController extends Controller implements HasMiddleware
                 }
             }
         }
-        // $datas = $datas->where('user_id', auth()->user()->id);
+
+        $datas = $datas->select('kabupatens.*')
+            ->join('propinsis', 'propinsis.id', 'kabupatens.propinsi_id')
+            ->orderByRaw('propinsis.nama, kabupatens.nama');
         $datas = $datas->latest()->paginate(session('kabupaten_pp'));
 
         $datas->withPath('/marketing/kabupaten'); // pagination url to

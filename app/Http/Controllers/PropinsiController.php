@@ -56,7 +56,8 @@ class PropinsiController extends Controller implements HasMiddleware
                 }
             }
         }
-        // $datas = $datas->where('user_id', auth()->user()->id);
+
+        $datas = $datas->orderBy('nama');
         $datas = $datas->latest()->paginate(session('propinsi_pp'));
 
         if ($request->page && $datas->count() == 0) {
@@ -91,7 +92,8 @@ class PropinsiController extends Controller implements HasMiddleware
                 }
             }
         }
-        // $datas = $datas->where('user_id', auth()->user()->id);
+
+        $datas = $datas->orderBy('nama');
         $datas = $datas->latest()->paginate(session('propinsi_pp'));
 
         $datas->withPath('/marketing/propinsi'); // pagination url to
