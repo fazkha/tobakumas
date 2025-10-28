@@ -68,7 +68,8 @@ class PegawaiController extends Controller implements HasMiddleware
             ->join('brandivjabpegs', 'brandivjabpegs.pegawai_id', 'pegawais.id')
             ->join('brandivjabs', 'brandivjabs.id', 'brandivjabpegs.brandivjab_id')
             ->join('jabatans', 'jabatans.id', 'brandivjabs.jabatan_id')
-            ->orderByRaw('jabatans.islevel asc, pegawais.nama_lengkap');
+            ->groupByRaw('pegawais.id, jabatans.islevel, pegawais.nama_lengkap')
+            ->orderByRaw('jabatans.islevel, pegawais.nama_lengkap');
 
         for ($i = 0; $i < count($search_arr); $i++) {
             $field = 'pegawais.' . substr($search_arr[$i], strlen('pegawai_'));
@@ -88,6 +89,13 @@ class PegawaiController extends Controller implements HasMiddleware
                 }
             }
         }
+
+        // $sql = $datas->toSql();
+        // $bindings = $datas->getBindings();
+        // foreach ($bindings as $binding) {
+        //     $sql = preg_replace('/\?/', "'" . addslashes($binding) . "'", $sql, 1);
+        // }
+        // dd($sql);
 
         $datas = $datas->latest()->paginate(session('pegawai_pp'));
 
@@ -118,7 +126,8 @@ class PegawaiController extends Controller implements HasMiddleware
             ->join('brandivjabpegs', 'brandivjabpegs.pegawai_id', 'pegawais.id')
             ->join('brandivjabs', 'brandivjabs.id', 'brandivjabpegs.brandivjab_id')
             ->join('jabatans', 'jabatans.id', 'brandivjabs.jabatan_id')
-            ->orderByRaw('jabatans.islevel asc, pegawais.nama_lengkap');
+            ->groupByRaw('pegawais.id, jabatans.islevel, pegawais.nama_lengkap')
+            ->orderByRaw('jabatans.islevel, pegawais.nama_lengkap');
 
         for ($i = 0; $i < count($search_arr); $i++) {
             $field = 'pegawais.' . substr($search_arr[$i], strlen('pegawai_'));
