@@ -68,7 +68,7 @@ class PegawaiController extends Controller implements HasMiddleware
             ->join('brandivjabpegs', 'brandivjabpegs.pegawai_id', 'pegawais.id')
             ->join('brandivjabs', 'brandivjabs.id', 'brandivjabpegs.brandivjab_id')
             ->join('jabatans', 'jabatans.id', 'brandivjabs.jabatan_id')
-            ->groupByRaw('pegawais.id, jabatans.islevel, pegawais.nama_lengkap')
+            ->groupByRaw('brandivjabs.jabatan_id, brandivjabs.branch_id, pegawais.id, jabatans.islevel, pegawais.nama_lengkap')
             ->orderByRaw('jabatans.islevel, pegawais.nama_lengkap');
 
         for ($i = 0; $i < count($search_arr); $i++) {
@@ -126,7 +126,7 @@ class PegawaiController extends Controller implements HasMiddleware
             ->join('brandivjabpegs', 'brandivjabpegs.pegawai_id', 'pegawais.id')
             ->join('brandivjabs', 'brandivjabs.id', 'brandivjabpegs.brandivjab_id')
             ->join('jabatans', 'jabatans.id', 'brandivjabs.jabatan_id')
-            ->groupByRaw('pegawais.id, jabatans.islevel, pegawais.nama_lengkap')
+            ->groupByRaw('brandivjabs.jabatan_id, brandivjabs.branch_id, pegawais.id, jabatans.islevel, pegawais.nama_lengkap')
             ->orderByRaw('jabatans.islevel, pegawais.nama_lengkap');
 
         for ($i = 0; $i < count($search_arr); $i++) {
@@ -135,15 +135,9 @@ class PegawaiController extends Controller implements HasMiddleware
             if ($search_arr[$i] == 'pegawai_isactive' || $search_arr[$i] == 'pegawai_kelamin' || $search_arr[$i] == 'pegawai_cabang_id' || $search_arr[$i] == 'pegawai_jabatan_id') {
                 if (session($search_arr[$i]) != 'all') {
                     if ($search_arr[$i] == 'pegawai_cabang_id') {
-                        $datas = $datas->join('brandivjabpegs', 'brandivjabpegs.pegawai_id', 'pegawais.id')
-                            ->join('brandivjabs', 'brandivjabs.id', 'brandivjabpegs.brandivjab_id')
-                            ->where('brandivjabs.branch_id', session($search_arr[$i]))
-                            ->select('pegawais.*');
+                        $datas = $datas->where('brandivjabs.branch_id', session($search_arr[$i]));
                     } else if ($search_arr[$i] == 'pegawai_jabatan_id') {
-                        $datas = $datas->join('brandivjabpegs', 'brandivjabpegs.pegawai_id', 'pegawais.id')
-                            ->join('brandivjabs', 'brandivjabs.id', 'brandivjabpegs.brandivjab_id')
-                            ->where('brandivjabs.jabatan_id', session($search_arr[$i]))
-                            ->select('pegawais.*');
+                        $datas = $datas->where('brandivjabs.jabatan_id', session($search_arr[$i]));
                     } else {
                         $datas = $datas->where([$field => session($search_arr[$i])]);
                     }
