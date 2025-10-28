@@ -22,7 +22,7 @@ class BrandivjabpegController extends Controller
                 'tanggal_mulai' => $request->tanggal_mulai,
                 'tanggal_akhir' => $request->tanggal_akhir,
                 'keterangan' => $request->keterangan,
-                'isactive' => ($request->isactive == 'on' ? 1 : 0),
+                'isactive' => $request->isactive,
                 'created_by' => auth()->user()->email,
                 'updated_by' => auth()->user()->email,
             ]);
