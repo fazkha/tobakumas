@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Pegawai;
 use App\Models\Brandivjabpeg;
 use App\Models\Brandivjab;
-use App\Http\Requests\PegawaiRequest;
-use App\Http\Requests\PegawaiUpdateRequest;
 use App\Models\Branch;
 use App\Models\Jabatan;
 use App\Models\PegawaiGaji;
+use App\Http\Requests\PegawaiRequest;
+use App\Http\Requests\PegawaiUpdateRequest;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Http\Request;
@@ -64,9 +64,14 @@ class PegawaiController extends Controller implements HasMiddleware
         $cabangs = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $jabatans = Jabatan::where('isactive', 1)->orderBy('islevel')->pluck('nama', 'id');
         $datas = Pegawai::query();
+        $datas = $datas->select('pegawais.*')
+            ->join('brandivjabpegs', 'brandivjabpegs.pegawai_id', 'pegawais.id')
+            ->join('brandivjabs', 'brandivjabs.id', 'brandivjabpegs.brandivjab_id')
+            ->join('jabatans', 'jabatans.id', 'brandivjabs.jabatan_id')
+            ->orderByRaw('jabatans.islevel asc, pegawais.nama_lengkap');
 
         for ($i = 0; $i < count($search_arr); $i++) {
-            $field = substr($search_arr[$i], strlen('pegawai_'));
+            $field = 'pegawais.' . substr($search_arr[$i], strlen('pegawai_'));
 
             if ($search_arr[$i] == 'pegawai_isactive' || $search_arr[$i] == 'pegawai_kelamin' || $search_arr[$i] == 'pegawai_cabang_id' || $search_arr[$i] == 'pegawai_jabatan_id') {
                 if (session($search_arr[$i]) != 'all') {
@@ -83,7 +88,7 @@ class PegawaiController extends Controller implements HasMiddleware
                 }
             }
         }
-        // $datas = $datas->where('user_id', auth()->user()->id);
+
         $datas = $datas->latest()->paginate(session('pegawai_pp'));
 
         if ($request->page && $datas->count() == 0) {
@@ -109,9 +114,14 @@ class PegawaiController extends Controller implements HasMiddleware
         $cabangs = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $jabatans = Jabatan::where('isactive', 1)->orderBy('islevel')->pluck('nama', 'id');
         $datas = Pegawai::query();
+        $datas = $datas->select('pegawais.*')
+            ->join('brandivjabpegs', 'brandivjabpegs.pegawai_id', 'pegawais.id')
+            ->join('brandivjabs', 'brandivjabs.id', 'brandivjabpegs.brandivjab_id')
+            ->join('jabatans', 'jabatans.id', 'brandivjabs.jabatan_id')
+            ->orderByRaw('jabatans.islevel asc, pegawais.nama_lengkap');
 
         for ($i = 0; $i < count($search_arr); $i++) {
-            $field = substr($search_arr[$i], strlen('pegawai_'));
+            $field = 'pegawais.' . substr($search_arr[$i], strlen('pegawai_'));
 
             if ($search_arr[$i] == 'pegawai_isactive' || $search_arr[$i] == 'pegawai_kelamin' || $search_arr[$i] == 'pegawai_cabang_id' || $search_arr[$i] == 'pegawai_jabatan_id') {
                 if (session($search_arr[$i]) != 'all') {
