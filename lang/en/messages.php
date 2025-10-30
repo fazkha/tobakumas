@@ -276,4 +276,6 @@ return [
     'attachment' => 'Attachment',
     'personincharge' => 'Person In Charge',
     'leader' => 'Leader',
+    'latitude' => 'Latitude',
+    'longitude' => 'Longitude',
 ];

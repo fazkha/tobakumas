@@ -219,9 +219,12 @@
                                 </div>
 
                                 <div class="w-full lg:w-1/2 px-2">
-                                    <h1
-                                        class="text-xl font-bold leading-tight pb-2 mb-4 border-b-2 border-primary-100 dark:border-primary-800">
-                                        @lang('messages.partner') (@lang('messages.active'))</h1>
+                                    <div
+                                        class="flex flex-row gap-2 pb-2 mb-4 border-b-2 border-primary-100 dark:border-primary-800">
+                                        <h1 class="text-xl font-bold leading-tight">
+                                            @lang('messages.partner') (@lang('messages.active'))</h1>
+                                        <span>/&nbsp;telpon</span>
+                                    </div>
                                     <div class="w-auto pb-4">
                                         @foreach ($pcmitra as $pc)
                                             @if ($pc->islevel == 6)
@@ -236,12 +239,56 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
+            <div class="w-full px-4 py-2">
+                <div class="flex flex-col items-center">
+
+                    <div
+                        class="w-full shadow-lg bg-primary-50 rounded-md border border-primary-100 dark:bg-primary-900 dark:border-primary-800">
+                        <div class="p-4 space-y-2">
+                            <div class="flex flex-col lg:flex-row">
+                                <div class="w-full lg:w-1/2 px-2">
+                                    <div class="w-auto pb-4">
+                                        <label for="latitude"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.latitude')</label>
+                                        <x-text-input type="text" name="latitude" id="latitude"
+                                            placeholder="{{ __('messages.enter') }} {{ __('messages.latitude') }}"
+                                            value="{{ old('latitude', $datas->latitude ? $datas->latitude : config('custom.latitude')) }}" />
+                                    </div>
+                                </div>
+                                <div class="w-full lg:w-1/2 px-2">
+                                    <div class="w-auto pb-4">
+                                        <label for="longitude"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.longitude')</label>
+                                        <x-text-input type="text" name="longitude" id="longitude"
+                                            placeholder="{{ __('messages.enter') }} {{ __('messages.longitude') }}"
+                                            value="{{ old('longitude', $datas->longitude ? $datas->longitude : config('custom.longitude')) }}" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="map" class="rounded-md border border-primary-100 dark:border-primary-800">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </form>
 
+    @push('styles')
+        <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+        <style>
+            #map {
+                width: 100%;
+                height: 400px;
+            }
+        </style>
+    @endpush
+
     @push('scripts')
+        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
         <script type="text/javascript">
             $(document).ready(function(e) {
                 $("#propinsi_id").on("change keyup paste", function() {
@@ -263,12 +310,13 @@
                                 text: "{{ __('messages.choose') }}..."
                             }));
                             var data = result.kabs;
+
                             $.each(data, function(item, index) {
                                 $('#kabupaten_id').append($('<option>', {
                                     value: index,
                                     text: item,
                                     selected: (index ===
-                                        {{ $datas->kabupaten_id }} ?
+                                        {{ $datas->kabupaten_id ? $datas->kabupaten_id : 0 }} ?
                                         true : false)
                                 }));
                             });
@@ -312,6 +360,93 @@
                             $("#kecamatan_id").focus();
                         }
                     });
+                });
+
+                let map, marker, markers = [];
+
+                function initMap() {
+                    map = L.map('map', {
+                        center: {
+                            lat: {{ $datas->latitude ? $datas->latitude : config('custom.latitude') }},
+                            lng: {{ $datas->longitude ? $datas->longitude : config('custom.longitude') }},
+                        },
+                        zoom: 15
+                    });
+
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '© OpenStreetMap'
+                    }).addTo(map);
+
+                    map.on('click', mapClicked);
+                    initMarkers();
+                }
+                initMap();
+
+                function initMarkers() {
+                    const initialMarkers = <?php echo json_encode($initialMarkers); ?>;
+
+                    for (let index = 0; index < initialMarkers.length; index++) {
+                        const data = initialMarkers[index];
+                        marker = generateMarker(data, index);
+                        marker.addTo(map).bindPopup(`<b>${data.title}</b>`);
+                        map.panTo(data.position);
+                        markers.push(marker)
+                    }
+                }
+
+                function generateMarker(data, index) {
+                    return L.marker(data.position, {
+                            draggable: data.draggable
+                        })
+                        .on('click', (event) => markerClicked(event, index))
+                        .on('dragend', (event) => markerDragEnd(event, index));
+                }
+
+                function mapClicked($event) {
+                    // console.log(map);
+                    console.log($event.latlng.lat, $event.latlng.lng);
+                }
+
+                function markerClicked($event, index) {
+                    // console.log(map);
+                    console.log($event.latlng.lat, $event.latlng.lng);
+                }
+
+                function markerDragEnd($event, index) {
+                    // console.log(map);
+                    // console.log($event.target.getLatLng());
+                    var markr = $event.target.getLatLng();
+                    $("#latitude").val(markr.lat);
+                    $("#longitude").val(markr.lng);
+                    map.panTo(markr);
+                }
+
+                $("#latitude").on("change keyup paste", function() {
+                    var inputValue = $(this).val();
+                    var latValue = jQuery.trim(inputValue);
+                    $(this).val(latValue);
+
+                    var lngValue = $("#longitude").val();
+                    var latlng = {
+                        lat: latValue,
+                        lng: lngValue
+                    };
+                    marker.setLatLng(latlng);
+                    map.panTo(latlng);
+                });
+
+                $("#longitude").on("change keyup paste", function() {
+                    var inputValue = $(this).val();
+                    var lngValue = jQuery.trim(inputValue);
+                    $(this).val(lngValue);
+
+                    var latValue = $("#latitude").val();
+                    var latlng = {
+                        lat: latValue,
+                        lng: lngValue
+                    };
+                    marker.setLatLng(latlng);
+                    map.panTo(latlng);
                 });
             });
         </script>

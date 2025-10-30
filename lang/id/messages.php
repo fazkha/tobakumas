@@ -275,4 +275,6 @@ return [
     'attachment' => 'Tautan',
     'personincharge' => 'Penanggung-jawab',
     'leader' => 'Pimpinan',
+    'latitude' => 'Latitude',
+    'longitude' => 'Longitude',
 ];

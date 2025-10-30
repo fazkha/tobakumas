@@ -58,4 +58,8 @@ return [
 
     // pdf baris per halaman indikator ganti halaman
     'pdf_line_per_page' => 20,
+
+    // koordinat default peta
+    'latitude' => -6.175041629211976,
+    'longitude' => 106.82711059461597,
 ];

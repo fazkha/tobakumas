@@ -160,7 +160,8 @@
                             $('#kabupaten_id').append($('<option>', {
                                 value: index,
                                 text: item,
-                                selected: (index === {{ $datas->kabupaten_id }} ?
+                                selected: (index ===
+                                    {{ $datas->kabupaten_id ? $datas->kabupaten_id : 0 }} ?
                                     true : false)
                             }));
                         });

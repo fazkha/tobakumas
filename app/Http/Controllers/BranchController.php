@@ -135,6 +135,8 @@ class BranchController extends Controller implements HasMiddleware
                 'kodepos' => $request->kodepos,
                 'keterangan' => $request->keterangan,
                 'email' => $request->email,
+                'latitude' => $request->latitude,
+                'longitude' => $request->longitude,
                 'isactive' => ($request->isactive == 'on' ? 1 : 0),
                 'created_by' => auth()->user()->email,
                 'updated_by' => auth()->user()->email,
@@ -164,9 +166,20 @@ class BranchController extends Controller implements HasMiddleware
 
         $syntax = 'CALL sp_mitra_cabang(' . Crypt::decrypt($request->branch) . ')';
         $pcmitra = DB::select($syntax);
-        // dd($pcmitra);
 
-        return view('branch.edit', compact(['datas', 'propinsis', 'kabupatens', 'kecamatans', 'pcmitra']));
+        $initialMarkers = [
+            [
+                'position' => [
+                    'lat' => $datas->latitude ? $datas->latitude : config('custom.latitude'),
+                    'lng' => $datas->longitude ? $datas->longitude : config('custom.longitude'),
+                ],
+                'title' => $datas->nama,
+                'draggable' => $datas->latitude ? false : true
+            ],
+        ];
+        // dd($initialMarkers);
+
+        return view('branch.edit', compact(['datas', 'propinsis', 'kabupatens', 'kecamatans', 'pcmitra', 'initialMarkers']));
     }
 
     public function update(BranchRequest $request): RedirectResponse
@@ -185,6 +198,8 @@ class BranchController extends Controller implements HasMiddleware
                 'kodepos' => $request->kodepos,
                 'keterangan' => $request->keterangan,
                 'email' => $request->email,
+                'latitude' => $request->latitude,
+                'longitude' => $request->longitude,
                 'isactive' => ($request->isactive == 'on' ? 1 : 0),
                 'updated_by' => auth()->user()->email,
             ]);

@@ -22,6 +22,8 @@ class Branch extends Model
         'kodepos',
         'keterangan',
         'email',
+        'latitude',
+        'longitude',
         'isactive',
         'created_by',
         'updated_by',
