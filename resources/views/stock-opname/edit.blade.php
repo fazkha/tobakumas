@@ -219,6 +219,13 @@
                         @csrf
 
                         {{-- Detail --}}
+                        <input type="hidden" name="branch_id" value="{{ $branch_id }}" />
+                        <input type="hidden" id="master_id" name="master_id" value="{{ $datas->id }}" />
+                        <input type="hidden" id="harga_beli" name="harga_beli" />
+                        <input type="hidden" id="before_satuan_id" name="before_satuan_id" />
+                        <input type="hidden" id="selisih_satuan_id" name="selisih_satuan_id" />
+                        <input type="hidden" id="adjust_satuan_id" name="adjust_satuan_id" />
+                        <input type="hidden" id="adjust_stock" name="adjust_stock" />
                         <div
                             class="w-full shadow-lg rounded-md border bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
                             <div class="p-4 space-y-2">
@@ -276,19 +283,6 @@
                                             <tbody>
                                                 <tr>
                                                     <td class="align-top">
-                                                        <input type="hidden" name="branch_id"
-                                                            value="{{ $branch_id }}" />
-                                                        <input type="hidden" id="master_id" name="master_id"
-                                                            value="{{ $datas->id }}" />
-                                                        <input type="hidden" id="harga_beli" name="harga_beli" />
-                                                        <input type="hidden" id="before_satuan_id"
-                                                            name="before_satuan_id" />
-                                                        <input type="hidden" id="selisih_satuan_id"
-                                                            name="selisih_satuan_id" />
-                                                        <input type="hidden" id="adjust_satuan_id"
-                                                            name="adjust_satuan_id" />
-                                                        <input type="hidden" id="adjust_stock"
-                                                            name="adjust_stock" />
                                                         <select id="barang_id" name="barang_id" required
                                                             tabindex="9"
                                                             class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
@@ -338,7 +332,8 @@
                                     </div>
 
                                     <div class="flex flex-row items-center justify-between">
-                                        <span class="px-4">@lang('messages.datacount'): {{ count($details) }}.</span>
+                                        <span class="px-4">@lang('messages.datacount'): <span
+                                                id="jumlahdetail">{{ count($details) }}</span>.</span>
                                         <div
                                             class="mt-4 mb-4 mr-4 flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
                                             <x-primary-button id="submit-detail" tabindex="16"
@@ -372,7 +367,12 @@
         </div>
     </div>
 
+    @push('styles')
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    @endpush
+
     @push('scripts')
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script type="text/javascript">
             $(document).ready(function(e) {
                 function getInitialFormValues(formId) {
@@ -505,6 +505,7 @@
                         success: function(result) {
                             if (result.status !== 'Not Found') {
                                 $('#detailBody').html(result.view);
+                                $('#jumlahdetail').text(result.jmlbrs);
                                 $('#form-order')[0].reset();
                                 flasher.success("{{ __('messages.successsaved') }}!", "Success");
                             }

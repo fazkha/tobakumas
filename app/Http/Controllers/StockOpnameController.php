@@ -309,6 +309,7 @@ class StockOpnameController extends Controller implements HasMiddleware
 
         return response()->json([
             'view' => $view,
+            'jmlbrs' => count($details),
         ], 200);
     }
 
