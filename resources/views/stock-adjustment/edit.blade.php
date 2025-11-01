@@ -158,8 +158,7 @@
                                             </div>
                                         @endif
 
-                                        <x-primary-button type="submit" class="block" tabindex="7"
-                                            x-bind:disabled="buttonDisabled">
+                                        <x-primary-button type="submit" class="block" tabindex="7">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                 class="size-5">
@@ -238,10 +237,10 @@
                                                     <th rowspan="2" class="w-auto">@lang('messages.description')</th>
                                                 </tr>
                                                 <tr>
-                                                    <th class="w-1/12">@lang('messages.system')</th>
-                                                    <th class="w-1/12">@lang('messages.physic')</th>
-                                                    <th class="w-1/12">@lang('messages.difference')</th>
-                                                    <th class="w-1/12">@lang('messages.adjustment')</th>
+                                                    <th class="w-auto">@lang('messages.system')</th>
+                                                    <th class="w-1/6">@lang('messages.physic')</th>
+                                                    <th class="w-1/6">@lang('messages.difference')</th>
+                                                    <th class="w-1/6">@lang('messages.adjustment')</th>
                                                 </tr>
                                             </thead>
 
@@ -259,8 +258,7 @@
                                 <div class="flex flex-row items-center justify-between">
                                     <span class="px-4">@lang('messages.datacount'): {{ count($details) }}.</span>
                                     <div class="mt-4 mb-4 mr-4 flex flex-row flex-wrap justify-end gap-2 md:gap-4">
-                                        <x-primary-button id="submit-detail" tabindex="11"
-                                            x-bind:disabled="buttonDisabled">
+                                        <x-primary-button id="submit-detail" tabindex="11">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                 class="size-5">

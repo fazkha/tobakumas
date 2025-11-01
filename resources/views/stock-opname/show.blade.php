@@ -171,9 +171,9 @@
                                                 <th rowspan="2" class="w-auto">&nbsp;</th>
                                             </tr>
                                             <tr>
-                                                <th class="w-1/12">@lang('messages.system')</th>
-                                                <th class="w-1/12">@lang('messages.physic')</th>
-                                                <th class="w-1/12">@lang('messages.difference')</th>
+                                                <th class="w-auto">@lang('messages.system')</th>
+                                                <th class="w-1/6">@lang('messages.physic')</th>
+                                                <th class="w-1/6">@lang('messages.difference')</th>
                                             </tr>
                                         </thead>
 

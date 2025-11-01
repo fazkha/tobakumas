@@ -175,10 +175,10 @@
                                                     <th rowspan="2" class="w-auto">@lang('messages.description')</th>
                                                 </tr>
                                                 <tr>
-                                                    <th class="w-1/12">@lang('messages.system')</th>
-                                                    <th class="w-1/12">@lang('messages.physic')</th>
-                                                    <th class="w-1/12">@lang('messages.difference')</th>
-                                                    <th class="w-1/12">@lang('messages.adjustment')</th>
+                                                    <th class="w-auto">@lang('messages.system')</th>
+                                                    <th class="w-1/6">@lang('messages.physic')</th>
+                                                    <th class="w-1/6">@lang('messages.difference')</th>
+                                                    <th class="w-1/6">@lang('messages.adjustment')</th>
                                                 </tr>
                                             </thead>
 
