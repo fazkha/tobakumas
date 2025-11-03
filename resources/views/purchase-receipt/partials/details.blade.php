@@ -38,7 +38,7 @@
                     <x-text-span>{{ $detail->satuan_terima_id ? $detail->satuan_terima->singkatan : '-' }}</x-text-span>
                 @else
                     <select name="items[{{ $i }}][satuan_terima_id]" tabindex="7"
-                        class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                        class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-600 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                         <option value="">@lang('messages.choose')...</option>
                         @foreach ($satuans as $id => $name)
                             <option value="{{ $id }}"

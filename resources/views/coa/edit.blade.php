@@ -88,7 +88,7 @@
                                                 class="block mb-2 font-medium text-primary-600 dark:text-primary-500">Educational
                                                 Level</label>
                                             <select name="educationlevel_id" id="educationlevel_id"
-                                                class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                                class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-600 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                                 <option value="">Choose level...</option>
                                                 @foreach ($educlvl as $id => $name)
                                                     <option value="{{ $id }}"
@@ -420,8 +420,8 @@
 
                     $('#question_table').append('<tr id="question' + (new_q_row_number) + '">' +
                         '<td><input type="number" min="0" name="seq[]" value="' + q_row_number +
-                        '" class="w-full text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary dark:text-gray dark:placeholder-gray-700 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300" /></td>' +
-                        '<td><input type="text" name="question[]" value="" placeholder="Enter question" class="w-full text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary dark:text-gray dark:placeholder-gray-700 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300" />' +
+                        '" class="w-full text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary dark:text-gray dark:placeholder-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300" /></td>' +
+                        '<td><input type="text" name="question[]" value="" placeholder="Enter question" class="w-full text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary dark:text-gray dark:placeholder-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300" />' +
                         '<input type="hidden" name="ids[]" value="" /></td><td>&nbsp;</td><td>&nbsp;</td></tr>'
                     );
                     q_row_number++;
@@ -483,11 +483,11 @@
                         '<input type="hidden" name="id[]" value="" />' +
                         '<input type="hidden" name="qid[]" :value="questionId" />' +
                         '<input type="number" min="0" name="seq[]" value="' + row_number +
-                        '" class="w-full text-sm rounded-md shadow-sm text-gray-700 placeholder-gray-300 border-primary dark:text-gray dark:placeholder-gray-700 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300" /></td><td>' +
-                        '<input type="text" name="choice[]" value="" class="w-full text-sm rounded-md shadow-sm text-gray-700 placeholder-gray-300 border-primary dark:text-gray dark:placeholder-gray-700 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300" /></td>' +
+                        '" class="w-full text-sm rounded-md shadow-sm text-gray-700 placeholder-gray-300 border-primary dark:text-gray dark:placeholder-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300" /></td><td>' +
+                        '<input type="text" name="choice[]" value="" class="w-full text-sm rounded-md shadow-sm text-gray-700 placeholder-gray-300 border-primary dark:text-gray dark:placeholder-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300" /></td>' +
                         '<td align="center"><input type="checkbox" name="correct[]" value="' + (row_number -
                             1) +
-                        '" class="cb" onchange="cbChange(this)" /></td><td><input type="number" min="0" name="value[]" value="1" class="w-full text-sm rounded-md shadow-sm text-gray-700 placeholder-gray-300 border-primary dark:text-gray dark:placeholder-gray-700 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300" />' +
+                        '" class="cb" onchange="cbChange(this)" /></td><td><input type="number" min="0" name="value[]" value="1" class="w-full text-sm rounded-md shadow-sm text-gray-700 placeholder-gray-300 border-primary dark:text-gray dark:placeholder-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300" />' +
                         '</td><td>&nbsp;</td></tr>'
                     );
                     row_number++;

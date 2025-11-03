@@ -13,8 +13,8 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{ url('/') }}/favicon-16x16.png">
     <link rel="manifest" href="{{ url('/') }}/site.webmanifest">
 
-    @stack('styles')
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/css/flasher.min.css', 'resources/js/flasher.min.js'])
+    @stack('styles')
 </head>
 
 <body class="font-sans antialiased">

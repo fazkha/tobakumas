@@ -505,7 +505,7 @@
                                                             value="{{ $datas->id }}" />
                                                         <select name="brandivjab_id" id="brandivjab_id"
                                                             tabindex="25" required
-                                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-600 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                                             <option value="">@lang('messages.choose')...
                                                             </option>
                                                             @foreach ($brandivjabs as $brandivjab)
@@ -533,7 +533,7 @@
                                                     <td class="text-center">
                                                         <div class="w-auto">
                                                             <select name="isactive" id="isactive" tabindex="29"
-                                                                class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-700 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                                                class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-600 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                                                 <option value="1" selected>@lang('messages.active')
                                                                 </option>
                                                                 <option value="2">@lang('messages.relocate')</option>

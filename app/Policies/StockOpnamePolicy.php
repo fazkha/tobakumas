@@ -30,14 +30,14 @@ class StockOpnamePolicy
 
     public function update(User $user, StockOpname $order): Response
     {
-        return $order->approved == 0
+        return $order->approved == 1
             ? Response::allow()
             : Response::deny('You are not allowed!');
     }
 
     public function delete(User $user, StockOpname $order): Response
     {
-        return $order->approved == 0
+        return $order->approved == 1
             ? Response::allow()
             : Response::deny('You are not allowed!');
     }
