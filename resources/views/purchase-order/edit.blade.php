@@ -186,6 +186,9 @@
                         @csrf
 
                         {{-- Detail --}}
+                        <input type="hidden" name="branch_id" value="{{ $branch_id }}" />
+                        <input type="hidden" id="order_id" name="order_id" value="{{ $datas->id }}" />
+
                         <div
                             class="w-full shadow-lg bg-primary-50 rounded-md border border-primary-100 dark:bg-primary-900 dark:border-primary-800">
                             <div class="p-4 space-y-2">
@@ -212,7 +215,7 @@
 
                                 <div
                                     class="border rounded-md border-primary-100 bg-primary-100 dark:border-primary-800 dark:bg-primary-850">
-                                    <div class="p-2 overflow-scroll md:overflow-auto lg:overflow-hidden">
+                                    <div class="p-2">
                                         <table id="order_table" class="w-full border-separate border-spacing-2">
                                             <thead>
                                                 <tr>
@@ -237,13 +240,22 @@
                                             <tbody>
                                                 <tr>
                                                     <td class="align-top">
-                                                        <input type="hidden" name="branch_id"
-                                                            value="{{ $branch_id }}" />
-                                                        <input type="hidden" id="order_id" name="order_id"
-                                                            value="{{ $datas->id }}" />
                                                         <select id="barang_id" name="barang_id" required
                                                             tabindex="10"
-                                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-600 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                                            data-hs-select='{
+  "hasSearch": true,
+  "searchPlaceholder": "{!! __('messages.search') . '...' !!}",
+  "searchClasses": "block w-full py-1.5 sm:py-2 px-3 sm:text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 text-gray-700 border-primary-100 bg-primary-20 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300 before:absolute before:inset-0 before:z-1",
+  "searchWrapperClasses": "sticky -top-1 p-2 -mx-1 bg-primary-100 dark:bg-primary-850",
+  "placeholder": "{!! __('messages.choose') . '...' !!}",
+  "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
+  "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-2 px-3 pe-9 flex text-nowrap w-full cursor-pointer bg-primary-20 border border-gray-200 rounded-lg text-start text-sm focus:border-blue-500 focus:ring-blue-500 before:absolute before:inset-0 before:z-1 dark:bg-primary-700 dark:border-neutral-700 dark:text-neutral-400 dark:focus:outline-hidden dark:focus:ring-1 dark:focus:ring-neutral-600",
+  "dropdownClasses": "mt-2 z-50 w-full max-h-72 p-1 space-y-0.5 border bg-primary-20 border-primary-100 rounded-lg overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-400 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500 dark:bg-primary-700 dark:border-primary-800",
+  "optionClasses": "py-2 px-4 w-full text-sm text-gray-800 cursor-pointer hover:bg-primary-100 rounded-lg focus:outline-hidden focus:bg-gray-100 dark:bg-primary-700 dark:hover:bg-primary-800 dark:text-neutral-200 dark:focus:bg-primary-800",
+  "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"shrink-0 size-3.5 text-blue-600 dark:text-blue-500 \" xmlns=\"http:.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>",
+  "extraMarkup": "<div class=\"absolute top-1/2 end-3 -translate-y-1/2\"><svg class=\"shrink-0 size-3.5 text-gray-500 dark:text-neutral-500 \" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m7 15 5 5 5-5\"/><path d=\"m7 9 5-5 5 5\"/></svg></div>"
+}'
+                                                            class="hidden">
                                                             <option value="">@lang('messages.choose')...</option>
                                                             @foreach ($barangs as $id => $name)
                                                                 <option value="{{ $id }}">
