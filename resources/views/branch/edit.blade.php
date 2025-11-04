@@ -387,7 +387,7 @@
 
                     map.locate({
                         setView: false,
-                        maxZoom: 15
+                        maxZoom: 10
                     });
                 }
 
