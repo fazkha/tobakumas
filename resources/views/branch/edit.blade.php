@@ -419,7 +419,13 @@
                     // L.marker(e.latlng).addTo(map).bindPopup("You are within " + radius + " meters from this point")
                     //     .openPopup();
 
-                    L.circle(e.latlng, radius).addTo(map).bindPopup("You are within " + radius +
+                    // L.circle(e.latlng, radius).addTo(map).bindPopup("You are within " + radius +
+                    //     " meters from this point").openPopup();
+                    L.circle(e.latlng, {
+                        radius: 50,
+                        color: 'red',
+                        fillOpacity: 0.2,
+                    }).addTo(map).bindPopup("You are within " + radius +
                         " meters from this point").openPopup();
                 }
 
