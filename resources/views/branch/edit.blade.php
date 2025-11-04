@@ -284,6 +284,27 @@
                 width: 100%;
                 height: 400px;
             }
+
+            .pulse {
+                animation: pulsate 1s ease-out;
+                -webkit-animation: pulsate 1s ease-out;
+                -webkit-animation-iteration-count: infinite;
+                opacity: 0.0
+            }
+
+            @keyframes pulsate {
+                0% {
+                    transform: opacity: 0.0;
+                }
+
+                50% {
+                    opacity: 1.0;
+                }
+
+                100% {
+                    transform: opacity: 0.0;
+                }
+            }
         </style>
     @endpush
 
@@ -385,9 +406,12 @@
 
                     initMarkers();
 
+                    // map.locate({
+                    //     setView: false,
+                    //     maxZoom: 10
+                    // });
                     map.locate({
                         setView: false,
-                        maxZoom: 10
                     });
                 }
 
@@ -421,12 +445,17 @@
 
                     // L.circle(e.latlng, radius).addTo(map).bindPopup("You are within " + radius +
                     //     " meters from this point").openPopup();
-                    L.circle(e.latlng, {
-                        radius: 50,
-                        color: 'red',
-                        fillOpacity: 0.2,
-                    }).addTo(map).bindPopup("You are within " + radius +
-                        " meters from this point").openPopup();
+
+                    var circle = L.circleMarker(e.latlng, {
+                        className: 'pulse'
+                    }).addTo(map).bindPopup("You are within " + radius + " meters from this point").openPopup();
+
+                    // L.circle(e.latlng, {
+                    //     radius: 50,
+                    //     color: 'red',
+                    //     fillOpacity: 0.2,
+                    // }).addTo(map).bindPopup("You are within " + radius +
+                    //     " meters from this point").openPopup();
                 }
 
                 function onLocationError(e) {
