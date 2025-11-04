@@ -440,15 +440,9 @@
                 function onLocationFound(e) {
                     var radius = e.accuracy;
 
-                    // L.marker(e.latlng).addTo(map).bindPopup("You are within " + radius + " meters from this point")
-                    //     .openPopup();
-
-                    // L.circle(e.latlng, radius).addTo(map).bindPopup("You are within " + radius +
-                    //     " meters from this point").openPopup();
-
                     L.circleMarker(e.latlng, {
                         className: 'pulse',
-                        radius: 100,
+                        radius: radius,
                     }).addTo(map).bindPopup("You are within " + radius + " meters from this point").openPopup();
                 }
 
