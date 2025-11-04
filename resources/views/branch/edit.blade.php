@@ -373,13 +373,24 @@
                         zoom: 15
                     });
 
+                    // map = L.map('map').setView([0, 0], 2);
+
+                    map.locate({
+                        setView: true,
+                        maxZoom: 15
+                    });
+
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: '© OpenStreetMap'
+                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors'
                     }).addTo(map);
 
                     map.on('click', mapClicked);
+                    map.on('locationfound', onLocationFound);
+                    map.on('locationerror', onLocationError);
+
                     initMarkers();
                 }
+
                 initMap();
 
                 function initMarkers() {
@@ -400,6 +411,19 @@
                         })
                         .on('click', (event) => markerClicked(event, index))
                         .on('dragend', (event) => markerDragEnd(event, index));
+                }
+
+                function onLocationFound(e) {
+                    var radius = e.accuracy;
+
+                    L.marker(e.latlng).addTo(map).bindPopup("You are within " + radius + " meters from this point")
+                        .openPopup();
+
+                    L.circle(e.latlng, radius).addTo(map);
+                }
+
+                function onLocationError(e) {
+                    alert(e.message);
                 }
 
                 function mapClicked($event) {
