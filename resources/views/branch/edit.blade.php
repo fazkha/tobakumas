@@ -383,7 +383,7 @@
                     map.on('locationfound', onLocationFound);
                     map.on('locationerror', onLocationError);
 
-                    initMarkers();
+                    // initMarkers();
 
                     map.locate({
                         setView: true,
