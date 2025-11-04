@@ -446,16 +446,10 @@
                     // L.circle(e.latlng, radius).addTo(map).bindPopup("You are within " + radius +
                     //     " meters from this point").openPopup();
 
-                    var circle = L.circleMarker(e.latlng, {
-                        className: 'pulse'
+                    L.circleMarker(e.latlng, {
+                        className: 'pulse',
+                        radius: 100,
                     }).addTo(map).bindPopup("You are within " + radius + " meters from this point").openPopup();
-
-                    // L.circle(e.latlng, {
-                    //     radius: 50,
-                    //     color: 'red',
-                    //     fillOpacity: 0.2,
-                    // }).addTo(map).bindPopup("You are within " + radius +
-                    //     " meters from this point").openPopup();
                 }
 
                 function onLocationError(e) {
