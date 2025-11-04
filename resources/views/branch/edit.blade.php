@@ -375,11 +375,6 @@
 
                     // map = L.map('map').setView([0, 0], 2);
 
-                    map.locate({
-                        setView: true,
-                        maxZoom: 15
-                    });
-
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors'
                     }).addTo(map);
@@ -389,6 +384,11 @@
                     map.on('locationerror', onLocationError);
 
                     initMarkers();
+
+                    map.locate({
+                        setView: true,
+                        maxZoom: 15
+                    });
                 }
 
                 initMap();
