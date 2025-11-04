@@ -394,8 +394,6 @@
                         zoom: 15
                     });
 
-                    // map = L.map('map').setView([0, 0], 2);
-
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors'
                     }).addTo(map);
@@ -406,10 +404,6 @@
 
                     initMarkers();
 
-                    // map.locate({
-                    //     setView: false,
-                    //     maxZoom: 10
-                    // });
                     map.locate({
                         setView: false,
                     });
