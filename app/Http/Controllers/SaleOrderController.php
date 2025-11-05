@@ -357,6 +357,7 @@ class SaleOrderController extends Controller implements HasMiddleware
             if ($brandivjab) {
                 $pegawai = Pegawai::create([
                     'nama_lengkap' => $request->nama_mitra,
+                    'nama_panggilan' => $request->nama_mitra,
                     'alamat_tinggal' => '-',
                     'telpon' => '-',
                     'kelamin' => 'L',
