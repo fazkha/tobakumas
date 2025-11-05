@@ -404,9 +404,12 @@
 
                     initMarkers();
 
-                    map.locate({
-                        setView: false,
-                    });
+                    var dblat = '{{ $datas->latitude }}';
+                    if (dblat === '') {
+                        map.locate({
+                            setView: false,
+                        });
+                    }
                 }
 
                 initMap();
