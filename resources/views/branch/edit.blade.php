@@ -433,11 +433,19 @@
 
                 function onLocationFound(e) {
                     var radius = e.accuracy;
+                    var lat = e.latlng.lat;
+                    var lng = e.latlng.lng;
 
                     L.circleMarker(e.latlng, {
                         className: 'pulse',
                         radius: radius,
                     }).addTo(map).bindPopup("You are within " + radius + " meters from this point").openPopup();
+
+                    L.marker(e.latlng, {
+                            draggable: true
+                        })
+                        .on('click', (event) => markerClicked(event, index))
+                        .on('dragend', (event) => markerDragEnd(event, index));
                 }
 
                 function onLocationError(e) {
