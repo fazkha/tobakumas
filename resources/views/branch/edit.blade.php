@@ -447,6 +447,7 @@
                         .on('click', (event) => markerClicked(event, index))
                         .on('dragend', (event) => markerDragEnd(event, index));
 
+                    marker.addTo(map)
                     map.panTo(e.latlng);
                 }
 
