@@ -372,6 +372,10 @@ class SaleOrderController extends Controller implements HasMiddleware
                     'tanggal_mulai' => date('Y-m-d'),
                     'created_by' => auth()->user()->email,
                 ]);
+
+                $detail->update([
+                    'pegawai_id' => $pegawai->id,
+                ]);
             }
         }
 
