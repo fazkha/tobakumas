@@ -446,6 +446,9 @@
 
                     marker.setLatLng(e.latlng);
                     map.panTo(e.latlng);
+
+                    $("#latitude").val(lat);
+                    $("#longitude").val(lng);
                 }
 
                 function onLocationError(e) {
@@ -463,8 +466,6 @@
                 }
 
                 function markerDragEnd($event, index) {
-                    // console.log(map);
-                    // console.log($event.target.getLatLng());
                     var markr = $event.target.getLatLng();
                     $("#latitude").val(markr.lat);
                     $("#longitude").val(markr.lng);
