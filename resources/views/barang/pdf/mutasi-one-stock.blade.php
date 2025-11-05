@@ -152,7 +152,8 @@
                 <tfoot>
                     <tr>
                         <td colspan="4" style="text-align: center">Jumlah</td>
-                        <td style="text-align: right">{{ number_format($stakhir - $stawal, '1', ',', '.') }}</td>
+                        <td style="text-align: right">
+                            {{ number_format($stakhir - ($c6_3 + $c6_1 - $c6_2), '1', ',', '.') }}</td>
                         <td style="text-align: right">{{ number_format($c6_1, '1', ',', '.') }}</td>
                         <td style="text-align: right">{{ number_format($c6_2, '1', ',', '.') }}</td>
                         <td style="text-align: right">{{ number_format($c6_3, '1', ',', '.') }}</td>
