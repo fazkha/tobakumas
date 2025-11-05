@@ -441,11 +441,13 @@
                         radius: radius,
                     }).addTo(map).bindPopup("You are within " + radius + " meters from this point").openPopup();
 
-                    L.marker(e.latlng, {
+                    marker = L.marker(e.latlng, {
                             draggable: true
                         })
                         .on('click', (event) => markerClicked(event, index))
                         .on('dragend', (event) => markerDragEnd(event, index));
+
+                    map.panTo(e.latlng);
                 }
 
                 function onLocationError(e) {
