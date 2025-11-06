@@ -355,27 +355,29 @@ class SaleOrderController extends Controller implements HasMiddleware
             }
 
             if ($brandivjab) {
-                $pegawai = Pegawai::create([
-                    'nama_lengkap' => $request->nama_mitra,
-                    'nama_panggilan' => $request->nama_mitra,
-                    'alamat_tinggal' => '-',
-                    'telpon' => '-',
-                    'kelamin' => 'L',
-                    'isactive' => 1,
-                    'created_by' => 'PenjualanMitra',
-                ]);
+                if (!$request->pegawai_id && $request->nama_mitra) {
+                    $pegawai = Pegawai::create([
+                        'nama_lengkap' => $request->nama_mitra,
+                        'nama_panggilan' => $request->nama_mitra,
+                        'alamat_tinggal' => '-',
+                        'telpon' => '-',
+                        'kelamin' => 'L',
+                        'isactive' => 1,
+                        'created_by' => 'PenjualanMitra',
+                    ]);
 
-                Brandivjabpeg::create([
-                    'brandivjab_id' => $brandivjab->id,
-                    'pegawai_id' => $pegawai->id,
-                    'isactive' => 1,
-                    'tanggal_mulai' => date('Y-m-d'),
-                    'created_by' => auth()->user()->email,
-                ]);
+                    Brandivjabpeg::create([
+                        'brandivjab_id' => $brandivjab->id,
+                        'pegawai_id' => $pegawai->id,
+                        'isactive' => 1,
+                        'tanggal_mulai' => date('Y-m-d'),
+                        'created_by' => auth()->user()->email,
+                    ]);
 
-                $detail->update([
-                    'pegawai_id' => $pegawai->id,
-                ]);
+                    $detail->update([
+                        'pegawai_id' => $pegawai->id,
+                    ]);
+                }
             }
         }
 
