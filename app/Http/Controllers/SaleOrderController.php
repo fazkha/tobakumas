@@ -315,12 +315,11 @@ class SaleOrderController extends Controller implements HasMiddleware
     {
         $order_id = $request->detail;
         $pajak = $request->pajak_adonan ? $request->pajak_adonan : 0;
-        // dd($order_id);
 
         $detail = SaleOrderMitra::create([
             'sale_order_id' => $order_id,
             'branch_id' => $request->branch_id,
-            'pegawai_id' => $request->pegawai_id,
+            'pegawai_id' => $request->pegawai_id ? ($request->pegawai_id == 'Pilih...' ? NULL : $request->pegawai_id) : NULL,
             'barang_id' => $request->barang_id_adonan,
             'satuan_id' => $request->satuan_id_adonan,
             'kuantiti' => $request->kuantiti_adonan,
@@ -355,7 +354,8 @@ class SaleOrderController extends Controller implements HasMiddleware
             }
 
             if ($brandivjab) {
-                if (!$request->pegawai_id && $request->nama_mitra) {
+                if ($request->pegawai_id == 'Pilih...' && $request->nama_mitra) {
+                    // dd($request->pegawai_id);
                     $pegawai = Pegawai::create([
                         'nama_lengkap' => $request->nama_mitra,
                         'nama_panggilan' => $request->nama_mitra,
