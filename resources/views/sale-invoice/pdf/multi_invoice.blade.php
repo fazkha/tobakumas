@@ -106,7 +106,7 @@
                 <td>
                     <table style="width: 100%" border="0">
                         <tr>
-                            <td style="width: 80%; padding-right: 8px;">
+                            <td style="width: 80%; padding-right: 8px; vertical-align: top;">
                                 <table style="width: 100%">
                                     <tr>
                                         <td>{{ $datas->no_order }}</td>
@@ -150,7 +150,7 @@
                                 </div>
                             </td>
 
-                            <td style="width: 120%">
+                            <td style="width: 120%; vertical-align: top;">
                                 <table style="width: 100%">
                                     <tr>
                                         <td>{{ $datas->customer->nama }}</td>

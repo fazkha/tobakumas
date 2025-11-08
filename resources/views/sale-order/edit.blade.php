@@ -873,6 +873,7 @@
                                 $('#disp-total_harga-detail').html(result.total_harga_detail
                                     .toLocaleString('de-DE'));
                                 $('#form-order')[0].reset();
+                                $("span.truncate").text('{{ __('messages.choose') . '...' }}');
                                 $("#disp-stock").html(0);
                                 $("#disp-sub_harga").html(0);
                                 flasher.success("{{ __('messages.successsaved') }}!", "Success");
