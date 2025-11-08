@@ -274,6 +274,10 @@ class PurchaseOrderController extends Controller implements HasMiddleware
             'total_price' => $datas->total_harga,
         ];
 
+        $datas->update([
+            'total_harga' => $total_price + $datas->biaya_angkutan,
+        ]);
+
         $suppliers = Supplier::where('branch_id', $branch_id)->where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $barangs = Barang::where('branch_id', $branch_id)->where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $satuans = Satuan::where('isactive', 1)->orderBy('singkatan')->pluck('singkatan', 'id');
