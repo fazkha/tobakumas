@@ -363,7 +363,7 @@ class PurchaseOrderController extends Controller implements HasMiddleware
             'keterangan' => $request->keterangan,
             'isaccepted' => 0,
             'satuan_terima_id' => $request->satuan_id,
-            'kuantiti_terima' => NULL,
+            'kuantiti_terima' => $request->kuantiti,
             'created_by' => auth()->user()->email,
             'updated_by' => auth()->user()->email,
             'approved' => (config('custom.purchase_approval') == false) ? 1 : 0,
