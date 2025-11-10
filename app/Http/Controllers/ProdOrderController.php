@@ -471,10 +471,17 @@ class ProdOrderController extends Controller implements HasMiddleware
         }
         $bulanini = $this->array_bulan[$nbulanini - 1]['bulan']['name'];
 
-        $datas = ViewLaporanProduksi::where('c1', $id)->get();
+        if ($ntahun == '_') {
+            $datas = ViewLaporanProduksi::where('c1', $id)->get();
+        } elseif ($nbulan == 'all') {
+            $datas = ViewLaporanProduksi::where('c1', $id)->where('c15', $ntahun)->get();
+        } else {
+            $datas = ViewLaporanProduksi::where('c1', $id)->where('c15', $ntahun)->where('c16', $nbulan)->get();
+        }
 
         $namafile = $id . '-laporanproduksi_' . str_replace('@', '(at)', str_replace('.', '_', auth()->user()->email)) . '.pdf';
         session()->put('documents', $namafile);
+        // dd($namafile);
 
         if (count($datas) > 0) {
             $pdf = Pdf::loadView('production-order.pdf.lap-prod-one', ['datas' => $datas, 'bulanini' => $bulanini])
