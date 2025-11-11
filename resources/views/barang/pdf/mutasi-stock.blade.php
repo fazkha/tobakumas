@@ -88,7 +88,7 @@
                 <tbody>
                     @foreach ($datas as $data)
                         @php
-                            $stawal = $data->c12 - ($data->c61 + $data->c62 + $data->c63);
+                            $stawal = $data->c12 - ($data->c63 + $data->c61 - $data->c62);
                         @endphp
                         <tr>
                             <td style="vertical-align: top; text-align: center;">{{ $i }}</td>
