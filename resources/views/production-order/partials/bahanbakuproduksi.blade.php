@@ -29,7 +29,9 @@
             $total = $total + $bahan->jumlah * $bahan->harga_satuan_jual;
         @endphp
     @endforeach
-    <tr class="border-t border-primary-100 dark:border-primary-700">
-        <th colspan="5" class="py-2 text-right">{{ number_format($total, 0, ',', '.') }}</th>
-    </tr>
+    @if ($isready == 1)
+        <tr class="border-t border-primary-100 dark:border-primary-700">
+            <th colspan="5" class="py-2 text-right">{{ number_format($total, 0, ',', '.') }}</th>
+        </tr>
+    @endif
 </table>
