@@ -1,7 +1,14 @@
+@php
+    $total = 0;
+@endphp
 <table class="w-full">
     <tr>
         <th colspan="3" class="text-right">&nbsp;</th>
-        <th class="text-right">Persediaan</th>
+        @if (!$isready == 1)
+            <th class="text-right">@lang('messages.stock')</th>
+        @else
+            <th class="text-right">@lang('messages.price') (@lang('messages.currencysymbol'))</th>
+        @endif
     </tr>
     @foreach ($bahans as $bahan)
         <tr class="border-t border-primary-100 dark:border-primary-700">
@@ -15,8 +22,14 @@
                     <td class="text-right">{{ number_format($bahan->stock, 2, ',', '.') }}</td>
                 @endif
             @else
-                <td class="text-right">-</td>
+                <td class="text-right">{{ number_format($bahan->jumlah * $bahan->harga_satuan_jual, 0, ',', '.') }}</td>
             @endif
         </tr>
+        @php
+            $total = $total + $bahan->jumlah * $bahan->harga_satuan_jual;
+        @endphp
     @endforeach
+    <tr class="border-t border-primary-100 dark:border-primary-700">
+        <th colspan="5" class="py-2 text-right">{{ number_format($total, 0, ',', '.') }}</th>
+    </tr>
 </table>
