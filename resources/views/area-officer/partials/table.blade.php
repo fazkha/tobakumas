@@ -1,6 +1,6 @@
 @php
     use App\Models\AreaOfficer;
-    $i = 1;
+    $i = 0;
 @endphp
 <div class="w-full overflow-x-auto">
     <div
