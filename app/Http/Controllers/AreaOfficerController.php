@@ -76,14 +76,16 @@ class AreaOfficerController extends Controller implements HasMiddleware
         $datas = $datas->selectRaw('area_officers.pegawai_id, area_officers.keterangan, area_officers.isactive, pegawais.nama_lengkap')
             ->join('pegawais', 'pegawais.id', '=', 'area_officers.pegawai_id')
             ->orderBy('pegawais.nama_lengkap')
-            ->distinct();
-        $datas = $datas->paginate(session('area-officer_pp'));
+            ->distinct()
+            ->get();
+        // $datas = $datas->paginate(session('area-officer_pp'));
 
         if ($request->page && $datas->count() == 0) {
             return redirect()->route('dashboard');
         }
 
-        return view('area-officer.index', compact(['datas', 'propinsis', 'kabupatens']))->with('i', (request()->input('page', 1) - 1) * session('area-officer_pp'));
+        // return view('area-officer.index', compact(['datas', 'propinsis', 'kabupatens']))->with('i', (request()->input('page', 1) - 1) * session('area-officer_pp'));
+        return view('area-officer.index', compact(['datas', 'propinsis', 'kabupatens']));
     }
 
     public function fetchdb(Request $request): JsonResponse
@@ -125,12 +127,14 @@ class AreaOfficerController extends Controller implements HasMiddleware
         $datas = $datas->selectRaw('area_officers.pegawai_id, area_officers.keterangan, area_officers.isactive, pegawais.nama_lengkap')
             ->join('pegawais', 'pegawais.id', '=', 'area_officers.pegawai_id')
             ->orderBy('pegawais.nama_lengkap')
-            ->distinct();
-        $datas = $datas->paginate(session('area-officer_pp'));
+            ->distinct()
+            ->get();
+        // $datas = $datas->paginate(session('area-officer_pp'));
 
-        $datas->withPath('/delivery/officer'); // pagination url to
+        // $datas->withPath('/delivery/officer'); // pagination url to
 
-        $view = view('area-officer.partials.table', compact(['datas', 'propinsis', 'kabupatens']))->with('i', (request()->input('page', 1) - 1) * session('area-officer_pp'))->render();
+        // $view = view('area-officer.partials.table', compact(['datas', 'propinsis', 'kabupatens']))->with('i', (request()->input('page', 1) - 1) * session('area-officer_pp'))->render();
+        $view = view('area-officer.partials.table', compact(['datas', 'propinsis', 'kabupatens']))->render();
 
         if ($view) {
             return response()->json($view, 200);

@@ -1,5 +1,6 @@
 @php
     use App\Models\AreaOfficer;
+    $i = 1;
 @endphp
 <div class="w-full overflow-x-auto">
     <div
@@ -142,12 +143,12 @@
                 @endforeach
             </tbody>
         </table>
-        <div
+        {{-- <div
             class="px-3 py-3 bg-primary-50 items-center xs:justify-between border-t border-primary-100 dark:text-white dark:bg-primary-800 dark:border-primary-800">
             <div class="mt-2 xs:mt-0">
                 {{ $datas->links() }}
             </div>
-        </div>
+        </div> --}}
     </div>
 
 </div>
