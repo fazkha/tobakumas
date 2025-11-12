@@ -214,11 +214,12 @@ class AreaOfficerController extends Controller implements HasMiddleware
         $data1 = AreaOfficer::where('pegawai_id', Crypt::decrypt($request->officer))->first();
 
         if ($data1) {
+            // ->orderBy('area_officers.customer_id')
             $datas =  AreaOfficer::join('customers', 'customers.id', 'area_officers.customer_id')
                 ->where('area_officers.pegawai_id', $data1->pegawai_id)
                 ->orderBy('customers.propinsi_id')
                 ->orderBy('customers.kabupaten_id')
-                ->orderBy('area_officers.customer_id')
+                ->orderBy('customers.nama')
                 ->selectRaw('area_officers.id AS id, area_officers.pegawai_id AS pegawai_id, area_officers.customer_id AS customer_id, area_officers.keterangan AS keterangan, area_officers.isactive AS isactive, area_officers.urutan AS urutan')
                 ->get();
             $customers = Customer::join('kabupatens', 'kabupatens.id', 'customers.kabupaten_id')
