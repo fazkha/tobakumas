@@ -180,8 +180,8 @@ class PegawaiController extends Controller implements HasMiddleware
     {
         if ($request->validated()) {
             $pegawai = Pegawai::create([
-                'nama_lengkap' => $request->nama_lengkap,
-                'nama_panggilan' => $request->nama_panggilan,
+                'nama_lengkap' => ucfirst($request->nama_lengkap),
+                'nama_panggilan' => ucfirst($request->nama_panggilan),
                 'alamat_asal' => $request->alamat_asal,
                 'alamat_tinggal' => $request->alamat_tinggal,
                 'telpon' => $request->telpon,
@@ -237,8 +237,8 @@ class PegawaiController extends Controller implements HasMiddleware
 
         if ($request->validated()) {
             $pegawai->update([
-                'nama_lengkap' => $request->nama_lengkap,
-                'nama_panggilan' => $request->nama_panggilan,
+                'nama_lengkap' => ucfirst($request->nama_lengkap),
+                'nama_panggilan' => ucfirst($request->nama_panggilan),
                 'alamat_asal' => $request->alamat_asal,
                 'alamat_tinggal' => $request->alamat_tinggal,
                 'telpon' => $request->telpon,
@@ -267,9 +267,9 @@ class PegawaiController extends Controller implements HasMiddleware
                         't2_gaji' => $request->t2_gaji,
                         't3_keterangan' => $request->t3_keterangan,
                         't3_gaji' => $request->t3_gaji,
-                        'rek_nama_bank' => $request->rek_nama_bank,
+                        'rek_nama_bank' => ucfirst($request->rek_nama_bank),
                         'rek_nomor' => $request->rek_nomor,
-                        'rek_nama_pemilik' => $request->rek_nama_pemilik,
+                        'rek_nama_pemilik' => ucfirst($request->rek_nama_pemilik),
                         'updated_by' => auth()->user()->email,
                     ]);
                 } else {
@@ -282,9 +282,9 @@ class PegawaiController extends Controller implements HasMiddleware
                         't2_gaji' => $request->t2_gaji,
                         't3_keterangan' => $request->t3_keterangan,
                         't3_gaji' => $request->t3_gaji,
-                        'rek_nama_bank' => $request->rek_nama_bank,
+                        'rek_nama_bank' => ucfirst($request->rek_nama_bank),
                         'rek_nomor' => $request->rek_nomor,
-                        'rek_nama_pemilik' => $request->rek_nama_pemilik,
+                        'rek_nama_pemilik' => ucfirst($request->rek_nama_pemilik),
                         'created_by' => auth()->user()->email,
                         'updated_by' => auth()->user()->email,
                     ]);
