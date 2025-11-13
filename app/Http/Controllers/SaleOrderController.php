@@ -61,7 +61,7 @@ class SaleOrderController extends Controller implements HasMiddleware
 
         // $datas = DB::table('sale-orders');
         $branch_id = auth()->user()->profile->branch_id;
-        $customers = Customer::where('branch_id', $branch_id)->where('isactive', 1)->pluck('nama', 'id');
+        $customers = Customer::where('branch_id', $branch_id)->where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $datas = SaleOrder::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
@@ -102,7 +102,7 @@ class SaleOrderController extends Controller implements HasMiddleware
         $search_arr = ['sale-order_isactive', 'sale-order_tunai', 'sale-order_customer_id', 'sale-order_no_order', 'sale-order_tanggal'];
 
         $branch_id = auth()->user()->profile->branch_id;
-        $customers = Customer::where('branch_id', $branch_id)->where('isactive', 1)->pluck('nama', 'id');
+        $customers = Customer::where('branch_id', $branch_id)->where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $datas = SaleOrder::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
