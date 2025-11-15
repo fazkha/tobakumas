@@ -94,7 +94,8 @@ class ProdOrderController extends Controller implements HasMiddleware
 
         $bulans = Arr::pluck($this->array_bulan, 'bulan.name', 'bulan.id');
         $customers = Customer::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $datas = ProdOrder::query();
+        $datas = ProdOrder::query()->selectRaw('prod_orders.*');
+        $datas = $datas->join('prod_order_details', 'prod_order_details.prod_order_id', 'prod_orders.id');
 
         for ($i = 0; $i < count($search_arr); $i++) {
             $field = substr($search_arr[$i], strlen('production-order_'));
@@ -124,14 +125,14 @@ class ProdOrderController extends Controller implements HasMiddleware
 
         if (session('production-order_tanggal') == '_' or session('production-order_tanggal') == '') {
             if (session('production-order_periode_bulan') == 'all' and session('production-order_periode_tahun') != '_') {
-                $datas = $datas->whereRaw('YEAR(tanggal) = ?', [session('production-order_periode_tahun')]);
+                $datas = $datas->whereRaw('YEAR(prod_orders.tanggal) = ?', [session('production-order_periode_tahun')]);
             } elseif (session('production-order_periode_bulan') != 'all' and session('production-order_periode_tahun') != '_') {
-                $datas = $datas->whereRaw('MONTH(tanggal) = ?', [session('production-order_periode_bulan')])
-                    ->whereRaw('YEAR(tanggal) = ?', [session('production-order_periode_tahun')]);
+                $datas = $datas->whereRaw('MONTH(prod_orders.tanggal) = ?', [session('production-order_periode_bulan')])
+                    ->whereRaw('YEAR(prod_orders.tanggal) = ?', [session('production-order_periode_tahun')]);
             }
         }
 
-        $datas = $datas->where('isactive', 1)->where('branch_id', auth()->user()->profile->branch_id);
+        $datas = $datas->where('prod_orders.isactive', 1)->where('prod_orders.branch_id', auth()->user()->profile->branch_id);
         $datas = $datas->latest()->paginate(session('production-order_pp'));
 
         if ($request->page && $datas->count() == 0) {
@@ -155,7 +156,8 @@ class ProdOrderController extends Controller implements HasMiddleware
 
         $bulans = Arr::pluck($this->array_bulan, 'bulan.name', 'bulan.id');
         $customers = Customer::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $datas = ProdOrder::query();
+        $datas = ProdOrder::query()->selectRaw('prod_orders.*');
+        $datas = $datas->join('prod_order_details', 'prod_order_details.prod_order_id', 'prod_orders.id');
 
         for ($i = 0; $i < count($search_arr); $i++) {
             $field = substr($search_arr[$i], strlen('production-order_'));
@@ -185,14 +187,14 @@ class ProdOrderController extends Controller implements HasMiddleware
 
         if (session('production-order_tanggal') == '_' or session('production-order_tanggal') == '') {
             if (session('production-order_periode_bulan') == 'all' and session('production-order_periode_tahun') != '_') {
-                $datas = $datas->whereRaw('YEAR(tanggal) = ?', [session('production-order_periode_tahun')]);
+                $datas = $datas->whereRaw('YEAR(prod_orders.tanggal) = ?', [session('production-order_periode_tahun')]);
             } elseif (session('production-order_periode_bulan') != 'all' and session('production-order_periode_tahun') != '_') {
-                $datas = $datas->whereRaw('MONTH(tanggal) = ?', [session('production-order_periode_bulan')])
-                    ->whereRaw('YEAR(tanggal) = ?', [session('production-order_periode_tahun')]);
+                $datas = $datas->whereRaw('MONTH(prod_orders.tanggal) = ?', [session('production-order_periode_bulan')])
+                    ->whereRaw('YEAR(prod_orders.tanggal) = ?', [session('production-order_periode_tahun')]);
             }
         }
 
-        $datas = $datas->where('isactive', 1)->where('branch_id', auth()->user()->profile->branch_id);
+        $datas = $datas->where('prod_orders.isactive', 1)->where('prod_orders.branch_id', auth()->user()->profile->branch_id);
 
         // $sql = $datas->toSql();
         // $bindings = $datas->getBindings();
