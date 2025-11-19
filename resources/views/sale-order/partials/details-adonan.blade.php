@@ -7,22 +7,19 @@
             <td class="align-top">
                 <x-text-span>{{ $adonan->barang->nama }}</x-text-span>
             </td>
-            <td class="align-top text-right">
+            <td class="align-top text-right field-large-show">
                 <x-text-span>{{ number_format($adonan->harga_satuan, 0, ',', '.') }}</x-text-span>
-            </td>
-            <td class="align-top">
-                <x-text-span>{{ $adonan->satuan->singkatan }}</x-text-span>
             </td>
             <td class="align-top text-right">
                 <x-text-span>{{ $adonan->kuantiti }}</x-text-span>
             </td>
+            <td class="align-top field-large-show">
+                <x-text-span>{{ $adonan->satuan->singkatan }}</x-text-span>
+            </td>
             <td class="align-top">
                 <x-text-span>{{ $adonan->keterangan ? $adonan->keterangan : '-' }}</x-text-span>
             </td>
-            {{-- <td class="align-top text-right">
-                <x-text-span>{{ $adonan->pajak }}</x-text-span>
-            </td> --}}
-            <td class="align-top text-right">
+            <td class="align-top text-right field-large-show">
                 <x-text-span>{{ number_format($adonan->harga_satuan * (1 + $adonan->pajak / 100) * $adonan->kuantiti, 0, ',', '.') }}</x-text-span>
             </td>
             @if ($viewMode == false)

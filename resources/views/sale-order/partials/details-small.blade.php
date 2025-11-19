@@ -4,20 +4,11 @@
             <td class="align-top">
                 <x-text-span>{{ $detail->barang->nama }}</x-text-span>
             </td>
-            <td class="align-top text-right field-large-show">
-                <x-text-span>{{ number_format($detail->harga_satuan, 0, ',', '.') }}</x-text-span>
-            </td>
             <td class="align-top">
                 <x-text-span>{{ $detail->satuan->singkatan }}</x-text-span>
             </td>
-            <td class="align-top text-right">
-                <div class="flex flex-row gap-1">
-                    <x-text-span>{{ $detail->kuantiti }}</x-text-span>
-                    <x-text-span class="field-large-show">{{ $detail->stock }}</x-text-span>
-                </div>
-            </td>
-            <td class="align-top text-right field-large-show">
-                <x-text-span>{{ number_format($detail->harga_satuan * (1 + $detail->pajak / 100) * $detail->kuantiti, 0, ',', '.') }}</x-text-span>
+            <td class="align-top text-right flex flex-row gap-1">
+                <x-text-span>{{ $detail->kuantiti }}</x-text-span>
             </td>
             @if ($viewMode == false)
                 <td class="align-top">
