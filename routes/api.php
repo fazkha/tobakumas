@@ -20,9 +20,9 @@ Route::get('/get-formatted-date', [AuthController::class, 'getFormattedDate']);
 Route::get('/get-formatted-time', [AuthController::class, 'getFormattedTime']);
 
 // Sales
-Route::prefix('sales')->middleware('auth:sanctum')->group(function () {
-    Route::post('/', [SalesController::class, 'index']);
-    Route::post('/save', [SalesController::class, 'store']);
-    Route::get('/status/{id}', [SalesController::class, 'status']);
-    Route::get('/markers/{id}', [SalesController::class, 'getMarkers']);
-});
+// Route::prefix('sales')->middleware('auth:sanctum')->group(function () {
+//     Route::post('/', [SalesController::class, 'index']);
+//     Route::post('/save', [SalesController::class, 'store']);
+//     Route::get('/status/{id}', [SalesController::class, 'status']);
+//     Route::get('/markers/{id}', [SalesController::class, 'getMarkers']);
+// });
