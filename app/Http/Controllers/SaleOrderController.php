@@ -21,7 +21,6 @@ use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
-use Jenssegers\Agent\Agent;
 
 class SaleOrderController extends Controller implements HasMiddleware
 {
@@ -233,14 +232,7 @@ class SaleOrderController extends Controller implements HasMiddleware
         $syntax = 'CALL sp_mitra_order(' . '\'Mitra\'' . ',' . Crypt::decrypt($request->order) . ')';
         $pegawais = DB::select($syntax);
 
-        $agent = new Agent();
-        $isMobile = $agent->isMobile();
-
-        if ($isMobile) {
-            return view('sale-order.edit', compact(['datas', 'details', 'totals', 'adonans', 'customers', 'barangs', 'barang2s', 'satuans', 'pegawais', 'branch_id']));
-        } else {
-            return view('sale-order.edit', compact(['datas', 'details', 'totals', 'adonans', 'customers', 'barangs', 'barang2s', 'satuans', 'pegawais', 'branch_id']));
-        }
+        return view('sale-order.edit', compact(['datas', 'details', 'totals', 'adonans', 'customers', 'barangs', 'barang2s', 'satuans', 'pegawais', 'branch_id']));
     }
 
     public function update(SaleOrderUpdateRequest $request): RedirectResponse
