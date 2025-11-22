@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('branch_id')->constrained()->onDelete('cascade')->onUpdate('cascade')->onDelete('set null');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('branch_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->unsignedInteger('jabatan_id')->nullable()->default(0);
             $table->string('nohp')->nullable();
             $table->string('noktp')->nullable();
             $table->string('alamat')->nullable();
