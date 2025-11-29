@@ -1,7 +1,7 @@
 <div class="my-2">
     <div class="flex flex-col-reverse md:flex-row gap-4 justify-between">
         <div
-            class="p-2 md:p-4 border rounded-md bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
+            class="p-2 md:p-4 border rounded-md shadow-md bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
 
             <div class="relative flex flex-row gap-2 mb-2 md:mb-4">
                 <div id="filter-loading" class="absolute top-[0%] right-[2%] z-10 hidden">
