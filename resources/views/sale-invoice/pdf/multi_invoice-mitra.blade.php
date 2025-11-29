@@ -96,7 +96,7 @@
                     $datas = App\Models\SaleOrder::find($select);
                     $details = App\Models\SaleOrderDetail::where('sale_order_id', $select)->orderBy('barang_id')->get();
                     $adonans = App\Models\SaleOrderMitra::where('sale_order_id', $select)
-                        ->orderBy('gerobak_id')
+                        ->orderBy('pegawai_id')
                         ->orderBy('barang_id')
                         ->get();
 
@@ -164,7 +164,7 @@
                                         <table>
                                             <thead>
                                                 <tr>
-                                                    <th style="width: 40%">Gerobak</th>
+                                                    <th style="width: 40%">Nama mitra</th>
                                                     <th style="width: 40%">Nama barang</th>
                                                     <th style="width: 20%">Jumlah</th>
                                                 </tr>
@@ -175,7 +175,7 @@
                                                 @endphp
                                                 @foreach ($adonans as $adonan)
                                                     <tr>
-                                                        <td>{{ $adonan->gerobak_id ? $adonan->gerobak->kode : ($adonan->pegawai_id ? $adonan->pegawai->nama_lengkap : ($adonan->nama_mitra ? $adonan->nama_mitra : '-')) }}
+                                                        <td>{{ $adonan->pegawai_id ? $adonan->pegawai->nama_lengkap : ($adonan->nama_mitra ? $adonan->nama_mitra : '-') }}
                                                         </td>
                                                         <td>{{ $adonan->barang->nama }}</td>
                                                         <td style="text-align: right">

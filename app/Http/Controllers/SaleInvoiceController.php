@@ -175,7 +175,8 @@ class SaleInvoiceController extends Controller implements HasMiddleware
         $id = $request->invoice;
         $datas = SaleOrder::find($id);
         $details = SaleOrderDetail::where('sale_order_id', $id)->orderBy('barang_id')->get();
-        $adonans = SaleOrderMitra::where('sale_order_id', $id)->orderBy('pegawai_id')->orderBy('barang_id')->get();
+        // $adonans = SaleOrderMitra::where('sale_order_id', $id)->orderBy('pegawai_id')->orderBy('barang_id')->get();
+        $adonans = SaleOrderMitra::where('sale_order_id', $id)->orderBy('gerobak_id')->orderBy('barang_id')->get();
 
         $total_price = SaleOrderDetail::where('sale_order_id', $id)->select(DB::raw('SUM((harga_satuan * (1 + (pajak/100))) * kuantiti) as total_price'))->value('total_price');
         $total_price_adonan = SaleOrderMitra::where('sale_order_id', $id)->select(DB::raw('SUM((harga_satuan * (1 + (pajak/100))) * kuantiti) as total_price'))->value('total_price');
