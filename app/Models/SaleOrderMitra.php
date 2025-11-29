@@ -13,6 +13,7 @@ class SaleOrderMitra extends Model
         'sale_order_id',
         'branch_id',
         'pegawai_id',
+        'gerobak_id',
         'barang_id',
         'satuan_id',
         'nama_mitra',
@@ -46,6 +47,11 @@ class SaleOrderMitra extends Model
     public function pegawai()
     {
         return $this->belongsTo(Pegawai::class);
+    }
+
+    public function gerobak()
+    {
+        return $this->belongsTo(Gerobak::class);
     }
 
     public function barang()

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('pegawai_id')->constrained()->onUpdate('cascade')->onDelete('set null');
             $table->foreignId('barang_id')->constrained()->onUpdate('cascade')->onDelete('set null');
             $table->foreignId('satuan_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->unsignedBigInteger('gerobak_id')->nullable();
             $table->string('nama_mitra')->nullable();
             $table->integer('harga_satuan')->default(0);
             $table->decimal('kuantiti', 10, 2)->default(0.00);

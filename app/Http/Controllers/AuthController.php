@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pegawai;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -32,12 +33,27 @@ class AuthController extends Controller
 
         $data = $validator->validated();
 
+        $profile = Profile::join('users', 'profiles.user_id', '=', 'users.id')
+            ->select('profiles.*')
+            ->where('profiles.email', $request->email)
+            ->where('users.name', $request->name);
+
+        if ($profile->exists()) {
+            return response([
+                'message' => 'User with the same name and email already exists in profile records. Please contact support.'
+            ], 422);
+        }
+
+        $pegawai = Pegawai::where('email', $request->email)
+            ->where('nama_lengkap', $request->name);
+
+        // if (!$pegawai->exists()) {
         $user = User::create($data);
 
         $profile = Profile::create([
             'user_id' => $user->id,
             'branch_id' => 1, // test only
-            'isactive' => 1, // test only
+            'isactive' => 0, // test only
             'tanggal_gabung' => date('Y-m-d'), // test only
             'nohp' => $request->nohp,
             'app_version' => $request->appVersion,
@@ -50,6 +66,7 @@ class AuthController extends Controller
                 'message' => 'Server error.'
             ], 500);
         }
+        // }
 
         $device = $request->appname ? ' ' . $request->appname : '';
         $token = $user->createToken($user->name . $device)->plainTextToken;

@@ -253,7 +253,7 @@
                                     <table id="adonan_table" class="w-full border-separate border-spacing-2">
                                         <thead>
                                             <tr>
-                                                <th class="w-1/6">@lang('messages.partner')</th>
+                                                <th class="w-1/6">@lang('messages.cart')</th>
                                                 <th class="w-1/6">@lang('messages.goods')</th>
                                                 <th class="w-auto">@lang('messages.unitprice') (@lang('messages.currencysymbol'))</th>
                                                 <th class="w-1/12">@lang('messages.unit')</th>

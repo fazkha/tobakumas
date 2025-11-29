@@ -277,4 +277,5 @@ return [
     'leader' => 'Pimpinan',
     'latitude' => 'Latitude',
     'longitude' => 'Longitude',
+    'cart' => 'Gerobak',
 ];

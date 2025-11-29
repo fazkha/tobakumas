@@ -2,7 +2,7 @@
     @foreach ($adonans as $adonan)
         <tr>
             <td class="align-top">
-                <x-text-span>{{ $adonan->gerobak_id ? $adonan->gerobak->kode : ($adonan->pegawai_id ? $adonan->pegawai->nama_lengkap : ($adonan->nama_mitra ? $adonan->nama_mitra : '-')) }}</x-text-span>
+                <x-text-span>{{ $adonan->pegawai_id ? $adonan->pegawai->nama_lengkap : ($adonan->nama_mitra ? $adonan->nama_mitra : '-') }}</x-text-span>
             </td>
             <td class="align-top">
                 <x-text-span>{{ $adonan->barang->nama }}</x-text-span>

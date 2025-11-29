@@ -420,7 +420,7 @@
                                         <table id="order_table" class="w-full border-separate border-spacing-2">
                                             <thead>
                                                 <tr>
-                                                    <th class="w-1/5">@lang('messages.cart')</th>
+                                                    <th class="w-1/5">@lang('messages.partner')</th>
                                                     <th class="w-1/5">@lang('messages.goods')</th>
                                                     <th class="w-auto field-large-show">@lang('messages.unitprice')
                                                         (@lang('messages.currencysymbol'))</th>
@@ -442,15 +442,20 @@
                                             <tbody>
                                                 <tr>
                                                     <td class="align-top">
-                                                        <select id="gerobak_id" name="gerobak_id" required
-                                                            tabindex="18"
-                                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-600 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
-                                                            <option value="">@lang('messages.choose')...</option>
-                                                            @foreach ($gerobaks as $id => $name)
-                                                                <option value="{{ $id }}">
-                                                                    {{ $name }}</option>
-                                                            @endforeach
-                                                        </select>
+                                                        <div class="flex flex-col gap-2">
+                                                            <select id="pegawai_id" name="pegawai_id" tabindex="18"
+                                                                class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-600 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                                                <option value="">@lang('messages.choose')...</option>
+                                                                @foreach ($pegawais as $pegawai)
+                                                                    <option value="{{ $pegawai->id }}">
+                                                                        {{ $pegawai->nama }}</option>
+                                                                @endforeach
+                                                            </select>
+
+                                                            <x-text-input type="text" id="nama_mitra"
+                                                                placeholder="{{ __('messages.enter') }} {{ __('messages.name') }}"
+                                                                name="nama_mitra" tabindex="18" />
+                                                        </div>
                                                     </td>
                                                     <td class="align-top">
                                                         <select id="barang_id_adonan" name="barang_id_adonan" required
@@ -742,7 +747,7 @@
                     }
                 });
 
-                $("#gerobak_id").on("change keyup paste", function() {
+                $("#pegawai_id").on("change keyup paste", function() {
                     $('#barang_id_adonan').prop('selectedIndex', 1).trigger('change');
                 });
 

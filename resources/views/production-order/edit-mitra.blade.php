@@ -366,7 +366,7 @@
                                         <table id="target_table" class="w-full">
                                             <thead>
                                                 <tr>
-                                                    <th class="w-auto text-left">@lang('messages.cart')</th>
+                                                    <th class="w-auto text-left">@lang('messages.partner')</th>
                                                     <th class="w-auto text-left">@lang('messages.goods')</th>
                                                     <th class="w-auto">@lang('messages.quantity')</th>
                                                     <th class="w-auto">@lang('messages.unit')</th>

@@ -13,6 +13,7 @@ use App\Http\Requests\SaleOrderRequest;
 use App\Http\Requests\SaleOrderUpdateRequest;
 use App\Models\Brandivjab;
 use App\Models\Brandivjabpeg;
+use App\Models\Gerobak;
 use App\Models\Pegawai;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
@@ -231,8 +232,9 @@ class SaleOrderController extends Controller implements HasMiddleware
         // jabatan = mitra
         $syntax = 'CALL sp_mitra_order(' . '\'Mitra\'' . ',' . Crypt::decrypt($request->order) . ')';
         $pegawais = DB::select($syntax);
+        $gerobaks = Gerobak::where('isactive', 1)->orderBy('kode')->pluck('kode', 'id');
 
-        return view('sale-order.edit', compact(['datas', 'details', 'totals', 'adonans', 'customers', 'barangs', 'barang2s', 'satuans', 'pegawais', 'branch_id']));
+        return view('sale-order.edit', compact(['datas', 'details', 'totals', 'adonans', 'customers', 'barangs', 'barang2s', 'satuans', 'pegawais', 'gerobaks', 'branch_id']));
     }
 
     public function update(SaleOrderUpdateRequest $request): RedirectResponse
@@ -316,14 +318,16 @@ class SaleOrderController extends Controller implements HasMiddleware
         $order_id = $request->detail;
         $pajak = $request->pajak_adonan ? $request->pajak_adonan : 0;
 
+        // 'pegawai_id' => $request->pegawai_id ? ($request->pegawai_id == 'Pilih...' ? NULL : $request->pegawai_id) : NULL,
+        // 'nama_mitra' => $request->nama_mitra,
+
         $detail = SaleOrderMitra::create([
             'sale_order_id' => $order_id,
             'branch_id' => $request->branch_id,
-            'pegawai_id' => $request->pegawai_id ? ($request->pegawai_id == 'Pilih...' ? NULL : $request->pegawai_id) : NULL,
+            'gerobak_id' => $request->gerobak_id,
             'barang_id' => $request->barang_id_adonan,
             'satuan_id' => $request->satuan_id_adonan,
             'kuantiti' => $request->kuantiti_adonan,
-            'nama_mitra' => $request->nama_mitra,
             'pajak' => $pajak,
             'harga_satuan' => $request->harga_satuan_adonan,
             'keterangan' => $request->keterangan_adonan,
@@ -337,49 +341,49 @@ class SaleOrderController extends Controller implements HasMiddleware
         $sale = SaleOrder::find($order_id);
         $customer = Customer::find($sale->customer_id);
 
-        if ($customer->branch_link_id) {
-            // jabatan_id = 3 = Mitra
-            $brandivjab = Brandivjab::where('isactive', 1)
-                ->where('jabatan_id', 3)
-                ->where('branch_id', $customer->branch_link_id)
-                ->first();
+        // if ($customer->branch_link_id) {
+        //     // jabatan_id = 3 = Mitra
+        //     $brandivjab = Brandivjab::where('isactive', 1)
+        //         ->where('jabatan_id', 3)
+        //         ->where('branch_id', $customer->branch_link_id)
+        //         ->first();
 
-            if (!$brandivjab) {
-                $brandivjab = Brandivjab::create([
-                    'branch_id' => $customer->branch_link_id,
-                    'jabatan_id' => 3,
-                    'isactive' => 1,
-                    'created_by' => auth()->user()->email,
-                ]);
-            }
+        //     if (!$brandivjab) {
+        //         $brandivjab = Brandivjab::create([
+        //             'branch_id' => $customer->branch_link_id,
+        //             'jabatan_id' => 3,
+        //             'isactive' => 1,
+        //             'created_by' => auth()->user()->email,
+        //         ]);
+        //     }
 
-            if ($brandivjab) {
-                if ($request->pegawai_id == 'Pilih...' && $request->nama_mitra) {
-                    // dd($request->pegawai_id);
-                    $pegawai = Pegawai::create([
-                        'nama_lengkap' => ucfirst($request->nama_mitra),
-                        'nama_panggilan' => ucfirst($request->nama_mitra),
-                        'alamat_tinggal' => '-',
-                        'telpon' => '-',
-                        'kelamin' => 'L',
-                        'isactive' => 1,
-                        'created_by' => 'PenjualanMitra',
-                    ]);
+        //     if ($brandivjab) {
+        //         if ($request->pegawai_id == 'Pilih...' && $request->nama_mitra) {
+        //             // dd($request->pegawai_id);
+        //             $pegawai = Pegawai::create([
+        //                 'nama_lengkap' => ucfirst($request->nama_mitra),
+        //                 'nama_panggilan' => ucfirst($request->nama_mitra),
+        //                 'alamat_tinggal' => '-',
+        //                 'telpon' => '-',
+        //                 'kelamin' => 'L',
+        //                 'isactive' => 1,
+        //                 'created_by' => 'PenjualanMitra',
+        //             ]);
 
-                    Brandivjabpeg::create([
-                        'brandivjab_id' => $brandivjab->id,
-                        'pegawai_id' => $pegawai->id,
-                        'isactive' => 1,
-                        'tanggal_mulai' => date('Y-m-d'),
-                        'created_by' => auth()->user()->email,
-                    ]);
+        //             Brandivjabpeg::create([
+        //                 'brandivjab_id' => $brandivjab->id,
+        //                 'pegawai_id' => $pegawai->id,
+        //                 'isactive' => 1,
+        //                 'tanggal_mulai' => date('Y-m-d'),
+        //                 'created_by' => auth()->user()->email,
+        //             ]);
 
-                    $detail->update([
-                        'pegawai_id' => $pegawai->id,
-                    ]);
-                }
-            }
-        }
+        //             $detail->update([
+        //                 'pegawai_id' => $pegawai->id,
+        //             ]);
+        //         }
+        //     }
+        // }
 
         $selaluUpdateHargaJual = config('custom.selaluUpdateHargaJual');
 
