@@ -186,7 +186,11 @@ class StockOpnameController extends Controller implements HasMiddleware
     public function show(Request $request): View
     {
         $datas = StockOpname::find(Crypt::decrypt($request->stock_opname));
-        $details = StockOpnameDetail::where('stock_opname_id', Crypt::decrypt($request->stock_opname))->get();
+        $details = StockOpnameDetail::join('barangs', 'stock_opname_details.barang_id', '=', 'barangs.id')
+            ->select('stock_opname_details.*')
+            ->where('stock_opname_details.stock_opname_id', Crypt::decrypt($request->stock_opname))
+            ->orderBy('barangs.nama')
+            ->get();
 
         if (session('documents')) {
             $namafile = session('documents');
