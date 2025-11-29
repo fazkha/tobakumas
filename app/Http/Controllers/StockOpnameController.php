@@ -201,7 +201,18 @@ class StockOpnameController extends Controller implements HasMiddleware
     {
         $branch_id = auth()->user()->profile->branch_id;
         $datas = StockOpname::find(Crypt::decrypt($request->stock_opname));
-        $details = StockOpnameDetail::where('stock_opname_id', Crypt::decrypt($request->stock_opname))->get();
+        $details = StockOpnameDetail::join('barangs', 'stock_opname_details.barang_id', '=', 'barangs.id')
+            ->select('stock_opname_details.*')
+            ->where('stock_opname_details.stock_opname_id', Crypt::decrypt($request->stock_opname))
+            ->orderBy('barangs.nama')
+            ->get();
+
+        // $sql = $details->toSql();
+        // $bindings = $details->getBindings();
+        // foreach ($bindings as $binding) {
+        //     $sql = preg_replace('/\?/', "'" . addslashes($binding) . "'", $sql, 1);
+        // }
+        // dd($sql);
 
         Gate::authorize('update', $datas);
 
