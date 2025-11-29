@@ -211,13 +211,6 @@ class StockOpnameController extends Controller implements HasMiddleware
             ->orderBy('barangs.nama')
             ->get();
 
-        // $sql = $details->toSql();
-        // $bindings = $details->getBindings();
-        // foreach ($bindings as $binding) {
-        //     $sql = preg_replace('/\?/', "'" . addslashes($binding) . "'", $sql, 1);
-        // }
-        // dd($sql);
-
         Gate::authorize('update', $datas);
 
         $gudangs = Gudang::where('branch_id', $branch_id)->where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
@@ -364,7 +357,11 @@ class StockOpnameController extends Controller implements HasMiddleware
     {
         $id = Crypt::decrypt($request->stock_opname);
         $datas = StockOpname::find($id);
-        $details = StockOpnameDetail::where('stock_opname_id', $id)->get();
+        $details = StockOpnameDetail::join('barangs', 'stock_opname_details.barang_id', '=', 'barangs.id')
+            ->select('stock_opname_details.*')
+            ->where('stock_opname_details.stock_opname_id', $id)
+            ->orderBy('barangs.nama')
+            ->get();
 
         $namafile = $id . '-stockopname_' . str_replace('@', '(at)', str_replace('.', '_', auth()->user()->email)) . '.pdf';
         session()->put('documents', $namafile);

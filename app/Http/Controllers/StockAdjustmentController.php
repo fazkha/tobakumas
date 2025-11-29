@@ -160,7 +160,12 @@ class StockAdjustmentController extends Controller implements HasMiddleware
     public function show(Request $request): View
     {
         $datas = StockOpname::find(Crypt::decrypt($request->stock_adjustment));
-        $details = StockOpnameDetail::where('stock_opname_id', Crypt::decrypt($request->stock_adjustment))->where('adjust_stock', '<>', 0)->get();
+        $details = StockOpnameDetail::join('barangs', 'stock_opname_details.barang_id', '=', 'barangs.id')
+            ->select('stock_opname_details.*')
+            ->where('stock_opname_details.stock_opname_id', Crypt::decrypt($request->stock_adjustment))
+            ->where('stock_opname_details.adjust_stock', '<>', 0)
+            ->orderBy('barangs.nama')
+            ->get();
 
         if (session('documents')) {
             $namafile = session('documents');
@@ -175,7 +180,12 @@ class StockAdjustmentController extends Controller implements HasMiddleware
     {
         $branch_id = auth()->user()->profile->branch_id;
         $datas = StockOpname::find(Crypt::decrypt($request->stock_adjustment));
-        $details = StockOpnameDetail::where('stock_opname_id', Crypt::decrypt($request->stock_adjustment))->where('selisih_stock', '<>', 0)->get();
+        $details = StockOpnameDetail::join('barangs', 'stock_opname_details.barang_id', '=', 'barangs.id')
+            ->select('stock_opname_details.*')
+            ->where('stock_opname_details.stock_opname_id', Crypt::decrypt($request->stock_adjustment))
+            ->where('stock_opname_details.adjust_stock', '<>', 0)
+            ->orderBy('barangs.nama')
+            ->get();
 
         Gate::authorize('update', $datas);
 
@@ -254,7 +264,12 @@ class StockAdjustmentController extends Controller implements HasMiddleware
     {
         $id = Crypt::decrypt($request->stock_adjustment);
         $datas = StockOpname::find($id);
-        $details = StockOpnameDetail::where('stock_opname_id', $id)->where('adjust_stock', '<>', 0)->get();
+        $details = StockOpnameDetail::join('barangs', 'stock_opname_details.barang_id', '=', 'barangs.id')
+            ->select('stock_opname_details.*')
+            ->where('stock_opname_details.stock_opname_id', $id)
+            ->where('stock_opname_details.adjust_stock', '<>', 0)
+            ->orderBy('barangs.nama')
+            ->get();
 
         $namafile = $id . '-stockadjustment_' . str_replace('@', '(at)', str_replace('.', '_', auth()->user()->email)) . '.pdf';
         session()->put('documents', $namafile);
