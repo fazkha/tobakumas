@@ -385,7 +385,8 @@
 
                         {{-- Adonan --}}
                         <input type="hidden" name="branch_id" value="{{ $branch_id }}" />
-                        <input type="hidden" id="order_id" name="order_id" value="{{ $datas->id }}" />
+                        <input type="hidden" id="sale_order_id" name="sale_order_id"
+                            value="{{ $datas->id }}" />
                         <div
                             class="w-full shadow-lg rounded-md border bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
                             <div class="p-4 space-y-2">
@@ -453,7 +454,7 @@
                                                         </select>
                                                     </td>
                                                     <td class="align-top">
-                                                        <select id="barang_id_adonan" name="barang_id_adonan" required
+                                                        <select id="barang_id_adonan" name="barang_id" required
                                                             tabindex="18"
                                                             class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-600 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                                             <option value="">@lang('messages.choose')...</option>
@@ -465,16 +466,16 @@
                                                     </td>
                                                     <td class="align-top field-large-show">
                                                         <x-text-input type="number" min="0"
-                                                            id="harga_satuan_adonan" name="harga_satuan_adonan"
-                                                            required tabindex="19" readonly />
+                                                            id="harga_satuan_adonan" name="harga_satuan" required
+                                                            tabindex="19" readonly />
                                                     </td>
                                                     <td class="align-top">
                                                         <x-text-input type="number" min="0"
-                                                            id="kuantiti_adonan" name="kuantiti_adonan" required
+                                                            id="kuantiti_adonan" name="kuantiti" required
                                                             tabindex="21" />
                                                     </td>
                                                     <td class="align-top field-large-show">
-                                                        <select id="satuan_id_adonan" name="satuan_id_adonan" required
+                                                        <select id="satuan_id_adonan" name="satuan_id" required
                                                             tabindex="20"
                                                             class="readonly-select w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-600 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                                             <option value="">@lang('messages.choose')...</option>
@@ -485,7 +486,7 @@
                                                         </select>
                                                     </td>
                                                     <td class="align-top">
-                                                        <select id="keterangan_adonan" name="keterangan_adonan"
+                                                        <select id="keterangan_adonan" name="keterangan"
                                                             tabindex="22"
                                                             class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-600 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
                                                             <option value="">@lang('messages.choose')...</option>

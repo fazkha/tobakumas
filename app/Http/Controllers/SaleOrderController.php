@@ -11,6 +11,7 @@ use App\Models\SaleOrderMitra;
 use Illuminate\Http\Request;
 use App\Http\Requests\SaleOrderRequest;
 use App\Http\Requests\SaleOrderUpdateRequest;
+use App\Http\Requests\SaleOrderMitraRequest;
 use App\Models\Brandivjab;
 use App\Models\Brandivjabpeg;
 use App\Models\Gerobak;
@@ -313,7 +314,7 @@ class SaleOrderController extends Controller implements HasMiddleware
         return redirect()->route('sale-order.index')->with('success', __('messages.successdeleted') . ' 👉 ' . $order->no_order);
     }
 
-    public function storeAdonan(Request $request)
+    public function storeAdonan(SaleOrderMitraRequest $request)
     {
         $order_id = $request->detail;
         $pajak = $request->pajak_adonan ? $request->pajak_adonan : 0;
@@ -322,15 +323,15 @@ class SaleOrderController extends Controller implements HasMiddleware
         // 'nama_mitra' => $request->nama_mitra,
 
         $detail = SaleOrderMitra::create([
-            'sale_order_id' => $order_id,
+            'sale_order_id' => $request->sale_order_id,
             'branch_id' => $request->branch_id,
             'gerobak_id' => $request->gerobak_id,
-            'barang_id' => $request->barang_id_adonan,
-            'satuan_id' => $request->satuan_id_adonan,
-            'kuantiti' => $request->kuantiti_adonan,
+            'barang_id' => $request->barang_id,
+            'satuan_id' => $request->satuan_id,
+            'kuantiti' => $request->kuantiti,
             'pajak' => $pajak,
-            'harga_satuan' => $request->harga_satuan_adonan,
-            'keterangan' => $request->keterangan_adonan,
+            'harga_satuan' => $request->harga_satuan,
+            'keterangan' => $request->keterangan,
             'created_by' => auth()->user()->email,
             'updated_by' => auth()->user()->email,
             'approved' => (config('custom.sale_approval') == false) ? 1 : 0,
