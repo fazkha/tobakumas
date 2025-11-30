@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 // use App\Models\Pegawai;
 use App\Models\Profile_Mm;
+use App\Models\User;
 use App\Models\User_Mm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -97,8 +98,8 @@ class AuthController extends Controller
         }
 
         // $user = User::select('email', 'name', 'password', 'id')->where('email', $request->email)->first();
-        $user = User_Mm::where('email', $request->email)->first();
-        dd($request->email);
+        $user = User::where('email', $request->email)->first();
+        dd($user);
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response([
