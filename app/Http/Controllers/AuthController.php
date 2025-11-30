@@ -14,7 +14,7 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        $validator = Validator::on('mm_db')->make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users'],
             'nohp' => ['required', 'min:10', 'max:255'],
@@ -82,7 +82,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $validator = Validator::on('mm_db')->make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'email' => ['required', 'email', 'exists:users'],
             'password' => ['required', 'min:6']
         ]);
