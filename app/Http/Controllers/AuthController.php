@@ -81,6 +81,8 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        dd($request->all());
+
         $validator = Validator::make($request->all(), [
             'email' => ['required', 'email', 'exists:users'],
             'password' => ['required', 'min:6']
@@ -98,7 +100,6 @@ class AuthController extends Controller
 
         // $user = User::select('email', 'name', 'password', 'id')->where('email', $request->email)->first();
         $user = User_Mm::where('email', $request->email)->first();
-        dd($user);
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response([
