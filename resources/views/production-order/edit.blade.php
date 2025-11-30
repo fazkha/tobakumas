@@ -228,7 +228,7 @@
                                         @lang('messages.all')</label>
                                 </div>
 
-                                <div id="combineBody">
+                                <div id="combineBody" class="grid grid-cols-2 gap-2">
                                     @include('production-order.partials.combines', [$sales])
                                 </div>
 
