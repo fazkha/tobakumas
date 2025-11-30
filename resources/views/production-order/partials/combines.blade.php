@@ -5,7 +5,7 @@
         @endphp
         @if ($a > 0)
             <div class="py-2 border-t border-primary-100 dark:border-primary-700">
-                <div class="flex flex-row items-center">
+                <div id="list-table" class="flex flex-row items-center">
                     <input type="hidden" id="prod_status" value="{{ $sale->prod_order->isactive }}" />
                     <input type="checkbox" id="order[{{ $sale->id }}]" name="order[{{ $sale->id }}]" tabindex="8"
                         value="{{ $sale->id }}"

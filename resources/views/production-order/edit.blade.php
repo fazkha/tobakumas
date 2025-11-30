@@ -442,6 +442,10 @@
                     $('#targetDiv').addClass('block');
                 }
 
+                $("#iscombineall").on("change", function() {
+                    $("#list-table").find("input[type='checkbox']").prop("checked", this.checked);
+                });
+
                 $("#submit-combine").on("click", function(e) {
                     e.preventDefault();
                     var xkey = '{{ $datas->id }}';
