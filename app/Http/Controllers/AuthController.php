@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pegawai;
-use App\Models\Profile;
-use App\Models\User;
+// use App\Models\Pegawai;
+use App\Models\Profile_Mm;
+use App\Models\User_Mm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\PersonalAccessToken;
@@ -33,8 +33,7 @@ class AuthController extends Controller
 
         $data = $validator->validated();
 
-        $profile = Profile::on('mm_db')
-            ->join('users', 'profiles.user_id', '=', 'users.id')
+        $profile = Profile_Mm::join('users', 'profiles.user_id', '=', 'users.id')
             ->select('profiles.*')
             ->where('profiles.email', $request->email)
             ->where('users.name', $request->name);
@@ -45,12 +44,12 @@ class AuthController extends Controller
             ], 422);
         }
 
-        $pegawai = Pegawai::on('mm_db')
-            ->where('email', $request->email)
-            ->where('nama_lengkap', $request->name);
+        // $pegawai = Pegawai::on('mm_db')
+        //     ->where('email', $request->email)
+        //     ->where('nama_lengkap', $request->name);
 
         // if (!$pegawai->exists()) {
-        $user = User::on('mm_db')->create($data);
+        $user = User_Mm::create($data);
 
         if (!$user) {
             return response([
@@ -58,7 +57,7 @@ class AuthController extends Controller
             ], 500);
         }
 
-        $profile = Profile::on('mm_db')->create([
+        $profile = Profile_Mm::create([
             'user_id' => $user->id,
             'branch_id' => 1, // test only
             'isactive' => 0, // test only
@@ -98,7 +97,7 @@ class AuthController extends Controller
         }
 
         // $user = User::select('email', 'name', 'password', 'id')->where('email', $request->email)->first();
-        $user = User::on('mm_db')->where('email', $request->email)->first();
+        $user = User_Mm::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response([
@@ -106,7 +105,7 @@ class AuthController extends Controller
             ], 401);
         }
 
-        $profile = Profile::on('mm_db')->where('user_id', $user->id)->first();
+        $profile = Profile_Mm::where('user_id', $user->id)->first();
         $profile->update([
             'app_version' => $request->appVersion,
         ]);
@@ -148,7 +147,7 @@ class AuthController extends Controller
             }
         }
 
-        $user = User::on('mm_db')->where('email', $request->email)->first();
+        $user = User_Mm::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->oldPassword, $user->password)) {
             return response([
@@ -160,7 +159,7 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $profile = Profile::on('mm_db')->where('user_id', $user->id)->first();
+        $profile = Profile_Mm::where('user_id', $user->id)->first();
         $profile->update([
             'app_version' => $request->appVersion,
         ]);
@@ -174,7 +173,7 @@ class AuthController extends Controller
     {
         $token = $request->token;
 
-        $dbtoken = PersonalAccessToken::on('mm_db')->findToken($token);
+        $dbtoken = PersonalAccessToken::findToken($token);
 
         if (!$dbtoken) {
             return response([
@@ -213,7 +212,7 @@ class AuthController extends Controller
         $email = $request->email;
         $gtoken = $request->token;
 
-        $user = User::on('mm_db')->where('email', $email)->first();
+        $user = User_Mm::where('email', $email)->first();
 
         if (!$user) {
             return response([
