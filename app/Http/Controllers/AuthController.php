@@ -97,8 +97,8 @@ class AuthController extends Controller
         }
 
         // $user = User::select('email', 'name', 'password', 'id')->where('email', $request->email)->first();
+        dd($request->email);
         $user = User_Mm::where('email', $request->email)->first();
-        dd($user);
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response([
