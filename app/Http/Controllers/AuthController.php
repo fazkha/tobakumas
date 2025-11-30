@@ -50,7 +50,7 @@ class AuthController extends Controller
         //     ->where('nama_lengkap', $request->name);
 
         // if (!$pegawai->exists()) {
-        dd($data);
+        dd($profile->exists());
         $user = User::create($data);
 
         if (!$user) {
