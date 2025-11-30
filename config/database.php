@@ -59,6 +59,15 @@ return [
             ]) : [],
         ],
 
+        'mm_db' => [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST_SECONDARY', '127.0.0.1'),
+            'port' => env('DB_PORT_SECONDARY', '3306'),
+            'database' => env('DB_DATABASE_SECONDARY', 'laravel'),
+            'username' => env('DB_USERNAME_SECONDARY', 'root'),
+            'password' => env('DB_PASSWORD_SECONDARY', ''),
+        ],
+
         'mariadb' => [
             'driver' => 'mariadb',
             'url' => env('DB_URL'),
@@ -144,7 +153,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_'),
         ],
 
         'default' => [
