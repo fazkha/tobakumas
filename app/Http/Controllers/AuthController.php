@@ -21,7 +21,6 @@ class AuthController extends Controller
             'nohp' => ['required', 'min:10', 'max:255'],
             'password' => ['required', 'min:6', 'max:50', 'confirmed']
         ]);
-        dd($validator->fails());
 
         if ($validator->fails()) {
             $errors = $validator->errors();
@@ -39,6 +38,7 @@ class AuthController extends Controller
             ->select('profiles.*')
             ->where('profiles.email', $request->email)
             ->where('users.name', $request->name);
+        dd($profile);
 
         if ($profile->exists()) {
             return response([
