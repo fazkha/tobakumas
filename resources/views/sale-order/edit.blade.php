@@ -452,6 +452,8 @@
                                                                     {{ $name }}</option>
                                                             @endforeach
                                                         </select>
+
+                                                        <x-input-error class="mt-2" :messages="$errors->get('gerobak_id')" />
                                                     </td>
                                                     <td class="align-top">
                                                         <select id="barang_id_adonan" name="barang_id" required
