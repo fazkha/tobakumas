@@ -221,7 +221,7 @@
 
                             {{-- Combine --}}
                             @if (count($sales) > 0)
-                                <div>
+                                <div class="w-full py-2 border-t border-primary-100 dark:border-primary-700">
                                     <input type="checkbox" id="iscombineall" name="iscombineall" tabindex="0"
                                         class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-5 h-5 rounded-lg shadow-md">
                                     <label for="iscombineall" class="pl-2">@lang('messages.choose')
