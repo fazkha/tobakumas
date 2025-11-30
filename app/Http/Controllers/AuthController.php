@@ -14,7 +14,7 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $validator = Validator::on('mm_db')->make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users'],
             'nohp' => ['required', 'min:10', 'max:255'],
@@ -52,6 +52,12 @@ class AuthController extends Controller
         // if (!$pegawai->exists()) {
         $user = User::on('mm_db')->create($data);
 
+        if (!$user) {
+            return response([
+                'message' => 'Create user failed.'
+            ], 500);
+        }
+
         $profile = Profile::on('mm_db')->create([
             'user_id' => $user->id,
             'branch_id' => 1, // test only
@@ -62,12 +68,6 @@ class AuthController extends Controller
             'created_by' => 'self-register',
             'updated_by' => 'self-register',
         ]);
-
-        if (!$user) {
-            return response([
-                'message' => 'Server error.'
-            ], 500);
-        }
         // }
 
         $device = $request->appname ? ' ' . $request->appname : '';
@@ -82,7 +82,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $validator = Validator::on('mm_db')->make($request->all(), [
             'email' => ['required', 'email', 'exists:users'],
             'password' => ['required', 'min:6']
         ]);
