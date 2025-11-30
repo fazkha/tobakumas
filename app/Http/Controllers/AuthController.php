@@ -81,8 +81,6 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        dd($request->all());
-
         $validator = Validator::make($request->all(), [
             'email' => ['required', 'email', 'exists:users'],
             'password' => ['required', 'min:6']
@@ -90,6 +88,8 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
             $errors = $validator->errors();
+            dd($validator->errors());
+
 
             foreach ($errors->all() as $message) {
                 return response([
