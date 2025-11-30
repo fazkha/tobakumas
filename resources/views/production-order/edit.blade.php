@@ -443,7 +443,7 @@
                 }
 
                 $("#iscombineall").on("change", function() {
-                    $("#list-table").find("input[type='checkbox']").prop("checked", this.checked);
+                    $("#combineBody").find("input[type='checkbox']").prop("checked", this.checked);
                 });
 
                 $("#submit-combine").on("click", function(e) {
