@@ -201,52 +201,51 @@
             </div>
         </div>
 
-        <div class="flex flex-col lg:flex-row gap-4 px-4 py-2">
-            <div class="w-full">
-                <div class="flex flex-col items-center gap-4">
+        <div class="w-full px-4 py-2">
+            <div class="flex flex-col lg:flex-row gap-4">
 
-                    <div
-                        class="w-full shadow-lg rounded-md border bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
-                        <div class="p-4 space-y-2">
-                            <div class="flex flex-row items-center gap-2">
-                                <svg class="size-5" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"
-                                    fill="currentColor">
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M1.5 1l-.5.5v3l.5.5h3l.5-.5v-3L4.5 1h-3zM2 4V2h2v2H2zm-.5 2l-.5.5v3l.5.5h3l.5-.5v-3L4.5 6h-3zM2 9V7h2v2H2zm-1 2.5l.5-.5h3l.5.5v3l-.5.5h-3l-.5-.5v-3zm1 .5v2h2v-2H2zm10.5-7l-.5.5v6l.5.5h3l.5-.5v-6l-.5-.5h-3zM15 8h-2V6h2v2zm0 3h-2V9h2v2zM9.1 8H6v1h3.1l-1 1 .7.6 1.8-1.8v-.7L8.8 6.3l-.7.7 1 1z" />
-                                </svg>
-                                <span class="block font-medium text-primary-600 dark:text-primary-500">
-                                    @lang('messages.productioncombine')
-                                </span>
+                <div
+                    class="w-full lg:w-1/2 shadow-lg rounded-md border bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
+                    <div class="p-4 space-y-2">
+                        <div class="flex flex-row items-center gap-2">
+                            <svg class="size-5" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"
+                                fill="currentColor">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M1.5 1l-.5.5v3l.5.5h3l.5-.5v-3L4.5 1h-3zM2 4V2h2v2H2zm-.5 2l-.5.5v3l.5.5h3l.5-.5v-3L4.5 6h-3zM2 9V7h2v2H2zm-1 2.5l.5-.5h3l.5.5v3l-.5.5h-3l-.5-.5v-3zm1 .5v2h2v-2H2zm10.5-7l-.5.5v6l.5.5h3l.5-.5v-6l-.5-.5h-3zM15 8h-2V6h2v2zm0 3h-2V9h2v2zM9.1 8H6v1h3.1l-1 1 .7.6 1.8-1.8v-.7L8.8 6.3l-.7.7 1 1z" />
+                            </svg>
+                            <span class="block font-medium text-primary-600 dark:text-primary-500">
+                                @lang('messages.productioncombine')
+                            </span>
+                        </div>
+
+                        {{-- Combine --}}
+                        @if (count($sales) > 0)
+                            <div class="w-full py-2 border-t border-primary-100 dark:border-primary-700">
+                                <input type="checkbox" id="iscombineall" name="iscombineall" tabindex="0"
+                                    class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-5 h-5 rounded-lg shadow-md">
+                                <label for="iscombineall" class="pl-2">@lang('messages.choose')
+                                    @lang('messages.all')</label>
                             </div>
 
-                            {{-- Combine --}}
-                            @if (count($sales) > 0)
-                                <div class="w-full py-2 border-t border-primary-100 dark:border-primary-700">
-                                    <input type="checkbox" id="iscombineall" name="iscombineall" tabindex="0"
-                                        class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-5 h-5 rounded-lg shadow-md">
-                                    <label for="iscombineall" class="pl-2">@lang('messages.choose')
-                                        @lang('messages.all')</label>
-                                </div>
+                            <div id="combineBody" class="grid grid-cols-2 gap-2">
+                                @include('production-order.partials.combines', [$sales])
+                            </div>
 
-                                <div id="combineBody" class="grid grid-cols-2 gap-2">
-                                    @include('production-order.partials.combines', [$sales])
-                                </div>
-
-                                <div class="my-4 flex flex-row justify-end gap-4">
-                                    <x-primary-button id="submit-combine" tabindex="14"
-                                        x-bind:disabled="buttonDisabled">
-                                        <svg class="size-5" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"
-                                            fill="currentColor">
-                                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                                d="M1.5 1l-.5.5v3l.5.5h3l.5-.5v-3L4.5 1h-3zM2 4V2h2v2H2zm-.5 2l-.5.5v3l.5.5h3l.5-.5v-3L4.5 6h-3zM2 9V7h2v2H2zm-1 2.5l.5-.5h3l.5.5v3l-.5.5h-3l-.5-.5v-3zm1 .5v2h2v-2H2zm10.5-7l-.5.5v6l.5.5h3l.5-.5v-6l-.5-.5h-3zM15 8h-2V6h2v2zm0 3h-2V9h2v2zM9.1 8H6v1h3.1l-1 1 .7.6 1.8-1.8v-.7L8.8 6.3l-.7.7 1 1z" />
-                                        </svg>
-                                        <span class="pl-1">@lang('messages.combine')</span>
-                                    </x-primary-button>
-                                </div>
-                            @endif
-                        </div>
+                            <div class="my-4 flex flex-row justify-end gap-4">
+                                <x-primary-button id="submit-combine" tabindex="14" x-bind:disabled="buttonDisabled">
+                                    <svg class="size-5" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"
+                                        fill="currentColor">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M1.5 1l-.5.5v3l.5.5h3l.5-.5v-3L4.5 1h-3zM2 4V2h2v2H2zm-.5 2l-.5.5v3l.5.5h3l.5-.5v-3L4.5 6h-3zM2 9V7h2v2H2zm-1 2.5l.5-.5h3l.5.5v3l-.5.5h-3l-.5-.5v-3zm1 .5v2h2v-2H2zm10.5-7l-.5.5v6l.5.5h3l.5-.5v-6l-.5-.5h-3zM15 8h-2V6h2v2zm0 3h-2V9h2v2zM9.1 8H6v1h3.1l-1 1 .7.6 1.8-1.8v-.7L8.8 6.3l-.7.7 1 1z" />
+                                    </svg>
+                                    <span class="pl-1">@lang('messages.combine')</span>
+                                </x-primary-button>
+                            </div>
+                        @endif
                     </div>
+                </div>
 
+                <div class="w-full lg:w-1/2 flex flex-col gap-4">
                     <div
                         class="w-full shadow-lg rounded-md border bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
                         <div class="p-4 space-y-2">
@@ -271,16 +270,139 @@
                             @endif
                         </div>
                     </div>
+
+                    <div class="w-full">
+                        <div class="flex flex-col items-center gap-4">
+
+                            <form id="detail-form" method="POST" enctype="multipart/form-data" class="w-full">
+                                @csrf
+
+                                <div
+                                    class="w-full shadow-lg rounded-md border bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
+                                    <div class="p-4 space-y-2">
+                                        <div class="flex flex-row items-center gap-2">
+                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 48 48"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <title>output</title>
+                                                <g id="Layer_2" data-name="Layer 2">
+                                                    <g id="invisible_box" data-name="invisible box">
+                                                        <rect width="48" height="48" fill="none" />
+                                                    </g>
+                                                    <g id="Layer_6" data-name="Layer 6">
+                                                        <g>
+                                                            <path
+                                                                d="M45.4,22.6l-7.9-8a2.1,2.1,0,0,0-2.7-.2,1.9,1.9,0,0,0-.2,3L39.2,22H16a2,2,0,0,0,0,4H39.2l-4.6,4.6a1.9,1.9,0,0,0,.2,3,2.1,2.1,0,0,0,2.7-.2l7.9-8A1.9,1.9,0,0,0,45.4,22.6Z" />
+                                                            <path
+                                                                d="M28,42H24A18,18,0,0,1,24,6h4a2,2,0,0,0,1.4-.6A2,2,0,0,0,30,4a2.4,2.4,0,0,0-.2-.9A2,2,0,0,0,28,2H23.8a22,22,0,0,0,.1,44H28a2,2,0,0,0,1.4-.6l.4-.5A2.4,2.4,0,0,0,30,44,2,2,0,0,0,28,42Z" />
+                                                        </g>
+                                                    </g>
+                                                </g>
+                                            </svg>
+                                            <span class="block font-medium text-primary-600 dark:text-primary-500">
+                                                @lang('messages.productionresult')
+                                            </span>
+                                        </div>
+
+                                        @if (count($details) > 0)
+                                            <div
+                                                class="border rounded-md border-primary-100 bg-primary-100 dark:border-primary-800 dark:bg-primary-850">
+                                                <div class="p-2">
+                                                    <table id="order_table"
+                                                        class="w-full border-separate border-spacing-2">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="w-1/2">@lang('messages.goods')</th>
+                                                                <th class="w-1/4">@lang('messages.unit')</th>
+                                                                <th class="w-auto">@lang('messages.quantity')</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody id="detailBody">
+                                                            @include('production-order.partials.details', [
+                                                                $details,
+                                                                'viewMode' => true,
+                                                            ])
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                                <div
+                                                    class="mt-4 mb-4 mr-4 flex flex-row flex-wrap justify-end gap-2 md:gap-4">
+                                                    <x-primary-button id="submit-detail" tabindex="14"
+                                                        x-bind:disabled="buttonDisabled">
+                                                        <svg id="svg-loading" class="hidden animate-spin size-5"
+                                                            viewBox="0 0 48 48" fill="none"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                            <rect width="48" height="48" fill="white"
+                                                                fill-opacity="0.01" />
+                                                            <path
+                                                                d="M4 24C4 35.0457 12.9543 44 24 44V44C35.0457 44 44 35.0457 44 24C44 12.9543 35.0457 4 24 4"
+                                                                stroke="currentColor" stroke-width="4"
+                                                                stroke-linecap="round" stroke-linejoin="round" />
+                                                            <path
+                                                                d="M36 24C36 17.3726 30.6274 12 24 12C17.3726 12 12 17.3726 12 24C12 30.6274 17.3726 36 24 36V36"
+                                                                stroke="currentColor" stroke-width="4"
+                                                                stroke-linecap="round" stroke-linejoin="round" />
+                                                        </svg>
+                                                        <svg id="svg-default" class="size-5" viewBox="0 0 1024 1024"
+                                                            class="icon" xmlns="http://www.w3.org/2000/svg">
+                                                            <path fill="currentColor"
+                                                                d="M280.768 753.728L691.456 167.04a32 32 0 1152.416 36.672L314.24 817.472a32 32 0 01-45.44 7.296l-230.4-172.8a32 32 0 0138.4-51.2l203.968 152.96zM736 448a32 32 0 110-64h192a32 32 0 110 64H736zM608 640a32 32 0 010-64h319.936a32 32 0 110 64H608zM480 832a32 32 0 110-64h447.936a32 32 0 110 64H480z" />
+                                                        </svg>
+                                                        <span class="pl-1">@lang('messages.productionfinish')</span>
+                                                    </x-primary-button>
+                                                    <x-anchor-secondary href="{{ route('production-order.index') }}"
+                                                        tabindex="15">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                            viewBox="0 0 24 24" stroke-width="1.5"
+                                                            stroke="currentColor" class="size-5">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="M6 18 18 6M6 6l12 12" />
+                                                        </svg>
+                                                        <span class="pl-1">@lang('messages.close')</span>
+                                                    </x-anchor-secondary>
+                                                </div>
+                                            </div>
+                                        @endif
+
+                                        @if (count($targets) > 0)
+                                            <div id="targetDiv"
+                                                class="hidden p-4 overflow-scroll md:overflow-auto lg:overflow-hidden">
+                                                <table id="target_table" class="w-full">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="w-auto text-left">@lang('messages.cart')</th>
+                                                            <th class="w-auto text-left">@lang('messages.goods')</th>
+                                                            <th class="w-auto">@lang('messages.quantity')</th>
+                                                            <th class="w-auto">@lang('messages.unit')</th>
+                                                            <th class="w-auto">&nbsp;</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody id="targetBody">
+                                                        @include('production-order.partials.targets', [
+                                                            $targets,
+                                                        ])
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <div class="w-full">
+        {{-- Detail --}}
+        {{-- <div class="w-full">
                 <div class="flex flex-col items-center gap-4">
 
                     <form id="detail-form" method="POST" enctype="multipart/form-data" class="w-full">
                         @csrf
 
-                        {{-- Detail --}}
                         <div
                             class="w-full shadow-lg rounded-md border bg-primary-50 border-primary-100 dark:bg-primary-900 dark:border-primary-800">
                             <div class="p-4 space-y-2">
@@ -391,8 +513,7 @@
                         </div>
                     </form>
                 </div>
-            </div>
-        </div>
+            </div> --}}
     </div>
 
     @push('scripts')
