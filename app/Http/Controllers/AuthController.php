@@ -7,7 +7,7 @@ use App\Models\Profile_Mm;
 use App\Models\User_Mm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Laravel\Sanctum\PersonalAccessToken;
+use Laravel\Sanctum\PersonalAccessToken_Mm;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -173,7 +173,7 @@ class AuthController extends Controller
     {
         $token = $request->token;
 
-        $dbtoken = PersonalAccessToken::findToken($token);
+        $dbtoken = PersonalAccessToken_Mm::findToken($token);
 
         if (!$dbtoken) {
             return response([
