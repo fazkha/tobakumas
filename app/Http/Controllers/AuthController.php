@@ -21,6 +21,7 @@ class AuthController extends Controller
             'nohp' => ['required', 'min:10', 'max:255'],
             'password' => ['required', 'min:6', 'max:50', 'confirmed']
         ]);
+        dd($validator->fails());
 
         if ($validator->fails()) {
             $errors = $validator->errors();
