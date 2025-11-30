@@ -85,11 +85,10 @@ class AuthController extends Controller
             'email' => ['required', 'email', 'exists:users'],
             'password' => ['required', 'min:6']
         ]);
+        dd($validator->errors());
 
         if ($validator->fails()) {
             $errors = $validator->errors();
-            dd($validator->errors());
-
 
             foreach ($errors->all() as $message) {
                 return response([
