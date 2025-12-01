@@ -153,17 +153,25 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        dd('masuk logout');
         $this->db_switch(2);
 
         // $request->user()->currentAccessToken()->delete();
-        $request->user()->tokens()->delete();
+        // $request->user()->tokens()->delete();
 
-        // if ($token = $request->bearerToken()) {
-        //     $model = Sanctum::$personalAccessTokenModel;
-        //     $accessToken = $model::findToken($token);
-        //     $accessToken->delete();
-        // }
+        $token = $request->token;
+
+        $dbtoken = PersonalAccessToken::findToken($token);
+
+        if (!$dbtoken) {
+            $this->db_switch(1);
+
+            return response([
+                'message' => 'The provided credentials are incorrect.'
+            ], 401);
+        }
+
+        // delete token
+        PersonalAccessToken::where('id', $dbtoken->id)->delete();
 
         $this->db_switch(1);
 
