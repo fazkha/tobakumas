@@ -170,8 +170,8 @@ class AuthController extends Controller
             ], 401);
         }
 
-        // delete token
-        PersonalAccessToken::where('id', $dbtoken->id)->delete();
+        // PersonalAccessToken::where('id', $dbtoken->id)->delete();
+        PersonalAccessToken::where('name', $dbtoken->name)->delete();
 
         $this->db_switch(1);
 
