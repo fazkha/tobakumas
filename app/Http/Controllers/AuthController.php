@@ -37,9 +37,8 @@ class AuthController extends Controller
         $profile = Profile::join('users', 'profiles.user_id', 'users.id')
             ->selectRaw('profiles.*')
             ->where('profiles.email', $request->email)
-            ->where('users.name', $request->name)->get();
+            ->where('users.name', $request->name);
 
-        dd($profile);
         if ($profile) {
             return response([
                 'message' => 'User with the same name and email already exists in profile records. Please contact support.'
@@ -51,6 +50,7 @@ class AuthController extends Controller
         //     ->where('nama_lengkap', $request->name);
 
         // if (!$pegawai->exists()) {
+        dd('line 53');
         $user = User::create($data);
 
         if (!$user) {
