@@ -34,10 +34,10 @@ class AuthController extends Controller
 
         $data = $validator->validated();
 
-        $profile = Profile::join('users', 'profiles.user_id', '=', 'users.id')
+        $profile = Profile::join('users', 'profiles.user_id', 'users.id')
             ->selectRaw('profiles.*')
             ->where('profiles.email', $request->email)
-            ->where('users.name', $request->name);
+            ->where('users.name', $request->name)->count();
 
         dd($profile);
         if ($profile) {
