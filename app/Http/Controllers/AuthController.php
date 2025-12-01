@@ -154,7 +154,7 @@ class AuthController extends Controller
     {
         $this->db_switch(2);
 
-        $request->user()->tokens()->delete();
+        $request->user()->currentAccessToken()->delete();
 
         $this->db_switch(1);
 
