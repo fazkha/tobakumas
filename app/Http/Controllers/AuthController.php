@@ -36,9 +36,9 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->email)
             ->where('name', $request->name)
-            ->get();
+            ->count();
 
-        if ($user) {
+        if ($user > 0) {
             return response([
                 'message' => 'User with the same name and email already exists in user records. Please contact support.'
             ], 422);
