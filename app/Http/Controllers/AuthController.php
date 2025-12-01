@@ -37,10 +37,11 @@ class AuthController extends Controller
         $profile = Profile::join('users', 'profiles.user_id', '=', 'users.id')
             ->selectRaw('profiles.*')
             ->where('profiles.email', $request->email)
-            ->where('users.name', $request->name);
+            ->where('users.name', $request->name)
+            ->get();
 
-        dd($profile->exists());
-        if ($profile->exists()) {
+        // dd($profile);
+        if ($profile) {
             return response([
                 'message' => 'User with the same name and email already exists in profile records. Please contact support.'
             ], 422);
