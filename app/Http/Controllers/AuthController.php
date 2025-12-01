@@ -34,8 +34,7 @@ class AuthController extends Controller
 
         $data = $validator->validated();
 
-        $profile = Profile::query()->join('users', 'profiles.user_id', 'users.id')
-            ->selectRaw('profiles.*')
+        $profile = Profile::join('users', 'profiles.user_id', 'users.id')
             ->where('profiles.email', $request->email)
             ->where('users.name', $request->name)->get();
 
