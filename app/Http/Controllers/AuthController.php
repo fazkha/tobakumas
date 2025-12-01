@@ -39,7 +39,7 @@ class AuthController extends Controller
             ->where('profiles.email', $request->email)
             ->where('users.name', $request->name);
 
-        dd($profile->count());
+        dd($profile);
         if ($profile) {
             return response([
                 'message' => 'User with the same name and email already exists in profile records. Please contact support.'
