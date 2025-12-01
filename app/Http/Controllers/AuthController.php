@@ -153,6 +153,7 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        dd('masuk logout');
         $this->db_switch(2);
 
         // $request->user()->currentAccessToken()->delete();
