@@ -36,7 +36,7 @@ class AuthController extends Controller
         dd($data);
 
         $profile = Profile::join('users', 'profiles.user_id', '=', 'users.id')
-            ->select('profiles.*')
+            ->selectRaw('profiles.*')
             ->where('profiles.email', $request->email)
             ->where('users.name', $request->name);
 
