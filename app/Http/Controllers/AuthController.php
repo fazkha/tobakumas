@@ -10,11 +10,31 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\PersonalAccessToken;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
+    public function db_switch($sw)
+    {
+        if ($sw == 2) {
+            Config::set('database.connections.mysql.database', 'tobakuma_02');
+            Config::set('database.connections.mysql.username', 'tobakuma_dbadmin');
+            Config::set('database.connections.mysql.password', 'SaA(o-6y55a0TQ');
+        } elseif ($sw == 1) {
+            Config::set('database.connections.mysql.database', 'tobakuma_01');
+            Config::set('database.connections.mysql.username', 'tobakuma_dbadmin');
+            Config::set('database.connections.mysql.password', 'SaA(o-6y55a0TQ');
+        }
+
+        DB::purge('mysql');
+        DB::reconnect('mysql');
+    }
+
     public function register(Request $request)
     {
+        $this->db_switch(2);
+
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users'],
@@ -24,6 +44,8 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
             $errors = $validator->errors();
+
+            $this->db_switch(1);
 
             foreach ($errors->all() as $message) {
                 return response([
@@ -39,6 +61,8 @@ class AuthController extends Controller
             ->count();
 
         if ($user > 0) {
+            $this->db_switch(1);
+
             return response([
                 'message' => 'User with the same name and email already exists in user records. Please contact support.'
             ], 422);
@@ -47,6 +71,8 @@ class AuthController extends Controller
         $user = User::create($data);
 
         if (!$user) {
+            $this->db_switch(1);
+
             return response([
                 'message' => 'Create user failed.'
             ], 500);
@@ -66,6 +92,8 @@ class AuthController extends Controller
         $device = $request->appname ? ' ' . $request->appname : '';
         $token = $user->createToken($user->name . $device)->plainTextToken;
 
+        $this->db_switch(1);
+
         return [
             'user' => $user,
             'profile' => $profile,
@@ -75,6 +103,8 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        $this->db_switch(2);
+
         $validator = Validator::make($request->all(), [
             'email' => ['required', 'email', 'exists:users'],
             'password' => ['required', 'min:6']
@@ -82,6 +112,8 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
             $errors = $validator->errors();
+
+            $this->db_switch(1);
 
             foreach ($errors->all() as $message) {
                 return response([
@@ -94,6 +126,8 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
+            $this->db_switch(1);
+
             return response([
                 'message' => 'The provided credentials are incorrect.'
             ], 401);
@@ -107,6 +141,8 @@ class AuthController extends Controller
         $device = $request->appname ? ' ' . $request->appname : '';
         $token = $user->createToken($user->name . $device)->plainTextToken;
 
+        $this->db_switch(1);
+
         return [
             'user' => $user,
             'profile' => $profile,
@@ -116,7 +152,11 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        $this->db_switch(2);
+
         $request->user()->tokens()->delete();
+
+        $this->db_switch(1);
 
         return [
             'message' => 'You are logged out.'
@@ -125,6 +165,8 @@ class AuthController extends Controller
 
     public function changePassword(Request $request)
     {
+        $this->db_switch(2);
+
         $validator = Validator::make($request->all(), [
             'email' => ['required', 'email', 'exists:users'],
             'oldPassword' => ['required', 'min:6', 'max:50'],
@@ -133,6 +175,8 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
             $errors = $validator->errors();
+
+            $this->db_switch(1);
 
             foreach ($errors->all() as $message) {
                 return response([
@@ -144,6 +188,8 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->oldPassword, $user->password)) {
+            $this->db_switch(1);
+
             return response([
                 'message' => 'The provided credentials are incorrect.'
             ], 401);
@@ -158,6 +204,8 @@ class AuthController extends Controller
             'app_version' => $request->appVersion,
         ]);
 
+        $this->db_switch(1);
+
         return [
             'message' => 'Password has been changed.'
         ];
@@ -165,15 +213,21 @@ class AuthController extends Controller
 
     public function checkUser(Request $request)
     {
+        $this->db_switch(2);
+
         $token = $request->token;
 
         $dbtoken = PersonalAccessToken::findToken($token);
 
         if (!$dbtoken) {
+            $this->db_switch(1);
+
             return response([
                 'message' => 'The provided credentials are incorrect.'
             ], 401);
         }
+
+        $this->db_switch(1);
 
         return [
             'valid' => true,
@@ -203,12 +257,16 @@ class AuthController extends Controller
 
     public function saveGoogleAuth(Request $request)
     {
+        $this->db_switch(2);
+
         $email = $request->email;
         $gtoken = $request->token;
 
         $user = User::where('email', $email)->first();
 
         if (!$user) {
+            $this->db_switch(1);
+
             return response([
                 'message' => 'The provided credentials are incorrect.'
             ], 401);
@@ -216,6 +274,8 @@ class AuthController extends Controller
 
         $user->update(['google_auth_id' => $gtoken]);
         $token = $user->createToken($user->name . ' on google')->plainTextToken;
+
+        $this->db_switch(1);
 
         return [
             'message' => 'Google Auth Information saved.',
