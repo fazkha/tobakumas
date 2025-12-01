@@ -38,6 +38,7 @@ class AuthController extends Controller
             ->select('profiles.*')
             ->where('profiles.email', $request->email)
             ->where('users.name', $request->name);
+        dd($profile->exists());
 
         if ($profile->exists()) {
             return response([
@@ -50,7 +51,6 @@ class AuthController extends Controller
         //     ->where('nama_lengkap', $request->name);
 
         // if (!$pegawai->exists()) {
-        dd($profile->exists());
         $user = User::create($data);
 
         if (!$user) {
