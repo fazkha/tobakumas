@@ -12,6 +12,7 @@ use Laravel\Sanctum\PersonalAccessToken;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Laravel\Sanctum\Sanctum;
 
 class AuthController extends Controller
 {
@@ -154,7 +155,13 @@ class AuthController extends Controller
     {
         $this->db_switch(2);
 
-        $request->user()->currentAccessToken()->delete();
+        // $request->user()->currentAccessToken()->delete();
+
+        if ($token = $request->bearerToken()) {
+            $model = Sanctum::$personalAccessTokenModel;
+            $accessToken = $model::findToken($token);
+            $accessToken->delete();
+        }
 
         $this->db_switch(1);
 
