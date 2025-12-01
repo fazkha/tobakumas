@@ -55,10 +55,10 @@ class AuthController extends Controller
         $profile = Profile::create([
             'user_id' => $user->id,
             'branch_id' => 1, // test only
-            'isactive' => 0, // test only
+            'isactive' => 1, // test only
             'tanggal_gabung' => date('Y-m-d'), // test only
             'nohp' => $request->nohp,
-            'app_version' => $request->appVersion,
+            'app_version' => $request->appVersion ? $request->appVersion : 'postman',
             'created_by' => 'self-register',
             'updated_by' => 'self-register',
         ]);
