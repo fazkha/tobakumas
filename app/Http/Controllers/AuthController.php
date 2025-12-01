@@ -157,12 +157,13 @@ class AuthController extends Controller
         $this->db_switch(2);
 
         // $request->user()->currentAccessToken()->delete();
+        $request->user()->tokens()->delete();
 
-        if ($token = $request->bearerToken()) {
-            $model = Sanctum::$personalAccessTokenModel;
-            $accessToken = $model::findToken($token);
-            $accessToken->delete();
-        }
+        // if ($token = $request->bearerToken()) {
+        //     $model = Sanctum::$personalAccessTokenModel;
+        //     $accessToken = $model::findToken($token);
+        //     $accessToken->delete();
+        // }
 
         $this->db_switch(1);
 
