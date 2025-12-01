@@ -34,25 +34,16 @@ class AuthController extends Controller
 
         $data = $validator->validated();
 
-        // $profile = Profile::join('users', 'profiles.user_id', 'users.id')
-        //     ->where('profiles.email', $request->email)
-        //     ->where('users.name', $request->name)->get();
         $user = User::where('email', $request->email)
             ->where('name', $request->name)
             ->get();
 
-        dd($user);
         if ($user) {
             return response([
                 'message' => 'User with the same name and email already exists in user records. Please contact support.'
             ], 422);
         }
 
-        // $pegawai = Pegawai::on('mm_db')
-        //     ->where('email', $request->email)
-        //     ->where('nama_lengkap', $request->name);
-
-        // if (!$pegawai->exists()) {
         $user = User::create($data);
 
         if (!$user) {
@@ -71,7 +62,6 @@ class AuthController extends Controller
             'created_by' => 'self-register',
             'updated_by' => 'self-register',
         ]);
-        // }
 
         $device = $request->appname ? ' ' . $request->appname : '';
         $token = $user->createToken($user->name . $device)->plainTextToken;
