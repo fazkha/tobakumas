@@ -33,12 +33,12 @@ class AuthController extends Controller
         }
 
         $data = $validator->validated();
+        dd($data);
 
         $profile = Profile::join('users', 'profiles.user_id', '=', 'users.id')
             ->select('profiles.*')
             ->where('profiles.email', $request->email)
             ->where('users.name', $request->name);
-        dd($profile->exists());
 
         if ($profile->exists()) {
             return response([
