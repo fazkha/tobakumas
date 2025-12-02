@@ -10,7 +10,8 @@ class BranchController extends Controller
 {
     public function getBranchList()
     {
-        $branches = Branch::where('isactive', 1)->whereNot('id', 1)->orderBy('nama')->pluck('nama', 'id');
+        $branches = Branch::where('isactive', 1)->whereNot('id', 1)->orderBy('nama')->selectRaw('nama as name, id')->pluck('name', 'id');
+        dd($branches);
 
         return response()->json([
             'status' => 'success',
