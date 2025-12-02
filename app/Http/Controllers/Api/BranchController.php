@@ -16,7 +16,7 @@ class BranchController extends Controller
         // $branches = Branch::where('isactive', 1)->whereNot('id', 1)->orderBy('nama')->selectRaw('id, nama as name')->get()->toJson();
         $branches = Branch::where('isactive', 1)->whereNot('id', 1)->orderBy('nama')->selectRaw('id, nama as name');
         $b = new BranchResource($branches);
-        dd($b);
+        dd($b->get());
 
         return [
             'status' => 'success',
