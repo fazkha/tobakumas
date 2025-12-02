@@ -12,7 +12,6 @@ class BranchController extends Controller
     {
         // $branches = Branch::where('isactive', 1)->whereNot('id', 1)->orderBy('nama')->selectRaw('nama as name, id')->pluck('name', 'id')->all();
         $branches = Branch::where('isactive', 1)->whereNot('id', 1)->orderBy('nama')->selectRaw('nama as name, id')->get()->toArray();
-        dd($branches);
 
         return response()->json([
             'status' => 'success',
