@@ -32,9 +32,9 @@ class MitraController extends Controller
         $this->db_switch(2);
 
         $validator = validator::make($request->all(), [
-            'user_id' => ['required', 'integer', 'exists:users,id'],
-            'latitude' => ['required', 'string', 'max:100'],
-            'longitude' => ['required', 'string', 'max:100'],
+            'id' => ['required', 'integer', 'exists:users,id'],
+            'lat' => ['required', 'string', 'max:100'],
+            'long' => ['required', 'string', 'max:100'],
         ]);
 
         if ($validator->fails()) {
@@ -52,9 +52,9 @@ class MitraController extends Controller
         $data = $validator->validated();
 
         $rute = RuteGerobak::create([
-            'user_id' => $request->user_id,
-            'latitude' => $request->latitude,
-            'longitude' => $request->longitude,
+            'user_id' => $request->id,
+            'latitude' => $request->lat,
+            'longitude' => $request->long,
             'isactive' => 1,
         ]);
 
