@@ -22,8 +22,8 @@ return new class extends Migration
             $table->string('kodepos', 50)->nullable();
             $table->string('keterangan')->nullable();
             $table->string('email')->nullable();
-            $table->decimal('latitude', 11, 8)->nullable();
-            $table->decimal('longitude', 11, 8)->nullable();
+            $table->string('latitude', 100)->nullable();
+            $table->string('longitude', 100)->nullable();
             $table->tinyInteger('isactive')->default(0);
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
