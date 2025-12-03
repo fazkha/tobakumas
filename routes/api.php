@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\BranchController;
+use App\Http\Controllers\Api\MitraController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +22,11 @@ Route::get('/get-formatted-date', [AuthController::class, 'getFormattedDate']);
 Route::get('/get-formatted-time', [AuthController::class, 'getFormattedTime']);
 
 Route::get('/get-branch-list', [BranchController::class, 'getBranchList']);
+
+// Mitra
+Route::prefix('mitra')->middleware('auth:sanctum')->group(function () {
+    Route::post('/save-position', [MitraController::class, 'savePosition']);
+});
 
 // Sales
 // Route::prefix('sales')->middleware('auth:sanctum')->group(function () {
