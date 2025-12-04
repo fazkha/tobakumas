@@ -51,20 +51,18 @@ class MitraController extends Controller
 
         $data = $validator->validated();
 
-        // $rute = RuteGerobak::all();
-
         $rute = RuteGerobak::create([
             'user_id' => $data['id'],
             'latitude' => $data['lat'],
             'longitude' => $data['long'],
             'isactive' => 1,
         ]);
-        dd($rute);
 
         $this->db_switch(1);
 
         return [
             'status' => 'success',
+            'created_at' => $rute->created_at,
         ];
     }
 }
