@@ -48,16 +48,16 @@ class MitraController extends Controller
                 ], 422);
             }
         }
-        dd('line 51');
 
         $data = $validator->validated();
 
         $rute = RuteGerobak::create([
-            'user_id' => $request->id,
-            'latitude' => $request->lat,
-            'longitude' => $request->long,
+            'user_id' => $data['id'],
+            'latitude' => $data['lat'],
+            'longitude' => $data['long'],
             'isactive' => 1,
         ]);
+        dd('line 60');
 
         $this->db_switch(1);
 
