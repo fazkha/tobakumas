@@ -30,6 +30,7 @@ class MitraController extends Controller
     public function savePosition(Request $request)
     {
         $this->db_switch(2);
+        // dd('line 33');
 
         $validator = validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
@@ -37,7 +38,6 @@ class MitraController extends Controller
             'lat' => ['nullable'],
             'long' => ['nullable'],
         ]);
-        dd('line 40');
 
         if ($validator->fails()) {
             $errors = $validator->errors();
