@@ -29,14 +29,14 @@ class MitraController extends Controller
 
     public function savePosition(Request $request)
     {
-        dd('line 33');
+        dd('line 32');
         $this->db_switch(2);
 
         $validator = validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
             'status' => ['required', 'string', 'max:100'],
-            'lat' => ['nullable'],
-            'long' => ['nullable'],
+            'lat' => ['required', 'string', 'max:100'],
+            'long' => ['required', 'string', 'max:100'],
         ]);
 
         if ($validator->fails()) {
