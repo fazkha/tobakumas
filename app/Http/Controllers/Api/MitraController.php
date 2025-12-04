@@ -8,18 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 
-class MitraController extends Controller implements HasMiddleware
+class MitraController extends Controller
 {
-    public static function middleware()
-    {
-        return [
-            new Middleware('auth:sanctum', except: ['index', 'show'])
-        ];
-    }
-
     public function db_switch($sw)
     {
         if ($sw == 2) {
@@ -42,7 +33,7 @@ class MitraController extends Controller implements HasMiddleware
 
         $validator = validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
-            'status' => ['required', 'string', 'max:100'],
+            'stat' => ['required', 'string', 'max:100'],
             'lat' => ['nullable', 'string', 'max:100'],
             'long' => ['nullable', 'string', 'max:100'],
         ]);
@@ -63,7 +54,7 @@ class MitraController extends Controller implements HasMiddleware
 
         $rute = RuteGerobak::create([
             'user_id' => $data['id'],
-            'status' => $data['status'],
+            'status' => $data['stat'],
             'latitude' => $data['lat'],
             'longitude' => $data['long'],
             'isactive' => 1,
@@ -71,9 +62,9 @@ class MitraController extends Controller implements HasMiddleware
 
         $this->db_switch(1);
 
-        return [
+        return response()->json([
             'status' => 'success',
             'created_at' => $rute->created_at,
-        ];
+        ]);
     }
 }
