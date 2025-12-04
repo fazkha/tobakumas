@@ -50,6 +50,9 @@ class MitraController extends Controller
         }
 
         $data = $validator->validated();
+
+        $this->db_switch(2);
+
         $rute = RuteGerobak::all();
         dd($rute);
 
