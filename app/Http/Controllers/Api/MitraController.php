@@ -8,9 +8,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class MitraController extends Controller
+class MitraController extends Controller implements HasMiddleware
 {
+    public static function middleware()
+    {
+        return [
+            new Middleware('auth:sanctum', except: ['index', 'show'])
+        ];
+    }
+
     public function db_switch($sw)
     {
         if ($sw == 2) {
@@ -29,14 +38,13 @@ class MitraController extends Controller
 
     public function savePosition(Request $request)
     {
-        dd('line 32');
         $this->db_switch(2);
 
         $validator = validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
             'status' => ['required', 'string', 'max:100'],
-            'lat' => ['required', 'string', 'max:100'],
-            'long' => ['required', 'string', 'max:100'],
+            'lat' => ['nullable', 'string', 'max:100'],
+            'long' => ['nullable', 'string', 'max:100'],
         ]);
 
         if ($validator->fails()) {
