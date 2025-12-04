@@ -50,6 +50,7 @@ class MitraController extends Controller
         }
 
         $data = $validator->validated();
+        dd($data);
 
         $rute = RuteGerobak::create([
             'user_id' => $data['id'],
@@ -57,7 +58,6 @@ class MitraController extends Controller
             'longitude' => $data['long'],
             'isactive' => 1,
         ]);
-        dd('line 60');
 
         $this->db_switch(1);
 
