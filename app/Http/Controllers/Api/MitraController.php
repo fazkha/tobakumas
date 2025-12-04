@@ -33,6 +33,7 @@ class MitraController extends Controller
 
         $validator = validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
+            'status' => ['required', 'string', 'max:100'],
             'lat' => ['required', 'string', 'max:100'],
             'long' => ['required', 'string', 'max:100'],
         ]);
@@ -53,6 +54,7 @@ class MitraController extends Controller
 
         $rute = RuteGerobak::create([
             'user_id' => $data['id'],
+            'status' => $data['status'],
             'latitude' => $data['lat'],
             'longitude' => $data['long'],
             'isactive' => 1,
