@@ -29,6 +29,7 @@ class MitraController extends Controller
 
     public function savePosition(Request $request)
     {
+        dd('masuk');
         $this->db_switch(2);
 
         $validator = validator::make($request->all(), [
