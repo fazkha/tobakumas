@@ -34,9 +34,10 @@ class MitraController extends Controller
         $validator = validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
             'status' => ['required', 'string', 'max:100'],
-            'lat' => ['nullable', 'string', 'max:100'],
-            'long' => ['nullable', 'string', 'max:100'],
+            'lat' => ['nullable'],
+            'long' => ['nullable'],
         ]);
+        dd('line 40');
 
         if ($validator->fails()) {
             $errors = $validator->errors();
