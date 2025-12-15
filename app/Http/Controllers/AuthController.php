@@ -138,7 +138,24 @@ class AuthController extends Controller
             ], 401);
         }
 
+        if ($user->approved == 0) {
+            $this->db_switch(1);
+
+            return response([
+                'message' => 'The provided credentials are incorrect.'
+            ], 401);
+        }
+
         $profile = Profile::where('user_id', $user->id)->first();
+
+        if (!$profile) {
+            $this->db_switch(1);
+
+            return response([
+                'message' => 'The provided credentials are incorrect.'
+            ], 401);
+        }
+
         $profile->update([
             'app_version' => $request->appVersion,
         ]);
