@@ -51,7 +51,7 @@ class MitraController extends Controller
 
         $data = $validator->validated();
 
-        foreach ($$data['locations'] as $location) {
+        foreach ($data['locations'] as $location) {
             dd($location);
         }
 
