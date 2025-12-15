@@ -51,7 +51,9 @@ class MitraController extends Controller
 
         $data = $validator->validated();
 
-        dd($data['locations']);
+        foreach ($$data['locations'] as $location) {
+            dd($location);
+        }
 
         $rute = RuteGerobak::create([
             'user_id' => $data['id'],
