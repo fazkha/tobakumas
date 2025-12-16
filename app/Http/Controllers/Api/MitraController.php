@@ -50,9 +50,16 @@ class MitraController extends Controller
         }
 
         $data = $validator->validated();
-        dd($data['locations']);
 
         if (count($data['locations']) == 0) {
+            $rute = RuteGerobak::create([
+                'user_id' => $data['id'],
+                'status' => $data['stat'],
+                'latitude' => null,
+                'longitude' => null,
+                'isactive' => 1,
+            ]);
+        } elseif ($data['locations'][0] == []) {
             $rute = RuteGerobak::create([
                 'user_id' => $data['id'],
                 'status' => $data['stat'],
