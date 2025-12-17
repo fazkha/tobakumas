@@ -87,6 +87,7 @@ class AuthController extends Controller
         $profile = Profile::create([
             'user_id' => $user->id,
             'branch_id' => $request->cabang,
+            'jabatan_id' => 3, // default mitra
             'isactive' => 1, // test only
             'tanggal_gabung' => date('Y-m-d'), // test only
             'nohp' => $request->nohp,
