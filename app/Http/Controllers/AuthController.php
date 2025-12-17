@@ -37,6 +37,7 @@ class AuthController extends Controller
         $this->db_switch(2);
 
         $validator = Validator::make($request->all(), [
+            'cabang' => ['required', 'integer', 'exists:branches,id'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users'],
             'nohp' => ['required', 'min:10', 'max:255'],
@@ -85,7 +86,7 @@ class AuthController extends Controller
 
         $profile = Profile::create([
             'user_id' => $user->id,
-            'branch_id' => 1, // test only
+            'branch_id' => $request->cabang,
             'isactive' => 1, // test only
             'tanggal_gabung' => date('Y-m-d'), // test only
             'nohp' => $request->nohp,
