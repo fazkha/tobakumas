@@ -144,7 +144,7 @@ class AuthController extends Controller
             $this->db_switch(1);
 
             return response([
-                'message' => 'The provided credentials are incorrect.'
+                'message' => 'Akun anda belum aktif. Hubungi Admin.'
             ], 401);
         }
 
