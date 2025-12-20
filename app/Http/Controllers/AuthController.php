@@ -42,7 +42,7 @@ class AuthController extends Controller
             'email' => ['required', 'email', 'unique:users'],
             'nohp' => ['required', 'min:10', 'max:255'],
             'password' => ['required', 'min:6', 'max:50', 'confirmed'],
-            'app_front' => ['required', 'string', 'max:50'],
+            'appname' => ['required', 'string', 'max:50'],
         ]);
 
         if ($validator->fails()) {
@@ -85,12 +85,12 @@ class AuthController extends Controller
             ], 500);
         }
 
-        $app_front = ($data['app_front'] == 'lmgmmtrack') ? 3 : 4;
+        $jabatan_id = ($data['appname'] == 'GerobakTracker') ? 3 : 4;
 
         $profile = Profile::create([
             'user_id' => $user->id,
             'branch_id' => $request->cabang,
-            'jabatan_id' =>  $app_front,
+            'jabatan_id' =>  $jabatan_id,
             'isactive' => 1, // test only
             'tanggal_gabung' => date('Y-m-d'), // test only
             'nohp' => $request->nohp,
@@ -99,15 +99,15 @@ class AuthController extends Controller
             'updated_by' => 'self-register',
         ]);
 
-        $device = $request->appname ? ' ' . $request->appname : '';
-        $token = $user->createToken($user->name . $device)->plainTextToken;
+        // $device = $request->appname ? ' on ' . $request->appname : '';
+        // $token = $user->createToken($user->name . $device)->plainTextToken;
 
         $this->db_switch(1);
 
+        // 'token' => $token,
         return [
             'user' => $user,
             'profile' => $profile,
-            'token' => $token,
         ];
     }
 
@@ -118,7 +118,7 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'email' => ['required', 'email', 'exists:users'],
             'password' => ['required', 'min:6'],
-            'app_front' => ['required', 'string', 'max:50'],
+            'appname' => ['required', 'string', 'max:50'],
         ]);
 
         if ($validator->fails()) {
@@ -164,7 +164,7 @@ class AuthController extends Controller
             ], 401);
         }
 
-        if ($data['app_front'] == 'lmgmm' && $profile->jabatan_id == 3) {
+        if ($data['appname'] == 'MartabakMini' && $profile->jabatan_id == 3) {
             $this->db_switch(1);
 
             return response([
@@ -176,7 +176,7 @@ class AuthController extends Controller
             'app_version' => $request->appVersion,
         ]);
 
-        $device = $request->appname ? ' ' . $request->appname : '';
+        $device = $request->appname ? ' on ' . $request->appname : '';
         $token = $user->createToken($user->name . $device)->plainTextToken;
 
         $this->db_switch(1);
