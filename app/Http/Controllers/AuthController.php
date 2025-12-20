@@ -41,7 +41,8 @@ class AuthController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users'],
             'nohp' => ['required', 'min:10', 'max:255'],
-            'password' => ['required', 'min:6', 'max:50', 'confirmed']
+            'password' => ['required', 'min:6', 'max:50', 'confirmed'],
+            'app_front' => ['required', 'string', 'max:50'],
         ]);
 
         if ($validator->fails()) {
@@ -84,10 +85,12 @@ class AuthController extends Controller
             ], 500);
         }
 
+        $app_front = ($data['app_front'] == 'lmgmmtrack') ? 3 : 4;
+
         $profile = Profile::create([
             'user_id' => $user->id,
             'branch_id' => $request->cabang,
-            'jabatan_id' => 3, // default mitra
+            'jabatan_id' =>  $app_front,
             'isactive' => 1, // test only
             'tanggal_gabung' => date('Y-m-d'), // test only
             'nohp' => $request->nohp,
@@ -114,7 +117,8 @@ class AuthController extends Controller
 
         $validator = Validator::make($request->all(), [
             'email' => ['required', 'email', 'exists:users'],
-            'password' => ['required', 'min:6']
+            'password' => ['required', 'min:6'],
+            'app_front' => ['required', 'string', 'max:50'],
         ]);
 
         if ($validator->fails()) {
@@ -128,6 +132,8 @@ class AuthController extends Controller
                 ], 422);
             }
         }
+
+        $data = $validator->validated();
 
         // $user = User::select('email', 'name', 'password', 'id')->where('email', $request->email)->first();
         $user = User::where('email', $request->email)->first();
@@ -144,7 +150,7 @@ class AuthController extends Controller
             $this->db_switch(1);
 
             return response([
-                'message' => 'Akun anda belum aktif. Hubungi Admin.'
+                'message' => 'Akun anda belum aktif. Mohon hubungi Admin.'
             ], 401);
         }
 
@@ -155,6 +161,14 @@ class AuthController extends Controller
 
             return response([
                 'message' => 'The provided credentials are incorrect.'
+            ], 401);
+        }
+
+        if ($data['app_front'] == 'lmgmm' && $profile->jabatan_id == 3) {
+            $this->db_switch(1);
+
+            return response([
+                'message' => 'Mitra tidak diperkenankan. Mohon hubungi Admin.'
             ], 401);
         }
 
