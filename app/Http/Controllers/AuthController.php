@@ -190,7 +190,6 @@ class AuthController extends Controller
             ->get()
             ->toJson();
 
-        dd($app_settings);
         $this->db_switch(1);
 
         return [
