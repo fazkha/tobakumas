@@ -184,8 +184,8 @@ class AuthController extends Controller
             ->where('parm', 'mitra_dagang_awal_menit')
             ->where('parm', 'mitra_dagang_akhir_jam')
             ->where('parm', 'mitra_dagang_akhir_menit')
-            ->select('parm, value')
             ->get();
+        // ->select('parm, value')
 
         dd($app_settings);
         $this->db_switch(1);
