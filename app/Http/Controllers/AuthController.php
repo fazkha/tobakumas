@@ -180,12 +180,14 @@ class AuthController extends Controller
         $device = $request->appname ? ' on ' . $request->appname : '';
         $token = $user->createToken($user->name . $device)->plainTextToken;
 
-        $app_settings = AppSetting::where('parm', 'mitra_dagang_awal_jam')
-            ->where('parm', 'mitra_dagang_awal_menit')
-            ->where('parm', 'mitra_dagang_akhir_jam')
-            ->where('parm', 'mitra_dagang_akhir_menit')
+        $app_settings = AppSetting::whereIn('parm', [
+            'mitra_dagang_awal_jam',
+            'mitra_dagang_awal_menit',
+            'mitra_dagang_akhir_jam',
+            'mitra_dagang_akhir_menit',
+        ])
+            ->select('parm, value')
             ->get();
-        // ->select('parm, value')
 
         dd($app_settings);
         $this->db_switch(1);
