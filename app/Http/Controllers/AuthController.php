@@ -186,7 +186,7 @@ class AuthController extends Controller
             'mitra_dagang_akhir_jam',
             'mitra_dagang_akhir_menit',
         ])
-            ->select('parm, value')
+            ->select('parm', 'value')
             ->get();
 
         dd($app_settings);
