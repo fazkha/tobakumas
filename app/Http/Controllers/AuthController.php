@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 // use App\Models\Pegawai;
 
+use App\Models\AppSetting;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -179,12 +180,21 @@ class AuthController extends Controller
         $device = $request->appname ? ' on ' . $request->appname : '';
         $token = $user->createToken($user->name . $device)->plainTextToken;
 
+        $app_settings = AppSetting::where('parm', 'mitra_dagang_awal_jam')
+            ->where('parm', 'mitra_dagang_awal_menit')
+            ->where('parm', 'mitra_dagang_akhir_jam')
+            ->where('parm', 'mitra_dagang_akhir_menit')
+            ->select('parm, value')
+            ->get();
+
+        dd($app_settings);
         $this->db_switch(1);
 
         return [
             'user' => $user,
             'profile' => $profile,
             'token' => $token,
+            'app_settings' => $app_settings,
         ];
     }
 
