@@ -189,6 +189,7 @@ class AuthController extends Controller
             ->select('parm', 'value')
             ->get()
             ->toArray();
+        dd($app_settings);
 
         $this->db_switch(1);
 
