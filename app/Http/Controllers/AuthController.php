@@ -188,7 +188,7 @@ class AuthController extends Controller
         ])
             ->select('parm', 'value')
             ->get()
-            ->toJson();
+            ->toArray();
 
         $this->db_switch(1);
 
