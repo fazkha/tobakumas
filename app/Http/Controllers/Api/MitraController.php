@@ -75,7 +75,7 @@ class MitraController extends Controller
                     'latitude' => $location['latitude'],
                     'longitude' => $location['longitude'],
                     'isactive' => 1,
-                    'timesaved' => date('Y-m-d H:i:s', $location['timestamp']),
+                    'timesaved' => $location['timestamp'],
                 ]);
             }
         }
