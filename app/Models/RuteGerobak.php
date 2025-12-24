@@ -15,5 +15,6 @@ class RuteGerobak extends Model
         'latitude',
         'longitude',
         'isactive',
+        'timestamp',
     ];
 }
