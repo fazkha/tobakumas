@@ -77,7 +77,7 @@ class MitraController extends Controller
                     'isactive' => 1,
                     'timesaved' => 1765786007523,
                 ]);
-                dd($rute->errors());
+                dd($rute);
             }
         }
 
