@@ -80,7 +80,12 @@ class MitraController extends Controller
                         'timesaved' => intval($location['timestamp'] / 1000),
                     ]);
                 } catch (QueryException $e) {
-                    dd($e->getMessage());
+                    $this->db_switch(1);
+
+                    return response()->json([
+                        'status' => 'Database Error',
+                        'message' => $e->getMessage(),
+                    ]);
                 }
             }
         }
