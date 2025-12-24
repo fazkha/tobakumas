@@ -69,6 +69,7 @@ class MitraController extends Controller
             ]);
         } else {
             foreach ($data['locations'] as $location) {
+                dd($location['timestamp']);
                 $rute = RuteGerobak::create([
                     'user_id' => $data['id'],
                     'status' => $data['stat'],
