@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
 
 class MitraController extends Controller
 {
@@ -69,15 +70,18 @@ class MitraController extends Controller
             ]);
         } else {
             foreach ($data['locations'] as $location) {
-                $rute = RuteGerobak::create([
-                    'user_id' => $data['id'],
-                    'status' => $data['stat'],
-                    'latitude' => $location['latitude'],
-                    'longitude' => $location['longitude'],
-                    'isactive' => 1,
-                    'timesaved' => 1765786007523,
-                ]);
-                dd($rute);
+                try {
+                    $rute = RuteGerobak::create([
+                        'user_id' => $data['id'],
+                        'status' => $data['stat'],
+                        'latitude' => $location['latitude'],
+                        'longitude' => $location['longitude'],
+                        'isactive' => 1,
+                        'timesaved' => 1765786007523,
+                    ]);
+                } catch (QueryException $e) {
+                    dd($e->getMessage());
+                }
             }
         }
 
