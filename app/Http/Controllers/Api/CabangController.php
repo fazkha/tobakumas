@@ -59,6 +59,7 @@ class CabangController extends Controller
             ->whereYear('created_at', $data['tahun'])
             ->where('isactive', 1)
             ->select('latitude', 'longitude', 'timesaved')
+            ->orderBy('id')
             ->get();
 
         dd($rute);
