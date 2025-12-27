@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\BranchController;
+use App\Http\Controllers\Api\CabangController;
 use App\Http\Controllers\Api\MitraController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
@@ -26,6 +27,11 @@ Route::get('/get-branch-list', [BranchController::class, 'getBranchList']);
 // Mitra
 Route::prefix('mitra')->group(function () {
     Route::post('/save-position', [MitraController::class, 'savePosition']);
+});
+
+// Cabang
+Route::prefix('cabang')->group(function () {
+    Route::get('/gerobak-aktif', [CabangController::class, 'gerobakAktif']);
 });
 
 // Sales
