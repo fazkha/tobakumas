@@ -31,7 +31,7 @@ Route::prefix('mitra')->group(function () {
 
 // Cabang
 Route::prefix('cabang')->group(function () {
-    Route::get('/gerobak-aktif', [CabangController::class, 'gerobakAktif']);
+    Route::post('/gerobak-aktif', [CabangController::class, 'gerobakAktif']);
 });
 
 // Sales
