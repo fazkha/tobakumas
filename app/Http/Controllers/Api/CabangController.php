@@ -60,7 +60,8 @@ class CabangController extends Controller
             ->where('isactive', 1)
             ->select('latitude', 'longitude', 'timesaved')
             ->orderBy('id')
-            ->get();
+            ->get()
+            ->toArray();
 
         dd($rute);
         $this->db_switch(1);
