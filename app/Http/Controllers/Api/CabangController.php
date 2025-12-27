@@ -58,6 +58,7 @@ class CabangController extends Controller
             ->whereMonth('created_at', $data['bulan'])
             ->whereYear('created_at', $data['tahun'])
             ->where('isactive', 1)
+            ->whereNotNull('latitude')
             ->select('latitude', 'longitude', 'timesaved')
             ->orderBy('id')
             ->get()
