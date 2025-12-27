@@ -64,12 +64,11 @@ class CabangController extends Controller
             ->get()
             ->toArray();
 
-        dd($rute);
         $this->db_switch(1);
 
         return response()->json([
             'status' => 'success',
-            'created_at' => $rute->created_at,
+            'rute' => $rute,
         ]);
     }
 }
