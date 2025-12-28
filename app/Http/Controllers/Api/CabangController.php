@@ -66,10 +66,11 @@ class CabangController extends Controller
             ->whereYear('created_at', $data['tahun'])
             ->where('isactive', 1)
             ->whereNotNull('latitude')
-            ->selectRaw('rute_gerobaks.latitude, rute_gerobaks.longitude, branches.name as cabang, users.name as mitra, DATE(rute_gerobaks.timesaved) as tanggal, TIME(rute_gerobaks.timesaved) as jam')
+            ->selectRaw('rute_gerobaks.latitude as latitude, rute_gerobaks.longitude as longitude, branches.name as cabang, users.name as mitra, DATE(rute_gerobaks.timesaved) as tanggal, TIME(rute_gerobaks.timesaved) as jam')
             ->orderBy('id')
             ->get()
             ->toArray();
+        dd($rute);
 
         $this->db_switch(1);
 
