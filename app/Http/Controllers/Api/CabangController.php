@@ -53,20 +53,24 @@ class CabangController extends Controller
 
         $data = $validator->validated();
 
-        $rute = RuteGerobak::join('users', 'rute_gerobaks.user_id', '=', 'users.id')
-            ->join('profiles', 'users.id', '=', 'profiles.user_id')
-            ->join('branches', 'profiles.branch_id', '=', 'branches.id')
-            ->where('rute_gerobaks.user_id', $data['mitra'])
-            ->whereDay('rute_gerobaks.created_at', $data['tanggal'])
-            ->whereMonth('rute_gerobaks.created_at', $data['bulan'])
-            ->whereYear('rute_gerobaks.created_at', $data['tahun'])
-            ->where('rute_gerobaks.isactive', 1)
-            ->whereNotNull('rute_gerobaks.latitude')
-            ->selectRaw('rute_gerobaks.latitude as latitude, rute_gerobaks.longitude as longitude, branches.name as cabang, users.name as mitra, DATE(rute_gerobaks.timesaved) as tanggal, TIME(rute_gerobaks.timesaved) as jam')
-            ->orderBy('rute_gerobaks.id')
-            ->get()
-            ->toArray();
-        dd($rute);
+        try {
+            $rute = RuteGerobak::join('users', 'rute_gerobaks.user_id', '=', 'users.id')
+                ->join('profiles', 'users.id', '=', 'profiles.user_id')
+                ->join('branches', 'profiles.branch_id', '=', 'branches.id')
+                ->where('rute_gerobaks.user_id', $data['mitra'])
+                ->whereDay('rute_gerobaks.created_at', $data['tanggal'])
+                ->whereMonth('rute_gerobaks.created_at', $data['bulan'])
+                ->whereYear('rute_gerobaks.created_at', $data['tahun'])
+                ->where('rute_gerobaks.isactive', 1)
+                ->whereNotNull('rute_gerobaks.latitude')
+                ->selectRaw('rute_gerobaks.latitude as latitude, rute_gerobaks.longitude as longitude, branches.name as cabang, users.name as mitra, DATE(rute_gerobaks.timesaved) as tanggal, TIME(rute_gerobaks.timesaved) as jam')
+                ->orderBy('rute_gerobaks.id')
+                ->get()
+                ->toArray();
+        } catch (QueryException $e) {
+            dd($e->getMessage());
+        }
+
 
         $this->db_switch(1);
 
