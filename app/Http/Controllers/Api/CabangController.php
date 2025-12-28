@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Branch;
-use App\Models\Profile;
 use App\Models\RuteGerobak;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -55,19 +53,17 @@ class CabangController extends Controller
 
         $data = $validator->validated();
 
-        $profile = Profile::where('user_id', $data['mitra'])->first();
-        $cabang = Branch::where('id', $profile->branch_id)->first();
         $rute = RuteGerobak::join('users', 'rute_gerobaks.user_id', '=', 'users.id')
-            ->join('profiles', 'rute_gerobaks.user_id', '=', 'profiles.user_id')
+            ->join('profiles', 'users.id', '=', 'profiles.user_id')
             ->join('branches', 'profiles.branch_id', '=', 'branches.id')
-            ->where('user_id', $data['mitra'])
-            ->whereDay('created_at', $data['tanggal'])
-            ->whereMonth('created_at', $data['bulan'])
-            ->whereYear('created_at', $data['tahun'])
-            ->where('isactive', 1)
-            ->whereNotNull('latitude')
+            ->where('rute_gerobaks.user_id', $data['mitra'])
+            ->whereDay('rute_gerobaks.created_at', $data['tanggal'])
+            ->whereMonth('rute_gerobaks.created_at', $data['bulan'])
+            ->whereYear('rute_gerobaks.created_at', $data['tahun'])
+            ->where('rute_gerobaks.isactive', 1)
+            ->whereNotNull('rute_gerobaks.latitude')
             ->selectRaw('rute_gerobaks.latitude as latitude, rute_gerobaks.longitude as longitude, branches.name as cabang, users.name as mitra, DATE(rute_gerobaks.timesaved) as tanggal, TIME(rute_gerobaks.timesaved) as jam')
-            ->orderBy('id')
+            ->orderBy('rute_gerobaks.id')
             ->get()
             ->toArray();
         dd($rute);
