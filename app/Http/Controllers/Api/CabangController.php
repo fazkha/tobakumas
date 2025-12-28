@@ -63,14 +63,18 @@ class CabangController extends Controller
                 ->whereYear('rute_gerobaks.created_at', $data['tahun'])
                 ->where('rute_gerobaks.isactive', 1)
                 ->whereNotNull('rute_gerobaks.latitude')
-                ->selectRaw('rute_gerobaks.latitude as latitude, rute_gerobaks.longitude as longitude, branches.name as cabang, users.name as mitra, DATE(rute_gerobaks.timesaved) as tanggal, TIME(rute_gerobaks.timesaved) as jam')
+                ->selectRaw('rute_gerobaks.latitude as latitude, rute_gerobaks.longitude as longitude, branches.nama as cabang, users.name as mitra, DATE(rute_gerobaks.timesaved) as tanggal, TIME(rute_gerobaks.timesaved) as jam')
                 ->orderBy('rute_gerobaks.id')
                 ->get()
                 ->toArray();
         } catch (QueryException $e) {
-            dd($e->getMessage());
+            // dd($e->getMessage());
+            $this->db_switch(1);
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ]);
         }
-
 
         $this->db_switch(1);
 
