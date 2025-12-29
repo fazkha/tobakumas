@@ -32,10 +32,13 @@ class CabangController extends Controller
     {
         $this->db_switch(2);
 
+        $min = 'min:' . date("Y") - 1;
+        $max = 'max:' . date("Y");
+
         $validator = validator::make($request->all(), [
             'tanggal' => ['required', 'integer', 'min:1', 'max:31'],
             'bulan' => ['required', 'integer', 'min:1', 'max:12'],
-            'tahun' => ['required', 'integer', 'min:2023', 'max:2030'],
+            'tahun' => ['required', 'integer', $min, $max],
             'mitra' => ['required', 'integer', 'exists:users,id'],
         ]);
 
