@@ -35,7 +35,7 @@ class CabangController extends Controller
         $validator = validator::make($request->all(), [
             'tanggal' => ['required', 'integer', 'min:1', 'max:31'],
             'bulan' => ['required', 'integer', 'min:1', 'max:12'],
-            'tahun' => ['required', 'integer', 'min:2025', 'max:2030'],
+            'tahun' => ['required', 'integer', 'min:2023', 'max:2030'],
             'mitra' => ['required', 'integer', 'exists:users,id'],
         ]);
 
