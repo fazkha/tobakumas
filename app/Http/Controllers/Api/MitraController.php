@@ -145,11 +145,13 @@ class MitraController extends Controller
                     'harga' => $data['harga'] ?? $detail->harga,
                 ]);
             } else {
-                $detail = MitraOmzetPengeluaranDetail::create([
-                    'mitra_omzet_pengeluaran_id' => $found->id,
-                    'keterangan' => $data['keterangan'],
-                    'harga' => $data['harga'] ?? 0,
-                ]);
+                if (isset($data['keterangan'])) {
+                    $detail = MitraOmzetPengeluaranDetail::create([
+                        'mitra_omzet_pengeluaran_id' => $found->id,
+                        'keterangan' => $data['keterangan'],
+                        'harga' => $data['harga'] ?? 0,
+                    ]);
+                }
             }
 
             $omzet = $found;
@@ -161,7 +163,7 @@ class MitraController extends Controller
             ]);
         }
 
-        dd($detail);
+        dd($detail->toArray());
 
         $this->db_switch(1);
 
