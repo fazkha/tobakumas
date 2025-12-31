@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\MitraOmzetPengeluaran;
 use App\Models\RuteGerobak;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -29,6 +30,153 @@ class MitraController extends Controller
     }
 
     public function savePosition(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:users,id'],
+            'stat' => ['required', 'string', 'max:100'],
+            'locations' => ['nullable'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+
+        if (count($data['locations']) == 0) {
+            $rute = RuteGerobak::create([
+                'user_id' => $data['id'],
+                'status' => $data['stat'],
+                'latitude' => null,
+                'longitude' => null,
+                'isactive' => 1,
+            ]);
+        } elseif ($data['locations'][0] == []) {
+            $rute = RuteGerobak::create([
+                'user_id' => $data['id'],
+                'status' => $data['stat'],
+                'latitude' => null,
+                'longitude' => null,
+                'isactive' => 1,
+            ]);
+        } else {
+            foreach ($data['locations'] as $location) {
+                try {
+                    $rute = RuteGerobak::create([
+                        'user_id' => $data['id'],
+                        'status' => $data['stat'],
+                        'latitude' => $location['latitude'],
+                        'longitude' => $location['longitude'],
+                        'isactive' => 1,
+                        'timesaved' => intval($location['timestamp'] / 1000),
+                    ]);
+                } catch (QueryException $e) {
+                    $this->db_switch(1);
+
+                    return response()->json([
+                        'status' => 'Database Error',
+                        'message' => $e->getMessage(),
+                    ]);
+                }
+            }
+        }
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'created_at' => $rute->created_at,
+        ]);
+    }
+
+    public function saveOmzet(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:users,id'],
+            'tanggal' => ['required', 'date'],
+            'omzet' => ['nullable'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+
+        $omzet = MitraOmzetPengeluaran::create([
+            'user_id' => $data['id'],
+            'tanggal' => $data['tanggal'],
+            'omzet' => $data['omzet'] ?? 0,
+        ]);
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'omzet' => $omzet->omzet,
+        ]);
+    }
+
+    public function savePengeluaran(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:users,id'],
+            'stat' => ['required', 'string', 'max:100'],
+            'locations' => ['nullable'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+
+        $rute = RuteGerobak::create([
+            'user_id' => $data['id'],
+            'status' => $data['stat'],
+            'latitude' => null,
+            'longitude' => null,
+            'isactive' => 1,
+        ]);
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'created_at' => $rute->created_at,
+        ]);
+    }
+    public function loadRekap(Request $request)
     {
         $this->db_switch(2);
 
