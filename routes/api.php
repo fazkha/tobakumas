@@ -27,6 +27,7 @@ Route::get('/get-branch-list', [BranchController::class, 'getBranchList']);
 // Mitra
 Route::prefix('mitra')->group(function () {
     Route::post('/save-position', [MitraController::class, 'savePosition']);
+    Route::post('/save-omzet', [MitraController::class, 'saveOmzet']);
 });
 
 // Cabang
