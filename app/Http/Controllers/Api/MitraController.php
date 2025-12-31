@@ -160,7 +160,8 @@ class MitraController extends Controller
                 'omzet' => $data['omzet'] ?? 0,
             ]);
         }
-        dd($detail->toArray());
+
+        dd($detail);
 
         $this->db_switch(1);
 
