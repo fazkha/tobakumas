@@ -107,6 +107,8 @@ class MitraController extends Controller
             'id' => ['required', 'integer', 'exists:users,id'],
             'tanggal' => ['required', 'date'],
             'omzet' => ['nullable'],
+            'keterangan' => ['nullable'],
+            'harga' => ['nullable'],
         ]);
 
         if ($validator->fails()) {
@@ -122,6 +124,14 @@ class MitraController extends Controller
         }
 
         $data = $validator->validated();
+
+        $found = MitraOmzetPengeluaran::where('user_id', $data['id'])
+            ->where('tanggal', $data['tanggal'])
+            ->first();
+        dd($found);
+
+        if ($found) {
+        }
 
         $omzet = MitraOmzetPengeluaran::create([
             'user_id' => $data['id'],
