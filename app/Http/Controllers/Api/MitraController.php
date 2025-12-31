@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\MitraOmzetPengeluaran;
+use App\Models\MitraOmzetPengeluaranDetail;
 use App\Models\RuteGerobak;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -125,25 +126,48 @@ class MitraController extends Controller
 
         $data = $validator->validated();
 
+        $detail = null;
         $found = MitraOmzetPengeluaran::where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
             ->first();
-        dd($found);
 
         if ($found) {
-        }
+            $found->update([
+                'omzet' => $data['omzet'] ?? $found->omzet,
+            ]);
 
-        $omzet = MitraOmzetPengeluaran::create([
-            'user_id' => $data['id'],
-            'tanggal' => $data['tanggal'],
-            'omzet' => $data['omzet'] ?? 0,
-        ]);
+            $detail = MitraOmzetPengeluaranDetail::where('mitra_omzet_pengeluaran_id', $found->id)
+                ->where('keterangan', $data['keterangan'])
+                ->first();
+
+            if ($detail) {
+                $detail->update([
+                    'harga' => $data['harga'] ?? $detail->harga,
+                ]);
+            } else {
+                MitraOmzetPengeluaranDetail::create([
+                    'mitra_omzet_pengeluaran_id' => $found->id,
+                    'keterangan' => $data['keterangan'],
+                    'harga' => $data['harga'] ?? 0,
+                ]);
+            }
+
+            $omzet = $found;
+        } else {
+            $omzet = MitraOmzetPengeluaran::create([
+                'user_id' => $data['id'],
+                'tanggal' => $data['tanggal'],
+                'omzet' => $data['omzet'] ?? 0,
+            ]);
+        }
+        dd($detail->toArray());
 
         $this->db_switch(1);
 
         return response()->json([
             'status' => 'success',
             'omzet' => $omzet->omzet,
+            'pengeluaran' => $detail->toArray(),
         ]);
     }
 
