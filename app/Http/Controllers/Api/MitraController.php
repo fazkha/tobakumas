@@ -163,14 +163,19 @@ class MitraController extends Controller
             ]);
         }
 
-        dd($detail);
+        if ($detail == null) {
+            $detail = [];
+        } else {
+            $detail = $detail->toArray();
+        }
 
+        dd($detail);
         $this->db_switch(1);
 
         return response()->json([
             'status' => 'success',
             'omzet' => $omzet->omzet,
-            'pengeluaran' => $detail->toArray(),
+            'pengeluaran' => $detail,
         ]);
     }
 
