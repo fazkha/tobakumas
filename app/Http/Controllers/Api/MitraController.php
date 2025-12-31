@@ -169,7 +169,6 @@ class MitraController extends Controller
             $detail = $detail->toArray();
         }
 
-        dd($detail);
         $this->db_switch(1);
 
         return response()->json([
