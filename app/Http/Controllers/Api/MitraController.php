@@ -163,7 +163,7 @@ class MitraController extends Controller
             ]);
         }
 
-        dd($detail->toArray());
+        dd($detail);
 
         $this->db_switch(1);
 
