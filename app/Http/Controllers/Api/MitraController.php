@@ -108,7 +108,7 @@ class MitraController extends Controller
             'id' => ['required', 'integer', 'exists:users,id'],
             'tanggal' => ['required', 'date'],
             'omzet' => ['nullable'],
-            'sisa_adonan' => ['nullable'],
+            'adonan' => ['nullable'],
             'keterangan' => ['nullable'],
             'harga' => ['nullable'],
         ]);
