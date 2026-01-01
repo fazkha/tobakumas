@@ -167,6 +167,7 @@ class MitraController extends Controller
         }
 
         $detail = MitraOmzetPengeluaranDetail::where('mitra_omzet_pengeluaran_id', $omzet->id)
+            ->select('keterangan', 'harga')
             ->get();
 
         if ($detail == null) {
