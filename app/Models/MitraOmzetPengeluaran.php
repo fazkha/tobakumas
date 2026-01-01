@@ -13,6 +13,7 @@ class MitraOmzetPengeluaran extends Model
         'user_id',
         'tanggal',
         'omzet',
+        'sisa_adonan',
     ];
 
     public function user()

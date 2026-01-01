@@ -108,6 +108,7 @@ class MitraController extends Controller
             'id' => ['required', 'integer', 'exists:users,id'],
             'tanggal' => ['required', 'date'],
             'omzet' => ['nullable'],
+            'sisa_adonan' => ['nullable'],
             'keterangan' => ['nullable'],
             'harga' => ['nullable'],
         ]);
@@ -134,6 +135,7 @@ class MitraController extends Controller
         if ($found) {
             $found->update([
                 'omzet' => $data['omzet'] ?? $found->omzet,
+                'sisa_adonan' => $data['sisa_adonan'] ?? $found->sisa_adonan,
             ]);
 
             $detail = MitraOmzetPengeluaranDetail::where('mitra_omzet_pengeluaran_id', $found->id)
@@ -160,6 +162,7 @@ class MitraController extends Controller
                 'user_id' => $data['id'],
                 'tanggal' => $data['tanggal'],
                 'omzet' => $data['omzet'] ?? 0,
+                'sisa_adonan' => $data['sisa_adonan'] ?? 0,
             ]);
         }
 
@@ -174,49 +177,11 @@ class MitraController extends Controller
         return response()->json([
             'status' => 'success',
             'omzet' => $omzet->omzet,
+            'sisa_adonan' => $omzet->sisa_adonan,
             'pengeluaran' => $detail,
         ]);
     }
 
-    public function savePengeluaran(Request $request)
-    {
-        $this->db_switch(2);
-
-        $validator = validator::make($request->all(), [
-            'id' => ['required', 'integer', 'exists:users,id'],
-            'stat' => ['required', 'string', 'max:100'],
-            'locations' => ['nullable'],
-        ]);
-
-        if ($validator->fails()) {
-            $errors = $validator->errors();
-
-            $this->db_switch(1);
-
-            foreach ($errors->all() as $message) {
-                return response([
-                    'message' => $message
-                ], 422);
-            }
-        }
-
-        $data = $validator->validated();
-
-        $rute = RuteGerobak::create([
-            'user_id' => $data['id'],
-            'status' => $data['stat'],
-            'latitude' => null,
-            'longitude' => null,
-            'isactive' => 1,
-        ]);
-
-        $this->db_switch(1);
-
-        return response()->json([
-            'status' => 'success',
-            'created_at' => $rute->created_at,
-        ]);
-    }
     public function loadRekap(Request $request)
     {
         $this->db_switch(2);
