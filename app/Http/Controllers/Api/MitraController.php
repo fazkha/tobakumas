@@ -138,24 +138,6 @@ class MitraController extends Controller
                 'sisa_adonan' => $data['adonan'] ?? $found->sisa_adonan,
             ]);
 
-            $detail = MitraOmzetPengeluaranDetail::where('mitra_omzet_pengeluaran_id', $found->id)
-                ->where('keterangan', $data['keterangan'])
-                ->first();
-
-            if ($detail) {
-                $detail->update([
-                    'harga' => $data['harga'] ?? $detail->harga,
-                ]);
-            } else {
-                if (isset($data['keterangan'])) {
-                    $detail = MitraOmzetPengeluaranDetail::create([
-                        'mitra_omzet_pengeluaran_id' => $found->id,
-                        'keterangan' => $data['keterangan'],
-                        'harga' => $data['harga'] ?? 0,
-                    ]);
-                }
-            }
-
             $omzet = $found;
         } else {
             $omzet = MitraOmzetPengeluaran::create([
@@ -165,6 +147,27 @@ class MitraController extends Controller
                 'sisa_adonan' => $data['adonan'] ?? 0,
             ]);
         }
+
+        $detail = MitraOmzetPengeluaranDetail::where('mitra_omzet_pengeluaran_id', $omzet->id)
+            ->where('keterangan', $data['keterangan'])
+            ->first();
+
+        if ($detail) {
+            $detail->update([
+                'harga' => $data['harga'] ?? $detail->harga,
+            ]);
+        } else {
+            if (isset($data['keterangan'])) {
+                $detail = MitraOmzetPengeluaranDetail::create([
+                    'mitra_omzet_pengeluaran_id' => $omzet->id,
+                    'keterangan' => $data['keterangan'],
+                    'harga' => $data['harga'] ?? 0,
+                ]);
+            }
+        }
+
+        $detail = MitraOmzetPengeluaranDetail::where('mitra_omzet_pengeluaran_id', $omzet->id)
+            ->get();
 
         if ($detail == null) {
             $detail = [];
