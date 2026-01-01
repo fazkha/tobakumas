@@ -135,7 +135,7 @@ class MitraController extends Controller
         if ($found) {
             $found->update([
                 'omzet' => $data['omzet'] ?? $found->omzet,
-                'sisa_adonan' => $data['sisa_adonan'] ?? $found->sisa_adonan,
+                'sisa_adonan' => $data['adonan'] ?? $found->sisa_adonan,
             ]);
 
             $detail = MitraOmzetPengeluaranDetail::where('mitra_omzet_pengeluaran_id', $found->id)
@@ -162,7 +162,7 @@ class MitraController extends Controller
                 'user_id' => $data['id'],
                 'tanggal' => $data['tanggal'],
                 'omzet' => $data['omzet'] ?? 0,
-                'sisa_adonan' => $data['sisa_adonan'] ?? 0,
+                'sisa_adonan' => $data['adonan'] ?? 0,
             ]);
         }
 
