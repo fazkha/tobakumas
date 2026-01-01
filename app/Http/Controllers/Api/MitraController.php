@@ -181,7 +181,7 @@ class MitraController extends Controller
         return response()->json([
             'status' => 'success',
             'omzet' => $omzet->omzet,
-            'sisa_adonan' => $omzet->sisa_adonan,
+            'adonan' => $omzet->sisa_adonan,
             'pengeluaran' => $detail,
         ]);
     }
@@ -232,7 +232,7 @@ class MitraController extends Controller
         return response()->json([
             'status' => 'success',
             'omzet' => $omzet ? $omzet->omzet : '',
-            'sisa_adonan' => $omzet ? $omzet->sisa_adonan : '',
+            'adonan' => $omzet ? $omzet->sisa_adonan : '',
             'pengeluaran' => $detail,
         ]);
     }
@@ -283,7 +283,7 @@ class MitraController extends Controller
         return response()->json([
             'status' => 'success',
             'omzet' => $omzet ? $omzet->omzet : '',
-            'sisa_adonan' => $omzet ? $omzet->sisa_adonan : '',
+            'adonan' => $omzet ? $omzet->sisa_adonan : '',
             'pengeluaran' => $detail,
         ]);
     }
