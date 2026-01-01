@@ -186,14 +186,13 @@ class MitraController extends Controller
         ]);
     }
 
-    public function loadRekap(Request $request)
+    public function loadOmzet(Request $request)
     {
         $this->db_switch(2);
 
         $validator = validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
-            'stat' => ['required', 'string', 'max:100'],
-            'locations' => ['nullable'],
+            'tanggal' => ['required', 'date'],
         ]);
 
         if ($validator->fails()) {
@@ -210,49 +209,82 @@ class MitraController extends Controller
 
         $data = $validator->validated();
 
-        if (count($data['locations']) == 0) {
-            $rute = RuteGerobak::create([
-                'user_id' => $data['id'],
-                'status' => $data['stat'],
-                'latitude' => null,
-                'longitude' => null,
-                'isactive' => 1,
-            ]);
-        } elseif ($data['locations'][0] == []) {
-            $rute = RuteGerobak::create([
-                'user_id' => $data['id'],
-                'status' => $data['stat'],
-                'latitude' => null,
-                'longitude' => null,
-                'isactive' => 1,
-            ]);
-        } else {
-            foreach ($data['locations'] as $location) {
-                try {
-                    $rute = RuteGerobak::create([
-                        'user_id' => $data['id'],
-                        'status' => $data['stat'],
-                        'latitude' => $location['latitude'],
-                        'longitude' => $location['longitude'],
-                        'isactive' => 1,
-                        'timesaved' => intval($location['timestamp'] / 1000),
-                    ]);
-                } catch (QueryException $e) {
-                    $this->db_switch(1);
+        $omzet = MitraOmzetPengeluaran::where('user_id', $data['id'])
+            ->where('tanggal', $data['tanggal'])
+            ->first();
 
-                    return response()->json([
-                        'status' => 'Database Error',
-                        'message' => $e->getMessage(),
-                    ]);
-                }
-            }
+        if ($omzet) {
+            $detail = MitraOmzetPengeluaranDetail::where('mitra_omzet_pengeluaran_id', $omzet->id)
+                ->select('keterangan', 'harga')
+                ->get();
+        } else {
+            $detail = null;
+        }
+
+        if ($detail == null) {
+            $detail = [];
+        } else {
+            $detail = $detail->toArray();
         }
 
         $this->db_switch(1);
 
         return response()->json([
             'status' => 'success',
-            'created_at' => $rute->created_at,
+            'omzet' => $omzet ? $omzet->omzet : '',
+            'sisa_adonan' => $omzet ? $omzet->sisa_adonan : '',
+            'pengeluaran' => $detail,
+        ]);
+    }
+
+    public function loadRekap(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:users,id'],
+            'tanggal' => ['required', 'date'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+
+        $omzet = MitraOmzetPengeluaran::where('user_id', $data['id'])
+            ->where('tanggal', $data['tanggal'])
+            ->first();
+
+        if ($omzet) {
+            $detail = MitraOmzetPengeluaranDetail::where('mitra_omzet_pengeluaran_id', $omzet->id)
+                ->select('keterangan', 'harga')
+                ->get();
+        } else {
+            $detail = null;
+        }
+
+        if ($detail == null) {
+            $detail = [];
+        } else {
+            $detail = $detail->toArray();
+        }
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'omzet' => $omzet ? $omzet->omzet : '',
+            'sisa_adonan' => $omzet ? $omzet->sisa_adonan : '',
+            'pengeluaran' => $detail,
         ]);
     }
 }
