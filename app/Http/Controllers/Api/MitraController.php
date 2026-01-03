@@ -131,7 +131,6 @@ class MitraController extends Controller
         $found = MitraOmzetPengeluaran::where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
             ->first();
-        dd($data['omzet'] ?? ($found->omzet ?? null));
 
         if ($found) {
             $found->update([
@@ -148,6 +147,7 @@ class MitraController extends Controller
                 'sisa_adonan' => $data['adonan'] ?? null,
             ]);
         }
+        dd($omzet);
 
         $detail = MitraOmzetPengeluaranDetail::where('mitra_omzet_pengeluaran_id', $omzet->id)
             ->where('keterangan', $data['keterangan'])
