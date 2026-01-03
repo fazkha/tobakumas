@@ -2,10 +2,10 @@
 
 return [
     // app version
-    'version' => '0.1.5',
+    'version' => '1.27.0',
 
     // company name
-    'company_name' => 'Laris Manis Group',
+    'company_name' => 'Laris Manis Gemilang',
 
     // Product name
     'product_short' => 'Tobakumas',
