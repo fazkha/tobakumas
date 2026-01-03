@@ -134,8 +134,8 @@ class MitraController extends Controller
 
         if ($found) {
             $found->update([
-                'omzet' => $data['omzet'] ?? $found->omzet,
-                'sisa_adonan' => $data['adonan'] ?? $found->sisa_adonan,
+                'omzet' => $data['omzet'] ?? ($found->omzet ?? null),
+                'sisa_adonan' => $data['adonan'] ?? ($found->sisa_adonan ?? null),
             ]);
 
             $omzet = $found;
@@ -154,7 +154,7 @@ class MitraController extends Controller
 
         if ($detail) {
             $detail->update([
-                'harga' => $data['harga'] ?? $detail->harga,
+                'harga' => $data['harga'] ?? ($detail->harga ?? null),
             ]);
         } else {
             if (isset($data['keterangan'])) {
