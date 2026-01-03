@@ -147,7 +147,6 @@ class MitraController extends Controller
                 'sisa_adonan' => $data['adonan'] ?? null,
             ]);
         }
-        dd($omzet);
 
         $detail = MitraOmzetPengeluaranDetail::where('mitra_omzet_pengeluaran_id', $omzet->id)
             ->where('keterangan', $data['keterangan'])
