@@ -143,8 +143,8 @@ class MitraController extends Controller
             $omzet = MitraOmzetPengeluaran::create([
                 'user_id' => $data['id'],
                 'tanggal' => $data['tanggal'],
-                'omzet' => $data['omzet'] ?? 0,
-                'sisa_adonan' => $data['adonan'] ?? 0,
+                'omzet' => $data['omzet'] ?? null,
+                'sisa_adonan' => $data['adonan'] ?? null,
             ]);
         }
 
@@ -161,7 +161,7 @@ class MitraController extends Controller
                 $detail = MitraOmzetPengeluaranDetail::create([
                     'mitra_omzet_pengeluaran_id' => $omzet->id,
                     'keterangan' => $data['keterangan'],
-                    'harga' => $data['harga'] ?? 0,
+                    'harga' => $data['harga'] ?? null,
                 ]);
             }
         }
