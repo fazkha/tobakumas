@@ -33,7 +33,11 @@ class MitraController extends Controller
 
     public function getJenisPengeluaranList()
     {
+        $this->db_switch(2);
+
         $jenis = JenisPengeluaranMitra::where('isactive', 1)->orderBy('nama')->selectRaw('id, nama')->get()->toJson();
+
+        $this->db_switch(1);
 
         return [
             'status' => 'success',
