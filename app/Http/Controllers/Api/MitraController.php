@@ -35,7 +35,7 @@ class MitraController extends Controller
     {
         $this->db_switch(2);
 
-        $jenis = JenisPengeluaranMitra::where('isactive', 1)->orderBy('nama')->selectRaw('id, nama')->get()->toJson();
+        $jenis = JenisPengeluaranMitra::where('isactive', 1)->orderBy('nama')->selectRaw('id, nama as name')->get()->toJson();
 
         $this->db_switch(1);
 
