@@ -229,8 +229,9 @@ class MitraController extends Controller
             ->first();
 
         if ($omzet) {
-            $detail = MitraOmzetPengeluaranDetail::where('mitra_omzet_pengeluaran_id', $omzet->id)
-                ->select('keterangan', 'harga')
+            $detail = MitraOmzetPengeluaranDetail::join('jenis_pengeluaran_mitras', 'mitra_op_details.jenis_pengeluaran_mitra_id', '=', 'jenis_pengeluaran_mitras.id')
+                ->where('mitra_op_details.mitra_omzet_pengeluaran_id', $omzet->id)
+                ->select('jenis_pengeluaran_mitras.nama as keterangan', 'mitra_op_details.harga')
                 ->get();
         } else {
             $detail = null;
