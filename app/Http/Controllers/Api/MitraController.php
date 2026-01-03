@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\JenisPengeluaranMitra;
 use App\Models\MitraOmzetPengeluaran;
 use App\Models\MitraOmzetPengeluaranDetail;
 use App\Models\RuteGerobak;
@@ -28,6 +29,16 @@ class MitraController extends Controller
 
         DB::purge('mysql');
         DB::reconnect('mysql');
+    }
+
+    public function getJenisPengeluaranList()
+    {
+        $jenis = JenisPengeluaranMitra::where('isactive', 1)->orderBy('nama')->selectRaw('id, nama')->get()->toJson();
+
+        return [
+            'status' => 'success',
+            'data' => $jenis
+        ];
     }
 
     public function savePosition(Request $request)

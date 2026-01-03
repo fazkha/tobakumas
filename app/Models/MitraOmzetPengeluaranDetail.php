@@ -11,12 +11,17 @@ class MitraOmzetPengeluaranDetail extends Model
 
     protected $fillable = [
         'mitra_omzet_pengeluaran_id',
-        'keterangan',
+        'jenis_pengeluaran_mitra_id',
         'harga',
     ];
 
     public function omzet()
     {
         return $this->belongsTo(MitraOmzetPengeluaran::class, 'mitra_omzet_pengeluaran_id');
+    }
+
+    public function jenis_pengeluaran_mitra()
+    {
+        return $this->belongsTo(JenisPengeluaranMitra::class, 'jenis_pengeluaran_mitra_id');
     }
 }

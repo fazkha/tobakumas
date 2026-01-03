@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('mitra_op_details', function (Blueprint $table) {
+        Schema::create('jenis_pengeluaran_mitras', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('mitra_omzet_pengeluaran_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('jenis_pengeluaran_mitra_id')->constrained()->onUpdate('cascade');
-            $table->unsignedBigInteger('harga')->nullable();
+            $table->string('nama')->unique();
+            $table->unsignedTinyInteger('isactive')->default(0);
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mitra_omzet_pengeluaran_details');
+        Schema::dropIfExists('jenis_pengeluaran_mitras');
     }
 };
