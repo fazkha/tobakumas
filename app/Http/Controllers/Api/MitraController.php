@@ -164,7 +164,7 @@ class MitraController extends Controller
         }
 
         $detail = MitraOmzetPengeluaranDetail::where('mitra_omzet_pengeluaran_id', $omzet->id)
-            ->where('keterangan', $data['keterangan'])
+            ->where('jenis_pengeluaran_mitra_id', $data['keterangan'])
             ->first();
 
         if ($detail) {
@@ -175,14 +175,15 @@ class MitraController extends Controller
             if (isset($data['keterangan'])) {
                 $detail = MitraOmzetPengeluaranDetail::create([
                     'mitra_omzet_pengeluaran_id' => $omzet->id,
-                    'keterangan' => $data['keterangan'],
+                    'jenis_pengeluaran_mitra_id' => $data['keterangan'],
                     'harga' => $data['harga'] ?? null,
                 ]);
             }
         }
 
-        $detail = MitraOmzetPengeluaranDetail::where('mitra_omzet_pengeluaran_id', $omzet->id)
-            ->select('keterangan', 'harga')
+        $detail = MitraOmzetPengeluaranDetail::join('jenis_pengeluaran_mitras', 'mitra_op_details.jenis_pengeluaran_mitra_id', '=', 'jenis_pengeluaran_mitras.id')
+            ->where('mitra_op_details.mitra_omzet_pengeluaran_id', $omzet->id)
+            ->select('jenis_pengeluaran_mitras.nama as keterangan', 'mitra_op_details.harga')
             ->get();
 
         if ($detail == null) {
