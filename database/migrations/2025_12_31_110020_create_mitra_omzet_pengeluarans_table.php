@@ -17,6 +17,7 @@ return new class extends Migration
             $table->date('tanggal');
             $table->unsignedBigInteger('omzet')->nullable();
             $table->decimal('sisa_adonan', 8, 2)->nullable();
+            $table->unsignedTinyInteger('approved')->default(0);
             $table->timestamps();
         });
     }

@@ -183,7 +183,7 @@ class MitraController extends Controller
 
         $detail = MitraOmzetPengeluaranDetail::join('jenis_pengeluaran_mitras', 'mitra_op_details.jenis_pengeluaran_mitra_id', '=', 'jenis_pengeluaran_mitras.id')
             ->where('mitra_op_details.mitra_omzet_pengeluaran_id', $omzet->id)
-            ->select('jenis_pengeluaran_mitras.nama as keterangan', 'mitra_op_details.harga')
+            ->select('jenis_pengeluaran_mitras.nama as keterangan', 'mitra_op_details.harga', 'mitra_op_details.approved')
             ->get();
 
         if ($detail == null) {
@@ -198,6 +198,7 @@ class MitraController extends Controller
             'status' => 'success',
             'omzet' => $omzet->omzet,
             'adonan' => $omzet->sisa_adonan,
+            'approved' => $omzet->approved,
             'pengeluaran' => $detail,
         ]);
     }
@@ -232,7 +233,7 @@ class MitraController extends Controller
         if ($omzet) {
             $detail = MitraOmzetPengeluaranDetail::join('jenis_pengeluaran_mitras', 'mitra_op_details.jenis_pengeluaran_mitra_id', '=', 'jenis_pengeluaran_mitras.id')
                 ->where('mitra_op_details.mitra_omzet_pengeluaran_id', $omzet->id)
-                ->select('jenis_pengeluaran_mitras.nama as keterangan', 'mitra_op_details.harga')
+                ->select('jenis_pengeluaran_mitras.nama as keterangan', 'mitra_op_details.harga', 'mitra_op_details.approved')
                 ->get();
         } else {
             $detail = null;
@@ -250,6 +251,7 @@ class MitraController extends Controller
             'status' => 'success',
             'omzet' => $omzet ? $omzet->omzet : '',
             'adonan' => $omzet ? $omzet->sisa_adonan : '',
+            'approved' => $omzet->approved,
             'pengeluaran' => $detail,
         ]);
     }
@@ -302,7 +304,7 @@ class MitraController extends Controller
         if ($omzet) {
             $detail = MitraOmzetPengeluaranDetail::join('jenis_pengeluaran_mitras', 'mitra_op_details.jenis_pengeluaran_mitra_id', '=', 'jenis_pengeluaran_mitras.id')
                 ->where('mitra_op_details.mitra_omzet_pengeluaran_id', $omzet->id)
-                ->select('jenis_pengeluaran_mitras.nama as keterangan', 'mitra_op_details.harga')
+                ->select('jenis_pengeluaran_mitras.nama as keterangan', 'mitra_op_details.harga', 'mitra_op_details.approved')
                 ->get();
         } else {
             $detail = null;
@@ -320,6 +322,7 @@ class MitraController extends Controller
             'status' => 'success',
             'omzet' => $omzet ? $omzet->omzet : '',
             'adonan' => $omzet ? $omzet->sisa_adonan : '',
+            'approved' => $omzet->approved,
             'pengeluaran' => $detail,
         ]);
     }

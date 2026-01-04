@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('mitra_omzet_pengeluaran_id')->constrained()->onUpdate('cascade');
             $table->foreignId('jenis_pengeluaran_mitra_id')->constrained()->onUpdate('cascade');
             $table->unsignedBigInteger('harga')->nullable();
+            $table->unsignedTinyInteger('approved')->default(0);
             $table->timestamps();
         });
     }

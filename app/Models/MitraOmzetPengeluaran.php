@@ -14,6 +14,7 @@ class MitraOmzetPengeluaran extends Model
         'tanggal',
         'omzet',
         'sisa_adonan',
+        'approved',
     ];
 
     public function user()
