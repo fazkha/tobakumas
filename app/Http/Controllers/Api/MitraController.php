@@ -254,6 +254,76 @@ class MitraController extends Controller
         ]);
     }
 
+    public function hapusPengeluaran(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:users,id'],
+            'tanggal' => ['required', 'date'],
+            'keterangan' => ['required', 'string', 'exists:jenis_pengeluaran_mitras,nama'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+
+        $jenis = JenisPengeluaranMitra::where('nama', $data['keterangan'])->first();
+
+        $omzet = MitraOmzetPengeluaran::where('user_id', $data['id'])
+            ->where('tanggal', $data['tanggal'])
+            ->first();
+
+        $pengeluaran = MitraOmzetPengeluaranDetail::where('mitra_omzet_pengeluaran_id', $omzet->id)
+            ->where('jenis_pengeluaran_mitra_id', $jenis->id)
+            ->first();
+
+        try {
+            $pengeluaran->delete();
+        } catch (\Illuminate\Database\QueryException $e) {
+            $this->db_switch(1);
+
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ]);
+        }
+
+        if ($omzet) {
+            $detail = MitraOmzetPengeluaranDetail::join('jenis_pengeluaran_mitras', 'mitra_op_details.jenis_pengeluaran_mitra_id', '=', 'jenis_pengeluaran_mitras.id')
+                ->where('mitra_op_details.mitra_omzet_pengeluaran_id', $omzet->id)
+                ->select('jenis_pengeluaran_mitras.nama as keterangan', 'mitra_op_details.harga')
+                ->get();
+        } else {
+            $detail = null;
+        }
+
+        if ($detail == null) {
+            $detail = [];
+        } else {
+            $detail = $detail->toArray();
+        }
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'omzet' => $omzet ? $omzet->omzet : '',
+            'adonan' => $omzet ? $omzet->sisa_adonan : '',
+            'pengeluaran' => $detail,
+        ]);
+    }
+
     public function loadRekap(Request $request)
     {
         $this->db_switch(2);
