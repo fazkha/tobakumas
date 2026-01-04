@@ -198,7 +198,8 @@ class MitraController extends Controller
             'status' => 'success',
             'omzet' => $omzet->omzet,
             'adonan' => $omzet->sisa_adonan,
-            'approved' => $omzet->approved,
+            'appr_o' => $omzet->approved_omzet,
+            'appr_a' => $omzet->approved_adonan,
             'pengeluaran' => $detail,
         ]);
     }
@@ -251,7 +252,8 @@ class MitraController extends Controller
             'status' => 'success',
             'omzet' => $omzet ? $omzet->omzet : '',
             'adonan' => $omzet ? $omzet->sisa_adonan : '',
-            'approved' => $omzet->approved,
+            'appr_o' => $omzet ? $omzet->approved_omzet : '0',
+            'appr_a' => $omzet ? $omzet->approved_adonan : '0',
             'pengeluaran' => $detail,
         ]);
     }
@@ -322,7 +324,8 @@ class MitraController extends Controller
             'status' => 'success',
             'omzet' => $omzet ? $omzet->omzet : '',
             'adonan' => $omzet ? $omzet->sisa_adonan : '',
-            'approved' => $omzet->approved,
+            'appr_o' => $omzet ? $omzet->approved_omzet : '0',
+            'appr_a' => $omzet ? $omzet->approved_adonan : '0',
             'pengeluaran' => $detail,
         ]);
     }
