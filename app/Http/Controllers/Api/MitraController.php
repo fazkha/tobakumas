@@ -489,7 +489,7 @@ order by tanggal
 
         return response()->json([
             'status' => 'success',
-            'omzet' => $omzet,
+            'omzet' => json_decode(json_encode($omzet), true),
         ]);
     }
 }
