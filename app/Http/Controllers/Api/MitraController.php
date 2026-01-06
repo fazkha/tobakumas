@@ -435,8 +435,8 @@ class MitraController extends Controller
             }
 
             $date = Carbon::now()->subWeek();
-            $week = $date->copy()->addDay()->week();
-            $year = $date->copy()->addDay()->year;
+            $week = $date->week();
+            $year = $date->year;
             $padWeek = str($week)->padLeft(2, '0');
             $yearWeek = $year . $padWeek;
 
@@ -444,7 +444,7 @@ class MitraController extends Controller
                 ->where('minggu', $yearWeek)
                 ->first();
 
-            dd($week);
+            dd($yearWeek);
         }
 
         $json = json_decode(json_encode($omzet), true);
