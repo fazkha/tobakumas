@@ -413,7 +413,7 @@ user_id, tanggal, omzet, omzet - LAG(omzet) OVER (ORDER BY tanggal) as delta_omz
 ((omzet - LAG(omzet) OVER (ORDER BY tanggal))
       / LAG(omzet) OVER (ORDER BY tanggal)) * 100 AS pct
 from (
-select 2 as user_id, (SELECT DATE_SUB(CURDATE(), INTERVAL DAYOFWEEK(CURDATE()) - 0 DAY)) as tanggal, 0 as omzet 
+select ? as user_id, (SELECT DATE_SUB(CURDATE(), INTERVAL DAYOFWEEK(CURDATE()) - 0 DAY)) as tanggal, 0 as omzet 
 where (SELECT DATE_SUB(CURDATE(), INTERVAL DAYOFWEEK(CURDATE()) - 0 DAY)) not in (
 select a.tanggal
 from mitra_omzet_pengeluarans a
@@ -422,7 +422,7 @@ where a.tanggal BETWEEN
 (SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL DAYOFWEEK(CURDATE()) - 0 DAY), INTERVAL 6 DAY))
 )
 union
-select 2 as user_id, (SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL DAYOFWEEK(CURDATE()) - 0 DAY), INTERVAL 1 DAY)) as tanggal, 0 as omzet
+select ? as user_id, (SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL DAYOFWEEK(CURDATE()) - 0 DAY), INTERVAL 1 DAY)) as tanggal, 0 as omzet
 where (SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL DAYOFWEEK(CURDATE()) - 0 DAY), INTERVAL 1 DAY)) not in (
 select a.tanggal
 from mitra_omzet_pengeluarans a
@@ -431,7 +431,7 @@ where a.tanggal BETWEEN
 (SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL DAYOFWEEK(CURDATE()) - 0 DAY), INTERVAL 6 DAY))
 )
 union
-select 2 as user_id, (SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL DAYOFWEEK(CURDATE()) - 0 DAY), INTERVAL 2 DAY)) as tanggal, 0 as omzet
+select ? as user_id, (SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL DAYOFWEEK(CURDATE()) - 0 DAY), INTERVAL 2 DAY)) as tanggal, 0 as omzet
 where (SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL DAYOFWEEK(CURDATE()) - 0 DAY), INTERVAL 2 DAY)) not in (
 select a.tanggal
 from mitra_omzet_pengeluarans a
@@ -440,7 +440,7 @@ where a.tanggal BETWEEN
 (SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL DAYOFWEEK(CURDATE()) - 0 DAY), INTERVAL 6 DAY))
 )
 union
-select 2 as user_id, (SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL DAYOFWEEK(CURDATE()) - 0 DAY), INTERVAL 3 DAY)) as tanggal, 0 as omzet
+select ? as user_id, (SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL DAYOFWEEK(CURDATE()) - 0 DAY), INTERVAL 3 DAY)) as tanggal, 0 as omzet
 where (SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL DAYOFWEEK(CURDATE()) - 0 DAY), INTERVAL 3 DAY)) not in (
 select a.tanggal
 from mitra_omzet_pengeluarans a
@@ -449,7 +449,7 @@ where a.tanggal BETWEEN
 (SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL DAYOFWEEK(CURDATE()) - 0 DAY), INTERVAL 6 DAY))
 )
 union
-select 2 as user_id, (SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL DAYOFWEEK(CURDATE()) - 0 DAY), INTERVAL 4 DAY)) as tanggal, 0 as omzet
+select ? as user_id, (SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL DAYOFWEEK(CURDATE()) - 0 DAY), INTERVAL 4 DAY)) as tanggal, 0 as omzet
 where (SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL DAYOFWEEK(CURDATE()) - 0 DAY), INTERVAL 4 DAY)) not in (
 select a.tanggal
 from mitra_omzet_pengeluarans a
@@ -458,7 +458,7 @@ where a.tanggal BETWEEN
 (SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL DAYOFWEEK(CURDATE()) - 0 DAY), INTERVAL 6 DAY))
 )
 union
-select 2 as user_id, (SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL DAYOFWEEK(CURDATE()) - 0 DAY), INTERVAL 5 DAY)) as tanggal, 0 as omzet
+select ? as user_id, (SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL DAYOFWEEK(CURDATE()) - 0 DAY), INTERVAL 5 DAY)) as tanggal, 0 as omzet
 where (SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL DAYOFWEEK(CURDATE()) - 0 DAY), INTERVAL 5 DAY)) not in (
 select a.tanggal
 from mitra_omzet_pengeluarans a
@@ -467,7 +467,7 @@ where a.tanggal BETWEEN
 (SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL DAYOFWEEK(CURDATE()) - 0 DAY), INTERVAL 6 DAY))
 )
 union
-select 2 as user_id, (SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL DAYOFWEEK(CURDATE()) - 0 DAY), INTERVAL 6 DAY)) as tanggal, 0 as omzet
+select ? as user_id, (SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL DAYOFWEEK(CURDATE()) - 0 DAY), INTERVAL 6 DAY)) as tanggal, 0 as omzet
 where (SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL DAYOFWEEK(CURDATE()) - 0 DAY), INTERVAL 6 DAY)) not in (
 select a.tanggal
 from mitra_omzet_pengeluarans a
@@ -478,12 +478,12 @@ where a.tanggal BETWEEN
 union
 select a.user_id, a.tanggal, a.omzet 
 from mitra_omzet_pengeluarans a
-where a.user_id = 2 and a.tanggal BETWEEN 
+where a.user_id = ? and a.tanggal BETWEEN 
 (SELECT DATE_SUB(CURDATE(), INTERVAL DAYOFWEEK(CURDATE()) - 0 DAY)) AND
 (SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL DAYOFWEEK(CURDATE()) - 0 DAY), INTERVAL 6 DAY))
 ) as tbl_1
 order by tanggal
-) as tbl_2");
+) as tbl_2", [2]);
 
         // $omzet = DB::select("select * from users where id = ?", [$data['id']]);
         dd($omzet);
