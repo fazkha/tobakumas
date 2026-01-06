@@ -414,11 +414,27 @@ class MitraController extends Controller
             $padWeek = str($saturdayWeek)->padLeft(2, '0');
             $yearWeek = $year . $padWeek;
 
-            // $pekanan = MitraAverageOmzet::where('user_id', $data['id'])
-            // ->...
+            $pekanan = MitraAverageOmzet::where('user_id', $data['id'])
+                ->where('minggu', $yearWeek)
+                ->first();
 
-            dd($yearWeek);
-            dd($omzet[6]->rata2);
+            if ($pekanan) {
+                $pekanan->update([
+                    'rata2' => $omzet[6]->rata2,
+                    'trend' => null,
+                    'pct' => null,
+                ]);
+            } else {
+                $pekanan = MitraAverageOmzet::create([
+                    'user_id' => $data['id'],
+                    'minggu' => $yearWeek,
+                    'rata2' => $omzet[6]->rata2,
+                    'trend' => null,
+                    'pct' => null,
+                ]);
+            }
+
+            dd($pekanan);
         }
 
         $json = json_decode(json_encode($omzet), true);
