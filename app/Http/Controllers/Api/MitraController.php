@@ -485,11 +485,14 @@ where a.user_id = ? and a.tanggal BETWEEN
 order by tanggal
 ) as tbl_2", [$data['id']]);
 
+        $json = json_decode(json_encode($omzet), true);
+        dd($json);
+
         $this->db_switch(1);
 
         return response()->json([
             'status' => 'success',
-            'omzet' => json_decode(json_encode($omzet), true),
+            'omzet' => $json,
         ]);
     }
 }
