@@ -417,6 +417,7 @@ class MitraController extends Controller
             $pekanan = MitraAverageOmzet::where('user_id', $data['id'])
                 ->where('minggu', $yearWeek)
                 ->first();
+            dd($pekanan);
 
             if ($pekanan) {
                 $pekanan->update([
@@ -433,8 +434,6 @@ class MitraController extends Controller
                     'pct' => null,
                 ]);
             }
-
-            dd($pekanan);
         }
 
         $json = json_decode(json_encode($omzet), true);
