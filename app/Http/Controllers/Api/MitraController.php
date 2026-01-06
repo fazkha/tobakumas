@@ -434,7 +434,17 @@ class MitraController extends Controller
                 ]);
             }
 
-            dd($pekanan);
+            $date = Carbon::now()->subWeek();
+            $week = $date->copy()->addDay()->week();
+            $year = $date->copy()->addDay()->year;
+            $padWeek = str($week)->padLeft(2, '0');
+            $yearWeek = $year . $padWeek;
+
+            $prevPekanan = MitraAverageOmzet::where('user_id', $data['id'])
+                ->where('minggu', $yearWeek)
+                ->first();
+
+            dd($prevPekanan);
         }
 
         $json = json_decode(json_encode($omzet), true);
