@@ -406,6 +406,8 @@ class MitraController extends Controller
         $data = $validator->validated();
 
         $omzet = DB::select("CALL sp_mitra_omset_pekanan(?)", [$data['id']]);
+        $trend = null;
+        $pct = null;
 
         if ($omzet) {
             $date = Carbon::now();
@@ -413,6 +415,7 @@ class MitraController extends Controller
             $saturdayYear = $date->copy()->addDay()->year;
             $padWeek = str($saturdayWeek)->padLeft(2, '0');
             $yearWeek = $saturdayYear . $padWeek;
+            $cOmzet = $omzet[6]->rata2;
 
             $pekanan = MitraAverageOmzet::where('user_id', $data['id'])
                 ->where('minggu', $yearWeek)
@@ -420,17 +423,17 @@ class MitraController extends Controller
 
             if ($pekanan) {
                 $pekanan->update([
-                    'rata2' => $omzet[6]->rata2,
-                    'trend' => null,
-                    'pct' => null,
+                    'rata2' => $cOmzet,
+                    'trend' => $trend,
+                    'pct' => $pct,
                 ]);
             } else {
                 $pekanan = MitraAverageOmzet::create([
                     'user_id' => $data['id'],
                     'minggu' => $yearWeek,
-                    'rata2' => $omzet[6]->rata2,
-                    'trend' => null,
-                    'pct' => null,
+                    'rata2' => $cOmzet,
+                    'trend' => $trend,
+                    'pct' => $pct,
                 ]);
             }
 
@@ -444,7 +447,16 @@ class MitraController extends Controller
                 ->where('minggu', $yearWeek)
                 ->first();
 
-            dd($yearWeek);
+            if ($prevPekanan) {
+                $prevOmset = $prevPekanan->rata2;
+                $trend = ($prevOmset < $cOmzet) ? 'up' : (($prevOmset > $cOmzet) ? 'down' : 'up');
+                $pct = ($cOmzet / $prevOmset) * 100;
+            }
+
+            $pekanan->update([
+                'trend' => $trend,
+                'pct' => $pct,
+            ]);
         }
 
         $json = json_decode(json_encode($omzet), true);
@@ -454,6 +466,8 @@ class MitraController extends Controller
         return response()->json([
             'status' => 'success',
             'omzet' => $json,
+            'trend' => $trend,
+            'pct' => $pct,
         ]);
     }
 }
