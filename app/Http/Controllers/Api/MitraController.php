@@ -406,7 +406,7 @@ class MitraController extends Controller
         $omzet = DB::select("CALL sp_mitra_omset_pekanan(?)", [$data['id']]);
 
         if ($omzet) {
-            dd($omzet[6]);
+            dd($omzet[6]->rata2);
         }
 
         $json = json_decode(json_encode($omzet), true);
