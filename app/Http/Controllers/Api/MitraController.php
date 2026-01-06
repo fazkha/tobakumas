@@ -402,6 +402,7 @@ class MitraController extends Controller
         }
 
         $data = $validator->validated();
+        dd($data);
 
         $omzet = DB::select("select id, user_id, tanggal, omzet, delta_omzet, trend, ROUND(pct, 0) as pct from (
 select ROW_NUMBER() OVER (ORDER BY tanggal) as id,
