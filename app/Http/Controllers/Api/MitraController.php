@@ -404,9 +404,9 @@ class MitraController extends Controller
         $data = $validator->validated();
 
         $omzet = DB::select("CALL sp_mitra_omset_pekanan(?)", [$data['id']]);
-        dd($omzet);
 
         $json = json_decode(json_encode($omzet), true);
+        dd($json);
 
         $this->db_switch(1);
 
