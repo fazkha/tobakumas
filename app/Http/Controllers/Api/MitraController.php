@@ -444,7 +444,7 @@ class MitraController extends Controller
                 ->where('minggu', $yearWeek)
                 ->first();
 
-            dd($prevPekanan);
+            dd($yearWeek);
         }
 
         $json = json_decode(json_encode($omzet), true);
