@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\JenisPengeluaranMitra;
+use App\Models\MitraAverageOmzet;
 use App\Models\MitraOmzetPengeluaran;
 use App\Models\MitraOmzetPengeluaranDetail;
 use App\Models\RuteGerobak;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
+use Carbon\Carbon;
 
 class MitraController extends Controller
 {
@@ -406,6 +408,16 @@ class MitraController extends Controller
         $omzet = DB::select("CALL sp_mitra_omset_pekanan(?)", [$data['id']]);
 
         if ($omzet) {
+            $date = Carbon::now();
+            $saturdayWeek = $date->copy()->addDay()->week();
+            $year = $date->copy()->addDay()->year;
+            $padWeek = str($saturdayWeek)->padLeft(2, '0');
+            $yearWeek = $year . $padWeek;
+
+            // $pekanan = MitraAverageOmzet::where('user_id', $data['id'])
+            // ->...
+
+            dd($yearWeek);
             dd($omzet[6]->rata2);
         }
 
