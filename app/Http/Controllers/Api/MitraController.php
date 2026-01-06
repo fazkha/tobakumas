@@ -402,7 +402,6 @@ class MitraController extends Controller
         }
 
         $data = $validator->validated();
-        dd($data);
 
         $omzet = DB::select("select id, user_id, tanggal, omzet, delta_omzet, trend, ROUND(pct, 0) as pct from (
 select ROW_NUMBER() OVER (ORDER BY tanggal) as id,
@@ -485,6 +484,8 @@ where a.user_id = ? and a.tanggal BETWEEN
 ) as tbl_1
 order by tanggal
 ) as tbl_2", [$data['id']]);
+
+        $omzet = DB::select("select * from users from id = ?", [$data['id']]);
 
         $json = json_decode(json_encode($omzet), true);
         dd($json);
