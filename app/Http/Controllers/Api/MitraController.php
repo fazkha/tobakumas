@@ -486,9 +486,9 @@ class MitraController extends Controller
         // ) as tbl_2", [$data['id']]);
 
         $omzet = DB::select("select * from users from id = ?", [$data['id']]);
+        dd($omzet);
 
         $json = json_decode(json_encode($omzet), true);
-        dd($json);
 
         $this->db_switch(1);
 
