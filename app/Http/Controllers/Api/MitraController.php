@@ -483,7 +483,7 @@ where a.user_id = 2 and a.tanggal BETWEEN
 (SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL DAYOFWEEK(CURDATE()) - 0 DAY), INTERVAL 6 DAY))
 ) as tbl_1
 order by tanggal
-) as tbl_2;", [$data['id']]);
+) as tbl_2");
 
         // $omzet = DB::select("select * from users where id = ?", [$data['id']]);
         dd($omzet);
