@@ -410,9 +410,9 @@ class MitraController extends Controller
         if ($omzet) {
             $date = Carbon::now();
             $saturdayWeek = $date->copy()->addDay()->week();
-            $year = $date->copy()->addDay()->year;
+            $saturdayYear = $date->copy()->addDay()->year;
             $padWeek = str($saturdayWeek)->padLeft(2, '0');
-            $yearWeek = $year . $padWeek;
+            $yearWeek = $saturdayYear . $padWeek;
 
             $pekanan = MitraAverageOmzet::where('user_id', $data['id'])
                 ->where('minggu', $yearWeek)
@@ -435,8 +435,8 @@ class MitraController extends Controller
             }
 
             $date = Carbon::now()->subWeek();
-            $week = $date->week();
-            $year = $date->year;
+            $week = $date->copy()->addDay()->week();
+            $year = ($week == $saturdayWeek - 1) ? $saturdayYear : $date->copy()->addDay()->year;
             $padWeek = str($week)->padLeft(2, '0');
             $yearWeek = $year . $padWeek;
 
