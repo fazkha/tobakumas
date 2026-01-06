@@ -485,7 +485,7 @@ class MitraController extends Controller
         // order by tanggal
         // ) as tbl_2", [$data['id']]);
 
-        $omzet = DB::select("select * from users from id = ?", [$data['id']]);
+        $omzet = DB::select("select * from users where id = ?", [$data['id']]);
         dd($omzet);
 
         $json = json_decode(json_encode($omzet), true);
