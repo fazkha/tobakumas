@@ -420,7 +420,7 @@ class MitraController extends Controller
             $yearWeek = $saturdayYear . $padWeek;
             $cOmzet = $omzet[6]->rata2;
 
-            $bonus = DB::select("SELECT bonus FROM mitra_target_bonuses WHERE isactive = 1 AND target BETWEEN (?-10000) AND (?+10000)", [$cOmzet]);
+            $bonus = DB::select("CALL sp_mitra_target_bonus(?)", [$cOmzet]);
             dd($bonus);
 
             $cBonus = 0;
