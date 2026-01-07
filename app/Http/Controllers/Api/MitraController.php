@@ -421,9 +421,7 @@ class MitraController extends Controller
             $cOmzet = $omzet[6]->rata2;
 
             $bonus = DB::select("CALL sp_mitra_target_bonus(?)", [$cOmzet]);
-            dd($bonus[0]->bonus);
-
-            $cBonus = 0;
+            $cBonus = $bonus[0]->bonus * 1000;
 
             $pekanan = MitraAverageOmzet::where('user_id', $data['id'])
                 ->where('minggu', $yearWeek)
@@ -434,7 +432,7 @@ class MitraController extends Controller
                     'rata2' => $cOmzet,
                     'trend' => $trend,
                     'pct' => $pct,
-                    'bonus' => $bonus,
+                    'bonus' => $cBonus,
                     'trend_bonus' => $trend_bonus,
                     'pct_bonus' => $pct_bonus,
                 ]);
@@ -445,7 +443,7 @@ class MitraController extends Controller
                     'rata2' => $cOmzet,
                     'trend' => $trend,
                     'pct' => $pct,
-                    'bonus' => $bonus,
+                    'bonus' => $cBonus,
                     'trend_bonus' => $trend_bonus,
                     'pct_bonus' => $pct_bonus,
                 ]);
@@ -480,6 +478,7 @@ class MitraController extends Controller
                 'trend_bonus' => $trend_bonus,
                 'pct_bonus' => $pct_bonus,
             ]);
+            dd($pekanan);
         }
 
         $json = json_decode(json_encode($omzet), true);
