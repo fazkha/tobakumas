@@ -478,7 +478,6 @@ class MitraController extends Controller
                 'trend_bonus' => $trend_bonus,
                 'pct_bonus' => $pct_bonus,
             ]);
-            dd($pekanan);
         }
 
         $json = json_decode(json_encode($omzet), true);
