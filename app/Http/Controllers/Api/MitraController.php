@@ -480,7 +480,7 @@ class MitraController extends Controller
                 'pct_bonus' => $pct_bonus,
             ]);
 
-            $target = MitraTargetBonus::where('isactive', 1)->get();
+            $target = MitraTargetBonus::where('isactive', 1)->select('target', 'bonus')->get();
         }
 
         $json = json_decode(json_encode($omzet), true);
