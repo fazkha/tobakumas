@@ -420,10 +420,7 @@ class MitraController extends Controller
             $yearWeek = $saturdayYear . $padWeek;
             $cOmzet = $omzet[6]->rata2;
 
-            $bonus = MitraTargetBonus::where('isactive', 1)
-                ->where('target', '<=', $cOmzet)
-                ->where('target', '>=', $cOmzet)
-                ->max('bonus');
+            $bonus = DB::select("SELECT bonus FROM mitra_target_bonuses WHERE isactive = 1 AND target BETWEEN (?-10000) AND (?+10000)", [$cOmzet]);
             dd($bonus);
 
             $cBonus = 0;
