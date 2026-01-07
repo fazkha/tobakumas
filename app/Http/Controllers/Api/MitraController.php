@@ -421,7 +421,7 @@ class MitraController extends Controller
             $cOmzet = $omzet[6]->rata2;
 
             $bonus = DB::select("CALL sp_mitra_target_bonus(?)", [$cOmzet]);
-            dd($bonus);
+            dd($bonus->bonus);
 
             $cBonus = 0;
 
