@@ -7,6 +7,7 @@ use App\Models\JenisPengeluaranMitra;
 use App\Models\MitraAverageOmzet;
 use App\Models\MitraOmzetPengeluaran;
 use App\Models\MitraOmzetPengeluaranDetail;
+use App\Models\MitraTargetBonus;
 use App\Models\RuteGerobak;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -408,6 +409,8 @@ class MitraController extends Controller
         $omzet = DB::select("CALL sp_mitra_omset_pekanan(?)", [$data['id']]);
         $trend = null;
         $pct = null;
+        $trend_bonus = null;
+        $pct_bonus = null;
 
         if ($omzet) {
             $date = Carbon::now();
@@ -416,6 +419,14 @@ class MitraController extends Controller
             $padWeek = str($saturdayWeek)->padLeft(2, '0');
             $yearWeek = $saturdayYear . $padWeek;
             $cOmzet = $omzet[6]->rata2;
+
+            $bonus = MitraTargetBonus::where('isactive', 1)
+                ->where('target', '<=', $cOmzet)
+                ->where('target', '>=', $cOmzet)
+                ->max('bonus');
+            dd($bonus);
+
+            $cBonus = 0;
 
             $pekanan = MitraAverageOmzet::where('user_id', $data['id'])
                 ->where('minggu', $yearWeek)
@@ -426,6 +437,9 @@ class MitraController extends Controller
                     'rata2' => $cOmzet,
                     'trend' => $trend,
                     'pct' => $pct,
+                    'bonus' => $bonus,
+                    'trend_bonus' => $trend_bonus,
+                    'pct_bonus' => $pct_bonus,
                 ]);
             } else {
                 $pekanan = MitraAverageOmzet::create([
@@ -434,6 +448,9 @@ class MitraController extends Controller
                     'rata2' => $cOmzet,
                     'trend' => $trend,
                     'pct' => $pct,
+                    'bonus' => $bonus,
+                    'trend_bonus' => $trend_bonus,
+                    'pct_bonus' => $pct_bonus,
                 ]);
             }
 
@@ -449,17 +466,22 @@ class MitraController extends Controller
 
             if ($prevPekanan) {
                 $prevOmset = $prevPekanan->rata2;
-                $trend = ($prevOmset < $cOmzet) ? 'up' : (($prevOmset > $cOmzet) ? 'down' : 'up');
-                $pct = ($cOmzet / $prevOmset) * 100;
+                $prevBonus = $prevPekanan->bonus;
             } else {
                 $prevOmset = 0;
-                $trend = ($prevOmset < $cOmzet) ? 'up' : (($prevOmset > $cOmzet) ? 'down' : 'same');
-                $pct = ($cOmzet / $prevOmset) * 100;
+                $prevBonus = 0;
             }
+            $trend = ($prevOmset < $cOmzet) ? 'up' : (($prevOmset > $cOmzet) ? 'down' : 'same');
+            $pct = ($cOmzet / $prevOmset) * 100;
+            $trend_bonus = ($prevBonus < $cBonus) ? 'up' : (($prevBonus > $cBonus) ? 'down' : 'same');
+            $pct_bonus = ($cBonus / $prevBonus) * 100;
 
             $pekanan->update([
                 'trend' => $trend,
                 'pct' => $pct,
+                'bonus' => $cBonus,
+                'trend_bonus' => $trend_bonus,
+                'pct_bonus' => $pct_bonus,
             ]);
         }
 
@@ -472,6 +494,9 @@ class MitraController extends Controller
             'omzet' => $json,
             'trend' => $trend,
             'pct' => $pct,
+            'bonus' => $cBonus,
+            'trend_bonus' => $trend_bonus,
+            'pct_bonus' => $pct_bonus,
         ]);
     }
 }

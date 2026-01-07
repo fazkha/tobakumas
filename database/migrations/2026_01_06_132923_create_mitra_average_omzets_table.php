@@ -18,6 +18,9 @@ return new class extends Migration
             $table->unsignedInteger('rata2')->default(0);
             $table->string('trend', 10)->nullable();
             $table->unsignedInteger('pct')->nullable();
+            $table->unsignedInteger('bonus')->default(0);
+            $table->string('trend_bonus', 10)->nullable();
+            $table->unsignedInteger('pct_bonus')->nullable();
             $table->timestamps();
         });
     }

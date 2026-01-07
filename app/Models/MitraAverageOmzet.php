@@ -15,5 +15,8 @@ class MitraAverageOmzet extends Model
         'rata2',
         'trend',
         'pct',
+        'bonus',
+        'trend_bonus',
+        'pct_bonus',
     ];
 }
