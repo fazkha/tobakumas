@@ -411,6 +411,7 @@ class MitraController extends Controller
         $pct = null;
         $trend_bonus = null;
         $pct_bonus = null;
+        $target = null;
 
         if ($omzet) {
             $date = Carbon::now();
@@ -478,6 +479,8 @@ class MitraController extends Controller
                 'trend_bonus' => $trend_bonus,
                 'pct_bonus' => $pct_bonus,
             ]);
+
+            $target = MitraTargetBonus::where('isactive', 1)->get();
         }
 
         $json = json_decode(json_encode($omzet), true);
@@ -492,6 +495,7 @@ class MitraController extends Controller
             'bonus' => $cBonus,
             'trend_bonus' => $trend_bonus,
             'pct_bonus' => $pct_bonus,
+            'target' => json_decode(json_encode($target), true),
         ]);
     }
 }
