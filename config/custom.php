@@ -18,7 +18,7 @@ return [
 
     // always update unit price on purchase
     'selaluUpdateHargaBeli' => true,
-    'selaluUpdateHargaJual' => true,
+    'selaluUpdateHargaJual' => false,
 
     // purchase order
     'po_prefix' => 'PO',
