@@ -412,7 +412,6 @@ class MitraController extends Controller
         $trend_bonus = null;
         $pct_bonus = null;
         $target = null;
-dd($omzet);
 
         if ($omzet) {
             $date = Carbon::now();
@@ -421,6 +420,7 @@ dd($omzet);
             $padWeek = str($saturdayWeek)->padLeft(2, '0');
             $yearWeek = $saturdayYear . $padWeek;
             $cOmzet = $omzet[6]->rata2;
+            dd($cOmzet);
 
             $bonus = DB::select("CALL sp_mitra_target_bonus(?)", [$cOmzet]);
             $cBonus = $bonus[0]->bonus * 1000;
