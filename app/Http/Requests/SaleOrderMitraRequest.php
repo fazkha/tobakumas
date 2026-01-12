@@ -23,13 +23,13 @@ class SaleOrderMitraRequest extends FormRequest
             'harga_satuan' => ['required', 'min:1'],
             'keterangan' => ['nullable', 'max:200'],
             'pajak' => ['nullable', 'min:0'],
-            'gerobak_id' => [
-                'required',
-                Rule::unique('sale_order_mitras')->where(function ($query) {
-                    return $query->where('gerobak_id', $this->gerobak_id)
-                        ->where('sale_order_id', $this->sale_order_id);
-                }),
-            ],
         ];
+        // 'gerobak_id' => [
+        //     'required',
+        //     Rule::unique('sale_order_mitras')->where(function ($query) {
+        //         return $query->where('gerobak_id', $this->gerobak_id)
+        //             ->where('sale_order_id', $this->sale_order_id);
+        //     }),
+        // ],
     }
 }
