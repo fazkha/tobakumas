@@ -420,66 +420,69 @@ class MitraController extends Controller
             $padWeek = str($saturdayWeek)->padLeft(2, '0');
             $yearWeek = $saturdayYear . $padWeek;
             $cOmzet = $omzet[6]->rata2;
-            dd($omzet[6]);
 
-            $bonus = DB::select("CALL sp_mitra_target_bonus(?)", [$cOmzet]);
-            $cBonus = $bonus[0]->bonus * 1000;
+            if ($cOmzet) {
+                $bonus = DB::select("CALL sp_mitra_target_bonus(?)", [$cOmzet]);
+                $cBonus = $bonus[0]->bonus * 1000;
 
-            $pekanan = MitraAverageOmzet::where('user_id', $data['id'])
-                ->where('minggu', $yearWeek)
-                ->first();
+                if ($cBonus) {
+                    $pekanan = MitraAverageOmzet::where('user_id', $data['id'])
+                        ->where('minggu', $yearWeek)
+                        ->first();
 
-            if ($pekanan) {
-                $pekanan->update([
-                    'rata2' => $cOmzet,
-                    'trend' => $trend,
-                    'pct' => $pct,
-                    'bonus' => $cBonus,
-                    'trend_bonus' => $trend_bonus,
-                    'pct_bonus' => $pct_bonus,
-                ]);
-            } else {
-                $pekanan = MitraAverageOmzet::create([
-                    'user_id' => $data['id'],
-                    'minggu' => $yearWeek,
-                    'rata2' => $cOmzet,
-                    'trend' => $trend,
-                    'pct' => $pct,
-                    'bonus' => $cBonus,
-                    'trend_bonus' => $trend_bonus,
-                    'pct_bonus' => $pct_bonus,
-                ]);
+                    if ($pekanan) {
+                        $pekanan->update([
+                            'rata2' => $cOmzet,
+                            'trend' => $trend,
+                            'pct' => $pct,
+                            'bonus' => $cBonus,
+                            'trend_bonus' => $trend_bonus,
+                            'pct_bonus' => $pct_bonus,
+                        ]);
+                    } else {
+                        $pekanan = MitraAverageOmzet::create([
+                            'user_id' => $data['id'],
+                            'minggu' => $yearWeek,
+                            'rata2' => $cOmzet,
+                            'trend' => $trend,
+                            'pct' => $pct,
+                            'bonus' => $cBonus,
+                            'trend_bonus' => $trend_bonus,
+                            'pct_bonus' => $pct_bonus,
+                        ]);
+                    }
+
+                    $date = Carbon::now()->subWeek();
+                    $week = $date->copy()->addDay()->week();
+                    $year = ($week == $saturdayWeek - 1) ? $saturdayYear : $date->copy()->addDay()->year;
+                    $padWeek = str($week)->padLeft(2, '0');
+                    $yearWeek = $year . $padWeek;
+
+                    $prevPekanan = MitraAverageOmzet::where('user_id', $data['id'])
+                        ->where('minggu', $yearWeek)
+                        ->first();
+
+                    if ($prevPekanan) {
+                        $prevOmset = $prevPekanan->rata2;
+                        $prevBonus = $prevPekanan->bonus;
+                    } else {
+                        $prevOmset = 0;
+                        $prevBonus = 0;
+                    }
+                    $trend = ($prevOmset < $cOmzet) ? 'up' : (($prevOmset > $cOmzet) ? 'down' : 'same');
+                    $pct = ($cOmzet / $prevOmset) * 100;
+                    $trend_bonus = ($prevBonus < $cBonus) ? 'up' : (($prevBonus > $cBonus) ? 'down' : 'same');
+                    $pct_bonus = ($cBonus / $prevBonus) * 100;
+
+                    $pekanan->update([
+                        'trend' => $trend,
+                        'pct' => $pct,
+                        'bonus' => $cBonus,
+                        'trend_bonus' => $trend_bonus,
+                        'pct_bonus' => $pct_bonus,
+                    ]);
+                }
             }
-
-            $date = Carbon::now()->subWeek();
-            $week = $date->copy()->addDay()->week();
-            $year = ($week == $saturdayWeek - 1) ? $saturdayYear : $date->copy()->addDay()->year;
-            $padWeek = str($week)->padLeft(2, '0');
-            $yearWeek = $year . $padWeek;
-
-            $prevPekanan = MitraAverageOmzet::where('user_id', $data['id'])
-                ->where('minggu', $yearWeek)
-                ->first();
-
-            if ($prevPekanan) {
-                $prevOmset = $prevPekanan->rata2;
-                $prevBonus = $prevPekanan->bonus;
-            } else {
-                $prevOmset = 0;
-                $prevBonus = 0;
-            }
-            $trend = ($prevOmset < $cOmzet) ? 'up' : (($prevOmset > $cOmzet) ? 'down' : 'same');
-            $pct = ($cOmzet / $prevOmset) * 100;
-            $trend_bonus = ($prevBonus < $cBonus) ? 'up' : (($prevBonus > $cBonus) ? 'down' : 'same');
-            $pct_bonus = ($cBonus / $prevBonus) * 100;
-
-            $pekanan->update([
-                'trend' => $trend,
-                'pct' => $pct,
-                'bonus' => $cBonus,
-                'trend_bonus' => $trend_bonus,
-                'pct_bonus' => $pct_bonus,
-            ]);
 
             $target = MitraTargetBonus::where('isactive', 1)->select('target', 'bonus')->get();
         }
