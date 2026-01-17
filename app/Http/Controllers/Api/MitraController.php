@@ -559,7 +559,7 @@ class MitraController extends Controller
 
                         // $lokasi = $this->GetLokasiUpload();
                         $ym = date('Ym');
-                        $pathym = 'mitra/pengeluaran/' . $ym;
+                        $pathym = 'uploads/mitra/pengeluaran/' . $ym;
                         // $pathym = $lokasi['path'] . '/' . $lokasi['ym'];
 
                         // $imageName = $image->hashName();
@@ -568,11 +568,11 @@ class MitraController extends Controller
                         //     File::delete(public_path($deletePath) . '/' . $deleteName);
                         // }
 
-                        // $pengeluaran->update([
-                        //     'image_lokasi' => $pathym,
-                        //     'image_nama' => $imageName,
-                        //     // 'image_type' => $image['type'],
-                        // ]);
+                        $pengeluaran->update([
+                            'image_lokasi' => $pathym,
+                            'image_nama' => $imageName,
+                            // 'image_type' => $image['type'],
+                        ]);
 
                         $path = $request->file('foto')->store($pathym, 'public');
                         // $path = $this->compress_image($image, $image->path(), public_path($pathym), $imageName, 100);
