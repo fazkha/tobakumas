@@ -505,6 +505,44 @@ class MitraController extends Controller
         ]);
     }
 
+    public function loadImagePengeluaran(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:mitra_op_details,id'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+
+        $pengeluaran = MitraOmzetPengeluaranDetail::find($data['id']);
+
+        if ($pengeluaran) {
+            $image = 'storage/' . $pengeluaran->image_lokasi . '/' . $pengeluaran->image_nama;
+        } else {
+            $image = null;
+        }
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'image' => $image,
+        ]);
+    }
+
     public function uploadImagePengeluaran(Request $request)
     {
         $this->db_switch(2);
