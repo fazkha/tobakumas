@@ -572,8 +572,8 @@ class MitraController extends Controller
                             // 'image_type' => $image['type'],
                         ]);
 
-                        // $path = $request->file('foto')->store($pathym, 'public');
-                        $path = $this->compress_image($image, $image->path(), public_path($pathym) . '/' . $imageName, 100);
+                        $path = $request->file('foto')->store($pathym, 'public');
+                        // $path = $this->compress_image($image, $image->path(), public_path($pathym) . '/' . $imageName, 100);
                         // $image->storeAs('public/uploads', $imageName); // storage
                         // $image->move(public_path('uploads'), $imageName); // public
                         // $image->storeAs('images', $imageName, 's3'); // s3
@@ -610,7 +610,7 @@ class MitraController extends Controller
 
         if ($info['mime'] == 'image/jpeg') {
             $image = imagecreatefromjpeg($src);
-            imagejpeg($image, $dest, 50);
+            imagejpeg($image, $dest, 100);
         } elseif ($info['mime'] == 'image/gif') {
             $image->storeAs($dest, $image->hashName());
             // $image = imagecreatefromgif($src);
