@@ -531,9 +531,9 @@ class MitraController extends Controller
         $data = $validator->validated();
         $path = NULL;
 
-        // $omzet = MitraOmzetPengeluaran::where('user_id', $data['id'])
-        //     ->where('tanggal', $data['tanggal'])
-        //     ->first();
+        $omzet = MitraOmzetPengeluaran::where('user_id', $data['id'])
+            ->where('tanggal', $data['tanggal'])
+            ->first();
 
         // if ($omzet) {
         //     $jenis = JenisPengeluaranMitra::where('isactive', 1)
@@ -578,7 +578,7 @@ class MitraController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'path' => $data,
+            'path' => $omzet,
         ]);
     }
 
