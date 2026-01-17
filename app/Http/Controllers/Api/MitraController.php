@@ -554,7 +554,7 @@ class MitraController extends Controller
 
                         $imageName = $pengeluaran->image_nama;
                         $deleteName = $pengeluaran->image_nama;
-                        $deletePath = $pengeluaran->image_lokasi;
+                        $deletePath = 'storage/' . $pengeluaran->image_lokasi;
 
                         if (!is_null($deleteName)) {
                             File::delete(public_path($deletePath) . '/' . $deleteName);
