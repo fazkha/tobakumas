@@ -586,13 +586,13 @@ class MitraController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'path' => $image,
+            'path' => $path,
         ]);
     }
 
     public function GetLokasiUpload()
     {
-        $path = 'mitra/pengeluaran';
+        $path = 'storage/uploads/mitra/pengeluaran';
         $ym = date('Ym');
         $dir = $path . '/' . $ym;
         $is_dir = is_dir($dir);
