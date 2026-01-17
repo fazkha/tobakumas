@@ -33,6 +33,7 @@ Route::prefix('mitra')->group(function () {
     Route::post('/load-omzet-pekanan', [MitraController::class, 'loadOmzetPekanan']);
     Route::delete('/hapus-pengeluaran', [MitraController::class, 'hapusPengeluaran']);
     Route::get('/get-jenis-pengeluaran-list', [MitraController::class, 'getJenisPengeluaranList']);
+    Route::put('/upload-image-pengeluaran', [MitraController::class, 'uploadImagePengeluaran']);
 });
 
 // Cabang
