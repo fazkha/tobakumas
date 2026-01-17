@@ -546,11 +546,11 @@ class MitraController extends Controller
                     ->first();
 
                 if ($pengeluaran) {
-                    $path = $request->hasFile('foto');
+                    $hasFile = $request->hasFile('foto');
 
-                    if ($request->hasFile('foto')) {
+                    if ($hasFile) {
                         $image = $request->file('foto');
-                        // $path = $request->file('foto')->store('mitra', 'public');
+                        $path = $request->file('foto')->store('mitra', 'public');
                     }
                     // $imageType = $pengeluaran->image_type;
                     // $imageName = $pengeluaran->image_nama;
