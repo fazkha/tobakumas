@@ -592,7 +592,7 @@ class MitraController extends Controller
 
     public function GetLokasiUpload()
     {
-        $path = 'public/mitra/pengeluaran';
+        $path = 'mitra/pengeluaran';
         $ym = date('Ym');
         $dir = $path . '/' . $ym;
         $is_dir = is_dir($dir);
