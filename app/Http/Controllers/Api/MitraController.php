@@ -563,7 +563,7 @@ class MitraController extends Controller
                         $ym = date('Ym');
                         $pathym = 'uploads/mitra/pengeluaran/' . $ym;
 
-                        $imageName = $pengeluaran->id . ' | ' . $image->hashName();
+                        $imageName = $pengeluaran->id . '_' . $image->hashName();
 
                         $pengeluaran->update([
                             'image_lokasi' => $pathym,
