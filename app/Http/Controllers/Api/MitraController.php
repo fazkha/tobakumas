@@ -529,6 +529,7 @@ class MitraController extends Controller
         }
 
         $data = $validator->validated();
+        $image = NULL;
         $path = NULL;
 
         $omzet = MitraOmzetPengeluaran::where('user_id', $data['id'])
@@ -583,7 +584,7 @@ class MitraController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'path' => $path,
+            'path' => $image,
         ]);
     }
 
