@@ -557,22 +557,22 @@ class MitraController extends Controller
                         $deleteName = $pengeluaran->image_nama;
                         $deletePath = $pengeluaran->image_lokasi;
 
-                        $lokasi = $this->GetLokasiUpload();
-                        $pathym = $lokasi['path'] . '/' . $lokasi['ym'];
+                        // $lokasi = $this->GetLokasiUpload();
+                        // $pathym = $lokasi['path'] . '/' . $lokasi['ym'];
 
-                        $imageName = $image->hashName();
+                        // $imageName = $image->hashName();
 
-                        if (!is_null($deleteName)) {
-                            File::delete(public_path($deletePath) . '/' . $deleteName);
-                        }
+                        // if (!is_null($deleteName)) {
+                        //     File::delete(public_path($deletePath) . '/' . $deleteName);
+                        // }
 
-                        $pengeluaran->update([
-                            'image_lokasi' => $pathym,
-                            'image_nama' => $imageName,
-                            // 'image_type' => $image['type'],
-                        ]);
+                        // $pengeluaran->update([
+                        //     'image_lokasi' => $pathym,
+                        //     'image_nama' => $imageName,
+                        //     // 'image_type' => $image['type'],
+                        // ]);
 
-                        $path = $request->file('foto')->store('storage', 'public');
+                        $path = $request->file('foto')->store('mitra', 'public');
                         // $path = $this->compress_image($image, $image->path(), public_path($pathym), $imageName, 100);
                         // $image->storeAs('public/uploads', $imageName); // storage
                         // $image->move(public_path('uploads'), $imageName); // public
