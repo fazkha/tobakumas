@@ -546,11 +546,11 @@ class MitraController extends Controller
                     ->first();
 
                 if ($pengeluaran) {
-                    //             $image = $request->file('foto');
-                    //             $imageType = $pengeluaran->image_type;
-                    //             $imageName = $pengeluaran->image_nama;
-                    //             $deleteName = $pengeluaran->image_nama;
-                    //             $deletePath = $pengeluaran->image_lokasi;
+                    $image = $request->file('foto');
+                    $imageType = $pengeluaran->image_type;
+                    $imageName = $pengeluaran->image_nama;
+                    $deleteName = $pengeluaran->image_nama;
+                    $deletePath = $pengeluaran->image_lokasi;
 
                     //             $lokasi = $this->GetLokasiUpload();
                     //             $pathym = $lokasi['path'] . '/' . $lokasi['ym'];
@@ -578,7 +578,7 @@ class MitraController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'path' => $pengeluaran,
+            'path' => $image,
         ]);
     }
 
