@@ -562,7 +562,7 @@ class MitraController extends Controller
                         $pathym = 'uploads/mitra/pengeluaran/' . $ym;
                         // $pathym = $lokasi['path'] . '/' . $lokasi['ym'];
 
-                        // $imageName = $image->hashName();
+                        $imageName = $image->hashName();
 
                         // if (!is_null($deleteName)) {
                         //     File::delete(public_path($deletePath) . '/' . $deleteName);
