@@ -33,7 +33,7 @@ Route::prefix('mitra')->group(function () {
     Route::post('/load-omzet-pekanan', [MitraController::class, 'loadOmzetPekanan']);
     Route::delete('/hapus-pengeluaran', [MitraController::class, 'hapusPengeluaran']);
     Route::get('/get-jenis-pengeluaran-list', [MitraController::class, 'getJenisPengeluaranList']);
-    Route::get('/load-image-pengeluaran', [MitraController::class, 'loadImagePengeluaran']);
+    Route::post('/load-image-pengeluaran', [MitraController::class, 'loadImagePengeluaran']);
     Route::post('/upload-image-pengeluaran', [MitraController::class, 'uploadImagePengeluaran']);
 });
 
