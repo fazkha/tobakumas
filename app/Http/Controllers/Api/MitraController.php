@@ -572,7 +572,7 @@ class MitraController extends Controller
                             // 'image_type' => $image['type'],
                         ]);
 
-                        $path = $request->file('foto')->storeAs($pathym);
+                        $path = $request->file('foto')->store($pathym, 'public');
                         // $path = $this->compress_image($image, $image->path(), public_path($pathym) . '/' . $imageName, 50);
                         // $image->storeAs('public/uploads', $imageName); // storage
                         // $image->move(public_path('uploads'), $imageName); // public
