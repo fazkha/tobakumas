@@ -13,6 +13,9 @@ class MitraOmzetPengeluaranDetail extends Model
         'mitra_omzet_pengeluaran_id',
         'jenis_pengeluaran_mitra_id',
         'harga',
+        'image_lokasi',
+        'image_nama',
+        'image_type',
         'approved',
     ];
 

@@ -571,6 +571,7 @@ class MitraController extends Controller
                         $pengeluaran->update([
                             'image_lokasi' => $pathym,
                             'image_nama' => $imageName,
+                            'image_type' => 'image/jpeg',
                             // 'image_type' => $image['type'],
                         ]);
 
