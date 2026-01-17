@@ -531,54 +531,54 @@ class MitraController extends Controller
         $data = $validator->validated();
         $path = NULL;
 
-        $omzet = MitraOmzetPengeluaran::where('user_id', $data['id'])
-            ->where('tanggal', $data['tanggal'])
-            ->first();
+        // $omzet = MitraOmzetPengeluaran::where('user_id', $data['id'])
+        //     ->where('tanggal', $data['tanggal'])
+        //     ->first();
 
-        if ($omzet) {
-            $jenis = JenisPengeluaranMitra::where('isactive', 1)
-                ->where('nama', $data['keterangan'])
-                ->first();
+        // if ($omzet) {
+        //     $jenis = JenisPengeluaranMitra::where('isactive', 1)
+        //         ->where('nama', $data['keterangan'])
+        //         ->first();
 
-            if ($jenis) {
-                $pengeluaran = MitraOmzetPengeluaranDetail::where('mitra_omzet_pengeluaran_id', $omzet->id)
-                    ->where('jenis_pengeluaran_mitra_id', $jenis->id)
-                    ->first();
+        //     if ($jenis) {
+        //         $pengeluaran = MitraOmzetPengeluaranDetail::where('mitra_omzet_pengeluaran_id', $omzet->id)
+        //             ->where('jenis_pengeluaran_mitra_id', $jenis->id)
+        //             ->first();
 
-                if ($pengeluaran) {
-                    $image = $request->file('foto');
-                    $imageType = $pengeluaran->image_type;
-                    $imageName = $pengeluaran->image_nama;
-                    $deleteName = $pengeluaran->image_nama;
-                    $deletePath = $pengeluaran->image_lokasi;
+        //         if ($pengeluaran) {
+        //             $image = $request->file('foto');
+        //             $imageType = $pengeluaran->image_type;
+        //             $imageName = $pengeluaran->image_nama;
+        //             $deleteName = $pengeluaran->image_nama;
+        //             $deletePath = $pengeluaran->image_lokasi;
 
-                    $lokasi = $this->GetLokasiUpload();
-                    $pathym = $lokasi['path'] . '/' . $lokasi['ym'];
+        //             $lokasi = $this->GetLokasiUpload();
+        //             $pathym = $lokasi['path'] . '/' . $lokasi['ym'];
 
-                    if (!is_null($image)) {
-                        $imageName = $image->hashName();
-                        File::delete(public_path($deletePath) . '/' . $deleteName);
+        //             if (!is_null($image)) {
+        //                 $imageName = $image->hashName();
+        //                 File::delete(public_path($deletePath) . '/' . $deleteName);
 
-                        $pengeluaran->update([
-                            'image_lokasi' => $pathym,
-                            'image_nama' => $imageName,
-                            // 'image_type' => $image['type'],
-                        ]);
+        //                 $pengeluaran->update([
+        //                     'image_lokasi' => $pathym,
+        //                     'image_nama' => $imageName,
+        //                     // 'image_type' => $image['type'],
+        //                 ]);
 
-                        $path = $this->compress_image($image, $image->path(), public_path($pathym) . '/' . $imageName, 50);
-                        // $image->storeAs('public/uploads', $imageName); // storage
-                        // $image->move(public_path('uploads'), $imageName); // public
-                        // $image->storeAs('images', $imageName, 's3'); // s3
-                    }
-                }
-            }
-        }
+        //                 $path = $this->compress_image($image, $image->path(), public_path($pathym) . '/' . $imageName, 50);
+        //                 // $image->storeAs('public/uploads', $imageName); // storage
+        //                 // $image->move(public_path('uploads'), $imageName); // public
+        //                 // $image->storeAs('images', $imageName, 's3'); // s3
+        //             }
+        //         }
+        //     }
+        // }
 
         $this->db_switch(1);
 
         return response()->json([
             'status' => 'success',
-            'path' => $path,
+            'path' => $data,
         ]);
     }
 
