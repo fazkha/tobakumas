@@ -432,6 +432,7 @@ class MitraController extends Controller
             if ($cOmzet) {
                 $bonus = DB::select("CALL sp_mitra_target_bonus(?)", [$cOmzet]);
                 $cBonus = $bonus[0]->bonus * 1000;
+                dd($cBonus);
 
                 if ($cBonus) {
                     $pekanan = MitraAverageOmzet::where('user_id', $data['id'])
