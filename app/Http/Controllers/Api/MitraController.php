@@ -296,8 +296,14 @@ class MitraController extends Controller
             ->where('jenis_pengeluaran_mitra_id', $jenis->id)
             ->first();
 
+        $deleteName = $pengeluaran->image_nama ? $pengeluaran->image_nama : NULL;
+        $deletePath = $pengeluaran->image_lokasi ? 'storage/' . $pengeluaran->image_lokasi : NULL;
+
         try {
             $pengeluaran->delete();
+            if ($deleteName && $deletePath) {
+                File::delete(public_path($deletePath) . '/' . $deleteName);
+            }
         } catch (\Illuminate\Database\QueryException $e) {
             $this->db_switch(1);
 
