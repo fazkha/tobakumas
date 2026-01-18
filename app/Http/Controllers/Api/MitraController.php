@@ -465,7 +465,6 @@ class MitraController extends Controller
                     $year = ($week == $saturdayWeek - 1) ? $saturdayYear : $date->copy()->addDay()->year;
                     $padWeek = str($week)->padLeft(2, '0');
                     $yearWeek = $year . $padWeek;
-                    dd($yearWeek);
 
                     $prevPekanan = MitraAverageOmzet::where('user_id', $data['id'])
                         ->where('minggu', $yearWeek)
@@ -475,9 +474,10 @@ class MitraController extends Controller
                         $prevOmset = $prevPekanan->rata2;
                         $prevBonus = $prevPekanan->bonus;
                     } else {
-                        $prevOmset = 0;
-                        $prevBonus = 0;
+                        $prevOmset = 1;
+                        $prevBonus = 1;
                     }
+
                     $trend = ($prevOmset < $cOmzet) ? 'up' : (($prevOmset > $cOmzet) ? 'down' : 'same');
                     $pct = ($cOmzet / $prevOmset) * 100;
                     $trend_bonus = ($prevBonus < $cBonus) ? 'up' : (($prevBonus > $cBonus) ? 'down' : 'same');
