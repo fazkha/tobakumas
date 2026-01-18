@@ -474,14 +474,22 @@ class MitraController extends Controller
                         $prevOmset = $prevPekanan->rata2;
                         $prevBonus = $prevPekanan->bonus;
                     } else {
-                        $prevOmset = 1;
-                        $prevBonus = 1;
+                        $prevOmset = 0;
+                        $prevBonus = 0;
                     }
 
                     $trend = ($prevOmset < $cOmzet) ? 'up' : (($prevOmset > $cOmzet) ? 'down' : 'same');
-                    $pct = ($cOmzet / $prevOmset) * 100;
+                    if ($prevOmset == 0) {
+                        $pct = 100;
+                    } else {
+                        $pct = ($cOmzet / $prevOmset) * 100;
+                    }
                     $trend_bonus = ($prevBonus < $cBonus) ? 'up' : (($prevBonus > $cBonus) ? 'down' : 'same');
-                    $pct_bonus = ($cBonus / $prevBonus) * 100;
+                    if ($prevBonus == 0) {
+                        $pct_bonus = 100;
+                    } else {
+                        $pct_bonus = ($cBonus / $prevBonus) * 100;
+                    }
 
                     $pekanan->update([
                         'trend' => $trend,
