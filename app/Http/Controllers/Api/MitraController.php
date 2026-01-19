@@ -81,6 +81,7 @@ class MitraController extends Controller
                 'latitude' => null,
                 'longitude' => null,
                 'isactive' => $data['stat'] == 'onmove' ? 0 : 1,
+                'timesaved' => time(),
             ]);
         } elseif ($data['locations'][0] == []) {
             $rute = RuteGerobak::create([
@@ -90,6 +91,7 @@ class MitraController extends Controller
                 'latitude' => null,
                 'longitude' => null,
                 'isactive' => $data['stat'] == 'onmove' ? 0 : 1,
+                'timesaved' => time(),
             ]);
         } else {
             foreach ($data['locations'] as $location) {
