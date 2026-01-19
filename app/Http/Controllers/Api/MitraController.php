@@ -77,6 +77,7 @@ class MitraController extends Controller
             $rute = RuteGerobak::create([
                 'user_id' => $data['id'],
                 'status' => $data['stat'],
+                'tanggal' => date('Y-m-d'),
                 'latitude' => null,
                 'longitude' => null,
                 'isactive' => $data['stat'] == 'onmove' ? 0 : 1,
@@ -85,6 +86,7 @@ class MitraController extends Controller
             $rute = RuteGerobak::create([
                 'user_id' => $data['id'],
                 'status' => $data['stat'],
+                'tanggal' => date('Y-m-d'),
                 'latitude' => null,
                 'longitude' => null,
                 'isactive' => $data['stat'] == 'onmove' ? 0 : 1,
@@ -95,6 +97,7 @@ class MitraController extends Controller
                     $rute = RuteGerobak::create([
                         'user_id' => $data['id'],
                         'status' => $data['stat'],
+                        'tanggal' => date('Y-m-d'),
                         'latitude' => $location['latitude'],
                         'longitude' => $location['longitude'],
                         'isactive' => 1,

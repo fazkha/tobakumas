@@ -11,6 +11,7 @@ class RuteGerobak extends Model
 
     protected $fillable = [
         'user_id',
+        'tanggal',
         'status',
         'latitude',
         'longitude',

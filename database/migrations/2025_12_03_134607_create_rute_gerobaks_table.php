@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('rute_gerobaks', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('restrict');
+            $table->date('tanggal')->nullable();
             $table->string('status', 100);
             $table->string('latitude', 100)->nullable();
             $table->string('longitude', 100)->nullable();
