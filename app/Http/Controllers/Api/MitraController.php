@@ -437,12 +437,12 @@ class MitraController extends Controller
             if ($cOmzet) {
                 $pekanan = MitraAverageOmzet::where('user_id', $data['id'])
                     ->where('minggu', $yearWeek)
-                    ->get();
+                    ->first();
 
                 if ($pekanan) {
                     $pekanan->update([
-                        'rata2' => $cOmzet,
-                        // 'trend' => $trend,
+                        // 'rata2' => $cOmzet,
+                        'trend' => $trend,
                         // 'pct' => $pct,
                         // 'bonus' => $cBonus,
                         // 'trend_bonus' => $trend_bonus,
