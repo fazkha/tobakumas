@@ -403,7 +403,6 @@ class MitraController extends Controller
         $validator = validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
         ]);
-        dd($validator);
 
         if ($validator->fails()) {
             $errors = $validator->errors();
@@ -418,6 +417,7 @@ class MitraController extends Controller
         }
 
         $data = $validator->validated();
+        dd($data);
 
         $omzet = DB::select("CALL sp_mitra_omset_pekanan(?)", [$data['id']]);
         $trend = null;
