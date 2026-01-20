@@ -435,35 +435,42 @@ class MitraController extends Controller
             $cOmzet = $omzet[6]->rata2;
 
             if ($cOmzet) {
+                $pekanan = MitraAverageOmzet::where('user_id', $data['id'])
+                    ->where('minggu', $yearWeek)
+                    ->first();
+
+                if ($pekanan) {
+                    $pekanan->update([
+                        'rata2' => $cOmzet,
+                        'trend' => $trend,
+                        'pct' => $pct,
+                        'bonus' => $cBonus,
+                        'trend_bonus' => $trend_bonus,
+                        'pct_bonus' => $pct_bonus,
+                    ]);
+                } else {
+                    $pekanan = MitraAverageOmzet::create([
+                        'user_id' => $data['id'],
+                        'minggu' => $yearWeek,
+                        'rata2' => $cOmzet,
+                        'trend' => $trend,
+                        'pct' => $pct,
+                        'bonus' => $cBonus,
+                        'trend_bonus' => $trend_bonus,
+                        'pct_bonus' => $pct_bonus,
+                    ]);
+                }
+
                 $bonus = DB::select("CALL sp_mitra_target_bonus(?)", [$cOmzet]);
-                $cBonus = $bonus[0]->bonus;
 
-                if ($cBonus) {
-                    $pekanan = MitraAverageOmzet::where('user_id', $data['id'])
-                        ->where('minggu', $yearWeek)
-                        ->first();
+                if ($bonus) {
+                    $cBonus = $bonus[0]->bonus;
 
-                    if ($pekanan) {
-                        $pekanan->update([
-                            'rata2' => $cOmzet,
-                            'trend' => $trend,
-                            'pct' => $pct,
-                            'bonus' => $cBonus,
-                            'trend_bonus' => $trend_bonus,
-                            'pct_bonus' => $pct_bonus,
-                        ]);
-                    } else {
-                        $pekanan = MitraAverageOmzet::create([
-                            'user_id' => $data['id'],
-                            'minggu' => $yearWeek,
-                            'rata2' => $cOmzet,
-                            'trend' => $trend,
-                            'pct' => $pct,
-                            'bonus' => $cBonus,
-                            'trend_bonus' => $trend_bonus,
-                            'pct_bonus' => $pct_bonus,
-                        ]);
-                    }
+                    $pekanan->update([
+                        'bonus' => $cBonus,
+                        'trend_bonus' => $trend_bonus,
+                        'pct_bonus' => $pct_bonus,
+                    ]);
 
                     $date = Carbon::now()->subWeek();
                     $week = $date->copy()->addDay()->week();
