@@ -440,7 +440,7 @@ class MitraController extends Controller
                     ->first();
 
                 if ($pekanan) {
-                    dd('update');
+                    dd($pekanan);
                     $pekanan->update([
                         'rata2' => $cOmzet,
                         'trend' => $trend,
@@ -450,7 +450,6 @@ class MitraController extends Controller
                         'pct_bonus' => $pct_bonus,
                     ]);
                 } else {
-                    dd('insert');
                     $pekanan = MitraAverageOmzet::create([
                         'user_id' => $data['id'],
                         'minggu' => $yearWeek,
