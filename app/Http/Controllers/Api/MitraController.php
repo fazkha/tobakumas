@@ -419,7 +419,6 @@ class MitraController extends Controller
         $data = $validator->validated();
 
         $omzet = DB::select("CALL sp_mitra_omset_pekanan(?)", [$data['id']]);
-        dd($omzet);
         $trend = null;
         $pct = null;
         $trend_bonus = null;
@@ -434,6 +433,7 @@ class MitraController extends Controller
             $padWeek = str($saturdayWeek)->padLeft(2, '0');
             $yearWeek = $saturdayYear . $padWeek;
             $cOmzet = $omzet[6]->rata2;
+            dd($cOmzet);
 
             if ($cOmzet) {
                 $bonus = DB::select("CALL sp_mitra_target_bonus(?)", [$cOmzet]);
