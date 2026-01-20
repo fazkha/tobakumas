@@ -466,11 +466,11 @@ class MitraController extends Controller
                 if ($bonus) {
                     $cBonus = $bonus[0]->bonus;
 
-                    $pekanan->update([
-                        'bonus' => $cBonus,
-                        'trend_bonus' => $trend_bonus,
-                        'pct_bonus' => $pct_bonus,
-                    ]);
+                    // $pekanan->update([
+                    //     'bonus' => $cBonus,
+                    //     'trend_bonus' => $trend_bonus,
+                    //     'pct_bonus' => $pct_bonus,
+                    // ]);
 
                     $date = Carbon::now()->subWeek();
                     $week = $date->copy()->addDay()->week();
