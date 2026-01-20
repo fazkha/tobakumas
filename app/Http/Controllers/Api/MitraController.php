@@ -72,7 +72,6 @@ class MitraController extends Controller
         }
 
         $data = $validator->validated();
-        dd($data['locations']);
 
         if (count($data['locations']) == 0) {
             dd('1');
