@@ -95,7 +95,7 @@ class MitraController extends Controller
             ]);
         } else {
             foreach ($data['locations'] as $location) {
-                dd($location);
+                dd($location['latitude']);
 
                 try {
                     $rute = RuteGerobak::create([
