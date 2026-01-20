@@ -443,10 +443,10 @@ class MitraController extends Controller
                     $pekanan->update([
                         // 'rata2' => $cOmzet,
                         'trend' => $trend,
-                        // 'pct' => $pct,
-                        // 'bonus' => $cBonus,
-                        // 'trend_bonus' => $trend_bonus,
-                        // 'pct_bonus' => $pct_bonus,
+                        'pct' => $pct,
+                        'bonus' => $cBonus,
+                        'trend_bonus' => $trend_bonus,
+                        'pct_bonus' => $pct_bonus,
                     ]);
                     dd($pekanan);
                 } else {
