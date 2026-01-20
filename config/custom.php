@@ -5,7 +5,7 @@ return [
     'version' => '1.27.0',
 
     // company name
-    'company_name' => 'Laris Manis Gemilang',
+    'company_name' => 'Laris Manis Gemilang Jaya',
 
     // Product name
     'product_short' => 'Tobakumas',
