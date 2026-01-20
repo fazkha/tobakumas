@@ -433,12 +433,12 @@ class MitraController extends Controller
             $padWeek = str($saturdayWeek)->padLeft(2, '0');
             $yearWeek = $saturdayYear . $padWeek;
             $cOmzet = $omzet[6]->rata2;
-            dd($cOmzet);
 
             if ($cOmzet) {
                 $pekanan = MitraAverageOmzet::where('user_id', $data['id'])
                     ->where('minggu', $yearWeek)
                     ->first();
+                dd($pekanan);
 
                 if ($pekanan) {
                     $pekanan->update([
