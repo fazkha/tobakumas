@@ -403,6 +403,7 @@ class MitraController extends Controller
         $validator = validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
         ]);
+        dd($validator);
 
         if ($validator->fails()) {
             $errors = $validator->errors();
@@ -425,7 +426,6 @@ class MitraController extends Controller
         $pct_bonus = null;
         $target = null;
         $cBonus = null;
-        dd($omzet);
 
         if ($omzet) {
             $date = Carbon::now();
