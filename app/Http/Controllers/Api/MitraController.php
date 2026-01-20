@@ -425,6 +425,7 @@ class MitraController extends Controller
         $pct_bonus = null;
         $target = null;
         $cBonus = null;
+        dd($omzet);
 
         if ($omzet) {
             $date = Carbon::now();
