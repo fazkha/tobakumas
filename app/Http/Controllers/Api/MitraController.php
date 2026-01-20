@@ -433,11 +433,11 @@ class MitraController extends Controller
             $padWeek = str($saturdayWeek)->padLeft(2, '0');
             $yearWeek = $saturdayYear . $padWeek;
             $cOmzet = $omzet[6]->rata2;
-            dd($cOmzet);
 
             if ($cOmzet) {
                 $bonus = DB::select("CALL sp_mitra_target_bonus(?)", [$cOmzet]);
                 $cBonus = $bonus[0]->bonus;
+                dd($cBonus);
 
                 if ($cBonus) {
                     $pekanan = MitraAverageOmzet::where('user_id', $data['id'])
