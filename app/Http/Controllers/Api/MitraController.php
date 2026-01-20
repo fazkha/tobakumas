@@ -417,9 +417,9 @@ class MitraController extends Controller
         }
 
         $data = $validator->validated();
-        dd($data);
 
         $omzet = DB::select("CALL sp_mitra_omset_pekanan(?)", [$data['id']]);
+        dd($omzet);
         $trend = null;
         $pct = null;
         $trend_bonus = null;
