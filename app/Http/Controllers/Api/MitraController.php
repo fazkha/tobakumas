@@ -74,6 +74,8 @@ class MitraController extends Controller
         $data = $validator->validated();
 
         if (count($data['locations']) == 0) {
+            dd('1');
+
             $rute = RuteGerobak::create([
                 'user_id' => $data['id'],
                 'status' => $data['stat'],
@@ -84,6 +86,8 @@ class MitraController extends Controller
                 'timesaved' => time(),
             ]);
         } elseif ($data['locations'][0] == []) {
+            dd('2');
+
             $rute = RuteGerobak::create([
                 'user_id' => $data['id'],
                 'status' => $data['stat'],
@@ -94,6 +98,8 @@ class MitraController extends Controller
                 'timesaved' => time(),
             ]);
         } else {
+            dd('3');
+
             foreach ($data['locations'] as $location) {
                 try {
                     $rute = RuteGerobak::create([
