@@ -101,8 +101,8 @@ class CabangController extends Controller
                 ->whereNotNull('rute_gerobaks.latitude')
                 ->selectRaw('rute_gerobaks.latitude as latitude, rute_gerobaks.longitude as longitude, branches.nama as cabang, users.name as mitra, DATE(FROM_UNIXTIME(rute_gerobaks.timesaved)) as tanggal, TIME(FROM_UNIXTIME(rute_gerobaks.timesaved)) as jam')
                 ->orderBy('rute_gerobaks.id')
-                ->get();
-            // ->toArray();
+                ->get()
+                ->toArray();
             dd($prev);
 
             $sql = $prev->toSql();
