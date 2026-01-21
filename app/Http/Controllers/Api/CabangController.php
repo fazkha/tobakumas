@@ -56,7 +56,7 @@ class CabangController extends Controller
 
         $data = $validator->validated();
         $tgblth = $data['tahun'] . '-' . $data['bulan'] . '-' . $data['tanggal'];
-        $pekanLalu = 'rute_gerobaks.tanggal = DATE_SUB("' . $tgblth . '", INTERVAL 1 WEEK)';
+        $pekanLalu = 'rute_gerobaks.tanggal = DATE_SUB(\'' . $tgblth . '\', INTERVAL 1 WEEK)';
 
         try {
             $rute = RuteGerobak::join('users', 'rute_gerobaks.user_id', '=', 'users.id')
