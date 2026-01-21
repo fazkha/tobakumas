@@ -103,6 +103,7 @@ class CabangController extends Controller
                 ->orderBy('rute_gerobaks.id')
                 ->get();
             // ->toArray();
+            dd($prev);
 
             $sql = $prev->toSql();
             $bindings = $prev->getBindings();
