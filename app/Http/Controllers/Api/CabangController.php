@@ -103,14 +103,6 @@ class CabangController extends Controller
                 ->orderBy('rute_gerobaks.id')
                 ->get()
                 ->toArray();
-            dd($prev);
-
-            $sql = $prev->toSql();
-            $bindings = $prev->getBindings();
-            foreach ($bindings as $binding) {
-                $sql = preg_replace('/\?/', "'" . addslashes($binding) . "'", $sql, 1);
-            }
-            dd($sql);
         } catch (QueryException $e) {
             // dd($e->getMessage());
             $this->db_switch(1);
