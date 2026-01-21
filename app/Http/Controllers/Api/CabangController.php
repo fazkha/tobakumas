@@ -55,15 +55,17 @@ class CabangController extends Controller
         }
 
         $data = $validator->validated();
+        $tgblth = $data['tahun'] . '-' . $data['bulan'] . '-' . $data['tanggal'];
+        $pekanLalu = 'rute_gerobaks.tanggal = DATE_SUB("' . $tgblth . '", INTERVAL 1 WEEK)';
 
         try {
             $rute = RuteGerobak::join('users', 'rute_gerobaks.user_id', '=', 'users.id')
                 ->join('profiles', 'users.id', '=', 'profiles.user_id')
                 ->join('branches', 'profiles.branch_id', '=', 'branches.id')
                 ->where('rute_gerobaks.user_id', $data['mitra'])
-                ->whereDay('rute_gerobaks.created_at', $data['tanggal'])
-                ->whereMonth('rute_gerobaks.created_at', $data['bulan'])
-                ->whereYear('rute_gerobaks.created_at', $data['tahun'])
+                ->whereDay('rute_gerobaks.tanggal', $data['tanggal'])
+                ->whereMonth('rute_gerobaks.tanggal', $data['bulan'])
+                ->whereYear('rute_gerobaks.tanggal', $data['tahun'])
                 ->where('rute_gerobaks.isactive', 1)
                 ->whereNotNull('rute_gerobaks.latitude')
                 ->selectRaw('rute_gerobaks.latitude as latitude, rute_gerobaks.longitude as longitude, branches.nama as cabang, users.name as mitra, DATE(FROM_UNIXTIME(rute_gerobaks.timesaved)) as tanggal, TIME(FROM_UNIXTIME(rute_gerobaks.timesaved)) as jam')
@@ -87,11 +89,40 @@ class CabangController extends Controller
             ]);
         }
 
+        try {
+            $prev = RuteGerobak::join('users', 'rute_gerobaks.user_id', '=', 'users.id')
+                ->join('profiles', 'users.id', '=', 'profiles.user_id')
+                ->join('branches', 'profiles.branch_id', '=', 'branches.id')
+                ->where('rute_gerobaks.user_id', $data['mitra'])
+                ->whereRaw($pekanLalu)
+                ->where('rute_gerobaks.isactive', 1)
+                ->whereNotNull('rute_gerobaks.latitude')
+                ->selectRaw('rute_gerobaks.latitude as latitude, rute_gerobaks.longitude as longitude, branches.nama as cabang, users.name as mitra, DATE(FROM_UNIXTIME(rute_gerobaks.timesaved)) as tanggal, TIME(FROM_UNIXTIME(rute_gerobaks.timesaved)) as jam')
+                ->orderBy('rute_gerobaks.id')
+                ->get()
+                ->toArray();
+
+            $sql = $prev->toSql();
+            $bindings = $prev->getBindings();
+            foreach ($bindings as $binding) {
+                $sql = preg_replace('/\?/', "'" . addslashes($binding) . "'", $sql, 1);
+            }
+            dd($sql);
+        } catch (QueryException $e) {
+            // dd($e->getMessage());
+            $this->db_switch(1);
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ]);
+        }
+
         $this->db_switch(1);
 
         return response()->json([
             'status' => 'success',
             'rute' => $rute,
+            'prev' => $prev,
         ]);
     }
 }
