@@ -74,14 +74,6 @@ class CabangController extends Controller
                 ->orderBy('rute_gerobaks.id')
                 ->get()
                 ->toArray();
-
-            if (count($rute) == 0) {
-                $this->db_switch(1);
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Gerobak tidak aktif pada tanggal tersebut!',
-                ]);
-            }
         } catch (QueryException $e) {
             // dd($e->getMessage());
             $this->db_switch(1);
