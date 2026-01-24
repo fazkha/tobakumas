@@ -82,6 +82,8 @@ class CabangController extends Controller
                 'message' => $e->getMessage(),
             ]);
         }
+        dd($rute);
+
 
         $maxPrice = DB::table('mitra_omzet_pengeluarans')
             ->where('user_id', $data['mitra'])
