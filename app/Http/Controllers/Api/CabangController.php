@@ -85,6 +85,7 @@ class CabangController extends Controller
 
         $maxPrice = DB::table('mitra_omzet_pengeluarans')
             ->whereRaw('DAYNAME(tanggal) = DAYNAME(?)', [$tgblth])
+            ->whereDate('tanggal', '<', $tgblth)
             ->max('price');
         dd($maxPrice);
 
