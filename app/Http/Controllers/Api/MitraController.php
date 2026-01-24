@@ -179,8 +179,11 @@ class MitraController extends Controller
             ->first();
 
         if ($jenis->nama == 'Kas bon') {
-            $week = Carbon::now()->week;
-            $year = Carbon::now()->year;
+            $date = Carbon::parse($data['tanggal']);
+            $week = $date->isoWeek();
+            $year = $date->isoWeekYear();
+            // $week = Carbon::now()->week;
+            // $year = Carbon::now()->year;
             $yearWeek = $year . str($week)->padLeft(2, '0');
 
             $app_plafon = AppSetting::where('parm', 'mitra_kasbon_plafon')->first();
