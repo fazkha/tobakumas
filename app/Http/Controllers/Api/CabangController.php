@@ -59,7 +59,6 @@ class CabangController extends Controller
         $prev = null;
         $tgblth = $data['tahun'] . '-' . str_pad($data['bulan'], 2, "0", STR_PAD_LEFT) . '-' . $data['tanggal'];
         $hariLalu = 'DAYNAME(rute_gerobaks.tanggal) = DAYNAME(\'' . $tgblth . '\')';
-        dd($hariLalu);
 
         try {
             $rute = RuteGerobak::join('users', 'rute_gerobaks.user_id', '=', 'users.id')
