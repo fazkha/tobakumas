@@ -82,14 +82,12 @@ class CabangController extends Controller
                 'message' => $e->getMessage(),
             ]);
         }
-        dd($rute);
 
-
-        $maxPrice = DB::table('mitra_omzet_pengeluarans')
+        $maxOmzet = DB::table('mitra_omzet_pengeluarans')
             ->where('user_id', $data['mitra'])
             ->whereRaw('DAYNAME(tanggal) = DAYNAME(?) AND tanggal < DATE(?)', [$tgblth])
-            ->max('price');
-        dd($maxPrice);
+            ->max('omzet');
+        dd($maxOmzet);
 
         try {
             $prev = RuteGerobak::join('users', 'rute_gerobaks.user_id', '=', 'users.id')
