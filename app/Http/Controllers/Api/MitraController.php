@@ -182,9 +182,10 @@ class MitraController extends Controller
             $date = Carbon::parse($data['tanggal']);
             $week = $date->isoWeek();
             $year = $date->isoWeekYear();
-            // $week = Carbon::now()->week;
-            // $year = Carbon::now()->year;
+            $prevWeek = $date->copy()->subWeek()->isoWeek();
+            $prevYear = $date->copy()->subWeek()->isoWeekYear();
             $yearWeek = $year . str($week)->padLeft(2, '0');
+            $prevYearWeek = $prevYear . str($prevWeek)->padLeft(2, '0');
 
             $app_plafon = AppSetting::where('parm', 'mitra_kasbon_plafon')->first();
             $app_plafon_value = $app_plafon ? intval($app_plafon->value) : 0;
@@ -209,6 +210,15 @@ class MitraController extends Controller
                     'sisa_plafon' => $newSisa,
                 ]);
             } else {
+
+                $prevKasbon = MitraKasbon::where('isactive', 1)
+                    ->where('user_id', $data['id'])
+                    ->where('minggu', $prevYearWeek)
+                    ->first();
+
+                if ($prevKasbon) {
+                    $app_plafon_value = $app_plafon_value + $prevKasbon->sisa_plafon;
+                }
 
                 if (intval($data['harga']) > $app_plafon_value) {
                     $this->db_switch(1);
