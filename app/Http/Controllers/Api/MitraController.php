@@ -362,12 +362,15 @@ class MitraController extends Controller
 
         $deleteName = $pengeluaran->image_nama ? $pengeluaran->image_nama : NULL;
         $deletePath = $pengeluaran->image_lokasi ? 'storage/' . $pengeluaran->image_lokasi : NULL;
+        $harga = $pengeluaran->harga ? $pengeluaran->harga : 0;
+        $deleteSuccess = false;
 
         try {
             $pengeluaran->delete();
             if ($deleteName && $deletePath) {
                 File::delete(public_path($deletePath) . '/' . $deleteName);
             }
+            $deleteSuccess = true;
         } catch (\Illuminate\Database\QueryException $e) {
             $this->db_switch(1);
 
@@ -375,6 +378,24 @@ class MitraController extends Controller
                 'status' => 'error',
                 'message' => $e->getMessage(),
             ]);
+        }
+
+        if ($deleteSuccess) {
+            $date = Carbon::parse($data['tanggal']);
+            $week = $date->isoWeek();
+            $year = $date->isoWeekYear();
+            $yearWeek = $year . str($week)->padLeft(2, '0');
+
+            $kasbon = MitraKasbon::where('isactive', 1)
+                ->where('user_id', $data['id'])
+                ->where('minggu', $yearWeek)
+                ->first();
+
+            if ($kasbon && $jenis->nama == 'Kas bon') {
+                $kasbon->update([
+                    'sisa_plafon' => $kasbon->sisa_plafon + $harga,
+                ]);
+            }
         }
 
         if ($omzet) {
