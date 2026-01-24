@@ -86,7 +86,9 @@ class CabangController extends Controller
         $maxOmzet = DB::table('mitra_omzet_pengeluarans')
             ->where('user_id', $data['mitra'])
             ->whereRaw('DAYNAME(tanggal) = DAYNAME(?) AND tanggal < DATE(?)', [$tgblth, $tgblth])
-            ->max('omzet');
+            ->groupBy(DB::raw('DATE(tanggal)'))
+            ->selectRaw('DATE(tanggal) as tanggal, MAX(omzet) as max_omzet')
+            ->get();
         dd($maxOmzet);
 
         try {
