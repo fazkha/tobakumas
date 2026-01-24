@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\AppSetting;
 use App\Models\JenisPengeluaranMitra;
 use App\Models\MitraAverageOmzet;
+use App\Models\MitraKasbon;
 use App\Models\MitraOmzetPengeluaran;
 use App\Models\MitraOmzetPengeluaranDetail;
 use App\Models\MitraTargetBonus;
@@ -170,6 +172,47 @@ class MitraController extends Controller
                 'omzet' => $data['omzet'] ?? null,
                 'sisa_adonan' => $data['adonan'] ?? null,
             ]);
+        }
+
+        $jenis = JenisPengeluaranMitra::where('isactive', 1)
+            ->where('id', $data['keterangan'])
+            ->first();
+
+        if ($jenis->nama == 'Kas bon') {
+            $week = Carbon::now()->week;
+            $year = Carbon::now()->year;
+            $yearWeek = $year . str($week)->padLeft(2, '0');
+
+            $app_plafon = AppSetting::where('parm', 'mitra_kasbon_plafon')->first();
+
+            $kasbon = MitraKasbon::where('isactive', 1)
+                ->where('user_id', $data['id'])
+                ->where('minggu', $yearWeek)
+                ->first();
+
+            if ($kasbon) {
+                if (intval($data['harga']) > $kasbon->sisa_plafon) {
+                    $this->db_switch(1);
+
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Sisa plafon kas bon anda Rp. ' . $kasbon->sisa_plafon,
+                    ]);
+                }
+
+                $newSisa = $kasbon->sisa_plafon - ($data['harga'] ?? 0);
+                $kasbon->update([
+                    'sisa_plafon' => $newSisa,
+                ]);
+            } else {
+                $kasbon = MitraKasbon::create([
+                    'user_id' => $data['id'],
+                    'minggu' => $yearWeek,
+                    'plafon' => $app_plafon ? intval($app_plafon->value) : 0,
+                    'sisa_plafon' => $app_plafon ? intval($app_plafon->value) : 0,
+                    'isactive' => 1,
+                ]);
+            }
         }
 
         $detail = MitraOmzetPengeluaranDetail::where('mitra_omzet_pengeluaran_id', $omzet->id)
