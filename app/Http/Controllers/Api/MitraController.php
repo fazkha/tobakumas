@@ -201,8 +201,8 @@ class MitraController extends Controller
             $app_plafon = AppSetting::where('parm', 'mitra_kasbon_plafon')->first();
             $app_plafon_value = $app_plafon ? intval($app_plafon->value) : 0;
             $app_plafon_value = $app_plafon_value / $weeksInMonth;
-            $app_plafon_value = $week * $app_plafon_value;
             dd($app_plafon_value);
+            $app_plafon_value = $week * $app_plafon_value;
 
             $kasbon = MitraKasbon::where('isactive', 1)
                 ->where('user_id', $data['id'])
