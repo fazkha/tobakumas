@@ -98,7 +98,7 @@ class CabangController extends Controller
                     ->join('profiles', 'users.id', '=', 'profiles.user_id')
                     ->join('branches', 'profiles.branch_id', '=', 'branches.id')
                     ->where('rute_gerobaks.user_id', $data['mitra'])
-                    ->whereRaw($hariLalu)
+                    ->whereRaw('rute_gerobaks.tanggal = ?', [$maxOmzet->tanggal])
                     ->where()
                     ->where('rute_gerobaks.isactive', 1)
                     ->whereNotNull('rute_gerobaks.latitude')
