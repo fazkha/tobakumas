@@ -58,7 +58,7 @@ class CabangController extends Controller
         $rute = null;
         $prev = null;
         $tgblth = $data['tahun'] . '-' . $data['bulan'] . '-' . $data['tanggal'];
-        $pekanLalu = 'rute_gerobaks.tanggal = DATE_SUB(\'' . $tgblth . '\', INTERVAL 1 WEEK)';
+        $hariLalu = 'DAYNAME(rute_gerobaks.tanggal) = DAYNAME(\'' . $tgblth . '\')';
 
         try {
             $rute = RuteGerobak::join('users', 'rute_gerobaks.user_id', '=', 'users.id')
@@ -83,12 +83,18 @@ class CabangController extends Controller
             ]);
         }
 
+        $maxPrice = DB::table('mitra_omzet_pengeluarans')
+            ->whereRaw('DAYNAME(tanggal) = DAYNAME(?)', [$tgblth])
+            ->max('price');
+        dd($maxPrice);
+
         try {
             $prev = RuteGerobak::join('users', 'rute_gerobaks.user_id', '=', 'users.id')
                 ->join('profiles', 'users.id', '=', 'profiles.user_id')
                 ->join('branches', 'profiles.branch_id', '=', 'branches.id')
                 ->where('rute_gerobaks.user_id', $data['mitra'])
-                ->whereRaw($pekanLalu)
+                ->whereRaw($hariLalu)
+                ->where()
                 ->where('rute_gerobaks.isactive', 1)
                 ->whereNotNull('rute_gerobaks.latitude')
                 ->selectRaw('rute_gerobaks.latitude as latitude, rute_gerobaks.longitude as longitude, branches.nama as cabang, users.name as mitra, DATE(FROM_UNIXTIME(rute_gerobaks.timesaved)) as tanggal, TIME(FROM_UNIXTIME(rute_gerobaks.timesaved)) as jam')
