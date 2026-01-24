@@ -180,16 +180,27 @@ class MitraController extends Controller
 
         if ($jenis->nama == 'Kas bon') {
             $date = Carbon::parse($data['tanggal']);
+
+            $weeksInMonth =
+                $date->copy()->startOfMonth()->weekOfYear
+                <= $date->copy()->endOfMonth()->weekOfYear
+                ? $date->copy()->endOfMonth()->weekOfYear - $date->copy()->startOfMonth()->weekOfYear + 1
+                : // year rollover (Dec → Jan)
+                $date->copy()->endOfMonth()->weekOfYear
+                + Carbon::create($date->year)->endOfYear()->weekOfYear
+                - $date->copy()->startOfMonth()->weekOfYear + 1;
+
             $week = $date->isoWeek();
             $year = $date->isoWeekYear();
             $prevWeek = $date->copy()->subWeek()->isoWeek();
             $prevYear = $date->copy()->subWeek()->isoWeekYear();
+
             $yearWeek = $year . str($week)->padLeft(2, '0');
             $prevYearWeek = $prevYear . str($prevWeek)->padLeft(2, '0');
 
             $app_plafon = AppSetting::where('parm', 'mitra_kasbon_plafon')->first();
             $app_plafon_value = $app_plafon ? intval($app_plafon->value) : 0;
-            $app_plafon_value = $app_plafon_value / 4;
+            $app_plafon_value = $app_plafon_value / $weeksInMonth;
 
             $kasbon = MitraKasbon::where('isactive', 1)
                 ->where('user_id', $data['id'])
