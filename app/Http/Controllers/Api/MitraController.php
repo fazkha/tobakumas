@@ -200,7 +200,7 @@ class MitraController extends Controller
 
                     return response()->json([
                         'status' => 'error',
-                        'message' => 'Sisa plafon kas bon anda Rp. ' . $kasbon->sisa_plafon,
+                        'message' => 'Tidak mencukupi. Sisa plafon kas bon anda Rp. ' . $kasbon->sisa_plafon,
                     ]);
                 }
 
