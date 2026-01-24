@@ -187,6 +187,7 @@ class MitraController extends Controller
             $yearWeek = $year . str($week)->padLeft(2, '0');
 
             $app_plafon = AppSetting::where('parm', 'mitra_kasbon_plafon')->first();
+            $app_plafon_value = $app_plafon ? intval($app_plafon->value) : 0;
 
             $kasbon = MitraKasbon::where('isactive', 1)
                 ->where('user_id', $data['id'])
@@ -208,11 +209,23 @@ class MitraController extends Controller
                     'sisa_plafon' => $newSisa,
                 ]);
             } else {
+
+                if (intval($data['harga']) > $app_plafon_value) {
+                    $this->db_switch(1);
+
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Tidak mencukupi. Sisa plafon kas bon anda Rp. ' . $app_plafon_value,
+                    ]);
+                }
+
+                $newSisa = $app_plafon_value - ($data['harga'] ?? 0);
+
                 $kasbon = MitraKasbon::create([
                     'user_id' => $data['id'],
                     'minggu' => $yearWeek,
-                    'plafon' => $app_plafon ? intval($app_plafon->value) : 0,
-                    'sisa_plafon' => $app_plafon ? intval($app_plafon->value) : 0,
+                    'plafon' => $app_plafon_value,
+                    'sisa_plafon' => $newSisa,
                     'isactive' => 1,
                 ]);
             }
