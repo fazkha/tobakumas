@@ -93,7 +93,6 @@ class CabangController extends Controller
         try {
             if ($maxOmzet) {
                 $hariLalu = 'rute_gerobaks.tanggal = \'' . $maxOmzet->tanggal . '\'';
-                dd($hariLalu);
 
                 $prev = RuteGerobak::join('users', 'rute_gerobaks.user_id', '=', 'users.id')
                     ->join('profiles', 'users.id', '=', 'profiles.user_id')
