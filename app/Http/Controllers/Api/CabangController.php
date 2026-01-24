@@ -99,7 +99,6 @@ class CabangController extends Controller
                     ->join('branches', 'profiles.branch_id', '=', 'branches.id')
                     ->where('rute_gerobaks.user_id', $data['mitra'])
                     ->whereRaw('rute_gerobaks.tanggal = ?', [$maxOmzet->tanggal])
-                    ->where()
                     ->where('rute_gerobaks.isactive', 1)
                     ->whereNotNull('rute_gerobaks.latitude')
                     ->selectRaw('rute_gerobaks.latitude as latitude, rute_gerobaks.longitude as longitude, branches.nama as cabang, users.name as mitra, DATE(FROM_UNIXTIME(rute_gerobaks.timesaved)) as tanggal, TIME(FROM_UNIXTIME(rute_gerobaks.timesaved)) as jam')
