@@ -57,7 +57,7 @@ class CabangController extends Controller
         $data = $validator->validated();
         $rute = null;
         $prev = null;
-        $tgblth = $data['tahun'] . '-' . $data['bulan'] . '-' . $data['tanggal'];
+        $tgblth = $data['tahun'] . '-' . str_pad($data['bulan'], 2, "0", STR_PAD_LEFT) . '-' . $data['tanggal'];
         $hariLalu = 'DAYNAME(rute_gerobaks.tanggal) = DAYNAME(\'' . $tgblth . '\')';
         dd($hariLalu);
 
