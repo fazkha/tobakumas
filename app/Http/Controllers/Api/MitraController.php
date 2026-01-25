@@ -210,7 +210,6 @@ class MitraController extends Controller
                     ->where('user_id', $data['id'])
                     ->where('minggu', $yearWeek)
                     ->first();
-                dd($prevYearWeek);
 
                 if ($kasbon) {
                     if (intval($data['harga']) > $kasbon->sisa_plafon) {
