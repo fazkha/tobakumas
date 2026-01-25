@@ -119,6 +119,7 @@ class CabangController extends Controller
             'status' => 'success',
             'rute' => $rute,
             'prev' => $prev,
+            'prev_omzet' => $maxOmzet ? $maxOmzet->max_omzet : null,
         ]);
     }
 }
