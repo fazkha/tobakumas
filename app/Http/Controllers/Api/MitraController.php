@@ -154,7 +154,6 @@ class MitraController extends Controller
 
         $data = $validator->validated();
         $data['adonan'] = Str::replace(',', '.', $data['adonan']);
-        dd($data['adonan']);
 
         $detail = null;
         $found = MitraOmzetPengeluaran::where('user_id', $data['id'])
@@ -168,6 +167,7 @@ class MitraController extends Controller
             ]);
 
             $omzet = $found;
+            dd(1);
         } else {
             $omzet = MitraOmzetPengeluaran::create([
                 'user_id' => $data['id'],
@@ -175,6 +175,7 @@ class MitraController extends Controller
                 'omzet' => $data['omzet'] ?? null,
                 'sisa_adonan' => $data['adonan'] ?? null,
             ]);
+            dd(2);
         }
 
         $jenis = JenisPengeluaranMitra::where('isactive', 1)
