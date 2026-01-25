@@ -167,7 +167,6 @@ class MitraController extends Controller
             ]);
 
             $omzet = $found;
-            dd(1);
         } else {
             $omzet = MitraOmzetPengeluaran::create([
                 'user_id' => $data['id'],
@@ -175,86 +174,87 @@ class MitraController extends Controller
                 'omzet' => $data['omzet'] ?? null,
                 'sisa_adonan' => $data['adonan'] ?? null,
             ]);
-            dd(2);
         }
 
         $jenis = JenisPengeluaranMitra::where('isactive', 1)
             ->where('id', $data['keterangan'])
             ->first();
 
-        if ($jenis->nama == 'Kas bon') {
-            $date = Carbon::parse($data['tanggal']);
+        if ($jenis) {
+            if ($jenis->nama == 'Kas bon') {
+                $date = Carbon::parse($data['tanggal']);
 
-            $weeksInMonth =
-                $date->copy()->startOfMonth()->weekOfYear
-                <= $date->copy()->endOfMonth()->weekOfYear
-                ? $date->copy()->endOfMonth()->weekOfYear - $date->copy()->startOfMonth()->weekOfYear + 1
-                : // year rollover (Dec → Jan)
-                $date->copy()->endOfMonth()->weekOfYear
-                + Carbon::create($date->year)->endOfYear()->weekOfYear
-                - $date->copy()->startOfMonth()->weekOfYear + 1;
+                $weeksInMonth =
+                    $date->copy()->startOfMonth()->weekOfYear
+                    <= $date->copy()->endOfMonth()->weekOfYear
+                    ? $date->copy()->endOfMonth()->weekOfYear - $date->copy()->startOfMonth()->weekOfYear + 1
+                    : // year rollover (Dec → Jan)
+                    $date->copy()->endOfMonth()->weekOfYear
+                    + Carbon::create($date->year)->endOfYear()->weekOfYear
+                    - $date->copy()->startOfMonth()->weekOfYear + 1;
 
-            $week = $date->isoWeek();
-            $year = $date->isoWeekYear();
-            $prevWeek = $date->copy()->subWeek()->isoWeek();
-            $prevYear = $date->copy()->subWeek()->isoWeekYear();
+                $week = $date->isoWeek();
+                $year = $date->isoWeekYear();
+                $prevWeek = $date->copy()->subWeek()->isoWeek();
+                $prevYear = $date->copy()->subWeek()->isoWeekYear();
 
-            $yearWeek = $year . str($week)->padLeft(2, '0');
-            $prevYearWeek = $prevYear . str($prevWeek)->padLeft(2, '0');
+                $yearWeek = $year . str($week)->padLeft(2, '0');
+                $prevYearWeek = $prevYear . str($prevWeek)->padLeft(2, '0');
 
-            $app_plafon = AppSetting::where('parm', 'mitra_kasbon_plafon')->first();
-            $app_plafon_value = $app_plafon ? intval($app_plafon->value) : 0;
-            $app_plafon_value = $app_plafon_value / $weeksInMonth;
-            $app_plafon_value = $week * $app_plafon_value;
+                $app_plafon = AppSetting::where('parm', 'mitra_kasbon_plafon')->first();
+                $app_plafon_value = $app_plafon ? intval($app_plafon->value) : 0;
+                $app_plafon_value = $app_plafon_value / $weeksInMonth;
+                $app_plafon_value = $week * $app_plafon_value;
 
-            $kasbon = MitraKasbon::where('isactive', 1)
-                ->where('user_id', $data['id'])
-                ->where('minggu', $yearWeek)
-                ->first();
-
-            if ($kasbon) {
-                if (intval($data['harga']) > $kasbon->sisa_plafon) {
-                    $this->db_switch(1);
-
-                    return response()->json([
-                        'status' => 'error',
-                        'message' => 'Tidak mencukupi. Sisa plafon kas bon anda Rp. ' . $kasbon->sisa_plafon,
-                    ]);
-                }
-
-                $newSisa = $kasbon->sisa_plafon - ($data['harga'] ?? 0);
-                $kasbon->update([
-                    'sisa_plafon' => $newSisa,
-                ]);
-            } else {
-
-                $prevKasbon = MitraKasbon::where('isactive', 1)
+                $kasbon = MitraKasbon::where('isactive', 1)
                     ->where('user_id', $data['id'])
-                    ->where('minggu', $prevYearWeek)
+                    ->where('minggu', $yearWeek)
                     ->first();
 
-                if ($prevKasbon) {
-                    $app_plafon_value = $app_plafon_value + $prevKasbon->sisa_plafon;
-                }
+                if ($kasbon) {
+                    if (intval($data['harga']) > $kasbon->sisa_plafon) {
+                        $this->db_switch(1);
 
-                if (intval($data['harga']) > $app_plafon_value) {
-                    $this->db_switch(1);
+                        return response()->json([
+                            'status' => 'error',
+                            'message' => 'Tidak mencukupi. Sisa plafon kas bon anda Rp. ' . $kasbon->sisa_plafon,
+                        ]);
+                    }
 
-                    return response()->json([
-                        'status' => 'error',
-                        'message' => 'Tidak mencukupi. Sisa plafon kas bon anda Rp. ' . $app_plafon_value,
+                    $newSisa = $kasbon->sisa_plafon - ($data['harga'] ?? 0);
+                    $kasbon->update([
+                        'sisa_plafon' => $newSisa,
+                    ]);
+                } else {
+
+                    $prevKasbon = MitraKasbon::where('isactive', 1)
+                        ->where('user_id', $data['id'])
+                        ->where('minggu', $prevYearWeek)
+                        ->first();
+
+                    if ($prevKasbon) {
+                        $app_plafon_value = $app_plafon_value + $prevKasbon->sisa_plafon;
+                    }
+
+                    if (intval($data['harga']) > $app_plafon_value) {
+                        $this->db_switch(1);
+
+                        return response()->json([
+                            'status' => 'error',
+                            'message' => 'Tidak mencukupi. Sisa plafon kas bon anda Rp. ' . $app_plafon_value,
+                        ]);
+                    }
+
+                    $newSisa = $app_plafon_value - ($data['harga'] ?? 0);
+
+                    $kasbon = MitraKasbon::create([
+                        'user_id' => $data['id'],
+                        'minggu' => $yearWeek,
+                        'plafon' => $app_plafon_value,
+                        'sisa_plafon' => $newSisa,
+                        'isactive' => 1,
                     ]);
                 }
-
-                $newSisa = $app_plafon_value - ($data['harga'] ?? 0);
-
-                $kasbon = MitraKasbon::create([
-                    'user_id' => $data['id'],
-                    'minggu' => $yearWeek,
-                    'plafon' => $app_plafon_value,
-                    'sisa_plafon' => $newSisa,
-                    'isactive' => 1,
-                ]);
             }
         }
 
