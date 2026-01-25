@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class MitraController extends Controller
 {
@@ -152,6 +153,7 @@ class MitraController extends Controller
         }
 
         $data = $validator->validated();
+        $data['adonan'] = Str::replace('.', ',', $data['adonan']);
 
         $detail = null;
         $found = MitraOmzetPengeluaran::where('user_id', $data['id'])
