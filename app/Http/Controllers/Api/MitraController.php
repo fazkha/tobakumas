@@ -154,6 +154,7 @@ class MitraController extends Controller
 
         $data = $validator->validated();
         $data['adonan'] = Str::replace(',', '.', $data['adonan']);
+        dd($data['adonan']);
 
         $detail = null;
         $found = MitraOmzetPengeluaran::where('user_id', $data['id'])
