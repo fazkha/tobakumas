@@ -11,6 +11,7 @@ class MitraKritikSaran extends Model
 
     protected $fillable = [
         'user_id',
+        'tanggal',
         'jenis',
         'judul',
         'keterangan',

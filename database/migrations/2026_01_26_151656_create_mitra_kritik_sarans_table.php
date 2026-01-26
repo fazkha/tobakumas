@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('mitra_kritik_sarans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onUpdate('cascade');
+            $table->date('tanggal');
             $table->unsignedTinyInteger('jenis')->default(1);
             $table->string('judul', 200)->nullable();
             $table->string('keterangan', 200)->nullable();

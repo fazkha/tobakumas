@@ -134,6 +134,7 @@ class MitraController extends Controller
 
         $validator = validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
+            'tanggal' => ['required', 'date'],
             'jenis' => ['required'],
             'judul' => ['nullable'],
             'keterangan' => ['nullable'],
@@ -157,6 +158,7 @@ class MitraController extends Controller
 
         $new = MitraKritikSaran::create([
             'user_id' => $data['id'],
+            'tanggal' => $data['tanggal'],
             'jenis' => $data['jenis'],
             'judul' => $data['judul'],
             'keterangan' => $data['keterangan'],
