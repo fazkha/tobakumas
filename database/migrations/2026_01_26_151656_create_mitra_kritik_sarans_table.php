@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onUpdate('cascade');
             $table->date('tanggal');
-            $table->unsignedTinyInteger('jenis')->default(1);
+            $table->string('jenis', 10)->default('Kritik');
             $table->string('judul', 200)->nullable();
             $table->string('keterangan', 200)->nullable();
             $table->unsignedTinyInteger('isactive')->default(1);
