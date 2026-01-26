@@ -154,8 +154,6 @@ class MitraController extends Controller
 
         $data = $validator->validated();
 
-        $detail = null;
-
         $new = MitraKritikSaran::create([
             'user_id' => $data['id'],
             'tanggal' => $data['tanggal'],
