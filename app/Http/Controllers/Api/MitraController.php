@@ -197,7 +197,9 @@ class MitraController extends Controller
         $data = $validator->validated();
 
         $kritiksaran = MitraKritikSaran::join('users', 'mitra_kritik_sarans.user_id', '=', 'users.id')
-            ->select('mitra_kritik_sarans.tanggal', 'mitra_kritik_sarans.jenis', 'mitra_kritik_sarans.judul', 'mitra_kritik_sarans.keterangan', 'users.name as nama_mitra')
+            ->join('profiles', 'users.id', '=', 'profiles.user_id')
+            ->join('branches', 'profiles.branch_id', '=', 'branches.id')
+            ->select('mitra_kritik_sarans.tanggal', 'mitra_kritik_sarans.jenis', 'mitra_kritik_sarans.judul', 'mitra_kritik_sarans.keterangan', 'users.name as nama_mitra', 'branches.nama as cabang')
             ->where('user_id', $data['id'])
             ->where('isactive', 1)
             ->orderBy('mitra_kritik_sarans.tanggal', 'desc')
