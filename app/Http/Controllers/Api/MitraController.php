@@ -136,8 +136,8 @@ class MitraController extends Controller
             'id' => ['required', 'integer', 'exists:users,id'],
             'tanggal' => ['required', 'date'],
             'jenis' => ['required'],
-            'judul' => ['nullable'],
-            'keterangan' => ['nullable'],
+            'judul' => ['nullable', 'max:100'],
+            'keterangan' => ['nullable', 'max:200'],
         ]);
 
         if ($validator->fails()) {

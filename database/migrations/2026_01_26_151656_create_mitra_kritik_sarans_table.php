@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('jenis', 10)->default('Kritik');
             $table->string('judul', 200)->nullable();
             $table->string('keterangan', 200)->nullable();
-            $table->unsignedTinyInteger('isactive')->default(1);
+            $table->unsignedTinyInteger('isactive')->default(0);
             $table->timestamps();
         });
     }
