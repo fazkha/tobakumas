@@ -174,6 +174,40 @@ class MitraController extends Controller
         ]);
     }
 
+    public function loadKritikSaran(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:users,id'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+
+        $kritiksaran = MitraKritikSaran::where('user_id', $data['id'])
+            ->where('isactive', 1)
+            ->get();
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'kritiksaran' => $kritiksaran,
+        ]);
+    }
+
     public function saveOmzet(Request $request)
     {
         $this->db_switch(2);
