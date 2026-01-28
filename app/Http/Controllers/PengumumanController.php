@@ -238,13 +238,13 @@ class PengumumanController extends Controller implements HasMiddleware
             $pathfile = $dest . '/' . $filename;
             imagejpeg($image, $pathfile, $quality);
         } elseif ($info['mime'] == 'image/gif') {
-            $image = imagecreatefromgif($src);
-            $pathfile = $dest . '/' . $filename;
-            imagegif($image, $pathfile);
+            // $image = imagecreatefromgif($src);
+            // $pathfile = $dest . '/' . $filename;
+            // imagegif($image, $pathfile);
         } elseif ($info['mime'] == 'image/png') {
-            $image = imagecreatefrompng($src);
-            $pathfile = $dest . '/' . $filename;
-            imagepng($image, $pathfile, 5);
+            // $image = imagecreatefrompng($src);
+            // $pathfile = $dest . '/' . $filename;
+            // imagepng($image, $pathfile, 5);
         } else {
             die('Unknown image file format');
         }

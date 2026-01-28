@@ -74,7 +74,7 @@
                                         <label for="gambar"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.picture')</label>
                                         <x-text-input type="file" name="gambar" id="gambar" tabindex="4"
-                                            accept=".jpg,.jpeg,.png" placeholder="@lang('messages.choose')"
+                                            accept=".jpg,.jpeg" placeholder="@lang('messages.choose')"
                                             class="!rounded-none border" />
 
                                         <x-input-error class="mt-2" :messages="$errors->get('gambar')" />
