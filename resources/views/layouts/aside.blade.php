@@ -173,7 +173,7 @@
                 </div>
             @endcan
 
-            @can('pegawai-list')
+            @canany(['pegawai-list', 'pengumuman-list'])
                 <div x-data="{{ substr(request()->getRequestUri(), 0, 24) == '/human-resource/employee' ||
                 substr(request()->getRequestUri(), 0, 24) == '/human-resource/announcement'
                     ? '{isActive: true, open: true, currentlyOpen: "' . $controllerName . '"}'
