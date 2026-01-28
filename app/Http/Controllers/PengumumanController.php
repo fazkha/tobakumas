@@ -33,8 +33,14 @@ class PengumumanController extends Controller implements HasMiddleware
         if (!$request->session()->exists('pengumuman_isactive')) {
             $request->session()->put('pengumuman_isactive', 'all');
         }
+        if (!$request->session()->exists('pengumuman_judul')) {
+            $request->session()->put('pengumuman_judul', '_');
+        }
+        if (!$request->session()->exists('pengumuman_keterangan')) {
+            $request->session()->put('pengumuman_keterangan', '_');
+        }
 
-        $search_arr = ['pengumuman_isactive'];
+        $search_arr = ['pengumuman_isactive', 'pengumuman_judul', 'pengumuman_keterangan'];
 
         $datas = MitraPengumuman::query();
 
@@ -69,8 +75,10 @@ class PengumumanController extends Controller implements HasMiddleware
     {
         $request->session()->put('pengumuman_pp', $request->pp);
         $request->session()->put('pengumuman_isactive', $request->isactive);
+        $request->session()->put('pengumuman_judul', $request->judul);
+        $request->session()->put('pengumuman_keterangan', $request->keterangan);
 
-        $search_arr = ['pengumuman_isactive'];
+        $search_arr = ['pengumuman_isactive', 'pengumuman_judul', 'pengumuman_keterangan'];
 
         $datas = MitraPengumuman::query();
 
@@ -148,7 +156,7 @@ class PengumumanController extends Controller implements HasMiddleware
 
     public function show(Request $request): View
     {
-        $datas = MitraPengumuman::find(Crypt::decrypt($request->pengumuman));
+        $datas = MitraPengumuman::find(Crypt::decrypt($request->announcement));
 
         return view('pengumuman.show', compact(['datas']));
     }

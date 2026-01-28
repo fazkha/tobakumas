@@ -132,6 +132,8 @@ Route::prefix('human-resource')->middleware('auth')->group(function () {
     Route::delete('mitra/delete-jabatan/{jabatan}', [BrandivjabpegController::class, 'deleteJabatan']);
 
     Route::resource('announcement', PengumumanController::class);
+    Route::get('announcement/{announcement}/delete', [PegawaiController::class, 'delete'])->name('announcement.delete');
+    Route::get('announcement/fetchdb/{pp}/{isactive}/{judul}/{keterangan}', [PengumumanController::class, 'fetchdb'])->defaults('judul', '_')->defaults('keterangan', '_');
 })->missing(function (Request $request) {
     return Redirect::route('dashboard');
 });
