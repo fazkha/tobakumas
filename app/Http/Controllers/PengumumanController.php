@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PengumumanRequest;
 use App\Models\MitraPengumuman;
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -115,7 +116,9 @@ class PengumumanController extends Controller implements HasMiddleware
 
     public function create(): View
     {
-        return view('pengumuman.create');
+        $branch_id = auth()->user()->profile->branch_id;
+
+        return view('pengumuman.create', compact(['branch_id']));
     }
 
     public function store(PengumumanRequest $request): RedirectResponse
@@ -147,7 +150,7 @@ class PengumumanController extends Controller implements HasMiddleware
             }
 
             if ($pengumuman) {
-                return redirect()->route('pengumuman.edit', Crypt::encrypt($pengumuman->id))->with('success', __('messages.successadded') . ' 👉 ' . $request->judul);
+                return redirect()->route('announcement.edit', Crypt::encrypt($pengumuman->id))->with('success', __('messages.successadded') . ' 👉 ' . $request->judul);
             }
         }
 
@@ -161,14 +164,50 @@ class PengumumanController extends Controller implements HasMiddleware
         return view('pengumuman.show', compact(['datas']));
     }
 
-    public function edit(string $id)
+    public function edit(Request $request): View
     {
-        //
+        $branch_id = auth()->user()->profile->branch_id;
+        $datas = MitraPengumuman::find(Crypt::decrypt($request->announcement));
+
+        return view('pengumuman.edit', compact(['datas', 'branch_id']));
     }
 
-    public function update(Request $request, string $id)
+    public function update(PengumumanRequest $request): RedirectResponse
     {
-        //
+        $pengumuman = MitraPengumuman::find(Crypt::decrypt($request->announcement));
+        $image = $request->file('gambar');
+
+        if ($request->validated()) {
+            $imageName = $pengumuman->gambar;
+            $deleteName = $pengumuman->gambar;
+            $deletePath = $pengumuman->lokasi;
+
+            $lokasi = $this->GetLokasiUpload();
+            $pathym = $lokasi['path'] . '/' . $lokasi['ym'];
+
+            if (!is_null($image)) {
+                $imageName = $image->hashName();
+                File::delete(public_path($deletePath) . '/' . $deleteName);
+            }
+
+            $pengumuman->update([
+                'tanggal' => $request->tanggal,
+                'judul' => ucfirst($request->judul),
+                'keterangan' => ucfirst($request->keterangan),
+                'isactive' => ($request->isactive == 'on' ? 1 : 0),
+                'lokasi' => is_null($image) ? $pengumuman->lokasi : $pathym,
+                'gambar' => is_null($image) ? $pengumuman->gambar : $imageName,
+                'updated_by' => auth()->user()->email,
+            ]);
+
+            if (!is_null($image)) {
+                $dest = $this->compress_image($image, $image->path(), public_path($pathym), $imageName, 50);
+            }
+
+            return redirect()->back()->with('success', __('messages.successupdated') . ' 👉 ' . $request->judul);
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Error occured while updating!');
+        }
     }
 
     public function destroy(string $id)
@@ -199,21 +238,17 @@ class PengumumanController extends Controller implements HasMiddleware
             $pathfile = $dest . '/' . $filename;
             imagejpeg($image, $pathfile, $quality);
         } elseif ($info['mime'] == 'image/gif') {
-            $image->storeAs($dest, $image->hashName());
-            // $image = imagecreatefromgif($src);
-            // imagejpeg($image, $dest, $quality);
+            $image = imagecreatefromgif($src);
+            $pathfile = $dest . '/' . $filename;
+            imagegif($image, $pathfile);
         } elseif ($info['mime'] == 'image/png') {
-            $image->storeAs($dest, $image->hashName());
-            // $image = imagecreatefrompng($src);
-            // imagepng($image, $dest, 5);
+            $image = imagecreatefrompng($src);
+            $pathfile = $dest . '/' . $filename;
+            imagepng($image, $pathfile, 5);
         } else {
             die('Unknown image file format');
         }
 
-        //compress and save file to jpg
-        //usage
-        // $compressed = compress_image('boy.jpg', 'destination.jpg', 50);
-        //return destination file
         return $dest;
     }
 }

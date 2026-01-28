@@ -17,7 +17,7 @@ class PengumumanRequest extends FormRequest
             'judul' => ['required', 'string', 'max:200'],
             'keterangan' => ['nullable', 'string', 'max:200'],
             'lokasi' => ['nullable', 'string', 'max:200'],
-            'gambar' => ['nullable', 'image', 'mimes:jpeg,jpg', 'max:2048'],
+            'gambar' => ['nullable', 'image', 'mimes:jpeg,jpg,png', 'max:3072'],
         ];
     }
     public function messages()
