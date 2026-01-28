@@ -175,7 +175,7 @@
 
             @canany(['pegawai-list', 'pengumuman-list'])
                 <div x-data="{{ substr(request()->getRequestUri(), 0, 24) == '/human-resource/employee' ||
-                substr(request()->getRequestUri(), 0, 24) == '/human-resource/announcement'
+                substr(request()->getRequestUri(), 0, 28) == '/human-resource/announcement'
                     ? '{isActive: true, open: true, currentlyOpen: "' . $controllerName . '"}'
                     : '{isActive: false, open: false, currentlyOpen: ""}' }}">
                     <a href="#" @click="$event.preventDefault(); open = !open"
