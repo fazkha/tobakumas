@@ -131,7 +131,7 @@ Route::prefix('human-resource')->middleware('auth')->group(function () {
     Route::post('mitra/store-jabatan/{mitra}', [BrandivjabpegController::class, 'storeJabatan']);
     Route::delete('mitra/delete-jabatan/{jabatan}', [BrandivjabpegController::class, 'deleteJabatan']);
 
-    Route::resource('pengumuman', PengumumanController::class);
+    Route::resource('announcement', PengumumanController::class);
 })->missing(function (Request $request) {
     return Redirect::route('dashboard');
 });
