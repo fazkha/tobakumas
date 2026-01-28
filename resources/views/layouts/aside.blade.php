@@ -225,7 +225,7 @@
                     @endcan
                     @can('pengumuman-list')
                         <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="humanresource">
-                            <a href="{{ route('pengumuman.index') }}" role="menuitem"
+                            <a href="{{ route('announcement.index') }}" role="menuitem"
                                 class="block p-2 text-sm text-gray-500 transition-colors duration-200 rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary">
                                 <span class="flex flex-row gap-1"
                                     :class="{
