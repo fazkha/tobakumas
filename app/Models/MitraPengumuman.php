@@ -10,12 +10,13 @@ class MitraPengumuman extends Model
     protected $table = 'mitra_pengumumans';
 
     protected $fillable = [
-        'user_id',
         'tanggal',
         'judul',
         'keterangan',
         'lokasi',
         'gambar',
         'isactive',
+        'created_by',
+        'updated_by',
     ];
 }

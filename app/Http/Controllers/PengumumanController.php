@@ -2,63 +2,210 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PengumumanRequest;
+use App\Models\MitraPengumuman;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\View\View;
 
-class PengumumanController extends Controller
+class PengumumanController extends Controller implements HasMiddleware
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public static function middleware(): array
     {
-        //
+        return [
+            new Middleware('permission:pengumuman-list', only: ['index', 'fetch']),
+            new Middleware('permission:pengumuman-create', only: ['create', 'store']),
+            new Middleware('permission:pengumuman-edit', only: ['edit', 'update']),
+            new Middleware('permission:pengumuman-show', only: ['show']),
+            new Middleware('permission:pengumuman-delete', only: ['delete', 'destroy']),
+        ];
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function index(Request $request)
     {
-        //
+        if (!$request->session()->exists('pengumuman_pp')) {
+            $request->session()->put('pengumuman_pp', config('custom.list_per_page_opt_1'));
+        }
+        if (!$request->session()->exists('pengumuman_isactive')) {
+            $request->session()->put('pengumuman_isactive', 'all');
+        }
+
+        $search_arr = ['pengumuman_isactive'];
+
+        $datas = MitraPengumuman::query();
+
+        for ($i = 0; $i < count($search_arr); $i++) {
+            $field = substr($search_arr[$i], strlen('pengumuman_'));
+
+            if ($search_arr[$i] == 'pengumuman_isactive') {
+                if (session($search_arr[$i]) !== 'all') {
+                    $datas = $datas->where([$field => session($search_arr[$i])]);
+                }
+            } else {
+                if (session($search_arr[$i]) == '_' or session($search_arr[$i]) == '') {
+                } else {
+                    $like = '%' . session($search_arr[$i]) . '%';
+                    $datas = $datas->where($field, 'LIKE', $like);
+                }
+            }
+        }
+
+        // $datas = $datas->where('branch_id', auth()->user()->profile->branch_id);
+        // $datas = $datas->orderBy('jenis_barang_id')->orderBy('nama')->paginate(session('barang_pp'));
+        $datas = $datas->latest()->paginate(session('pengumuman_pp'));
+
+        if ($request->page && $datas->count() == 0) {
+            return redirect()->route('dashboard');
+        }
+
+        return view('pengumuman.index', compact(['datas']))->with('i', (request()->input('page', 1) - 1) * session('pengumuman_pp'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function fetchdb(Request $request): JsonResponse
     {
-        //
+        $request->session()->put('pengumuman_pp', $request->pp);
+        $request->session()->put('pengumuman_isactive', $request->isactive);
+
+        $search_arr = ['pengumuman_isactive'];
+
+        $datas = MitraPengumuman::query();
+
+        for ($i = 0; $i < count($search_arr); $i++) {
+            $field = substr($search_arr[$i], strlen('pengumuman_'));
+
+            if ($search_arr[$i] == 'pengumuman_isactive') {
+                if (session($search_arr[$i]) !== 'all') {
+                    $datas = $datas->where([$field => session($search_arr[$i])]);
+                }
+            } else {
+                if (session($search_arr[$i]) == '_' or session($search_arr[$i]) == '') {
+                } else {
+                    $like = '%' . session($search_arr[$i]) . '%';
+                    $datas = $datas->where($field, 'LIKE', $like);
+                }
+            }
+        }
+
+        // $datas = $datas->where('branch_id', auth()->user()->profile->branch_id);
+        // $datas = $datas->orderBy('jenis_barang_id')->orderBy('nama')->paginate(session('barang_pp'));
+        $datas = $datas->latest()->paginate(session('pengumuman_pp'));
+
+        $datas->withPath('/human-resource/announcement'); // pagination url to
+
+        $view = view('pengumuman.partials.table', compact(['datas']))->with('i', (request()->input('page', 1) - 1) * session('pengumuman_pp'))->render();
+
+        if ($view) {
+            return response()->json($view, 200);
+        } else {
+            return response()->json(null, 400);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function create(): View
     {
-        //
+        return view('pengumuman.create');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    public function store(PengumumanRequest $request): RedirectResponse
+    {
+        $image = $request->file('gambar');
+
+        if ($request->validated()) {
+            $lokasi = $this->GetLokasiUpload();
+            $pathym = $lokasi['path'] . '/' . $lokasi['ym'];
+            $imageName = NULL;
+
+            if ($image) {
+                $imageName = $image->hashName();
+            }
+
+            $pengumuman = MitraPengumuman::create([
+                'tanggal' => $request->tanggal,
+                'judul' => ucfirst($request->judul),
+                'keterangan' => ucfirst($request->keterangan),
+                'isactive' => ($request->isactive == 'on' ? 1 : 0),
+                'lokasi' => is_null($image) ? NULL : $pathym,
+                'gambar' => is_null($image) ? NULL : $imageName,
+                'created_by' => auth()->user()->email,
+                'updated_by' => auth()->user()->email,
+            ]);
+
+            if (!is_null($image)) {
+                $dest = $this->compress_image($image, $image->path(), public_path($pathym), $imageName, 50);
+            }
+
+            if ($pengumuman) {
+                return redirect()->route('pengumuman.edit', Crypt::encrypt($pengumuman->id))->with('success', __('messages.successadded') . ' 👉 ' . $request->judul);
+            }
+        }
+
+        return redirect()->back()->withInput()->with('error', 'Error occured while saving!');
+    }
+
+    public function show(Request $request): View
+    {
+        $datas = MitraPengumuman::find(Crypt::decrypt($request->pengumuman));
+
+        return view('pengumuman.show', compact(['datas']));
+    }
+
     public function edit(string $id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         //
+    }
+
+    public function GetLokasiUpload()
+    {
+        $path = 'storage/uploads/pengumuman';
+        $ym = date('Ym');
+        $dir = $path . '/' . $ym;
+        $is_dir = is_dir($dir);
+
+        if (!$is_dir) {
+            mkdir($dir, 0700);
+        }
+
+        return ['path' => $path, 'ym' => $ym];
+    }
+
+    public function compress_image($image, $src, $dest, $filename, $quality)
+    {
+        $info = getimagesize($src);
+
+        if ($info['mime'] == 'image/jpeg' || $info['mime'] == 'image/jpg') {
+            $image = imagecreatefromjpeg($src);
+            $pathfile = $dest . '/' . $filename;
+            imagejpeg($image, $pathfile, $quality);
+        } elseif ($info['mime'] == 'image/gif') {
+            $image->storeAs($dest, $image->hashName());
+            // $image = imagecreatefromgif($src);
+            // imagejpeg($image, $dest, $quality);
+        } elseif ($info['mime'] == 'image/png') {
+            $image->storeAs($dest, $image->hashName());
+            // $image = imagecreatefrompng($src);
+            // imagepng($image, $dest, 5);
+        } else {
+            die('Unknown image file format');
+        }
+
+        //compress and save file to jpg
+        //usage
+        // $compressed = compress_image('boy.jpg', 'destination.jpg', 50);
+        //return destination file
+        return $dest;
     }
 }
