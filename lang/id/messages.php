@@ -278,4 +278,5 @@ return [
     'latitude' => 'Latitude',
     'longitude' => 'Longitude',
     'cart' => 'Gerobak',
+    'announcement' => 'Pengumuman',
 ];

@@ -19,6 +19,7 @@ use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\MitraController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PdfController;
+use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\ProdOrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PropinsiController;
@@ -129,6 +130,8 @@ Route::prefix('human-resource')->middleware('auth')->group(function () {
 
     Route::post('mitra/store-jabatan/{mitra}', [BrandivjabpegController::class, 'storeJabatan']);
     Route::delete('mitra/delete-jabatan/{jabatan}', [BrandivjabpegController::class, 'deleteJabatan']);
+
+    Route::resource('pengumuman', PengumumanController::class);
 })->missing(function (Request $request) {
     return Redirect::route('dashboard');
 });

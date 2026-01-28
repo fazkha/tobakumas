@@ -14,6 +14,8 @@ class MitraPengumuman extends Model
         'tanggal',
         'judul',
         'keterangan',
+        'lokasi',
+        'gambar',
         'isactive',
     ];
 }

@@ -17,6 +17,8 @@ return new class extends Migration
             $table->date('tanggal');
             $table->string('judul', 200)->nullable();
             $table->string('keterangan', 200)->nullable();
+            $table->string('lokasi')->nullable();
+            $table->string('gambar')->nullable();
             $table->unsignedTinyInteger('isactive')->default(0);
             $table->timestamps();
         });
