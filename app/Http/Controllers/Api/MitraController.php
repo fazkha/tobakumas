@@ -659,12 +659,6 @@ class MitraController extends Controller
                 if ($bonus) {
                     $cBonus = $bonus[0]->bonus;
 
-                    // $pekanan->update([
-                    //     'bonus' => $cBonus,
-                    //     'trend_bonus' => $trend_bonus,
-                    //     'pct_bonus' => $pct_bonus,
-                    // ]);
-
                     $date = Carbon::now()->subWeek();
                     $week = $date->copy()->addDay()->week();
                     $year = ($week == $saturdayWeek - 1) ? $saturdayYear : $date->copy()->addDay()->year;
@@ -687,13 +681,13 @@ class MitraController extends Controller
                     if ($prevOmset == 0) {
                         $pct = 100;
                     } else {
-                        $pct = ($cOmzet / $prevOmset) * 100;
+                        $pct = round(($cOmzet / $prevOmset) * 100);
                     }
                     $trend_bonus = ($prevBonus < $cBonus) ? 'up' : (($prevBonus > $cBonus) ? 'down' : 'same');
                     if ($prevBonus == 0) {
                         $pct_bonus = 100;
                     } else {
-                        $pct_bonus = ($cBonus / $prevBonus) * 100;
+                        $pct_bonus = round(($cBonus / $prevBonus) * 100);
                     }
 
                     $pekanan->update([
