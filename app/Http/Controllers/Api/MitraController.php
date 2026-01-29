@@ -218,24 +218,6 @@ class MitraController extends Controller
     {
         // $this->db_switch(2);
 
-        $validator = validator::make($request->all(), [
-            'id' => ['required', 'integer', 'exists:users,id'],
-        ]);
-
-        if ($validator->fails()) {
-            $errors = $validator->errors();
-
-            $this->db_switch(1);
-
-            foreach ($errors->all() as $message) {
-                return response([
-                    'message' => $message
-                ], 422);
-            }
-        }
-
-        $data = $validator->validated();
-
         $pengumuman = MitraPengumuman::join('users', 'mitra_pengumumans.created_by', '=', 'users.email')
             ->select('mitra_pengumumans.id', 'mitra_pengumumans.tanggal', 'mitra_pengumumans.judul', 'mitra_pengumumans.keterangan', 'mitra_pengumumans.lokasi', 'mitra_pengumumans.gambar', 'users.name as penulis')
             ->where('mitra_pengumumans.isactive', 1)
