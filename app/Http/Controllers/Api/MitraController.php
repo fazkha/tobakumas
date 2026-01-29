@@ -216,7 +216,7 @@ class MitraController extends Controller
 
     public function loadPengumuman(Request $request)
     {
-        $this->db_switch(2);
+        // $this->db_switch(2);
 
         $validator = validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
@@ -242,7 +242,7 @@ class MitraController extends Controller
             ->orderBy('mitra_pengumumans.tanggal', 'desc')
             ->get();
 
-        $this->db_switch(1);
+        // $this->db_switch(1);
 
         return response()->json([
             'status' => 'success',
