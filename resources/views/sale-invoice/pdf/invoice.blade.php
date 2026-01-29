@@ -162,7 +162,8 @@
                                                     <td>{{ $adonan->gerobak_id ? $adonan->gerobak->kode : ($adonan->pegawai_id ? $adonan->pegawai->nama_lengkap : ($adonan->nama_mitra ? $adonan->nama_mitra : '-')) }}
                                                     </td>
                                                     <td>
-                                                        {{ $adonan->barang->nama }}({{ str_replace('Adonan ', '', $adonan->keterangan) }})
+                                                        {{ $adonan->barang->nama }}
+                                                        ({{ str_replace('Adonan ', '', $adonan->keterangan) }})
                                                     </td>
                                                     <td style="text-align: right">
                                                         <div>
