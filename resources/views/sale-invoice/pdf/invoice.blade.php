@@ -148,8 +148,8 @@
                                     <table>
                                         <thead>
                                             <tr>
-                                                <th style="width: 40%">Gerobak</th>
-                                                <th style="width: 40%">Nama barang</th>
+                                                <th style="width: 20%">Gerobak</th>
+                                                <th style="width: 60%">Nama barang</th>
                                                 <th style="width: 20%">Jumlah</th>
                                             </tr>
                                         </thead>
@@ -161,7 +161,10 @@
                                                 <tr>
                                                     <td>{{ $adonan->gerobak_id ? $adonan->gerobak->kode : ($adonan->pegawai_id ? $adonan->pegawai->nama_lengkap : ($adonan->nama_mitra ? $adonan->nama_mitra : '-')) }}
                                                     </td>
-                                                    <td>{{ $adonan->barang->nama }}</td>
+                                                    <td>
+                                                        {{ $adonan->barang->nama }}({str_replace('Adonan ', '',
+                                                        $adonan->keterangan)})
+                                                    </td>
                                                     <td style="text-align: right">
                                                         <div>
                                                             <span>{{ $adonan->satuan->singkatan }}</span>
