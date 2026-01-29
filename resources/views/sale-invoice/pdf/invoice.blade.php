@@ -156,29 +156,30 @@
                                         <tbody>
                                             @php
                                                 $total_adonan = 0;
-                                            @endphp
-                                            @foreach ($adonans as $adonan)
-                                                <tr>
-                                                    <td>{{ $adonan->gerobak_id ? $adonan->gerobak->kode : ($adonan->pegawai_id ? $adonan->pegawai->nama_lengkap : ($adonan->nama_mitra ? $adonan->nama_mitra : '-')) }}
-                                                    </td>
-                                                    <td>
-                                                        {{ $adonan->barang->nama }}
-                                                        ({{ str_replace('Adonan ', '', $adonan->keterangan) }})
-                                                    </td>
-                                                    <td style="text-align: right">
-                                                        <div>
-                                                            <span>{{ $adonan->satuan->singkatan }}</span>
-                                                            <span>{{ $adonan->kuantiti }}</span>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                @php
-                                                    $total_adonan += $adonan->kuantiti;
-                                                @endphp
-                                            @endforeach
-                                            @php
                                                 $cnt = count($adonans);
                                             @endphp
+
+                                            @if ($cnt > 0)
+                                                @foreach ($adonans as $adonan)
+                                                    <tr>
+                                                        <td>{{ $adonan->gerobak_id ? $adonan->gerobak->kode : ($adonan->pegawai_id ? $adonan->pegawai->nama_lengkap : ($adonan->nama_mitra ? $adonan->nama_mitra : '-')) }}
+                                                        </td>
+                                                        <td>
+                                                            {{ $adonan->barang->nama }}
+                                                            ({{ str_replace('Adonan ', '', $adonan->keterangan) }})
+                                                        </td>
+                                                        <td style="text-align: right">
+                                                            <div>
+                                                                <span>{{ $adonan->satuan->singkatan }}</span>
+                                                                <span>{{ $adonan->kuantiti }}</span>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    @php
+                                                        $total_adonan += $adonan->kuantiti;
+                                                    @endphp
+                                                @endforeach
+                                            @endif
                                             @for ($i = $cnt; $i < $max - 1; $i++)
                                                 <tr>
                                                     <td>&nbsp;</td>
