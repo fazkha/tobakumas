@@ -16,6 +16,7 @@ class Profile extends Model
         'user_id',
         'branch_id',
         'jabatan_id',
+        'site',
         'nohp',
         'noktp',
         'alamat',

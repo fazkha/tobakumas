@@ -210,9 +210,36 @@ class PengumumanController extends Controller implements HasMiddleware
         }
     }
 
-    public function destroy(string $id)
+    public function delete(Request $request): View
     {
-        //
+        $pengumuman = MitraPengumuman::find(Crypt::decrypt($request->announcement));
+
+        $datas = $pengumuman;
+
+        return view('pengumuman.delete', compact(['datas']));
+    }
+
+    public function destroy(Request $request): RedirectResponse
+    {
+        $pengumuman = MitraPengumuman::find(Crypt::decrypt($request->announcement));
+
+        $deleteName = $pengumuman->gambar ? $pengumuman->gambar : NULL;
+        $deletePath = $pengumuman->lokasi ? $pengumuman->lokasi : NULL;
+
+        try {
+            $pengumuman->delete();
+            if ($deleteName && $deletePath) {
+                File::delete(public_path($deletePath) . '/' . $deleteName);
+            }
+        } catch (\Illuminate\Database\QueryException $e) {
+            if (str_contains($e->getMessage(), 'Integrity constraint violation')) {
+                return redirect()->route('announcement.index')->with('error', 'Integrity constraint violation');
+            }
+            return redirect()->route('announcement.index')->with('error', $e->getMessage());
+        }
+
+        return redirect()->route('announcement.index')
+            ->with('success', __('messages.successdeleted') . ' 👉 ' . $pengumuman->judul);
     }
 
     public function GetLokasiUpload()

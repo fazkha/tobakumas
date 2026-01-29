@@ -26,7 +26,8 @@
                     </svg>
                 </span>
             </button>
-            <div class="pl-2 pr-4 py-2">{{ config('custom.product_name') }}</div>
+            <div class="pl-2 pr-4 py-2">
+                {{ auth()->user()->profile->site == 'KP' ? 'Kantor Pusat' : config('custom.product_name') }}</div>
         </div>
 
         <!-- Mobile (3 vertical dot) sub menu button -->
