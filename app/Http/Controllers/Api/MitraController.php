@@ -236,8 +236,10 @@ class MitraController extends Controller
 
         $data = $validator->validated();
 
-        $pengumuman = MitraPengumuman::where('isactive', 1)
-            ->orderBy('tanggal', 'desc')
+        $pengumuman = MitraPengumuman::join('users', 'mitra_pengumumans.created_by', '=', 'users.email')
+            ->select('mitra_pengumumans.id', 'mitra_pengumumans.tanggal', 'mitra_pengumumans.judul', 'mitra_pengumumans.keterangan', 'users.name as penulis')
+            ->where('mitra_pengumumans.isactive', 1)
+            ->orderBy('mitra_pengumumans.tanggal', 'desc')
             ->get();
 
         $this->db_switch(1);
