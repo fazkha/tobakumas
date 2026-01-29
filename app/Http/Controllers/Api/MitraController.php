@@ -10,6 +10,7 @@ use App\Models\MitraKasbon;
 use App\Models\MitraKritikSaran;
 use App\Models\MitraOmzetPengeluaran;
 use App\Models\MitraOmzetPengeluaranDetail;
+use App\Models\MitraPengumuman;
 use App\Models\MitraTargetBonus;
 use App\Models\RuteGerobak;
 use Illuminate\Http\Request;
@@ -210,6 +211,40 @@ class MitraController extends Controller
         return response()->json([
             'status' => 'success',
             'kritiksaran' => $kritiksaran,
+        ]);
+    }
+
+    public function loadPengumuman(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:users,id'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+
+        $pengumuman = MitraPengumuman::where('isactive', 1)
+            ->orderBy('tanggal', 'desc')
+            ->get();
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'pengumuman' => $pengumuman,
         ]);
     }
 
