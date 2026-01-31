@@ -80,7 +80,7 @@
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.response')</label>
                                         <x-textarea-input name="keterangan_jawab" id="keterangan_jawab" tabindex="4"
                                             rows="2" maxlength="200"
-                                            placeholder="{{ __('messages.enter') }} {{ __('messages.description') }}">{{ old('keterangan_jawab', $datas->keterangan_jawab) }}</x-textarea-input>
+                                            placeholder="{{ __('messages.enter') }} {{ __('messages.response') }}">{{ old('keterangan_jawab', $datas->keterangan_jawab) }}</x-textarea-input>
 
                                         <x-input-error class="mt-2" :messages="$errors->get('keterangan_jawab')" />
                                     </div>

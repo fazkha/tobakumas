@@ -282,4 +282,5 @@ return [
     'cart' => 'Gerobak',
     'announcement' => 'Pengumuman',
     'criticism' => 'Kritik & Saran',
+    'response' => 'Tanggapan',
 ];

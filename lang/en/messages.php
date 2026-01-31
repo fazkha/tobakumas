@@ -283,4 +283,5 @@ return [
     'cart' => 'Cart',
     'announcement' => 'Announcement',
     'criticism' => 'Criticism',
+    'response' => 'Response',
 ];

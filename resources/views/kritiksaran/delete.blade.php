@@ -102,7 +102,7 @@
                             <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
                                 <div class="w-auto pb-4">
                                     <span for="keterangan_jawab"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</span>
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.response')</span>
                                     <x-text-span>{{ $datas->keterangan_jawab }}</x-text-span>
                                 </div>
 
