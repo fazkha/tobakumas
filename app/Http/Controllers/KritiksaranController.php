@@ -189,25 +189,30 @@ class KritiksaranController extends Controller implements HasMiddleware
 
     public function delete(Request $request): View
     {
+        $this->db_switch(2);
         $kritiksaran = MitraKritikSaran::find(Crypt::decrypt($request->criticism));
 
         $datas = $kritiksaran;
+        $this->db_switch(1);
 
         return view('kritiksaran.delete', compact(['datas']));
     }
 
     public function destroy(Request $request): RedirectResponse
     {
+        $this->db_switch(2);
         $kritiksaran = MitraKritikSaran::find(Crypt::decrypt($request->criticism));
 
         try {
             $kritiksaran->delete();
         } catch (\Illuminate\Database\QueryException $e) {
+            $this->db_switch(1);
             if (str_contains($e->getMessage(), 'Integrity constraint violation')) {
                 return redirect()->route('criticism.index')->with('error', 'Integrity constraint violation');
             }
             return redirect()->route('criticism.index')->with('error', $e->getMessage());
         }
+        $this->db_switch(1);
 
         return redirect()->route('criticism.index')
             ->with('success', __('messages.successdeleted') . ' 👉 ' . $kritiksaran->judul);
