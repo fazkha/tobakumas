@@ -166,10 +166,11 @@ class KritiksaranController extends Controller implements HasMiddleware
 
     public function update(KritiksaranRequest $request): RedirectResponse
     {
-        $pengumuman = MitraKritikSaran::find(Crypt::decrypt($request->criticism));
+        $this->db_switch(2);
+        $kritiksaran = MitraKritikSaran::find(Crypt::decrypt($request->criticism));
 
         if ($request->validated()) {
-            $pengumuman->update([
+            $kritiksaran->update([
                 'tanggal' => $request->tanggal,
                 'judul' => ucfirst($request->judul),
                 'keterangan' => ucfirst($request->keterangan),
@@ -178,8 +179,10 @@ class KritiksaranController extends Controller implements HasMiddleware
                 'keterangan_jawab' => $request->keterangan_jawab,
             ]);
 
+            $this->db_switch(1);
             return redirect()->back()->with('success', __('messages.successupdated') . ' 👉 ' . $request->judul);
         } else {
+            $this->db_switch(1);
             return redirect()->back()->withInput()->with('error', 'Error occured while updating!');
         }
     }
