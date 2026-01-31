@@ -100,6 +100,7 @@ class KritiksaranController extends Controller implements HasMiddleware
 
         $search_arr = ['kritiksaran_isactive', 'kritiksaran_judul', 'kritiksaran_keterangan'];
 
+        $this->db_switch(2);
         $datas = MitraKritikSaran::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
@@ -123,6 +124,7 @@ class KritiksaranController extends Controller implements HasMiddleware
         // $datas = $datas->latest()->paginate(session('kritiksaran_pp'));
 
         $datas->withPath('/human-resource/criticism'); // pagination url to
+        $this->db_switch(1);
 
         $view = view('kritiksaran.partials.table', compact(['datas']))->with('i', (request()->input('page', 1) - 1) * session('kritiksaran_pp'))->render();
 
@@ -145,15 +147,19 @@ class KritiksaranController extends Controller implements HasMiddleware
 
     public function show(Request $request): View
     {
+        $this->db_switch(2);
         $datas = MitraKritikSaran::find(Crypt::decrypt($request->criticism));
+        $this->db_switch(1);
 
         return view('kritiksaran.show', compact(['datas']));
     }
 
     public function edit(Request $request): View
     {
+        $this->db_switch(2);
         $branch_id = auth()->user()->profile->branch_id;
         $datas = MitraKritikSaran::find(Crypt::decrypt($request->criticism));
+        $this->db_switch(1);
 
         return view('kritiksaran.edit', compact(['datas', 'branch_id']));
     }
