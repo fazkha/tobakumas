@@ -66,7 +66,7 @@
                                         <label for="keterangan"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</label>
                                         <x-textarea-input name="keterangan" id="keterangan" tabindex="3"
-                                            rows="7" maxlength="65000"
+                                            rows="7" maxlength="2000"
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.description') }}">{{ old('keterangan', $datas->keterangan) }}</x-textarea-input>
 
                                         <x-input-error class="mt-2" :messages="$errors->get('keterangan')" />
