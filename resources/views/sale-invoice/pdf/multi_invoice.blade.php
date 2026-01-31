@@ -95,7 +95,7 @@
                 @php
                     $datas = App\Models\SaleOrder::find($select);
                     $details = App\Models\SaleOrderDetail::where('sale_order_id', $select)->orderBy('barang_id')->get();
-                    $details0 = SaleOrderDetail::join('barangs', 'sale_order_details.barang_id', '=', 'barangs.id')
+                    $details0 = App\Models\SaleOrderDetail::join('barangs', 'sale_order_details.barang_id', '=', 'barangs.id')
                         ->where('sale_order_details.sale_order_id', $datas->id)
                         ->where('barangs.stock', '<=', 0)
                         ->first();
@@ -103,7 +103,7 @@
                         ->orderBy('gerobak_id')
                         ->orderBy('barang_id')
                         ->get();
-                    $adonans0 = SaleOrderMitra::join('barangs', 'sale_order_mitras.barang_id', '=', 'barangs.id')
+                    $adonans0 = App\Models\SaleOrderMitra::join('barangs', 'sale_order_mitras.barang_id', '=', 'barangs.id')
                         ->where('sale_order_mitras.sale_order_id', $datas->id)
                         ->where('barangs.stock', '<=', 0)
                         ->first();
