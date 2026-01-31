@@ -113,7 +113,12 @@
                         url: '{{ url('/sale/invoice/print') }}' + '/' + xid,
                         type: 'get',
                         success: function(result) {
-                            if (result.status !== 'Not Found') {
+                            if (result.status ===
+                                'Stok Barang Tidak Mencukupi! Tidak dapat mencetak invoice.') {
+                                flasher.error(result.status, "Error");
+                            }
+                            if (result.status !== 'Not Found' && result.status !==
+                                'Stok Barang Tidak Mencukupi! Tidak dapat mencetak invoice.') {
                                 var namafile = result.namafile;
                                 window.open(namafile, '_blank');
                             }

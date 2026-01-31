@@ -175,8 +175,22 @@ class SaleInvoiceController extends Controller implements HasMiddleware
         $id = $request->invoice;
         $datas = SaleOrder::find($id);
         $details = SaleOrderDetail::where('sale_order_id', $id)->orderBy('barang_id')->get();
+        $details0 = SaleOrderDetail::join('barangs', 'sale_order_details.barang_id', '=', 'barangs.id')
+            ->where('sale_order_details.sale_order_id', $id)
+            ->where('barangs.stock', '<=', 0)
+            ->first();
         // $adonans = SaleOrderMitra::where('sale_order_id', $id)->orderBy('pegawai_id')->orderBy('barang_id')->get();
         $adonans = SaleOrderMitra::where('sale_order_id', $id)->orderBy('gerobak_id')->orderBy('barang_id')->get();
+        $adonans0 = SaleOrderMitra::join('barangs', 'sale_order_mitras.barang_id', '=', 'barangs.id')
+            ->where('sale_order_mitras.sale_order_id', $id)
+            ->where('barangs.stock', '<=', 0)
+            ->first();
+
+        if ($details0 || $adonans0) {
+            return response()->json([
+                'status' => 'Stok Barang Tidak Mencukupi! Tidak dapat mencetak invoice.',
+            ], 200);
+        }
 
         $total_price = SaleOrderDetail::where('sale_order_id', $id)->select(DB::raw('SUM((harga_satuan * (1 + (pajak/100))) * kuantiti) as total_price'))->value('total_price');
         $total_price_adonan = SaleOrderMitra::where('sale_order_id', $id)->select(DB::raw('SUM((harga_satuan * (1 + (pajak/100))) * kuantiti) as total_price'))->value('total_price');

@@ -201,8 +201,45 @@ class MitraController extends Controller
             ->join('profiles', 'users.id', '=', 'profiles.user_id')
             ->join('branches', 'profiles.branch_id', '=', 'branches.id')
             ->select('mitra_kritik_sarans.id', 'mitra_kritik_sarans.tanggal', 'mitra_kritik_sarans.jenis', 'mitra_kritik_sarans.judul', 'mitra_kritik_sarans.keterangan', 'users.name as nama_mitra', 'branches.nama as cabang', 'branches.kode as kode')
-            ->where('mitra_kritik_sarans.user_id', $data['id'])
             ->where('mitra_kritik_sarans.isactive', 1)
+            ->orderBy('mitra_kritik_sarans.tanggal', 'desc')
+            ->get();
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'kritiksaran' => $kritiksaran,
+        ]);
+    }
+
+    public function loadKritikSaranApproval(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:users,id'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+
+        $kritiksaran = MitraKritikSaran::join('users', 'mitra_kritik_sarans.user_id', '=', 'users.id')
+            ->join('profiles', 'users.id', '=', 'profiles.user_id')
+            ->join('branches', 'profiles.branch_id', '=', 'branches.id')
+            ->select('mitra_kritik_sarans.id', 'mitra_kritik_sarans.tanggal', 'mitra_kritik_sarans.jenis', 'mitra_kritik_sarans.judul', 'mitra_kritik_sarans.keterangan', 'users.name as nama_mitra', 'branches.nama as cabang', 'branches.kode as kode')
+            ->where('mitra_kritik_sarans.isactive', 0)
             ->orderBy('mitra_kritik_sarans.tanggal', 'desc')
             ->get();
 
