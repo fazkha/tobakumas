@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\KritiksaranRequest;
 use App\Models\MitraKritikSaran;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 
 class KritiksaranController extends Controller implements HasMiddleware
 {
@@ -76,8 +80,8 @@ class KritiksaranController extends Controller implements HasMiddleware
         }
 
         // $datas = $datas->where('branch_id', auth()->user()->profile->branch_id);
-        // $datas = $datas->orderBy('jenis_barang_id')->orderBy('nama')->paginate(session('barang_pp'));
-        $datas = $datas->latest()->paginate(session('kritiksaran_pp'));
+        $datas = $datas->orderBy('tanggal', 'desc')->paginate(session('kritiksaran_pp'));
+        // $datas = $datas->latest()->paginate(session('kritiksaran_pp'));
         $this->db_switch(1);
 
         if ($request->page && $datas->count() == 0) {
@@ -115,8 +119,8 @@ class KritiksaranController extends Controller implements HasMiddleware
         }
 
         // $datas = $datas->where('branch_id', auth()->user()->profile->branch_id);
-        // $datas = $datas->orderBy('jenis_barang_id')->orderBy('nama')->paginate(session('barang_pp'));
-        $datas = $datas->latest()->paginate(session('kritiksaran_pp'));
+        $datas = $datas->orderBy('tanggal', 'desc')->paginate(session('kritiksaran_pp'));
+        // $datas = $datas->latest()->paginate(session('kritiksaran_pp'));
 
         $datas->withPath('/human-resource/criticism'); // pagination url to
 
@@ -139,19 +143,39 @@ class KritiksaranController extends Controller implements HasMiddleware
         //
     }
 
-    public function show(string $id)
+    public function show(Request $request): View
     {
-        //
+        $datas = MitraKritikSaran::find(Crypt::decrypt($request->criticism));
+
+        return view('kritiksaran.show', compact(['datas']));
     }
 
-    public function edit(string $id)
+    public function edit(Request $request): View
     {
-        //
+        $branch_id = auth()->user()->profile->branch_id;
+        $datas = MitraKritikSaran::find(Crypt::decrypt($request->criticism));
+
+        return view('kritiksaran.edit', compact(['datas', 'branch_id']));
     }
 
-    public function update(Request $request, string $id)
+    public function update(KritiksaranRequest $request): RedirectResponse
     {
-        //
+        $pengumuman = MitraKritikSaran::find(Crypt::decrypt($request->criticism));
+
+        if ($request->validated()) {
+            $pengumuman->update([
+                'tanggal' => $request->tanggal,
+                'judul' => ucfirst($request->judul),
+                'keterangan' => ucfirst($request->keterangan),
+                'isactive' => ($request->isactive == 'on' ? 1 : 0),
+                'tanggal_jawab' => $request->tanggal_jawab,
+                'keterangan_jawab' => $request->keterangan_jawab,
+            ]);
+
+            return redirect()->back()->with('success', __('messages.successupdated') . ' 👉 ' . $request->judul);
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Error occured while updating!');
+        }
     }
 
     public function destroy(string $id)

@@ -17,11 +17,7 @@
         </h1>
     </div>
 
-    <div id="mainDiv" x-data="{
-        openModal: false,
-        modalTitle: 'Title'
-    }" class="mx-auto px-4 py-2">
-
+    <div class="mx-auto px-4 py-2">
         <div class="flex flex-col items-center">
 
             <div class="w-full" role="alert">
@@ -37,30 +33,6 @@
             </div>
 
         </div>
-
-        <div x-show.transition.duration.500ms="openModal"
-            class="fixed inset-0 flex items-center justify-center px-4 md:px-0 bg-white bg-opacity-75 dark:bg-black dark:bg-opacity-75">
-            <div @click.away="openModal = false"
-                class="flex flex-col p-2 h-full w-full shadow-2xl rounded-lg border-1 border-primary-100 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
-                <div class="flex justify-between mb-2">
-                    <div class="font-bold text-lg text-gray-900 dark:text-gray-50"><span x-html="modalTitle"></span>
-                    </div>
-                    <button @click="openModal = false">
-                        <svg class="w-5 h-5 text-gray-900 dark:text-gray-50" viewBox="0 0 24 24" fill="currentColor"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M5.293 5.293a1 1 0 0 1 1.414 0L12 10.586l5.293-5.293a1 1 0 1 1 1.414 1.414L13.414 12l5.293 5.293a1 1 0 0 1-1.414 1.414L12 13.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L10.586 12 5.293 6.707a1 1 0 0 1 0-1.414z"
-                                fill="currentColor" />
-                        </svg>
-                    </button>
-                </div>
-                <div class="flex items-center justify-center overflow-hidden rounded-lg h-full">
-                    <iframe id="iframe-laporan" src="" frameborder="0"
-                        style="width:100%; height:100%;"></iframe>
-                </div>
-            </div>
-        </div>
-
     </div>
 
     @push('scripts')

@@ -1,19 +1,19 @@
 @php
     use Illuminate\Support\Facades\Crypt;
 @endphp
-@section('title', __('messages.announcement'))
+@section('title', __('messages.criticism'))
 
 <x-app-layout>
     <div class="flex items-center justify-between px-4 py-4 border-b border-primary-100 lg:py-6 dark:border-primary-800">
         <h1 class="text-xl flex items-center justify-center">
-            <a href="{{ route('announcement.index') }}" class="flex items-center justify-center">
+            <a href="{{ route('criticism.index') }}" class="flex items-center justify-center">
                 <svg class="size-7" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path fill="none" stroke="currentColor" stroke-width="2"
                         d="M11,15 C14,15 19,19 19,19 L19,3 C19,3 14,7 11,7 C11,7 11,15 11,15 Z M5,15 L8,23 L12,23 L9,15 M19,14 C20.657,14 22,12.657 22,11 C22,9.343 20.657,8 19,8 M11,19 C11.9999997,18.9999994 14,18 14,16 M2,11 C2,7.88888889 3.7912,7 6,7 L11,7 L11,15 L6,15 C3.7912,15 2,14.1111111 2,11 Z" />
                 </svg>
                 <div class="relative px-2 pt-2">
                     <span class="absolute top-0 left-2 text-xs w-40">@lang('messages.humanresource')</span>
-                    <span>@lang('messages.announcement')</span>
+                    <span>@lang('messages.criticism')</span>
                 </div>
             </a>
             <span class="px-2">&raquo;</span>
@@ -21,7 +21,7 @@
         </h1>
     </div>
 
-    <form id="pengumuman-form" action="{{ route('announcement.update', Crypt::Encrypt($datas->id)) }}" method="POST"
+    <form id="kritiksaran-form" action="{{ route('criticism.update', Crypt::Encrypt($datas->id)) }}" method="POST"
         enctype="multipart/form-data">
         @csrf
         @method('PUT')
@@ -32,7 +32,7 @@
                 <div class="flex flex-col items-center">
 
                     <div class="w-full" role="alert">
-                        @include('pengumuman.partials.feedback')
+                        @include('kritiksaran.partials.feedback')
                     </div>
 
                     <div
@@ -61,7 +61,9 @@
 
                                         <x-input-error class="mt-2" :messages="$errors->get('judul')" />
                                     </div>
+                                </div>
 
+                                <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
                                     <div class="w-auto pb-4">
                                         <label for="keterangan"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</label>
@@ -70,24 +72,6 @@
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.description') }}">{{ old('keterangan', $datas->keterangan) }}</x-textarea-input>
 
                                         <x-input-error class="mt-2" :messages="$errors->get('keterangan')" />
-                                    </div>
-                                </div>
-
-                                <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
-                                    <div class="w-auto pb-4 lg:pb-12">
-                                        <label for="gambar"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.picture')</label>
-                                        <x-text-input type="file" name="gambar" id="gambar" tabindex="4"
-                                            accept=".jpg,.jpeg" placeholder="@lang('messages.choose')"
-                                            class="!rounded-none border" />
-
-                                        <x-input-error class="mt-2" :messages="$errors->get('gambar')" />
-
-                                        <div class="mt-2 flex justify-center">
-                                            <img id="image-preview" class="w-full lg:w-3/5 h-auto border rounded-lg"
-                                                @if ($datas->gambar) src="{{ asset($datas->lokasi . '/' . $datas->gambar) }}" @else src="{{ url('/') }}/images/0cd6be830e32f80192d496e50cfa9dbc.jpg" @endif
-                                                alt="o.o" />
-                                        </div>
                                     </div>
 
                                     <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
@@ -112,7 +96,7 @@
                                             </svg>
                                             <span class="pl-1">@lang('messages.save')</span>
                                         </x-primary-button>
-                                        <x-anchor-secondary href="{{ route('announcement.index') }}" tabindex="6">
+                                        <x-anchor-secondary href="{{ route('criticism.index') }}" tabindex="6">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="size-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -132,18 +116,5 @@
     </form>
 
     @push('scripts')
-        <script type="text/javascript">
-            $(document).ready(function(e) {
-                $(function() {
-                    $('#gambar').change(function() {
-                        let reader = new FileReader();
-                        reader.onload = (e) => {
-                            $('#image-preview').attr('src', e.target.result);
-                        }
-                        reader.readAsDataURL(this.files[0]);
-                    });
-                })
-            });
-        </script>
     @endpush
 </x-app-layout>
