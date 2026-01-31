@@ -91,7 +91,12 @@
                         dataType: 'json',
                         data: $('form#index-form').serialize(),
                         success: function(result) {
-                            if (result.status !== 'Not Found') {
+                            if (result.status ===
+                                'Stok Barang Tidak Mencukupi! Tidak dapat mencetak invoice.') {
+                                flasher.error(result.status, "Success");
+                            }
+                            if (result.status !== 'Not Found' && result.status !==
+                                'Stok Barang Tidak Mencukupi! Tidak dapat mencetak invoice.') {
                                 var namafile = result.namafile;
                                 window.open(namafile, '_blank');
                             }

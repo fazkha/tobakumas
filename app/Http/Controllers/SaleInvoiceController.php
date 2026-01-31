@@ -155,7 +155,7 @@ class SaleInvoiceController extends Controller implements HasMiddleware
             $datas = SaleOrder::find($select);
             $details = SaleOrderDetail::where('sale_order_id', $select)->orderBy('barang_id')->get();
             $details0 = SaleOrderDetail::join('barangs', 'sale_order_details.barang_id', '=', 'barangs.id')
-                ->where('sale_order_details.sale_order_id', $datas->id)
+                ->where('sale_order_details.sale_order_id', $select)
                 ->where('barangs.stock', '<=', 0)
                 ->first();
             $adonans = SaleOrderMitra::where('sale_order_id', $select)
@@ -163,7 +163,7 @@ class SaleInvoiceController extends Controller implements HasMiddleware
                 ->orderBy('barang_id')
                 ->get();
             $adonans0 = SaleOrderMitra::join('barangs', 'sale_order_mitras.barang_id', '=', 'barangs.id')
-                ->where('sale_order_mitras.sale_order_id', $datas->id)
+                ->where('sale_order_mitras.sale_order_id', $select)
                 ->where('barangs.stock', '<=', 0)
                 ->first();
 
