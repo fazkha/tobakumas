@@ -15,7 +15,7 @@ class KritiksaranRequest extends FormRequest
     {
         return [
             'judul' => ['required', 'string', 'max:200'],
-            'keterangan' => ['nullable', 'string', 'max:200'],
+            'keterangan' => ['nullable', 'string', 'max:65000'],
             'tanggal_jawab' => ['nullable'],
             'keterangan_jawab' => ['nullable', 'string', 'max:200'],
         ];
