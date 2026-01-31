@@ -398,9 +398,10 @@
                 </div>
             @endcan
 
-            @canany(['pegawai-list', 'pengumuman-list'])
+            @canany(['pegawai-list', 'pengumuman-list', 'kritiksaran-list'])
                 <div x-data="{{ substr(request()->getRequestUri(), 0, 24) == '/human-resource/employee' ||
-                substr(request()->getRequestUri(), 0, 28) == '/human-resource/announcement'
+                substr(request()->getRequestUri(), 0, 28) == '/human-resource/announcement' ||
+                substr(request()->getRequestUri(), 0, 25) == '/human-resource/criticism'
                     ? '{isActive: true, open: true}'
                     : '{isActive: false, open: false}' }}">
                     <a href="#" @click="$event.preventDefault(); open = !open"
@@ -454,6 +455,22 @@
                                             d="M11,15 C14,15 19,19 19,19 L19,3 C19,3 14,7 11,7 C11,7 11,15 11,15 Z M5,15 L8,23 L12,23 L9,15 M19,14 C20.657,14 22,12.657 22,11 C22,9.343 20.657,8 19,8 M11,19 C11.9999997,18.9999994 14,18 14,16 M2,11 C2,7.88888889 3.7912,7 6,7 L11,7 L11,15 L6,15 C3.7912,15 2,14.1111111 2,11 Z" />
                                     </svg>
                                     @lang('messages.announcement')
+                                </span>
+                            </a>
+                        </div>
+                    @endcan
+                    @can('kritiksaran-list')
+                        <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="humanresource">
+                            <a href="{{ route('announcement.index') }}" role="menuitem"
+                                class="block p-2 text-sm text-gray-500 transition-colors duration-200 rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary">
+                                <span class="flex flex-row gap-1">
+                                    <svg class="size-5" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-4.586l-2.707 2.707a1 1 0 0 1-1.414 0L8.586 19H4a2 2 0 0 1-2-2V6zm18 0H4v11h5a1 1 0 0 1 .707.293L12 19.586l2.293-2.293A1 1 0 0 1 15 17h5V6zM6 9.5a1 1 0 0 1 1-1h10a1 1 0 1 1 0 2H7a1 1 0 0 1-1-1zm0 4a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H7a1 1 0 0 1-1-1z"
+                                            fill="currentColor" />
+                                    </svg>
+                                    @lang('messages.criticism')
                                 </span>
                             </a>
                         </div>

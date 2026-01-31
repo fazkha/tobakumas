@@ -281,4 +281,5 @@ return [
     'longitude' => 'Longitude',
     'cart' => 'Gerobak',
     'announcement' => 'Pengumuman',
+    'criticism' => 'Kritik & Saran',
 ];

@@ -30,6 +30,7 @@ Route::prefix('mitra')->group(function () {
     Route::post('/load-kritiksaran', [MitraController::class, 'loadKritikSaran']);
     Route::post('/save-kritiksaran', [MitraController::class, 'saveKritikSaran']);
     Route::post('/load-kritiksaran-approval', [MitraController::class, 'loadKritikSaranApproval']);
+    Route::post('/save-kritiksaran-approval', [MitraController::class, 'saveKritikSaranApproval']);
     Route::post('/save-position', [MitraController::class, 'savePosition']);
     Route::post('/save-omzet', [MitraController::class, 'saveOmzet']);
     Route::post('/load-omzet', [MitraController::class, 'loadOmzet']);

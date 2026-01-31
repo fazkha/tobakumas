@@ -213,6 +213,46 @@ class MitraController extends Controller
         ]);
     }
 
+    public function saveKritikSaranApproval(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:mitra_kritik_sarans,id'],
+            'tanggal_jawab' => ['nullable'],
+            'keterangan_jawab' => ['nullable', 'max:200'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+
+        $kritiksaran = MitraKritikSaran::find($data['id']);
+
+        $kritiksaran->update([
+            'active' => 1,
+            'tanggal_jawab' => $data['tanggal_jawab'],
+            'keterangan_jawab' => $data['keterangan_jawab'],
+        ]);
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'kritiksaran' => $kritiksaran,
+        ]);
+    }
+
     public function loadKritikSaranApproval(Request $request)
     {
         $this->db_switch(2);

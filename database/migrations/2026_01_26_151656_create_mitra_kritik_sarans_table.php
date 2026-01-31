@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('jenis', 10)->default('Kritik');
             $table->string('judul', 200)->nullable();
             $table->string('keterangan', 200)->nullable();
+            $table->date('tanggal_jawab')->nullable();
+            $table->string('keterangan_jawab', 200)->nullable();
             $table->unsignedTinyInteger('isactive')->default(0);
             $table->timestamps();
         });

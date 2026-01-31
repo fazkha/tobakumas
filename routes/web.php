@@ -15,6 +15,7 @@ use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\KabupatenController;
 use App\Http\Controllers\KecamatanController;
 use App\Http\Controllers\KonversiController;
+use App\Http\Controllers\KritiksaranController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\MitraController;
 use App\Http\Controllers\PegawaiController;
@@ -134,6 +135,10 @@ Route::prefix('human-resource')->middleware('auth')->group(function () {
     Route::resource('announcement', PengumumanController::class);
     Route::get('announcement/{announcement}/delete', [PengumumanController::class, 'delete'])->name('announcement.delete');
     Route::get('announcement/fetchdb/{pp}/{isactive}/{judul}/{keterangan}', [PengumumanController::class, 'fetchdb'])->defaults('judul', '_')->defaults('keterangan', '_');
+
+    Route::resource('criticism', KritiksaranController::class);
+    Route::get('criticism/{criticism}/delete', [KritiksaranController::class, 'delete'])->name('criticism.delete');
+    Route::get('criticism/fetchdb/{pp}/{isactive}/{judul}/{keterangan}', [KritiksaranController::class, 'fetchdb'])->defaults('judul', '_')->defaults('keterangan', '_');
 })->missing(function (Request $request) {
     return Redirect::route('dashboard');
 });
