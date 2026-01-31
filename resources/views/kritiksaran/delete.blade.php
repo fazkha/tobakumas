@@ -1,19 +1,20 @@
 @php
     use Illuminate\Support\Facades\Crypt;
 @endphp
-@section('title', __('messages.announcement'))
+@section('title', __('messages.criticism'))
 
 <x-app-layout>
     <div class="flex items-center justify-between px-4 py-4 border-b border-primary-100 lg:py-6 dark:border-primary-800">
         <h1 class="text-xl flex items-center justify-center">
-            <a href="{{ route('announcement.index') }}" class="flex items-center justify-center">
-                <svg class="size-7" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="none" stroke="currentColor" stroke-width="2"
-                        d="M11,15 C14,15 19,19 19,19 L19,3 C19,3 14,7 11,7 C11,7 11,15 11,15 Z M5,15 L8,23 L12,23 L9,15 M19,14 C20.657,14 22,12.657 22,11 C22,9.343 20.657,8 19,8 M11,19 C11.9999997,18.9999994 14,18 14,16 M2,11 C2,7.88888889 3.7912,7 6,7 L11,7 L11,15 L6,15 C3.7912,15 2,14.1111111 2,11 Z" />
+            <a href="{{ route('criticism.index') }}" class="flex items-center justify-center">
+                <svg class="size-7" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-4.586l-2.707 2.707a1 1 0 0 1-1.414 0L8.586 19H4a2 2 0 0 1-2-2V6zm18 0H4v11h5a1 1 0 0 1 .707.293L12 19.586l2.293-2.293A1 1 0 0 1 15 17h5V6zM6 9.5a1 1 0 0 1 1-1h10a1 1 0 1 1 0 2H7a1 1 0 0 1-1-1zm0 4a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H7a1 1 0 0 1-1-1z"
+                        fill="currentColor" />
                 </svg>
                 <div class="relative px-2 pt-2">
                     <span class="absolute top-0 left-2 text-xs w-40">@lang('messages.humanresource')</span>
-                    <span>@lang('messages.announcement')</span>
+                    <span>@lang('messages.criticism')</span>
                 </div>
             </a>
             <span class="px-2">&raquo;</span>
@@ -26,7 +27,7 @@
             <div class="flex flex-col items-center">
 
                 <div class="w-3/4 lg:w-1/2 shadow mb-5" role="alert">
-                    <form action="{{ route('announcement.destroy', Crypt::Encrypt($datas->id)) }}" class="block"
+                    <form action="{{ route('criticism.destroy', Crypt::Encrypt($datas->id)) }}" class="block"
                         method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('DELETE')
@@ -56,7 +57,7 @@
                                             </svg>
                                             <span class="pl-1">@lang('messages.delete')</span>
                                         </x-primary-button>
-                                        <x-anchor-secondary href="{{ route('announcement.index') }}" tabindex="1"
+                                        <x-anchor-secondary href="{{ route('criticism.index') }}" tabindex="1"
                                             autofocus>
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="size-5">
@@ -99,14 +100,10 @@
                             </div>
 
                             <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
-                                <div class="w-auto pb-4 lg:pb-12">
-                                    <label for="gambar"
-                                        class="text-center block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.picture')</label>
-                                    <div class="mt-2 flex justify-center">
-                                        <img id="image-preview" class="w-full lg:w-3/5 h-auto border rounded-lg"
-                                            @if ($datas->gambar) src="{{ asset($datas->lokasi . '/' . $datas->gambar) }}" @else src="{{ url('/') }}/images/0cd6be830e32f80192d496e50cfa9dbc.jpg" @endif
-                                            alt="o.o" />
-                                    </div>
+                                <div class="w-auto pb-4">
+                                    <span for="keterangan_jawab"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</span>
+                                    <x-text-span>{{ $datas->keterangan_jawab }}</x-text-span>
                                 </div>
 
                                 <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
@@ -122,8 +119,7 @@
                                         </div>
                                     </div>
 
-                                    <x-anchor-secondary href="{{ route('announcement.index') }}" tabindex="1"
-                                        autofocus>
+                                    <x-anchor-secondary href="{{ route('criticism.index') }}" tabindex="1" autofocus>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-5">
                                             <path stroke-linecap="round" stroke-linejoin="round"

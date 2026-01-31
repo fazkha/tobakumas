@@ -175,7 +175,7 @@ class KritiksaranController extends Controller implements HasMiddleware
                 'judul' => ucfirst($request->judul),
                 'keterangan' => ucfirst($request->keterangan),
                 'isactive' => ($request->isactive == 'on' ? 1 : 0),
-                'tanggal_jawab' => $request->tanggal_jawab,
+                'tanggal_jawab' => date("Y-m-d"),
                 'keterangan_jawab' => $request->keterangan_jawab,
             ]);
 
@@ -187,8 +187,29 @@ class KritiksaranController extends Controller implements HasMiddleware
         }
     }
 
-    public function destroy(string $id)
+    public function delete(Request $request): View
     {
-        //
+        $kritiksaran = MitraKritikSaran::find(Crypt::decrypt($request->criticism));
+
+        $datas = $kritiksaran;
+
+        return view('kritiksaran.delete', compact(['datas']));
+    }
+
+    public function destroy(Request $request): RedirectResponse
+    {
+        $kritiksaran = MitraKritikSaran::find(Crypt::decrypt($request->criticism));
+
+        try {
+            $kritiksaran->delete();
+        } catch (\Illuminate\Database\QueryException $e) {
+            if (str_contains($e->getMessage(), 'Integrity constraint violation')) {
+                return redirect()->route('criticism.index')->with('error', 'Integrity constraint violation');
+            }
+            return redirect()->route('criticism.index')->with('error', $e->getMessage());
+        }
+
+        return redirect()->route('criticism.index')
+            ->with('success', __('messages.successdeleted') . ' 👉 ' . $kritiksaran->judul);
     }
 }
