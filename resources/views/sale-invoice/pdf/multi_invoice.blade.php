@@ -95,11 +95,24 @@
                 @php
                     $datas = App\Models\SaleOrder::find($select);
                     $details = App\Models\SaleOrderDetail::where('sale_order_id', $select)->orderBy('barang_id')->get();
+                    $details0 = SaleOrderDetail::join('barangs', 'sale_order_details.barang_id', '=', 'barangs.id')
+                        ->where('sale_order_details.sale_order_id', $datas->id)
+                        ->where('barangs.stock', '<=', 0)
+                        ->first();
                     $adonans = App\Models\SaleOrderMitra::where('sale_order_id', $select)
                         ->orderBy('gerobak_id')
                         ->orderBy('barang_id')
                         ->get();
+                    $adonans0 = SaleOrderMitra::join('barangs', 'sale_order_mitras.barang_id', '=', 'barangs.id')
+                        ->where('sale_order_mitras.sale_order_id', $datas->id)
+                        ->where('barangs.stock', '<=', 0)
+                        ->first();
 
+                    if ($details0 || $adonans0) {
+                        return response()->json([
+                            'status' => 'Stok Barang Tidak Mencukupi! Tidak dapat mencetak invoice.',
+                        ], 200);
+                    }
                     ++$urut;
                 @endphp
 
@@ -164,20 +177,24 @@
                                         <table>
                                             <thead>
                                                 <tr>
-                                                    <th style="width: 40%">Gerobak</th>
-                                                    <th style="width: 40%">Nama barang</th>
+                                                    <th style="width: 20%">Gerobak</th>
+                                                    <th style="width: 60%">Nama barang</th>
                                                     <th style="width: 20%">Jumlah</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 @php
                                                     $total_adonan = 0;
+                                                    if (count($adonans) > 0) {
                                                 @endphp
                                                 @foreach ($adonans as $adonan)
                                                     <tr>
                                                         <td>{{ $adonan->gerobak_id ? $adonan->gerobak->kode : ($adonan->pegawai_id ? $adonan->pegawai->nama_lengkap : ($adonan->nama_mitra ? $adonan->nama_mitra : '-')) }}
                                                         </td>
-                                                        <td>{{ $adonan->barang->nama }}</td>
+                                                        <td>
+                                                            {{ $adonan->barang->nama }}
+                                                            ({{ str_replace('Adonan ', '', $adonan->keterangan) }})
+                                                        </td>
                                                         <td style="text-align: right">
                                                             <div>
                                                                 <span>{{ $adonan->satuan->singkatan }}</span>
@@ -190,6 +207,7 @@
                                                     @endphp
                                                 @endforeach
                                                 @php
+                                                    }
                                                     $cnt = count($adonans);
                                                 @endphp
                                                 @for ($i = $cnt; $i < $max - 1; $i++)
@@ -203,7 +221,7 @@
                                                     <td colspan="2">Jumlah</td>
                                                     <td style="text-align: right;">
                                                         <div>
-                                                            <span>{{ $adonan->satuan->singkatan }}</span>
+                                                            <span>{{ $cnt > 0 ?? $adonan->satuan->singkatan }}</span>
                                                             <span>{{ number_format($total_adonan, 2) }}</span>
                                                         </div>
                                                     </td>

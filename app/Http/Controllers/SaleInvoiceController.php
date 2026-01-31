@@ -156,6 +156,7 @@ class SaleInvoiceController extends Controller implements HasMiddleware
             $pdf = Pdf::loadView('sale-invoice.pdf.multi_invoice', ['selected' => $selected])
                 ->setPaper('a4', 'landscape')
                 ->setOptions(['enable_php' => true]);
+            dd($pdf);
 
             $output = $pdf->output();
             Storage::disk('pdfs')->put($namafile, $output);
