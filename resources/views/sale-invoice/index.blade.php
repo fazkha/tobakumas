@@ -115,7 +115,7 @@
                         success: function(result) {
                             if (result.status ===
                                 'Stok Barang Tidak Mencukupi! Tidak dapat mencetak invoice.') {
-                                flasher.error(result.status, "Error");
+                                flasher.error(result.status, "Success");
                             }
                             if (result.status !== 'Not Found' && result.status !==
                                 'Stok Barang Tidak Mencukupi! Tidak dapat mencetak invoice.') {
