@@ -100,6 +100,16 @@ class MitraController extends Controller
             ]);
         } else {
             foreach ($data['locations'] as $location) {
+                $timesaved = intval($location['timestamp'] / 1000);
+
+                $rute = RuteGerobak::where('timesaved', $timesaved)
+                    ->where('user_id', $data['id'])
+                    ->first();
+
+                if ($rute) {
+                    continue;
+                }
+
                 try {
                     $rute = RuteGerobak::create([
                         'user_id' => $data['id'],
@@ -108,7 +118,7 @@ class MitraController extends Controller
                         'latitude' => $location['latitude'],
                         'longitude' => $location['longitude'],
                         'isactive' => 1,
-                        'timesaved' => intval($location['timestamp'] / 1000),
+                        'timesaved' => $timesaved,
                     ]);
                 } catch (QueryException $e) {
                     $this->db_switch(1);
