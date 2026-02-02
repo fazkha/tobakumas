@@ -88,7 +88,6 @@ class MitraController extends Controller
                 'isactive' => $data['stat'] == 'onmove' ? 0 : 1,
                 'timesaved' => time(),
             ]);
-            dd($rute);
         } elseif ($data['locations'][0] == []) {
             $rute = RuteGerobak::create([
                 'user_id' => $data['id'],
@@ -137,7 +136,6 @@ class MitraController extends Controller
         return response()->json([
             'status' => 'success',
             'created_at' => $rute->created_at,
-            'location' => $data['locations'],
         ]);
     }
 
