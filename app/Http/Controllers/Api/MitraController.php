@@ -77,7 +77,6 @@ class MitraController extends Controller
         }
 
         $data = $validator->validated();
-        dd($data['locations'][0] == []);
 
         if (count($data['locations']) == 0) {
             $rute = RuteGerobak::create([
@@ -137,6 +136,7 @@ class MitraController extends Controller
         return response()->json([
             'status' => 'success',
             'created_at' => $rute->created_at,
+            'locations' => $data['locations'],
         ]);
     }
 
