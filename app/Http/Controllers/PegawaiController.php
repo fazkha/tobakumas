@@ -255,7 +255,14 @@ class PegawaiController extends Controller implements HasMiddleware
 
         $datas = Pegawai::find(Crypt::decrypt($request->employee));
         $penggajian = PegawaiGaji::find(Crypt::decrypt($request->employee));
-        $details = Brandivjabpeg::where('pegawai_id', Crypt::decrypt($request->employee))->orderBy('tanggal_mulai', 'desc')->get();
+        $details = Brandivjabpeg::where('brandivjabpegs.pegawai_id', Crypt::decrypt($request->employee))
+            ->join('brandivjabs', 'brandivjabs.id', 'brandivjabpegs.brandivjab_id')
+            ->join('branches', 'branches.id', 'brandivjabs.branch_id')
+            ->join('jabatans', 'jabatans.id', 'brandivjabs.jabatan_id')
+            ->leftJoin('divisions', 'divisions.id', 'brandivjabs.division_id')
+            ->selectRaw('brandivjabpegs.*, jabatans.nama as nama_jabatan, brandivjabs.keterangan as keterangan_jabatan, brandivjabs.division_id, divisions.nama as nama_division, branches.nama as nama_cabang, branches.kode as kode_cabang')
+            ->orderBy('brandivjabpegs.tanggal_mulai', 'desc')
+            ->get();
         $brandivjabs = Brandivjab::join('jabatans', 'jabatans.id', 'brandivjabs.jabatan_id')
             ->join('branches', 'branches.id', 'brandivjabs.branch_id')
             ->select('brandivjabs.*')
@@ -265,6 +272,7 @@ class PegawaiController extends Controller implements HasMiddleware
             ->orderBy('brandivjabs.keterangan')
             ->orderBy('branches.nama')
             ->get();
+        dd($details);
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
