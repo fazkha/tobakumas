@@ -3,15 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brandivjabpeg;
-use App\Http\Requests\BrandivjabpegRequest;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
-use Illuminate\View\View;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class BrandivjabpegController extends Controller
 {
@@ -31,34 +28,52 @@ class BrandivjabpegController extends Controller
         DB::reconnect('mysql');
     }
 
-    public function storeJabatan(BrandivjabpegRequest $request): JsonResponse
+    public function storeJabatan(Request $request): JsonResponse
     {
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
-        if ($request->validated()) {
-            $jabatan = Brandivjabpeg::create([
-                'brandivjab_id' => $request->brandivjab_id,
-                'pegawai_id' => $request->pegawai_id,
-                'tanggal_mulai' => $request->tanggal_mulai,
-                'tanggal_akhir' => $request->tanggal_akhir,
-                'keterangan' => $request->keterangan,
-                'isactive' => $request->isactive,
-                'created_by' => auth()->user()->email,
-                'updated_by' => auth()->user()->email,
-            ]);
+        $validator = Validator::make($request->all(), [
+            'brandivjab_id' => ['required', 'exists:brandivjabs,id'],
+            'pegawai_id' => ['required', 'exists:pegawais,id'],
+            'tanggal_mulai' => ['nullable'],
+            'tanggal_akhir' => ['nullable'],
+            'keterangan' => ['nullable', 'string', 'max:200'],
+        ]);
 
-            if ($jabatan) {
-                $details = Brandivjabpeg::where('pegawai_id', $request->pegawai_id)->orderBy('tanggal_mulai', 'desc')->get();
-                $viewMode = false;
+        if ($validator->fails()) {
+            $errors = $validator->errors();
 
-                $view = view('pegawai.partials.details', compact(['details', 'viewMode']))->render();
+            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
-                if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
-
+            foreach ($errors->all() as $message) {
                 return response()->json([
-                    'view' => $view,
-                ], 200);
+                    'status' => 'Error Validation',
+                ], 400);
             }
+        }
+
+        $jabatan = Brandivjabpeg::create([
+            'brandivjab_id' => $request->brandivjab_id,
+            'pegawai_id' => $request->pegawai_id,
+            'tanggal_mulai' => $request->tanggal_mulai,
+            'tanggal_akhir' => $request->tanggal_akhir,
+            'keterangan' => $request->keterangan,
+            'isactive' => $request->isactive,
+            'created_by' => auth()->user()->email,
+            'updated_by' => auth()->user()->email,
+        ]);
+
+        if ($jabatan) {
+            $details = Brandivjabpeg::where('pegawai_id', $request->pegawai_id)->orderBy('tanggal_mulai', 'desc')->get();
+            $viewMode = false;
+
+            $view = view('pegawai.partials.details', compact(['details', 'viewMode']))->render();
+
+            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+
+            return response()->json([
+                'view' => $view,
+            ], 200);
         }
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
