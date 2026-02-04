@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PengumumanRequest;
+use App\Models\Jabatan;
 use App\Models\MitraPengumuman;
+use App\Models\MitraPengumumanUntuk;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -117,8 +119,9 @@ class PengumumanController extends Controller implements HasMiddleware
     public function create(): View
     {
         $branch_id = auth()->user()->profile->branch_id;
+        $jabatans = Jabatan::where('isactive', 1)->get();
 
-        return view('pengumuman.create', compact(['branch_id']));
+        return view('pengumuman.create', compact(['branch_id', 'jabatans']));
     }
 
     public function store(PengumumanRequest $request): RedirectResponse
@@ -149,6 +152,17 @@ class PengumumanController extends Controller implements HasMiddleware
                 $dest = $this->compress_image($image, $image->path(), public_path($pathym), $imageName, 50);
             }
 
+            $untuks = $request->input('untuks');
+
+            if ($untuks) {
+                foreach ($untuks as $untuk) {
+                    MitraPengumumanUntuk::create([
+                        'mitra_pengumuman_id' => $pengumuman->id,
+                        'jabatan_id' => $untuk,
+                    ]);
+                }
+            }
+
             if ($pengumuman) {
                 return redirect()->route('announcement.edit', Crypt::encrypt($pengumuman->id))->with('success', __('messages.successadded') . ' 👉 ' . $request->judul);
             }
@@ -160,21 +174,26 @@ class PengumumanController extends Controller implements HasMiddleware
     public function show(Request $request): View
     {
         $datas = MitraPengumuman::find(Crypt::decrypt($request->announcement));
+        $untuks = MitraPengumumanUntuk::where('mitra_pengumuman_id', $datas->id)->orderBy('jabatan_id')->get();
+        $jabatans = Jabatan::where('isactive', 1)->get();
 
-        return view('pengumuman.show', compact(['datas']));
+        return view('pengumuman.show', compact(['datas', 'jabatans', 'untuks']));
     }
 
     public function edit(Request $request): View
     {
         $branch_id = auth()->user()->profile->branch_id;
         $datas = MitraPengumuman::find(Crypt::decrypt($request->announcement));
+        $untuks = MitraPengumumanUntuk::where('mitra_pengumuman_id', $datas->id)->orderBy('jabatan_id')->get();
+        $jabatans = Jabatan::where('isactive', 1)->get();
 
-        return view('pengumuman.edit', compact(['datas', 'branch_id']));
+        return view('pengumuman.edit', compact(['datas', 'jabatans', 'untuks', 'branch_id']));
     }
 
     public function update(PengumumanRequest $request): RedirectResponse
     {
         $pengumuman = MitraPengumuman::find(Crypt::decrypt($request->announcement));
+        $untuks1 = MitraPengumumanUntuk::where('mitra_pengumuman_id', $pengumuman->id)->get();
         $image = $request->file('gambar');
 
         if ($request->validated()) {
@@ -204,6 +223,23 @@ class PengumumanController extends Controller implements HasMiddleware
                 $dest = $this->compress_image($image, $image->path(), public_path($pathym), $imageName, 50);
             }
 
+            $untuks = $request->input('untuks');
+
+            if ($untuks) {
+                foreach ($untuks as $untuk) {
+                    $found = $untuks1->where('jabatan_id', $untuk)->first();
+
+                    if (!$found) {
+                        MitraPengumumanUntuk::create([
+                            'mitra_pengumuman_id' => $pengumuman->id,
+                            'jabatan_id' => $untuk,
+                        ]);
+                    }
+                }
+
+                MitraPengumumanUntuk::whereNotIn('jabatan_id', $untuks)->delete();
+            }
+
             return redirect()->back()->with('success', __('messages.successupdated') . ' 👉 ' . $request->judul);
         } else {
             return redirect()->back()->withInput()->with('error', 'Error occured while updating!');
@@ -213,10 +249,11 @@ class PengumumanController extends Controller implements HasMiddleware
     public function delete(Request $request): View
     {
         $pengumuman = MitraPengumuman::find(Crypt::decrypt($request->announcement));
-
         $datas = $pengumuman;
+        $untuks = MitraPengumumanUntuk::where('mitra_pengumuman_id', $datas->id)->orderBy('jabatan_id')->get();
+        $jabatans = Jabatan::where('isactive', 1)->get();
 
-        return view('pengumuman.delete', compact(['datas']));
+        return view('pengumuman.delete', compact(['datas', 'untuks', 'jabatans']));
     }
 
     public function destroy(Request $request): RedirectResponse

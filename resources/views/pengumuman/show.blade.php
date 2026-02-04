@@ -1,3 +1,7 @@
+@php
+    $i = 0;
+@endphp
+
 @section('title', __('messages.announcement'))
 
 <x-app-layout>
@@ -50,6 +54,40 @@
                                     <span for="keterangan"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</span>
                                     <x-text-span>{{ $datas->keterangan }}</x-text-span>
+                                </div>
+
+                                <div class="w-auto pb-4">
+                                    <label for="untuk"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.jobposition')</label>
+                                    <x-text-span>
+                                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-2">
+                                            @foreach ($jabatans as $jabatan)
+                                                <div class="flex flex-row items-center gap-2">
+                                                    <label class="cursor-pointer flex flex-row gap-2 items-center">
+                                                        <input type="checkbox" name="untuks[]"
+                                                            value="{{ $jabatan->id }}" disabled
+                                                            @php if ($i < count($untuks)) {
+                                                                if ($untuks[$i]->jabatan_id == $jabatan->id) {
+                                                                    echo 'checked';
+                                                                }
+                                                            } @endphp
+                                                            class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-7 h-7 rounded-lg shadow-md" />
+                                                        <span
+                                                            class="pr-4 group-hover:text-blue-500 transition-colors duration-300">
+                                                            {{ $jabatan->nama }}
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                @php
+                                                    if ($i < count($untuks)) {
+                                                        if ($untuks[$i]->jabatan_id == $jabatan->id) {
+                                                            $i++;
+                                                        }
+                                                    }
+                                                @endphp
+                                            @endforeach
+                                        </div>
+                                    </x-text-span>
                                 </div>
                             </div>
 

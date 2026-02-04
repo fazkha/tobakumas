@@ -67,6 +67,28 @@
 
                                         <x-input-error class="mt-2" :messages="$errors->get('keterangan')" />
                                     </div>
+
+                                    <div class="w-auto pb-4">
+                                        <label for="untuk"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.jobposition')</label>
+                                        <x-text-span>
+                                            <div class="grid grid-cols-1 lg:grid-cols-3 gap-2">
+                                                @foreach ($jabatans as $jabatan)
+                                                    <div class="flex flex-row items-center gap-2">
+                                                        <label class="cursor-pointer flex flex-row gap-2 items-center">
+                                                            <input type="checkbox" name="untuks[]"
+                                                                value="{{ $jabatan->id }}"
+                                                                class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-7 h-7 rounded-lg shadow-md" />
+                                                            <span
+                                                                class="pr-4 group-hover:text-blue-500 transition-colors duration-300">
+                                                                {{ $jabatan->nama }}
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </x-text-span>
+                                    </div>
                                 </div>
 
                                 <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
@@ -109,8 +131,9 @@
                                             <span class="pl-1">@lang('messages.save')</span>
                                         </x-primary-button>
                                         <x-anchor-secondary href="{{ route('announcement.index') }}" tabindex="6">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="currentColor" class="size-5">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                class="size-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M6 18 18 6M6 6l12 12" />
                                             </svg>

@@ -283,4 +283,5 @@ return [
     'announcement' => 'Pengumuman',
     'criticism' => 'Kritik & Saran',
     'response' => 'Tanggapan',
+    'receiver' => 'Penerima',
 ];

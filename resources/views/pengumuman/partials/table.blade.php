@@ -1,5 +1,6 @@
 @php
     use Illuminate\Support\Facades\Crypt;
+    use App\Models\MitraPengumumanUntuk;
 @endphp
 
 <div x-data="{
@@ -35,6 +36,10 @@
                         </th>
                         <th
                             class="px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
+                            @lang('messages.receiver')
+                        </th>
+                        <th
+                            class="px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
                             @lang('messages.active')
                         </th>
                         <th
@@ -46,7 +51,7 @@
                 <tbody>
                     @if ($datas->count() == 0)
                         <tr>
-                            <td colspan="7" class="text-sm bg-primary-20 dark:bg-primary-900">
+                            <td colspan="8" class="text-sm bg-primary-20 dark:bg-primary-900">
                                 <div class="flex items-center justify-center p-5">@lang('messages.datanotavailable')</div>
                             </td>
                         </tr>
@@ -82,6 +87,22 @@
                             <td
                                 class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
                                 <span class="text-gray-900 dark:text-white">{{ $data->keterangan }}</span>
+                            </td>
+                            <td
+                                class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
+                                @php
+                                    $untuks = MitraPengumumanUntuk::where('mitra_pengumuman_id', $data->id)
+                                        ->orderBy('jabatan_id')
+                                        ->get();
+                                @endphp
+                                <div class="flex flex-col flex-wrap lg:flex-row gap-2 text-gray-900 dark:text-white">
+                                    @foreach ($untuks as $untuk)
+                                        <div
+                                            class="flex px-2 py-1 border rounded items-center bg-primary-100 border-primary-400 dark:bg-primary-700 dark:border-primary-600">
+                                            <span>&bull;</span><span class="pl-2">{{ $untuk->jabatan->nama }}</span>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </td>
                             <td
                                 class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">

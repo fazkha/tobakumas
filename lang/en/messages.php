@@ -284,4 +284,5 @@ return [
     'announcement' => 'Announcement',
     'criticism' => 'Criticism',
     'response' => 'Response',
+    'receiver' => 'Receiver',
 ];
