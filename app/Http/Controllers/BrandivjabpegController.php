@@ -64,7 +64,14 @@ class BrandivjabpegController extends Controller
         ]);
 
         if ($jabatan) {
-            $details = Brandivjabpeg::where('pegawai_id', $request->pegawai_id)->orderBy('tanggal_mulai', 'desc')->get();
+            $details = Brandivjabpeg::where('brandivjabpegs.pegawai_id', $request->pegawai_id)
+                ->join('brandivjabs', 'brandivjabs.id', 'brandivjabpegs.brandivjab_id')
+                ->join('branches', 'branches.id', 'brandivjabs.branch_id')
+                ->join('jabatans', 'jabatans.id', 'brandivjabs.jabatan_id')
+                ->leftJoin('divisions', 'divisions.id', 'brandivjabs.division_id')
+                ->selectRaw('brandivjabpegs.*, jabatans.nama as nama_jabatan, brandivjabs.keterangan as keterangan_jabatan, brandivjabs.division_id, divisions.nama as nama_division, branches.nama as nama_cabang, branches.kode as kode_cabang')
+                ->orderBy('brandivjabpegs.tanggal_mulai', 'desc')
+                ->get();
             $viewMode = false;
 
             $view = view('pegawai.partials.details', compact(['details', 'viewMode']))->render();
