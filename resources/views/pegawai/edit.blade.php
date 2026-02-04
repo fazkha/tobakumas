@@ -511,7 +511,7 @@
                                                             @foreach ($brandivjabs as $brandivjab)
                                                                 <option value="{{ $brandivjab->id }}"
                                                                     {{ old('brandivjab_id') == $brandivjab->id ? 'selected' : '' }}>
-                                                                    {{ $brandivjab->jabatan->nama . ($brandivjab->keterangan ? ' ' . $brandivjab->keterangan : '') . ($brandivjab->division_id ? ' ' . $brandivjab->division->nama : '') . ' - ' . $brandivjab->branch->nama }}
+                                                                    {{ $brandivjab->jabatan->nama . ($brandivjab->keterangan ? ' ' . $brandivjab->keterangan : '') . ($brandivjab->division_id ? ' ' . $brandivjab->division->nama : '') . ' - ' . $brandivjab->branch->nama . ' (' . $brandivjab->branch->kode . ')' }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
