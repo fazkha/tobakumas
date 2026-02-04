@@ -85,9 +85,9 @@ class PegawaiController extends Controller implements HasMiddleware
         $jabatans = Jabatan::where('isactive', 1)->orderBy('islevel')->pluck('nama', 'id');
         $datas = Pegawai::query();
         $datas = $datas->select('pegawais.*')
-            ->join('brandivjabpegs', 'brandivjabpegs.pegawai_id', 'pegawais.id')
-            ->join('brandivjabs', 'brandivjabs.id', 'brandivjabpegs.brandivjab_id')
-            ->join('jabatans', 'jabatans.id', 'brandivjabs.jabatan_id')
+            ->leftJoin('brandivjabpegs', 'brandivjabpegs.pegawai_id', 'pegawais.id')
+            ->leftJoin('brandivjabs', 'brandivjabs.id', 'brandivjabpegs.brandivjab_id')
+            ->leftJoin('jabatans', 'jabatans.id', 'brandivjabs.jabatan_id')
             ->groupByRaw('brandivjabs.jabatan_id, brandivjabs.branch_id, pegawais.id, jabatans.islevel, pegawais.nama_lengkap')
             ->orderByRaw('jabatans.islevel, pegawais.nama_lengkap');
 
