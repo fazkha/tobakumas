@@ -237,7 +237,7 @@ class PengumumanController extends Controller implements HasMiddleware
                     }
                 }
 
-                MitraPengumumanUntuk::whereNotIn('jabatan_id', $untuks)->delete();
+                MitraPengumumanUntuk::where('mitra_pengumuman_id', $pengumuman->id)->whereNotIn('jabatan_id', $untuks)->delete();
             }
 
             return redirect()->back()->with('success', __('messages.successupdated') . ' 👉 ' . $request->judul);
