@@ -11,6 +11,14 @@ return [
     'product_short' => 'Tobakumas',
     'product_name' => 'Toko Bahan Baku & Kemasan',
 
+    // Database
+    'db01_dbname' => 'tobakuma_01',
+    'db01_username' => 'tobakuma_dbadmin',
+    'db01_password' => 'SaA(o-6y55a0TQ',
+    'db02_dbname' => 'tobakuma_02',
+    'db02_username' => 'tobakuma_dbadmin',
+    'db02_password' => 'SaA(o-6y55a0TQ',
+
     // list per page
     'list_per_page_opt_1' => 15,
     'list_per_page_opt_2' => 30,

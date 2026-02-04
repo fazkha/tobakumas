@@ -18,6 +18,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 
 class PegawaiController extends Controller implements HasMiddleware
 {
@@ -30,6 +32,22 @@ class PegawaiController extends Controller implements HasMiddleware
             new Middleware('permission:pegawai-show', only: ['show']),
             new Middleware('permission:pegawai-delete', only: ['delete', 'destroy']),
         ];
+    }
+
+    public function db_switch($sw)
+    {
+        if ($sw == 2) {
+            Config::set('database.connections.mysql.database', config('custom.db02_dbname'));
+            Config::set('database.connections.mysql.username', config('custom.db02_username'));
+            Config::set('database.connections.mysql.password', config('custom.db02_password'));
+        } elseif ($sw == 1) {
+            Config::set('database.connections.mysql.database', config('custom.db01_dbname'));
+            Config::set('database.connections.mysql.username', config('custom.db01_username'));
+            Config::set('database.connections.mysql.password', config('custom.db01_password'));
+        }
+
+        DB::purge('mysql');
+        DB::reconnect('mysql');
     }
 
     public function index(Request $request)
@@ -60,6 +78,8 @@ class PegawaiController extends Controller implements HasMiddleware
         }
 
         $search_arr = ['pegawai_isactive', 'pegawai_kelamin', 'pegawai_nama_lengkap', 'pegawai_alamat_tinggal', 'pegawai_telpon', 'pegawai_cabang_id', 'pegawai_jabatan_id'];
+
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $cabangs = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $jabatans = Jabatan::where('isactive', 1)->orderBy('islevel')->pluck('nama', 'id');
@@ -99,6 +119,8 @@ class PegawaiController extends Controller implements HasMiddleware
 
         $datas = $datas->latest()->paginate(session('pegawai_pp'));
 
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+
         if ($request->page && $datas->count() == 0) {
             return redirect()->route('dashboard');
         }
@@ -118,6 +140,8 @@ class PegawaiController extends Controller implements HasMiddleware
         $request->session()->put('pegawai_telpon', $request->telpon);
 
         $search_arr = ['pegawai_isactive', 'pegawai_kelamin', 'pegawai_nama_lengkap', 'pegawai_alamat_tinggal', 'pegawai_telpon', 'pegawai_cabang_id', 'pegawai_jabatan_id'];
+
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $cabangs = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $jabatans = Jabatan::where('isactive', 1)->orderBy('islevel')->pluck('nama', 'id');
@@ -162,6 +186,8 @@ class PegawaiController extends Controller implements HasMiddleware
 
         $datas->withPath('/human-resource/employee'); // pagination url to
 
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+
         $view = view('pegawai.partials.table', compact(['datas', 'cabangs', 'jabatans']))->with('i', (request()->input('page', 1) - 1) * session('pegawai_pp'))->render();
 
         if ($view) {
@@ -178,6 +204,8 @@ class PegawaiController extends Controller implements HasMiddleware
 
     public function store(PegawaiRequest $request): RedirectResponse
     {
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+
         if ($request->validated()) {
             $pegawai = Pegawai::create([
                 'nama_lengkap' => ucfirst($request->nama_lengkap),
@@ -197,24 +225,34 @@ class PegawaiController extends Controller implements HasMiddleware
                 'updated_by' => auth()->user()->email,
             ]);
 
+            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+
             if ($pegawai) {
                 return redirect()->route('employee.edit', Crypt::encrypt($pegawai->id))->with('success', __('messages.successadded') . ' 👉 ' . $request->nama_lengkap);
             }
         }
+
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         return redirect()->back()->withInput()->with('error', 'Error occured while saving!');
     }
 
     public function show(Request $request): View
     {
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+
         $datas = Pegawai::find(Crypt::decrypt($request->employee));
         $details = Brandivjabpeg::where('pegawai_id', Crypt::decrypt($request->employee))->orderBy('tanggal_mulai', 'desc')->get();
+
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         return view('pegawai.show', compact(['datas', 'details']));
     }
 
     public function edit(Request $request): View
     {
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+
         $datas = Pegawai::find(Crypt::decrypt($request->employee));
         $penggajian = PegawaiGaji::find(Crypt::decrypt($request->employee));
         $details = Brandivjabpeg::where('pegawai_id', Crypt::decrypt($request->employee))->orderBy('tanggal_mulai', 'desc')->get();
@@ -228,11 +266,15 @@ class PegawaiController extends Controller implements HasMiddleware
             ->orderBy('branches.nama')
             ->get();
 
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+
         return view('pegawai.edit', compact(['datas', 'details', 'brandivjabs', 'penggajian']));
     }
 
     public function update(PegawaiUpdateRequest $request): RedirectResponse
     {
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+
         $pegawai = Pegawai::find(Crypt::decrypt($request->employee));
 
         if ($request->validated()) {
@@ -393,33 +435,47 @@ class PegawaiController extends Controller implements HasMiddleware
                     }
                 }
 
+                if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+
                 return redirect()->back()->with('success', __('messages.successupdated') . ' 👉 ' . $request->nama_lengkap);
             }
         }
+
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         return redirect()->back()->withInput()->with('error', 'Error occured while updating!');
     }
 
     public function delete(Request $request): View
     {
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+
         $datas = Pegawai::find(Crypt::decrypt($request->employee));
         $details = Brandivjabpeg::where('pegawai_id', Crypt::decrypt($request->employee))->orderBy('tanggal_mulai', 'desc')->get();
+
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         return view('pegawai.delete', compact(['datas', 'details']));
     }
 
     public function destroy(Request $request): RedirectResponse
     {
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+
         $pegawai = Pegawai::find(Crypt::decrypt($request->employee));
 
         try {
             $pegawai->delete();
         } catch (\Illuminate\Database\QueryException $e) {
+            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+
             if (str_contains($e->getMessage(), 'Integrity constraint violation')) {
                 return redirect()->route('pegawai.index')->with('error', 'Integrity constraint violation');
             }
             return redirect()->route('pegawai.index')->with('error', $e->getMessage());
         }
+
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         return redirect()->route('pegawai.index')
             ->with('success', __('messages.successdeleted') . ' 👉 ' . $pegawai->nama_lengkap);

@@ -30,13 +30,13 @@ class KritiksaranController extends Controller implements HasMiddleware
     public function db_switch($sw)
     {
         if ($sw == 2) {
-            Config::set('database.connections.mysql.database', 'tobakuma_02');
-            Config::set('database.connections.mysql.username', 'tobakuma_dbadmin');
-            Config::set('database.connections.mysql.password', 'SaA(o-6y55a0TQ');
+            Config::set('database.connections.mysql.database', config('custom.db02_dbname'));
+            Config::set('database.connections.mysql.username', config('custom.db02_username'));
+            Config::set('database.connections.mysql.password', config('custom.db02_password'));
         } elseif ($sw == 1) {
-            Config::set('database.connections.mysql.database', 'tobakuma_01');
-            Config::set('database.connections.mysql.username', 'tobakuma_dbadmin');
-            Config::set('database.connections.mysql.password', 'SaA(o-6y55a0TQ');
+            Config::set('database.connections.mysql.database', config('custom.db01_dbname'));
+            Config::set('database.connections.mysql.username', config('custom.db01_username'));
+            Config::set('database.connections.mysql.password', config('custom.db01_password'));
         }
 
         DB::purge('mysql');
