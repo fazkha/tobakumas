@@ -2,7 +2,7 @@
     @foreach ($details as $detail)
         <tr>
             <td class="align-top">
-                <x-text-span>{{ $detail->brandivjab->jabatan->nama . ($detail->brandivjab->keterangan ? ' ' . $detail->brandivjab->keterangan : '') . ($detail->brandivjab->division_id ? ' ' . $detail->brandivjab->division->nama : '') . ' - ' . $detail->brandivjab->branch->nama }}</x-text-span>
+                <x-text-span>{{ $detail->brandivjab->jabatan->nama . ($detail->brandivjab->keterangan ? ' ' . $detail->brandivjab->keterangan : '') . ($detail->brandivjab->division_id ? ' ' . $detail->brandivjab->division->nama : '') . ' - ' . $detail->brandivjab->branch->nama . ' (' . $detail->brandivjab->branch->kode . ')' }}</x-text-span>
             </td>
             <td class="align-top">
                 <x-text-span>{{ $detail->tanggal_mulai ? date('d/m/Y', strtotime($detail->tanggal_mulai)) : '-' }}</x-text-span>
