@@ -10,11 +10,31 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 
 class BrandivjabpegController extends Controller
 {
+    public function db_switch($sw)
+    {
+        if ($sw == 2) {
+            Config::set('database.connections.mysql.database', config('custom.db02_dbname'));
+            Config::set('database.connections.mysql.username', config('custom.db02_username'));
+            Config::set('database.connections.mysql.password', config('custom.db02_password'));
+        } elseif ($sw == 1) {
+            Config::set('database.connections.mysql.database', config('custom.db01_dbname'));
+            Config::set('database.connections.mysql.username', config('custom.db01_username'));
+            Config::set('database.connections.mysql.password', config('custom.db01_password'));
+        }
+
+        DB::purge('mysql');
+        DB::reconnect('mysql');
+    }
+
     public function storeJabatan(BrandivjabpegRequest $request): JsonResponse
     {
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+
         if ($request->validated()) {
             $jabatan = Brandivjabpeg::create([
                 'brandivjab_id' => $request->brandivjab_id,
@@ -33,11 +53,15 @@ class BrandivjabpegController extends Controller
 
                 $view = view('pegawai.partials.details', compact(['details', 'viewMode']))->render();
 
+                if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+
                 return response()->json([
                     'view' => $view,
                 ], 200);
             }
         }
+
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         return response()->json([
             'status' => 'Not Found',
@@ -46,6 +70,8 @@ class BrandivjabpegController extends Controller
 
     public function deleteJabatan(Request $request): JsonResponse
     {
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+
         $detail = Brandivjabpeg::find($request->jabatan);
         $pegawai = Pegawai::where('id', $detail->pegawai_id)->get();
 
@@ -69,6 +95,8 @@ class BrandivjabpegController extends Controller
         if ($details->count() > 0) {
             $view = view('pegawai.partials.details', compact(['details', 'viewMode']))->render();
         }
+
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         if ($view) {
             return response()->json([
