@@ -272,7 +272,6 @@ class PegawaiController extends Controller implements HasMiddleware
             ->orderBy('brandivjabs.keterangan')
             ->orderBy('branches.nama')
             ->get();
-        dd($details);
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
