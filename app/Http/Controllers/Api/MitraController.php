@@ -42,11 +42,11 @@ class MitraController extends Controller
 
     public function getJenisPengeluaranList()
     {
-        $this->db_switch(2);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $jenis = JenisPengeluaranMitra::where('isactive', 1)->orderBy('nama')->selectRaw('id, nama as name')->get()->toJson();
 
-        $this->db_switch(1);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         return [
             'status' => 'success',
@@ -56,7 +56,7 @@ class MitraController extends Controller
 
     public function savePosition(Request $request)
     {
-        $this->db_switch(2);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $validator = validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
@@ -67,7 +67,7 @@ class MitraController extends Controller
         if ($validator->fails()) {
             $errors = $validator->errors();
 
-            $this->db_switch(1);
+            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
             foreach ($errors->all() as $message) {
                 return response([
@@ -121,7 +121,7 @@ class MitraController extends Controller
                         'timesaved' => $timesaved,
                     ]);
                 } catch (QueryException $e) {
-                    $this->db_switch(1);
+                    if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
                     return response()->json([
                         'status' => 'Database Error',
@@ -131,7 +131,7 @@ class MitraController extends Controller
             }
         }
 
-        $this->db_switch(1);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         return response()->json([
             'status' => 'success',
@@ -142,7 +142,7 @@ class MitraController extends Controller
 
     public function saveKritikSaran(Request $request)
     {
-        $this->db_switch(2);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $validator = validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
@@ -155,7 +155,7 @@ class MitraController extends Controller
         if ($validator->fails()) {
             $errors = $validator->errors();
 
-            $this->db_switch(1);
+            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
             foreach ($errors->all() as $message) {
                 return response([
@@ -178,7 +178,7 @@ class MitraController extends Controller
             ->where('isactive', 1)
             ->get();
 
-        $this->db_switch(1);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         return response()->json([
             'status' => 'success',
@@ -188,7 +188,7 @@ class MitraController extends Controller
 
     public function loadKritikSaran(Request $request)
     {
-        $this->db_switch(2);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $validator = validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
@@ -197,7 +197,7 @@ class MitraController extends Controller
         if ($validator->fails()) {
             $errors = $validator->errors();
 
-            $this->db_switch(1);
+            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
             foreach ($errors->all() as $message) {
                 return response([
@@ -216,7 +216,7 @@ class MitraController extends Controller
             ->orderBy('mitra_kritik_sarans.tanggal', 'desc')
             ->get();
 
-        $this->db_switch(1);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         return response()->json([
             'status' => 'success',
@@ -226,7 +226,7 @@ class MitraController extends Controller
 
     public function saveKritikSaranApproval(Request $request)
     {
-        $this->db_switch(2);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $validator = validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:mitra_kritik_sarans,id'],
@@ -237,7 +237,7 @@ class MitraController extends Controller
         if ($validator->fails()) {
             $errors = $validator->errors();
 
-            $this->db_switch(1);
+            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
             foreach ($errors->all() as $message) {
                 return response([
@@ -256,7 +256,7 @@ class MitraController extends Controller
             'keterangan_jawab' => $data['keterangan_jawab'],
         ]);
 
-        $this->db_switch(1);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         return response()->json([
             'status' => 'success',
@@ -266,7 +266,7 @@ class MitraController extends Controller
 
     public function loadKritikSaranApproval(Request $request)
     {
-        $this->db_switch(2);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $validator = validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
@@ -275,7 +275,7 @@ class MitraController extends Controller
         if ($validator->fails()) {
             $errors = $validator->errors();
 
-            $this->db_switch(1);
+            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
             foreach ($errors->all() as $message) {
                 return response([
@@ -294,7 +294,7 @@ class MitraController extends Controller
             ->orderBy('mitra_kritik_sarans.tanggal', 'desc')
             ->get();
 
-        $this->db_switch(1);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         return response()->json([
             'status' => 'success',
@@ -322,7 +322,7 @@ class MitraController extends Controller
 
     public function saveOmzet(Request $request)
     {
-        $this->db_switch(2);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $validator = validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
@@ -336,7 +336,7 @@ class MitraController extends Controller
         if ($validator->fails()) {
             $errors = $validator->errors();
 
-            $this->db_switch(1);
+            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
             foreach ($errors->all() as $message) {
                 return response([
@@ -414,7 +414,7 @@ class MitraController extends Controller
 
                 if ($kasbon) {
                     if (intval($data['harga']) > $kasbon->sisa_plafon) {
-                        $this->db_switch(1);
+                        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
                         return response()->json([
                             'status' => 'error',
@@ -438,7 +438,7 @@ class MitraController extends Controller
                     }
 
                     if (intval($data['harga']) > $app_plafon_value) {
-                        $this->db_switch(1);
+                        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
                         return response()->json([
                             'status' => 'error',
@@ -488,7 +488,7 @@ class MitraController extends Controller
             $detail = $detail->toArray();
         }
 
-        $this->db_switch(1);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         return response()->json([
             'status' => 'success',
@@ -502,7 +502,7 @@ class MitraController extends Controller
 
     public function loadOmzet(Request $request)
     {
-        $this->db_switch(2);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $validator = validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
@@ -512,7 +512,7 @@ class MitraController extends Controller
         if ($validator->fails()) {
             $errors = $validator->errors();
 
-            $this->db_switch(1);
+            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
             foreach ($errors->all() as $message) {
                 return response([
@@ -542,7 +542,7 @@ class MitraController extends Controller
             $detail = $detail->toArray();
         }
 
-        $this->db_switch(1);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         return response()->json([
             'status' => 'success',
@@ -556,7 +556,7 @@ class MitraController extends Controller
 
     public function hapusPengeluaran(Request $request)
     {
-        $this->db_switch(2);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $validator = validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
@@ -567,7 +567,7 @@ class MitraController extends Controller
         if ($validator->fails()) {
             $errors = $validator->errors();
 
-            $this->db_switch(1);
+            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
             foreach ($errors->all() as $message) {
                 return response([
@@ -600,7 +600,7 @@ class MitraController extends Controller
             }
             $deleteSuccess = true;
         } catch (\Illuminate\Database\QueryException $e) {
-            $this->db_switch(1);
+            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
             return response()->json([
                 'status' => 'error',
@@ -641,7 +641,7 @@ class MitraController extends Controller
             $detail = $detail->toArray();
         }
 
-        $this->db_switch(1);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         return response()->json([
             'status' => 'success',
@@ -655,7 +655,7 @@ class MitraController extends Controller
 
     public function loadRekap(Request $request)
     {
-        $this->db_switch(2);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $validator = validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
@@ -665,7 +665,7 @@ class MitraController extends Controller
         if ($validator->fails()) {
             $errors = $validator->errors();
 
-            $this->db_switch(1);
+            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
             foreach ($errors->all() as $message) {
                 return response([
@@ -694,7 +694,7 @@ class MitraController extends Controller
             $detail = $detail->toArray();
         }
 
-        $this->db_switch(1);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         return response()->json([
             'status' => 'success',
@@ -706,7 +706,7 @@ class MitraController extends Controller
 
     public function loadOmzetPekanan(Request $request)
     {
-        $this->db_switch(2);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $validator = validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
@@ -715,7 +715,7 @@ class MitraController extends Controller
         if ($validator->fails()) {
             $errors = $validator->errors();
 
-            $this->db_switch(1);
+            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
             foreach ($errors->all() as $message) {
                 return response([
@@ -820,7 +820,7 @@ class MitraController extends Controller
 
         $json = json_decode(json_encode($omzet), true);
 
-        $this->db_switch(1);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         return response()->json([
             'status' => 'success',
@@ -836,7 +836,7 @@ class MitraController extends Controller
 
     public function loadImagePengeluaran(Request $request)
     {
-        $this->db_switch(2);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $validator = validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:mitra_op_details,id'],
@@ -845,7 +845,7 @@ class MitraController extends Controller
         if ($validator->fails()) {
             $errors = $validator->errors();
 
-            $this->db_switch(1);
+            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
             foreach ($errors->all() as $message) {
                 return response([
@@ -864,7 +864,7 @@ class MitraController extends Controller
             $image = null;
         }
 
-        $this->db_switch(1);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         return response()->json([
             'status' => 'success',
@@ -874,7 +874,7 @@ class MitraController extends Controller
 
     public function uploadImagePengeluaran(Request $request)
     {
-        $this->db_switch(2);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $validator = validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
@@ -886,7 +886,7 @@ class MitraController extends Controller
         if ($validator->fails()) {
             $errors = $validator->errors();
 
-            $this->db_switch(1);
+            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
             foreach ($errors->all() as $message) {
                 return response([
@@ -944,7 +944,7 @@ class MitraController extends Controller
             }
         }
 
-        $this->db_switch(1);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         return response()->json([
             'status' => 'success',

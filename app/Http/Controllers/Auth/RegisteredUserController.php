@@ -46,7 +46,7 @@ class RegisteredUserController extends Controller
             'user_id' => $user->id,
             'branch_id' => 1,
             'tanggal_gabung' => date('Y-m-d'),
-            'isactive' => 0,
+            'isactive' => 1,
             'app_version' => config('custom.version'),
             'created_by' => 'self-register',
             'updated_by' => 'self-register',

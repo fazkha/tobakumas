@@ -30,7 +30,7 @@ class CabangController extends Controller
 
     public function gerobakAktif(Request $request)
     {
-        $this->db_switch(2);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $min = 'min:' . date("Y") - 1;
         $max = 'max:' . date("Y");
@@ -45,7 +45,7 @@ class CabangController extends Controller
         if ($validator->fails()) {
             $errors = $validator->errors();
 
-            $this->db_switch(1);
+            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
             foreach ($errors->all() as $message) {
                 return response([
@@ -106,14 +106,15 @@ class CabangController extends Controller
             }
         } catch (QueryException $e) {
             // dd($e->getMessage());
-            $this->db_switch(1);
+            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+
             return response()->json([
                 'status' => 'error',
                 'message' => $e->getMessage(),
             ]);
         }
 
-        $this->db_switch(1);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         return response()->json([
             'status' => 'success',

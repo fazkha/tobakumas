@@ -60,7 +60,8 @@ class KritiksaranController extends Controller implements HasMiddleware
 
         $search_arr = ['kritiksaran_isactive', 'kritiksaran_judul', 'kritiksaran_keterangan'];
 
-        $this->db_switch(2);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+
         $datas = MitraKritikSaran::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
@@ -82,7 +83,8 @@ class KritiksaranController extends Controller implements HasMiddleware
         // $datas = $datas->where('branch_id', auth()->user()->profile->branch_id);
         $datas = $datas->orderBy('tanggal', 'desc')->paginate(session('kritiksaran_pp'));
         // $datas = $datas->latest()->paginate(session('kritiksaran_pp'));
-        $this->db_switch(1);
+
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         if ($request->page && $datas->count() == 0) {
             return redirect()->route('dashboard');
@@ -100,7 +102,8 @@ class KritiksaranController extends Controller implements HasMiddleware
 
         $search_arr = ['kritiksaran_isactive', 'kritiksaran_judul', 'kritiksaran_keterangan'];
 
-        $this->db_switch(2);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+
         $datas = MitraKritikSaran::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
@@ -124,7 +127,8 @@ class KritiksaranController extends Controller implements HasMiddleware
         // $datas = $datas->latest()->paginate(session('kritiksaran_pp'));
 
         $datas->withPath('/human-resource/criticism'); // pagination url to
-        $this->db_switch(1);
+
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         $view = view('kritiksaran.partials.table', compact(['datas']))->with('i', (request()->input('page', 1) - 1) * session('kritiksaran_pp'))->render();
 
@@ -147,26 +151,31 @@ class KritiksaranController extends Controller implements HasMiddleware
 
     public function show(Request $request): View
     {
-        $this->db_switch(2);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+
         $datas = MitraKritikSaran::find(Crypt::decrypt($request->criticism));
-        $this->db_switch(1);
+
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         return view('kritiksaran.show', compact(['datas']));
     }
 
     public function edit(Request $request): View
     {
-        $this->db_switch(2);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+
         $branch_id = auth()->user()->profile->branch_id;
         $datas = MitraKritikSaran::find(Crypt::decrypt($request->criticism));
-        $this->db_switch(1);
+
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         return view('kritiksaran.edit', compact(['datas', 'branch_id']));
     }
 
     public function update(KritiksaranRequest $request): RedirectResponse
     {
-        $this->db_switch(2);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+
         $kritiksaran = MitraKritikSaran::find(Crypt::decrypt($request->criticism));
 
         if ($request->validated()) {
@@ -179,40 +188,47 @@ class KritiksaranController extends Controller implements HasMiddleware
                 'keterangan_jawab' => $request->keterangan_jawab,
             ]);
 
-            $this->db_switch(1);
+            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+
             return redirect()->back()->with('success', __('messages.successupdated') . ' 👉 ' . $request->judul);
         } else {
-            $this->db_switch(1);
+            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+
             return redirect()->back()->withInput()->with('error', 'Error occured while updating!');
         }
     }
 
     public function delete(Request $request): View
     {
-        $this->db_switch(2);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+
         $kritiksaran = MitraKritikSaran::find(Crypt::decrypt($request->criticism));
 
         $datas = $kritiksaran;
-        $this->db_switch(1);
+
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         return view('kritiksaran.delete', compact(['datas']));
     }
 
     public function destroy(Request $request): RedirectResponse
     {
-        $this->db_switch(2);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+
         $kritiksaran = MitraKritikSaran::find(Crypt::decrypt($request->criticism));
 
         try {
             $kritiksaran->delete();
         } catch (\Illuminate\Database\QueryException $e) {
-            $this->db_switch(1);
+            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+
             if (str_contains($e->getMessage(), 'Integrity constraint violation')) {
                 return redirect()->route('criticism.index')->with('error', 'Integrity constraint violation');
             }
             return redirect()->route('criticism.index')->with('error', $e->getMessage());
         }
-        $this->db_switch(1);
+
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         return redirect()->route('criticism.index')
             ->with('success', __('messages.successdeleted') . ' 👉 ' . $kritiksaran->judul);
