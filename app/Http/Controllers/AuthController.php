@@ -55,6 +55,7 @@ class AuthController extends Controller
                 break;
             default:
                 $validator = Validator::make($request->all(), [
+                    'cabang' => ['required', 'integer', 'exists:branches,id'],
                     'name' => ['required', 'string', 'max:255'],
                     'email' => ['required', 'email', 'unique:users'],
                     'nohp' => ['required', 'min:10', 'max:255'],
