@@ -310,7 +310,7 @@ class PegawaiController extends Controller implements HasMiddleware
                     if ($user) {
                         $user->update([
                             'nama' => $pegawai->nama_lengkap,
-                            'isactive' => 1,
+                            'approved' => 1,
                         ]);
                     }
                 }
