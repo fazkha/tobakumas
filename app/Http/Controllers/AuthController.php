@@ -93,7 +93,6 @@ class AuthController extends Controller
         $pegawai = Pegawai::where('isactive', 1)
             ->where('email', trim($request->email))
             ->first();
-        dd($pegawai);
 
         if ($pegawai) {
             $namafix = (strlen(trim($pegawai->nama_lengkap)) >= strlen(trim($data['name']))) ? trim($pegawai->nama_lengkap) : trim($data['name']);
@@ -130,6 +129,7 @@ class AuthController extends Controller
                 'message' => 'Create user failed.'
             ], 500);
         }
+        dd($pegawai);
 
         switch ($appname) {
             case 'GerobakTracker':
