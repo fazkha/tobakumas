@@ -10,6 +10,7 @@ use App\Models\Jabatan;
 use App\Models\PegawaiGaji;
 use App\Http\Requests\PegawaiRequest;
 use App\Http\Requests\PegawaiUpdateRequest;
+use App\Models\User;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Http\Request;
@@ -303,6 +304,17 @@ class PegawaiController extends Controller implements HasMiddleware
             ]);
 
             if ($pegawai) {
+                if ($pegawai->isactive == 1) {
+                    $user = User::where('email', $pegawai->email)->first();
+
+                    if ($user) {
+                        $user->update([
+                            'nama' => $pegawai->nama_lengkap,
+                            'isactive' => 1,
+                        ]);
+                    }
+                }
+
                 $n_penggajian = PegawaiGaji::where('pegawai_id', Crypt::decrypt($request->employee))->count();
                 // dd($n_penggajian);
 
