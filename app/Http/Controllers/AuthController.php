@@ -44,6 +44,7 @@ class AuthController extends Controller
 
         switch ($appname) {
             case 'GerobakTracker':
+                $site = 'CABANG';
                 $validator = Validator::make($request->all(), [
                     'cabang' => ['required', 'integer', 'exists:branches,id'],
                     'name' => ['required', 'string', 'max:255'],
@@ -54,6 +55,7 @@ class AuthController extends Controller
                 ]);
                 break;
             default:
+                $site = 'CABANG';
                 $validator = Validator::make($request->all(), [
                     'cabang' => ['required', 'integer', 'exists:branches,id'],
                     'name' => ['required', 'string', 'max:255'],
@@ -206,6 +208,7 @@ class AuthController extends Controller
             'user_id' => $user->id,
             'branch_id' => $cabang_id,
             'jabatan_id' =>  $jabatan_id,
+            'site' => $site,
             'isactive' => 1,
             'tanggal_gabung' => date('Y-m-d'),
             'nohp' => $request->nohp,
