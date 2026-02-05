@@ -38,7 +38,7 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+        $this->db_switch(2);
 
         $appname = $request->appname;
 
@@ -67,7 +67,7 @@ class AuthController extends Controller
         if ($validator->fails()) {
             $errors = $validator->errors();
 
-            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+            $this->db_switch(1);
 
             foreach ($errors->all() as $message) {
                 return response([
@@ -83,7 +83,7 @@ class AuthController extends Controller
             ->count();
 
         if ($user > 0) {
-            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+            $this->db_switch(1);
 
             return response([
                 'message' => 'Pengguna dengan nama dan email yang sama, sudah ada dalam database. Coba kembali.'
@@ -124,7 +124,7 @@ class AuthController extends Controller
         ]);
 
         if (!$user) {
-            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+            $this->db_switch(1);
 
             return response([
                 'message' => 'Create user failed.'
@@ -217,7 +217,7 @@ class AuthController extends Controller
         // $device = $request->appname ? ' on ' . $request->appname : '';
         // $token = $user->createToken($user->name . $device)->plainTextToken;
 
-        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+        $this->db_switch(1);
 
         // 'token' => $token,
         return [
@@ -228,7 +228,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+        $this->db_switch(2);
 
         $validator = Validator::make($request->all(), [
             'email' => ['required', 'email', 'exists:users'],
@@ -239,7 +239,7 @@ class AuthController extends Controller
         if ($validator->fails()) {
             $errors = $validator->errors();
 
-            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+            $this->db_switch(1);
 
             foreach ($errors->all() as $message) {
                 return response([
@@ -254,7 +254,7 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
-            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+            $this->db_switch(1);
 
             return response([
                 'message' => 'The provided credentials are incorrect.'
@@ -262,7 +262,7 @@ class AuthController extends Controller
         }
 
         if ($user->approved == 0) {
-            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+            $this->db_switch(1);
 
             return response([
                 'message' => 'Akun anda belum aktif. Mohon hubungi Admin.'
@@ -272,7 +272,7 @@ class AuthController extends Controller
         $profile = Profile::where('user_id', $user->id)->first();
 
         if (!$profile) {
-            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+            $this->db_switch(1);
 
             return response([
                 'message' => 'The provided credentials are incorrect.'
@@ -280,7 +280,7 @@ class AuthController extends Controller
         }
 
         if ($data['appname'] == 'MartabakMini' && $profile->jabatan_id == 3) {
-            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+            $this->db_switch(1);
 
             return response([
                 'message' => 'Mitra tidak diperkenankan. Mohon hubungi Admin.'
@@ -304,7 +304,7 @@ class AuthController extends Controller
             ->get()
             ->toArray();
 
-        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+        $this->db_switch(1);
 
         return [
             'user' => $user,
@@ -316,7 +316,7 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+        $this->db_switch(2);
 
         // $request->user()->currentAccessToken()->delete();
         // $request->user()->tokens()->delete();
@@ -326,7 +326,7 @@ class AuthController extends Controller
         $dbtoken = PersonalAccessToken::findToken($token);
 
         if (!$dbtoken) {
-            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+            $this->db_switch(1);
 
             return response([
                 'message' => 'The provided credentials are incorrect.'
@@ -336,7 +336,7 @@ class AuthController extends Controller
         // PersonalAccessToken::where('id', $dbtoken->id)->delete();
         PersonalAccessToken::where('name', $dbtoken->name)->delete();
 
-        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+        $this->db_switch(1);
 
         return [
             'message' => 'You are logged out.'
@@ -345,7 +345,7 @@ class AuthController extends Controller
 
     public function changePassword(Request $request)
     {
-        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+        $this->db_switch(2);
 
         $validator = Validator::make($request->all(), [
             'email' => ['required', 'email', 'exists:users'],
@@ -356,7 +356,7 @@ class AuthController extends Controller
         if ($validator->fails()) {
             $errors = $validator->errors();
 
-            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+            $this->db_switch(1);
 
             foreach ($errors->all() as $message) {
                 return response([
@@ -368,7 +368,7 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->oldPassword, $user->password)) {
-            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+            $this->db_switch(1);
 
             return response([
                 'message' => 'The provided credentials are incorrect.'
@@ -384,7 +384,7 @@ class AuthController extends Controller
             'app_version' => $request->appVersion,
         ]);
 
-        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+        $this->db_switch(1);
 
         return [
             'message' => 'Password has been changed.'
@@ -393,21 +393,21 @@ class AuthController extends Controller
 
     public function checkUser(Request $request)
     {
-        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+        $this->db_switch(2);
 
         $token = $request->token;
 
         $dbtoken = PersonalAccessToken::findToken($token);
 
         if (!$dbtoken) {
-            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+            $this->db_switch(1);
 
             return response([
                 'message' => 'The provided credentials are incorrect.'
             ], 401);
         }
 
-        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+        $this->db_switch(1);
 
         return [
             'valid' => true,
@@ -437,7 +437,7 @@ class AuthController extends Controller
 
     public function saveGoogleAuth(Request $request)
     {
-        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+        $this->db_switch(2);
 
         $email = $request->email;
         $gtoken = $request->token;
@@ -445,7 +445,7 @@ class AuthController extends Controller
         $user = User::where('email', $email)->first();
 
         if (!$user) {
-            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+            $this->db_switch(1);
 
             return response([
                 'message' => 'The provided credentials are incorrect.'
@@ -455,7 +455,7 @@ class AuthController extends Controller
         $user->update(['google_auth_id' => $gtoken]);
         $token = $user->createToken($user->name . ' on google')->plainTextToken;
 
-        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+        $this->db_switch(1);
 
         return [
             'message' => 'Google Auth Information saved.',
