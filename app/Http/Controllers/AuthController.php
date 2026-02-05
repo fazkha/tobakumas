@@ -129,7 +129,6 @@ class AuthController extends Controller
                 'message' => 'Create user failed.'
             ], 500);
         }
-        dd($pegawai);
 
         switch ($appname) {
             case 'GerobakTracker':
