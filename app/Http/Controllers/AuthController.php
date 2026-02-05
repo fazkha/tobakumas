@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 // use App\Models\Pegawai;
 
 use App\Models\AppSetting;
+use App\Models\Brandivjab;
+use App\Models\Brandivjabpeg;
 use App\Models\Pegawai;
 use App\Models\Profile;
 use App\Models\User;
@@ -38,14 +40,29 @@ class AuthController extends Controller
     {
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
-        $validator = Validator::make($request->all(), [
-            'cabang' => ['required', 'integer', 'exists:branches,id'],
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'unique:users'],
-            'nohp' => ['required', 'min:10', 'max:255'],
-            'password' => ['required', 'min:6', 'max:50', 'confirmed'],
-            'appname' => ['required', 'string', 'max:50'],
-        ]);
+        $appname = $request->appname;
+
+        switch ($appname) {
+            case 'GerobakTracker':
+                $validator = Validator::make($request->all(), [
+                    'cabang' => ['required', 'integer', 'exists:branches,id'],
+                    'name' => ['required', 'string', 'max:255'],
+                    'email' => ['required', 'email', 'unique:users'],
+                    'nohp' => ['required', 'min:10', 'max:255'],
+                    'password' => ['required', 'min:6', 'max:50', 'confirmed'],
+                    'appname' => ['required', 'string', 'max:50'],
+                ]);
+                break;
+            default:
+                $validator = Validator::make($request->all(), [
+                    'name' => ['required', 'string', 'max:255'],
+                    'email' => ['required', 'email', 'unique:users'],
+                    'nohp' => ['required', 'min:10', 'max:255'],
+                    'password' => ['required', 'min:6', 'max:50', 'confirmed'],
+                    'appname' => ['required', 'string', 'max:50'],
+                ]);
+                break;
+        }
 
         if ($validator->fails()) {
             $errors = $validator->errors();
@@ -94,7 +111,8 @@ class AuthController extends Controller
                 'kelamin' => 'L',
                 'email' => trim($data['email']),
                 'isactive' => 0,
-                'created_by' => 'self-register'
+                'created_by' => 'self-register',
+                'updated_by' => 'self-register',
             ]);
         }
 
@@ -112,11 +130,80 @@ class AuthController extends Controller
             ], 500);
         }
 
-        $jabatan_id = ($data['appname'] == 'GerobakTracker') ? 3 : 4;
+        switch ($appname) {
+            case 'GerobakTracker':
+                $cabang_id = $data['cabang'];
+                $jabatan_id = 3; // Mitra
+                break;
+            default:
+                $jabpeg = Brandivjabpeg::where('isactive', 1)
+                    ->where('pegawai_id', $pegawai->id)
+                    ->first();
+
+                if ($jabpeg) {
+                    $branjab = Brandivjab::where('id', $jabpeg->brandivjab_id)->first();
+
+                    if ($branjab) {
+                        $cabang_id = $branjab->branch_id;
+                        $jabatan_id = $branjab->jabatan_id;
+                    } else {
+                        $cabang_id = $data['cabang'];
+                        $jabatan_id = 4; // PC
+
+                        $branjab = Brandivjab::create([
+                            'branch_id' => $cabang_id,
+                            'jabatan_id' => $jabatan_id,
+                            'isactive' => 1,
+                            'created_by' => 'self-register',
+                            'updated_by' => 'self-register',
+                        ]);
+
+                        if ($branjab) {
+                            $jabpeg = Brandivjabpeg::create([
+                                'brandivjab_id' => $branjab->id,
+                                'pegawai_id' => $pegawai->id,
+                                'tanggal_mulai' => date('Y-m-d'),
+                                'isactive' => 1,
+                                'created_by' => 'self-register',
+                                'updated_by' => 'self-register',
+                            ]);
+                        }
+                    }
+                } else {
+                    $cabang_id = $data['cabang'];
+                    $jabatan_id = 4; // PC
+
+                    $branjab = Brandivjab::where('branch_id', $cabang_id)
+                        ->where('jabatan_id', $jabatan_id)
+                        ->first();
+
+                    if (!$branjab) {
+                        $branjab = Brandivjab::create([
+                            'branch_id' => $cabang_id,
+                            'jabatan_id' => $jabatan_id,
+                            'isactive' => 1,
+                            'created_by' => 'self-register',
+                            'updated_by' => 'self-register',
+                        ]);
+                    }
+
+                    if ($branjab) {
+                        $jabpeg = Brandivjabpeg::create([
+                            'brandivjab_id' => $branjab->id,
+                            'pegawai_id' => $pegawai->id,
+                            'tanggal_mulai' => date('Y-m-d'),
+                            'isactive' => 1,
+                            'created_by' => 'self-register',
+                            'updated_by' => 'self-register',
+                        ]);
+                    }
+                }
+                break;
+        }
 
         $profile = Profile::create([
             'user_id' => $user->id,
-            'branch_id' => $request->cabang,
+            'branch_id' => $cabang_id,
             'jabatan_id' =>  $jabatan_id,
             'isactive' => 1,
             'tanggal_gabung' => date('Y-m-d'),
