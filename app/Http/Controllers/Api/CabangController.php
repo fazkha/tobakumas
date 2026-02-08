@@ -54,7 +54,6 @@ class CabangController extends Controller
         $omzet = null;
 
         $omzet = DB::select("CALL sp_omzetharianpc(?,?)", [$data['id'], $data['tanggal']]);
-        dd($omzet);
 
         $this->db_switch(1);
 
