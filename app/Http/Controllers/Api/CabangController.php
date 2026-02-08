@@ -69,6 +69,7 @@ class CabangController extends Controller
 
         $validator = Validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:mitra_omzet_pengeluarans,id'],
+            'pc_id' => ['required', 'integer', 'exists:users,id'],
             'tanggal' => ['required', 'date'],
         ]);
 
@@ -95,7 +96,7 @@ class CabangController extends Controller
                 'approved_adonan' => $approve->approved_adonan == 1 ? 0 : 1,
             ]);
 
-            $omzet = DB::select("CALL sp_omzetharianpc(?,?)", [$approve->user_id, $data['tanggal']]);
+            $omzet = DB::select("CALL sp_omzetharianpc(?,?)", [$data['pc_id'], $data['tanggal']]);
         }
 
         $this->db_switch(1);
