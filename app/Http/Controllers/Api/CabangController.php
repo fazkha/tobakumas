@@ -53,15 +53,8 @@ class CabangController extends Controller
         $data = $validator->validated();
         $omzet = null;
 
-        $omzet = MitraOmzetPengeluaran::join('users', 'users.id', 'mitra_omzet_pengeluarans.user_id')
-            ->join('profiles', 'profiles.user_id', 'users.id')
-            ->join('branches', 'branches.id', 'profiles.branch_id')
-            ->where('mitra_omzet_pengeluarans.user_id', $data['id'])
-            ->where('mitra_omzet_pengeluarans.tanggal', $data['tanggal'])
-            ->selectRaw('branches.nama as nama_cabang, branches.kode as kode_cabang')
-            ->orderBy('branches.nama')
-            ->get();
-
+        $omzet = DB::select("CALL sp_omzetharianpc(?,?)", [$data['id'], $data['tanggal']]);
+        dd($omzet);
 
         $this->db_switch(1);
 
