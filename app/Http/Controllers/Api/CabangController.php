@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\MitraOmzetPengeluaran;
 use App\Models\RuteGerobak;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -28,6 +29,48 @@ class CabangController extends Controller
         DB::reconnect('mysql');
     }
 
+    public function loadOmzetHarian(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = Validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:users,id'],
+            'tanggal' => ['required', 'date'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+        $omzet = null;
+
+        $omzet = MitraOmzetPengeluaran::join('users', 'users.id', 'mitra_omzet_pengeluarans.user_id')
+            ->join('profiles', 'profiles.user_id', 'users.id')
+            ->join('branches', 'branches.id', 'profiles.branch_id')
+            ->where('mitra_omzet_pengeluarans.user_id', $data['id'])
+            ->where('mitra_omzet_pengeluarans.tanggal', $data['tanggal'])
+            ->selectRaw('branches.nama as nama_cabang, branches.kode as kode_cabang')
+            ->orderBy('branches.nama')
+            ->get();
+
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'omzet' => $omzet,
+        ]);
+    }
+
     public function gerobakAktif(Request $request)
     {
         $this->db_switch(2);
@@ -35,7 +78,7 @@ class CabangController extends Controller
         $min = 'min:' . date("Y") - 1;
         $max = 'max:' . date("Y");
 
-        $validator = validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'tanggal' => ['required', 'integer', 'min:1', 'max:31'],
             'bulan' => ['required', 'integer', 'min:1', 'max:12'],
             'tahun' => ['required', 'integer', $min, $max],

@@ -45,6 +45,7 @@ Route::prefix('mitra')->group(function () {
 // Cabang
 Route::prefix('cabang')->group(function () {
     Route::post('/gerobak-aktif', [CabangController::class, 'gerobakAktif']);
+    Route::post('/load-omzetharian', [CabangController::class, 'loadOmzetHarian']);
 });
 
 // Sales
