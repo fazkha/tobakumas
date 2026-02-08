@@ -94,9 +94,9 @@ class CabangController extends Controller
                 'approved_omzet' => $approve->approved_omzet == 1 ? 0 : 1,
                 'approved_adonan' => $approve->approved_adonan == 1 ? 0 : 1,
             ]);
-        }
 
-        $omzet = DB::select("CALL sp_omzetharianpc(?,?)", [$data['id'], $data['tanggal']]);
+            $omzet = DB::select("CALL sp_omzetharianpc(?,?)", [$approve->user_id, $data['tanggal']]);
+        }
 
         $this->db_switch(1);
 
