@@ -63,6 +63,49 @@ class CabangController extends Controller
         ]);
     }
 
+    public function approveOmzetHarian(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = Validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:mitra_omzet_pengeluarans,id'],
+            'tanggal' => ['required', 'date'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+        $omzet = null;
+
+        $approve = MitraOmzetPengeluaran::where('id', $data['id'])->first();
+
+        if ($approve) {
+            $approve->update([
+                'approved_omzet' => $approve->approved_omzet == 1 ? 0 : 1,
+                'approved_adonan' => $approve->approved_adonan == 1 ? 0 : 1,
+            ]);
+        }
+
+        $omzet = DB::select("CALL sp_omzetharianpc(?,?)", [$data['id'], $data['tanggal']]);
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'omzet' => $omzet,
+        ]);
+    }
+
     public function gerobakAktif(Request $request)
     {
         $this->db_switch(2);
