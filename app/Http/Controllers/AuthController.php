@@ -6,7 +6,9 @@ namespace App\Http\Controllers;
 
 use App\Models\AppSetting;
 use App\Models\Brandivjab;
+use App\Models\Brandivjabmit;
 use App\Models\Brandivjabpeg;
+use App\Models\Mitra;
 use App\Models\Pegawai;
 use App\Models\Profile;
 use App\Models\User;
@@ -93,9 +95,14 @@ class AuthController extends Controller
             ], 422);
         }
 
-        $pegawai = Pegawai::where('isactive', 1)
-            ->where('email', trim($request->email))
-            ->first();
+        switch ($appname) {
+            case 'GerobakTracker':
+                $pegawai = Mitra::where('email', trim($request->email))->first();
+                break;
+            default:
+                $pegawai = Pegawai::where('email', trim($request->email))->first();
+                break;
+        }
 
         if ($pegawai) {
             $namafix = (strlen(trim($pegawai->nama_lengkap)) >= strlen(trim($data['name']))) ? trim($pegawai->nama_lengkap) : trim($data['name']);
@@ -106,17 +113,34 @@ class AuthController extends Controller
             }
         } else {
             $namafix = trim($data['name']);
-            $pegawai = Pegawai::create([
-                'nama_lengkap' => $namafix,
-                'nama_panggilan' => $namafix,
-                'alamat_tinggal' => '-',
-                'telpon' => '-',
-                'kelamin' => 'L',
-                'email' => trim($data['email']),
-                'isactive' => 0,
-                'created_by' => 'self-register',
-                'updated_by' => 'self-register',
-            ]);
+
+            switch ($appname) {
+                case 'GerobakTracker':
+                    $pegawai = Mitra::create([
+                        'nama_lengkap' => $namafix,
+                        'nama_panggilan' => $namafix,
+                        'telpon' => $data['nohp'] || '-',
+                        'kelamin' => 'L',
+                        'email' => trim($data['email']),
+                        'isactive' => 0,
+                        'created_by' => 'self-register',
+                        'updated_by' => 'self-register',
+                    ]);
+                    break;
+                default:
+                    $pegawai = Pegawai::create([
+                        'nama_lengkap' => $namafix,
+                        'nama_panggilan' => $namafix,
+                        'alamat_tinggal' => '-',
+                        'telpon' => $data['nohp'] || '-',
+                        'kelamin' => 'L',
+                        'email' => trim($data['email']),
+                        'isactive' => 0,
+                        'created_by' => 'self-register',
+                        'updated_by' => 'self-register',
+                    ]);
+                    break;
+            }
         }
 
         $user = User::create([
@@ -137,11 +161,65 @@ class AuthController extends Controller
             case 'GerobakTracker':
                 $cabang_id = $data['cabang'];
                 $jabatan_id = 3; // Mitra
+
+                $jabpeg = Brandivjabmit::where('mitra_id', $pegawai->id)->first();
+
+                if ($jabpeg) {
+                    $branjab = Brandivjab::where('id', $jabpeg->brandivjab_id)->first();
+
+                    if ($branjab) {
+                        $cabang_id = $branjab->branch_id;
+                        $jabatan_id = $branjab->jabatan_id;
+                    } else {
+                        $branjab = Brandivjab::create([
+                            'branch_id' => $cabang_id,
+                            'jabatan_id' => $jabatan_id,
+                            'isactive' => 1,
+                            'created_by' => 'self-register',
+                            'updated_by' => 'self-register',
+                        ]);
+
+                        if ($branjab) {
+                            $jabpeg = Brandivjabmit::create([
+                                'brandivjab_id' => $branjab->id,
+                                'mitra_id' => $pegawai->id,
+                                'tanggal_mulai' => date('Y-m-d'),
+                                'isactive' => 1,
+                                'created_by' => 'self-register',
+                                'updated_by' => 'self-register',
+                            ]);
+                        }
+                    }
+                } else {
+                    $branjab = Brandivjab::where('branch_id', $cabang_id)
+                        ->where('jabatan_id', $jabatan_id)
+                        ->first();
+
+                    if (!$branjab) {
+                        $branjab = Brandivjab::create([
+                            'branch_id' => $cabang_id,
+                            'jabatan_id' => $jabatan_id,
+                            'isactive' => 1,
+                            'created_by' => 'self-register',
+                            'updated_by' => 'self-register',
+                        ]);
+                    }
+
+                    if ($branjab) {
+                        $jabpeg = Brandivjabmit::create([
+                            'brandivjab_id' => $branjab->id,
+                            'mitra_id' => $pegawai->id,
+                            'tanggal_mulai' => date('Y-m-d'),
+                            'isactive' => 1,
+                            'created_by' => 'self-register',
+                            'updated_by' => 'self-register',
+                        ]);
+                    }
+                }
                 break;
+
             default:
-                $jabpeg = Brandivjabpeg::where('isactive', 1)
-                    ->where('pegawai_id', $pegawai->id)
-                    ->first();
+                $jabpeg = Brandivjabpeg::where('pegawai_id', $pegawai->id)->first();
 
                 if ($jabpeg) {
                     $branjab = Brandivjab::where('id', $jabpeg->brandivjab_id)->first();
