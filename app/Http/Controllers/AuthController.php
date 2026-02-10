@@ -87,7 +87,7 @@ class AuthController extends Controller
 
         switch ($appname) {
             case 'GerobakTracker':
-                $userCount = User::whereRaw('LOWER(name) = ?', [strtolower($request->name)])->count();
+                $userCount = User::where('LOWER(name)', strtolower($request->name))->count();
                 break;
             default:
                 $userCount = User::where('email', $request->email)
@@ -95,7 +95,6 @@ class AuthController extends Controller
                     ->count();
                 break;
         }
-        dd($userCount);
 
         if ($userCount > 0) {
             $this->db_switch(1);
@@ -107,7 +106,7 @@ class AuthController extends Controller
 
         switch ($appname) {
             case 'GerobakTracker':
-                $pegawai = Mitra::whereRaw('LOWER(nama_lengkap) = ?', [trim(strtolower($request->name))])->first();
+                $pegawai = Mitra::where('LOWER(nama_lengkap)', trim(strtolower($request->name)))->first();
                 break;
             default:
                 $pegawai = Pegawai::where('email', trim($request->email))->first();
