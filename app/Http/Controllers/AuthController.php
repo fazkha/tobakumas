@@ -336,7 +336,7 @@ class AuthController extends Controller
         switch ($appname) {
             case 'GerobakTracker':
                 $validator = Validator::make($request->all(), [
-                    'nama' => ['required', 'nama'],
+                    'nama' => ['required', 'string', 'max:50'],
                     'password' => ['required', 'min:6'],
                     'appname' => ['required', 'string', 'max:50'],
                 ]);
