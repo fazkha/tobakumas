@@ -16,7 +16,9 @@ return new class extends Migration
             $table->foreignId('pegawai_id')->constrained()->onUpdate('cascade');
             $table->date('tanggal');
             $table->unsignedBigInteger('omzet')->nullable();
+            $table->unsignedBigInteger('t_omzet')->nullable();
             $table->decimal('sisa_adonan', 8, 2)->nullable();
+            $table->decimal('t_adonan', 8, 2)->nullable();
             $table->timestamps();
         });
     }

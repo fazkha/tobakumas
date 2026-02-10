@@ -18,6 +18,7 @@ use Laravel\Sanctum\PersonalAccessToken;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\Sanctum;
 
 class AuthController extends Controller
@@ -50,7 +51,7 @@ class AuthController extends Controller
                 $validator = Validator::make($request->all(), [
                     'cabang' => ['required', 'integer', 'exists:branches,id'],
                     'name' => ['required', 'string', 'max:255'],
-                    'email' => ['required', 'email', 'unique:users'],
+                    'email' => ['nullable'],
                     'nohp' => ['required', 'min:10', 'max:255'],
                     'password' => ['required', 'min:6', 'max:50', 'confirmed'],
                     'appname' => ['required', 'string', 'max:50'],
@@ -82,22 +83,30 @@ class AuthController extends Controller
         }
 
         $data = $validator->validated();
+        $randomMail = Str::random(10) . '@mail.com';
 
-        $user = User::where('email', $request->email)
-            ->where('name', $request->name)
-            ->count();
+        switch ($appname) {
+            case 'GerobakTracker':
+                $user = User::where('name', $request->name)->count();
+                break;
+            default:
+                $user = User::where('email', $request->email)
+                    ->where('name', $request->name)
+                    ->count();
+                break;
+        }
 
         if ($user > 0) {
             $this->db_switch(1);
 
             return response([
-                'message' => 'Pengguna dengan nama dan email yang sama, sudah ada dalam database. Coba kembali.'
+                'message' => 'Pengguna dengan nama atau email yang sama, sudah ada dalam database. Coba kembali.'
             ], 422);
         }
 
         switch ($appname) {
             case 'GerobakTracker':
-                $pegawai = Mitra::where('email', trim($request->email))->first();
+                $pegawai = Mitra::where('nama_lengkap', trim($request->name))->first();
                 break;
             default:
                 $pegawai = Pegawai::where('email', trim($request->email))->first();
@@ -121,7 +130,7 @@ class AuthController extends Controller
                         'nama_panggilan' => $namafix,
                         'telpon' => $data['nohp'] || '-',
                         'kelamin' => 'L',
-                        'email' => trim($data['email']),
+                        'email' => $randomMail,
                         'isactive' => 0,
                         'created_by' => 'self-register',
                         'updated_by' => 'self-register',
@@ -143,11 +152,22 @@ class AuthController extends Controller
             }
         }
 
-        $user = User::create([
-            'name' => $namafix,
-            'email' => trim($data['email']),
-            'password' => Hash::make($data['password']),
-        ]);
+        switch ($appname) {
+            case 'GerobakTracker':
+                $user = User::create([
+                    'name' => $namafix,
+                    'email' => $randomMail,
+                    'password' => Hash::make($data['password']),
+                ]);
+                break;
+            default:
+                $user = User::create([
+                    'name' => $namafix,
+                    'email' => trim($data['email']),
+                    'password' => Hash::make($data['password']),
+                ]);
+                break;
+        }
 
         if (!$user) {
             $this->db_switch(1);

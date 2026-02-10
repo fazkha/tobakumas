@@ -14,6 +14,8 @@ class PcOmzetHarian extends Model
         'tanggal',
         'omzet',
         'sisa_adonan',
+        't_omzet',
+        't_adonan',
     ];
 
     public function pegawai()
