@@ -331,11 +331,24 @@ class AuthController extends Controller
     {
         $this->db_switch(2);
 
-        $validator = Validator::make($request->all(), [
-            'email' => ['required', 'email', 'exists:users'],
-            'password' => ['required', 'min:6'],
-            'appname' => ['required', 'string', 'max:50'],
-        ]);
+        $appname = $request->appname;
+
+        switch ($appname) {
+            case 'GerobakTracker':
+                $validator = Validator::make($request->all(), [
+                    'nama' => ['required', 'nama'],
+                    'password' => ['required', 'min:6'],
+                    'appname' => ['required', 'string', 'max:50'],
+                ]);
+                break;
+            default:
+                $validator = Validator::make($request->all(), [
+                    'email' => ['required', 'email', 'exists:users'],
+                    'password' => ['required', 'min:6'],
+                    'appname' => ['required', 'string', 'max:50'],
+                ]);
+                break;
+        }
 
         if ($validator->fails()) {
             $errors = $validator->errors();
@@ -351,8 +364,14 @@ class AuthController extends Controller
 
         $data = $validator->validated();
 
-        // $user = User::select('email', 'name', 'password', 'id')->where('email', $request->email)->first();
-        $user = User::where('email', $request->email)->first();
+        switch ($appname) {
+            case 'GerobakTracker':
+                $user = User::whereRaw('LOWER(name) = ?', strtolower(trim($request->nama)))->first();
+                break;
+            default:
+                $user = User::where('email', $request->email)->first();
+                break;
+        }
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             $this->db_switch(1);
@@ -380,7 +399,7 @@ class AuthController extends Controller
             ], 401);
         }
 
-        if ($data['appname'] == 'MartabakMini' && $profile->jabatan_id == 3) {
+        if ($data['appname'] == 'SaleSupervisor' && $profile->jabatan_id == 3) {
             $this->db_switch(1);
 
             return response([
