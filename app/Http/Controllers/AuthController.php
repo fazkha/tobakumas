@@ -87,16 +87,17 @@ class AuthController extends Controller
 
         switch ($appname) {
             case 'GerobakTracker':
-                $user = User::whereRaw('LOWER(name) = ?', [strtolower($request->name)])->count();
+                $userCount = User::whereRaw('LOWER(name) = ?', [strtolower($request->name)])->count();
                 break;
             default:
-                $user = User::where('email', $request->email)
+                $userCount = User::where('email', $request->email)
                     ->whereRaw('LOWER(name) = ?', [strtolower($request->name)])
                     ->count();
                 break;
         }
+        dd($userCount);
 
-        if ($user > 0) {
+        if ($userCount > 0) {
             $this->db_switch(1);
 
             return response([
