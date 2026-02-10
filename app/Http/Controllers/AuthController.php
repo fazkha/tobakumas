@@ -51,7 +51,7 @@ class AuthController extends Controller
                 $validator = Validator::make($request->all(), [
                     'cabang' => ['required', 'integer', 'exists:branches,id'],
                     'name' => ['required', 'string', 'max:255'],
-                    'email' => ['nullable'],
+                    'email' => ['nullable', 'email'],
                     'nohp' => ['required', 'min:10', 'max:255'],
                     'password' => ['required', 'min:6', 'max:50', 'confirmed'],
                     'appname' => ['required', 'string', 'max:50'],
@@ -87,11 +87,11 @@ class AuthController extends Controller
 
         switch ($appname) {
             case 'GerobakTracker':
-                $user = User::where('name', $request->name)->count();
+                $user = User::whereRaw('LOWER(name) = ?', [strtolower($request->name)])->count();
                 break;
             default:
                 $user = User::where('email', $request->email)
-                    ->where('name', $request->name)
+                    ->whereRaw('LOWER(name) = ?', [strtolower($request->name)])
                     ->count();
                 break;
         }
@@ -106,7 +106,7 @@ class AuthController extends Controller
 
         switch ($appname) {
             case 'GerobakTracker':
-                $pegawai = Mitra::where('nama_lengkap', trim($request->name))->first();
+                $pegawai = Mitra::whereRaw('LOWER(nama_lengkap) = ?', [trim(strtolower($request->name))])->first();
                 break;
             default:
                 $pegawai = Pegawai::where('email', trim($request->email))->first();
@@ -128,7 +128,7 @@ class AuthController extends Controller
                     $pegawai = Mitra::create([
                         'nama_lengkap' => $namafix,
                         'nama_panggilan' => $namafix,
-                        'telpon' => $data['nohp'] || '-',
+                        'telpon' => $data['nohp'] ? $data['nohp'] : '-',
                         'kelamin' => 'L',
                         'email' => $randomMail,
                         'isactive' => 0,
@@ -141,7 +141,7 @@ class AuthController extends Controller
                         'nama_lengkap' => $namafix,
                         'nama_panggilan' => $namafix,
                         'alamat_tinggal' => '-',
-                        'telpon' => $data['nohp'] || '-',
+                        'telpon' => $data['nohp'] ? $data['nohp'] : '-',
                         'kelamin' => 'L',
                         'email' => trim($data['email']),
                         'isactive' => 0,
