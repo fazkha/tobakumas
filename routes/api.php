@@ -47,6 +47,7 @@ Route::prefix('cabang')->group(function () {
     Route::post('/gerobak-aktif', [CabangController::class, 'gerobakAktif']);
     Route::post('/load-omzetharian', [CabangController::class, 'loadOmzetHarian']);
     Route::post('/approve-omzetharian', [CabangController::class, 'approveOmzetHarian']);
+    Route::post('/upload-bukti-transfer', [CabangController::class, 'uploadBuktiTransfer']);
 });
 
 // Sales

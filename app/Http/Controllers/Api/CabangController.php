@@ -4,12 +4,16 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\MitraOmzetPengeluaran;
+use App\Models\PcOmzetHarian;
+use App\Models\Pegawai;
 use App\Models\RuteGerobak;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\File;
 
 class CabangController extends Controller
 {
@@ -104,6 +108,82 @@ class CabangController extends Controller
         return response()->json([
             'status' => 'success',
             'omzet' => $omzet,
+        ]);
+    }
+
+    public function uploadBuktiTransfer(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = validator::make($request->all(), [
+            'pc_id' => ['required', 'integer', 'exists:users,id'],
+            'tanggal' => ['required', 'date'],
+            'foto' => 'required|image|max:5120',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+        $image = NULL;
+        $path = NULL;
+
+        $user = User::where('id', $data['pc_id'])->first();
+
+        if ($user) {
+            $pegawai = Pegawai::where('email', $user->email)->first();
+
+            if ($pegawai) {
+                $omzet = PcOmzetHarian::where('pegawai_id', $pegawai->id)
+                    ->where('tanggal', $data['tanggal'])
+                    ->get();
+
+                if ($omzet) {
+                    $hasFile = $request->hasFile('foto');
+
+                    if ($hasFile) {
+                        $image = $request->file('foto');
+                        dd($image);
+
+                        $imageName = $omzet->image_nama;
+                        $deleteName = $omzet->image_nama;
+                        $deletePath = 'storage/' . $omzet->image_lokasi;
+
+                        if (!is_null($deleteName)) {
+                            File::delete(public_path($deletePath) . '/' . $deleteName);
+                        }
+
+                        $ym = date('Ym');
+                        $pathym = 'uploads/cabang/buktitf/' . $ym;
+
+                        $imageName = $omzet->tanggal . '_' . $image->hashName();
+
+                        $omzet->update([
+                            'image_lokasi' => $pathym,
+                            'image_nama' => $imageName,
+                            'image_type' => 'image/jpeg',
+                        ]);
+
+                        $path = $request->file('foto')->storeAs($pathym, $imageName, 'public');
+                    }
+                }
+            }
+        }
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'path' => $path,
         ]);
     }
 
