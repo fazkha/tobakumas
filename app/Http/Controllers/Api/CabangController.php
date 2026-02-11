@@ -166,11 +166,11 @@ class CabangController extends Controller
 
                         $imageName = $omzet[0]->tanggal . '_' . $image->hashName();
 
-                        // $omzet->update([
-                        //     'image_lokasi' => $pathym,
-                        //     'image_nama' => $imageName,
-                        //     'image_type' => 'image/jpeg',
-                        // ]);
+                        $omzet->update([
+                            'image_lokasi' => $pathym,
+                            'image_nama' => $imageName,
+                            'image_type' => 'image/jpeg',
+                        ]);
 
                         $path = $request->file('foto')->storeAs($pathym, $imageName, 'public');
                     }
