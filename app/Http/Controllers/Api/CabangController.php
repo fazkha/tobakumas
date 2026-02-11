@@ -153,9 +153,9 @@ class CabangController extends Controller
                     if ($hasFile) {
                         $image = $request->file('foto');
 
-                        $imageName = $omzet->image_nama;
-                        $deleteName = $omzet->image_nama;
-                        $deletePath = 'storage/' . $omzet->image_lokasi;
+                        $imageName = $omzet[0]->image_nama;
+                        $deleteName = $omzet[0]->image_nama;
+                        $deletePath = 'storage/' . $omzet[0]->image_lokasi;
                         $this->db_switch(1);
 
                         return response()->json([
@@ -170,7 +170,7 @@ class CabangController extends Controller
                         $ym = date('Ym');
                         $pathym = 'uploads/cabang/buktitf/' . $ym;
 
-                        $imageName = $omzet->tanggal . '_' . $image->hashName();
+                        $imageName = $omzet[0]->tanggal . '_' . $image->hashName();
 
                         $omzet->update([
                             'image_lokasi' => $pathym,
