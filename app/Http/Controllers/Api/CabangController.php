@@ -118,7 +118,7 @@ class CabangController extends Controller
         $validator = Validator::make($request->all(), [
             'pc_id' => ['required', 'integer', 'exists:users,id'],
             'tanggal' => ['required', 'date'],
-            'photo' => 'required|image|max:5120',
+            'foto' => 'required|image|mimes:jpg,jpeg|max:5120',
         ]);
 
         if ($validator->fails()) {
@@ -148,10 +148,10 @@ class CabangController extends Controller
                     ->get();
 
                 if ($omzet) {
-                    $hasFile = $request->hasFile('photo');
+                    $hasFile = $request->hasFile('foto');
 
                     if ($hasFile) {
-                        $image = $request->file('photo');
+                        $image = $request->file('foto');
                         // $image = $request->all();
                         $this->db_switch(1);
 
