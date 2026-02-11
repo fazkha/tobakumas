@@ -165,17 +165,17 @@ class CabangController extends Controller
                         $pathym = 'uploads/cabang/buktitf/' . $ym;
 
                         $imageName = $omzet[0]->tanggal . '_' . $image->hashName();
+                        $this->db_switch(1);
+
+                        return response()->json([
+                            'status' => 'success',
+                            'path' => $imageName,
+                        ]);
 
                         $omzet->update([
                             'image_lokasi' => $pathym,
                             'image_nama' => $imageName,
                             'image_type' => 'image/jpeg',
-                        ]);
-                        $this->db_switch(1);
-
-                        return response()->json([
-                            'status' => 'success',
-                            'path' => $omzet,
                         ]);
 
                         $path = $request->file('foto')->storeAs($pathym, $imageName, 'public');
