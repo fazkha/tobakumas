@@ -146,12 +146,6 @@ class CabangController extends Controller
                 $omzet = PcOmzetHarian::where('pegawai_id', $pegawai->id)
                     ->where('tanggal', $data['tanggal'])
                     ->get();
-                $this->db_switch(1);
-
-                return response()->json([
-                    'status' => 'success',
-                    'path' => $omzet,
-                ]);
 
                 if ($omzet) {
                     $hasFile = $request->hasFile('foto');
@@ -176,6 +170,12 @@ class CabangController extends Controller
                             'image_lokasi' => $pathym,
                             'image_nama' => $imageName,
                             'image_type' => 'image/jpeg',
+                        ]);
+                        $this->db_switch(1);
+
+                        return response()->json([
+                            'status' => 'success',
+                            'path' => $omzet,
                         ]);
 
                         $path = $request->file('foto')->storeAs($pathym, $imageName, 'public');
