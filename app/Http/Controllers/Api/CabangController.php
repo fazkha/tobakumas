@@ -160,6 +160,12 @@ class CabangController extends Controller
                         if (!is_null($deleteName)) {
                             File::delete(public_path($deletePath) . '/' . $deleteName);
                         }
+                        $this->db_switch(1);
+
+                        return response()->json([
+                            'status' => 'success',
+                            'path' => $deleteName,
+                        ]);
 
                         $ym = date('Ym');
                         $pathym = 'uploads/cabang/buktitf/' . $ym;
@@ -170,12 +176,6 @@ class CabangController extends Controller
                             'image_lokasi' => $pathym,
                             'image_nama' => $imageName,
                             'image_type' => 'image/jpeg',
-                        ]);
-                        $this->db_switch(1);
-
-                        return response()->json([
-                            'status' => 'success',
-                            'path' => $omzet,
                         ]);
 
                         $path = $request->file('foto')->storeAs($pathym, $imageName, 'public');
