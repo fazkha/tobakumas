@@ -171,6 +171,12 @@ class CabangController extends Controller
                             'image_nama' => $imageName,
                             'image_type' => 'image/jpeg',
                         ]);
+                        $this->db_switch(1);
+
+                        return response()->json([
+                            'status' => 'success',
+                            'path' => $omzet,
+                        ]);
 
                         $path = $request->file('foto')->storeAs($pathym, $imageName, 'public');
                     }
