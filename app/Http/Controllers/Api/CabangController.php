@@ -156,16 +156,16 @@ class CabangController extends Controller
                         $imageName = $omzet->image_nama;
                         $deleteName = $omzet->image_nama;
                         $deletePath = 'storage/' . $omzet->image_lokasi;
-
-                        if (!is_null($deleteName)) {
-                            File::delete(public_path($deletePath) . '/' . $deleteName);
-                        }
                         $this->db_switch(1);
 
                         return response()->json([
                             'status' => 'success',
                             'path' => $deleteName,
                         ]);
+
+                        if (!is_null($deleteName)) {
+                            File::delete(public_path($deletePath) . '/' . $deleteName);
+                        }
 
                         $ym = date('Ym');
                         $pathym = 'uploads/cabang/buktitf/' . $ym;
