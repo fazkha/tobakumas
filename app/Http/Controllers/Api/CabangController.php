@@ -160,15 +160,15 @@ class CabangController extends Controller
                         if (!is_null($deleteName)) {
                             File::delete(public_path($deletePath) . '/' . $deleteName);
                         }
-
-                        $ym = date('Ym');
-                        $pathym = 'uploads/cabang/buktitf/' . $ym;
                         $this->db_switch(1);
 
                         return response()->json([
                             'status' => 'success',
-                            'path' => $pathym,
+                            'path' => $deleteName,
                         ]);
+
+                        $ym = date('Ym');
+                        $pathym = 'uploads/cabang/buktitf/' . $ym;
 
                         $imageName = $omzet[0]->tanggal . '_' . $image->hashName();
 
