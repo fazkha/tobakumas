@@ -145,7 +145,7 @@ class CabangController extends Controller
             if ($pegawai) {
                 $omzet = PcOmzetHarian::where('pegawai_id', $pegawai->id)
                     ->where('tanggal', $data['tanggal'])
-                    ->get();
+                    ->first();
 
                 if ($omzet) {
                     $hasFile = $request->hasFile('foto');
