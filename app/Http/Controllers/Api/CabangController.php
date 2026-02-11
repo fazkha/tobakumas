@@ -149,12 +149,6 @@ class CabangController extends Controller
 
                 if ($omzet) {
                     $hasFile = $request->hasFile('foto');
-                    $this->db_switch(1);
-
-                    return response()->json([
-                        'status' => 'success',
-                        'path' => $hasFile,
-                    ]);
 
                     if ($hasFile) {
                         $image = $request->file('foto');
@@ -176,6 +170,12 @@ class CabangController extends Controller
                             'image_lokasi' => $pathym,
                             'image_nama' => $imageName,
                             'image_type' => 'image/jpeg',
+                        ]);
+                        $this->db_switch(1);
+
+                        return response()->json([
+                            'status' => 'success',
+                            'path' => $omzet,
                         ]);
 
                         $path = $request->file('foto')->storeAs($pathym, $imageName, 'public');

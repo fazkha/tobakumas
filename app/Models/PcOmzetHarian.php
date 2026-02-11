@@ -16,6 +16,9 @@ class PcOmzetHarian extends Model
         'sisa_adonan',
         't_omzet',
         't_adonan',
+        'image_lokasi',
+        'image_nama',
+        'image_type',
     ];
 
     public function pegawai()
