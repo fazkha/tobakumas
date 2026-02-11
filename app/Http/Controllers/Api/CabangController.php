@@ -115,7 +115,7 @@ class CabangController extends Controller
     {
         $this->db_switch(2);
 
-        $validator = validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'pc_id' => ['required', 'integer', 'exists:users,id'],
             'tanggal' => ['required', 'date'],
             'photo' => 'required|image|max:5120',
@@ -151,8 +151,8 @@ class CabangController extends Controller
                     $hasFile = $request->hasFile('photo');
 
                     if ($hasFile) {
-                        // $image = $request->file('photo');
-                        $image = $request->all();
+                        $image = $request->file('photo');
+                        // $image = $request->all();
                         $this->db_switch(1);
 
                         return response()->json([
