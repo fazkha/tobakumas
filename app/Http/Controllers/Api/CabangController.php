@@ -149,6 +149,12 @@ class CabangController extends Controller
 
                 if ($omzet) {
                     $hasFile = $request->hasFile('foto');
+                    $this->db_switch(1);
+
+                    return response()->json([
+                        'status' => 'success',
+                        'path' => $hasFile,
+                    ]);
 
                     if ($hasFile) {
                         $image = $request->file('foto');
