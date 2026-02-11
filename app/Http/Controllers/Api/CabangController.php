@@ -151,7 +151,8 @@ class CabangController extends Controller
                     $hasFile = $request->hasFile('foto');
 
                     if ($hasFile) {
-                        $image = $request->file('foto');
+                        // $image = $request->file('foto');
+                        $image = $request->all();
                         $this->db_switch(1);
 
                         return response()->json([
