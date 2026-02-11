@@ -145,23 +145,23 @@ class CabangController extends Controller
             if ($pegawai) {
                 $omzet = PcOmzetHarian::where('pegawai_id', $pegawai->id)
                     ->where('tanggal', $data['tanggal'])
-                    ->first();
+                    ->get();
 
                 if ($omzet) {
                     $hasFile = $request->hasFile('foto');
 
                     if ($hasFile) {
                         $image = $request->file('foto');
-
-                        $imageName = $omzet[0]->image_nama;
-                        $deleteName = $omzet[0]->image_nama;
-                        $deletePath = 'storage/' . $omzet[0]->image_lokasi;
                         $this->db_switch(1);
 
                         return response()->json([
                             'status' => 'success',
-                            'path' => $omzet,
+                            'path' => $image,
                         ]);
+
+                        $imageName = $omzet[0]->image_nama;
+                        $deleteName = $omzet[0]->image_nama;
+                        $deletePath = 'storage/' . $omzet[0]->image_lokasi;
 
                         if (!is_null($deleteName)) {
                             File::delete(public_path($deletePath) . '/' . $deleteName);
