@@ -161,8 +161,8 @@ class CabangController extends Controller
                             File::delete(public_path($deletePath) . '/' . $deleteName);
                         }
 
-                        $pathym = $this->GetLokasiUpload();
-
+                        $lokasi = $this->GetLokasiUpload();
+                        $pathym = $lokasi['path'] . '/' . $lokasi['ym'];
                         $imageName = $omzet->tanggal . '_' . $image->hashName();
 
                         $omzet->update([
