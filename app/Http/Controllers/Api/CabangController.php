@@ -159,9 +159,9 @@ class CabangController extends Controller
                             'omzet' => $omzet,
                         ]);
 
-                        $imageName = $omzet[0]->image_nama;
-                        $deleteName = $omzet[0]->image_nama;
-                        $deletePath = 'storage/' . $omzet[0]->image_lokasi;
+                        $imageName = $omzet->image_nama;
+                        $deleteName = $omzet->image_nama;
+                        $deletePath = 'storage/' . $omzet->image_lokasi;
 
                         if (!is_null($deleteName)) {
                             File::delete(public_path($deletePath) . '/' . $deleteName);
@@ -170,7 +170,7 @@ class CabangController extends Controller
                         $ym = date('Ym');
                         $pathym = 'uploads/cabang/buktitf/' . $ym;
 
-                        $imageName = $omzet[0]->tanggal . '_' . $image->hashName();
+                        $imageName = $omzet->tanggal . '_' . $image->hashName();
 
                         $omzet->update([
                             'image_lokasi' => $pathym,
