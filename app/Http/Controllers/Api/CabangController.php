@@ -164,6 +164,7 @@ class CabangController extends Controller
                         $lokasi = $this->GetLokasiUpload();
                         $pathym = $lokasi['path'] . '/' . $lokasi['ym'];
                         $imageName = $omzet->tanggal . '_' . $image->hashName();
+                        $path = $pathym . '/' . $imageName;
 
                         $omzet->update([
                             'image_lokasi' => $pathym,
@@ -173,7 +174,7 @@ class CabangController extends Controller
 
                         // $path = $request->file('foto')->storeAs($pathym, $imageName, 'public');
                         if (!is_null($image)) {
-                            $path = $this->compress_image($image, $image->path(), public_path($pathym), $imageName, 50);
+                            $dest = $this->compress_image($image, $image->path(), public_path($pathym), $imageName, 50);
                         }
                     }
                 }
