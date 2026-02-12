@@ -156,7 +156,7 @@ class CabangController extends Controller
 
                         return response()->json([
                             'status' => 'success',
-                            'path' => $image,
+                            'image' => $image,
                         ]);
 
                         $imageName = $omzet[0]->image_nama;
