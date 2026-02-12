@@ -161,8 +161,15 @@ class CabangController extends Controller
                             File::delete(public_path($deletePath) . '/' . $deleteName);
                         }
 
-                        $ym = date('Ym');
-                        $pathym = 'uploads/cabang/buktitf/' . $ym;
+                        // $ym = date('Ym');
+                        // $pathym = 'uploads/cabang/buktitf/' . $ym;
+                        $pathym = $this->GetLokasiUpload();
+                        $this->db_switch(1);
+
+                        return response()->json([
+                            'status' => 'success',
+                            'pathym' => $pathym,
+                        ]);
 
                         $imageName = $omzet->tanggal . '_' . $image->hashName();
 
@@ -184,6 +191,20 @@ class CabangController extends Controller
             'status' => 'success',
             'path' => $path,
         ]);
+    }
+
+    public function GetLokasiUpload()
+    {
+        $path = 'storage/uploads/cabang/buktitf';
+        $ym = date('Ym');
+        $dir = $path . '/' . $ym;
+        $is_dir = is_dir($dir);
+
+        if (!$is_dir) {
+            mkdir($dir, 0700);
+        }
+
+        return ['path' => $path, 'ym' => $ym];
     }
 
     public function gerobakAktif(Request $request)
