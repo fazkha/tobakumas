@@ -921,15 +921,14 @@ class MitraController extends Controller
 
                         $imageName = $pengeluaran->image_nama;
                         $deleteName = $pengeluaran->image_nama;
-                        $deletePath = 'storage/' . $pengeluaran->image_lokasi;
+                        $deletePath = $pengeluaran->image_lokasi;
 
                         if (!is_null($deleteName)) {
                             File::delete(public_path($deletePath) . '/' . $deleteName);
                         }
 
-                        $ym = date('Ym');
-                        $pathym = 'uploads/mitra/pengeluaran/' . $ym;
-
+                        $lokasi = $this->GetLokasiUpload();
+                        $pathym = $lokasi['path'] . '/' . $lokasi['ym'];
                         $imageName = $pengeluaran->id . '_' . $image->hashName();
 
                         $pengeluaran->update([
@@ -938,7 +937,10 @@ class MitraController extends Controller
                             'image_type' => 'image/jpeg',
                         ]);
 
-                        $path = $request->file('foto')->storeAs($pathym, $imageName, 'public');
+                        // $path = $request->file('foto')->storeAs($pathym, $imageName, 'public');
+                        if (!is_null($image)) {
+                            $path = $this->compress_image($image, $image->path(), public_path($pathym), $imageName, 50);
+                        }
                     }
                 }
             }
@@ -966,13 +968,14 @@ class MitraController extends Controller
         return ['path' => $path, 'ym' => $ym];
     }
 
-    public function compress_image($image, $src, $dest, $quality)
+    public function compress_image($image, $src, $dest, $filename, $quality)
     {
         $info = getimagesize($src);
 
-        if ($info['mime'] == 'image/jpeg') {
+        if ($info['mime'] == 'image/jpeg' || $info['mime'] == 'image/jpg') {
             $image = imagecreatefromjpeg($src);
-            imagejpeg($image, $dest, 100);
+            $pathfile = $dest . '/' . $filename;
+            imagejpeg($image, $pathfile, $quality);
         } elseif ($info['mime'] == 'image/gif') {
             $image->storeAs($dest, $image->hashName());
             // $image = imagecreatefromgif($src);
