@@ -152,12 +152,6 @@ class CabangController extends Controller
 
                     if ($hasFile) {
                         $image = $request->file('foto');
-                        $this->db_switch(1);
-
-                        return response()->json([
-                            'status' => 'success',
-                            'omzet' => $omzet,
-                        ]);
 
                         $imageName = $omzet->image_nama;
                         $deleteName = $omzet->image_nama;
