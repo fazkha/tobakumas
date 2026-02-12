@@ -171,7 +171,10 @@ class CabangController extends Controller
                             'image_type' => 'image/jpeg',
                         ]);
 
-                        $path = $request->file('foto')->storeAs($pathym, $imageName, 'public');
+                        // $path = $request->file('foto')->storeAs($pathym, $imageName, 'public');
+                        if (!is_null($image)) {
+                            $dest = $this->compress_image($image, $image->path(), public_path($pathym), $imageName, 50);
+                        }
                     }
                 }
             }
@@ -197,6 +200,33 @@ class CabangController extends Controller
         }
 
         return ['path' => $path, 'ym' => $ym];
+    }
+
+    public function compress_image($image, $src, $dest, $filename, $quality)
+    {
+        $info = getimagesize($src);
+
+        if ($info['mime'] == 'image/jpeg' || $info['mime'] == 'image/jpg') {
+            $image = imagecreatefromjpeg($src);
+            $pathfile = $dest . '/' . $filename;
+            imagejpeg($image, $pathfile, $quality);
+        } elseif ($info['mime'] == 'image/gif') {
+            $image->storeAs($dest, $image->hashName());
+            // $image = imagecreatefromgif($src);
+            // imagejpeg($image, $dest, $quality);
+        } elseif ($info['mime'] == 'image/png') {
+            $image->storeAs($dest, $image->hashName());
+            // $image = imagecreatefrompng($src);
+            // imagepng($image, $dest, 5);
+        } else {
+            die('Unknown image file format');
+        }
+
+        //compress and save file to jpg
+        //usage
+        // $compressed = compress_image('boy.jpg', 'destination.jpg', 50);
+        //return destination file
+        return $dest;
     }
 
     public function gerobakAktif(Request $request)
