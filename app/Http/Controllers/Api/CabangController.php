@@ -166,11 +166,13 @@ class CabangController extends Controller
                         $imageName = $omzet->tanggal . '_' . $image->hashName();
                         $path = $pathym . '/' . $imageName;
 
-                        $omzet->update([
-                            'image_lokasi' => $pathym,
-                            'image_nama' => $imageName,
-                            'image_type' => 'image/jpeg',
-                        ]);
+                        $omzet = PcOmzetHarian::where('pegawai_id', $pegawai->id)
+                            ->where('tanggal', $data['tanggal'])
+                            ->update([
+                                'image_lokasi' => $pathym,
+                                'image_nama' => $imageName,
+                                'image_type' => 'image/jpeg',
+                            ]);
 
                         // $path = $request->file('foto')->storeAs($pathym, $imageName, 'public');
                         if (!is_null($image)) {
