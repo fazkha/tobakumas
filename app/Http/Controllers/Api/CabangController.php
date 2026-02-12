@@ -155,7 +155,7 @@ class CabangController extends Controller
 
                         $imageName = $omzet->image_nama;
                         $deleteName = $omzet->image_nama;
-                        $deletePath = 'storage/' . $omzet->image_lokasi;
+                        $deletePath = $omzet->image_lokasi;
 
                         if (!is_null($deleteName)) {
                             File::delete(public_path($deletePath) . '/' . $deleteName);
