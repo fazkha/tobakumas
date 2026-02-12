@@ -930,6 +930,7 @@ class MitraController extends Controller
                         $lokasi = $this->GetLokasiUpload();
                         $pathym = $lokasi['path'] . '/' . $lokasi['ym'];
                         $imageName = $pengeluaran->id . '_' . $image->hashName();
+                        $path = $pathym . '/' . $imageName;
 
                         $pengeluaran->update([
                             'image_lokasi' => $pathym,
@@ -939,7 +940,7 @@ class MitraController extends Controller
 
                         // $path = $request->file('foto')->storeAs($pathym, $imageName, 'public');
                         if (!is_null($image)) {
-                            $path = $this->compress_image($image, $image->path(), public_path($pathym), $imageName, 50);
+                            $dest = $this->compress_image($image, $image->path(), public_path($pathym), $imageName, 50);
                         }
                     }
                 }
