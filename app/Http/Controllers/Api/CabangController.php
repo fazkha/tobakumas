@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\AppSetting;
 use App\Models\MitraOmzetPengeluaran;
 use App\Models\PcOmzetHarian;
 use App\Models\Pegawai;
@@ -58,12 +59,16 @@ class CabangController extends Controller
         $omzet = null;
 
         $omzet = DB::select("CALL sp_omzetharianpc(?,?)", [$data['id'], $data['tanggal']]);
+        $limit_omzet = AppSetting::where('parm', 'limit_omzet')->first();
+        $limit_adonan = AppSetting::where('parm', 'limit_adonan')->first();
 
         $this->db_switch(1);
 
         return response()->json([
             'status' => 'success',
             'omzet' => $omzet,
+            'limit_omzet' => $limit_omzet,
+            'limit_adonan' => $limit_adonan,
         ]);
     }
 
