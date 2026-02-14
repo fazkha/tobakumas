@@ -13,6 +13,7 @@ class MitraOmzetPengeluaran extends Model
         'user_id',
         'tanggal',
         'omzet',
+        'adonan',
         'sisa_adonan',
         'approved_omzet',
         'approved_adonan',

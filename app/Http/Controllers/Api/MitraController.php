@@ -329,6 +329,7 @@ class MitraController extends Controller
             'tanggal' => ['required', 'date'],
             'omzet' => ['nullable'],
             'adonan' => ['nullable'],
+            'sisa_adonan' => ['nullable'],
             'keterangan' => ['nullable'],
             'harga' => ['nullable'],
         ]);
@@ -346,7 +347,7 @@ class MitraController extends Controller
         }
 
         $data = $validator->validated();
-        $data['adonan'] = Str::replace(',', '.', $data['adonan']);
+        $data['sisa_adonan'] = Str::replace(',', '.', $data['sisa_adonan']);
 
         $detail = null;
         $found = MitraOmzetPengeluaran::where('user_id', $data['id'])
@@ -356,7 +357,7 @@ class MitraController extends Controller
         if ($found) {
             $found->update([
                 'omzet' => $data['omzet'] ?? ($found->omzet ?? null),
-                'sisa_adonan' => $data['adonan'] ?? ($found->sisa_adonan ?? null),
+                'sisa_adonan' => $data['sisa_adonan'] ?? ($found->sisa_adonan ?? null),
             ]);
 
             $omzet = $found;
@@ -365,7 +366,7 @@ class MitraController extends Controller
                 'user_id' => $data['id'],
                 'tanggal' => $data['tanggal'],
                 'omzet' => $data['omzet'] ?? null,
-                'sisa_adonan' => $data['adonan'] ?? null,
+                'sisa_adonan' => $data['sisa_adonan'] ?? null,
             ]);
         }
 
@@ -493,7 +494,7 @@ class MitraController extends Controller
         return response()->json([
             'status' => 'success',
             'omzet' => $omzet->omzet,
-            'adonan' => $omzet->sisa_adonan,
+            'sisa_adonan' => $omzet->sisa_adonan,
             'appr_o' => $omzet->approved_omzet,
             'appr_a' => $omzet->approved_adonan,
             'pengeluaran' => $detail,
@@ -547,7 +548,7 @@ class MitraController extends Controller
         return response()->json([
             'status' => 'success',
             'omzet' => $omzet ? $omzet->omzet : '',
-            'adonan' => $omzet ? $omzet->sisa_adonan : '',
+            'sisa_adonan' => $omzet ? $omzet->sisa_adonan : '',
             'appr_o' => $omzet ? $omzet->approved_omzet : '0',
             'appr_a' => $omzet ? $omzet->approved_adonan : '0',
             'pengeluaran' => $detail,
@@ -646,7 +647,7 @@ class MitraController extends Controller
         return response()->json([
             'status' => 'success',
             'omzet' => $omzet ? $omzet->omzet : '',
-            'adonan' => $omzet ? $omzet->sisa_adonan : '',
+            'sisa_adonan' => $omzet ? $omzet->sisa_adonan : '',
             'appr_o' => $omzet ? $omzet->approved_omzet : '0',
             'appr_a' => $omzet ? $omzet->approved_adonan : '0',
             'pengeluaran' => $detail,
@@ -699,7 +700,7 @@ class MitraController extends Controller
         return response()->json([
             'status' => 'success',
             'omzet' => $omzet ? $omzet->omzet : '',
-            'adonan' => $omzet ? $omzet->sisa_adonan : '',
+            'sisa_adonan' => $omzet ? $omzet->sisa_adonan : '',
             'pengeluaran' => $detail,
         ]);
     }
