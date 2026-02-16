@@ -12,6 +12,7 @@ use App\Models\MitraOmzetPengeluaran;
 use App\Models\MitraOmzetPengeluaranDetail;
 use App\Models\MitraPengumuman;
 use App\Models\MitraTargetBonus;
+use App\Models\Profile;
 use App\Models\RuteGerobak;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -350,6 +351,7 @@ class MitraController extends Controller
         $data['sisa_adonan'] = Str::replace(',', '.', $data['sisa_adonan']);
 
         $detail = null;
+        $profile = Profile::where('user_id', $data['id'])->first();
         $found = MitraOmzetPengeluaran::where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
             ->first();
@@ -363,6 +365,7 @@ class MitraController extends Controller
             $omzet = $found;
         } else {
             $omzet = MitraOmzetPengeluaran::create([
+                'branch_id' => $profile->branch_id,
                 'user_id' => $data['id'],
                 'tanggal' => $data['tanggal'],
                 'omzet' => $data['omzet'] ?? null,
