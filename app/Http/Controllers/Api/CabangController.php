@@ -59,6 +59,7 @@ class CabangController extends Controller
         $omzet = null;
 
         $omzet = DB::select("CALL sp_omzetharianpc(?,?)", [$data['id'], $data['tanggal']]);
+        $rekap = DB::select("CALL sp_pc_omzet_bulanan(?,?,?)", [$data['id'], $data['tanggal']->format('n'), $data['tanggal']->format('Y')]);
         $limit_omzet = AppSetting::where('parm', 'mitra_limit_omzet')->first();
         $limit_adonan = AppSetting::where('parm', 'mitra_limit_adonan')->first();
 
@@ -69,6 +70,7 @@ class CabangController extends Controller
             'omzet' => $omzet,
             'limit_omzet' => $limit_omzet,
             'limit_adonan' => $limit_adonan,
+            'rekap' => $rekap,
         ]);
     }
 
