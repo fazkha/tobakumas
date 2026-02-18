@@ -352,14 +352,19 @@ class MitraController extends Controller
 
         $detail = null;
         $profile = Profile::where('user_id', $data['id'])->first();
+        $app_adonan = AppSetting::where('parm', 'mitra_limit_adonan')->first();
+        $app_adonan_value = $app_adonan ? intval($app_adonan->value) : 0;
+
         $found = MitraOmzetPengeluaran::where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
             ->first();
 
         if ($found) {
             $found->update([
+                'branch_id' => $profile->branch_id,
                 'omzet' => $data['omzet'] ?? ($found->omzet ?? null),
                 'sisa_adonan' => $data['sisa_adonan'] ?? ($found->sisa_adonan ?? null),
+                'adonan' => $app_adonan_value,
             ]);
 
             $omzet = $found;
@@ -370,6 +375,7 @@ class MitraController extends Controller
                 'tanggal' => $data['tanggal'],
                 'omzet' => $data['omzet'] ?? null,
                 'sisa_adonan' => $data['sisa_adonan'] ?? null,
+                'adonan' => $app_adonan_value,
             ]);
         }
 

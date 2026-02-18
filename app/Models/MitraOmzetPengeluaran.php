@@ -10,6 +10,7 @@ class MitraOmzetPengeluaran extends Model
     protected $table = 'mitra_omzet_pengeluarans';
 
     protected $fillable = [
+        'branch_id',
         'user_id',
         'tanggal',
         'omzet',
