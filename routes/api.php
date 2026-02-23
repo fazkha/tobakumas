@@ -36,6 +36,7 @@ Route::prefix('mitra')->group(function () {
     Route::post('/load-omzet', [MitraController::class, 'loadOmzet']);
     Route::post('/load-rekap', [MitraController::class, 'loadRekap']);
     Route::post('/load-omzet-pekanan', [MitraController::class, 'loadOmzetPekanan']);
+    Route::post('/load-biayaharian', [MitraController::class, 'loadBiayaHarian']);
     Route::delete('/hapus-pengeluaran', [MitraController::class, 'hapusPengeluaran']);
     Route::get('/get-jenis-pengeluaran-list', [MitraController::class, 'getJenisPengeluaranList']);
     Route::post('/load-image-pengeluaran', [MitraController::class, 'loadImagePengeluaran']);
@@ -48,7 +49,6 @@ Route::prefix('cabang')->group(function () {
     Route::post('/load-omzetbulanan', [CabangController::class, 'loadOmzetBulanan']);
     Route::post('/load-omzettanggal', [CabangController::class, 'loadOmzetTanggal']);
     Route::post('/load-omzetharian', [CabangController::class, 'loadOmzetHarian']);
-    Route::post('/load-biayaharian', [CabangController::class, 'loadBiayaHarian']);
     Route::post('/approve-omzetharian', [CabangController::class, 'approveOmzetHarian']);
     Route::post('/upload-bukti-transfer', [CabangController::class, 'uploadBuktiTransfer']);
 });
