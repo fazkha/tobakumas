@@ -910,7 +910,7 @@ class MitraController extends Controller
             ]);
 
             $omzet = DB::select("CALL sp_omzetharianpc(?,?)", [$data['pc_id'], $data['tanggal']]);
-            $biaya = DB::select("CALL sp_pc_pengeluaran_harian(?,?)", [$data['pc_id'], $data['tanggal']]);
+            $biaya = DB::select("CALL sp_mitra_pengeluaran_harian(?,?)", [$data['pc_id'], $data['tanggal']]);
         }
 
         $this->db_switch(1);
