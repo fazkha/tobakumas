@@ -867,14 +867,12 @@ class MitraController extends Controller
 
         $data = $validator->validated();
         $biaya = DB::select("CALL sp_mitra_pengeluaran_harian(?,?)", [$data['id'], $data['tanggal']]);
-        $totalBiaya = collect($biaya)->sum('t_biaya');
 
         $this->db_switch(1);
 
         return response()->json([
             'status' => 'success',
             'biaya' => $biaya,
-            'total_biaya' => $totalBiaya,
         ]);
     }
 
