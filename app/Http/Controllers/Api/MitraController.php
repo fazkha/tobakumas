@@ -384,7 +384,7 @@ class MitraController extends Controller
             ->first();
 
         if ($jenis) {
-            if ($jenis->nama == 'Kas bon') {
+            if ($jenis->nama == 'Kasbon') {
                 $date = Carbon::parse($data['tanggal']);
 
                 $weeksInMonth =
@@ -428,7 +428,7 @@ class MitraController extends Controller
 
                         return response()->json([
                             'status' => 'error',
-                            'message' => 'Tidak mencukupi. Sisa plafon kas bon anda Rp. ' . $kasbon->sisa_plafon,
+                            'message' => 'Tidak mencukupi. Sisa plafon kasbon anda Rp. ' . $kasbon->sisa_plafon,
                         ]);
                     }
 
@@ -452,7 +452,7 @@ class MitraController extends Controller
 
                         return response()->json([
                             'status' => 'error',
-                            'message' => 'Tidak mencukupi. Sisa plafon kas bon anda Rp. ' . $app_plafon_value,
+                            'message' => 'Tidak mencukupi. Sisa plafon kasbon anda Rp. ' . $app_plafon_value,
                         ]);
                     }
 
@@ -629,7 +629,7 @@ class MitraController extends Controller
                 ->where('minggu', $yearWeek)
                 ->first();
 
-            if ($kasbon && $jenis->nama == 'Kas bon') {
+            if ($kasbon && $jenis->nama == 'Kasbon') {
                 $kasbon->update([
                     'sisa_plafon' => $kasbon->sisa_plafon + $harga,
                 ]);
