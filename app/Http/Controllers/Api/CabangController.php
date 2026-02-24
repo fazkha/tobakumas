@@ -4,11 +4,16 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\AppSetting;
+use App\Models\JenisPengeluaranCabang;
 use App\Models\MitraOmzetPengeluaran;
+use App\Models\PcKasbon;
 use App\Models\PcOmzetHarian;
+use App\Models\PcPengeluaran;
 use App\Models\Pegawai;
+use App\Models\Profile;
 use App\Models\RuteGerobak;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Config;
@@ -32,6 +37,268 @@ class CabangController extends Controller
 
         DB::purge('mysql');
         DB::reconnect('mysql');
+    }
+
+    public function getJenisPengeluaranList()
+    {
+        $this->db_switch(2);
+
+        $jenis = JenisPengeluaranCabang::where('isactive', 1)->orderBy('nama')->selectRaw('id, nama as name')->get()->toJson();
+
+        $this->db_switch(1);
+
+        return [
+            'status' => 'success',
+            'data' => $jenis
+        ];
+    }
+
+    public function savePengeluaran(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:users,id'],
+            'tanggal' => ['required', 'date'],
+            'keterangan' => ['nullable'],
+            'harga' => ['nullable'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+
+        $pengeluaran = null;
+        $profile = Profile::where('user_id', $data['id'])->first();
+
+        $jenis = JenisPengeluaranCabang::where('isactive', 1)
+            ->where('id', $data['keterangan'])
+            ->first();
+
+        if ($jenis) {
+            if ($jenis->nama == 'Kas bon') {
+                $date = Carbon::parse($data['tanggal']);
+
+                $weeksInMonth =
+                    $date->copy()->startOfMonth()->weekOfYear
+                    <= $date->copy()->endOfMonth()->weekOfYear
+                    ? $date->copy()->endOfMonth()->weekOfYear - $date->copy()->startOfMonth()->weekOfYear + 1
+                    : // year rollover (Dec → Jan)
+                    $date->copy()->endOfMonth()->weekOfYear
+                    + Carbon::create($date->year)->endOfYear()->weekOfYear
+                    - $date->copy()->startOfMonth()->weekOfYear + 1;
+
+                $week = $date->isoWeek();
+                $year = $date->isoWeekYear();
+                $prevWeek = $date->copy()->subWeek()->isoWeek();
+                $prevYear = $date->copy()->subWeek()->isoWeekYear();
+
+                $yearWeek = $year . str($week)->padLeft(2, '0');
+                $prevYearWeek = $prevYear . str($prevWeek)->padLeft(2, '0');
+
+                $app_plafon = AppSetting::where('parm', 'pc_kasbon_plafon')->first();
+                $app_plafon_value = $app_plafon ? intval($app_plafon->value) : 0;
+                $app_plafon_value = $app_plafon_value / $weeksInMonth;
+
+                $prevKasbon = PcKasbon::where('isactive', 1)
+                    ->where('user_id', $data['id'])
+                    ->where('minggu', $prevYearWeek)
+                    ->first();
+
+                if (!$prevKasbon && $week > 1) {
+                    $app_plafon_value = $week * $app_plafon_value;
+                }
+
+                $kasbon = PcKasbon::where('isactive', 1)
+                    ->where('user_id', $data['id'])
+                    ->where('minggu', $yearWeek)
+                    ->first();
+
+                if ($kasbon) {
+                    if (intval($data['harga']) > $kasbon->sisa_plafon) {
+                        $this->db_switch(1);
+
+                        return response()->json([
+                            'status' => 'error',
+                            'message' => 'Tidak mencukupi. Sisa plafon kas bon anda Rp. ' . $kasbon->sisa_plafon,
+                        ]);
+                    }
+
+                    $newSisa = $kasbon->sisa_plafon - ($data['harga'] ?? 0);
+                    $kasbon->update([
+                        'sisa_plafon' => $newSisa,
+                    ]);
+                } else {
+
+                    $prevKasbon = PcKasbon::where('isactive', 1)
+                        ->where('user_id', $data['id'])
+                        ->where('minggu', $prevYearWeek)
+                        ->first();
+
+                    if ($prevKasbon) {
+                        $app_plafon_value = $app_plafon_value + $prevKasbon->sisa_plafon;
+                    }
+
+                    if (intval($data['harga']) > $app_plafon_value) {
+                        $this->db_switch(1);
+
+                        return response()->json([
+                            'status' => 'error',
+                            'message' => 'Tidak mencukupi. Sisa plafon kas bon anda Rp. ' . $app_plafon_value,
+                        ]);
+                    }
+
+                    $newSisa = $app_plafon_value - ($data['harga'] ?? 0);
+
+                    $kasbon = PcKasbon::create([
+                        'user_id' => $data['id'],
+                        'minggu' => $yearWeek,
+                        'plafon' => $app_plafon_value,
+                        'sisa_plafon' => $newSisa,
+                        'isactive' => 1,
+                    ]);
+                }
+            }
+        }
+
+        $pengeluaran = PcPengeluaran::where('user_id', $data['id'])
+            ->where('tanggal', $data['tanggal'])
+            ->where('jenis_pengeluaran_cabang_id', $jenis->id)
+            ->first();
+
+        if ($pengeluaran) {
+            $pengeluaran->update([
+                'harga' => $data['harga'] ?? ($detail->harga ?? null),
+            ]);
+        } else {
+            if (isset($data['keterangan'])) {
+                $detail = PcPengeluaran::create([
+                    'branch_id' => $profile->branch_id,
+                    'user_id' => $data['id'],
+                    'tanggal' => $data['tanggal'],
+                    'jenis_pengeluaran_cabang_id' => $jenis->id,
+                    'harga' => $data['harga'] ?? null,
+                ]);
+            }
+        }
+
+        $pengeluaran = PcPengeluaran::join('jenis_pengeluaran_cabangs', 'pc_pengeluarans.jenis_pengeluaran_cabang_id', '=', 'jenis_pengeluaran_cabangs.id')
+            ->where('user_id', $data['id'])
+            ->where('tanggal', $data['tanggal'])
+            ->select('pc_pengeluarans.id', 'jenis_pengeluaran_cabangs.nama as keterangan', 'pc_pengeluarans.harga', 'pc_pengeluarans.approved')
+            ->get();
+
+        if ($pengeluaran == null) {
+            $pengeluaran = [];
+        } else {
+            $pengeluaran = $pengeluaran->toArray();
+        }
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'pengeluaran' => $pengeluaran,
+        ]);
+    }
+
+    public function hapusPengeluaran(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:users,id'],
+            'tanggal' => ['required', 'date'],
+            'keterangan' => ['required', 'string', 'exists:jenis_pengeluaran_cabangs,nama'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+
+        $jenis = JenisPengeluaranCabang::where('nama', $data['keterangan'])->first();
+
+        $pengeluaran = PcPengeluaran::where('user_id', $data['id'])
+            ->where('tanggal', $data['tanggal'])
+            ->where('jenis_pengeluaran_cabang_id', $jenis->id)
+            ->first();
+
+        $deleteName = $pengeluaran->image_nama ? $pengeluaran->image_nama : NULL;
+        $deletePath = $pengeluaran->image_lokasi ? 'storage/' . $pengeluaran->image_lokasi : NULL;
+        $harga = $pengeluaran->harga ? $pengeluaran->harga : 0;
+        $deleteSuccess = false;
+
+        try {
+            $pengeluaran->delete();
+            if ($deleteName && $deletePath) {
+                File::delete(public_path($deletePath) . '/' . $deleteName);
+            }
+            $deleteSuccess = true;
+        } catch (\Illuminate\Database\QueryException $e) {
+            $this->db_switch(1);
+
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ]);
+        }
+
+        if ($deleteSuccess) {
+            $date = Carbon::parse($data['tanggal']);
+            $week = $date->isoWeek();
+            $year = $date->isoWeekYear();
+            $yearWeek = $year . str($week)->padLeft(2, '0');
+
+            $kasbon = PcKasbon::where('isactive', 1)
+                ->where('user_id', $data['id'])
+                ->where('minggu', $yearWeek)
+                ->first();
+
+            if ($kasbon && $jenis->nama == 'Kas bon') {
+                $kasbon->update([
+                    'sisa_plafon' => $kasbon->sisa_plafon + $harga,
+                ]);
+            }
+        }
+
+        $pengeluaran = PcPengeluaran::join('jenis_pengeluaran_cabangs', 'pc_pengeluarans.jenis_pengeluaran_cabang_id', '=', 'jenis_pengeluaran_cabangs.id')
+            ->where('user_id', $data['id'])
+            ->where('tanggal', $data['tanggal'])
+            ->select('pc_pengeluarans.id', 'jenis_pengeluaran_cabangs.nama as keterangan', 'pc_pengeluarans.harga', 'pc_pengeluarans.approved')
+            ->get();
+
+        if ($pengeluaran == null) {
+            $pengeluaran = [];
+        } else {
+            $pengeluaran = $pengeluaran->toArray();
+        }
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'pengeluaran' => $pengeluaran,
+        ]);
     }
 
     public function loadOmzetBulanan(Request $request)
