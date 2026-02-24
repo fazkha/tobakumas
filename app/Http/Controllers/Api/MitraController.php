@@ -876,6 +876,51 @@ class MitraController extends Controller
         ]);
     }
 
+    public function approveBiayaHarian(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = Validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:mitra_op_details,id'],
+            'pc_id' => ['required', 'integer', 'exists:users,id'],
+            'tanggal' => ['required', 'date'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+        $omzet = null;
+        $biaya = null;
+
+        $approve = MitraOmzetPengeluaranDetail::where('id', $data['id'])->first();
+
+        if ($approve) {
+            $approve->update([
+                'approved' => $approve->approved == 1 ? 0 : 1,
+            ]);
+
+            $omzet = DB::select("CALL sp_omzetharianpc(?,?)", [$data['pc_id'], $data['tanggal']]);
+            $biaya = DB::select("CALL sp_pc_pengeluaran_harian(?,?)", [$data['pc_id'], $data['tanggal']]);
+        }
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'biaya' => $biaya,
+        ]);
+    }
+
     public function loadImagePengeluaran(Request $request)
     {
         $this->db_switch(2);

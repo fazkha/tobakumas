@@ -37,6 +37,7 @@ Route::prefix('mitra')->group(function () {
     Route::post('/load-rekap', [MitraController::class, 'loadRekap']);
     Route::post('/load-omzet-pekanan', [MitraController::class, 'loadOmzetPekanan']);
     Route::post('/load-biayaharian', [MitraController::class, 'loadBiayaHarian']);
+    Route::post('/approve-biayaharian', [MitraController::class, 'approveBiayaHarian']);
     Route::delete('/hapus-pengeluaran', [MitraController::class, 'hapusPengeluaran']);
     Route::get('/get-jenis-pengeluaran-list', [MitraController::class, 'getJenisPengeluaranList']);
     Route::post('/load-image-pengeluaran', [MitraController::class, 'loadImagePengeluaran']);
