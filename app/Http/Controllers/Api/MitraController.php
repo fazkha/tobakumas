@@ -866,6 +866,7 @@ class MitraController extends Controller
         }
 
         $data = $validator->validated();
+        $omzet = DB::select("CALL sp_omzetharianpc(?,?)", [$data['id'], $data['tanggal']]);
         $biaya = DB::select("CALL sp_mitra_pengeluaran_harian(?,?)", [$data['id'], $data['tanggal']]);
 
         $this->db_switch(1);
