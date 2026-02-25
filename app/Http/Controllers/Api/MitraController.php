@@ -599,7 +599,7 @@ class MitraController extends Controller
             ->first();
 
         $deleteName = $pengeluaran->image_nama ? $pengeluaran->image_nama : NULL;
-        $deletePath = $pengeluaran->image_lokasi ? 'storage/' . $pengeluaran->image_lokasi : NULL;
+        $deletePath = $pengeluaran->image_lokasi ? $pengeluaran->image_lokasi : NULL;
         $harga = $pengeluaran->harga ? $pengeluaran->harga : 0;
         $deleteSuccess = false;
 
@@ -947,7 +947,7 @@ class MitraController extends Controller
         $pengeluaran = MitraOmzetPengeluaranDetail::find($data['id']);
 
         if ($pengeluaran) {
-            $image = 'storage/' . $pengeluaran->image_lokasi . '/' . $pengeluaran->image_nama;
+            $image = $pengeluaran->image_lokasi . '/' . $pengeluaran->image_nama;
         } else {
             $image = null;
         }
