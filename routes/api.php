@@ -55,6 +55,7 @@ Route::prefix('cabang')->group(function () {
     Route::delete('/hapus-pengeluaran', [CabangController::class, 'hapusPengeluaran']);
     Route::post('/save-pengeluaran', [CabangController::class, 'savePengeluaran']);
     Route::post('/load-pengeluaran', [CabangController::class, 'loadPengeluaran']);
+    Route::get('/get-jenis-pengeluaran-list', [CabangController::class, 'getJenisPengeluaranList']);
 });
 
 // Sales
