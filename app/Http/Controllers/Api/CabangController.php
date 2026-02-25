@@ -608,6 +608,136 @@ class CabangController extends Controller
         ]);
     }
 
+    public function loadImagePengeluaran(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:pc_pengeluarans,id'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+
+        $pengeluaran = PcPengeluaran::find($data['id']);
+
+        if ($pengeluaran) {
+            $image = 'storage/' . $pengeluaran->image_lokasi . '/' . $pengeluaran->image_nama;
+        } else {
+            $image = null;
+        }
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'image' => $image,
+        ]);
+    }
+
+    public function uploadImagePengeluaran(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = Validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:users,id'],
+            'tanggal' => ['required', 'date'],
+            'keterangan' => ['required', 'string', 'max:50'],
+            'foto' => 'required|image|max:5120',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+        $image = NULL;
+        $path = NULL;
+
+        $jenis = JenisPengeluaranCabang::where('isactive', 1)
+            ->where('nama', $data['keterangan'])
+            ->first();
+
+        if ($jenis) {
+            $pengeluaran = PcPengeluaran::where('user_id', $data['id'])
+                ->where('tanggal', $data['tanggal'])
+                ->where('jenis_pengeluaran_cabang_id', $jenis->id)
+                ->first();
+
+            if ($pengeluaran) {
+                $hasFile = $request->hasFile('foto');
+
+                if ($hasFile) {
+                    $image = $request->file('foto');
+
+                    $imageName = $pengeluaran->image_nama;
+                    $deleteName = $pengeluaran->image_nama;
+                    $deletePath = $pengeluaran->image_lokasi;
+
+                    if (!is_null($deleteName)) {
+                        File::delete(public_path($deletePath) . '/' . $deleteName);
+                    }
+
+                    $lokasi = $this->GetLokasiPengeluaranUpload();
+                    $pathym = $lokasi['path'] . '/' . $lokasi['ym'];
+                    $imageName = $pengeluaran->id . '_' . $image->hashName();
+                    $path = $pathym . '/' . $imageName;
+
+                    $pengeluaran->update([
+                        'image_lokasi' => $pathym,
+                        'image_nama' => $imageName,
+                        'image_type' => 'image/jpeg',
+                    ]);
+
+                    // $path = $request->file('foto')->storeAs($pathym, $imageName, 'public');
+                    if (!is_null($image)) {
+                        $dest = $this->compress_image($image, $image->path(), public_path($pathym), $imageName, 50);
+                    }
+                }
+            }
+        }
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'path' => $path,
+        ]);
+    }
+
+    public function GetLokasiPengeluaranUpload()
+    {
+        $path = 'storage/uploads/cabang/pengeluaran';
+        $ym = date('Ym');
+        $dir = $path . '/' . $ym;
+        $is_dir = is_dir($dir);
+
+        if (!$is_dir) {
+            mkdir($dir, 0700);
+        }
+
+        return ['path' => $path, 'ym' => $ym];
+    }
+
     public function GetLokasiUpload()
     {
         $path = 'storage/uploads/cabang/buktitf';
