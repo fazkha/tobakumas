@@ -53,6 +53,49 @@ class CabangController extends Controller
         ];
     }
 
+    public function loadPengeluaran(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:users,id'],
+            'tanggal' => ['required', 'date'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+
+        $pengeluaran = PcPengeluaran::join('jenis_pengeluaran_cabangs', 'pc_pengeluarans.jenis_pengeluaran_cabang_id', '=', 'jenis_pengeluaran_cabangs.id')
+            ->where('user_id', $data['id'])
+            ->where('tanggal', $data['tanggal'])
+            ->select('pc_pengeluarans.id', 'jenis_pengeluaran_cabangs.nama as keterangan', 'pc_pengeluarans.harga', 'pc_pengeluarans.approved')
+            ->get();
+
+        if ($pengeluaran == null) {
+            $pengeluaran = [];
+        } else {
+            $pengeluaran = $pengeluaran->toArray();
+        }
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'pengeluaran' => $pengeluaran,
+        ]);
+    }
+
     public function savePengeluaran(Request $request)
     {
         $this->db_switch(2);
