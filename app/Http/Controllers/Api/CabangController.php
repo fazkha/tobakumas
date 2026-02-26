@@ -79,7 +79,7 @@ class CabangController extends Controller
         $pengeluaran = PcPengeluaran::join('jenis_pengeluaran_cabangs', 'pc_pengeluarans.jenis_pengeluaran_cabang_id', '=', 'jenis_pengeluaran_cabangs.id')
             ->where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
-            ->select('pc_pengeluarans.id', 'jenis_pengeluaran_cabangs.nama as keterangan', 'pc_pengeluarans.harga', 'pc_pengeluarans.approved')
+            ->select('pc_pengeluarans.id', 'jenis_pengeluaran_cabangs.nama as keterangan', 'pc_pengeluarans.harga', 'pc_pengeluarans.approved', 'pc_pengeluarans.image_nama')
             ->get();
 
         if ($pengeluaran == null) {
