@@ -534,6 +534,7 @@ class CabangController extends Controller
 
         $validator = Validator::make($request->all(), [
             'pc_id' => ['required', 'integer', 'exists:users,id'],
+            'cabang_id' => ['required', 'integer', 'exists:branches,id'],
             'tanggal' => ['required', 'date'],
             'foto' => 'required|image|mimes:jpg,jpeg|max:5120',
         ]);
@@ -562,6 +563,7 @@ class CabangController extends Controller
             if ($pegawai) {
                 $omzet = PcOmzetHarian::where('pegawai_id', $pegawai->id)
                     ->where('tanggal', $data['tanggal'])
+                    ->where('branch_id', $data['cabang_id'])
                     ->first();
 
                 if ($omzet) {
@@ -585,6 +587,7 @@ class CabangController extends Controller
 
                         $omzet = PcOmzetHarian::where('pegawai_id', $pegawai->id)
                             ->where('tanggal', $data['tanggal'])
+                            ->where('branch_id', $data['cabang_id'])
                             ->update([
                                 'image_lokasi' => $pathym,
                                 'image_nama' => $imageName,

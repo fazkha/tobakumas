@@ -10,6 +10,7 @@ class PcOmzetHarian extends Model
     protected $table = 'pc_omzet_harians';
 
     protected $fillable = [
+        'branch_id',
         'pegawai_id',
         'tanggal',
         'omzet',
