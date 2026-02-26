@@ -489,7 +489,7 @@ class MitraController extends Controller
 
         $detail = MitraOmzetPengeluaranDetail::join('jenis_pengeluaran_mitras', 'mitra_op_details.jenis_pengeluaran_mitra_id', '=', 'jenis_pengeluaran_mitras.id')
             ->where('mitra_op_details.mitra_omzet_pengeluaran_id', $omzet->id)
-            ->select('mitra_op_details.id', 'jenis_pengeluaran_mitras.nama as keterangan', 'mitra_op_details.harga', 'mitra_op_details.approved')
+            ->select('mitra_op_details.id', 'jenis_pengeluaran_mitras.nama as keterangan', 'mitra_op_details.harga', 'mitra_op_details.approved', 'mitra_op_details.image_nama')
             ->get();
 
         if ($detail == null) {
@@ -540,7 +540,7 @@ class MitraController extends Controller
         if ($omzet) {
             $detail = MitraOmzetPengeluaranDetail::join('jenis_pengeluaran_mitras', 'mitra_op_details.jenis_pengeluaran_mitra_id', '=', 'jenis_pengeluaran_mitras.id')
                 ->where('mitra_op_details.mitra_omzet_pengeluaran_id', $omzet->id)
-                ->select('mitra_op_details.id', 'jenis_pengeluaran_mitras.nama as keterangan', 'mitra_op_details.harga', 'mitra_op_details.approved')
+                ->select('mitra_op_details.id', 'jenis_pengeluaran_mitras.nama as keterangan', 'mitra_op_details.harga', 'mitra_op_details.approved', 'mitra_op_details.image_nama')
                 ->get();
         } else {
             $detail = null;
@@ -639,7 +639,7 @@ class MitraController extends Controller
         if ($omzet) {
             $detail = MitraOmzetPengeluaranDetail::join('jenis_pengeluaran_mitras', 'mitra_op_details.jenis_pengeluaran_mitra_id', '=', 'jenis_pengeluaran_mitras.id')
                 ->where('mitra_op_details.mitra_omzet_pengeluaran_id', $omzet->id)
-                ->select('mitra_op_details.id', 'jenis_pengeluaran_mitras.nama as keterangan', 'mitra_op_details.harga', 'mitra_op_details.approved')
+                ->select('mitra_op_details.id', 'jenis_pengeluaran_mitras.nama as keterangan', 'mitra_op_details.harga', 'mitra_op_details.approved', 'mitra_op_details.image_nama')
                 ->get();
         } else {
             $detail = null;
