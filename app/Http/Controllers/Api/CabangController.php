@@ -555,6 +555,7 @@ class CabangController extends Controller
         $image = NULL;
         $path = NULL;
         $omzet = NULL;
+        $id_p3 = NULL;
 
         $user = User::where('id', $data['pc_id'])->first();
 
@@ -568,6 +569,7 @@ class CabangController extends Controller
                     ->first();
 
                 if ($omzet) {
+                    $id_p3 = $omzet->id_p3;
                     $hasFile = $request->hasFile('foto');
 
                     if ($hasFile) {
@@ -609,7 +611,7 @@ class CabangController extends Controller
         return response()->json([
             'status' => 'success',
             'path' => $path,
-            'id_p3' => $omzet ? $omzet->id_p3 : null,
+            'id_p3' => $id_p3,
         ]);
     }
 
