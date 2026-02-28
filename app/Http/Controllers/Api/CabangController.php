@@ -554,6 +554,7 @@ class CabangController extends Controller
         $data = $validator->validated();
         $image = NULL;
         $path = NULL;
+        $omzet = NULL;
 
         $user = User::where('id', $data['pc_id'])->first();
 
@@ -608,6 +609,7 @@ class CabangController extends Controller
         return response()->json([
             'status' => 'success',
             'path' => $path,
+            'id_p3' => $omzet ? $omzet->id_p3 : null,
         ]);
     }
 
