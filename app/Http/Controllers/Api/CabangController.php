@@ -601,6 +601,8 @@ class CabangController extends Controller
                         if (!is_null($image)) {
                             $dest = $this->compress_image($image, $image->path(), public_path($pathym), $imageName, 50);
                         }
+
+                        $omzet = DB::select("CALL sp_omzetharianpc(?,?)", [$data['pc_id'], $data['tanggal']]);
                     }
                 }
             }
@@ -611,7 +613,7 @@ class CabangController extends Controller
         return response()->json([
             'status' => 'success',
             'path' => $path,
-            'id_p3' => $id_p3,
+            'omzet' => $omzet,
         ]);
     }
 
