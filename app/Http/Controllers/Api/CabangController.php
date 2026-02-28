@@ -569,7 +569,7 @@ class CabangController extends Controller
                     ->first();
 
                 if ($omzet) {
-                    $id_p3 = $omzet->id_p3;
+                    $id_p3 = $omzet->id;
                     $hasFile = $request->hasFile('foto');
 
                     if ($hasFile) {
