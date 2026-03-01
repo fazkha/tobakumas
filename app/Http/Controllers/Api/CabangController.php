@@ -344,6 +344,40 @@ class CabangController extends Controller
         ]);
     }
 
+    public function loadPengeluaranBulanan(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = Validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:users,id'],
+            'bulan' => ['required', 'integer'],
+            'tahun' => ['required', 'integer'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+
+        $rekap = DB::select("CALL sp_pc_pengeluaran_bulanan(?,?,?)", [$data['id'], $data['bulan'], $data['tahun']]);
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'rekap' => $rekap,
+        ]);
+    }
+
     public function loadOmzetBulanan(Request $request)
     {
         $this->db_switch(2);
