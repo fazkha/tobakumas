@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('mitras', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('gerobak_id')->constrained()->onUpdate('cascade');
             $table->string('nama_lengkap');
             $table->string('nama_panggilan')->nullable();
             $table->string('nik', 50)->nullable();

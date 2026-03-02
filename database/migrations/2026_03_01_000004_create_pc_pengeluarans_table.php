@@ -11,20 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pc_omzet_harians', function (Blueprint $table) {
+        Schema::create('pc_pengeluarans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('branch_id')->constrained()->onUpdate('cascade');
-            $table->foreignId('pegawai_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('user_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('jenis_pengeluaran_cabang_id')->constrained()->onUpdate('cascade');
             $table->date('tanggal');
-            $table->unsignedBigInteger('omzet')->nullable();
-            $table->unsignedBigInteger('t_omzet')->nullable();
-            $table->decimal('sisa_adonan', 8, 2)->nullable();
-            $table->decimal('t_adonan', 8, 2)->nullable();
-            $table->decimal('t_gerobak', 8, 2)->nullable();
-            $table->decimal('t_biaya', 8, 2)->nullable();
+            $table->unsignedBigInteger('harga')->nullable();
             $table->string('image_lokasi', 200)->nullable();
             $table->string('image_nama', 100)->nullable();
             $table->string('image_type', 50)->nullable();
+            $table->unsignedTinyInteger('approved')->default(0);
             $table->timestamps();
         });
     }
@@ -34,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pc_omzet_harians');
+        Schema::dropIfExists('pc_pengeluarans');
     }
 };
