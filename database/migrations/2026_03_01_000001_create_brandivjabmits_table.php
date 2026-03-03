@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('brandivjabmits', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('brandivjab_id')->constrained()->onUpdate('cascade')->onDelete('set null');
-            $table->foreignId('mitra_id')->constrained()->onUpdate('cascade')->onDelete('set null');
+            $table->foreignId('brandivjab_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('mitra_id')->constrained()->onUpdate('cascade');
             $table->unsignedBigInteger('gerobak_id')->nullable();
             $table->foreign('gerobak_id')->references('id')->on('gerobaks')->onUpdate('cascade');
             $table->date('tanggal_mulai')->nullable();
