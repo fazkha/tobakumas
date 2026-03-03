@@ -128,6 +128,8 @@ class CabangController extends Controller
         $data = $validator->validated();
         $saldo = 0;
 
+        $profile = Profile::where('user_id', $data['id'])->first();
+
         // 1 - drop (in) // 2 - use (out) // 3 - retur (out)
 
         $dropping = PcPettyCash::where('user_id', $data['id'])
@@ -146,6 +148,8 @@ class CabangController extends Controller
                 'inout' => 3,
                 'approved_ma' => 1,
                 'approved_fin' => 1,
+                'created_by' => $profile->email,
+                'updated_by' => $profile->email,
             ]);
 
             $latestOut = PcPettyCash::where('user_id', $data['id'])
