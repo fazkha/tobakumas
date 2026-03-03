@@ -12,6 +12,7 @@ class PcPettyCash extends Model
     protected $fillable = [
         'branch_id',
         'user_id',
+        'dropping_id',
         'tanggal',
         'nominal',
         'flowtype',

@@ -140,14 +140,12 @@ class CabangController extends Controller
             ->first();
 
         if ($dropping) {
-            $id_dropping = $dropping->id;
-
             $pettyCash = PcPettyCash::create([
                 'branch_id' => $profile->branch_id,
                 'user_id' => $data['id'],
                 'tanggal' => $data['tanggal'],
                 'nominal' => $data['nominal'],
-                'dropping_id' => $id_dropping,
+                'dropping_id' => $dropping->id,
                 'flowtype' => 3,
                 'approved_ma' => 1,
                 'approved_fin' => 1,
