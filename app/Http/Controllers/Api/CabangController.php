@@ -138,6 +138,7 @@ class CabangController extends Controller
             ->where('approved_fin', 1)
             ->latest()
             ->first();
+        dd($dropping);
 
         if ($dropping) {
             $pettyCash = PcPettyCash::create([
