@@ -149,8 +149,8 @@ class CabangController extends Controller
                 'inout' => 3,
                 'approved_ma' => 1,
                 'approved_fin' => 1,
-                'created_by' => $profile->email,
-                'updated_by' => $profile->email,
+                'created_by' => $profile->user->email,
+                'updated_by' => $profile->user->email,
             ]);
 
             $latestOut = PcPettyCash::where('user_id', $data['id'])

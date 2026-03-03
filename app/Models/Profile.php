@@ -36,4 +36,9 @@ class Profile extends Model
     {
         return $this->belongsTo(Branch::class, 'branch_id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
