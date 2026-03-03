@@ -20,7 +20,7 @@ class PcPettyCash extends Model
         'created_by',
         'updated_by',
     ];
-    // 1 - drop (in) // 2 - use (out) // 3 - return (out)
+    // 1 - drop (in) // 2 - use (out) // 3 - retur (out)
 
     public function user()
     {

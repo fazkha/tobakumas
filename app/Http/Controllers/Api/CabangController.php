@@ -103,9 +103,67 @@ class CabangController extends Controller
         ]);
     }
 
-    public function savePettyCash(Request $request)
+    public function saveReturPettyCash(Request $request)
     {
-        //
+        $this->db_switch(2);
+
+        $validator = validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:users,id'],
+            'tanggal' => ['required', 'date'],
+            'nominal' => ['nullable'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+        $saldo = 0;
+
+        // 1 - drop (in) // 2 - use (out) // 3 - retur (out)
+
+        $dropping = PcPettyCash::where('user_id', $data['id'])
+            ->where('inout', 1)
+            ->where('approved_ma', 1)
+            ->where('approved_fin', 1)
+            ->latest()
+            ->first();
+
+        if ($dropping) {
+            $pettyCash = PcPettyCash::create([
+                'user_id' => $data['id'],
+                'tanggal' => $data['tanggal'],
+                'nominal' => $data['nominal'],
+                'dropping_id' => $dropping->id,
+                'inout' => 3,
+                'approved_ma' => 1,
+                'approved_fin' => 1,
+            ]);
+
+            $latestOut = PcPettyCash::where('user_id', $data['id'])
+                ->whereIn('inout', [2, 3])
+                ->where('approved_ma', 1)
+                ->where('approved_fin', 1)
+                ->where('id', '>', $dropping->id)
+                ->sum('nominal');
+
+            $saldo = $dropping->nominal - $latestOut;
+        }
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'saldo' => $saldo,
+        ]);
     }
 
     public function loadPengeluaran(Request $request)

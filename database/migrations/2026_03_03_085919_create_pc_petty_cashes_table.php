@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('branch_id')->constrained()->onUpdate('cascade');
             $table->foreignId('user_id')->constrained()->onUpdate('cascade');
+            $table->unsignedBigInteger('dropping_id')->nullable();
             $table->date('tanggal');
             $table->unsignedBigInteger('nominal')->nullable();
             $table->unsignedTinyInteger('inout')->default(1);
