@@ -14,13 +14,13 @@ class PcPettyCash extends Model
         'user_id',
         'tanggal',
         'nominal',
-        'inout',
+        'flowtype',
         'approved_ma',
         'approved_fin',
         'created_by',
         'updated_by',
     ];
-    // 1 - drop (in) // 2 - use (out) // 3 - retur (out)
+    // flowtype : 1 - drop (in) // 2 - use (out) // 3 - retur (out)
 
     public function user()
     {

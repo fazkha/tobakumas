@@ -78,7 +78,7 @@ class CabangController extends Controller
         $saldo = 0;
 
         $latestIn = PcPettyCash::where('user_id', $data['id'])
-            ->where('inout', 1)
+            ->where('flowtype', 1)
             ->where('approved_ma', 1)
             ->where('approved_fin', 1)
             ->latest()
@@ -86,7 +86,7 @@ class CabangController extends Controller
 
         if ($latestIn) {
             $latestOut = PcPettyCash::where('user_id', $data['id'])
-                ->whereIn('inout', [2, 3])
+                ->whereIn('flowtype', [2, 3])
                 ->where('approved_ma', 1)
                 ->where('approved_fin', 1)
                 ->where('id', '>', $latestIn->id)
@@ -130,10 +130,10 @@ class CabangController extends Controller
 
         $profile = Profile::where('user_id', $data['id'])->first();
 
-        // 1 - drop (in) // 2 - use (out) // 3 - retur (out)
+        // flowtype: 1 - drop (in) // 2 - use (out) // 3 - retur (out)
 
         $dropping = PcPettyCash::where('user_id', $data['id'])
-            ->where('inout', 1)
+            ->where('flowtype', 1)
             ->where('approved_ma', 1)
             ->where('approved_fin', 1)
             ->latest()
@@ -146,7 +146,7 @@ class CabangController extends Controller
                 'tanggal' => $data['tanggal'],
                 'nominal' => $data['nominal'],
                 'dropping_id' => $dropping->id,
-                'inout' => 3,
+                'flowtype' => 3,
                 'approved_ma' => 1,
                 'approved_fin' => 1,
                 'created_by' => $profile->user->email,
@@ -154,7 +154,7 @@ class CabangController extends Controller
             ]);
 
             $latestOut = PcPettyCash::where('user_id', $data['id'])
-                ->whereIn('inout', [2, 3])
+                ->whereIn('flowtype', [2, 3])
                 ->where('approved_ma', 1)
                 ->where('approved_fin', 1)
                 ->where('id', '>', $dropping->id)
