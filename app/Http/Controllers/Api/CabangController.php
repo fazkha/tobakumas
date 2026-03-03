@@ -141,6 +141,7 @@ class CabangController extends Controller
 
         if ($dropping) {
             $pettyCash = PcPettyCash::create([
+                'branch_id' => $profile->branch_id,
                 'user_id' => $data['id'],
                 'tanggal' => $data['tanggal'],
                 'nominal' => $data['nominal'],
