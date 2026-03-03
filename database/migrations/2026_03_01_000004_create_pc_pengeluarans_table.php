@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('image_nama', 100)->nullable();
             $table->string('image_type', 50)->nullable();
             $table->unsignedTinyInteger('approved')->default(0);
+            $table->unsignedTinyInteger('approved_fin')->default(0);
             $table->timestamps();
         });
     }
