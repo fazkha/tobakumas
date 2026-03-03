@@ -59,6 +59,8 @@ Route::prefix('cabang')->group(function () {
     Route::get('/get-jenis-pengeluaran-list', [CabangController::class, 'getJenisPengeluaranList']);
     Route::post('/load-image-pengeluaran', [CabangController::class, 'loadImagePengeluaran']);
     Route::post('/upload-image-pengeluaran', [CabangController::class, 'uploadImagePengeluaran']);
+    Route::post('/load-pettycash-remaining', [CabangController::class, 'loadPettyCashRemaining']);
+    Route::post('/save-pettycash', [CabangController::class, 'savePettyCash']);
 });
 
 // Sales

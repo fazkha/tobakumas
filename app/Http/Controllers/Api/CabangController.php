@@ -9,6 +9,7 @@ use App\Models\MitraOmzetPengeluaran;
 use App\Models\PcKasbon;
 use App\Models\PcOmzetHarian;
 use App\Models\PcPengeluaran;
+use App\Models\PcPettyCash;
 use App\Models\Pegawai;
 use App\Models\Profile;
 use App\Models\RuteGerobak;
@@ -51,6 +52,60 @@ class CabangController extends Controller
             'status' => 'success',
             'data' => $jenis
         ];
+    }
+
+    public function loadPettyCashRemaining(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:users,id'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+        $saldo = 0;
+
+        $latestIn = PcPettyCash::where('user_id', $data['id'])
+            ->where('inout', 1)
+            ->where('approved_ma', 1)
+            ->where('approved_fin', 1)
+            ->latest()
+            ->first();
+
+        if ($latestIn) {
+            $latestOut = PcPettyCash::where('user_id', $data['id'])
+                ->whereIn('inout', [2, 3])
+                ->where('approved_ma', 1)
+                ->where('approved_fin', 1)
+                ->where('id', '>', $latestIn->id)
+                ->sum('nominal');
+
+            $saldo = $latestIn->nominal - $latestOut;
+        }
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'saldo' => $saldo,
+        ]);
+    }
+
+    public function savePettyCash(Request $request)
+    {
+        //
     }
 
     public function loadPengeluaran(Request $request)
