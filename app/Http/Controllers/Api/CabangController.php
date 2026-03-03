@@ -141,7 +141,6 @@ class CabangController extends Controller
 
         if ($dropping) {
             $id_dropping = $dropping->id;
-            dd($id_dropping);
 
             $pettyCash = PcPettyCash::create([
                 'branch_id' => $profile->branch_id,
