@@ -171,13 +171,11 @@ class CabangController extends Controller
             if ($dropping) {
                 $pengeluaran = PcPettyCash::where('user_id', $data['id'])
                     ->where('branch_id', $item->branch_id)
-                    ->whereIn('flowtype', 2)
+                    ->where('flowtype', 2)
                     ->where('approved_ma', 1)
                     ->where('approved_fin', 1)
                     ->where('dropping_id', $dropping->id)
-                    ->get();
-                // ->sum('nominal');
-                dd($pengeluaran);
+                    ->sum('nominal');
 
                 $pettyCash = PcPettyCash::create([
                     'branch_id' => $item->branch_id,
