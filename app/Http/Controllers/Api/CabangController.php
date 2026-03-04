@@ -197,7 +197,6 @@ class CabangController extends Controller
                     ->where('approved_fin', 1)
                     ->where('dropping_id', $dropping->id)
                     ->sum('nominal');
-                dd($latestOut);
 
                 $total = $total + ($dropping->nominal - $latestOut);
                 $sisakas->push([
