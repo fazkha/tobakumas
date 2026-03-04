@@ -105,7 +105,6 @@ class CabangController extends Controller
                 $saldo = $saldo + ($latestIn->nominal - $latestOut);
             }
         }
-        dd($saldo);
 
         $this->db_switch(1);
 
