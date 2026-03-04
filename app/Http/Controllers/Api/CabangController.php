@@ -83,30 +83,29 @@ class CabangController extends Controller
             ->join('brandivjabs', 'brandivjabpegs.brandivjab_id', '=', 'brandivjabs.id')
             ->where('users.id', $data['id'])
             ->get();
-        dd($brandivjabpeg);
 
         foreach ($brandivjabpeg as $item) {
-
-            // $brandivjabpeg->branch_id
-        }
-
-        $latestIn = PcPettyCash::where('user_id', $data['id'])
-            ->where('flowtype', 1)
-            ->where('approved_ma', 1)
-            ->where('approved_fin', 1)
-            ->latest()
-            ->first();
-
-        if ($latestIn) {
-            $latestOut = PcPettyCash::where('user_id', $data['id'])
-                ->whereIn('flowtype', [2, 3])
+            $latestIn = PcPettyCash::where('user_id', $data['id'])
+                ->where('branch_id', $item->branch_id)
+                ->where('flowtype', 1)
                 ->where('approved_ma', 1)
                 ->where('approved_fin', 1)
-                ->where('id', '>', $latestIn->id)
-                ->sum('nominal');
+                ->latest()
+                ->first();
 
-            $saldo = $latestIn->nominal - $latestOut;
+            if ($latestIn) {
+                $latestOut = PcPettyCash::where('user_id', $data['id'])
+                    ->where('branch_id', $item->branch_id)
+                    ->whereIn('flowtype', [2, 3])
+                    ->where('approved_ma', 1)
+                    ->where('approved_fin', 1)
+                    ->where('id', '>', $latestIn->id)
+                    ->sum('nominal');
+
+                $saldo = $saldo + ($latestIn->nominal - $latestOut);
+            }
         }
+        dd($saldo);
 
         $this->db_switch(1);
 
