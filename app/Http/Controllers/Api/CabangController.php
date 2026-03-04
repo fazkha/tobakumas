@@ -215,6 +215,106 @@ class CabangController extends Controller
         ]);
     }
 
+    public function uploadBuktiTransferSisaKas(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = Validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:users,id'],
+            'foto' => 'required|image|mimes:jpg,jpeg|max:5120',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+        $bukti = NULL;
+
+        $cabangpc = Brandivjabpeg::join('pegawais', 'brandivjabpegs.pegawai_id', '=', 'pegawais.id')
+            ->join('users', 'pegawais.email', '=', 'users.email')
+            ->join('brandivjabs', 'brandivjabpegs.brandivjab_id', '=', 'brandivjabs.id')
+            ->where('users.id', $data['id'])
+            ->select('brandivjabpegs.*', 'brandivjabs.branch_id', 'users.email')
+            ->get();
+
+        foreach ($cabangpc as $item) {
+            $dropping = PcPettyCash::join('branches', 'pc_petty_cashes.branch_id', '=', 'branches.id')
+                ->where('pc_petty_cashes.user_id', $data['id'])
+                ->where('pc_petty_cashes.branch_id', $item->branch_id)
+                ->where('pc_petty_cashes.flowtype', 1)
+                ->where('pc_petty_cashes.approved_ma', 1)
+                ->where('pc_petty_cashes.approved_fin', 1)
+                ->select('pc_petty_cashes.*', 'branches.nama as nama_cabang')
+                ->latest()
+                ->first();
+
+            if ($dropping) {
+                $hasFile = $request->hasFile('foto');
+
+                if ($hasFile) {
+                    $image = $request->file('foto');
+
+                    $pengembalian = PcPettyCash::where('user_id', $data['id'])
+                        ->where('branch_id', $item->branch_id)
+                        ->where('flowtype', 3)
+                        ->where('approved_ma', 1)
+                        ->where('approved_fin', 1)
+                        ->where('dropping_id', $dropping->id)
+                        ->first();
+                    dd($pengembalian);
+
+                    if ($pengembalian) {
+                        $imageName = $pengembalian->image_nama;
+                        $deleteName = $pengembalian->image_nama;
+                        $deletePath = $pengembalian->image_lokasi;
+
+                        if (!is_null($deleteName)) {
+                            File::delete(public_path($deletePath) . '/' . $deleteName);
+                        }
+
+                        $lokasi = $this->GetLokasiSisaKasUpload();
+                        $pathym = $lokasi['path'] . '/' . $lokasi['ym'];
+                        $imageName = $dropping->id . '_' . $image->hashName();
+                        $bukti = $pathym . '/' . $imageName;
+
+                        $pengembalian = PcPettyCash::where('user_id', $data['id'])
+                            ->where('branch_id', $item->branch_id)
+                            ->where('flowtype', 3)
+                            ->where('approved_ma', 1)
+                            ->where('approved_fin', 1)
+                            ->where('dropping_id', $dropping->id)
+                            ->update([
+                                'image_lokasi' => $pathym,
+                                'image_nama' => $imageName,
+                                'image_type' => 'image/jpeg',
+                            ]);
+
+                        // $path = $request->file('foto')->storeAs($pathym, $imageName, 'public');
+                        if (!is_null($image)) {
+                            $dest = $this->compress_image($image, $image->path(), public_path($pathym), $imageName, 50);
+                        }
+                    }
+                }
+            }
+        }
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'bukti' => $bukti,
+        ]);
+    }
+
     public function loadPengeluaran(Request $request)
     {
         $this->db_switch(2);
@@ -940,6 +1040,20 @@ class CabangController extends Controller
             'path' => $path,
             'pengeluaran' => $pengeluaran,
         ]);
+    }
+
+    public function GetLokasiSisaKasUpload()
+    {
+        $path = 'storage/uploads/cabang/pengembaliansisakas';
+        $ym = date('Ym');
+        $dir = $path . '/' . $ym;
+        $is_dir = is_dir($dir);
+
+        if (!$is_dir) {
+            mkdir($dir, 0700);
+        }
+
+        return ['path' => $path, 'ym' => $ym];
     }
 
     public function GetLokasiPengeluaranUpload()
