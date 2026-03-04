@@ -169,6 +169,7 @@ class CabangController extends Controller
                 ->first();
 
             if ($dropping) {
+                dd($item->branch_id, $dropping->id);
                 $pengeluaran = PcPettyCash::where('user_id', $data['id'])
                     ->where('branch_id', $item->branch_id)
                     ->whereIn('flowtype', 2)
@@ -176,7 +177,6 @@ class CabangController extends Controller
                     ->where('approved_fin', 1)
                     ->where('dropping_id', $dropping->id)
                     ->sum('nominal');
-                dd($pengeluaran);
 
                 $pettyCash = PcPettyCash::create([
                     'branch_id' => $item->branch_id,
