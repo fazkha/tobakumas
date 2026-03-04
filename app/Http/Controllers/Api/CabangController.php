@@ -270,7 +270,6 @@ class CabangController extends Controller
                         ->where('approved_fin', 1)
                         ->where('dropping_id', $dropping->id)
                         ->first();
-                    dd($pengembalian);
 
                     if ($pengembalian) {
                         $imageName = $pengembalian->image_nama;
@@ -298,6 +297,7 @@ class CabangController extends Controller
                                 'image_type' => 'image/jpeg',
                             ]);
 
+                        dd($pengembalian);
                         // $path = $request->file('foto')->storeAs($pathym, $imageName, 'public');
                         if (!is_null($image)) {
                             $dest = $this->compress_image($image, $image->path(), public_path($pathym), $imageName, 50);
