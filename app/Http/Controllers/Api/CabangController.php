@@ -80,9 +80,15 @@ class CabangController extends Controller
 
         $brandivjabpeg = Brandivjabpeg::join('pegawais', 'brandivjabpegs.pegawai_id', '=', 'pegawais.id')
             ->join('users', 'pegawais.email', '=', 'users.email')
+            ->join('brandivjabs', 'brandivjabpegs.brandivjab_id', '=', 'brandivjabs.id')
             ->where('users.id', $data['id'])
             ->get();
         dd($brandivjabpeg);
+
+        foreach ($brandivjabpeg as $item) {
+
+            // $brandivjabpeg->branch_id
+        }
 
         $latestIn = PcPettyCash::where('user_id', $data['id'])
             ->where('flowtype', 1)
