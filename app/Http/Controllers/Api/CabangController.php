@@ -78,6 +78,7 @@ class CabangController extends Controller
         $data = $validator->validated();
         $total = 0;
         $sisakas = collect();
+        $bukti = NULL;
 
         $brandivjabpeg = Brandivjabpeg::join('pegawais', 'brandivjabpegs.pegawai_id', '=', 'pegawais.id')
             ->join('users', 'pegawais.email', '=', 'users.email')
@@ -102,7 +103,7 @@ class CabangController extends Controller
                     ->whereIn('flowtype', [2, 3])
                     ->where('approved_ma', 1)
                     ->where('approved_fin', 1)
-                    ->where('id', '>', $latestIn->id)
+                    ->where('dropping_id', $latestIn->id)
                     ->sum('nominal');
 
                 $total = $total + ($latestIn->nominal - $latestOut);
@@ -110,6 +111,15 @@ class CabangController extends Controller
                     'cabang' => $latestIn->nama_cabang,
                     'saldo' => ($latestIn->nominal - $latestOut)
                 ]);
+
+                $bukti = PcPettyCash::where('user_id', $data['id'])
+                    ->where('branch_id', $item->branch_id)
+                    ->where('flowtype', 3)
+                    ->where('approved_ma', 1)
+                    ->where('approved_fin', 1)
+                    ->where('dropping_id', $latestIn->id)
+                    ->selectRaw('CONCAT(image_lokasi, "/", image_nama) AS path')
+                    ->first();
             }
         }
 
@@ -119,6 +129,7 @@ class CabangController extends Controller
             'status' => 'success',
             'total' => $total,
             'sisakas' => $sisakas,
+            'bukti' => $bukti ? $bukti->path : null,
         ]);
     }
 
