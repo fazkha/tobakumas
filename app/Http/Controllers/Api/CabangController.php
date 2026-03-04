@@ -145,48 +145,73 @@ class CabangController extends Controller
         }
 
         $data = $validator->validated();
-        $saldo = 0;
-
-        $profile = Profile::where('user_id', $data['id'])->first();
+        $total = 0;
+        $sisakas = collect();
 
         // flowtype: 1 - drop (in) // 2 - use (out) // 3 - retur (out)
 
-        $dropping = PcPettyCash::where('user_id', $data['id'])
-            ->where('flowtype', 1)
-            ->where('approved_ma', 1)
-            ->where('approved_fin', 1)
-            ->latest()
-            ->first();
+        $brandivjabpeg = Brandivjabpeg::join('pegawais', 'brandivjabpegs.pegawai_id', '=', 'pegawais.id')
+            ->join('users', 'pegawais.email', '=', 'users.email')
+            ->join('brandivjabs', 'brandivjabpegs.brandivjab_id', '=', 'brandivjabs.id')
+            ->where('users.id', $data['id'])
+            ->select('brandivjabpegs.*', 'brandivjabs.branch_id', 'users.email')
+            ->get();
 
-        if ($dropping) {
-            $pettyCash = PcPettyCash::create([
-                'branch_id' => $profile->branch_id,
-                'user_id' => $data['id'],
-                'tanggal' => $data['tanggal'],
-                'nominal' => $data['nominal'],
-                'dropping_id' => $dropping->id,
-                'flowtype' => 3,
-                'approved_ma' => 1,
-                'approved_fin' => 1,
-                'created_by' => $profile->user->email,
-                'updated_by' => $profile->user->email,
-            ]);
+        foreach ($brandivjabpeg as $item) {
+            $dropping = PcPettyCash::join('branches', 'pc_petty_cashes.branch_id', '=', 'branches.id')
+                ->where('pc_petty_cashes.user_id', $data['id'])
+                ->where('pc_petty_cashes.branch_id', $item->branch_id)
+                ->where('pc_petty_cashes.flowtype', 1)
+                ->where('pc_petty_cashes.approved_ma', 1)
+                ->where('pc_petty_cashes.approved_fin', 1)
+                ->select('pc_petty_cashes.*', 'branches.nama as nama_cabang')
+                ->latest()
+                ->first();
 
-            $latestOut = PcPettyCash::where('user_id', $data['id'])
-                ->whereIn('flowtype', [2, 3])
-                ->where('approved_ma', 1)
-                ->where('approved_fin', 1)
-                ->where('id', '>', $dropping->id)
-                ->sum('nominal');
+            if ($dropping) {
+                $pengeluaran = PcPettyCash::where('user_id', $data['id'])
+                    ->where('branch_id', $item->branch_id)
+                    ->whereIn('flowtype', 2)
+                    ->where('approved_ma', 1)
+                    ->where('approved_fin', 1)
+                    ->where('id', '>', $dropping->id)
+                    ->sum('nominal');
 
-            $saldo = $dropping->nominal - $latestOut;
+                $pettyCash = PcPettyCash::create([
+                    'branch_id' => $item->branch_id,
+                    'user_id' => $data['id'],
+                    'tanggal' => $data['tanggal'],
+                    'nominal' => $pengeluaran,
+                    'dropping_id' => $dropping->id,
+                    'flowtype' => 3,
+                    'approved_ma' => 1,
+                    'approved_fin' => 1,
+                    'created_by' => $item->email,
+                    'updated_by' => $item->email,
+                ]);
+
+                $latestOut = PcPettyCash::where('user_id', $data['id'])
+                    ->where('branch_id', $item->branch_id)
+                    ->whereIn('flowtype', [2, 3])
+                    ->where('approved_ma', 1)
+                    ->where('approved_fin', 1)
+                    ->where('id', '>', $dropping->id)
+                    ->sum('nominal');
+
+                $total = $total + ($dropping->nominal - $latestOut);
+                $sisakas->push([
+                    'cabang' => $dropping->nama_cabang,
+                    'saldo' => ($dropping->nominal - $latestOut)
+                ]);
+            }
         }
 
         $this->db_switch(1);
 
         return response()->json([
             'status' => 'success',
-            'saldo' => $saldo,
+            'total' => $total,
+            'sisakas' => $sisakas,
         ]);
     }
 
