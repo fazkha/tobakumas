@@ -181,7 +181,7 @@ class CabangController extends Controller
                     'branch_id' => $item->branch_id,
                     'user_id' => $data['id'],
                     'tanggal' => $data['tanggal'],
-                    'nominal' => $pengeluaran,
+                    'nominal' => $dropping->nominal - $pengeluaran,
                     'dropping_id' => $dropping->id,
                     'flowtype' => 3,
                     'approved_ma' => 1,
@@ -197,6 +197,7 @@ class CabangController extends Controller
                     ->where('approved_fin', 1)
                     ->where('dropping_id', $dropping->id)
                     ->sum('nominal');
+                dd($latestOut);
 
                 $total = $total + ($dropping->nominal - $latestOut);
                 $sisakas->push([
