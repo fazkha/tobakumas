@@ -297,7 +297,6 @@ class CabangController extends Controller
                                 'image_type' => 'image/jpeg',
                             ]);
 
-                        dd($pengembalian);
                         // $path = $request->file('foto')->storeAs($pathym, $imageName, 'public');
                         if (!is_null($image)) {
                             $dest = $this->compress_image($image, $image->path(), public_path($pathym), $imageName, 50);
