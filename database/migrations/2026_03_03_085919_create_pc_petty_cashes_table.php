@@ -16,11 +16,15 @@ return new class extends Migration
             $table->foreignId('branch_id')->constrained()->onUpdate('cascade');
             $table->foreignId('user_id')->constrained()->onUpdate('cascade');
             $table->unsignedBigInteger('dropping_id')->nullable();
+            $table->unsignedBigInteger('pc_pengeluaran_id')->nullable();
             $table->date('tanggal');
             $table->unsignedBigInteger('nominal')->nullable();
-            $table->unsignedTinyInteger('inout')->default(1);
+            $table->unsignedTinyInteger('flowtype')->default(1);
             $table->unsignedTinyInteger('approved_ma')->default(0);
             $table->unsignedTinyInteger('approved_fin')->default(0);
+            $table->string('image_lokasi', 200)->nullable();
+            $table->string('image_nama', 100)->nullable();
+            $table->string('image_type', 50)->nullable();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->timestamps();

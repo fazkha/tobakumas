@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\AppSetting;
+use App\Models\Brandivjabpeg;
 use App\Models\JenisPengeluaranCabang;
 use App\Models\MitraOmzetPengeluaran;
 use App\Models\PcKasbon;
@@ -76,6 +77,12 @@ class CabangController extends Controller
 
         $data = $validator->validated();
         $saldo = 0;
+
+        $brandivjabpeg = Brandivjabpeg::join('pegawais', 'brandivjabpegs.pegawai_id', '=', 'pegawais.id')
+            ->join('users', 'pegawais.email', '=', 'users.email')
+            ->where('users.id', $data['id'])
+            ->get();
+        dd($brandivjabpeg);
 
         $latestIn = PcPettyCash::where('user_id', $data['id'])
             ->where('flowtype', 1)
