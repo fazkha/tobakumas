@@ -150,14 +150,14 @@ class CabangController extends Controller
 
         // flowtype: 1 - drop (in) // 2 - use (out) // 3 - retur (out)
 
-        $brandivjabpeg = Brandivjabpeg::join('pegawais', 'brandivjabpegs.pegawai_id', '=', 'pegawais.id')
+        $cabangpc = Brandivjabpeg::join('pegawais', 'brandivjabpegs.pegawai_id', '=', 'pegawais.id')
             ->join('users', 'pegawais.email', '=', 'users.email')
             ->join('brandivjabs', 'brandivjabpegs.brandivjab_id', '=', 'brandivjabs.id')
             ->where('users.id', $data['id'])
             ->select('brandivjabpegs.*', 'brandivjabs.branch_id', 'users.email')
             ->get();
 
-        foreach ($brandivjabpeg as $item) {
+        foreach ($cabangpc as $item) {
             $dropping = PcPettyCash::join('branches', 'pc_petty_cashes.branch_id', '=', 'branches.id')
                 ->where('pc_petty_cashes.user_id', $data['id'])
                 ->where('pc_petty_cashes.branch_id', $item->branch_id)
@@ -169,14 +169,15 @@ class CabangController extends Controller
                 ->first();
 
             if ($dropping) {
-                dd($item->branch_id, $dropping->id);
                 $pengeluaran = PcPettyCash::where('user_id', $data['id'])
                     ->where('branch_id', $item->branch_id)
                     ->whereIn('flowtype', 2)
                     ->where('approved_ma', 1)
                     ->where('approved_fin', 1)
                     ->where('dropping_id', $dropping->id)
-                    ->sum('nominal');
+                    ->get();
+                // ->sum('nominal');
+                dd($pengeluaran);
 
                 $pettyCash = PcPettyCash::create([
                     'branch_id' => $item->branch_id,
