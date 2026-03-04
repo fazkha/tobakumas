@@ -76,7 +76,8 @@ class CabangController extends Controller
         }
 
         $data = $validator->validated();
-        $saldo = 0;
+        $total = 0;
+        $sisakas = collect();
 
         $brandivjabpeg = Brandivjabpeg::join('pegawais', 'brandivjabpegs.pegawai_id', '=', 'pegawais.id')
             ->join('users', 'pegawais.email', '=', 'users.email')
@@ -85,11 +86,13 @@ class CabangController extends Controller
             ->get();
 
         foreach ($brandivjabpeg as $item) {
-            $latestIn = PcPettyCash::where('user_id', $data['id'])
-                ->where('branch_id', $item->branch_id)
-                ->where('flowtype', 1)
-                ->where('approved_ma', 1)
-                ->where('approved_fin', 1)
+            $latestIn = PcPettyCash::join('branches', 'pc_petty_cashes.branch_id', '=', 'branches.id')
+                ->where('pc_petty_cashes.user_id', $data['id'])
+                ->where('pc_petty_cashes.branch_id', $item->branch_id)
+                ->where('pc_petty_cashes.flowtype', 1)
+                ->where('pc_petty_cashes.approved_ma', 1)
+                ->where('pc_petty_cashes.approved_fin', 1)
+                ->select('pc_petty_cashes.*', 'branches.nama as nama_cabang')
                 ->latest()
                 ->first();
 
@@ -102,7 +105,11 @@ class CabangController extends Controller
                     ->where('id', '>', $latestIn->id)
                     ->sum('nominal');
 
-                $saldo = $saldo + ($latestIn->nominal - $latestOut);
+                $total = $total + ($latestIn->nominal - $latestOut);
+                $sisakas->push([
+                    'cabang' => $latestIn->nama_cabang,
+                    'saldo' => ($latestIn->nominal - $latestOut)
+                ]);
             }
         }
 
@@ -110,7 +117,8 @@ class CabangController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'saldo' => $saldo,
+            'total' => $total,
+            'sisakas' => $sisakas,
         ]);
     }
 
