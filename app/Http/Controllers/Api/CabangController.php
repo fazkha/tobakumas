@@ -167,7 +167,6 @@ class CabangController extends Controller
                 ->select('pc_petty_cashes.*', 'branches.nama as nama_cabang')
                 ->latest()
                 ->first();
-            dd($dropping);
 
             if ($dropping) {
                 $pengeluaran = PcPettyCash::where('user_id', $data['id'])
@@ -177,6 +176,7 @@ class CabangController extends Controller
                     ->where('approved_fin', 1)
                     ->where('dropping_id', $dropping->id)
                     ->sum('nominal');
+                dd($pengeluaran);
 
                 $pettyCash = PcPettyCash::create([
                     'branch_id' => $item->branch_id,
