@@ -42,9 +42,24 @@ class CabangController extends Controller
         DB::reconnect('mysql');
     }
 
-    public function getCabangList()
+    public function getCabangList(Request $request)
     {
         $this->db_switch(2);
+
+        $cabang = Branch::where('isactive', 1)->where('id', '>', 1)->orderByRaw('kode')->selectRaw('id, kode as name')->get()->toJson();
+
+        $this->db_switch(1);
+
+        return [
+            'status' => 'success',
+            'data' => $cabang
+        ];
+    }
+
+    public function getCabangJabatanList(Request $request)
+    {
+        $this->db_switch(2);
+        dd($request->id);
 
         $cabang = Branch::where('isactive', 1)->where('id', '>', 1)->orderByRaw('kode')->selectRaw('id, kode as name')->get()->toJson();
 
