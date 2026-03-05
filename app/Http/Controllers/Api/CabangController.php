@@ -389,10 +389,12 @@ class CabangController extends Controller
         $data = $validator->validated();
 
         $pengeluaran = PcPengeluaran::join('jenis_pengeluaran_cabangs', 'pc_pengeluarans.jenis_pengeluaran_cabang_id', '=', 'jenis_pengeluaran_cabangs.id')
+            ->join('branches', 'branches.id', '=', 'pc_pengeluarans.branch_id')
             ->where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
-            ->select('pc_pengeluarans.id', 'jenis_pengeluaran_cabangs.nama as keterangan', 'pc_pengeluarans.harga', 'pc_pengeluarans.approved', 'pc_pengeluarans.approved_fin', 'pc_pengeluarans.image_nama')
+            ->select('pc_pengeluarans.id', 'jenis_pengeluaran_cabangs.nama as keterangan', 'pc_pengeluarans.harga', 'pc_pengeluarans.approved', 'pc_pengeluarans.approved_fin', 'pc_pengeluarans.image_nama', 'branches.kode as kode_cabang')
             ->get();
+        dd($pengeluaran);
 
         if ($pengeluaran == null) {
             $pengeluaran = [];
