@@ -416,6 +416,7 @@ class CabangController extends Controller
         $validator = validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
             'tanggal' => ['required', 'date'],
+            'cabang' => ['nullable'],
             'keterangan' => ['nullable'],
             'harga' => ['nullable'],
         ]);
@@ -529,6 +530,7 @@ class CabangController extends Controller
 
         $pengeluaran = PcPengeluaran::where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
+            ->where('branch_id', $data['cabang'])
             ->where('jenis_pengeluaran_cabang_id', $jenis->id)
             ->first();
 
@@ -539,7 +541,7 @@ class CabangController extends Controller
         } else {
             if (isset($data['keterangan'])) {
                 $detail = PcPengeluaran::create([
-                    'branch_id' => $profile->branch_id,
+                    'branch_id' => $data['cabang'],
                     'user_id' => $data['id'],
                     'tanggal' => $data['tanggal'],
                     'jenis_pengeluaran_cabang_id' => $jenis->id,
@@ -576,6 +578,7 @@ class CabangController extends Controller
         $validator = validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
             'tanggal' => ['required', 'date'],
+            'cabang' => ['required', 'integer', 'exists:branches,id'],
             'keterangan' => ['required', 'string', 'exists:jenis_pengeluaran_cabangs,nama'],
         ]);
 
@@ -597,6 +600,7 @@ class CabangController extends Controller
 
         $pengeluaran = PcPengeluaran::where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
+            ->where('branch_id', $data['cabang'])
             ->where('jenis_pengeluaran_cabang_id', $jenis->id)
             ->first();
 
