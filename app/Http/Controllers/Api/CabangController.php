@@ -59,9 +59,19 @@ class CabangController extends Controller
     public function getCabangJabatanList(Request $request)
     {
         $this->db_switch(2);
-        dd($request->id);
 
-        $cabang = Branch::where('isactive', 1)->where('id', '>', 1)->orderByRaw('kode')->selectRaw('id, kode as name')->get()->toJson();
+        // jabatan_id = 4 = pc
+        $cabang = Brandivjabpeg::join('brandivjabs', 'brandivjabpegs.brandivjab_id', '=', 'brandivjabs.id')
+            ->join('pegawais', 'brandivjabpegs.pegawai_id', '=', 'pegawais.id')
+            ->join('users', 'pegawais.email', '=', 'users.email')
+            ->join('branches', 'brandivjabs.branch_id', '=', 'branches.id')
+            ->where('users.id', $request->id)
+            ->where('brandivjabs.jabatan_id', 4)
+            ->where('brandivjabpegs.isactive', 1)
+            ->orderByRaw('branches.kode')
+            ->selectRaw('branches.id, branches.kode as name')
+            ->get()
+            ->toJson();
 
         $this->db_switch(1);
 
