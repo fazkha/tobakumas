@@ -46,7 +46,7 @@ class CabangController extends Controller
     {
         $this->db_switch(2);
 
-        $cabang = Branch::where('isactive', 1)->where('id', '>', 1)->orderByRaw('kode')->selectRaw('id, nama as name')->get()->toJson();
+        $cabang = Branch::where('isactive', 1)->where('id', '>', 1)->orderByRaw('kode')->selectRaw('id, kode as name')->get()->toJson();
 
         $this->db_switch(1);
 
