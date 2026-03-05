@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\AppSetting;
+use App\Models\Branch;
 use App\Models\Brandivjabpeg;
 use App\Models\JenisPengeluaranCabang;
 use App\Models\MitraOmzetPengeluaran;
@@ -39,6 +40,20 @@ class CabangController extends Controller
 
         DB::purge('mysql');
         DB::reconnect('mysql');
+    }
+
+    public function getCabangList()
+    {
+        $this->db_switch(2);
+
+        $cabang = Branch::where('isactive', 1)->where('id', '>', 1)->orderByRaw('kode')->selectRaw('id, nama as name')->get()->toJson();
+
+        $this->db_switch(1);
+
+        return [
+            'status' => 'success',
+            'data' => $cabang
+        ];
     }
 
     public function getJenisPengeluaranList()
