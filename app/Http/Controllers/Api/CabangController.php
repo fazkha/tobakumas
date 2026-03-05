@@ -1015,6 +1015,7 @@ class CabangController extends Controller
         $validator = Validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
             'tanggal' => ['required', 'date'],
+            'cabang' => ['required', 'integer', 'exists:branches,id'],
             'keterangan' => ['required', 'string', 'max:50'],
             'foto' => 'required|image|max:5120',
         ]);
@@ -1042,6 +1043,7 @@ class CabangController extends Controller
         if ($jenis) {
             $pengeluaran = PcPengeluaran::where('user_id', $data['id'])
                 ->where('tanggal', $data['tanggal'])
+                ->where('branch_id', $data['cabang'])
                 ->where('jenis_pengeluaran_cabang_id', $jenis->id)
                 ->first();
 
@@ -1077,9 +1079,10 @@ class CabangController extends Controller
                 }
 
                 $pengeluaran = PcPengeluaran::join('jenis_pengeluaran_cabangs', 'pc_pengeluarans.jenis_pengeluaran_cabang_id', '=', 'jenis_pengeluaran_cabangs.id')
+                    ->join('branches', 'branches.id', '=', 'pc_pengeluarans.branch_id')
                     ->where('user_id', $data['id'])
                     ->where('tanggal', $data['tanggal'])
-                    ->select('pc_pengeluarans.id', 'jenis_pengeluaran_cabangs.nama as keterangan', 'pc_pengeluarans.harga', 'pc_pengeluarans.approved', 'pc_pengeluarans.approved_fin', 'pc_pengeluarans.image_nama')
+                    ->select('pc_pengeluarans.id', 'jenis_pengeluaran_cabangs.nama as keterangan', 'pc_pengeluarans.harga', 'pc_pengeluarans.approved', 'pc_pengeluarans.approved_fin', 'pc_pengeluarans.image_nama', 'branches.kode as kode_cabang')
                     ->get();
 
                 if ($pengeluaran == null) {
