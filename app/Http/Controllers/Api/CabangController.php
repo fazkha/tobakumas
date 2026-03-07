@@ -116,7 +116,7 @@ class CabangController extends Controller
         }
 
         $data = $validator->validated();
-        $total = 0;
+        $total = 0.0;
         $sisakas = collect();
         $bukti = NULL;
 
@@ -167,7 +167,7 @@ class CabangController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'total' => ROUND($total, 1),
+            'total' => $total,
             'sisakas' => $sisakas,
             'bukti' => $bukti ? $bukti->path : null,
         ]);
@@ -196,7 +196,7 @@ class CabangController extends Controller
         }
 
         $data = $validator->validated();
-        $total = 0;
+        $total = 0.0;
         $sisakas = collect();
 
         // flowtype: 1 - drop (in) // 2 - use (out) // 3 - retur (out)
@@ -261,7 +261,7 @@ class CabangController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'total' => ROUND($total, 1),
+            'total' => $total,
             'sisakas' => $sisakas,
         ]);
     }
