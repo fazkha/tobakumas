@@ -16,6 +16,7 @@ use App\Models\Pegawai;
 use App\Models\Profile;
 use App\Models\RuteGerobak;
 use App\Models\User;
+use BcMath\Number;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -149,7 +150,7 @@ class CabangController extends Controller
                 $total = $total + ($latestIn->nominal - $latestOut);
                 $sisakas->push([
                     'cabang' => $latestIn->nama_cabang,
-                    'saldo' => ROUND($latestIn->nominal - $latestOut, 1)
+                    'saldo' => number_format($latestIn->nominal - $latestOut, 1)
                 ]);
 
                 $bukti = PcPettyCash::where('user_id', $data['id'])
@@ -252,7 +253,7 @@ class CabangController extends Controller
                 $total = $total + ($dropping->nominal - $latestOut);
                 $sisakas->push([
                     'cabang' => $dropping->nama_cabang,
-                    'saldo' => ROUND($dropping->nominal - $latestOut, 1)
+                    'saldo' => number_format($dropping->nominal - $latestOut, 1)
                 ]);
             }
         }
