@@ -394,7 +394,7 @@ class CabangController extends Controller
             ->where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
             ->selectRaw('pc_pengeluarans.id, pc_pengeluarans.branch_id, jenis_pengeluaran_cabangs.nama as keterangan, FORMAT(pc_pengeluarans.harga, 1) AS harga, pc_pengeluarans.approved, pc_pengeluarans.approved_fin, pc_pengeluarans.image_nama, branches.kode as kode_cabang')
-            ->orderBy('branches.kode, jenis_pengeluaran_cabangs.nama')
+            ->orderBy('branches.kode', 'jenis_pengeluaran_cabangs.nama')
             ->get();
 
         if ($pengeluaran == null) {
@@ -557,7 +557,7 @@ class CabangController extends Controller
             ->where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
             ->selectRaw('pc_pengeluarans.id, pc_pengeluarans.branch_id, jenis_pengeluaran_cabangs.nama as keterangan, FORMAT(pc_pengeluarans.harga, 1) AS harga, pc_pengeluarans.approved, pc_pengeluarans.approved_fin, pc_pengeluarans.image_nama, branches.kode as kode_cabang')
-            ->orderBy('branches.kode, jenis_pengeluaran_cabangs.nama')
+            ->orderBy('branches.kode', 'jenis_pengeluaran_cabangs.nama')
             ->get();
 
         if ($pengeluaran == null) {
@@ -650,7 +650,7 @@ class CabangController extends Controller
             ->where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
             ->selectRaw('pc_pengeluarans.id, pc_pengeluarans.branch_id, jenis_pengeluaran_cabangs.nama as keterangan, FORMAT(pc_pengeluarans.harga, 1) AS harga, pc_pengeluarans.approved, pc_pengeluarans.approved_fin, pc_pengeluarans.image_nama, branches.kode as kode_cabang')
-            ->orderBy('branches.kode, jenis_pengeluaran_cabangs.nama')
+            ->orderBy('branches.kode', 'jenis_pengeluaran_cabangs.nama')
             ->get();
 
         if ($pengeluaran == null) {
