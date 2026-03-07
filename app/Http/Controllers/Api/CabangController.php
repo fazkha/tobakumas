@@ -392,7 +392,7 @@ class CabangController extends Controller
             ->join('branches', 'branches.id', '=', 'pc_pengeluarans.branch_id')
             ->where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
-            ->select('pc_pengeluarans.id', 'pc_pengeluarans.branch_id', 'jenis_pengeluaran_cabangs.nama as keterangan', 'FORMAT(pc_pengeluarans.harga, 1) AS harga', 'pc_pengeluarans.approved', 'pc_pengeluarans.approved_fin', 'pc_pengeluarans.image_nama', 'branches.kode as kode_cabang')
+            ->selectRaw('pc_pengeluarans.id, pc_pengeluarans.branch_id, jenis_pengeluaran_cabangs.nama as keterangan, FORMAT(pc_pengeluarans.harga, 1) AS harga, pc_pengeluarans.approved, pc_pengeluarans.approved_fin, pc_pengeluarans.image_nama, branches.kode as kode_cabang')
             ->get();
 
         if ($pengeluaran == null) {
@@ -554,7 +554,7 @@ class CabangController extends Controller
             ->join('branches', 'branches.id', '=', 'pc_pengeluarans.branch_id')
             ->where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
-            ->select('pc_pengeluarans.id', 'pc_pengeluarans.branch_id', 'jenis_pengeluaran_cabangs.nama as keterangan', 'FORMAT(pc_pengeluarans.harga, 1) AS harga', 'pc_pengeluarans.approved', 'pc_pengeluarans.approved_fin', 'pc_pengeluarans.image_nama', 'branches.kode as kode_cabang')
+            ->selectRaw('pc_pengeluarans.id, pc_pengeluarans.branch_id, jenis_pengeluaran_cabangs.nama as keterangan, FORMAT(pc_pengeluarans.harga, 1) AS harga, pc_pengeluarans.approved, pc_pengeluarans.approved_fin, pc_pengeluarans.image_nama, branches.kode as kode_cabang')
             ->get();
 
         if ($pengeluaran == null) {
@@ -646,7 +646,7 @@ class CabangController extends Controller
             ->join('branches', 'branches.id', '=', 'pc_pengeluarans.branch_id')
             ->where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
-            ->select('pc_pengeluarans.id', 'pc_pengeluarans.branch_id', 'jenis_pengeluaran_cabangs.nama as keterangan', 'FORMAT(pc_pengeluarans.harga, 1) AS harga', 'pc_pengeluarans.approved', 'pc_pengeluarans.approved_fin', 'pc_pengeluarans.image_nama', 'branches.kode as kode_cabang')
+            ->selectRaw('pc_pengeluarans.id, pc_pengeluarans.branch_id, jenis_pengeluaran_cabangs.nama as keterangan, FORMAT(pc_pengeluarans.harga, 1) AS harga, pc_pengeluarans.approved, pc_pengeluarans.approved_fin, pc_pengeluarans.image_nama, branches.kode as kode_cabang')
             ->get();
 
         if ($pengeluaran == null) {
@@ -1082,7 +1082,7 @@ class CabangController extends Controller
                     ->join('branches', 'branches.id', '=', 'pc_pengeluarans.branch_id')
                     ->where('user_id', $data['id'])
                     ->where('tanggal', $data['tanggal'])
-                    ->select('pc_pengeluarans.id', 'pc_pengeluarans.branch_id', 'jenis_pengeluaran_cabangs.nama as keterangan', 'FORMAT(pc_pengeluarans.harga, 1) AS harga', 'pc_pengeluarans.approved', 'pc_pengeluarans.approved_fin', 'pc_pengeluarans.image_nama', 'branches.kode as kode_cabang')
+                    ->selectRaw('pc_pengeluarans.id, pc_pengeluarans.branch_id, jenis_pengeluaran_cabangs.nama as keterangan, FORMAT(pc_pengeluarans.harga, 1) AS harga, pc_pengeluarans.approved, pc_pengeluarans.approved_fin, pc_pengeluarans.image_nama, branches.kode as kode_cabang')
                     ->get();
 
                 if ($pengeluaran == null) {
