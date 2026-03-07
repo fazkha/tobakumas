@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onUpdate('cascade');
             $table->foreignId('jenis_pengeluaran_cabang_id')->constrained()->onUpdate('cascade');
             $table->date('tanggal');
-            $table->unsignedBigInteger('harga')->nullable();
+            $table->decimal('harga', 8, 2)->nullable();
             $table->string('image_lokasi', 200)->nullable();
             $table->string('image_nama', 100)->nullable();
             $table->string('image_type', 50)->nullable();

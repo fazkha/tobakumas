@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('dropping_id')->nullable();
             $table->unsignedBigInteger('pc_pengeluaran_id')->nullable();
             $table->date('tanggal');
-            $table->unsignedBigInteger('nominal')->nullable();
+            $table->decimal('nominal', 8, 2)->nullable();
             $table->unsignedTinyInteger('flowtype')->default(1);
             $table->unsignedTinyInteger('approved_ma')->default(0);
             $table->unsignedTinyInteger('approved_fin')->default(0);

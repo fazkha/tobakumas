@@ -149,7 +149,7 @@ class CabangController extends Controller
                 $total = $total + ($latestIn->nominal - $latestOut);
                 $sisakas->push([
                     'cabang' => $latestIn->nama_cabang,
-                    'saldo' => ($latestIn->nominal - $latestOut)
+                    'saldo' => ROUND($latestIn->nominal - $latestOut, 1)
                 ]);
 
                 $bukti = PcPettyCash::where('user_id', $data['id'])
@@ -167,7 +167,7 @@ class CabangController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'total' => $total,
+            'total' => ROUND($total, 1),
             'sisakas' => $sisakas,
             'bukti' => $bukti ? $bukti->path : null,
         ]);
@@ -252,7 +252,7 @@ class CabangController extends Controller
                 $total = $total + ($dropping->nominal - $latestOut);
                 $sisakas->push([
                     'cabang' => $dropping->nama_cabang,
-                    'saldo' => ($dropping->nominal - $latestOut)
+                    'saldo' => ROUND($dropping->nominal - $latestOut, 1)
                 ]);
             }
         }
@@ -261,7 +261,7 @@ class CabangController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'total' => $total,
+            'total' => ROUND($total, 1),
             'sisakas' => $sisakas,
         ]);
     }
@@ -392,7 +392,7 @@ class CabangController extends Controller
             ->join('branches', 'branches.id', '=', 'pc_pengeluarans.branch_id')
             ->where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
-            ->select('pc_pengeluarans.id', 'pc_pengeluarans.branch_id', 'jenis_pengeluaran_cabangs.nama as keterangan', 'pc_pengeluarans.harga', 'pc_pengeluarans.approved', 'pc_pengeluarans.approved_fin', 'pc_pengeluarans.image_nama', 'branches.kode as kode_cabang')
+            ->select('pc_pengeluarans.id', 'pc_pengeluarans.branch_id', 'jenis_pengeluaran_cabangs.nama as keterangan', 'FORMAT(pc_pengeluarans.harga, 1) AS harga', 'pc_pengeluarans.approved', 'pc_pengeluarans.approved_fin', 'pc_pengeluarans.image_nama', 'branches.kode as kode_cabang')
             ->get();
 
         if ($pengeluaran == null) {
@@ -554,7 +554,7 @@ class CabangController extends Controller
             ->join('branches', 'branches.id', '=', 'pc_pengeluarans.branch_id')
             ->where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
-            ->select('pc_pengeluarans.id', 'pc_pengeluarans.branch_id', 'jenis_pengeluaran_cabangs.nama as keterangan', 'pc_pengeluarans.harga', 'pc_pengeluarans.approved', 'pc_pengeluarans.approved_fin', 'pc_pengeluarans.image_nama', 'branches.kode as kode_cabang')
+            ->select('pc_pengeluarans.id', 'pc_pengeluarans.branch_id', 'jenis_pengeluaran_cabangs.nama as keterangan', 'FORMAT(pc_pengeluarans.harga, 1) AS harga', 'pc_pengeluarans.approved', 'pc_pengeluarans.approved_fin', 'pc_pengeluarans.image_nama', 'branches.kode as kode_cabang')
             ->get();
 
         if ($pengeluaran == null) {
@@ -646,7 +646,7 @@ class CabangController extends Controller
             ->join('branches', 'branches.id', '=', 'pc_pengeluarans.branch_id')
             ->where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
-            ->select('pc_pengeluarans.id', 'pc_pengeluarans.branch_id', 'jenis_pengeluaran_cabangs.nama as keterangan', 'pc_pengeluarans.harga', 'pc_pengeluarans.approved', 'pc_pengeluarans.approved_fin', 'pc_pengeluarans.image_nama', 'branches.kode as kode_cabang')
+            ->select('pc_pengeluarans.id', 'pc_pengeluarans.branch_id', 'jenis_pengeluaran_cabangs.nama as keterangan', 'FORMAT(pc_pengeluarans.harga, 1) AS harga', 'pc_pengeluarans.approved', 'pc_pengeluarans.approved_fin', 'pc_pengeluarans.image_nama', 'branches.kode as kode_cabang')
             ->get();
 
         if ($pengeluaran == null) {
@@ -1082,7 +1082,7 @@ class CabangController extends Controller
                     ->join('branches', 'branches.id', '=', 'pc_pengeluarans.branch_id')
                     ->where('user_id', $data['id'])
                     ->where('tanggal', $data['tanggal'])
-                    ->select('pc_pengeluarans.id', 'pc_pengeluarans.branch_id', 'jenis_pengeluaran_cabangs.nama as keterangan', 'pc_pengeluarans.harga', 'pc_pengeluarans.approved', 'pc_pengeluarans.approved_fin', 'pc_pengeluarans.image_nama', 'branches.kode as kode_cabang')
+                    ->select('pc_pengeluarans.id', 'pc_pengeluarans.branch_id', 'jenis_pengeluaran_cabangs.nama as keterangan', 'FORMAT(pc_pengeluarans.harga, 1) AS harga', 'pc_pengeluarans.approved', 'pc_pengeluarans.approved_fin', 'pc_pengeluarans.image_nama', 'branches.kode as kode_cabang')
                     ->get();
 
                 if ($pengeluaran == null) {
