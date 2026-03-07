@@ -167,7 +167,7 @@ class CabangController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'total' => $total,
+            'total' => number_format($total, 1),
             'sisakas' => $sisakas,
             'bukti' => $bukti ? $bukti->path : null,
         ]);
@@ -261,7 +261,7 @@ class CabangController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'total' => $total,
+            'total' => number_format($total, 1),
             'sisakas' => $sisakas,
         ]);
     }
