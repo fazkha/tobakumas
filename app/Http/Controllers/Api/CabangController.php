@@ -795,6 +795,7 @@ FROM (
 	join gerobaks g1 on g1.id = b3.gerobak_id 
 	where u1.id = ? and m1.tanggal = ? and r1.status = 'onmove'
 	group by u2.name, g1.kode
+    order by u2.name, g1.kode
 ) r", [$data['id'], $data['tanggal']]);
 
         $this->db_switch(1);
