@@ -760,9 +760,35 @@ class CabangController extends Controller
         }
 
         $data = $validator->validated();
-        $rute = null;
 
-        $rute = DB::select("CALL sp_pc_rute_gerobak(?,?)", [$data['id'], $data['tanggal']]);
+        $data = DB::select("CALL sp_pc_rute_gerobak(?,?)", [$data['id'], $data['tanggal']]);
+
+        $geojson = [
+            "type" => "FeatureCollection",
+            "features" => collect($data)
+                ->groupBy('mitra_nama')
+                ->map(function ($items, $name) {
+                    return [
+                        "type" => "Feature",
+                        "properties" => [
+                            "id" => $name,
+                            "gerobak" => $items->first()->gerobak
+                        ],
+                        "geometry" => [
+                            "type" => "LineString",
+                            "coordinates" => $items->map(function ($item) {
+                                return [(float)$item->longitude, (float)$item->latitude];
+                            })->values()->toArray()
+                        ]
+                    ];
+                })
+                ->values()
+                ->toArray()
+        ];
+
+        dd($geojson);
+
+        return response()->json($geojson);
 
         $this->db_switch(1);
 
