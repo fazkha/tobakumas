@@ -797,6 +797,7 @@ FROM (
 	where u1.id = ? and m1.tanggal = ? and r1.status = 'onmove'
 	group by b4.kode, g1.kode, u2.name
 	order by b4.kode, g1.kode, u2.name
+    limit 10
 ) r", [$data['id'], $data['tanggal']]);
 
         $this->db_switch(1);
