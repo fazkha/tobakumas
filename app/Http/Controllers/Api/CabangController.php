@@ -784,6 +784,7 @@ FROM (
 	  JSON_ARRAY(CAST(r1.longitude AS DECIMAL(10,6)), CAST(r1.latitude AS DECIMAL(10,6)))
 	) AS coordinates
 	from mitra_omzet_pengeluarans m1
+	join branches b4 on b4.id = m1.branch_id 
 	join brandivjabs b1 on b1.branch_id = m1.branch_id and b1.jabatan_id = 4
 	join brandivjabpegs b2 on b2.brandivjab_id = b1.id and b2.isactive = 1
 	join pegawais p1 on p1.id = b2.pegawai_id
@@ -794,8 +795,8 @@ FROM (
 	join brandivjabmits b3 on b3.mitra_id = m2.id
 	join gerobaks g1 on g1.id = b3.gerobak_id 
 	where u1.id = ? and m1.tanggal = ? and r1.status = 'onmove'
-	group by u2.name, g1.kode
-    order by u2.name, g1.kode
+	group by b4.kode, g1.kode, u2.name
+	order by b4.kode, g1.kode, u2.name
 ) r", [$data['id'], $data['tanggal']]);
 
         $this->db_switch(1);
