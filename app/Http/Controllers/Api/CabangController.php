@@ -771,7 +771,7 @@ class CabangController extends Controller
                     return [
                         "type" => "Feature",
                         "properties" => [
-                            "id" => $name,
+                            "mitra" => $name,
                             "gerobak" => $items->first()->gerobak
                         ],
                         "geometry" => [
@@ -786,15 +786,11 @@ class CabangController extends Controller
                 ->toArray()
         ];
 
-        dd($geojson);
-
-        return response()->json($geojson);
-
         $this->db_switch(1);
 
         return response()->json([
             'status' => 'success',
-            'rute' => $rute,
+            'geojson' => $geojson,
         ]);
     }
 
