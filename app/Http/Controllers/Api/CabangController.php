@@ -761,45 +761,45 @@ class CabangController extends Controller
 
         $data = $validator->validated();
 
-        // $result = DB::select("CALL sp_pc_rute_gerobak(?,?)", [$data['id'], $data['tanggal']]);
-        $result = DB::selectOne("SELECT JSON_OBJECT(
-  'type', 'FeatureCollection',
-  'features', JSON_ARRAYAGG(
-    JSON_OBJECT(
-      'type', 'Feature',
-      'properties', JSON_OBJECT(
-        'cabang', kode,
-        'mitra', mitra_nama,
-        'gerobak', gerobak,
-        'color', CONCAT('#', SUBSTRING(MD5(mitra_id),1,6))
-      ),
-      'geometry', JSON_OBJECT(
-        'type', 'LineString',
-        'coordinates', coordinates
-      )
-    )
-  )
-) AS geojson
-FROM (
-	select b4.kode, u2.id as mitra_id, u2.name as mitra_nama, g1.kode as gerobak,
-	JSON_ARRAYAGG(
-	  JSON_ARRAY(CAST(r1.longitude AS DECIMAL(10,6)), CAST(r1.latitude AS DECIMAL(10,6)))
-	) AS coordinates
-	from mitra_omzet_pengeluarans m1
-	join branches b4 on b4.id = m1.branch_id 
-	join brandivjabs b1 on b1.branch_id = m1.branch_id and b1.jabatan_id = 4
-	join brandivjabpegs b2 on b2.brandivjab_id = b1.id and b2.isactive = 1
-	join pegawais p1 on p1.id = b2.pegawai_id
-	join users u1 on u1.email = p1.email
-	join users u2 on u2.id = m1.user_id
-	join rute_gerobaks r1 on r1.user_id = m1.user_id and r1.tanggal = m1.tanggal 
-	join mitras m2 on m2.email = u2.email
-	join brandivjabmits b3 on b3.mitra_id = m2.id
-	join gerobaks g1 on g1.id = b3.gerobak_id 
-	where u1.id = ? and m1.tanggal = ? and r1.status = 'onmove'
-	group by b4.kode, g1.kode, u2.id, u2.name
-	order by b4.kode, g1.kode, u2.id, u2.name
-) r", [$data['id'], $data['tanggal']]);
+        $result = DB::select("CALL sp_pc_rute_gerobak(?,?)", [$data['id'], $data['tanggal']]);
+        //         $result = DB::selectOne("SELECT JSON_OBJECT(
+        //   'type', 'FeatureCollection',
+        //   'features', JSON_ARRAYAGG(
+        //     JSON_OBJECT(
+        //       'type', 'Feature',
+        //       'properties', JSON_OBJECT(
+        //         'cabang', kode,
+        //         'mitra', mitra_nama,
+        //         'gerobak', gerobak,
+        //         'color', CONCAT('#', SUBSTRING(MD5(mitra_id),1,6))
+        //       ),
+        //       'geometry', JSON_OBJECT(
+        //         'type', 'LineString',
+        //         'coordinates', coordinates
+        //       )
+        //     )
+        //   )
+        // ) AS geojson
+        // FROM (
+        // 	select b4.kode, u2.id as mitra_id, u2.name as mitra_nama, g1.kode as gerobak,
+        // 	JSON_ARRAYAGG(
+        // 	  JSON_ARRAY(CAST(r1.longitude AS DECIMAL(10,6)), CAST(r1.latitude AS DECIMAL(10,6)))
+        // 	) AS coordinates
+        // 	from mitra_omzet_pengeluarans m1
+        // 	join branches b4 on b4.id = m1.branch_id 
+        // 	join brandivjabs b1 on b1.branch_id = m1.branch_id and b1.jabatan_id = 4
+        // 	join brandivjabpegs b2 on b2.brandivjab_id = b1.id and b2.isactive = 1
+        // 	join pegawais p1 on p1.id = b2.pegawai_id
+        // 	join users u1 on u1.email = p1.email
+        // 	join users u2 on u2.id = m1.user_id
+        // 	join rute_gerobaks r1 on r1.user_id = m1.user_id and r1.tanggal = m1.tanggal 
+        // 	join mitras m2 on m2.email = u2.email
+        // 	join brandivjabmits b3 on b3.mitra_id = m2.id
+        // 	join gerobaks g1 on g1.id = b3.gerobak_id 
+        // 	where u1.id = ? and m1.tanggal = ? and r1.status = 'onmove'
+        // 	group by b4.kode, g1.kode, u2.id, u2.name
+        // 	order by b4.kode, g1.kode, u2.id, u2.name
+        // ) r", [$data['id'], $data['tanggal']]);
 
         $this->db_switch(1);
 
