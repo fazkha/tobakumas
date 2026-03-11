@@ -762,6 +762,7 @@ class CabangController extends Controller
         $data = $validator->validated();
 
         $result = DB::select("CALL sp_pc_rute_gerobak(?,?)", [$data['id'], $data['tanggal']]);
+
         //         $result = DB::selectOne("SELECT JSON_OBJECT(
         //   'type', 'FeatureCollection',
         //   'features', JSON_ARRAYAGG(
@@ -800,13 +801,14 @@ class CabangController extends Controller
         // 	group by b4.kode, g1.kode, u2.id, u2.name
         // 	order by b4.kode, g1.kode, u2.id, u2.name
         // ) r", [$data['id'], $data['tanggal']]);
-        dd($result[0]->geojson);
+
+        dd(json_decode($result[0]->geojson));
 
         $this->db_switch(1);
 
         return response()->json([
             'status' => 'success',
-            'geojson' => json_decode($result['geojson']),
+            'geojson' => json_decode($result[0]->geojson),
         ]);
     }
 
