@@ -800,6 +800,7 @@ class CabangController extends Controller
         // 	group by b4.kode, g1.kode, u2.id, u2.name
         // 	order by b4.kode, g1.kode, u2.id, u2.name
         // ) r", [$data['id'], $data['tanggal']]);
+        dd($result);
 
         $this->db_switch(1);
 
