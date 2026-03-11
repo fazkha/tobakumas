@@ -770,7 +770,7 @@ class CabangController extends Controller
       'properties', JSON_OBJECT(
         'mitra', mitra_nama,
         'gerobak', gerobak,
-        'color', CONCAT('#', SUBSTRING(MD5(r1.user_id),1,6))
+        'color', CONCAT('#', SUBSTRING(MD5(mitra_id),1,6))
       ),
       'geometry', JSON_OBJECT(
         'type', 'LineString',
@@ -780,7 +780,7 @@ class CabangController extends Controller
   )
 ) AS geojson
 FROM (
-	select u2.name as mitra_nama, g1.kode as gerobak,
+	select u2.id as mitra_id, u2.name as mitra_nama, g1.kode as gerobak,
 	JSON_ARRAYAGG(
 	  JSON_ARRAY(CAST(r1.longitude AS DECIMAL(10,6)), CAST(r1.latitude AS DECIMAL(10,6)))
 	) AS coordinates
