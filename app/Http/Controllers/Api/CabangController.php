@@ -770,7 +770,7 @@ class CabangController extends Controller
       'properties', JSON_OBJECT(
         'mitra', mitra_nama,
         'gerobak', gerobak,
-        'color', '#ff0000'
+        'color', CONCAT('#', SUBSTRING(MD5(r1.user_id),1,6))
       ),
       'geometry', JSON_OBJECT(
         'type', 'LineString',
