@@ -805,7 +805,7 @@ class CabangController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'geojson' => json_decode($result->geojson),
+            'geojson' => json_decode($result['geojson']),
         ]);
     }
 
