@@ -802,7 +802,7 @@ class CabangController extends Controller
         // 	order by b4.kode, g1.kode, u2.id, u2.name
         // ) r", [$data['id'], $data['tanggal']]);
 
-        dd(json_decode($result[0]->geojson));
+        // dd(json_decode($result[0]->geojson));
 
         $this->db_switch(1);
 
