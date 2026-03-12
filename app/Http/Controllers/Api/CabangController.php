@@ -744,7 +744,6 @@ class CabangController extends Controller
 
         $validator = Validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
-            'tanggal' => ['required', 'date'],
         ]);
 
         if ($validator->fails()) {
@@ -761,7 +760,7 @@ class CabangController extends Controller
 
         $data = $validator->validated();
 
-        $result = DB::select("CALL sp_pc_rute_gerobak(?,?)", [$data['id'], $data['tanggal']]);
+        $result = DB::select("CALL sp_pc_rute_gerobak(?)", [$data['id']]);
 
         $this->db_switch(1);
 
