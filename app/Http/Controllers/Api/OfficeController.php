@@ -70,8 +70,7 @@ class OfficeController extends Controller
 
         $data = $validator->validated();
 
-        $email = User::where('id', $data['pc_id'])->select('email')->first();
-        dd($email);
+        $pegawai = User::where('id', $data['pc_id'])->select('email')->first();
 
         MitraPermintaanIzin::create([
             'mitra_id' => $data['mitra_id'],
@@ -79,8 +78,8 @@ class OfficeController extends Controller
             'tanggal_mulai' => $data['mulai'],
             'tanggal_selesai' => $data['selesai'],
             'keterangan' => $data['keterangan'],
-            'created_by' => $email,
-            'updated_by' => $email,
+            'created_by' => $pegawai->email,
+            'updated_by' => $pegawai->email,
         ]);
 
         $this->db_switch(1);
