@@ -3,8 +3,8 @@
 use App\Http\Controllers\Api\BranchController;
 use App\Http\Controllers\Api\CabangController;
 use App\Http\Controllers\Api\MitraController;
+use App\Http\Controllers\Api\OfficeController;
 use App\Http\Controllers\AuthController;
-use App\Models\JenisIzinPegawai;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -60,7 +60,7 @@ Route::prefix('cabang')->group(function () {
     Route::post('load-pengeluaranbulanan', [CabangController::class, 'loadPengeluaranBulanan']);
     Route::get('get-jenis-pengeluaran-list', [CabangController::class, 'getJenisPengeluaranList']);
     Route::get('get-cabang-list', [CabangController::class, 'getCabangList']);
-    Route::get('get-cabang-jabatan-list{id}', [CabangController::class, 'getCabangJabatanList']);
+    Route::get('get-cabang-jabatan-list/{id}', [CabangController::class, 'getCabangJabatanList']);
     Route::post('load-image-pengeluaran', [CabangController::class, 'loadImagePengeluaran']);
     Route::post('upload-image-pengeluaran', [CabangController::class, 'uploadImagePengeluaran']);
     Route::post('upload-bukti-transfer-sisa-kas', [CabangController::class, 'uploadBuktiTransferSisaKas']);
@@ -68,8 +68,9 @@ Route::prefix('cabang')->group(function () {
     Route::post('save-pengembalian-sisa-kas', [CabangController::class, 'saveReturPettyCash']);
 });
 
+// Office
 Route::prefix('office')->group(function () {
-    Route::get('get-jenis-izin-pegawai', [JenisIzinPegawai::class, 'getJenisIzinPegawai']);
+    Route::get('get-jenis-izin-pegawai', [OfficeController::class, 'getJenisIzinPegawai']);
 });
 
 // Sales
