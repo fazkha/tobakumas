@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\AppSetting;
 use App\Models\Branch;
+use App\Models\Brandivjabmit;
 use App\Models\Brandivjabpeg;
 use App\Models\JenisPengeluaranCabang;
+use App\Models\Mitra;
 use App\Models\MitraOmzetPengeluaran;
 use App\Models\PcKasbon;
 use App\Models\PcOmzetHarian;
@@ -41,6 +43,41 @@ class CabangController extends Controller
 
         DB::purge('mysql');
         DB::reconnect('mysql');
+    }
+
+    public function getMitraByPc(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = Validator::make($request->all(), [
+            'pc_id' => ['required', 'integer', 'exists:users,id'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+
+        $mitra = DB::select("CALL sp_mitra_by_pc(?)", [$data['pc_id']]);
+        dd($mitra);
+
+        // ->toJson();
+
+        $this->db_switch(1);
+
+        return [
+            'status' => 'success',
+            'data' => $mitra
+        ];
     }
 
     public function getCabangList(Request $request)
@@ -100,7 +137,7 @@ class CabangController extends Controller
     {
         $this->db_switch(2);
 
-        $validator = validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
         ]);
 
@@ -370,7 +407,7 @@ class CabangController extends Controller
     {
         $this->db_switch(2);
 
-        $validator = validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
             'tanggal' => ['required', 'date'],
         ]);
@@ -416,7 +453,7 @@ class CabangController extends Controller
     {
         $this->db_switch(2);
 
-        $validator = validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
             'tanggal' => ['required', 'date'],
             'cabang' => ['nullable'],
@@ -580,7 +617,7 @@ class CabangController extends Controller
     {
         $this->db_switch(2);
 
-        $validator = validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
             'tanggal' => ['required', 'date'],
             'cabang' => ['required', 'integer', 'exists:branches,id'],
@@ -949,7 +986,7 @@ class CabangController extends Controller
         $omzet = NULL;
         $id_p3 = NULL;
 
-        $user = User::where('id', $data['pc_id'])->first();
+        $user = User::where('id', $data['pc_id'])->where('isactive', 1)->first();
 
         if ($user) {
             $pegawai = Pegawai::where('email', $user->email)->first();
@@ -1013,7 +1050,7 @@ class CabangController extends Controller
     {
         $this->db_switch(2);
 
-        $validator = validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:pc_pengeluarans,id'],
         ]);
 

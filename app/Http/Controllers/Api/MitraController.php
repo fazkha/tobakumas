@@ -59,7 +59,7 @@ class MitraController extends Controller
     {
         $this->db_switch(2);
 
-        $validator = validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
             'stat' => ['required', 'string', 'max:100'],
             'locations' => ['nullable'],
@@ -145,7 +145,7 @@ class MitraController extends Controller
     {
         $this->db_switch(2);
 
-        $validator = validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
             'tanggal' => ['required', 'date'],
             'jenis' => ['required'],
@@ -191,7 +191,7 @@ class MitraController extends Controller
     {
         $this->db_switch(2);
 
-        $validator = validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
         ]);
 
@@ -229,7 +229,7 @@ class MitraController extends Controller
     {
         $this->db_switch(2);
 
-        $validator = validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:mitra_kritik_sarans,id'],
             'tanggal_jawab' => ['nullable'],
             'keterangan_jawab' => ['nullable', 'max:200'],
@@ -269,7 +269,7 @@ class MitraController extends Controller
     {
         $this->db_switch(2);
 
-        $validator = validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
         ]);
 
@@ -325,7 +325,7 @@ class MitraController extends Controller
     {
         $this->db_switch(2);
 
-        $validator = validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
             'tanggal' => ['required', 'date'],
             'omzet' => ['nullable'],
@@ -514,7 +514,7 @@ class MitraController extends Controller
     {
         $this->db_switch(2);
 
-        $validator = validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
             'tanggal' => ['required', 'date'],
         ]);
@@ -568,7 +568,7 @@ class MitraController extends Controller
     {
         $this->db_switch(2);
 
-        $validator = validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
             'tanggal' => ['required', 'date'],
             'keterangan' => ['required', 'string', 'exists:jenis_pengeluaran_mitras,nama'],
@@ -667,7 +667,7 @@ class MitraController extends Controller
     {
         $this->db_switch(2);
 
-        $validator = validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
             'tanggal' => ['required', 'date'],
         ]);
@@ -718,7 +718,7 @@ class MitraController extends Controller
     {
         $this->db_switch(2);
 
-        $validator = validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:users,id'],
         ]);
 
@@ -926,7 +926,7 @@ class MitraController extends Controller
     {
         $this->db_switch(2);
 
-        $validator = validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'id' => ['required', 'integer', 'exists:mitra_op_details,id'],
         ]);
 
