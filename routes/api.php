@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\BranchController;
 use App\Http\Controllers\Api\CabangController;
 use App\Http\Controllers\Api\MitraController;
 use App\Http\Controllers\AuthController;
+use App\Models\JenisIzinPegawai;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,45 +27,49 @@ Route::get('/get-branch-list', [BranchController::class, 'getBranchList']);
 
 // Mitra
 Route::prefix('mitra')->group(function () {
-    Route::get('/load-pengumuman', [MitraController::class, 'loadPengumuman']);
-    Route::post('/load-kritiksaran', [MitraController::class, 'loadKritikSaran']);
-    Route::post('/save-kritiksaran', [MitraController::class, 'saveKritikSaran']);
-    Route::post('/load-kritiksaran-approval', [MitraController::class, 'loadKritikSaranApproval']);
-    Route::post('/save-kritiksaran-approval', [MitraController::class, 'saveKritikSaranApproval']);
-    Route::post('/save-position', [MitraController::class, 'savePosition']);
-    Route::post('/save-omzet', [MitraController::class, 'saveOmzet']);
-    Route::post('/load-omzet', [MitraController::class, 'loadOmzet']);
-    Route::post('/load-rekap', [MitraController::class, 'loadRekap']);
-    Route::post('/load-omzet-pekanan', [MitraController::class, 'loadOmzetPekanan']);
-    Route::post('/load-biayaharian', [MitraController::class, 'loadBiayaHarian']);
-    Route::post('/approve-biayaharian', [MitraController::class, 'approveBiayaHarian']);
-    Route::delete('/hapus-pengeluaran', [MitraController::class, 'hapusPengeluaran']);
-    Route::get('/get-jenis-pengeluaran-list', [MitraController::class, 'getJenisPengeluaranList']);
-    Route::post('/load-image-pengeluaran', [MitraController::class, 'loadImagePengeluaran']);
-    Route::post('/upload-image-pengeluaran', [MitraController::class, 'uploadImagePengeluaran']);
+    Route::get('load-pengumuman', [MitraController::class, 'loadPengumuman']);
+    Route::post('load-kritiksaran', [MitraController::class, 'loadKritikSaran']);
+    Route::post('save-kritiksaran', [MitraController::class, 'saveKritikSaran']);
+    Route::post('load-kritiksaran-approval', [MitraController::class, 'loadKritikSaranApproval']);
+    Route::post('save-kritiksaran-approval', [MitraController::class, 'saveKritikSaranApproval']);
+    Route::post('save-position', [MitraController::class, 'savePosition']);
+    Route::post('save-omzet', [MitraController::class, 'saveOmzet']);
+    Route::post('load-omzet', [MitraController::class, 'loadOmzet']);
+    Route::post('load-rekap', [MitraController::class, 'loadRekap']);
+    Route::post('load-omzet-pekanan', [MitraController::class, 'loadOmzetPekanan']);
+    Route::post('load-biayaharian', [MitraController::class, 'loadBiayaHarian']);
+    Route::post('approve-biayaharian', [MitraController::class, 'approveBiayaHarian']);
+    Route::delete('hapus-pengeluaran', [MitraController::class, 'hapusPengeluaran']);
+    Route::get('get-jenis-pengeluaran-list', [MitraController::class, 'getJenisPengeluaranList']);
+    Route::post('load-image-pengeluaran', [MitraController::class, 'loadImagePengeluaran']);
+    Route::post('upload-image-pengeluaran', [MitraController::class, 'uploadImagePengeluaran']);
 });
 
 // Cabang
 Route::prefix('cabang')->group(function () {
-    Route::post('/load-peta-pc', [CabangController::class, 'loadPetaPc']);
-    Route::post('/gerobak-aktif', [CabangController::class, 'gerobakAktif']);
-    Route::post('/load-omzetbulanan', [CabangController::class, 'loadOmzetBulanan']);
-    Route::post('/load-omzettanggal', [CabangController::class, 'loadOmzetTanggal']);
-    Route::post('/load-omzetharian', [CabangController::class, 'loadOmzetHarian']);
-    Route::post('/approve-omzetharian', [CabangController::class, 'approveOmzetHarian']);
-    Route::post('/upload-bukti-transfer', [CabangController::class, 'uploadBuktiTransfer']);
-    Route::delete('/hapus-pengeluaran', [CabangController::class, 'hapusPengeluaran']);
-    Route::post('/save-pengeluaran', [CabangController::class, 'savePengeluaran']);
-    Route::post('/load-pengeluaran', [CabangController::class, 'loadPengeluaran']);
-    Route::post('/load-pengeluaranbulanan', [CabangController::class, 'loadPengeluaranBulanan']);
-    Route::get('/get-jenis-pengeluaran-list', [CabangController::class, 'getJenisPengeluaranList']);
-    Route::get('/get-cabang-list', [CabangController::class, 'getCabangList']);
-    Route::get('/get-cabang-jabatan-list/{id}', [CabangController::class, 'getCabangJabatanList']);
-    Route::post('/load-image-pengeluaran', [CabangController::class, 'loadImagePengeluaran']);
-    Route::post('/upload-image-pengeluaran', [CabangController::class, 'uploadImagePengeluaran']);
-    Route::post('/upload-bukti-transfer-sisa-kas', [CabangController::class, 'uploadBuktiTransferSisaKas']);
-    Route::post('/load-pettycash-remaining', [CabangController::class, 'loadPettyCashRemaining']);
-    Route::post('/save-pengembalian-sisa-kas', [CabangController::class, 'saveReturPettyCash']);
+    Route::post('load-peta-pc', [CabangController::class, 'loadPetaPc']);
+    Route::post('gerobak-aktif', [CabangController::class, 'gerobakAktif']);
+    Route::post('load-omzetbulanan', [CabangController::class, 'loadOmzetBulanan']);
+    Route::post('load-omzettanggal', [CabangController::class, 'loadOmzetTanggal']);
+    Route::post('load-omzetharian', [CabangController::class, 'loadOmzetHarian']);
+    Route::post('approve-omzetharian', [CabangController::class, 'approveOmzetHarian']);
+    Route::post('upload-bukti-transfer', [CabangController::class, 'uploadBuktiTransfer']);
+    Route::delete('hapus-pengeluaran', [CabangController::class, 'hapusPengeluaran']);
+    Route::post('save-pengeluaran', [CabangController::class, 'savePengeluaran']);
+    Route::post('load-pengeluaran', [CabangController::class, 'loadPengeluaran']);
+    Route::post('load-pengeluaranbulanan', [CabangController::class, 'loadPengeluaranBulanan']);
+    Route::get('get-jenis-pengeluaran-list', [CabangController::class, 'getJenisPengeluaranList']);
+    Route::get('get-cabang-list', [CabangController::class, 'getCabangList']);
+    Route::get('get-cabang-jabatan-list{id}', [CabangController::class, 'getCabangJabatanList']);
+    Route::post('load-image-pengeluaran', [CabangController::class, 'loadImagePengeluaran']);
+    Route::post('upload-image-pengeluaran', [CabangController::class, 'uploadImagePengeluaran']);
+    Route::post('upload-bukti-transfer-sisa-kas', [CabangController::class, 'uploadBuktiTransferSisaKas']);
+    Route::post('load-pettycash-remaining', [CabangController::class, 'loadPettyCashRemaining']);
+    Route::post('save-pengembalian-sisa-kas', [CabangController::class, 'saveReturPettyCash']);
+});
+
+Route::prefix('office')->group(function () {
+    Route::get('get-jenis-izin-pegawai', [JenisIzinPegawai::class, 'getJenisIzinPegawai']);
 });
 
 // Sales
