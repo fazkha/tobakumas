@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\JenisIzinPegawai;
+use App\Models\MitraPermintaanIzin;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class OfficeController extends Controller
 {
@@ -38,5 +41,52 @@ class OfficeController extends Controller
             'status' => 'success',
             'data' => $izin
         ];
+    }
+
+    public function saveIzinMitra(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = Validator::make($request->all(), [
+            'pc_id' => ['required', 'integer', 'exists:pegawais,id'],
+            'mitra_id' => ['required', 'integer', 'exists:mitras,id'],
+            'jenis_id' => ['required', 'integer', 'exists:jenis_izin_pegawais,id'],
+            'mulai' => ['required', 'date'],
+            'selesai' => ['required', 'date'],
+            'keterangan' => ['nullable', 'string'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+
+        $email = User::where('id', $data['pc_id'])->select('email')->first();
+        dd($email);
+
+        MitraPermintaanIzin::create([
+            'mitra_id' => $data['mitra_id'],
+            'jenis_izin_pegawai_id' => $data['jenis_id'],
+            'tanggal_mulai' => $data['mulai'],
+            'tanggal_selesai' => $data['selesai'],
+            'keterangan' => $data['keterangan'],
+            'created_by' => $email,
+            'updated_by' => $email,
+        ]);
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+        ]);
     }
 }
