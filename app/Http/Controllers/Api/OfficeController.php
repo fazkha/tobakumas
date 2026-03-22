@@ -48,7 +48,7 @@ class OfficeController extends Controller
         $this->db_switch(2);
 
         $validator = Validator::make($request->all(), [
-            'pc_id' => ['required', 'integer', 'exists:pegawais,id'],
+            'pc_id' => ['required', 'integer', 'exists:users,id'],
             'mitra_id' => ['required', 'integer', 'exists:mitras,id'],
             'jenis_id' => ['required', 'integer', 'exists:jenis_izin_pegawais,id'],
             'mulai' => ['required', 'date'],
