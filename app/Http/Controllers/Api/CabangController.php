@@ -55,7 +55,7 @@ class CabangController extends Controller
 
         return [
             'status' => 'success',
-            'data' => $mitra
+            'data' => $mitra['result']
         ];
     }
 
