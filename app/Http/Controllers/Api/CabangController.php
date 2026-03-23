@@ -49,25 +49,7 @@ class CabangController extends Controller
     {
         $this->db_switch(2);
 
-        $validator = Validator::make($request->all(), [
-            'id' => ['required', 'integer', 'exists:users,id'],
-        ]);
-
-        if ($validator->fails()) {
-            $errors = $validator->errors();
-
-            $this->db_switch(1);
-
-            foreach ($errors->all() as $message) {
-                return response([
-                    'message' => $message
-                ], 422);
-            }
-        }
-
-        $data = $validator->validated();
-
-        $mitra = DB::select("CALL sp_mitra_by_pc(?)", [$data['id']]);
+        $mitra = DB::select("CALL sp_mitra_by_pc(?)", [$request->id]);
 
         $this->db_switch(1);
 
