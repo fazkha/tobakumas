@@ -67,7 +67,7 @@ class CabangController extends Controller
 
         $data = $validator->validated();
 
-        $mitra = DB::select("CALL sp_mitra_by_pc(?)", $data['pc_id']);
+        $mitra = DB::select("CALL sp_mitra_by_pc(?)", [$data['pc_id']]);
         dd($mitra);
 
         $this->db_switch(1);
