@@ -50,6 +50,7 @@ class CabangController extends Controller
         $this->db_switch(2);
 
         $mitra = DB::select("CALL sp_mitra_by_pc(?)", [$request->id]);
+        dd($mitra);
 
         $this->db_switch(1);
 
