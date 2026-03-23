@@ -50,7 +50,7 @@ class CabangController extends Controller
         $this->db_switch(2);
 
         $validator = Validator::make($request->all(), [
-            'pc_id' => ['required', 'integer', 'exists:users,id'],
+            'id' => ['required', 'integer', 'exists:users,id'],
         ]);
 
         if ($validator->fails()) {
@@ -67,7 +67,7 @@ class CabangController extends Controller
 
         $data = $validator->validated();
 
-        $mitra = DB::select("CALL sp_mitra_by_pc(?)", [$data['pc_id']]);
+        $mitra = DB::select("CALL sp_mitra_by_pc(?)", [$data['id']]);
 
         $this->db_switch(1);
 
