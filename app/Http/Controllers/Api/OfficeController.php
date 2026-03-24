@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class OfficeController extends Controller
 {
@@ -52,7 +53,7 @@ class OfficeController extends Controller
             'mitra_id' => ['required', 'integer', 'exists:mitras,id'],
             'jenis_id' => ['required', 'integer', 'exists:jenis_izin_pegawais,id'],
             'mulai' => ['required', 'date'],
-            'selesai' => ['required', 'date'],
+            'selesai' => ['required', 'date', 'after:mulai'],
             'keterangan' => ['nullable', 'string'],
         ]);
 
@@ -75,8 +76,8 @@ class OfficeController extends Controller
         MitraPermintaanIzin::create([
             'mitra_id' => $data['mitra_id'],
             'jenis_izin_pegawai_id' => $data['jenis_id'],
-            'tanggal_mulai' => $data['mulai'],
-            'tanggal_selesai' => $data['selesai'],
+            'tanggal_mulai' => Carbon::parse($data['mulai'])->format('Y-m-d H:i:s'),
+            'tanggal_selesai' => Carbon::parse($data['selesai'])->format('Y-m-d H:i:s'),
             'keterangan' => $data['keterangan'],
             'created_by' => $pegawai->email,
             'updated_by' => $pegawai->email,

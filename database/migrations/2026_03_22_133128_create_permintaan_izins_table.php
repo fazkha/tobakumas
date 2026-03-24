@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('mitra_id')->constrained()->onUpdate('cascade');
             $table->foreignId('jenis_izin_pegawai_id')->constrained()->onUpdate('cascade');
-            $table->date('tanggal_mulai');
-            $table->date('tanggal_selesai');
+            $table->dateTime('tanggal_mulai');
+            $table->dateTime('tanggal_selesai');
             $table->string('keterangan', 255)->nullable();
             $table->unsignedTinyInteger('approved_hrd')->default(0);
             $table->string('created_by')->nullable();
