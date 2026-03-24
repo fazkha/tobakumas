@@ -76,8 +76,8 @@ class OfficeController extends Controller
         MitraPermintaanIzin::create([
             'mitra_id' => $data['mitra_id'],
             'jenis_izin_pegawai_id' => $data['jenis_id'],
-            'tanggal_mulai' => Carbon::parse($data['mulai'])->format('Y-m-d H:i:s'),
-            'tanggal_selesai' => Carbon::parse($data['selesai'])->format('Y-m-d H:i:s'),
+            'tanggal_mulai' => Carbon::parse($data['mulai'])->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s'),
+            'tanggal_selesai' => Carbon::parse($data['selesai'])->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s'),
             'keterangan' => $data['keterangan'],
             'created_by' => $pegawai->email,
             'updated_by' => $pegawai->email,
