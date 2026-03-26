@@ -686,6 +686,38 @@ class CabangController extends Controller
         ]);
     }
 
+    public function loadLineupMitra(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = Validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:users,id'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+
+        $lineup = DB::select("CALL sp_lineup_mitra(?)", [$data['id']]);
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'lineup' => $lineup,
+        ]);
+    }
+
     public function loadPengeluaranBulanan(Request $request)
     {
         $this->db_switch(2);
