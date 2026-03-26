@@ -965,7 +965,7 @@ class CabangController extends Controller
         $omzet = NULL;
         $id_p3 = NULL;
 
-        $user = User::where('id', $data['pc_id'])->where('isactive', 1)->first();
+        $user = User::where('id', $data['pc_id'])->where('approved', 1)->first();
 
         if ($user) {
             $pegawai = Pegawai::where('email', $user->email)->first();
