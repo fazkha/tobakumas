@@ -122,6 +122,7 @@ class CabangController extends Controller
         $validator = Validator::make($request->all(), [
             'pc_id' => ['required', 'integer', 'exists:users,id'],
             'tanggal' => ['required', 'date'],
+            'keterangan' => ['nullable', 'string'],
         ]);
 
         if ($validator->fails()) {
