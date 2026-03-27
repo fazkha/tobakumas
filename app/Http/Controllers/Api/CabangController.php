@@ -85,6 +85,9 @@ class CabangController extends Controller
             ->where('users.id', $request->id)
             ->where('brandivjabs.jabatan_id', 4)
             ->where('brandivjabpegs.isactive', 1)
+            ->where('pegawais.isactive', 1)
+            ->where('branches.isactive', 1)
+            ->where('users.approved', 1)
             ->orderByRaw('branches.kode')
             ->selectRaw('branches.id, branches.kode as name')
             ->get()
@@ -110,6 +113,38 @@ class CabangController extends Controller
             'status' => 'success',
             'data' => $jenis
         ];
+    }
+
+    public function saveOrderPc(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = Validator::make($request->all(), [
+            'pc_id' => ['required', 'integer', 'exists:users,id'],
+            'tanggal' => ['required', 'date'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+        $orders = null;
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'orders' => $orders,
+        ]);
     }
 
     public function loadPettyCashRemaining(Request $request)
