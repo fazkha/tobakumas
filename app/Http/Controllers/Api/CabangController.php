@@ -708,7 +708,7 @@ class CabangController extends Controller
 
         $data = $validator->validated();
 
-        $lineup = DB::select("CALL sp_pending_izin(?)", [$data['id']]);
+        $lineup = DB::select("CALL sp_pending_izin_mitra(?)", [$data['id']]);
 
         $this->db_switch(1);
 
