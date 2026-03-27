@@ -73,6 +73,34 @@ class CabangController extends Controller
         ];
     }
 
+    public function getCabangLongList(Request $request)
+    {
+        $this->db_switch(2);
+
+        // jabatan_id = 4 = pc
+        $cabang = Brandivjabpeg::join('brandivjabs', 'brandivjabpegs.brandivjab_id', '=', 'brandivjabs.id')
+            ->join('pegawais', 'brandivjabpegs.pegawai_id', '=', 'pegawais.id')
+            ->join('users', 'pegawais.email', '=', 'users.email')
+            ->join('branches', 'brandivjabs.branch_id', '=', 'branches.id')
+            ->where('users.id', $request->id)
+            ->where('brandivjabs.jabatan_id', 4)
+            ->where('brandivjabpegs.isactive', 1)
+            ->where('pegawais.isactive', 1)
+            ->where('branches.isactive', 1)
+            ->where('users.approved', 1)
+            ->orderByRaw('branches.kode')
+            ->selectRaw('branches.id, branches.nama as name')
+            ->get()
+            ->toJson();
+
+        $this->db_switch(1);
+
+        return [
+            'status' => 'success',
+            'data' => $cabang
+        ];
+    }
+
     public function getCabangJabatanList(Request $request)
     {
         $this->db_switch(2);
