@@ -88,7 +88,7 @@ class CabangController extends Controller
             ->where('pegawais.isactive', 1)
             ->where('branches.isactive', 1)
             ->where('users.approved', 1)
-            ->orderByRaw('branches.kode')
+            ->orderByRaw('branches.nama')
             ->selectRaw('branches.id, branches.nama as name')
             ->get()
             ->toJson();
