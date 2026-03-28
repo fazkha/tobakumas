@@ -149,6 +149,7 @@ class CabangController extends Controller
         $this->db_switch(1);
 
         $barang = Barang::join('jenis_barangs', 'jenis_barangs.id', '=', 'barangs.jenis_barang_id')
+            ->join('satuans', 'satuans.id', '=', 'barangs.satuan_jual_id')
             ->where('barangs.isactive', 1)
             ->where(function ($q) {
                 $q->whereIn('barangs.jenis_barang_id', [2, 6, 7, 8, 9, 10])
@@ -156,7 +157,7 @@ class CabangController extends Controller
             })
             ->orderBy('jenis_barangs.nama')
             ->orderBy('barangs.nama')
-            ->selectRaw('barangs.id, barangs.nama as name, jenis_barangs.nama as kelompok')
+            ->selectRaw('barangs.id, barangs.nama as name, jenis_barangs.nama as kelompok, satuans.nama_lengkap as satuan')
             ->get()
             ->toJson();
 
