@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\AppSetting;
+use App\Models\Barang;
 use App\Models\Branch;
 use App\Models\Brandivjabmit;
 use App\Models\Brandivjabpeg;
@@ -140,6 +141,27 @@ class CabangController extends Controller
         return [
             'status' => 'success',
             'data' => $jenis
+        ];
+    }
+
+    public function getBarangToko(Request $request)
+    {
+        $this->db_switch(1);
+
+        $barang = Barang::where('isactive', 1)->where(function ($q) {
+            $q->whereIn('jenis_barang_id', [2, 6, 7, 8, 9, 10])
+                ->orWhere('nama', 'like', '%gula pasir%');
+        })
+            ->orderBy('nama')
+            ->selectRaw('id, nama as name')
+            ->get()
+            ->toJson();
+
+        $this->db_switch(1);
+
+        return [
+            'status' => 'success',
+            'data' => $barang
         ];
     }
 
