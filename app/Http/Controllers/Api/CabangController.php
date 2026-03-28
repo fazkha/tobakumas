@@ -148,12 +148,14 @@ class CabangController extends Controller
     {
         $this->db_switch(1);
 
-        $barang = Barang::where('isactive', 1)->where(function ($q) {
-            $q->whereIn('jenis_barang_id', [2, 6, 7, 8, 9, 10])
-                ->orWhere('nama', 'like', '%gula pasir%');
-        })
-            ->orderBy('nama')
-            ->selectRaw('id, nama as name')
+        $barang = Barang::join('jenis_barangs', 'jenis_barangs.id', '=', 'barangs.jenis_barang_id')
+            ->where('barangs.isactive', 1)
+            ->where(function ($q) {
+                $q->whereIn('barangs.jenis_barang_id', [2, 6, 7, 8, 9, 10])
+                    ->orWhere('barangs.nama', 'like', '%gula pasir%');
+            })
+            ->orderBy('jenis_barangs.nama, barangs.nama')
+            ->selectRaw('barangs.id, barangs.nama as name, jenis_barangs.nama as kelompok')
             ->get()
             ->toJson();
 
