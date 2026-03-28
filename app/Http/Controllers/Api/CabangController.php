@@ -154,7 +154,8 @@ class CabangController extends Controller
                 $q->whereIn('barangs.jenis_barang_id', [2, 6, 7, 8, 9, 10])
                     ->orWhere('barangs.nama', 'like', '%gula pasir%');
             })
-            ->orderBy('jenis_barangs.nama, barangs.nama')
+            ->orderBy('jenis_barangs.nama')
+            ->orderBy('barangs.nama')
             ->selectRaw('barangs.id, barangs.nama as name, jenis_barangs.nama as kelompok')
             ->get()
             ->toJson();
