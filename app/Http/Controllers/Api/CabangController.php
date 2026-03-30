@@ -130,6 +130,20 @@ class CabangController extends Controller
         ];
     }
 
+    public function getGerobakByPc(Request $request)
+    {
+        $this->db_switch(2);
+
+        $mitra = DB::select("CALL sp_gerobak_by_pc(?,?)", [$request->pc_id, $request->branch_id]);
+
+        $this->db_switch(1);
+
+        return [
+            'status' => 'success',
+            'data' => $mitra[0]->result
+        ];
+    }
+
     public function getJenisPengeluaranList()
     {
         $this->db_switch(2);
