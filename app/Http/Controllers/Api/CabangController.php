@@ -166,7 +166,7 @@ class CabangController extends Controller
             ->join('satuans', 'satuans.id', '=', 'barangs.satuan_jual_id')
             ->where('barangs.isactive', 1)
             ->where(function ($q) {
-                $q->whereIn('barangs.jenis_barang_id', [2, 6, 7, 8, 9, 10])
+                $q->whereIn('barangs.jenis_barang_id', [2, 4, 6, 7, 8, 9, 10])
                     ->orWhere('barangs.nama', 'like', '%gula pasir%');
             })
             ->orderBy('jenis_barangs.nama')
