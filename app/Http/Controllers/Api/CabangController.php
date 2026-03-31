@@ -195,7 +195,7 @@ class CabangController extends Controller
             'tanggal' => ['required', 'date'],
             'keterangan' => ['nullable', 'string'],
             'barang' => ['required', 'integer'],
-            'gerobak' => ['required', 'integer', 'exists:gerobaks,id'],
+            'gerobak' => ['nullable', 'integer', 'exists:gerobaks,id'],
             'qtyBarang' => ['required', 'numeric', 'between:0,9999.99'],
         ]);
 
