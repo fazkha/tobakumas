@@ -18,6 +18,7 @@ use App\Models\PcPettyCash;
 use App\Models\Pegawai;
 use App\Models\Profile;
 use App\Models\RuteGerobak;
+use App\Models\SaleOrder;
 use App\Models\User;
 use BcMath\Number;
 use Carbon\Carbon;
@@ -189,8 +190,13 @@ class CabangController extends Controller
 
         $validator = Validator::make($request->all(), [
             'pc_id' => ['required', 'integer', 'exists:users,id'],
+            'cabang_id' => ['required', 'integer', 'exists:branches,id'],
+            'hke' => ['required', 'integer'],
             'tanggal' => ['required', 'date'],
             'keterangan' => ['nullable', 'string'],
+            'barang' => ['required', 'integer'],
+            'gerobak' => ['required', 'integer', 'exists:gerobaks,id'],
+            'qtyBarang' => ['required', 'numeric', 'between:0,9999.99'],
         ]);
 
         if ($validator->fails()) {
@@ -206,6 +212,38 @@ class CabangController extends Controller
         }
 
         $data = $validator->validated();
+
+        $this->db_switch(2);
+
+        $pc = User::where('id', $data['pc_id'])
+            ->where('approved', 1)
+            ->select('email')
+            ->first();
+
+        $this->db_switch(1);
+
+        $master = SaleOrder::where('customer_id', $data['cabang_id'])
+            ->where('branch_id', $data['cabang_id'])
+            ->where('hke', $data['hke'])
+            ->where('tanggal', $data['tanggal'])
+            ->first();
+
+        if (!$master) {
+            $master = SaleOrder::create([
+                'branch_id' => $$data['cabang_id'],
+                'customer_id' => $$data['cabang_id'],
+                'hke' => $data['hke'],
+                'tanggal' => $data['tanggal'],
+                'tunai' => 1,
+                'isactive' => 0,
+                'created_by' => $pc->email,
+                'updated_by' => $pc->email,
+                'approved' => (config('custom.sale_approval') == false) ? 1 : 0,
+                'approved_by' => (config('custom.sale_approval') == false) ? 'system' : NULL,
+                'approved_at' => (config('custom.sale_approval') == false) ? date('Y-m-d H:i:s') : NULL,
+            ]);
+        }
+
         $orders = null;
 
         $this->db_switch(1);
