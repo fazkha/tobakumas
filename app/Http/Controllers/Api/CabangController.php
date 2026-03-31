@@ -247,7 +247,7 @@ class CabangController extends Controller
         }
 
         $data = $validator->validated();
-        $orders = null;
+        $order = null;
 
         $this->db_switch(2);
 
@@ -339,7 +339,7 @@ class CabangController extends Controller
                     }
                 }
 
-                $orders = DB::select("CALL sp_order_pc(?)", [$master->id]);
+                $order = DB::select("CALL sp_order_pc_id(?)", [$data['pc_id']]);
             }
         }
 
@@ -347,7 +347,7 @@ class CabangController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'orders' => $orders,
+            'order' => $order,
         ]);
     }
 
