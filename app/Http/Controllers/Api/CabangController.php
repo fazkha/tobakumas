@@ -187,6 +187,38 @@ class CabangController extends Controller
         ];
     }
 
+    public function loadOrderPc(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = Validator::make($request->all(), [
+            'pc_id' => ['required', 'integer', 'exists:users,id'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+
+        $this->db_switch(1);
+
+        $order = DB::select("CALL sp_order_pc_id(?)", [$data['pc_id']]);
+
+        return response()->json([
+            'status' => 'success',
+            'order' => $order,
+        ]);
+    }
+
     public function saveOrderPc(Request $request)
     {
         $this->db_switch(2);

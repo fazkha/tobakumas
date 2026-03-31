@@ -72,6 +72,7 @@ Route::prefix('cabang')->group(function () {
     Route::post('upload-bukti-transfer-sisa-kas', [CabangController::class, 'uploadBuktiTransferSisaKas']);
     Route::post('load-pettycash-remaining', [CabangController::class, 'loadPettyCashRemaining']);
     Route::post('save-pengembalian-sisa-kas', [CabangController::class, 'saveReturPettyCash']);
+    Route::post('load-order-pc', [CabangController::class, 'loadOrderPc']);
     Route::post('save-order-pc', [CabangController::class, 'saveOrderPc']);
 });
 
