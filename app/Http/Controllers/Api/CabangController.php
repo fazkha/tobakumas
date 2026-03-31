@@ -230,8 +230,8 @@ class CabangController extends Controller
 
         if (!$master) {
             $master = SaleOrder::create([
-                'branch_id' => $$data['cabang_id'],
-                'customer_id' => $$data['cabang_id'],
+                'branch_id' => $data['cabang_id'],
+                'customer_id' => $data['cabang_id'],
                 'hke' => $data['hke'],
                 'tanggal' => $data['tanggal'],
                 'tunai' => 1,
