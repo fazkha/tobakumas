@@ -215,6 +215,7 @@ class CabangController extends Controller
         }
 
         $data = $validator->validated();
+        $orders = null;
 
         $this->db_switch(2);
 
@@ -305,10 +306,10 @@ class CabangController extends Controller
                         ]);
                     }
                 }
+
+                $orders = DB::select("CALL sp_order_pc(?)", [$master->id]);
             }
         }
-
-        $orders = null;
 
         $this->db_switch(1);
 
