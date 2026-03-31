@@ -8,6 +8,7 @@ use App\Models\Barang;
 use App\Models\Branch;
 use App\Models\Brandivjabmit;
 use App\Models\Brandivjabpeg;
+use App\Models\Customer;
 use App\Models\JenisPengeluaranCabang;
 use App\Models\Mitra;
 use App\Models\MitraOmzetPengeluaran;
@@ -222,7 +223,9 @@ class CabangController extends Controller
 
         $this->db_switch(1);
 
-        $master = SaleOrder::where('customer_id', $data['cabang_id'])
+        $customer = Customer::where('branch_link_id', $data['cabang_id'])->first();
+
+        $master = SaleOrder::where('customer_id', $customer->id)
             ->where('branch_id', $data['cabang_id'])
             ->where('hke', $data['hke'])
             ->where('tanggal', $data['tanggal'])
@@ -231,7 +234,7 @@ class CabangController extends Controller
         if (!$master) {
             $master = SaleOrder::create([
                 'branch_id' => $data['cabang_id'],
-                'customer_id' => $data['cabang_id'],
+                'customer_id' => $customer->id,
                 'hke' => $data['hke'],
                 'tanggal' => $data['tanggal'],
                 'tunai' => 1,
