@@ -20,6 +20,8 @@ use App\Models\Pegawai;
 use App\Models\Profile;
 use App\Models\RuteGerobak;
 use App\Models\SaleOrder;
+use App\Models\SaleOrderDetail;
+use App\Models\SaleOrderMitra;
 use App\Models\User;
 use BcMath\Number;
 use Carbon\Carbon;
@@ -225,26 +227,85 @@ class CabangController extends Controller
 
         $customer = Customer::where('branch_link_id', $data['cabang_id'])->first();
 
-        $master = SaleOrder::where('customer_id', $customer->id)
-            ->where('branch_id', $data['cabang_id'])
-            ->where('hke', $data['hke'])
-            ->where('tanggal', $data['tanggal'])
-            ->first();
+        if ($customer) {
+            $master = SaleOrder::where('customer_id', $customer->id)
+                ->where('branch_id', $data['cabang_id'])
+                ->where('hke', $data['hke'])
+                ->where('tanggal', $data['tanggal'])
+                ->first();
 
-        if (!$master) {
-            $master = SaleOrder::create([
-                'branch_id' => $data['cabang_id'],
-                'customer_id' => $customer->id,
-                'hke' => $data['hke'],
-                'tanggal' => $data['tanggal'],
-                'tunai' => 1,
-                'isactive' => 0,
-                'created_by' => $pc->email,
-                'updated_by' => $pc->email,
-                'approved' => (config('custom.sale_approval') == false) ? 1 : 0,
-                'approved_by' => (config('custom.sale_approval') == false) ? 'system' : NULL,
-                'approved_at' => (config('custom.sale_approval') == false) ? date('Y-m-d H:i:s') : NULL,
-            ]);
+            if (!$master) {
+                $master = SaleOrder::create([
+                    'branch_id' => $data['cabang_id'],
+                    'customer_id' => $customer->id,
+                    'hke' => $data['hke'],
+                    'tanggal' => $data['tanggal'],
+                    'tunai' => 1,
+                    'isactive' => 0,
+                    'created_by' => $pc->email,
+                    'updated_by' => $pc->email,
+                    'approved' => (config('custom.sale_approval') == false) ? 1 : 0,
+                    'approved_by' => (config('custom.sale_approval') == false) ? 'system' : NULL,
+                    'approved_at' => (config('custom.sale_approval') == false) ? date('Y-m-d H:i:s') : NULL,
+                ]);
+            }
+
+            $barang = Barang::where('id', $data['barang'])
+                ->where('isactive', 1)
+                ->first();
+
+            if ($barang) {
+                if ($data['gerobak']) {
+                    $detail_barang = SaleOrderMitra::where('sale_order_id', $master->id)
+                        ->where('branch_id', $data['cabang_id'])
+                        ->where('barang_id', $data['barang'])
+                        ->where('gerobak_id', $data['gerobak'])
+                        ->first();
+
+                    if (!$detail_barang) {
+                        $detail_barang = SaleOrderMitra::create([
+                            'sale_order_id' => $master->id,
+                            'branch_id' => $data['cabang_id'],
+                            'gerobak_id' => $data['gerobak'],
+                            'barang_id' => $data['barang'],
+                            'satuan_id' => $barang->satuan_jual_id,
+                            'kuantiti' => $data['qtyBarang'],
+                            'pajak' => 0,
+                            'harga_satuan' => $barang->harga_satuan_jual,
+                            'keterangan' => $data['keterangan'],
+                            'created_by' => $pc->email,
+                            'updated_by' => $pc->email,
+                            'approved' => (config('custom.sale_approval') == false) ? 1 : 0,
+                            'approved_by' => (config('custom.sale_approval') == false) ? 'system' : NULL,
+                            'approved_at' => (config('custom.sale_approval') == false) ? date('Y-m-d H:i:s') : NULL,
+                        ]);
+                    }
+                } else {
+                    $detail_barang = SaleOrderDetail::where('sale_order_id', $master->id)
+                        ->where('branch_id', $data['cabang_id'])
+                        ->where('barang_id', $data['barang'])
+                        ->first();
+
+                    if (!$detail_barang) {
+                        $detail_barang = SaleOrderDetail::create([
+                            'sale_order_id' => $master->id,
+                            'branch_id' => $data['cabang_id'],
+                            'barang_id' => $data['barang'],
+                            'satuan_id' => $barang->satuan_jual_id,
+                            'kuantiti' => $data['qtyBarang'],
+                            'stock' => $barang->stock,
+                            'pajak' => 0,
+                            'harga_satuan' => $barang->harga_satuan_jual,
+                            'keterangan' => $data['keterangan'],
+                            'created_by' => $pc->email,
+                            'updated_by' => $pc->email,
+                            'approved' => (config('custom.sale_approval') == false) ? 1 : 0,
+                            'approved_by' => (config('custom.sale_approval') == false) ? 'system' : NULL,
+                            'approved_at' => (config('custom.sale_approval') == false) ? date('Y-m-d H:i:s') : NULL,
+                        ]);
+                    }
+                }
+            }
         }
 
         $orders = null;
