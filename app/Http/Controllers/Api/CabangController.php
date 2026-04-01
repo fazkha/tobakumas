@@ -274,7 +274,7 @@ class CabangController extends Controller
                     'hke' => $data['hke'],
                     'tanggal' => $data['tanggal'],
                     'tunai' => 1,
-                    'isactive' => 0,
+                    'isactive' => 1,
                     'created_by' => $pc->email,
                     'updated_by' => $pc->email,
                     'approved' => (config('custom.sale_approval') == false) ? 1 : 0,
