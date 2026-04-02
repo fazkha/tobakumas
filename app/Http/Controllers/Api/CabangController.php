@@ -318,6 +318,7 @@ class CabangController extends Controller
                         ->where('branch_id', $data['cabang_id'])
                         ->where('barang_id', $data['barang'])
                         ->first();
+                    dd($master->id);
 
                     if (!$detail_barang) {
                         $detail_barang = SaleOrderDetail::create([
