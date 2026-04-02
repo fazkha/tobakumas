@@ -74,6 +74,7 @@ Route::prefix('cabang')->group(function () {
     Route::post('save-pengembalian-sisa-kas', [CabangController::class, 'saveReturPettyCash']);
     Route::post('load-order-pc', [CabangController::class, 'loadOrderPc']);
     Route::post('save-order-pc', [CabangController::class, 'saveOrderPc']);
+    Route::delete('hapus-order-pc', [CabangController::class, 'hapusOrderPc']);
 });
 
 // Office
