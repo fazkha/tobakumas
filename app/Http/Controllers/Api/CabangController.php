@@ -353,7 +353,7 @@ class CabangController extends Controller
 
     public function hapusOrderPc(Request $request)
     {
-        $this->db_switch(1);
+        $this->db_switch(2);
 
         $validator = Validator::make($request->all(), [
             'pc_id' => ['required', 'integer', 'exists:users,id'],
@@ -374,6 +374,8 @@ class CabangController extends Controller
         }
 
         $data = $validator->validated();
+
+        $this->db_switch(1);
 
         if ($data['grup'] = 1) {
             $detail = SaleOrderDetail::where('id', $data['order_id'])->first();
