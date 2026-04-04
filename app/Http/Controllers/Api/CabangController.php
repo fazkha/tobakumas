@@ -208,6 +208,7 @@ class CabangController extends Controller
         }
 
         $data = $validator->validated();
+        $app_setting = AppSetting::where('parm', 'pc_gagal_order_jika_nostock')->first();
 
         $this->db_switch(1);
 
@@ -216,6 +217,7 @@ class CabangController extends Controller
         return response()->json([
             'status' => 'success',
             'order' => $order,
+            'app_setting' => $app_setting->value,
         ]);
     }
 
@@ -248,8 +250,6 @@ class CabangController extends Controller
 
         $data = $validator->validated();
         $order = null;
-
-        $this->db_switch(2);
 
         $pc = User::where('id', $data['pc_id'])
             ->where('approved', 1)
