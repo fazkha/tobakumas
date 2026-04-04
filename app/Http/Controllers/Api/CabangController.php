@@ -295,7 +295,14 @@ class CabangController extends Controller
                         ->where('gerobak_id', $data['gerobak'])
                         ->first();
 
-                    if (!$detail_barang) {
+                    if ($detail_barang) {
+                        $detail_barang->update([
+                            'kuantiti' => $data['qtyBarang'],
+                            'harga_satuan' => $barang->harga_satuan_jual,
+                            'keterangan' => $data['keterangan'],
+                            'updated_by' => $pc->email,
+                        ]);
+                    } else {
                         $detail_barang = SaleOrderMitra::create([
                             'sale_order_id' => $master->id,
                             'branch_id' => $data['cabang_id'],
@@ -319,7 +326,14 @@ class CabangController extends Controller
                         ->where('barang_id', $data['barang'])
                         ->first();
 
-                    if (!$detail_barang) {
+                    if ($detail_barang) {
+                        $detail_barang->update([
+                            'kuantiti' => $data['qtyBarang'],
+                            'harga_satuan' => $barang->harga_satuan_jual,
+                            'keterangan' => $data['keterangan'],
+                            'updated_by' => $pc->email,
+                        ]);
+                    } else {
                         $detail_barang = SaleOrderDetail::create([
                             'sale_order_id' => $master->id,
                             'branch_id' => $data['cabang_id'],
