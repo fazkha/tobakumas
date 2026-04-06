@@ -88,7 +88,7 @@ class PcpettycashController extends Controller implements HasMiddleware
             return redirect()->route('dashboard');
         }
 
-        return view('pcpettycash.index', compact(['datas']))->with('i', (request()->input('page', 1) - 1) * session('pcpettycash_pp'));
+        return view('pcpettycash.index', compact(['datas', 'branches']))->with('i', (request()->input('page', 1) - 1) * session('pcpettycash_pp'));
     }
 
     public function fetchdb(Request $request): JsonResponse
@@ -122,7 +122,7 @@ class PcpettycashController extends Controller implements HasMiddleware
 
         $datas->withPath('/finance/pcpettycash'); // pagination url to
 
-        $view = view('pcpettycash.partials.table', compact(['datas']))->with('i', (request()->input('page', 1) - 1) * session('pcpettycash_pp'))->render();
+        $view = view('pcpettycash.partials.table', compact(['datas', 'branches']))->with('i', (request()->input('page', 1) - 1) * session('pcpettycash_pp'))->render();
 
         if ($view) {
             return response()->json($view, 200);
