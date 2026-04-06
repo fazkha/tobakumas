@@ -284,4 +284,9 @@ return [
     'criticism' => 'Kritik & Saran',
     'response' => 'Tanggapan',
     'receiver' => 'Penerima',
+    'finance' => 'Keuangan',
+    'pettycash' => 'Petty Cash',
+    'pcbiaya' => 'Biaya PC',
+    'mitraizin' => 'Izin Mitra',
+    'pcizin' => 'Izin PC',
 ];

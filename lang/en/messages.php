@@ -285,4 +285,9 @@ return [
     'criticism' => 'Criticism',
     'response' => 'Response',
     'receiver' => 'Receiver',
+    'finance' => 'Finance',
+    'pettycash' => 'Petty Cash',
+    'pcbiaya' => 'PC Cost',
+    'mitraizin' => 'Partner Permission',
+    'pcizin' => 'PC Permission',
 ];
