@@ -398,10 +398,12 @@
                 </div>
             @endcan
 
-            @canany(['pegawai-list', 'pengumuman-list', 'kritiksaran-list'])
+            @canany(['pegawai-list', 'pengumuman-list', 'kritiksaran-list', 'mitraizin-list', 'pcizin-list'])
                 <div x-data="{{ substr(request()->getRequestUri(), 0, 24) == '/human-resource/employee' ||
                 substr(request()->getRequestUri(), 0, 28) == '/human-resource/announcement' ||
-                substr(request()->getRequestUri(), 0, 25) == '/human-resource/criticism'
+                substr(request()->getRequestUri(), 0, 25) == '/human-resource/criticism' ||
+                substr(request()->getRequestUri(), 0, 22) == '/human-resource/pcizin' ||
+                substr(request()->getRequestUri(), 0, 25) == '/human-resource/mitraizin'
                     ? '{isActive: true, open: true}'
                     : '{isActive: false, open: false}' }}">
                     <a href="#" @click="$event.preventDefault(); open = !open"
@@ -461,7 +463,7 @@
                     @endcan
                     @can('kritiksaran-list')
                         <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="humanresource">
-                            <a href="{{ route('announcement.index') }}" role="menuitem"
+                            <a href="{{ route('criticism.index') }}" role="menuitem"
                                 class="block p-2 text-sm text-gray-500 transition-colors duration-200 rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary">
                                 <span class="flex flex-row gap-1">
                                     <svg class="size-5" viewBox="0 0 24 24" fill="none"
@@ -471,6 +473,117 @@
                                             fill="currentColor" />
                                     </svg>
                                     @lang('messages.criticism')
+                                </span>
+                            </a>
+                        </div>
+                    @endcan
+                    @can('mitraizin-list')
+                        <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="humanresource">
+                            <a href="{{ route('mitraizin.index') }}" role="menuitem"
+                                class="block p-2 text-sm text-gray-500 transition-colors duration-200 rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary">
+                                <span class="flex flex-row gap-1">
+                                    <svg class="size-5" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-4.586l-2.707 2.707a1 1 0 0 1-1.414 0L8.586 19H4a2 2 0 0 1-2-2V6zm18 0H4v11h5a1 1 0 0 1 .707.293L12 19.586l2.293-2.293A1 1 0 0 1 15 17h5V6zM6 9.5a1 1 0 0 1 1-1h10a1 1 0 1 1 0 2H7a1 1 0 0 1-1-1zm0 4a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H7a1 1 0 0 1-1-1z"
+                                            fill="currentColor" />
+                                    </svg>
+                                    @lang('messages.mitraizin')
+                                </span>
+                            </a>
+                        </div>
+                    @endcan
+                    @can('pcizin-list')
+                        <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="humanresource">
+                            <a href="{{ route('pcizin.index') }}" role="menuitem"
+                                class="block p-2 text-sm text-gray-500 transition-colors duration-200 rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary">
+                                <span class="flex flex-row gap-1">
+                                    <svg class="size-5" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-4.586l-2.707 2.707a1 1 0 0 1-1.414 0L8.586 19H4a2 2 0 0 1-2-2V6zm18 0H4v11h5a1 1 0 0 1 .707.293L12 19.586l2.293-2.293A1 1 0 0 1 15 17h5V6zM6 9.5a1 1 0 0 1 1-1h10a1 1 0 1 1 0 2H7a1 1 0 0 1-1-1zm0 4a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H7a1 1 0 0 1-1-1z"
+                                            fill="currentColor" />
+                                    </svg>
+                                    @lang('messages.pcizin')
+                                </span>
+                            </a>
+                        </div>
+                    @endcan
+                </div>
+            @endcan
+
+            @can('coa-list')
+                <div x-data="{{ substr(request()->getRequestUri(), 0, 12) == '/finance/coa' ||
+                substr(request()->getRequestUri(), 0, 20) == '/finance/pcpettycash' ||
+                substr(request()->getRequestUri(), 0, 16) == '/finance/pcbiaya'
+                    ? '{isActive: true, open: true}'
+                    : '{isActive: false, open: false}' }}">
+                    <a href="#" @click="$event.preventDefault(); open = !open"
+                        class="flex items-center p-2 text-gray-600 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary"
+                        :class="{ 'bg-primary-100 dark:bg-primary': isActive || open }" role="button"
+                        aria-haspopup="true" :aria-expanded="(open || isActive) ? 'true' : 'false'">
+                        <span aria-hidden="true">
+                            <svg fill="currentColor" class="size-5" viewBox="0 0 1000 1000"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M897 198q-24-6-87-14-81-10-164-15-13-33-47-56-42-29-99-29t-99 29q-34 23-48 56-82 5-163 15-63 8-87 14-23 5-35 18-10 11-14 27-2 12-1 25l2 10 32 296q32 298 33 306l1 6q3 14 7 20 8 10 27.5 10t25.5-14q3-7 3-24l2-100q0-21 15-36t36-16q184-4 263-4t263 4q21 1 36 15.5t15 35.5l2 101q0 17 3 24 6 14 25.5 14t27.5-10q4-6 7-20l1-6q1-8 33-306l32-296 2-10q1-13-1-25-4-16-14-27-12-13-35-18zm-43 111q-3 28-19 189l-15 156-113-3q-128-3-206-3h-1q-78 0-207 3l-112 3-15-156q-16-161-20-189-2-20 2-30t15-14q7-3 29-6h3q164-25 305-25h1q142 0 305 24l3 1q21 3 29 6 11 4 15 13.5t1 30.5zm-457 24h162q4 0 7 3t3 7v227q0 4-3 6.5t-7 2.5H397q-4 0-7-2.5t-3-6.5V343q0-4 3-7t7-3zm409 11l-122-20q-4 0-7.5 2.5T672 333l-25 158q-1 4 1.5 7t6.5 4l122 20q4 0 7.5-2t4.5-6l25-159q1-4-1.5-7t-6.5-4zm-469 17q0-4-3.5-6.5T326 353l-122 20q-4 0-6.5 3.5T196 384l25 158q1 4 4 6.5t7 1.5l123-20q4 0 6.5-3.5t1.5-7.5z" />
+                            </svg>
+                        </span>
+                        <span class="ml-2 text-sm">@lang('messages.finance')</span>
+                        <span aria-hidden="true" class="ml-auto">
+                            <svg class="w-4 h-4 transition-transform transform" :class="{ 'rotate-180': open }"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </span>
+                    </a>
+                    @can('coa-list')
+                        <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="finance">
+                            <a href="{{ route('coa.index') }}" role="menuitem"
+                                class="block p-2 text-sm text-gray-500 transition-colors duration-200 rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary">
+                                <span class="flex flex-row gap-1">
+                                    <svg fill="currentColor" class="size-5" viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M21.32,5.05l-6-2h-.07a.7.7,0,0,0-.14,0h-.23l-.13,0h-.07L9,5,3.32,3.05a1,1,0,0,0-.9.14A1,1,0,0,0,2,4V18a1,1,0,0,0,.68.95l6,2h0a1,1,0,0,0,.62,0h0L15,19.05,20.68,21A1.19,1.19,0,0,0,21,21a.94.94,0,0,0,.58-.19A1,1,0,0,0,22,20V6A1,1,0,0,0,21.32,5.05ZM8,18.61,4,17.28V5.39L8,6.72Zm6-1.33-4,1.33V6.72l4-1.33Zm6,1.33-4-1.33V5.39l4,1.33Z" />
+                                    </svg>
+                                    @lang('messages.chartofaccount')
+                                </span>
+                            </a>
+                        </div>
+                    @endcan
+                    @can('pcpettycash-list')
+                        <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="finance">
+                            <a href="{{ route('pcpettycash.index') }}" role="menuitem"
+                                class="block p-2 text-sm text-gray-500 transition-colors duration-200 rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary">
+                                <span class="flex flex-row gap-1">
+                                    <svg class="size-5" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                                        <g transform="matrix(1.1485 0 0 1.2471 -1.233 -1.917)" fill="#373737"
+                                            stroke-width=".82858px">
+                                            <rect x="1.0737" y="1.5368" width="13.931" height="12.83" fill-opacity=".25" />
+                                            <path
+                                                d="M1.074 1.537v12.83h13.93V1.538H1.075zm.835.836h2.41c-.28 1.934.04 3.95 1.045 5.678.803 1.428 1.797 2.841 1.932 4.49-.05.342.328 1.14-.312.99H1.908V2.374zm3.253 0h9.006v2.854L6.434 8.24c-.86-1.37-1.42-2.926-1.37-4.523.001-.45.035-.899.098-1.344zm9.006 3.753v7.406H8.173c.072-1.603-.46-3.177-1.312-4.56 2.435-.95 4.87-1.898 7.307-2.846z"
+                                                color="currentColor" style="-inkscape-stroke:none" />
+                                        </g>
+                                    </svg>
+                                    @lang('messages.pcpettycash')
+                                </span>
+                            </a>
+                        </div>
+                    @endcan
+                    @can('pcbiaya-list')
+                        <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="finance">
+                            <a href="{{ route('pcbiaya.index') }}" role="menuitem"
+                                class="block p-2 text-sm text-gray-500 transition-colors duration-200 rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary">
+                                <span class="flex flex-row gap-1">
+                                    <svg fill="currentColor" class="size-5" viewBox="-1.5 0 19 19"
+                                        xmlns="http://www.w3.org/2000/svg" class="cf-icon-svg">
+                                        <path
+                                            d="M15.084 15.2H.916a.264.264 0 0 1-.254-.42l2.36-4.492a.865.865 0 0 1 .696-.42h.827a9.51 9.51 0 0 0 .943 1.108H3.912l-1.637 3.116h11.45l-1.637-3.116h-1.34a9.481 9.481 0 0 0 .943-1.109h.591a.866.866 0 0 1 .696.421l2.36 4.492a.264.264 0 0 1-.254.42zM11.4 7.189c0 2.64-2.176 2.888-3.103 5.46a.182.182 0 0 1-.356 0c-.928-2.572-3.104-2.82-3.104-5.46a3.282 3.282 0 0 1 6.563 0zm-1.86-.005a1.425 1.425 0 1 0-1.425 1.425A1.425 1.425 0 0 0 9.54 7.184z" />
+                                    </svg>
+                                    @lang('messages.pcbiaya')
                                 </span>
                             </a>
                         </div>
@@ -1093,7 +1206,6 @@
             @can('user-list')
                 <div x-data="{{ substr(request()->getRequestUri(), 0, 12) == '/admin/users' ||
                 substr(request()->getRequestUri(), 0, 12) == '/admin/roles' ||
-                substr(request()->getRequestUri(), 0, 10) == '/admin/coa' ||
                 substr(request()->getRequestUri(), 0, 13) == '/admin/qrcode'
                     ? '{isActive: true, open: true}'
                     : '{isActive: false, open: false}' }}">

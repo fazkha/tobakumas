@@ -18,6 +18,10 @@ use App\Http\Controllers\KonversiController;
 use App\Http\Controllers\KritiksaranController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\MitraController;
+use App\Http\Controllers\MitraizinController;
+use App\Http\Controllers\PcbiayaController;
+use App\Http\Controllers\PcizinController;
+use App\Http\Controllers\PcpettycashController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\PengumumanController;
@@ -139,6 +143,14 @@ Route::prefix('human-resource')->middleware('auth')->group(function () {
     Route::resource('criticism', KritiksaranController::class);
     Route::get('criticism/{criticism}/delete', [KritiksaranController::class, 'delete'])->name('criticism.delete');
     Route::get('criticism/fetchdb/{pp}/{isactive}/{judul}/{keterangan}', [KritiksaranController::class, 'fetchdb'])->defaults('judul', '_')->defaults('keterangan', '_');
+
+    Route::resource('mitraizin', MitraizinController::class);
+    Route::get('mitraizin/{mitraizin}/delete', [MitraizinController::class, 'delete'])->name('mitraizin.delete');
+    Route::get('mitraizin/fetchdb/{pp}/{isactive}/{judul}/{keterangan}', [MitraizinController::class, 'fetchdb'])->defaults('judul', '_')->defaults('keterangan', '_');
+
+    Route::resource('pcizin', PcizinController::class);
+    Route::get('pcizin/{pcizin}/delete', [PcizinController::class, 'delete'])->name('pcizin.delete');
+    Route::get('pcizin/fetchdb/{pp}/{isactive}/{judul}/{keterangan}', [PcizinController::class, 'fetchdb'])->defaults('judul', '_')->defaults('keterangan', '_');
 })->missing(function (Request $request) {
     return Redirect::route('dashboard');
 });
@@ -276,7 +288,10 @@ Route::prefix('warehouse')->middleware('auth')->group(function () {
     return Redirect::route('dashboard');
 });
 
-Route::prefix('admin')->middleware('auth')->group(function () {
+Route::prefix('finance')->middleware('auth')->group(function () {
+    Route::resource('pcbiaya', PcbiayaController::class);
+    Route::resource('pcpettycash', PcpettycashController::class);
+
     Route::resource('coa', CoaController::class);
     Route::get('coa/{coa}/delete', [CoaController::class, 'delete'])->name('coa.delete');
     Route::get('coa/fetchdb/{pp}/{isactive}/{group}/{kode}/{nama}', [CoaController::class, 'fetchdb'])->defaults('group', '_')->defaults('kode', '_')->defaults('nama', '_');
