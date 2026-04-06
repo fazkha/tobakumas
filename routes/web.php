@@ -290,7 +290,9 @@ Route::prefix('warehouse')->middleware('auth')->group(function () {
 
 Route::prefix('finance')->middleware('auth')->group(function () {
     Route::resource('pcbiaya', PcbiayaController::class);
+
     Route::resource('pcpettycash', PcpettycashController::class);
+    Route::get('pcpettycash/fetchdb/{pp}/{branch}/{tanggal}', [PcpettycashController::class, 'fetchdb'])->defaults('tanggal', '_');
 
     Route::resource('coa', CoaController::class);
     Route::get('coa/{coa}/delete', [CoaController::class, 'delete'])->name('coa.delete');

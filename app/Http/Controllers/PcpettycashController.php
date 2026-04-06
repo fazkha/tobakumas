@@ -7,6 +7,7 @@ use App\Models\Kabupaten;
 use App\Models\Propinsi;
 use App\Http\Requests\BranchRequest;
 use App\Models\Kecamatan;
+use App\Models\PcPettyCash;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
@@ -14,6 +15,7 @@ use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 
 class PcpettycashController extends Controller implements HasMiddleware
@@ -29,29 +31,45 @@ class PcpettycashController extends Controller implements HasMiddleware
         ];
     }
 
+    public function db_switch($sw)
+    {
+        if ($sw == 2) {
+            Config::set('database.connections.mysql.database', config('custom.db02_dbname'));
+            Config::set('database.connections.mysql.username', config('custom.db02_username'));
+            Config::set('database.connections.mysql.password', config('custom.db02_password'));
+        } elseif ($sw == 1) {
+            Config::set('database.connections.mysql.database', config('custom.db01_dbname'));
+            Config::set('database.connections.mysql.username', config('custom.db01_username'));
+            Config::set('database.connections.mysql.password', config('custom.db01_password'));
+        }
+
+        DB::purge('mysql');
+        DB::reconnect('mysql');
+    }
+
     public function index(Request $request)
     {
-        if (!$request->session()->exists('branch_pp')) {
-            $request->session()->put('branch_pp', config('custom.list_per_page_opt_1'));
+        if (!$request->session()->exists('pcpettycash_pp')) {
+            $request->session()->put('pcpettycash_pp', config('custom.list_per_page_opt_1'));
         }
-        if (!$request->session()->exists('branch_isactive')) {
-            $request->session()->put('branch_isactive', 'all');
+        if (!$request->session()->exists('pcpettycash_branch_id')) {
+            $request->session()->put('pcpettycash_branch_id', 'all');
         }
-        if (!$request->session()->exists('branch_nama')) {
-            $request->session()->put('branch_nama', '_');
-        }
-        if (!$request->session()->exists('branch_alamat')) {
-            $request->session()->put('branch_alamat', '_');
+        if (!$request->session()->exists('pcpettycash_tanggal')) {
+            $request->session()->put('pcpettycash_tanggal', '_');
         }
 
-        $search_arr = ['branch_isactive', 'branch_nama', 'branch_alamat'];
+        $search_arr = ['pcpettycash_branch_id', 'pcpettycash_tanggal'];
 
-        $datas = Branch::query();
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+
+        $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+        $datas = PcPettyCash::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
-            $field = substr($search_arr[$i], strlen('branch_'));
+            $field = substr($search_arr[$i], strlen('pcpettycash_'));
 
-            if ($search_arr[$i] == 'branch_isactive') {
+            if ($search_arr[$i] == 'pcpettycash_branch_id') {
                 if (session($search_arr[$i]) != 'all') {
                     $datas = $datas->where([$field => session($search_arr[$i])]);
                 }
@@ -64,30 +82,30 @@ class PcpettycashController extends Controller implements HasMiddleware
             }
         }
         // $datas = $datas->where('user_id', auth()->user()->id);
-        $datas = $datas->latest()->paginate(session('branch_pp'));
+        $datas = $datas->latest()->paginate(session('pcpettycash_pp'));
 
         if ($request->page && $datas->count() == 0) {
             return redirect()->route('dashboard');
         }
 
-        return view('branch.index', compact(['datas']))->with('i', (request()->input('page', 1) - 1) * session('branch_pp'));
+        return view('pcpettycash.index', compact(['datas']))->with('i', (request()->input('page', 1) - 1) * session('pcpettycash_pp'));
     }
 
     public function fetchdb(Request $request): JsonResponse
     {
-        $request->session()->put('branch_pp', $request->pp);
-        $request->session()->put('branch_isactive', $request->isactive);
-        $request->session()->put('branch_nama', $request->nama);
-        $request->session()->put('branch_alamat', $request->alamat);
+        $request->session()->put('pcpettycash_pp', $request->pp);
+        $request->session()->put('pcpettycash_branch_id', $request->branch);
+        $request->session()->put('pcpettycash_tanggal', $request->tanggal);
 
-        $search_arr = ['branch_isactive', 'branch_nama', 'branch_alamat'];
+        $search_arr = ['pcpettycash_branch_id', 'pcpettycash_tanggal'];
 
-        $datas = Branch::query();
+        $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+        $datas = PcPettyCash::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
-            $field = substr($search_arr[$i], strlen('branch_'));
+            $field = substr($search_arr[$i], strlen('pcpettycash_'));
 
-            if ($search_arr[$i] == 'branch_isactive') {
+            if ($search_arr[$i] == 'pcpettycash_branch_id') {
                 if (session($search_arr[$i]) != 'all') {
                     $datas = $datas->where([$field => session($search_arr[$i])]);
                 }
@@ -100,11 +118,11 @@ class PcpettycashController extends Controller implements HasMiddleware
             }
         }
         // $datas = $datas->where('user_id', auth()->user()->id);
-        $datas = $datas->latest()->paginate(session('branch_pp'));
+        $datas = $datas->latest()->paginate(session('pcpettycash_pp'));
 
-        $datas->withPath('/general-affair/branch'); // pagination url to
+        $datas->withPath('/finance/pcpettycash'); // pagination url to
 
-        $view = view('branch.partials.table', compact(['datas']))->with('i', (request()->input('page', 1) - 1) * session('branch_pp'))->render();
+        $view = view('pcpettycash.partials.table', compact(['datas']))->with('i', (request()->input('page', 1) - 1) * session('pcpettycash_pp'))->render();
 
         if ($view) {
             return response()->json($view, 200);
