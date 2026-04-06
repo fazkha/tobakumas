@@ -84,6 +84,8 @@ class PcpettycashController extends Controller implements HasMiddleware
         // $datas = $datas->where('user_id', auth()->user()->id);
         $datas = $datas->latest()->paginate(session('pcpettycash_pp'));
 
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+
         if ($request->page && $datas->count() == 0) {
             return redirect()->route('dashboard');
         }
@@ -98,6 +100,8 @@ class PcpettycashController extends Controller implements HasMiddleware
         $request->session()->put('pcpettycash_tanggal', $request->tanggal);
 
         $search_arr = ['pcpettycash_branch_id', 'pcpettycash_tanggal'];
+
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $datas = PcPettyCash::query();
@@ -119,6 +123,8 @@ class PcpettycashController extends Controller implements HasMiddleware
         }
         // $datas = $datas->where('user_id', auth()->user()->id);
         $datas = $datas->latest()->paginate(session('pcpettycash_pp'));
+
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         $datas->withPath('/finance/pcpettycash'); // pagination url to
 
