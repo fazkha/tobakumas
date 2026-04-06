@@ -64,7 +64,7 @@ class PcpettycashController extends Controller implements HasMiddleware
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $datas = PcPettyCash::query();
+        $datas = PcPettyCash::where('flowtype', 1)->query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
             $field = substr($search_arr[$i], strlen('pcpettycash_'));
@@ -104,7 +104,7 @@ class PcpettycashController extends Controller implements HasMiddleware
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $datas = PcPettyCash::query();
+        $datas = PcPettyCash::where('flowtype', 1)->query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
             $field = substr($search_arr[$i], strlen('pcpettycash_'));
