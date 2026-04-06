@@ -139,11 +139,9 @@ class PcpettycashController extends Controller implements HasMiddleware
 
     public function create(): View
     {
-        $propinsis = Propinsi::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $kabupatens = Kabupaten::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $kecamatans = Kecamatan::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+        $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
 
-        return view('branch.create', compact('propinsis', 'kabupatens', 'kecamatans'));
+        return view('pcpettycash.create', compact('branches'));
     }
 
     public function store(BranchRequest $request): RedirectResponse
