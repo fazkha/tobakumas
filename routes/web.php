@@ -293,6 +293,7 @@ Route::prefix('finance')->middleware('auth')->group(function () {
 
     Route::resource('pcpettycash', PcpettycashController::class);
     Route::get('pcpettycash/fetchdb/{pp}/{branch}/{tanggal}', [PcpettycashController::class, 'fetchdb'])->defaults('tanggal', '_');
+    Route::get('pcpettycash/{id}/delete', [PcpettycashController::class, 'delete'])->name('pcpettycash.delete');
 
     Route::resource('coa', CoaController::class);
     Route::get('coa/{coa}/delete', [CoaController::class, 'delete'])->name('coa.delete');

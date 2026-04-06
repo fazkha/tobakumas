@@ -230,11 +230,11 @@ class PcpettycashController extends Controller implements HasMiddleware
 
     public function delete(Request $request): View
     {
-        $branch = Branch::find(Crypt::decrypt($request->branch));
+        $branch = Branch::find(Crypt::decrypt($request->id));
 
         $datas = $branch;
 
-        return view('branch.delete', compact(['datas']));
+        return view('pcpettycash.delete', compact(['datas']));
     }
 
     public function destroy(Request $request): RedirectResponse
