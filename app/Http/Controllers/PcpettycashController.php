@@ -64,7 +64,7 @@ class PcpettycashController extends Controller implements HasMiddleware
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $datas = PcPettyCash::where('flowtype', 1)->query();
+        $datas = PcPettyCash::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
             $field = substr($search_arr[$i], strlen('pcpettycash_'));
@@ -82,7 +82,7 @@ class PcpettycashController extends Controller implements HasMiddleware
             }
         }
         // $datas = $datas->where('user_id', auth()->user()->id);
-        $datas = $datas->orderBy('tanggal', 'desc')->latest()->paginate(session('pcpettycash_pp'));
+        $datas = $datas->where('flowtype', 1)->orderBy('tanggal', 'desc')->latest()->paginate(session('pcpettycash_pp'));
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
@@ -104,7 +104,7 @@ class PcpettycashController extends Controller implements HasMiddleware
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $datas = PcPettyCash::where('flowtype', 1)->query();
+        $datas = PcPettyCash::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
             $field = substr($search_arr[$i], strlen('pcpettycash_'));
@@ -122,7 +122,7 @@ class PcpettycashController extends Controller implements HasMiddleware
             }
         }
         // $datas = $datas->where('user_id', auth()->user()->id);
-        $datas = $datas->orderBy('tanggal', 'desc')->latest()->paginate(session('pcpettycash_pp'));
+        $datas = $datas->where('flowtype', 1)->orderBy('tanggal', 'desc')->latest()->paginate(session('pcpettycash_pp'));
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
