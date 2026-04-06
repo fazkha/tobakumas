@@ -286,7 +286,7 @@ return [
     'response' => 'Response',
     'receiver' => 'Receiver',
     'finance' => 'Finance',
-    'pettycash' => 'Petty Cash',
+    'pcpettycash' => 'Petty Cash',
     'pcbiaya' => 'PC Cost',
     'mitraizin' => 'Partner Permission',
     'pcizin' => 'PC Permission',

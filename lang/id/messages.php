@@ -285,7 +285,7 @@ return [
     'response' => 'Tanggapan',
     'receiver' => 'Penerima',
     'finance' => 'Keuangan',
-    'pettycash' => 'Petty Cash',
+    'pcpettycash' => 'Petty Cash',
     'pcbiaya' => 'Biaya PC',
     'mitraizin' => 'Izin Mitra',
     'pcizin' => 'Izin PC',
