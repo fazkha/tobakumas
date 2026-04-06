@@ -27,7 +27,7 @@
                     </g>
                 </svg>
                 <div class="relative px-2 pt-2">
-                    <span class="absolute top-0 left-2 text-xs w-40">@lang('messages.generalaffair')</span>
+                    <span class="absolute top-0 left-2 text-xs w-40">@lang('messages.finance')</span>
                     <span>@lang('messages.pcpettycash')</span>
                 </div>
             </a>

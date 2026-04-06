@@ -289,4 +289,5 @@ return [
     'pcbiaya' => 'Biaya PC',
     'mitraizin' => 'Izin Mitra',
     'pcizin' => 'Izin PC',
+    'nominal' => 'Nominal',
 ];
