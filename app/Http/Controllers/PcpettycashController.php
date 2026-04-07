@@ -230,8 +230,7 @@ class PcpettycashController extends Controller implements HasMiddleware
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         if ($request->validated()) {
-            $petty = PcPettyCash::find($request->pcpettycash);
-            dd($petty);
+            $petty = PcPettyCash::find(Crypt::decrypt($request->pcpettycash));
 
             if ($petty) {
                 $petty->update([
