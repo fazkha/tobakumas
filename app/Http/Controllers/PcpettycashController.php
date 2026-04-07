@@ -264,7 +264,7 @@ class PcpettycashController extends Controller implements HasMiddleware
                 ->where('flowType', '<>', 1)
                 ->get();
 
-            if ($child) {
+            if ($child->count() > 0) {
                 if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
                 return redirect()->route('pcpettycash.index')->with('error', 'Data has child record(s) and cannot be deleted!');
