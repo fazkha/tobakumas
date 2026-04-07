@@ -290,4 +290,5 @@ return [
     'mitraizin' => 'Izin Mitra',
     'pcizin' => 'Izin PC',
     'nominal' => 'Nominal',
+    'thousands' => 'Ribuan',
 ];

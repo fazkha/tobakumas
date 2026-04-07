@@ -291,4 +291,5 @@ return [
     'mitraizin' => 'Partner Permission',
     'pcizin' => 'PC Permission',
     'nominal' => 'Nominal',
+    'thousands' => 'Thousands',
 ];

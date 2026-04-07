@@ -86,15 +86,15 @@
                                     <div class="w-auto pb-4 lg:pb-12">
                                         <label for="nominal"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.nominal')
-                                            (@lang('messages.currencysymbol'))</label>
-                                        <x-text-input type="text" name="nominal" id="nominal" tabindex="4"
+                                            (@lang('messages.thousands') @lang('messages.currencysymbol'))</label>
+                                        <x-text-input type="text" name="nominal" id="nominal" tabindex="3"
                                             value="{{ old('nominal', 0) }}" />
 
                                         <x-input-error class="mt-2" :messages="$errors->get('nominal')" />
                                     </div>
 
                                     <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
-                                        <x-primary-button type="submit" class="block" tabindex="7">
+                                        <x-primary-button type="submit" class="block" tabindex="4">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="size-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -102,7 +102,7 @@
                                             </svg>
                                             <span class="pl-1">@lang('messages.save')</span>
                                         </x-primary-button>
-                                        <x-anchor-secondary href="{{ route('pcpettycash.index') }}" tabindex="8">
+                                        <x-anchor-secondary href="{{ route('pcpettycash.index') }}" tabindex="5">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="size-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
