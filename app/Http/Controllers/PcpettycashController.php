@@ -164,17 +164,32 @@ class PcpettycashController extends Controller implements HasMiddleware
                 ->first();
 
             if ($user) {
-                $petty = PcPettyCash::create([
-                    'branch_id' => $request->branch_id,
-                    'user_id' => $user->id,
-                    'tanggal' => $request->tanggal,
-                    'nominal' => $request->nominal,
-                    'flowtype' => 1,
-                    'approved_ma' => 1,
-                    'approved_fin' => 1,
-                    'created_by' => auth()->user()->email,
-                    'updated_by' => auth()->user()->email,
-                ]);
+                $petty = PcPettyCash::where('branch_id', $request->branch_id)
+                    ->where('user_id', $user->id)
+                    ->where('tanggal', $request->tanggal)
+                    ->where('flowtype', 1)
+                    ->first();
+
+                if ($petty) {
+                    $petty->update([
+                        'nominal' => $request->nominal,
+                        'approved_ma' => 1,
+                        'approved_fin' => 1,
+                        'updated_by' => auth()->user()->email,
+                    ]);
+                } else {
+                    $petty = PcPettyCash::create([
+                        'branch_id' => $request->branch_id,
+                        'user_id' => $user->id,
+                        'tanggal' => $request->tanggal,
+                        'nominal' => $request->nominal,
+                        'flowtype' => 1,
+                        'approved_ma' => 1,
+                        'approved_fin' => 1,
+                        'created_by' => auth()->user()->email,
+                        'updated_by' => auth()->user()->email,
+                    ]);
+                }
             }
         }
 
