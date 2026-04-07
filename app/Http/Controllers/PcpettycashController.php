@@ -204,9 +204,10 @@ class PcpettycashController extends Controller implements HasMiddleware
 
     public function show(Request $request): View
     {
-        $datas = Branch::find(Crypt::decrypt($request->branch));
+        $datas = PcPettyCash::find(Crypt::decrypt($request->pcpettycash));
+        dd($datas);
 
-        return view('branch.show', compact(['datas']));
+        return view('pcpettycash.show', compact(['datas']));
     }
 
     public function edit(Request $request): View
