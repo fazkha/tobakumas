@@ -278,16 +278,22 @@ class PcpettycashController extends Controller implements HasMiddleware
 
     public function destroy(Request $request): RedirectResponse
     {
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+
         $petty = PcPettyCash::find(Crypt::decrypt($request->pcpettycash));
 
         try {
             $petty->delete();
         } catch (\Illuminate\Database\QueryException $e) {
+            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+
             if (str_contains($e->getMessage(), 'Integrity constraint violation')) {
                 return redirect()->route('pcpettycash.index')->with('error', 'Integrity constraint violation');
             }
             return redirect()->route('pcpettycash.index')->with('error', $e->getMessage());
         }
+
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         return redirect()->route('pcpettycash.index')
             ->with('success', __('messages.successdeleted') . ' 👉 ' . $petty->tanggal);
