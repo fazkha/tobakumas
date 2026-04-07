@@ -161,11 +161,11 @@ class PcbiayaController extends Controller implements HasMiddleware
         //
     }
 
-    public function edit(Request $request): View
+    public function custome_edit(Request $request): View
     {
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
-        $datas = PcBiaya::where('branch_id', Crypt::decrypt($request->branch))
+        $datas = PcBiaya::where('branch_id', Crypt::decrypt($request->branch_id))
             ->where('tanggal', Crypt::decrypt($request->tanggal))
             ->get();
 
