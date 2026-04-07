@@ -159,6 +159,7 @@ class PcpettycashController extends Controller implements HasMiddleware
                 ->where('brandivjabpegs.isactive', 1)
                 ->where('brandivjabs.jabatan_id', 4)
                 ->where('brandivjabs.branch_id', $request->branch_id)
+                ->select('users.*')
                 ->first();
 
             if ($user) {
