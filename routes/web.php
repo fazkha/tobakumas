@@ -289,6 +289,7 @@ Route::prefix('warehouse')->middleware('auth')->group(function () {
 });
 
 Route::prefix('finance')->middleware('auth')->group(function () {
+    Route::get('pcbiaya/{branch_id}/{tanggal}/edit', [PcbiayaController::class, 'edit'])->name('pcpettycash.edit');
     Route::resource('pcbiaya', PcbiayaController::class);
     Route::get('pcbiaya/fetchdb/{pp}/{branch}/{tanggal}', [PcbiayaController::class, 'fetchdb'])->defaults('tanggal', '_');
 
