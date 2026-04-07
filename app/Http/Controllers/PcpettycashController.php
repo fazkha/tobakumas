@@ -150,8 +150,8 @@ class PcpettycashController extends Controller implements HasMiddleware
 
     public function store(PcpettycashRequest $request): RedirectResponse
     {
-        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
         dd($request->validated());
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         if ($request->validated()) {
             $user = User::join('pegawais', 'pegawais.email', '=', 'users.email')
