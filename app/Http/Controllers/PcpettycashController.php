@@ -7,8 +7,10 @@ use App\Models\Kabupaten;
 use App\Models\Propinsi;
 use App\Http\Requests\BranchRequest;
 use App\Http\Requests\PcpettycashRequest;
+use App\Models\Brandivjab;
 use App\Models\Kecamatan;
 use App\Models\PcPettyCash;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
@@ -148,36 +150,40 @@ class PcpettycashController extends Controller implements HasMiddleware
 
     public function store(PcpettycashRequest $request): RedirectResponse
     {
-        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+        if ($request->validated()) {
+            if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
-        $validator = Validator::make($request->all(), [
-            'branch_id' => ['required', 'exists:branches,id'],
-            'user_id' => ['required', 'exists:users,id'],
-            'tanggal' => ['required', 'date'],
-            'nominal' => ['required', 'numeric'],
-        ]);
+            $user = User::join('pegawais', 'pegawais.email', '=', 'users.email')
+                ->join('brandivjabpegs', 'brandivjabpegs.pegawai_id', '=', 'pegawais.id')
+                ->join('brandivjabs', 'brandivjabs.id', '=', 'brandivjabpegs.brandivjab_id')
+                ->where('brandivjabpegs.isactive', 1)
+                ->where('brandivjabs.jabatan_id', 4)
+                ->where('brandivjabs.branch_id', $request->branch_id)
+                ->first();
+            dd($user);
 
-        if ($validator->fails()) {
-            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+            $petty = PcPettyCash::create([
+                'branch_id' => $request->branch_id,
+                'user_id' => $user->id,
+                'tanggal' => $request->tanggal,
+                'nominal' => $request->nominal,
+                'flowtype' => 1,
+                'approved_ma' => 1,
+                'approved_fin' => 1,
+                'created_by' => auth()->user()->email,
+                'updated_by' => auth()->user()->email,
+            ]);
 
-            return redirect()->back()->withInput()->with('error', 'Error occured while saving!');
+            if ($petty) {
+                if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+
+                return redirect()->back()->with('success', __('messages.successadded') . ' 👉 ' . $request->nama);
+            }
         }
-
-        $petty = PcPettyCash::create([
-            'branch_id' => $request->branch_id,
-            'user_id' => $request->user_id,
-            'tanggal' => $request->tanggal,
-            'nominal' => $request->nominal,
-            'flowtype' => 1,
-            'approved_ma' => 1,
-            'approved_fin' => 1,
-            'created_by' => auth()->user()->email,
-            'updated_by' => auth()->user()->email,
-        ]);
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
-        return redirect()->back()->with('success', __('messages.successadded') . ' 👉 ' . $request->tanggal);
+        return redirect()->back()->withInput()->with('error', 'Error occured while saving!');
     }
 
     public function show(Request $request): View
