@@ -160,24 +160,25 @@ class PcpettycashController extends Controller implements HasMiddleware
                 ->where('brandivjabs.jabatan_id', 4)
                 ->where('brandivjabs.branch_id', $request->branch_id)
                 ->first();
-            dd($user);
 
-            $petty = PcPettyCash::create([
-                'branch_id' => $request->branch_id,
-                'user_id' => $user->id,
-                'tanggal' => $request->tanggal,
-                'nominal' => $request->nominal,
-                'flowtype' => 1,
-                'approved_ma' => 1,
-                'approved_fin' => 1,
-                'created_by' => auth()->user()->email,
-                'updated_by' => auth()->user()->email,
-            ]);
+            if ($user) {
+                $petty = PcPettyCash::create([
+                    'branch_id' => $request->branch_id,
+                    'user_id' => $user->id,
+                    'tanggal' => $request->tanggal,
+                    'nominal' => $request->nominal,
+                    'flowtype' => 1,
+                    'approved_ma' => 1,
+                    'approved_fin' => 1,
+                    'created_by' => auth()->user()->email,
+                    'updated_by' => auth()->user()->email,
+                ]);
 
-            if ($petty) {
-                if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+                if ($petty) {
+                    if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
-                return redirect()->back()->with('success', __('messages.successadded') . ' 👉 ' . $request->nama);
+                    return redirect()->back()->with('success', __('messages.successadded') . ' 👉 ' . $request->nama);
+                }
             }
         }
 
