@@ -15,7 +15,6 @@ class PcpettycashRequest extends FormRequest
     {
         return [
             'branch_id' => ['required', 'exists:branches,id'],
-            'user_id' => ['required', 'exists:users,id'],
             'tanggal' => ['required', 'date'],
             'nominal' => ['required', 'numeric'],
         ];
