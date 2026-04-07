@@ -215,27 +215,14 @@ class PcpettycashController extends Controller implements HasMiddleware
 
     public function edit(Request $request): View
     {
-        $datas = Branch::find(Crypt::decrypt($request->branch));
-        $propinsis = Propinsi::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $kabupatens = Kabupaten::where('isactive', 1)->where('propinsi_id', $datas->propinsi_id)->orderBy('nama')->pluck('nama', 'id');
-        $kecamatans = Kecamatan::where('isactive', 1)->where('kabupaten_id', $datas->kabupaten_id)->orderBy('nama')->pluck('nama', 'id');
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
-        $syntax = 'CALL sp_mitra_cabang(' . Crypt::decrypt($request->branch) . ')';
-        $pcmitra = DB::select($syntax);
+        $datas = PcPettyCash::find(Crypt::decrypt($request->pcpettycash));
+        $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
 
-        $initialMarkers = [
-            [
-                'position' => [
-                    'lat' => $datas->latitude ? $datas->latitude : config('custom.latitude'),
-                    'lng' => $datas->longitude ? $datas->longitude : config('custom.longitude'),
-                ],
-                'title' => $datas->nama,
-                'draggable' => $datas->latitude ? false : true
-            ],
-        ];
-        // dd($initialMarkers);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
-        return view('branch.edit', compact(['datas', 'propinsis', 'kabupatens', 'kecamatans', 'pcmitra', 'initialMarkers']));
+        return view('pcpettycash.edit', compact(['datas', 'branches']));
     }
 
     public function update(BranchRequest $request): RedirectResponse
