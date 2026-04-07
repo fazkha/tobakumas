@@ -254,59 +254,30 @@ class PcpettycashController extends Controller implements HasMiddleware
 
     public function delete(Request $request): View
     {
-        $branch = Branch::find(Crypt::decrypt($request->id));
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
-        $datas = $branch;
+        $datas = PcPettyCash::find(Crypt::decrypt($request->id));
+        $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
 
-        return view('pcpettycash.delete', compact(['datas']));
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+
+        return view('pcpettycash.delete', compact(['datas', 'branches']));
     }
 
     public function destroy(Request $request): RedirectResponse
     {
-        $branch = Branch::find(Crypt::decrypt($request->branch));
+        $petty = PcPettyCash::find(Crypt::decrypt($request->pcpettycash));
 
         try {
-            $branch->delete();
+            $petty->delete();
         } catch (\Illuminate\Database\QueryException $e) {
             if (str_contains($e->getMessage(), 'Integrity constraint violation')) {
-                return redirect()->route('branch.index')->with('error', 'Integrity constraint violation');
+                return redirect()->route('pcpettycash.index')->with('error', 'Integrity constraint violation');
             }
-            return redirect()->route('branch.index')->with('error', $e->getMessage());
+            return redirect()->route('pcpettycash.index')->with('error', $e->getMessage());
         }
 
-        return redirect()->route('branch.index')
-            ->with('success', __('messages.successdeleted') . ' 👉 ' . $branch->nama);
-    }
-
-    public function getAttribute(Request $request): JsonResponse
-    {
-        $get = Branch::find($request->id);
-
-        if ($get) {
-            $kode = $get->kode;
-            $nama = $get->nama;
-            $alamat = $get->alamat;
-            $propinsi_id = $get->propinsi_id;
-            $kabupaten_id = $get->kabupaten_id;
-            $kecamatan_id = $get->kecamatan_id;
-
-            return response()->json([
-                'kode' => $kode,
-                'nama' => $nama,
-                'alamat' => $alamat,
-                'propinsi_id' => $propinsi_id,
-                'kabupaten_id' => $kabupaten_id,
-                'kecamatan_id' => $kecamatan_id,
-            ], 200);
-        }
-
-        return response()->json([
-            'kode' => '-',
-            'nama' => '-',
-            'alamat' => '-',
-            'propinsi_id' => null,
-            'kabupaten_id' => null,
-            'kecamatan_id' => null,
-        ], 200);
+        return redirect()->route('pcpettycash.index')
+            ->with('success', __('messages.successdeleted') . ' 👉 ' . $petty->tanggal);
     }
 }

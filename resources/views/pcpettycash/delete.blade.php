@@ -1,34 +1,37 @@
 @php
     use Illuminate\Support\Facades\Crypt;
 @endphp
-@section('title', __('messages.brandivjab'))
+@section('title', __('messages.pcpettycash'))
 
 <x-app-layout>
     <div class="flex items-center justify-between px-4 py-4 border-b border-primary-100 lg:py-6 dark:border-primary-800">
         <h1 class="text-xl flex items-center justify-center">
-            <a href="{{ route('brandivjab.index') }}" class="flex items-center justify-center">
-                <svg class="size-7" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M16.4501 14.4V8.5C16.4501 7.95 16.0001 7.5 15.4501 7.5H12.55" stroke="currentColor"
-                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M14.05 6L12.25 7.5L14.05 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                        stroke-linejoin="round" />
-                    <path d="M7.55005 10.2V14.3999" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                        stroke-linejoin="round" />
-                    <path
-                        d="M7.70001 9.89999C8.77697 9.89999 9.65002 9.02697 9.65002 7.95001C9.65002 6.87306 8.77697 6 7.70001 6C6.62306 6 5.75 6.87306 5.75 7.95001C5.75 9.02697 6.62306 9.89999 7.70001 9.89999Z"
-                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                    <path
-                        d="M7.54999 17.9999C8.5441 17.9999 9.34998 17.194 9.34998 16.1999C9.34998 15.2058 8.5441 14.3999 7.54999 14.3999C6.55588 14.3999 5.75 15.2058 5.75 16.1999C5.75 17.194 6.55588 17.9999 7.54999 17.9999Z"
-                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                    <path
-                        d="M16.45 17.9999C17.4441 17.9999 18.25 17.194 18.25 16.1999C18.25 15.2058 17.4441 14.3999 16.45 14.3999C15.4559 14.3999 14.65 15.2058 14.65 16.1999C14.65 17.194 15.4559 17.9999 16.45 17.9999Z"
-                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
-                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <a href="{{ route('pcpettycash.index') }}" class="flex items-center justify-center">
+                <svg class="size-7" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 200.158 200.158"
+                    style="enable-background:new 0 0 200.158 200.158;" xml:space="preserve">
+                    <g>
+                        <g>
+                            <g>
+                                <path style="fill:#010002;"
+                                    d="M136.222,42.807c0-17.454-14.19-31.655-31.633-31.655c-17.45,0-31.651,14.201-31.651,31.655 c0,17.443,14.197,31.641,31.651,31.641C122.032,74.447,136.222,60.246,136.222,42.807z M104.588,69.397 c-14.677,0-26.602-11.928-26.602-26.594c0-14.67,11.925-26.605,26.602-26.605c14.67,0,26.598,11.935,26.598,26.605 C131.183,57.473,119.254,69.397,104.588,69.397z" />
+                                <path style="fill:#010002;"
+                                    d="M106.46,39.693c-4.166-1.775-4.842-2.731-4.842-4.341c0-1.371,0.619-3.003,3.6-3.003 c2.745,0,4.495,1.002,5.343,1.492l1.066,0.608l1.915-5.071l-0.784-0.447c-1.689-0.948-3.497-1.503-5.519-1.7v-4.581h-5.035v4.842 c-4.277,1.045-6.986,4.245-6.986,8.367c-0.011,5.103,4.212,7.455,8.335,9.076c3.579,1.446,4.32,2.874,4.32,4.57 c0,0.959-0.319,1.786-0.927,2.394c-1.818,1.829-6.442,1.22-9.359-0.709l-1.12-0.73l-1.84,5.125l0.651,0.458 c1.643,1.174,4.112,1.979,6.639,2.197v4.699h5.035v-5.025c4.427-1.034,7.358-4.474,7.358-8.783 C114.319,44.761,111.964,41.933,106.46,39.693z" />
+                                <path style="fill:#010002;"
+                                    d="M145.731,59.158c-13.439,0-24.383,10.937-24.383,24.365c0,13.439,10.948,24.361,24.383,24.361 s24.365-10.923,24.365-24.361C170.092,70.095,159.169,59.158,145.731,59.158z M145.731,103.554 c-11.055,0-20.045-8.986-20.045-20.031s8.99-20.031,20.045-20.031c11.044,0,20.024,8.986,20.024,20.031 S156.775,103.554,145.731,103.554z" />
+                                <path style="fill:#010002;"
+                                    d="M147.245,80.932c-3.038-1.296-3.525-1.968-3.525-3.089c0-1.36,0.837-2.047,2.48-2.047 c2.022,0,3.285,0.719,3.958,1.109l1.066,0.598l1.621-4.32l-0.773-0.447c-1.242-0.705-2.58-1.142-4.069-1.306v-3.522h-4.355v3.765 c-3.207,0.859-5.307,3.407-5.307,6.56c0,4.037,3.296,5.887,6.506,7.158c2.609,1.045,3.135,2.022,3.121,3.253 c0,0.651-0.208,1.217-0.608,1.632c-1.292,1.281-4.681,0.848-6.832-0.565l-1.113-0.73l-1.585,4.373l0.641,0.455 c1.242,0.884,3.081,1.503,4.975,1.711v3.611h4.32l0.021-3.883c3.386-0.87,5.604-3.547,5.604-6.896 C153.39,83.978,150.093,82.085,147.245,80.932z" />
+                            </g>
+                            <path style="fill:#010002;"
+                                d="M0,172.647h31.555v-62.576H0V172.647z M6.288,116.363h18.975v49.997H6.288V116.363z" />
+                            <path style="fill:#010002;"
+                                d="M199.299,148.733c-1.142-2.416-12.154-24.558-25.091-22.253c-3.572,0.655-6.682,3.919-10.991,8.432 c-7.333,7.712-17.386,18.288-33.426,18.288c-9.781,0-20.825-3.969-32.936-11.828l25.113-0.011c0,0,0.251,0.021,0.666,0.021 c6.585,0,10.837-3.579,10.837-9.13v-10.411l-0.064-0.623c-0.73-3.686-4.037-10.654-11.23-10.654H37.191v60.239l2.197,0.694 c2.283,0.705,55.973,17.476,75.603,17.476l0,0c0,0,0.565,0.032,1.621,0.032c8.453,0,52.13-1.782,82.228-36.898l1.317-1.546 L199.299,148.733z M116.613,182.725c-0.837,0-1.306-0.021-1.482-0.021c-16.634,0-61.216-13.331-71.652-16.516V116.86h78.692 c3.361,0,4.71,4.262,5.003,5.354v10.042c0,2.351-2.469,2.842-4.549,2.842l-45.022-0.011l7.444,5.644 c16.388,12.451,31.444,18.76,44.743,18.76c18.725,0,30.327-12.175,37.986-20.238c2.806-2.96,5.995-6.302,7.559-6.596 c6.106-0.998,13.417,9.323,17.368,16.924C164.445,181.104,124.447,182.725,116.613,182.725z" />
+                        </g>
+                    </g>
                 </svg>
                 <div class="relative px-2 pt-2">
-                    <span class="absolute top-0 left-2 text-xs w-40">@lang('messages.generalaffair')</span>
-                    <span>@lang('messages.brandivjab')</span>
+                    <span class="absolute top-0 left-2 text-xs w-40">@lang('messages.finance')</span>
+                    <span>@lang('messages.pcpettycash')</span>
                 </div>
             </a>
             <span class="px-2">&raquo;</span>
@@ -41,7 +44,7 @@
             <div class="flex flex-col items-center">
 
                 <div class="w-3/4 lg:w-1/2 shadow mb-5" role="alert">
-                    <form action="{{ route('brandivjab.destroy', Crypt::Encrypt($datas->id)) }}" class="block"
+                    <form action="{{ route('pcpettycash.destroy', Crypt::Encrypt($datas->id)) }}" class="block"
                         method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('DELETE')
@@ -71,7 +74,7 @@
                                             </svg>
                                             <span class="pl-1">@lang('messages.delete')</span>
                                         </x-primary-button>
-                                        <x-anchor-secondary href="{{ route('brandivjab.index') }}" tabindex="1"
+                                        <x-anchor-secondary href="{{ route('pcpettycash.index') }}" tabindex="1"
                                             autofocus>
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="size-5">
@@ -97,49 +100,26 @@
                                 <div class="w-auto pb-4">
                                     <span for="branch_id"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.branch')</span>
-                                    <x-text-span>{{ $datas->branch->nama }}</x-text-span>
+                                    <x-text-span>{{ $datas->cabang->nama }}</x-text-span>
                                 </div>
 
                                 <div class="w-auto pb-4">
-                                    <span for="jabatan_id"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.jobposition')</span>
-                                    <x-text-span>{{ $datas->jabatan->nama }}</x-text-span>
-                                </div>
-
-                                <div class="w-auto pb-4">
-                                    <span for="keterangan"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</span>
-                                    <x-text-span>{{ $datas->keterangan ? $datas->keterangan : '-' }}</x-text-span>
+                                    <span for="tanggal"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.transactiondate')</span>
+                                    <x-text-span>{{ $datas->tanggal }}</x-text-span>
                                 </div>
                             </div>
 
                             <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
-                                <div class="w-auto pb-4">
-                                    <span for="division_id"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.division')</span>
-                                    <x-text-span>{{ $datas->division_id ? $datas->division->nama : '-' }}</x-text-span>
-                                </div>
-
                                 <div class="w-auto pb-4 lg:pb-12">
-                                    <span for="atasan_id"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.superior')</span>
-                                    <x-text-span>{{ $datas->atasan_id ? $datas->atasan_id : '-' }}</x-text-span>
+                                    <span for="nominal"
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.nominal')
+                                        (@lang('messages.thousands') @lang('messages.currencysymbol'))</span>
+                                    <x-text-span>{{ $datas->nominal }}</x-text-span>
                                 </div>
 
                                 <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
-                                    <div class="pr-2">
-                                        <div class="inline-flex items-center">
-                                            @if ($datas->isactive == '1')
-                                                <span>✔️</span>
-                                            @endif
-                                            @if ($datas->isactive == '0')
-                                                <span>❌</span>
-                                            @endif
-                                            <span class='pl-2'>@lang('messages.active')</span>
-                                        </div>
-                                    </div>
-
-                                    <x-anchor-secondary href="{{ route('brandivjab.index') }}" tabindex="8">
+                                    <x-anchor-secondary href="{{ route('pcpettycash.index') }}" tabindex="8">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-5">
                                             <path stroke-linecap="round" stroke-linejoin="round"

@@ -60,7 +60,7 @@
 
                                 <div class="w-auto pb-4">
                                     <span for="tanggal"
-                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.date')</span>
+                                        class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.transactiondate')</span>
                                     <x-text-span>{{ $datas->tanggal }}</x-text-span>
                                 </div>
                             </div>
