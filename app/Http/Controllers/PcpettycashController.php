@@ -231,6 +231,7 @@ class PcpettycashController extends Controller implements HasMiddleware
 
         if ($request->validated()) {
             $petty = PcPettyCash::find($request->pcpettycash);
+            dd($petty);
 
             if ($petty) {
                 $petty->update([
