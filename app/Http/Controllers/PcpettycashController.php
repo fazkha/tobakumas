@@ -225,32 +225,31 @@ class PcpettycashController extends Controller implements HasMiddleware
         return view('pcpettycash.edit', compact(['datas', 'branches']));
     }
 
-    public function update(BranchRequest $request): RedirectResponse
+    public function update(PcpettycashRequest $request): RedirectResponse
     {
-        $branch = Branch::find(Crypt::decrypt($request->branch));
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         if ($request->validated()) {
+            $petty = PcPettyCash::find($request->pcpettycash);
 
-            $branch->update([
-                'propinsi_id' => $request->propinsi_id,
-                'kabupaten_id' => $request->kabupaten_id,
-                'kecamatan_id' => $request->kecamatan_id,
-                'kode' => $request->kode,
-                'nama' => $request->nama,
-                'alamat' => $request->alamat,
-                'kodepos' => $request->kodepos,
-                'keterangan' => $request->keterangan,
-                'email' => $request->email,
-                'latitude' => $request->latitude,
-                'longitude' => $request->longitude,
-                'isactive' => ($request->isactive == 'on' ? 1 : 0),
-                'updated_by' => auth()->user()->email,
-            ]);
+            if ($petty) {
+                $petty->update([
+                    'tanggal' => $request->tanggal,
+                    'nominal' => $request->nominal,
+                    'approved_ma' => 1,
+                    'approved_fin' => 1,
+                    'updated_by' => auth()->user()->email,
+                ]);
 
-            return redirect()->back()->with('success', __('messages.successupdated') . ' 👉 ' . $request->nama);
-        } else {
-            return redirect()->back()->withInput()->with('error', 'Error occured while updating!');
+                if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+
+                return redirect()->back()->with('success', __('messages.successupdated') . ' 👉 ' . $request->tanggal);
+            }
         }
+
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+
+        return redirect()->back()->withInput()->with('error', 'Error occured while updating!');
     }
 
     public function delete(Request $request): View
