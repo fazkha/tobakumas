@@ -86,7 +86,7 @@
                                 @endcan
 
                                 @can('pcbiaya-edit')
-                                    <a href="{{ route('pcbiaya.edit', ['branch' => Crypt::Encrypt($data->branch_id), 'tanggal' => $data->tanggal]) }}"
+                                    <a href="{{ route('pcbiaya.edit', ['branch_id' => Crypt::Encrypt($data->branch_id), 'tanggal' => $data->tanggal]) }}"
                                         title="{{ __('messages.edit') }}" class="ml-2">
                                         <span
                                             class="relative inline-block px-2 py-2 font-semibold text-green-800 dark:text-green-50 leading-tight">
