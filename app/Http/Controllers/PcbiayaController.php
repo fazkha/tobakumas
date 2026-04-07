@@ -65,7 +65,7 @@ class PcbiayaController extends Controller implements HasMiddleware
         $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $datas = PcBiaya::join('branches', 'branches.id', '=', 'pc_pengeluarans.branch_id')
             ->join('users', 'users.id', '=', 'pc_pengeluarans.user_id')
-            ->groupBy('pc_pengeluarans.tanggal', 'branches.nama')
+            ->groupBy('pc_pengeluarans.tanggal', 'branches.nama', 'branches.id', 'users.name')
             ->orderBy('pc_pengeluarans.tanggal', 'desc')
             ->orderBy('branches.nama')
             ->selectRaw('pc_pengeluarans.tanggal, branches.id as branch_id, branches.nama as branch_nama, users.name as pc_nama, sum(pc_pengeluarans.harga) as total_biaya');
@@ -110,7 +110,7 @@ class PcbiayaController extends Controller implements HasMiddleware
         $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $datas = PcBiaya::join('branches', 'branches.id', '=', 'pc_pengeluarans.branch_id')
             ->join('users', 'users.id', '=', 'pc_pengeluarans.user_id')
-            ->groupBy('pc_pengeluarans.tanggal', 'branches.nama')
+            ->groupBy('pc_pengeluarans.tanggal', 'branches.nama', 'branches.id', 'users.name')
             ->orderBy('pc_pengeluarans.tanggal', 'desc')
             ->orderBy('branches.nama')
             ->selectRaw('pc_pengeluarans.tanggal, branches.id as branch_id, branches.nama as branch_nama, users.name as pc_nama, sum(pc_pengeluarans.harga) as total_biaya');
