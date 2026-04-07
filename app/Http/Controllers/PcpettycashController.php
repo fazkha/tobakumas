@@ -252,12 +252,24 @@ class PcpettycashController extends Controller implements HasMiddleware
         return redirect()->back()->withInput()->with('error', 'Error occured while updating!');
     }
 
-    public function delete(Request $request): View
+    public function delete(Request $request)
     {
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $datas = PcPettyCash::find(Crypt::decrypt($request->id));
         $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+
+        if ($datas) {
+            $child = PcPettyCash::where('dropping_id', Crypt::decrypt($request->id))
+                ->where('flowType', '<>', 1)
+                ->get();
+
+            if ($child) {
+                if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+
+                return redirect()->route('pcpettycash.index')->with('error', 'Data has child record(s) and cannot be deleted!');
+            }
+        }
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
