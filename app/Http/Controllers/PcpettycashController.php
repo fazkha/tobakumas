@@ -3,12 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Branch;
-use App\Models\Kabupaten;
-use App\Models\Propinsi;
-use App\Http\Requests\BranchRequest;
 use App\Http\Requests\PcpettycashRequest;
-use App\Models\Brandivjab;
-use App\Models\Kecamatan;
 use App\Models\PcPettyCash;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -20,7 +15,6 @@ use Illuminate\View\View;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
 
 class PcpettycashController extends Controller implements HasMiddleware
 {

@@ -287,9 +287,10 @@ return [
     'receiver' => 'Receiver',
     'finance' => 'Finance',
     'pcpettycash' => 'Petty Cash',
-    'pcbiaya' => 'PC Cost',
+    'pcbiaya' => 'Cost',
     'mitraizin' => 'Partner Permission',
     'pcizin' => 'PC Permission',
     'nominal' => 'Nominal',
     'thousands' => 'Thousands',
+    'pcname' => 'PC Name',
 ];

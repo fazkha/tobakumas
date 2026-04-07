@@ -286,9 +286,10 @@ return [
     'receiver' => 'Penerima',
     'finance' => 'Keuangan',
     'pcpettycash' => 'Petty Cash',
-    'pcbiaya' => 'Biaya PC',
+    'pcbiaya' => 'Biaya',
     'mitraizin' => 'Izin Mitra',
     'pcizin' => 'Izin PC',
     'nominal' => 'Nominal',
     'thousands' => 'Ribuan',
+    'pcname' => 'Nama PC',
 ];
