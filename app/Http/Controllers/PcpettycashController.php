@@ -150,9 +150,10 @@ class PcpettycashController extends Controller implements HasMiddleware
 
     public function store(PcpettycashRequest $request): RedirectResponse
     {
-        if ($request->validated()) {
-            if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+        dd($request->validated());
 
+        if ($request->validated()) {
             $user = User::join('pegawais', 'pegawais.email', '=', 'users.email')
                 ->join('brandivjabpegs', 'brandivjabpegs.pegawai_id', '=', 'pegawais.id')
                 ->join('brandivjabs', 'brandivjabs.id', '=', 'brandivjabpegs.brandivjab_id')
@@ -160,7 +161,6 @@ class PcpettycashController extends Controller implements HasMiddleware
                 ->where('brandivjabs.jabatan_id', 4)
                 ->where('brandivjabs.branch_id', $request->branch_id)
                 ->first();
-            dd($user);
 
             $petty = PcPettyCash::create([
                 'branch_id' => $request->branch_id,
