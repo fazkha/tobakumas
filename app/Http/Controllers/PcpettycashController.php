@@ -151,6 +151,7 @@ class PcpettycashController extends Controller implements HasMiddleware
     public function store(PcpettycashRequest $request): RedirectResponse
     {
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+        $petty = null;
 
         if ($request->validated()) {
             $user = User::join('pegawais', 'pegawais.email', '=', 'users.email')
@@ -174,18 +175,16 @@ class PcpettycashController extends Controller implements HasMiddleware
                     'created_by' => auth()->user()->email,
                     'updated_by' => auth()->user()->email,
                 ]);
-
-                if ($petty) {
-                    if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
-
-                    return redirect()->back()->with('success', __('messages.successadded') . ' 👉 ' . $request->nama);
-                }
             }
         }
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
-        return redirect()->back()->withInput()->with('error', 'Error occured while saving!');
+        if ($petty) {
+            return redirect()->back()->with('success', __('messages.successadded') . ' 👉 ' . $request->tanggal);
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Error occured while saving!');
+        }
     }
 
     public function show(Request $request): View
