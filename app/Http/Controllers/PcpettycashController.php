@@ -204,8 +204,12 @@ class PcpettycashController extends Controller implements HasMiddleware
 
     public function show(Request $request): View
     {
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+
         $datas = PcPettyCash::find(Crypt::decrypt($request->pcpettycash));
         dd($datas);
+
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         return view('pcpettycash.show', compact(['datas']));
     }
