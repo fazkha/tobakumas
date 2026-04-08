@@ -173,7 +173,7 @@ class PcbiayaController extends Controller implements HasMiddleware
 
     public function editt(Request $request): View
     {
-        dd($request->all());
+        dd($request->branch_id);
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
