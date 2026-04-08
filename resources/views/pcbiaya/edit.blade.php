@@ -1,6 +1,5 @@
 @php
     use Illuminate\Support\Facades\Crypt;
-    dd($details);
 @endphp
 @section('title', __('messages.pcbiaya'))
 
@@ -69,7 +68,7 @@
                                 <div class="w-auto pb-4 lg:pb-12">
                                     <span for="pc_nama"
                                         class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.pcname')</span>
-                                    <x-text-span>{{ $details[0]->pc->name }}</x-text-span>
+                                    <x-text-span>{{ $details[0]->pc_nama }}</x-text-span>
                                 </div>
 
                                 <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">

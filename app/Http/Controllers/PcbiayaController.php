@@ -175,8 +175,11 @@ class PcbiayaController extends Controller implements HasMiddleware
     {
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
-        $details = PcBiaya::where('branch_id', Crypt::decrypt($request->branch_id))
-            ->where('tanggal', Crypt::decrypt($request->tanggal))
+        $details = PcBiaya::join('users', 'users.id', '=', 'pc_pengeluarans.user_id')
+            ->join('jenis_pengeluaran_cabangs', 'jenis_pengeluaran_cabangs.id', '=', 'pc_pengeluarans.jenis_pengeluaran_cabang_id')
+            ->where('pc_pengeluarans.branch_id', Crypt::decrypt($request->branch_id))
+            ->where('pc_pengeluarans.tanggal', Crypt::decrypt($request->tanggal))
+            ->select('pc_pengeluarans.*', 'users.name as pc_nama', 'jenis_pengeluaran_cabangs.nama as jenis_nama')
             ->get();
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
