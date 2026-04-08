@@ -166,7 +166,7 @@ class PcbiayaController extends Controller implements HasMiddleware
         //
     }
 
-    public function custome_edit(Request $request): View
+    public function editt(Request $request): View
     {
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
