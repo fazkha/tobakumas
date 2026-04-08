@@ -151,7 +151,7 @@ class PcbiayaController extends Controller implements HasMiddleware
         //
     }
 
-    public function store(PcbiayaRequest $request)
+    public function store(Request $request)
     {
         //
     }
@@ -166,21 +166,26 @@ class PcbiayaController extends Controller implements HasMiddleware
         //
     }
 
+    public function update(Request $request)
+    {
+        //
+    }
+
     public function editt(Request $request): View
     {
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
-        $datas = PcBiaya::where('branch_id', Crypt::decrypt($request->branch_id))
+        $details = PcBiaya::where('branch_id', Crypt::decrypt($request->branch_id))
             ->where('tanggal', Crypt::decrypt($request->tanggal))
             ->get();
-        dd($datas);
+        dd($details);
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
-        return view('pcbiaya.edit', compact(['datas']));
+        return view('pcbiaya.edit', compact(['details']));
     }
 
-    public function update(PcbiayaRequest $request): RedirectResponse
+    public function updatee(Request $request): RedirectResponse
     {
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 

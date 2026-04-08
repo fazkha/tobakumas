@@ -292,4 +292,5 @@ return [
     'nominal' => 'Nominal',
     'thousands' => 'Ribuan',
     'pcname' => 'Nama PC',
+    'totalcost' => 'Total Biaya',
 ];
