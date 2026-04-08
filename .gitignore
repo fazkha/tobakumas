@@ -5,6 +5,7 @@
 /public/storage
 /storage/*.key
 /vendor
+/config
 /tmp
 *.zip
 .env
@@ -23,3 +24,4 @@ composer.json
 composer.lock
 package.json
 package-lock.json
+config/custom.php
