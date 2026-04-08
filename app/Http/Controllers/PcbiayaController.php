@@ -175,10 +175,10 @@ class PcbiayaController extends Controller implements HasMiddleware
     {
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
+        dd($request->all());
         $details = PcBiaya::where('branch_id', Crypt::decrypt($request->branch_id))
             ->where('tanggal', Crypt::decrypt($request->tanggal))
             ->get();
-        dd($details);
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
