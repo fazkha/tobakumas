@@ -24,7 +24,7 @@ class PcbiayaController extends Controller implements HasMiddleware
         return [
             new Middleware('permission:pcbiaya-list', only: ['index', 'fetch']),
             new Middleware('permission:pcbiaya-create', only: ['create', 'store']),
-            new Middleware('permission:pcbiaya-edit', only: ['edit', 'update']),
+            new Middleware('permission:pcbiaya-edit', only: ['edit', 'update', 'editt']),
             new Middleware('permission:pcbiaya-show', only: ['show']),
             new Middleware('permission:pcbiaya-delete', only: ['delete', 'destroy']),
         ];
@@ -173,13 +173,12 @@ class PcbiayaController extends Controller implements HasMiddleware
 
     public function editt(Request $request): View
     {
-        dd($request->branch_id);
-
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $details = PcBiaya::where('branch_id', Crypt::decrypt($request->branch_id))
             ->where('tanggal', Crypt::decrypt($request->tanggal))
             ->get();
+        dd($details);
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
