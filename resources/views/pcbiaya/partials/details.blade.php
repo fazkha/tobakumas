@@ -11,7 +11,14 @@
                 <x-text-span>{{ $detail->harga }}</x-text-span>
             </td>
             <td class="align-top">
-                <x-text-span>{{ $detail->jenis_nama }}</x-text-span>
+                <div class="flex items-center justify-center">
+                    <button
+                        @click="openModal = true; modalTitle = '{{ $detail->jenis_nama }}'; $refs.imgRef.src = '{{ $detail->image_nama ? asset($detail->image_lokasi . '/' . $detail->image_nama) : asset('images/0cd6be830e32f80192d496e50cfa9dbc.jpg') }}'">
+                        <img class="w-20 h-auto rounded-md"
+                            src="{{ $detail->image_nama ? asset($detail->image_lokasi . '/' . $detail->image_nama) : asset('images/0cd6be830e32f80192d496e50cfa9dbc.jpg') }}"
+                            alt="o.o" />
+                    </button>
+                </div>
             </td>
             <td class="align-top text-center">
                 <label class="cursor-pointer">
