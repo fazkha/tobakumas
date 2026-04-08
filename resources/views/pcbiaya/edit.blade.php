@@ -97,7 +97,7 @@
             </div>
 
             <form
-                action="{{ route('pcbiaya.updatee', ['branch_id' => Crypt::Encrypt($datas[0]->branch_id), 'tanggal' => Crypt::Encrypt($datas[0]->tanggal)]) }}"
+                action="{{ route('pcbiaya.updatee', ['branch_id' => Crypt::Encrypt($details[0]->branch_id), 'tanggal' => Crypt::Encrypt($details[0]->tanggal)]) }}"
                 method="POST" enctype="multipart/form-data">
                 @csrf
 
