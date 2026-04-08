@@ -1,5 +1,6 @@
 @php
     use Illuminate\Support\Facades\Crypt;
+    dd($details[0]->pc);
 @endphp
 @section('title', __('messages.pcbiaya'))
 
