@@ -13,8 +13,8 @@
             <td class="align-top">
                 <x-text-span>{{ $detail->jenis_nama }}</x-text-span>
             </td>
-            <td class="align-top">
-                <label class="cursor-pointer flex flex-row gap-2 items-end">
+            <td class="align-top text-center">
+                <label class="cursor-pointer">
                     <input type="checkbox" name="approved_fin[]" value="{{ $detail->approved_fin }}"
                         @php if ($i < count($details)) {
                         if ($details[$i]->approved_fin == $detail->approved_fin) {
