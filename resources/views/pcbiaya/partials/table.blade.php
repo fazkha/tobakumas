@@ -70,7 +70,7 @@
                             style="vertical-align: middle;">
                             <div class="flex items-center justify-center">
                                 @can('pcbiaya-edit')
-                                    <a href="{{ route('pcbiaya.editt', ['branch_id' => Crypt::Encrypt($data->branch_id), 'tanggal' => $data->tanggal]) }}"
+                                    <a href="{{ route('pcbiaya.editt', ['branch_id' => Crypt::Encrypt($data->branch_id), 'tanggal' => Crypt::Encrypt($data->tanggal)]) }}"
                                         title="{{ __('messages.edit') }}" class="ml-2">
                                         <span
                                             class="relative inline-block px-2 py-2 font-semibold text-green-800 dark:text-green-50 leading-tight">
