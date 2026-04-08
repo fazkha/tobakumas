@@ -22,7 +22,7 @@ class PcBiaya extends Model
         'approved_fin',
     ];
 
-    public function user()
+    public function pc()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
