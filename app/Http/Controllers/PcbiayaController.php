@@ -178,7 +178,6 @@ class PcbiayaController extends Controller implements HasMiddleware
         $details = PcBiaya::where('branch_id', Crypt::decrypt($request->branch_id))
             ->where('tanggal', Crypt::decrypt($request->tanggal))
             ->get();
-        dd($details[0]->pc->name);
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
