@@ -5,6 +5,7 @@
     @foreach ($details as $detail)
         <tr>
             <td class="align-middle">
+                <input type="hidden" name="detail_id[]" value="{{ $detail->id }}">
                 <x-text-span>{{ $detail->jenis_nama }}</x-text-span>
             </td>
             <td class="align-middle text-right">

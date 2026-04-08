@@ -191,27 +191,25 @@ class PcbiayaController extends Controller implements HasMiddleware
     {
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
-        if ($request->validated()) {
-            $biaya = PcBiaya::find(Crypt::decrypt($request->pcbiaya));
+        $ids = $request->input('detail_id');
+        $approveds = $request->input('approved_fin');
+        $i = 0;
 
-            if ($biaya) {
-                $biaya->update([
-                    'tanggal' => $request->tanggal,
-                    'nominal' => $request->nominal,
-                    'approved_ma' => 1,
-                    'approved_fin' => 1,
-                    'updated_by' => auth()->user()->email,
-                ]);
+        foreach ($ids as $id) {
+            $biaya = PcBiaya::find($id);
 
-                if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+            $biaya->update([
+                'approved' => $approveds[$i],
+                'approved_fin' => $approveds[$i],
+                'updated_by' => auth()->user()->email,
+            ]);
 
-                return redirect()->back()->with('success', __('messages.successupdated') . ' 👉 ' . $request->tanggal);
-            }
+            $i++;
         }
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
-        return redirect()->back()->withInput()->with('error', 'Error occured while updating!');
+        return redirect()->back()->with('success', __('messages.successupdated'));
     }
 
     public function delete(Request $request)
