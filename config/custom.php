@@ -2,7 +2,7 @@
 
 return [
     // app version
-    'version' => '1.27.0',
+    'version' => '1.31.0',
 
     // company name
     'company_name' => 'Laris Manis Gemilang Jaya',
@@ -12,18 +12,12 @@ return [
     'product_name' => 'Toko Bahan Baku & Kemasan',
 
     // Database
-    'db01_dbname' => 'dbtlm',
-    'db01_username' => 'root',
-    'db01_password' => '',
-    'db02_dbname' => 'dbtlm',
-    'db02_username' => 'root',
-    'db02_password' => '',
-    // 'db01_dbname' => 'tobakuma_01',
-    // 'db01_username' => 'tobakuma_dbadmin',
-    // 'db01_password' => 'SaA(o-6y55a0TQ',
-    // 'db02_dbname' => 'tobakuma_02',
-    // 'db02_username' => 'tobakuma_dbadmin',
-    // 'db02_password' => 'SaA(o-6y55a0TQ',
+    'db01_dbname' => 'tobakuma_01',
+    'db01_username' => 'tobakuma_dbadmin',
+    'db01_password' => 'SaA(o-6y55a0TQ',
+    'db02_dbname' => 'tobakuma_02',
+    'db02_username' => 'tobakuma_dbadmin',
+    'db02_password' => 'SaA(o-6y55a0TQ',
 
     // list per page
     'list_per_page_opt_1' => 15,
