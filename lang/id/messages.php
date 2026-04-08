@@ -293,4 +293,6 @@ return [
     'thousands' => 'Ribuan',
     'pcname' => 'Nama PC',
     'totalcost' => 'Total Biaya',
+    'costtype' => 'Jenis Biaya',
+    'cost' => 'Biaya',
 ];

@@ -294,4 +294,6 @@ return [
     'thousands' => 'Thousands',
     'pcname' => 'PC Name',
     'totalcost' => 'Total Cost',
+    'costtype' => 'Cost Type',
+    'cost' => 'Cost',
 ];

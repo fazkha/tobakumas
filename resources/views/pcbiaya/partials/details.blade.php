@@ -5,12 +5,15 @@
     @foreach ($details as $detail)
         <tr>
             <td class="align-top">
+                <x-text-span>{{ $detail->jenis_nama }}</x-text-span>
+            </td>
+            <td class="align-top text-right">
+                <x-text-span>{{ $detail->harga }}</x-text-span>
             </td>
             <td class="align-top">
+                <x-text-span>{{ $detail->jenis_nama }}</x-text-span>
             </td>
-            <td class="align-top">
-            </td>
-            <td class="align-top">
+            <td class="align-top text-center">
                 <span class="">
                     <label class="cursor-pointer flex flex-row gap-2 items-center">
                         <input type="checkbox" name="approved_fin[]" value="{{ $detail->approved_fin }}"
