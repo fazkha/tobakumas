@@ -96,70 +96,70 @@
                 </div>
             </div>
 
-            {{-- <form
+            <form
                 action="{{ route('pcbiaya.updatee', ['branch_id' => Crypt::Encrypt($details[0]->branch_id), 'tanggal' => Crypt::Encrypt($details[0]->tanggal)]) }}"
                 method="POST" enctype="multipart/form-data">
-                @csrf --}}
+                @csrf
 
-            <div class="flex flex-col lg:flex-row gap-4 px-4 py-2">
-                <div class="w-full">
-                    <div class="flex flex-col items-center">
+                <div class="flex flex-col lg:flex-row gap-4 px-4 py-2">
+                    <div class="w-full">
+                        <div class="flex flex-col items-center">
 
-                        {{-- Detail --}}
-                        <div
-                            class="w-full shadow-lg bg-primary-50 rounded-md border border-primary-100 dark:bg-primary-900 dark:border-primary-800">
-                            <div class="p-4 space-y-2">
-                                <div class="flex flex-row items-center gap-2">
-                                    <svg class="size-5" viewBox="0 0 32 32" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <g clip-path="url(#clip0_901_1341)">
-                                            <path
-                                                d="M15 17C15 15.343 13.657 14 12 14M12 14C10.343 14 9 15.343 9 17C9 18.657 10.343 20 12 20C13.657 20 15 21.343 15 23C15 24.657 13.657 26 12 26M12 14V13M12 26C10.343 26 9 24.657 9 23M12 26V27M22 31H31V29M25 26H31V24M26 21H31V19M26 16H31V14M23 11H31V9M10 6H31V1H7V6M23 20C23 13.926 18.074 9 12 9C5.926 9 1 13.926 1 20C1 26.074 5.926 31 12 31C18.074 31 23 26.074 23 20Z"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </g>
-                                        <defs>
-                                            <clipPath id="clip0_901_1341">
-                                                <rect width="32" height="32" fill="white" />
-                                            </clipPath>
-                                        </defs>
-                                    </svg>
-                                    <span class="block font-medium text-primary-600 dark:text-primary-500">
-                                        @lang('messages.cost')
-                                    </span>
-                                </div>
+                            {{-- Detail --}}
+                            <div
+                                class="w-full shadow-lg bg-primary-50 rounded-md border border-primary-100 dark:bg-primary-900 dark:border-primary-800">
+                                <div class="p-4 space-y-2">
+                                    <div class="flex flex-row items-center gap-2">
+                                        <svg class="size-5" viewBox="0 0 32 32" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <g clip-path="url(#clip0_901_1341)">
+                                                <path
+                                                    d="M15 17C15 15.343 13.657 14 12 14M12 14C10.343 14 9 15.343 9 17C9 18.657 10.343 20 12 20C13.657 20 15 21.343 15 23C15 24.657 13.657 26 12 26M12 14V13M12 26C10.343 26 9 24.657 9 23M12 26V27M22 31H31V29M25 26H31V24M26 21H31V19M26 16H31V14M23 11H31V9M10 6H31V1H7V6M23 20C23 13.926 18.074 9 12 9C5.926 9 1 13.926 1 20C1 26.074 5.926 31 12 31C18.074 31 23 26.074 23 20Z"
+                                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </g>
+                                            <defs>
+                                                <clipPath id="clip0_901_1341">
+                                                    <rect width="32" height="32" fill="white" />
+                                                </clipPath>
+                                            </defs>
+                                        </svg>
+                                        <span class="block font-medium text-primary-600 dark:text-primary-500">
+                                            @lang('messages.cost')
+                                        </span>
+                                    </div>
 
-                                <div
-                                    class="border rounded-md border-primary-100 bg-primary-100 dark:border-primary-800 dark:bg-primary-850">
-                                    <div class="p-2 overflow-scroll md:overflow-auto lg:overflow-hidden">
-                                        <table id="order_table" class="w-full border-separate border-spacing-2">
-                                            <thead>
-                                                <tr>
-                                                    <th class="w-1/4">@lang('messages.costtype')</th>
-                                                    <th class="w-auto">@lang('messages.cost') (@lang('messages.thousands')
-                                                        @lang('messages.currencysymbol'))</th>
-                                                    <th class="w-auto">@lang('messages.attachment')</th>
-                                                    <th class="w-auto text-center">@lang('messages.approval')</th>
-                                                </tr>
-                                            </thead>
+                                    <div
+                                        class="border rounded-md border-primary-100 bg-primary-100 dark:border-primary-800 dark:bg-primary-850">
+                                        <div class="p-2 overflow-scroll md:overflow-auto lg:overflow-hidden">
+                                            <table id="order_table" class="w-full border-separate border-spacing-2">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="w-1/4">@lang('messages.costtype')</th>
+                                                        <th class="w-auto">@lang('messages.cost') (@lang('messages.thousands')
+                                                            @lang('messages.currencysymbol'))</th>
+                                                        <th class="w-auto">@lang('messages.attachment')</th>
+                                                        <th class="w-auto text-center">@lang('messages.approval')</th>
+                                                    </tr>
+                                                </thead>
 
-                                            <tbody id="detailBody">
-                                                @include('pcbiaya.partials.details', [
-                                                    $details,
-                                                    'viewMode' => false,
-                                                ])
-                                            </tbody>
+                                                <tbody id="detailBody">
+                                                    @include('pcbiaya.partials.details', [
+                                                        $details,
+                                                        'viewMode' => false,
+                                                    ])
+                                                </tbody>
 
-                                        </table>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            {{-- </form> --}}
+            </form>
         </div>
 
         <div x-show.transition.duration.500ms="openModal"
