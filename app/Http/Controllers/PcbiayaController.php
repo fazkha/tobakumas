@@ -195,14 +195,11 @@ class PcbiayaController extends Controller implements HasMiddleware
         $approveds = $request->input('approved', []);
         $approved_fins = $request->input('approved_fin', []);
         $i = 0;
-        dd($approved_fins);
 
         foreach ($ids as $id) {
-            $biaya = PcBiaya::find($id);
-
-            $biaya->update([
-                'approved' => $approveds[$i],
-                'approved_fin' => $approveds[$i],
+            $biaya = PcBiaya::where('id', $id)->update([
+                'approved' => isset($approved_fins[$i]) ? 1 : 0,
+                'approved_fin' => isset($approved_fins[$i]) ? 1 : 0,
                 'updated_by' => auth()->user()->email,
             ]);
 
