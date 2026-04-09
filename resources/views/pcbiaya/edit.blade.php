@@ -120,7 +120,7 @@
                                         <table id="order_table" class="w-full border-separate border-spacing-2">
                                             <thead>
                                                 <tr>
-                                                    <th class="w-1/4">@lang('messages.costtype')</th>
+                                                    <th class="w-1/3">@lang('messages.costtype')</th>
                                                     <th class="w-auto">@lang('messages.cost') (@lang('messages.thousands')
                                                         @lang('messages.currencysymbol'))</th>
                                                     <th class="w-auto">@lang('messages.attachment')</th>
