@@ -200,7 +200,6 @@ class PcbiayaController extends Controller implements HasMiddleware
             $biaya = PcBiaya::where('id', $id)->update([
                 'approved' => isset($approved_fins[$i]) ? 1 : 0,
                 'approved_fin' => isset($approved_fins[$i]) ? 1 : 0,
-                'updated_by' => auth()->user()->email,
             ]);
 
             $i++;
