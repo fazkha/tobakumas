@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Branch;
-use App\Http\Requests\PcbiayaRequest;
-use App\Models\JenisPengeluaranCabang;
 use App\Models\PcBiaya;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
@@ -24,7 +21,7 @@ class PcbiayaController extends Controller implements HasMiddleware
         return [
             new Middleware('permission:pcbiaya-list', only: ['index', 'fetch']),
             new Middleware('permission:pcbiaya-create', only: ['create', 'store']),
-            new Middleware('permission:pcbiaya-edit', only: ['edit', 'update', 'editt']),
+            new Middleware('permission:pcbiaya-edit', only: ['edit', 'update', 'editt', 'updatee']),
             new Middleware('permission:pcbiaya-show', only: ['show']),
             new Middleware('permission:pcbiaya-delete', only: ['delete', 'destroy']),
         ];
