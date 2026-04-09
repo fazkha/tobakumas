@@ -32,9 +32,7 @@
         </tr>
         @php
             if ($i < count($details)) {
-                if ($details[$i]->approved_fin == $detail->approved_fin) {
-                    $i++;
-                }
+                $i++;
             }
         @endphp
     @endforeach
