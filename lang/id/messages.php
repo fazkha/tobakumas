@@ -295,4 +295,6 @@ return [
     'totalcost' => 'Total Biaya',
     'costtype' => 'Jenis Biaya',
     'cost' => 'Biaya',
+    'mitraname' => 'Nama Mitra',
+    'izin' => 'Izin',
 ];

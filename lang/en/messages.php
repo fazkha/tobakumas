@@ -296,4 +296,6 @@ return [
     'totalcost' => 'Total Cost',
     'costtype' => 'Cost Type',
     'cost' => 'Cost',
+    'mitraname' => 'Partner Name',
+    'izin' => 'Permission',
 ];
