@@ -13,12 +13,9 @@
             </td>
             <td class="align-middle">
                 <div class="flex items-center justify-center">
-                    <button
-                        @click="openModal = true; modalTitle = '{{ $detail->jenis_nama }}'; $refs.imgRef.src = '{{ $detail->image_nama ? asset($detail->image_lokasi . '/' . $detail->image_nama) : asset('images/0cd6be830e32f80192d496e50cfa9dbc.jpg') }}'">
-                        <img class="w-auto h-9 rounded-md"
-                            src="{{ $detail->image_nama ? asset($detail->image_lokasi . '/' . $detail->image_nama) : asset('images/0cd6be830e32f80192d496e50cfa9dbc.jpg') }}"
-                            alt="o.o" />
-                    </button>
+                    <img class="zoomable w-auto h-9 rounded-md"
+                        src="{{ $detail->image_nama ? asset($detail->image_lokasi . '/' . $detail->image_nama) : asset('images/0cd6be830e32f80192d496e50cfa9dbc.jpg') }}"
+                        alt="o.o" />
                 </div>
             </td>
             <td class="align-middle text-center">
