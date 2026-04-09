@@ -29,77 +29,79 @@
         </h1>
     </div>
 
-    <div x-data="{
-        openModal: false,
-        imagePreview: '{{ asset('images/0cd6be830e32f80192d496e50cfa9dbc.jpg') }}',
-        modalTitle: 'Title'
-    }" class="w-full overflow-x-auto">
-        <div class="py-2 flex flex-col">
+    <form
+        action="{{ route('pcbiaya.updatee', ['branch_id' => Crypt::Encrypt($details[0]->branch_id), 'tanggal' => Crypt::Encrypt($details[0]->tanggal)]) }}"
+        method="POST" enctype="multipart/form-data">
+        @csrf
 
-            <div class="w-full px-4 py-2">
-                <div class="flex flex-col items-center">
+        <div x-data="{
+            openModal: false,
+            imagePreview: '{{ asset('images/0cd6be830e32f80192d496e50cfa9dbc.jpg') }}',
+            modalTitle: 'Title'
+        }" class="w-full overflow-x-auto">
+            <div class="py-2 flex flex-col">
 
-                    <div class="w-full" role="alert">
-                        @include('pcbiaya.partials.feedback')
-                    </div>
+                <div class="w-full px-4 py-2">
+                    <div class="flex flex-col items-center">
 
-                    {{-- Master --}}
-                    <div
-                        class="w-full shadow-lg bg-primary-50 rounded-md border border-primary-100 dark:bg-primary-900 dark:border-primary-800">
-                        <div class="p-4 space-y-2">
+                        <div class="w-full" role="alert">
+                            @include('pcbiaya.partials.feedback')
+                        </div>
 
-                            <div class="flex flex-col lg:flex-row">
-                                <div class="w-full lg:w-1/2 px-2">
+                        {{-- Master --}}
+                        <div
+                            class="w-full shadow-lg bg-primary-50 rounded-md border border-primary-100 dark:bg-primary-900 dark:border-primary-800">
+                            <div class="p-4 space-y-2">
 
-                                    <div class="w-auto pb-4">
-                                        <span for="branch_id"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.branch')</span>
-                                        <x-text-span>{{ $details[0]->cabang->nama }}</x-text-span>
+                                <div class="flex flex-col lg:flex-row">
+                                    <div class="w-full lg:w-1/2 px-2">
+
+                                        <div class="w-auto pb-4">
+                                            <span for="branch_id"
+                                                class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.branch')</span>
+                                            <x-text-span>{{ $details[0]->cabang->nama }}</x-text-span>
+                                        </div>
+
+                                        <div class="w-auto pb-4">
+                                            <span for="tanggal"
+                                                class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.transactiondate')</span>
+                                            <x-text-span>{{ $details[0]->tanggal }}</x-text-span>
+                                        </div>
                                     </div>
 
-                                    <div class="w-auto pb-4">
-                                        <span for="tanggal"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.transactiondate')</span>
-                                        <x-text-span>{{ $details[0]->tanggal }}</x-text-span>
-                                    </div>
-                                </div>
+                                    <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
+                                        <div class="w-auto pb-4 lg:pb-12">
+                                            <span for="pc_nama"
+                                                class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.pcname')</span>
+                                            <x-text-span>{{ $details[0]->pc_nama }}</x-text-span>
+                                        </div>
 
-                                <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
-                                    <div class="w-auto pb-4 lg:pb-12">
-                                        <span for="pc_nama"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.pcname')</span>
-                                        <x-text-span>{{ $details[0]->pc_nama }}</x-text-span>
-                                    </div>
-
-                                    <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
-                                        <x-primary-button type="submit" class="block" tabindex="7">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="currentColor" class="size-5">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
-                                            </svg>
-                                            <span class="pl-1">@lang('messages.save')</span>
-                                        </x-primary-button>
-                                        <x-anchor-secondary href="{{ route('pcbiaya.index') }}" tabindex="8">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="currentColor" class="size-5">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M6 18 18 6M6 6l12 12" />
-                                            </svg>
-                                            <span class="pl-1">@lang('messages.close')</span>
-                                        </x-anchor-secondary>
+                                        <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
+                                            <x-primary-button type="submit" class="block" tabindex="7">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                    class="size-5">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
+                                                </svg>
+                                                <span class="pl-1">@lang('messages.save')</span>
+                                            </x-primary-button>
+                                            <x-anchor-secondary href="{{ route('pcbiaya.index') }}" tabindex="8">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                    class="size-5">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M6 18 18 6M6 6l12 12" />
+                                                </svg>
+                                                <span class="pl-1">@lang('messages.close')</span>
+                                            </x-anchor-secondary>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <form
-                action="{{ route('pcbiaya.updatee', ['branch_id' => Crypt::Encrypt($details[0]->branch_id), 'tanggal' => Crypt::Encrypt($details[0]->tanggal)]) }}"
-                method="POST" enctype="multipart/form-data">
-                @csrf
 
                 <div class="flex flex-col lg:flex-row gap-4 px-4 py-2">
                     <div class="w-full">
@@ -158,32 +160,33 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
-            </form>
-        </div>
-
-        <div x-show.transition.duration.500ms="openModal"
-            class="fixed inset-0 flex items-center justify-center px-4 md:px-0 bg-white bg-opacity-75 dark:bg-black dark:bg-opacity-75">
-            <div @click.away="openModal = false"
-                class="flex flex-col p-6 h-auto w-auto shadow-2xl rounded-lg border-2 bg-white border-gray-400 dark:bg-gray-700 dark:border-gray-900">
-                <div class="flex justify-between mb-4">
-                    <div class="font-bold text-lg text-gray-900 dark:text-gray-50"><span x-html="modalTitle"></span>
+            <div x-show.transition.duration.500ms="openModal"
+                class="fixed inset-0 flex items-center justify-center px-4 md:px-0 bg-white bg-opacity-75 dark:bg-black dark:bg-opacity-75">
+                <div @click.away="openModal = false"
+                    class="flex flex-col p-6 h-auto w-auto shadow-2xl rounded-lg border-2 bg-white border-gray-400 dark:bg-gray-700 dark:border-gray-900">
+                    <div class="flex justify-between mb-4">
+                        <div class="font-bold text-lg text-gray-900 dark:text-gray-50">
+                            <span x-html="modalTitle"></span>
+                        </div>
+                        <button @click="openModal = false">
+                            <svg class="w-5 h-5 text-gray-900 dark:text-gray-50" viewBox="0 0 24 24"
+                                fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M5.293 5.293a1 1 0 0 1 1.414 0L12 10.586l5.293-5.293a1 1 0 1 1 1.414 1.414L13.414 12l5.293 5.293a1 1 0 0 1-1.414 1.414L12 13.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L10.586 12 5.293 6.707a1 1 0 0 1 0-1.414z"
+                                    fill="currentColor" />
+                            </svg>
+                        </button>
                     </div>
-                    <button @click="openModal = false">
-                        <svg class="w-5 h-5 text-gray-900 dark:text-gray-50" viewBox="0 0 24 24" fill="currentColor"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M5.293 5.293a1 1 0 0 1 1.414 0L12 10.586l5.293-5.293a1 1 0 1 1 1.414 1.414L13.414 12l5.293 5.293a1 1 0 0 1-1.414 1.414L12 13.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L10.586 12 5.293 6.707a1 1 0 0 1 0-1.414z"
-                                fill="currentColor" />
-                        </svg>
-                    </button>
-                </div>
-                <div class="flex items-center justify-center overflow-hidden rounded-lg">
-                    <img x-ref="imgRef" src="" class="w-auto h-full max-h-96" />
+                    <div class="flex items-center justify-center overflow-hidden rounded-lg">
+                        <img x-ref="imgRef" src="" class="w-auto h-full max-h-96" />
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+
+    </form>
 
     @push('scripts')
     @endpush
