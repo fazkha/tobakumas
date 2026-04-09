@@ -21,7 +21,7 @@
             <td class="align-middle text-center">
                 <label class="cursor-pointer">
                     <input type="hidden" name="approved[{{ $i }}]" value="0">
-                    <input type="checkbox" name="approved_fin[]" value="{{ $detail->approved_fin }}"
+                    <input type="checkbox" name="approved_fin[{{ $i }}]" value="{{ $detail->approved_fin }}"
                         @php if ($i < count($details)) {
                         if ($details[$i]->approved_fin == $detail->approved_fin) {
                             echo 'checked';

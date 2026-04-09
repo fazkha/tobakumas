@@ -192,10 +192,10 @@ class PcbiayaController extends Controller implements HasMiddleware
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $ids = $request->input('detail_id');
-        $approveds = $request->input('approved');
-        $approved_fins = $request->input('approved_fin');
+        $approveds = $request->input('approved', []);
+        $approved_fins = $request->input('approved_fin', []);
         $i = 0;
-        dd($approveds);
+        dd($approved_fins);
 
         foreach ($ids as $id) {
             $biaya = PcBiaya::find($id);
