@@ -2,8 +2,6 @@
     use Illuminate\Support\Facades\Crypt;
 @endphp
 @section('title', __('messages.pcbiaya'))
-@push('styles')
-@endpush
 
 <x-app-layout>
     <div class="flex items-center justify-between px-4 py-4 border-b border-primary-100 lg:py-6 dark:border-primary-800">
@@ -34,11 +32,6 @@
     <form action="{{ route('pcbiaya.updatee') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
-        {{-- <div x-data="{
-            openModal: false,
-            imagePreview: '{{ asset('images/0cd6be830e32f80192d496e50cfa9dbc.jpg') }}',
-            modalTitle: 'Title'
-        }" class="w-full overflow-x-auto"> --}}
         <div class="py-2 flex flex-col">
 
             <div class="w-full px-4 py-2">
@@ -160,37 +153,13 @@
             </div>
         </div>
 
-        {{-- <div x-show.transition.duration.500ms="openModal"
-                class="fixed inset-0 flex items-center justify-center px-4 md:px-0 bg-white bg-opacity-75 dark:bg-black dark:bg-opacity-75">
-                <div @click.away="openModal = false"
-                    class="flex flex-col p-6 h-auto w-auto shadow-2xl rounded-lg border-2 bg-white border-gray-400 dark:bg-gray-700 dark:border-gray-900">
-                    <div class="flex justify-between mb-4">
-                        <div class="font-bold text-lg text-gray-900 dark:text-gray-50">
-                            <span x-html="modalTitle"></span>
-                        </div>
-                        <button @click="openModal = false">
-                            <svg class="w-5 h-5 text-gray-900 dark:text-gray-50" viewBox="0 0 24 24"
-                                fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M5.293 5.293a1 1 0 0 1 1.414 0L12 10.586l5.293-5.293a1 1 0 1 1 1.414 1.414L13.414 12l5.293 5.293a1 1 0 0 1-1.414 1.414L12 13.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L10.586 12 5.293 6.707a1 1 0 0 1 0-1.414z"
-                                    fill="currentColor" />
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="flex items-center justify-center overflow-hidden rounded-lg">
-                        <img x-ref="imgRef" src="" class="w-auto h-full max-h-96" />
-                    </div>
-                </div>
-            </div> --}}
-        {{-- </div> --}}
-
     </form>
 
     @push('scripts')
         <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script>
         <script>
             mediumZoom('.zoomable', {
-                margin: 24,
+                margin: 12,
                 background: '#000'
             });
         </script>
