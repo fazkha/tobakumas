@@ -29,9 +29,7 @@
         </h1>
     </div>
 
-    <form
-        action="{{ route('pcbiaya.updatee', ['branch_id' => Crypt::Encrypt($details[0]->branch_id), 'tanggal' => Crypt::Encrypt($details[0]->tanggal)]) }}"
-        method="POST" enctype="multipart/form-data">
+    <form action="{{ route('pcbiaya.updatee') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div x-data="{
