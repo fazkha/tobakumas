@@ -190,6 +190,7 @@ class PcbiayaController extends Controller implements HasMiddleware
     public function updatee(Request $request): RedirectResponse
     {
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+        dd($request->all());
 
         $ids = $request->input('detail_id');
         $approveds = $request->input('approved_fin');
