@@ -6,6 +6,7 @@
         <tr>
             <td class="align-middle">
                 <input type="text" name="detail_id[]" value="{{ $detail->id }}">
+                <input type="test" name="approved[]" value="{{ $detail->approved_fin }}">
                 <x-text-span>{{ $detail->jenis_nama }}</x-text-span>
             </td>
             <td class="align-middle text-right">
@@ -20,7 +21,6 @@
             </td>
             <td class="align-middle text-center">
                 <label class="cursor-pointer">
-                    <input type="test" name="approved[{{ $i }}]" value="{{ $detail->approved_fin }}">
                     <input type="checkbox" name="approved_fin[{{ $i }}]" value="{{ $detail->approved_fin }}"
                         @php if ($i < count($details)) {
                         if ($details[$i]->approved_fin == $detail->approved_fin) {
