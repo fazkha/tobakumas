@@ -23,7 +23,7 @@
                 <label class="cursor-pointer">
                     <input type="checkbox" name="approved_fin[{{ $i }}]" value="{{ $detail->approved_fin }}"
                         @php if ($i < count($details)) {
-                        if ($details[$i]->approved_fin == $detail->approved_fin) {
+                        if ($detail->approved_fin == 1) {
                             echo 'checked';
                         }
                     } @endphp
