@@ -10,6 +10,7 @@ class MitraPermintaanIzin extends Model
     protected $table = 'mitra_permintaan_izins';
 
     protected $fillable = [
+        'branch_id',
         'mitra_id',
         'jenis_izin_pegawai_id',
         'tanggal_mulai',

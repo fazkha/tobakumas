@@ -144,9 +144,9 @@ Route::prefix('human-resource')->middleware('auth')->group(function () {
     Route::get('criticism/{criticism}/delete', [KritiksaranController::class, 'delete'])->name('criticism.delete');
     Route::get('criticism/fetchdb/{pp}/{isactive}/{judul}/{keterangan}', [KritiksaranController::class, 'fetchdb'])->defaults('judul', '_')->defaults('keterangan', '_');
 
-    // Route::resource('mitraizin', MitraizinController::class);
-    // Route::get('mitraizin/{mitraizin}/delete', [MitraizinController::class, 'delete'])->name('mitraizin.delete');
-    // Route::get('mitraizin/fetchdb/{pp}/{isactive}/{judul}/{keterangan}', [MitraizinController::class, 'fetchdb'])->defaults('judul', '_')->defaults('keterangan', '_');
+    Route::resource('mitraizin', MitraizinController::class);
+    Route::get('mitraizin/{mitraizin}/delete', [MitraizinController::class, 'delete'])->name('mitraizin.delete');
+    Route::get('mitraizin/fetchdb/{pp}/{mitra}/{jenis}/{tanggal}', [MitraizinController::class, 'fetchdb'])->defaults('tanggal', '_');
 
     // Route::resource('pcizin', PcizinController::class);
     // Route::get('pcizin/{pcizin}/delete', [PcizinController::class, 'delete'])->name('pcizin.delete');

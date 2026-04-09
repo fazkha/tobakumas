@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('mitra_permintaan_izins', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('branch_id')->constrained()->onUpdate('cascade');
             $table->foreignId('mitra_id')->constrained()->onUpdate('cascade');
             $table->foreignId('jenis_izin_pegawai_id')->constrained()->onUpdate('cascade');
             $table->dateTime('tanggal_mulai');

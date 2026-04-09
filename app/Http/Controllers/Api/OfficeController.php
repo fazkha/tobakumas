@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Brandivjab;
+use App\Models\Brandivjabmit;
 use App\Models\JenisIzinPegawai;
 use App\Models\MitraPermintaanIzin;
 use App\Models\User;
@@ -72,16 +74,27 @@ class OfficeController extends Controller
         $data = $validator->validated();
 
         $pegawai = User::where('id', $data['pc_id'])->select('email')->first();
+        $mitra = Brandivjabmit::where('mitra_id', $data['mitra_id'])->where('isactive', 1)->first();
 
-        MitraPermintaanIzin::create([
-            'mitra_id' => $data['mitra_id'],
-            'jenis_izin_pegawai_id' => $data['jenis_id'],
-            'tanggal_mulai' => Carbon::parse($data['mulai'])->setTimezone(config('app.timezone'))->format('Y-m-d H:i:s'),
-            'tanggal_selesai' => Carbon::parse($data['selesai'])->setTimezone(config('app.timezone'))->format('Y-m-d H:i:s'),
-            'keterangan' => $data['keterangan'],
-            'created_by' => $pegawai->email,
-            'updated_by' => $pegawai->email,
-        ]);
+        if ($mitra) {
+            $brandivjab = Brandivjab::where('id', $mitra->brandivjab_id)
+                ->where('isactive', 1)
+                ->where('jabatan_id', 3)
+                ->first();
+
+            if ($brandivjab) {
+                MitraPermintaanIzin::create([
+                    'branch_id' => $brandivjab->branch_id,
+                    'mitra_id' => $data['mitra_id'],
+                    'jenis_izin_pegawai_id' => $data['jenis_id'],
+                    'tanggal_mulai' => Carbon::parse($data['mulai'])->setTimezone(config('app.timezone'))->format('Y-m-d H:i:s'),
+                    'tanggal_selesai' => Carbon::parse($data['selesai'])->setTimezone(config('app.timezone'))->format('Y-m-d H:i:s'),
+                    'keterangan' => $data['keterangan'],
+                    'created_by' => $pegawai->email,
+                    'updated_by' => $pegawai->email,
+                ]);
+            }
+        }
 
         $this->db_switch(1);
 
