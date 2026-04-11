@@ -180,13 +180,15 @@ class MitraizinController extends Controller implements HasMiddleware
         $mitraizin = MitraPermintaanIzin::find(Crypt::decrypt($request->mitraizin));
 
         if ($mitraizin) {
+            $namamitra = $mitraizin->mitra->nama_lengkap;
+
             $mitraizin->update([
                 'approved_hrd' => ($request->approved_hrd == 'on' ? 1 : 0),
             ]);
 
             if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
-            return redirect()->back()->with('success', __('messages.successupdated') . ' 👉 ' . $mitraizin->mitra->nama_lengkap);
+            return redirect()->back()->with('success', __('messages.successupdated') . ' 👉 ' . $namamitra);
         }
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
