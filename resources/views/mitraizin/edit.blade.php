@@ -94,9 +94,9 @@
                                                     <span id="checkboxIcon" class="text-white text-sm font-bold"></span>
                                                 </div>
                                             </label>
-                                            <span
+                                            <span id="responder"
                                                 class="pr-4 group-hover:text-blue-500 transition-colors duration-300 text-right w-1/2 md:w-full">
-                                                @lang('messages.approval')
+                                                {{ $datas->approved_hrd === 1 ? 'Disetujui' : ($datas->approved_hrd === 2 ? 'Ditolak' : 'Menunggu') }}
                                             </span>
                                         </div>
 
@@ -133,6 +133,7 @@
             const hidden = document.getElementById('statusValue');
             const ui = document.getElementById('checkboxUI');
             const icon = document.getElementById('checkboxIcon');
+            const responder = document.getElementById('responder');
 
             let state = 0;
             // 0 = unchecked
@@ -154,16 +155,19 @@
 
                 if (state === 0) {
                     ui.classList.add('bg-gray-600');
+                    responder.innerHTML = 'Menunggu';
                     icon.innerHTML = '';
                     checkbox.checked = false;
                     checkbox.indeterminate = false;
                 } else if (state === 1) {
                     ui.classList.add('bg-blue-600');
+                    responder.innerHTML = 'Disetujui';
                     icon.innerHTML = '✓';
                     checkbox.checked = true;
                     checkbox.indeterminate = false;
                 } else {
                     ui.classList.add('bg-red-600');
+                    responder.innerHTML = 'Ditolak';
                     icon.innerHTML = '−';
                     checkbox.checked = false;
                     checkbox.indeterminate = true;
