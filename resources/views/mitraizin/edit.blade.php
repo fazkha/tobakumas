@@ -94,11 +94,11 @@
                                                     class="w-7 h-7 flex items-center justify-center rounded-lg border border-gray-400 transition-all duration-200 scale-100 hover:scale-110">
                                                     <span id="checkboxIcon" class="text-white text-sm font-bold"></span>
                                                 </div>
-                                                <span
-                                                    class="pr-4 group-hover:text-blue-500 transition-colors duration-300 text-right w-1/2 md:w-full">
-                                                    @lang('messages.approval')
-                                                </span>
                                             </label>
+                                            <span
+                                                class="pr-4 group-hover:text-blue-500 transition-colors duration-300 text-right w-1/2 md:w-full">
+                                                @lang('messages.approval')
+                                            </span>
                                         </div>
 
                                         <x-primary-button type="submit" class="block" tabindex="2">
@@ -163,7 +163,7 @@
                     checkbox.checked = true;
                     checkbox.indeterminate = false;
                 } else {
-                    ui.classList.add('bg-gray-400');
+                    ui.classList.add('bg-red-400');
                     icon.innerHTML = '−';
                     checkbox.checked = false;
                     checkbox.indeterminate = true;
