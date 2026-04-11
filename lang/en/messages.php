@@ -299,4 +299,6 @@ return [
     'mitraname' => 'Partner Name',
     'mitra' => 'Partner',
     'izin' => 'Permission',
+    'show' => 'Show',
+    'pendingonly' => 'Pending Only',
 ];

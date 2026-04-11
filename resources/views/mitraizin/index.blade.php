@@ -38,10 +38,11 @@
 
     @push('scripts')
         <script type="text/javascript">
-            $("#pp-dropdown, #branch-dropdown, #search-tanggal").on(
+            $("#pp-dropdown, #show-dropdown, #branch-dropdown, #search-tanggal").on(
                 "change keyup paste",
                 function() {
                     var xpp = $('#pp-dropdown option:selected').val();
+                    var xshow = $('#show-dropdown option:selected').val();
                     var xbr = $('#branch-dropdown option:selected').val();
                     var xtanggal = $('#search-tanggal').val();
                     if (!xtanggal.trim()) {
@@ -60,7 +61,7 @@
 
                     $.ajax({
                         url: '{{ url('/human-resource/mitraizin/fetchdb') }}' + "/" + xpp + "/" + xbr + "/" +
-                            xtanggal,
+                            xtanggal + "/" + xshow,
                         type: "GET",
                         dataType: 'json',
                         success: function(result) {

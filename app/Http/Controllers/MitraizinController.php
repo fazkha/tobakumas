@@ -49,6 +49,9 @@ class MitraizinController extends Controller implements HasMiddleware
         if (!$request->session()->exists('mitraizin_pp')) {
             $request->session()->put('mitraizin_pp', config('custom.list_per_page_opt_1'));
         }
+        if (!$request->session()->exists('mitraizin_show')) {
+            $request->session()->put('mitraizin_show', 'all');
+        }
         if (!$request->session()->exists('mitraizin_branch_id')) {
             $request->session()->put('mitraizin_branch_id', 'all');
         }
@@ -56,7 +59,7 @@ class MitraizinController extends Controller implements HasMiddleware
             $request->session()->put('mitraizin_mitra_id', 'all');
         }
 
-        $search_arr = ['mitraizin_branch_id', 'mitraizin_mitra_id'];
+        $search_arr = ['mitraizin_show', 'mitraizin_branch_id', 'mitraizin_mitra_id'];
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
@@ -65,13 +68,16 @@ class MitraizinController extends Controller implements HasMiddleware
         $datas = MitraPermintaanIzin::join('branches', 'branches.id', '=', 'mitra_permintaan_izins.branch_id')
             ->join('mitras', 'mitras.id', '=', 'mitra_permintaan_izins.mitra_id')
             ->join('jenis_izin_pegawais', 'jenis_izin_pegawais.id', '=', 'mitra_permintaan_izins.jenis_izin_pegawai_id')
-            ->select('mitra_permintaan_izins.*', 'branches.nama as branch_nama', 'mitras.nama_lengkap as mitra_nama', 'jenis_izin_pegawais.nama as jenis_nama')
-            ->where('approved_hrd', 0);
+            ->select('mitra_permintaan_izins.*', 'branches.nama as branch_nama', 'mitras.nama_lengkap as mitra_nama', 'jenis_izin_pegawais.nama as jenis_nama');
 
         for ($i = 0; $i < count($search_arr); $i++) {
             $field = substr($search_arr[$i], strlen('mitraizin_'));
 
-            if ($search_arr[$i] == 'mitraizin_branch_id' || $search_arr[$i] == 'mitraizin_mitra_id') {
+            if ($search_arr[$i] == 'mitraizin_show') {
+                if (session($search_arr[$i]) == '0') {
+                    $datas = $datas->where('approved_hrd', 0);
+                }
+            } else if ($search_arr[$i] == 'mitraizin_branch_id' || $search_arr[$i] == 'mitraizin_mitra_id') {
                 if (session($search_arr[$i]) != 'all') {
                     $datas = $datas->where([$field => session($search_arr[$i])]);
                 }
@@ -98,10 +104,11 @@ class MitraizinController extends Controller implements HasMiddleware
     public function fetchdb(Request $request): JsonResponse
     {
         $request->session()->put('mitraizin_pp', $request->pp);
+        $request->session()->put('mitraizin_show', $request->show);
         $request->session()->put('mitraizin_branch_id', $request->branch);
         $request->session()->put('mitraizin_mitra_id', $request->mitra);
 
-        $search_arr = ['mitraizin_branch_id', 'mitraizin_mitra_id'];
+        $search_arr = ['mitraizin_show', 'mitraizin_branch_id', 'mitraizin_mitra_id'];
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
@@ -110,13 +117,16 @@ class MitraizinController extends Controller implements HasMiddleware
         $datas = MitraPermintaanIzin::join('branches', 'branches.id', '=', 'mitra_permintaan_izins.branch_id')
             ->join('mitras', 'mitras.id', '=', 'mitra_permintaan_izins.mitra_id')
             ->join('jenis_izin_pegawais', 'jenis_izin_pegawais.id', '=', 'mitra_permintaan_izins.jenis_izin_pegawai_id')
-            ->select('mitra_permintaan_izins.*', 'branches.nama as branch_nama', 'mitras.nama_lengkap as mitra_nama', 'jenis_izin_pegawais.nama as jenis_nama')
-            ->where('approved_hrd', 0);
+            ->select('mitra_permintaan_izins.*', 'branches.nama as branch_nama', 'mitras.nama_lengkap as mitra_nama', 'jenis_izin_pegawais.nama as jenis_nama');
 
         for ($i = 0; $i < count($search_arr); $i++) {
             $field = substr($search_arr[$i], strlen('mitraizin_'));
 
-            if ($search_arr[$i] == 'mitraizin_branch_id' || $search_arr[$i] == 'mitraizin_mitra_id') {
+            if ($search_arr[$i] == 'mitraizin_show') {
+                if (session($search_arr[$i]) == '0') {
+                    $datas = $datas->where('approved_hrd', 0);
+                }
+            } else if ($search_arr[$i] == 'mitraizin_branch_id' || $search_arr[$i] == 'mitraizin_mitra_id') {
                 if (session($search_arr[$i]) != 'all') {
                     $datas = $datas->where([$field => session($search_arr[$i])]);
                 }

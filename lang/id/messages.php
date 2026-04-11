@@ -298,4 +298,6 @@ return [
     'mitraname' => 'Nama Mitra',
     'mitra' => 'Mitra',
     'izin' => 'Izin',
+    'show' => 'Tampilkan',
+    'pendingonly' => 'Hanya Tertunda',
 ];
