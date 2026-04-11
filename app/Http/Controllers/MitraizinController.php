@@ -74,9 +74,8 @@ class MitraizinController extends Controller implements HasMiddleware
             $field = substr($search_arr[$i], strlen('mitraizin_'));
 
             if ($search_arr[$i] == 'mitraizin_show') {
-                dd(session($search_arr[$i]));
                 if (session($search_arr[$i]) == '0') {
-                    $datas = $datas->where('approved_hrd', 0);
+                    $datas = $datas->where('mitra_permintaan_izins.approved_hrd', 0);
                 }
             } else if ($search_arr[$i] == 'mitraizin_branch_id' || $search_arr[$i] == 'mitraizin_mitra_id') {
                 if (session($search_arr[$i]) != 'all') {
