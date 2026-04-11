@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Branch;
-use App\Models\PcBiaya;
+use App\Models\Mitra;
+use App\Models\MitraPermintaanIzin;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
@@ -21,7 +22,7 @@ class MitraizinController extends Controller implements HasMiddleware
         return [
             new Middleware('permission:mitraizin-list', only: ['index', 'fetch']),
             new Middleware('permission:mitraizin-create', only: ['create', 'store']),
-            new Middleware('permission:mitraizin-edit', only: ['edit', 'update', 'editt', 'updatee']),
+            new Middleware('permission:mitraizin-edit', only: ['edit', 'update']),
             new Middleware('permission:mitraizin-show', only: ['show']),
             new Middleware('permission:mitraizin-delete', only: ['delete', 'destroy']),
         ];
@@ -51,26 +52,22 @@ class MitraizinController extends Controller implements HasMiddleware
         if (!$request->session()->exists('mitraizin_branch_id')) {
             $request->session()->put('mitraizin_branch_id', 'all');
         }
-        if (!$request->session()->exists('mitraizin_tanggal')) {
-            $request->session()->put('mitraizin_tanggal', '_');
+        if (!$request->session()->exists('mitraizin_mitra_id')) {
+            $request->session()->put('mitraizin_mitra_id', 'all');
         }
 
-        $search_arr = ['mitraizin_branch_id', 'mitraizin_tanggal'];
+        $search_arr = ['mitraizin_branch_id', 'mitraizin_mitra_id'];
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $datas = PcBiaya::join('branches', 'branches.id', '=', 'pc_pengeluarans.branch_id')
-            ->join('users', 'users.id', '=', 'pc_pengeluarans.user_id')
-            ->groupBy('pc_pengeluarans.tanggal', 'branches.nama', 'branches.id', 'users.name')
-            ->orderBy('pc_pengeluarans.tanggal', 'desc')
-            ->orderBy('branches.nama')
-            ->selectRaw('pc_pengeluarans.tanggal, branches.id as branch_id, branches.nama as branch_nama, users.name as pc_nama, sum(pc_pengeluarans.harga) as total_biaya');
+        $mitras = Mitra::where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
+        $datas = MitraPermintaanIzin::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
             $field = substr($search_arr[$i], strlen('mitraizin_'));
 
-            if ($search_arr[$i] == 'mitraizin_branch_id') {
+            if ($search_arr[$i] == 'mitraizin_branch_id' || $search_arr[$i] == 'mitraizin_mitra_id') {
                 if (session($search_arr[$i]) != 'all') {
                     $datas = $datas->where([$field => session($search_arr[$i])]);
                 }
@@ -83,7 +80,7 @@ class MitraizinController extends Controller implements HasMiddleware
             }
         }
         // $datas = $datas->where('user_id', auth()->user()->id);
-        $datas = $datas->paginate(session('mitraizin_pp'));
+        $datas = $datas->latest()->paginate(session('mitraizin_pp'));
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
@@ -98,24 +95,20 @@ class MitraizinController extends Controller implements HasMiddleware
     {
         $request->session()->put('mitraizin_pp', $request->pp);
         $request->session()->put('mitraizin_branch_id', $request->branch);
-        $request->session()->put('mitraizin_tanggal', $request->tanggal);
+        $request->session()->put('mitraizin_mitra_id', $request->mitra);
 
-        $search_arr = ['mitraizin_branch_id', 'mitraizin_tanggal'];
+        $search_arr = ['mitraizin_branch_id', 'mitraizin_mitra_id'];
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $datas = PcBiaya::join('branches', 'branches.id', '=', 'pc_pengeluarans.branch_id')
-            ->join('users', 'users.id', '=', 'pc_pengeluarans.user_id')
-            ->groupBy('pc_pengeluarans.tanggal', 'branches.nama', 'branches.id', 'users.name')
-            ->orderBy('pc_pengeluarans.tanggal', 'desc')
-            ->orderBy('branches.nama')
-            ->selectRaw('pc_pengeluarans.tanggal, branches.id as branch_id, branches.nama as branch_nama, users.name as pc_nama, sum(pc_pengeluarans.harga) as total_biaya');
+        $mitras = Mitra::where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
+        $datas = MitraPermintaanIzin::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
             $field = substr($search_arr[$i], strlen('mitraizin_'));
 
-            if ($search_arr[$i] == 'mitraizin_branch_id') {
+            if ($search_arr[$i] == 'mitraizin_branch_id' || $search_arr[$i] == 'mitraizin_mitra_id') {
                 if (session($search_arr[$i]) != 'all') {
                     $datas = $datas->where([$field => session($search_arr[$i])]);
                 }
@@ -128,13 +121,13 @@ class MitraizinController extends Controller implements HasMiddleware
             }
         }
         // $datas = $datas->where('user_id', auth()->user()->id);
-        $datas = $datas->paginate(session('mitraizin_pp'));
+        $datas = $datas->latest()->paginate(session('mitraizin_pp'));
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
-        $datas->withPath('/finance/mitraizin'); // pagination url to
+        $datas->withPath('/human-resource/mitraizin'); // pagination url to
 
-        $view = view('mitraizin.partials.table', compact(['datas', 'branches']))->with('i', (request()->input('page', 1) - 1) * session('mitraizin_pp'))->render();
+        $view = view('mitraizin.partials.table', compact(['datas', 'branches', 'mitras']))->with('i', (request()->input('page', 1) - 1) * session('mitraizin_pp'))->render();
 
         if ($view) {
             return response()->json($view, 200);
@@ -158,52 +151,34 @@ class MitraizinController extends Controller implements HasMiddleware
         //
     }
 
-    public function edit(Request $request)
-    {
-        //
-    }
-
-    public function update(Request $request)
-    {
-        //
-    }
-
-    public function editt(Request $request): View
+    public function edit(Request $request): View
     {
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
-        $details = PcBiaya::join('users', 'users.id', '=', 'pc_pengeluarans.user_id')
-            ->join('jenis_pengeluaran_cabangs', 'jenis_pengeluaran_cabangs.id', '=', 'pc_pengeluarans.jenis_pengeluaran_cabang_id')
-            ->where('pc_pengeluarans.branch_id', Crypt::decrypt($request->branch_id))
-            ->where('pc_pengeluarans.tanggal', Crypt::decrypt($request->tanggal))
-            ->select('pc_pengeluarans.*', 'users.name as pc_nama', 'jenis_pengeluaran_cabangs.nama as jenis_nama')
-            ->get();
+        $datas = MitraPermintaanIzin::find(Crypt::decrypt($request->mitraizin));
 
-        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
-
-        return view('mitraizin.edit', compact(['details']));
+        return view('mitraizin.edit', compact(['datas']));
     }
 
-    public function updatee(Request $request): RedirectResponse
+    public function update(Request $request): RedirectResponse
     {
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
-        $ids = $request->input('detail_id');
-        $approved_fins = $request->input('approved_fin', []);
-        $i = 0;
+        $mitraizin = MitraPermintaanIzin::find(Crypt::decrypt($request->mitraizin));
 
-        foreach ($ids as $id) {
-            $biaya = PcBiaya::where('id', $id)->update([
-                'approved' => isset($approved_fins[$i]) ? 1 : 0,
-                'approved_fin' => isset($approved_fins[$i]) ? 1 : 0,
+        if ($mitraizin) {
+            $mitraizin->update([
+                'approved_hrd' => ($request->approved_hrd == 'on' ? 1 : 0),
             ]);
 
-            $i++;
+            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+
+            return redirect()->back()->with('success', __('messages.successupdated') . ' 👉 ' . $request->mitra->nama_lengkap);
         }
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
-        return redirect()->back()->with('success', __('messages.successupdated'));
+        return redirect()->back()->withInput()->with('error', 'Error occured while updating!');
     }
 
     public function delete(Request $request)

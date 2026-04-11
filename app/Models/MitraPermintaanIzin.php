@@ -20,4 +20,19 @@ class MitraPermintaanIzin extends Model
         'created_by',
         'updated_by',
     ];
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class, 'branch_id');
+    }
+
+    public function mitra()
+    {
+        return $this->belongsTo(Mitra::class, 'mitra_id');
+    }
+
+    public function jenis()
+    {
+        return $this->belongsTo(JenisIzinPegawai::class, 'jenis_izin_pegawai_id');
+    }
 }

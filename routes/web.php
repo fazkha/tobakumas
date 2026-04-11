@@ -146,8 +146,8 @@ Route::prefix('human-resource')->middleware('auth')->group(function () {
 
     Route::resource('mitraizin', MitraizinController::class);
     Route::get('mitraizin/{mitraizin}/delete', [MitraizinController::class, 'delete'])->name('mitraizin.delete');
-    Route::get('mitraizin/fetchdb/{pp}/{mitra}/{jenis}/{tanggal}', [MitraizinController::class, 'fetchdb'])->defaults('tanggal', '_');
-    Route::get('mitraizin/{branch_id}/{tanggal}/editt', [MitraizinController::class, 'editt'])->name('mitraizin.editt');
+    Route::get('mitraizin/fetchdb/{pp}/{mitra}/{branch}', [MitraizinController::class, 'fetchdb']);
+    Route::get('mitraizin/{branch_id}/{mitra_id}/editt', [MitraizinController::class, 'editt'])->name('mitraizin.editt');
     Route::post('mitraizin/updatee', [MitraizinController::class, 'updatee'])->name('mitraizin.updatee');
 
     // Route::resource('pcizin', PcizinController::class);

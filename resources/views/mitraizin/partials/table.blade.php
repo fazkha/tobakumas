@@ -52,25 +52,25 @@
                         </td>
                         <td
                             class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
-                            <span class="text-gray-900 dark:text-white">{{ $data->branch_nama }}</span>
+                            <span class="text-gray-900 dark:text-white">{{ $data->branch->nama }}</span>
                         </td>
                         <td
                             class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
-                            <span class="text-gray-900 dark:text-white">{{ $data->mitra_nama }}</span>
+                            <span class="text-gray-900 dark:text-white">{{ $data->mitra->nama_lengkap }}</span>
                         </td>
                         <td
                             class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
-                            <span class="text-gray-900 dark:text-white">{{ $data->izin }}</span>
+                            <span class="text-gray-900 dark:text-white">{{ $data->jenis->nama }}</span>
                         </td>
                         <td
                             class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
-                            <span class="text-gray-900 dark:text-white">{{ $data->tanggal }}</span>
+                            <span class="text-gray-900 dark:text-white">{{ $data->tanggal_mulai }}</span>
                         </td>
                         <td class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800"
                             style="vertical-align: middle;">
                             <div class="flex items-center justify-center">
                                 @can('mitraizin-edit')
-                                    <a href="{{ route('mitraizin.editt', ['branch_id' => Crypt::Encrypt($data->branch_id), 'tanggal' => Crypt::Encrypt($data->tanggal)]) }}"
+                                    <a href="{{ route('mitraizin.edit', Crypt::Encrypt($data->id)) }}"
                                         title="{{ __('messages.edit') }}" class="ml-2">
                                         <span
                                             class="relative inline-block px-2 py-2 font-semibold text-green-800 dark:text-green-50 leading-tight">

@@ -11,7 +11,7 @@
                         transform="translate(-27)" />
                 </svg>
                 <div class="relative px-2 pt-2">
-                    <span class="absolute top-0 left-2 text-xs w-40">@lang('messages.human-resource')</span>
+                    <span class="absolute top-0 left-2 text-xs w-40">@lang('messages.humanresource')</span>
                     <span>@lang('messages.mitraizin')</span>
                 </div>
             </a>
