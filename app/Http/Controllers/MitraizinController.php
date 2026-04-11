@@ -62,7 +62,10 @@ class MitraizinController extends Controller implements HasMiddleware
 
         $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $mitras = Mitra::where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
-        $datas = MitraPermintaanIzin::query();
+        $datas = MitraPermintaanIzin::join('branches', 'branches.id', '=', 'mitra_permintaan_izins.branch_id')
+            ->join('mitras', 'mitras.id', '=', 'mitra_permintaan_izins.mitra_id')
+            ->join('jenis_izin_pegawais', 'jenis_izin_pegawais.id', '=', 'mitra_permintaan_izins.jenis_izin_pegawai_id')
+            ->select('mitra_permintaan_izins.*', 'branches.nama as branch_nama', 'mitras.nama_lengkap as mitra_nama', 'jenis_izin_pegawais.nama as jenis_nama');
 
         for ($i = 0; $i < count($search_arr); $i++) {
             $field = substr($search_arr[$i], strlen('mitraizin_'));
@@ -103,7 +106,10 @@ class MitraizinController extends Controller implements HasMiddleware
 
         $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $mitras = Mitra::where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
-        $datas = MitraPermintaanIzin::query();
+        $datas = MitraPermintaanIzin::join('branches', 'branches.id', '=', 'mitra_permintaan_izins.branch_id')
+            ->join('mitras', 'mitras.id', '=', 'mitra_permintaan_izins.mitra_id')
+            ->join('jenis_izin_pegawais', 'jenis_izin_pegawais.id', '=', 'mitra_permintaan_izins.jenis_izin_pegawai_id')
+            ->select('mitra_permintaan_izins.*', 'branches.nama as branch_nama', 'mitras.nama_lengkap as mitra_nama', 'jenis_izin_pegawais.nama as jenis_nama');
 
         for ($i = 0; $i < count($search_arr); $i++) {
             $field = substr($search_arr[$i], strlen('mitraizin_'));
