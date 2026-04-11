@@ -161,7 +161,12 @@ class MitraizinController extends Controller implements HasMiddleware
     {
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
-        $datas = MitraPermintaanIzin::find(Crypt::decrypt($request->mitraizin));
+        $datas = MitraPermintaanIzin::join('branches', 'branches.id', '=', 'mitra_permintaan_izins.branch_id')
+            ->join('mitras', 'mitras.id', '=', 'mitra_permintaan_izins.mitra_id')
+            ->join('jenis_izin_pegawais', 'jenis_izin_pegawais.id', '=', 'mitra_permintaan_izins.jenis_izin_pegawai_id')
+            ->select('mitra_permintaan_izins.*', 'branches.nama as branch_nama', 'mitras.nama_lengkap as mitra_nama', 'jenis_izin_pegawais.nama as jenis_nama')
+            ->where('mitra_permintaan_izins.id', Crypt::decrypt($request->mitraizin))
+            ->first();
 
         return view('mitraizin.edit', compact(['datas']));
     }
