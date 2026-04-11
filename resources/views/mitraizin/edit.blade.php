@@ -86,7 +86,7 @@
                                             <label
                                                 class="cursor-pointer flex flex-row items-center gap-2 md:flex-row md:gap-2">
                                                 <input type="checkbox" id="approved_hrd_checkbox" name="status"
-                                                    value="1" tabindex="1"
+                                                    tabindex="1"
                                                     class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-7 h-7 rounded-lg shadow-md"
                                                     {{ $datas->approved_hrd == 1 ? 'checked' : '' }}>
                                                 <span
