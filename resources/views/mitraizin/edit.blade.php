@@ -132,20 +132,7 @@
             const icon = document.getElementById('checkboxIcon');
             const responder = document.getElementById('responder');
 
-            let state = 0;
-            // 0 = unchecked
-            // 1 = checked
-            // 2 = indeterminate
-
-            // if (checkbox.checked) {
-            //     state = 1;
-            //     hidden.value = 1;
-            // } else {
-            //     state = 0;
-            //     hidden.value = 0;
-            // }
-
-            state = parseInt(hidden.value) || 0;
+            let state = parseInt(hidden.value) || 0;
 
             function render() {
                 ui.classList.remove('bg-blue-600', 'bg-red-600', 'bg-gray-600');
