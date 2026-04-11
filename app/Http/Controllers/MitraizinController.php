@@ -168,6 +168,8 @@ class MitraizinController extends Controller implements HasMiddleware
             ->where('mitra_permintaan_izins.id', Crypt::decrypt($request->mitraizin))
             ->first();
 
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+
         return view('mitraizin.edit', compact(['datas']));
     }
 
