@@ -150,9 +150,10 @@
             state = parseInt(hidden.value) || 0;
 
             function render() {
-                ui.classList.remove('bg-blue-600', 'bg-gray-400');
+                ui.classList.remove('bg-blue-600', 'bg-red-600', 'bg-gray-600');
 
                 if (state === 0) {
+                    ui.classList.add('bg-gray-600');
                     icon.innerHTML = '';
                     checkbox.checked = false;
                     checkbox.indeterminate = false;
@@ -162,7 +163,7 @@
                     checkbox.checked = true;
                     checkbox.indeterminate = false;
                 } else {
-                    ui.classList.add('bg-red-400');
+                    ui.classList.add('bg-red-600');
                     icon.innerHTML = '−';
                     checkbox.checked = false;
                     checkbox.indeterminate = true;
