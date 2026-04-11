@@ -44,7 +44,7 @@
                                     <div class="w-auto pb-4">
                                         <span for="branch_id"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.branch')</span>
-                                        <x-text-span>{{ $datas->cabang_nama }}</x-text-span>
+                                        <x-text-span>{{ $datas->branch_nama }}</x-text-span>
                                     </div>
 
                                     <div class="w-auto pb-4">
@@ -62,10 +62,18 @@
                                     </div>
 
                                     <div class="w-auto pb-4 lg:pb-12">
-                                        <span for="tanggal"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.date')</span>
-                                        <x-text-span>{{ $datas->tanggal_mulai }} s/d
-                                            {{ $datas->tanggal_selesai }}</x-text-span>
+                                        <div class="flex flex-row flex-wrap items-center gap-2">
+                                            <div>
+                                                <span for="tanggal_mulai"
+                                                    class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.date')</span>
+                                                <x-text-span>{{ $datas->tanggal_mulai }}</x-text-span>
+                                            </div>
+                                            <div>
+                                                <span for="tanggal"
+                                                    class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.date')</span>
+                                                <x-text-span>{{ $datas->tanggal_selesai }}</x-text-span>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
