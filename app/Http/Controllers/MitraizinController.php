@@ -184,6 +184,7 @@ class MitraizinController extends Controller implements HasMiddleware
         if ($mitraizin) {
             $namamitra = $mitraizin->mitra->nama_lengkap;
             $status = $request->input('status');
+            dd($status);
 
             $mitraizin->update([
                 'approved_hrd' => $status,
