@@ -80,16 +80,20 @@
                                         </div>
                                     </div>
 
-                                    {{-- class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-7 h-7 rounded-lg shadow-md" --}}
                                     <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
                                         <div class="w-auto">
                                             <input type="hidden" name="status" id="statusValue"
                                                 value="{{ $datas->approved_hrd ?? 0 }}">
                                             <label
                                                 class="cursor-pointer flex flex-row items-center gap-2 md:flex-row md:gap-2">
-                                                <input type="checkbox" id="statusCheckbox" tabindex="1"
+                                                <input type="checkbox" id="statusCheckbox" class="hidden">
+                                                {{-- <input type="checkbox" id="statusCheckbox" tabindex="1"
                                                     class="w-7 h-7 rounded-lg"
-                                                    {{ $datas->approved_hrd == 1 ? 'checked' : '' }}>
+                                                    {{ $datas->approved_hrd == 1 ? 'checked' : '' }}> --}}
+                                                <div id="checkboxUI"
+                                                    class="w-7 h-7 flex items-center justify-center rounded-lg border border-gray-400 transition-all duration-200 scale-100 hover:scale-110">
+                                                    <span id="checkboxIcon" class="text-white text-sm font-bold"></span>
+                                                </div>
                                                 <span
                                                     class="pr-4 group-hover:text-blue-500 transition-colors duration-300 text-right w-1/2 md:w-full">
                                                     @lang('messages.approval')
@@ -128,41 +132,52 @@
         <script>
             const checkbox = document.getElementById('statusCheckbox');
             const hidden = document.getElementById('statusValue');
+            const ui = document.getElementById('checkboxUI');
+            const icon = document.getElementById('checkboxIcon');
 
             let state = 0;
             // 0 = unchecked
             // 1 = checked
             // 2 = indeterminate
 
-            if (checkbox.checked) {
-                state = 1;
-                hidden.value = 1;
-            } else {
-                state = 0;
-                hidden.value = 0;
-            }
+            // if (checkbox.checked) {
+            //     state = 1;
+            //     hidden.value = 1;
+            // } else {
+            //     state = 0;
+            //     hidden.value = 0;
+            // }
 
-            checkbox.addEventListener('click', function(e) {
-                e.preventDefault();
+            state = parseInt(hidden.value) || 0;
 
-                state = (state + 1) % 3;
-                console.log('state:', state);
+            function render() {
+                ui.classList.remove('bg-blue-600', 'bg-gray-400');
 
-                // if (state === 0) {
-                //     checkbox.checked = false;
-                //     checkbox.indeterminate = false;
-                //     hidden.value = 0;
-                // } else 
-                if (state === 1) {
+                if (state === 0) {
+                    icon.innerHTML = '';
+                    checkbox.checked = false;
+                    checkbox.indeterminate = false;
+                } else if (state === 1) {
+                    ui.classList.add('bg-blue-600');
+                    icon.innerHTML = '✓';
                     checkbox.checked = true;
                     checkbox.indeterminate = false;
-                    hidden.value = 1;
-                } else if (state === 2) {
+                } else {
+                    ui.classList.add('bg-gray-400');
+                    icon.innerHTML = '−';
                     checkbox.checked = false;
                     checkbox.indeterminate = true;
-                    hidden.value = 2;
                 }
+
+                hidden.value = state;
+            }
+
+            ui.addEventListener('click', () => {
+                state = (state + 1) % 3;
+                render();
             });
+
+            render();
         </script>
     @endpush
 </x-app-layout>
