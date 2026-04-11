@@ -183,9 +183,10 @@ class MitraizinController extends Controller implements HasMiddleware
 
         if ($mitraizin) {
             $namamitra = $mitraizin->mitra->nama_lengkap;
+            $status = $request->input('status');
 
             $mitraizin->update([
-                'approved_hrd' => ($request->approved_hrd == 'on' ? 1 : 0),
+                'approved_hrd' => $status,
             ]);
 
             if (auth()->user()->profile->site == 'KP') $this->db_switch(1);

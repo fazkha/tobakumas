@@ -82,10 +82,11 @@
 
                                     <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
                                         <div class="w-auto">
+                                            <input type="hidden" name="status" id="approved_hrd_value" value="0">
                                             <label
                                                 class="cursor-pointer flex flex-row items-center gap-2 md:flex-row md:gap-2">
-                                                <input type="checkbox" id="approved_hrd" name="approved_hrd"
-                                                    tabindex="1"
+                                                <input type="checkbox" id="approved_hrd_checkbox" name="status"
+                                                    value="1" tabindex="1"
                                                     class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-7 h-7 rounded-lg shadow-md"
                                                     {{ $datas->approved_hrd == 1 ? 'checked' : '' }}>
                                                 <span
@@ -123,5 +124,34 @@
     </form>
 
     @push('scripts')
+        <script>
+            const checkbox = document.getElementById('approved_hrd_checkbox');
+            const hidden = document.getElementById('approved_hrd_value');
+
+            let state = 0;
+            // 0 = unchecked
+            // 1 = checked
+            // 2 = indeterminate
+
+            checkbox.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                state = (state + 1) % 3;
+
+                if (state === 0) {
+                    checkbox.checked = false;
+                    checkbox.indeterminate = false;
+                    hidden.value = 0;
+                } else if (state === 1) {
+                    checkbox.checked = true;
+                    checkbox.indeterminate = false;
+                    hidden.value = 1;
+                } else {
+                    checkbox.checked = false;
+                    checkbox.indeterminate = true;
+                    hidden.value = 2;
+                }
+            });
+        </script>
     @endpush
 </x-app-layout>
