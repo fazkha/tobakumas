@@ -80,22 +80,19 @@
                                         </div>
                                     </div>
 
-                                    <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
+                                    <div class="flex flex-row flex-wrap items-center justify-start gap-2 md:gap-4">
                                         <div class="w-auto flex flex-row items-center gap-2 md:flex-row md:gap-2">
                                             <input type="hidden" name="status" id="statusValue"
                                                 value="{{ $datas->approved_hrd ?? 0 }}">
                                             <label class="cursor-pointer">
                                                 <input type="checkbox" id="statusCheckbox" class="hidden">
-                                                {{-- <input type="checkbox" id="statusCheckbox" tabindex="1"
-                                                    class="w-7 h-7 rounded-lg"
-                                                    {{ $datas->approved_hrd == 1 ? 'checked' : '' }}> --}}
                                                 <div id="checkboxUI"
                                                     class="w-7 h-7 flex items-center justify-center rounded-lg border border-gray-400 transition-all duration-200 scale-100 hover:scale-110">
                                                     <span id="checkboxIcon" class="text-white text-sm font-bold"></span>
                                                 </div>
                                             </label>
                                             <span id="responder"
-                                                class="pr-4 group-hover:text-blue-500 transition-colors duration-300 text-right w-1/2 md:w-full">
+                                                class="pr-4 group-hover:text-blue-500 transition-colors duration-300 text-left w-1/2 md:w-full">
                                                 {{ $datas->approved_hrd === 1 ? 'Disetujui' : ($datas->approved_hrd === 2 ? 'Ditolak' : 'Menunggu') }}
                                             </span>
                                         </div>
