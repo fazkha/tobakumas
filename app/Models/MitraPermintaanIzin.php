@@ -21,6 +21,11 @@ class MitraPermintaanIzin extends Model
         'updated_by',
     ];
 
+    protected $casts = [
+        'tanggal_mulai' => 'datetime',
+        'tanggal_selesai' => 'datetime',
+    ];
+
     public function branch()
     {
         return $this->belongsTo(Branch::class, 'branch_id');
