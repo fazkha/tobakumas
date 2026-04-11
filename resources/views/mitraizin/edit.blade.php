@@ -1,6 +1,3 @@
-@php
-    \Carbon\Carbon::setLocale('id');
-@endphp
 @section('title', __('messages.mitraizin'))
 
 <x-app-layout>
