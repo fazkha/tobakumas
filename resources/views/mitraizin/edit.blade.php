@@ -157,10 +157,10 @@
                     checkbox.checked = true;
                     checkbox.indeterminate = false;
                     hidden.value = 1;
-                    // } else {
-                    //     checkbox.checked = false;
-                    //     checkbox.indeterminate = true;
-                    //     hidden.value = 2;
+                } else if (state === 2) {
+                    checkbox.checked = false;
+                    checkbox.indeterminate = true;
+                    hidden.value = 2;
                 }
             });
         </script>
