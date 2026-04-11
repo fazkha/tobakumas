@@ -186,7 +186,7 @@ class MitraizinController extends Controller implements HasMiddleware
 
             if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
-            return redirect()->back()->with('success', __('messages.successupdated') . ' 👉 ' . $request->mitra->nama_lengkap);
+            return redirect()->back()->with('success', __('messages.successupdated') . ' 👉 ' . $mitraizin->mitra->nama_lengkap);
         }
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
