@@ -21,10 +21,15 @@ class MitraPermintaanIzin extends Model
         'updated_by',
     ];
 
-    protected $casts = [
-        'tanggal_mulai' => 'datetime',
-        'tanggal_selesai' => 'datetime',
-    ];
+    public function getTanggalMulaiAttribute($value)
+    {
+        return \Carbon\Carbon::parse($value)->timezone('Asia/Jakarta');
+    }
+
+    public function getTanggalSelesaiAttribute($value)
+    {
+        return \Carbon\Carbon::parse($value)->timezone('Asia/Jakarta');
+    }
 
     public function branch()
     {

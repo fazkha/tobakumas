@@ -69,16 +69,16 @@
                                             <div>
                                                 <span for="tanggal_mulai"
                                                     class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.startdate')</span>
-                                                <x-text-span>{{ \Carbon\Carbon::setLocale('id')->parse($datas->tanggal_mulai)->format('l, d F Y') }}</x-text-span>
+                                                <x-text-span>{{ \Carbon\Carbon::parse($datas->tanggal_mulai)->format('l, d F Y') }}</x-text-span>
                                                 <x-text-span
-                                                    class="text-bold">{{ \Carbon\Carbon::setLocale('id')->parse($datas->tanggal_mulai)->format('H:i') }}</x-text-span>
+                                                    class="text-bold">{{ \Carbon\Carbon::parse($datas->tanggal_mulai)->format('H:i') }}</x-text-span>
                                             </div>
                                             <div>
                                                 <span for="tanggal_selesai"
                                                     class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.enddate')</span>
-                                                <x-text-span>{{ \Carbon\Carbon::setLocale('id')->parse($datas->tanggal_selesai)->format('l, d F Y') }}</x-text-span>
+                                                <x-text-span>{{ \Carbon\Carbon::parse($datas->tanggal_selesai)->format('l, d F Y') }}</x-text-span>
                                                 <x-text-span
-                                                    class="text-bold">{{ \Carbon\Carbon::setLocale('id')->parse($datas->tanggal_selesai)->format('H:i') }}</x-text-span>
+                                                    class="text-bold">{{ \Carbon\Carbon::parse($datas->tanggal_selesai)->format('H:i') }}</x-text-span>
                                             </div>
                                         </div>
                                     </div>
