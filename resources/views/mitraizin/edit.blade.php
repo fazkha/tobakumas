@@ -81,7 +81,7 @@
                                     </div>
 
                                     <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
-                                        <div class="w-auto">
+                                        <div class="w-full md:w-auto">
                                             <label
                                                 class="cursor-pointer flex flex-col items-center md:flex-row md:gap-2">
                                                 <input type="checkbox" id="approved_hrd" name="approved_hrd"
