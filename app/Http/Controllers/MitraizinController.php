@@ -60,6 +60,8 @@ class MitraizinController extends Controller implements HasMiddleware
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
+        $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+        $mitras = Mitra::where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
         $datas = MitraPermintaanIzin::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
@@ -86,7 +88,7 @@ class MitraizinController extends Controller implements HasMiddleware
             return redirect()->route('dashboard');
         }
 
-        return view('mitraizin.index', compact(['datas']))->with('i', (request()->input('page', 1) - 1) * session('mitraizin_pp'));
+        return view('mitraizin.index', compact(['datas', 'branches', 'mitras']))->with('i', (request()->input('page', 1) - 1) * session('mitraizin_pp'));
     }
 
     public function fetchdb(Request $request): JsonResponse
@@ -99,6 +101,8 @@ class MitraizinController extends Controller implements HasMiddleware
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
+        $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+        $mitras = Mitra::where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
         $datas = MitraPermintaanIzin::query();
 
         for ($i = 0; $i < count($search_arr); $i++) {
@@ -123,7 +127,7 @@ class MitraizinController extends Controller implements HasMiddleware
 
         $datas->withPath('/human-resource/mitraizin'); // pagination url to
 
-        $view = view('mitraizin.partials.table', compact(['datas']))->with('i', (request()->input('page', 1) - 1) * session('mitraizin_pp'))->render();
+        $view = view('mitraizin.partials.table', compact(['datas', 'branches', 'mitras']))->with('i', (request()->input('page', 1) - 1) * session('mitraizin_pp'))->render();
 
         if ($view) {
             return response()->json($view, 200);
