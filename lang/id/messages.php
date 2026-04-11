@@ -296,5 +296,6 @@ return [
     'costtype' => 'Jenis Biaya',
     'cost' => 'Biaya',
     'mitraname' => 'Nama Mitra',
+    'mitra' => 'Mitra',
     'izin' => 'Izin',
 ];
