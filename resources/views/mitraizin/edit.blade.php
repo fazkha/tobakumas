@@ -80,13 +80,15 @@
                                         </div>
                                     </div>
 
+                                    {{-- class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-7 h-7 rounded-lg shadow-md" --}}
                                     <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
                                         <div class="w-auto">
-                                            <input type="hidden" name="status" id="statusValue" value="0">
+                                            <input type="hidden" name="status" id="statusValue"
+                                                value="{{ $datas->approved_hrd ?? 0 }}">
                                             <label
                                                 class="cursor-pointer flex flex-row items-center gap-2 md:flex-row md:gap-2">
-                                                <input type="checkbox" id="statusCheckbox" name="status" tabindex="1"
-                                                    class="dark:border-white-400/20 dark:scale-100 transition-all duration-500 ease-in-out dark:hover:scale-110 dark:checked:scale-100 w-7 h-7 rounded-lg shadow-md"
+                                                <input type="checkbox" id="statusCheckbox" tabindex="1"
+                                                    class="w-7 h-7 rounded-lg"
                                                     {{ $datas->approved_hrd == 1 ? 'checked' : '' }}>
                                                 <span
                                                     class="pr-4 group-hover:text-blue-500 transition-colors duration-300 text-right w-1/2 md:w-full">
@@ -131,6 +133,14 @@
             // 0 = unchecked
             // 1 = checked
             // 2 = indeterminate
+
+            if (checkbox.checked) {
+                state = 1;
+                hidden.value = 1;
+            } else {
+                state = 0;
+                hidden.value = 0;
+            }
 
             checkbox.addEventListener('click', function(e) {
                 e.preventDefault();
