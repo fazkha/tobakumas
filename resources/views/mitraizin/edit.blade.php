@@ -1,3 +1,6 @@
+@php
+    \Carbon\Carbon::setLocale('id');
+@endphp
 @section('title', __('messages.mitraizin'))
 
 <x-app-layout>
@@ -65,13 +68,17 @@
                                         <div class="flex flex-row flex-wrap items-center gap-2">
                                             <div>
                                                 <span for="tanggal_mulai"
-                                                    class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.date')</span>
-                                                <x-text-span>{{ $datas->tanggal_mulai }}</x-text-span>
+                                                    class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.startdate')</span>
+                                                <x-text-span>{{ $datas->tanggal_mulai->translatedFormat('l, d F Y') }}</x-text-span>
+                                                <x-text-span
+                                                    class="text-bold">{{ $datas->tanggal_mulai->translatedFormat('H:i') }}</x-text-span>
                                             </div>
                                             <div>
-                                                <span for="tanggal"
-                                                    class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.date')</span>
-                                                <x-text-span>{{ $datas->tanggal_selesai }}</x-text-span>
+                                                <span for="tanggal_selesai"
+                                                    class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.enddate')</span>
+                                                <x-text-span>{{ $datas->tanggal_selesai->translatedFormat('l, d F Y') }}</x-text-span>
+                                                <x-text-span
+                                                    class="text-bold">{{ $datas->tanggal_selesai->translatedFormat('H:i') }}</x-text-span>
                                             </div>
                                         </div>
                                     </div>
