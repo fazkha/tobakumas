@@ -142,25 +142,26 @@
                 hidden.value = 0;
             }
 
-            // checkbox.addEventListener('click', function(e) {
-            //     e.preventDefault();
+            checkbox.addEventListener('click', function(e) {
+                e.preventDefault();
 
-            //     state = (state + 1) % 3;
+                state = (state + 1) % 3;
+                console.log('state:', state);
 
-            //     if (state === 0) {
-            //         checkbox.checked = false;
-            //         checkbox.indeterminate = false;
-            //         hidden.value = 0;
-            //     } else if (state === 1) {
-            //         checkbox.checked = true;
-            //         checkbox.indeterminate = false;
-            //         hidden.value = 1;
-            //     } else {
-            //         checkbox.checked = false;
-            //         checkbox.indeterminate = true;
-            //         hidden.value = 2;
-            //     }
-            // });
+                // if (state === 0) {
+                //     checkbox.checked = false;
+                //     checkbox.indeterminate = false;
+                //     hidden.value = 0;
+                // } else if (state === 1) {
+                //     checkbox.checked = true;
+                //     checkbox.indeterminate = false;
+                //     hidden.value = 1;
+                // } else {
+                //     checkbox.checked = false;
+                //     checkbox.indeterminate = true;
+                //     hidden.value = 2;
+                // }
+            });
         </script>
     @endpush
 </x-app-layout>
