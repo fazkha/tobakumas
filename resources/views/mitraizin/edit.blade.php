@@ -81,11 +81,10 @@
                                     </div>
 
                                     <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
-                                        <div class="w-auto">
+                                        <div class="w-auto flex flex-row items-center gap-2 md:flex-row md:gap-2">
                                             <input type="hidden" name="status" id="statusValue"
                                                 value="{{ $datas->approved_hrd ?? 0 }}">
-                                            <label
-                                                class="cursor-pointer flex flex-row items-center gap-2 md:flex-row md:gap-2">
+                                            <label class="cursor-pointer">
                                                 <input type="checkbox" id="statusCheckbox" class="hidden">
                                                 {{-- <input type="checkbox" id="statusCheckbox" tabindex="1"
                                                     class="w-7 h-7 rounded-lg"
