@@ -80,14 +80,14 @@
                                         </div>
                                     </div>
 
-                                    <div class="flex flex-row flex-wrap items-center justify-start gap-2 md:gap-4">
+                                    <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
                                         <div class="w-auto flex flex-row items-center gap-2 md:flex-row md:gap-2">
                                             <input type="hidden" name="status" id="statusValue"
                                                 value="{{ $datas->approved_hrd ?? 0 }}">
                                             <label class="cursor-pointer">
                                                 <input type="checkbox" id="statusCheckbox" class="hidden">
                                                 <div id="checkboxUI"
-                                                    class="w-7 h-7 flex items-center justify-center rounded-lg border border-gray-400 transition-all duration-200 scale-100 hover:scale-110">
+                                                    class="w-7 h-7 flex items-center justify-center rounded-lg border border-gray-200 transition-all duration-200 scale-100 hover:scale-110">
                                                     <span id="checkboxIcon" class="text-white text-sm font-bold"></span>
                                                 </div>
                                             </label>
