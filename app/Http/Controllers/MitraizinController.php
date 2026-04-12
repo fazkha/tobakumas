@@ -58,11 +58,11 @@ class MitraizinController extends Controller implements HasMiddleware
         if (!$request->session()->exists('mitraizin_mitra_id')) {
             $request->session()->put('mitraizin_mitra_id', 'all');
         }
-        if (!$request->session()->exists('mitraizin_tanggal')) {
-            $request->session()->put('mitraizin_tanggal', '_');
+        if (!$request->session()->exists('mitraizin_tanggal_mulai')) {
+            $request->session()->put('mitraizin_tanggal_mulai', '_');
         }
 
-        $search_arr = ['mitraizin_show', 'mitraizin_branch_id', 'mitraizin_mitra_id', 'mitraizin_tanggal'];
+        $search_arr = ['mitraizin_show', 'mitraizin_branch_id', 'mitraizin_mitra_id', 'mitraizin_tanggal_mulai'];
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
@@ -118,9 +118,9 @@ class MitraizinController extends Controller implements HasMiddleware
         $request->session()->put('mitraizin_show', $request->show);
         $request->session()->put('mitraizin_branch_id', $request->branch);
         $request->session()->put('mitraizin_mitra_id', $request->mitra);
-        $request->session()->put('mitraizin_tanggal', $request->tanggal);
+        $request->session()->put('mitraizin_tanggal_mulai', $request->tanggal);
 
-        $search_arr = ['mitraizin_show', 'mitraizin_branch_id', 'mitraizin_mitra_id', 'mitraizin_tanggal'];
+        $search_arr = ['mitraizin_show', 'mitraizin_branch_id', 'mitraizin_mitra_id', 'mitraizin_tanggal_mulai'];
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
