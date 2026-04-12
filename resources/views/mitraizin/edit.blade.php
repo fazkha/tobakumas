@@ -135,7 +135,7 @@
             let state = parseInt(hidden.value) || 0;
 
             function render() {
-                ui.classList.remove('bg-blue-600', 'bg-red-600', 'bg-gray-600');
+                ui.classList.remove('bg-green-600', 'bg-red-600', 'bg-gray-600');
 
                 if (state === 0) {
                     ui.classList.add('bg-gray-600');
