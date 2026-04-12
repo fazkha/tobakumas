@@ -5,6 +5,7 @@ return [
     'version' => '1.31.0',
 
     // company name
+    'company_short' => 'LMGM',
     'company_name' => 'Laris Manis Gemilang Jaya',
 
     // Product name

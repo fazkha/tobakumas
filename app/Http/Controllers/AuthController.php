@@ -83,7 +83,7 @@ class AuthController extends Controller
         }
 
         $data = $validator->validated();
-        $randomMail = Str::random(10) . '@mail.com';
+        $randomMail = Str::replace(' ', '.', strtolower($request->name)) . '@mail.' . strtolower(config('custom.company_short'));
 
         switch ($appname) {
             case 'GerobakTracker':

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Branch;
 use App\Models\Mitra;
-use App\Models\MitraPermintaanIzin;
+use App\Models\PcIzin;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
@@ -68,7 +68,7 @@ class PcizinController extends Controller implements HasMiddleware
 
         $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $mitras = Mitra::where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
-        $datas = MitraPermintaanIzin::join('branches', 'branches.id', '=', 'mitra_permintaan_izins.branch_id')
+        $datas = PcIzin::join('branches', 'branches.id', '=', 'mitra_permintaan_izins.branch_id')
             ->join('mitras', 'mitras.id', '=', 'mitra_permintaan_izins.mitra_id')
             ->join('jenis_izin_pegawais', 'jenis_izin_pegawais.id', '=', 'mitra_permintaan_izins.jenis_izin_pegawai_id')
             ->select('mitra_permintaan_izins.*', 'branches.nama as branch_nama', 'mitras.nama_lengkap as mitra_nama', 'jenis_izin_pegawais.nama as jenis_nama');
@@ -126,7 +126,7 @@ class PcizinController extends Controller implements HasMiddleware
 
         $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $mitras = Mitra::where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
-        $datas = MitraPermintaanIzin::join('branches', 'branches.id', '=', 'mitra_permintaan_izins.branch_id')
+        $datas = PcIzin::join('branches', 'branches.id', '=', 'mitra_permintaan_izins.branch_id')
             ->join('mitras', 'mitras.id', '=', 'mitra_permintaan_izins.mitra_id')
             ->join('jenis_izin_pegawais', 'jenis_izin_pegawais.id', '=', 'mitra_permintaan_izins.jenis_izin_pegawai_id')
             ->select('mitra_permintaan_izins.*', 'branches.nama as branch_nama', 'mitras.nama_lengkap as mitra_nama', 'jenis_izin_pegawais.nama as jenis_nama');
@@ -185,7 +185,7 @@ class PcizinController extends Controller implements HasMiddleware
     {
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
-        $datas = MitraPermintaanIzin::join('branches', 'branches.id', '=', 'mitra_permintaan_izins.branch_id')
+        $datas = PcIzin::join('branches', 'branches.id', '=', 'mitra_permintaan_izins.branch_id')
             ->join('mitras', 'mitras.id', '=', 'mitra_permintaan_izins.mitra_id')
             ->join('jenis_izin_pegawais', 'jenis_izin_pegawais.id', '=', 'mitra_permintaan_izins.jenis_izin_pegawai_id')
             ->select('mitra_permintaan_izins.*', 'branches.nama as branch_nama', 'mitras.nama_lengkap as mitra_nama', 'jenis_izin_pegawais.nama as jenis_nama')
@@ -201,7 +201,7 @@ class PcizinController extends Controller implements HasMiddleware
     {
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
-        $pcizin = MitraPermintaanIzin::find(Crypt::decrypt($request->pcizin));
+        $pcizin = PcIzin::find(Crypt::decrypt($request->pcizin));
 
         if ($pcizin) {
             $namamitra = $pcizin->mitra->nama_lengkap;
