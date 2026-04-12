@@ -493,7 +493,7 @@
                             </a>
                         </div>
                     @endcan
-                    {{-- @can('pcizin-list')
+                    @can('pcizin-list')
                         <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="humanresource">
                             <a href="{{ route('pcizin.index') }}" role="menuitem"
                                 class="block p-2 text-sm text-gray-500 transition-colors duration-200 rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary">
@@ -508,7 +508,7 @@
                                 </span>
                             </a>
                         </div>
-                    @endcan --}}
+                    @endcan
                 </div>
             @endcan
 
