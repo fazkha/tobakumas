@@ -150,7 +150,7 @@ Route::prefix('human-resource')->middleware('auth')->group(function () {
 
     Route::resource('pcizin', PcizinController::class);
     Route::get('pcizin/{pcizin}/delete', [PcizinController::class, 'delete'])->name('pcizin.delete');
-    Route::get('pcizin/fetchdb/{pp}/{show}/{branch}/{pc}/{tanggal}', [PcizinController::class, 'fetchdb'])->defaults('tanggal', '_');
+    Route::get('pcizin/fetchdb/{pp}/{show}/{branch}/{pegawai}/{tanggal}', [PcizinController::class, 'fetchdb'])->defaults('tanggal', '_');
 })->missing(function (Request $request) {
     return Redirect::route('dashboard');
 });
