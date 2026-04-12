@@ -135,7 +135,7 @@
             let state = parseInt(hidden.value) || 0;
 
             function render() {
-                ui.classList.remove('bg-green-600', 'bg-red-600', 'bg-gray-600');
+                ui.classList.remove('bg-blue-600', 'bg-red-600', 'bg-gray-600');
 
                 if (state === 0) {
                     ui.classList.add('bg-gray-600');
@@ -144,7 +144,7 @@
                     checkbox.checked = false;
                     checkbox.indeterminate = false;
                 } else if (state === 1) {
-                    ui.classList.add('bg-green-600');
+                    ui.classList.add('bg-blue-600');
                     responder.innerHTML = '{{ __('messages.approved') }}';
                     icon.innerHTML = '✓';
                     checkbox.checked = true;
