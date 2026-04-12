@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Branch;
-use App\Models\Mitra;
 use App\Models\PcIzin;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
@@ -83,7 +82,7 @@ class PcizinController extends Controller implements HasMiddleware
                 }
             } else if ($search_arr[$i] == 'pcizin_branch_id' || $search_arr[$i] == 'pcizin_pegawai_id') {
                 if (session($search_arr[$i]) != 'all') {
-                    dd($search_arr[$i]);
+                    dd(session($search_arr[$i]));
                     $datas = $datas->where([$field => session($search_arr[$i])]);
                 }
             } else {
