@@ -1885,11 +1885,6 @@ video {
   color: rgba(59, 130, 246, var(--tw-text-opacity));
 }
 
-.text-blue-600 {
-  --tw-text-opacity: 1;
-  color: rgba(37, 99, 235, var(--tw-text-opacity));
-}
-
 .text-dark {
   color: var(--dark);
 }
@@ -1936,6 +1931,10 @@ video {
 
 .text-primary-900 {
   color: var(--color-primary-900);
+}
+
+.text-green-600 {
+  color: var(--color-green-600);
 }
 
 .text-blue-600 {
