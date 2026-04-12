@@ -790,6 +790,14 @@ video {
   background-color: rgba(209, 250, 229, var(--tw-bg-opacity));
 }
 
+.bg-green-600 {
+  background-color: var(--color-green-600);
+}
+
+.bg-red-600 {
+  background-color: var(--color-red-600);
+}
+
 .bg-primary {
   background-color: var(--color-primary);
 }
