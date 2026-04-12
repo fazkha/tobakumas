@@ -30,6 +30,10 @@
                     </th>
                     <th
                         class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
+                        @lang('messages.status')
+                    </th>
+                    <th
+                        class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
                         &nbsp;
                     </th>
                 </tr>
@@ -37,7 +41,7 @@
             <tbody>
                 @if ($datas->count() == 0)
                     <tr>
-                        <td colspan="6" class="text-sm bg-primary-20 dark:bg-primary-900">
+                        <td colspan="7" class="text-sm bg-primary-20 dark:bg-primary-900">
                             <div class="flex items-center justify-center p-5">@lang('messages.datanotavailable')</div>
                         </td>
                     </tr>
@@ -65,6 +69,11 @@
                         <td
                             class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
                             <span class="text-gray-900 dark:text-white">{{ $data->tanggal_mulai }}</span>
+                        </td>
+                        <td
+                            class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
+                            <span
+                                class="{{ $data->approved_hrd == 1 ? 'text-blue-900' : ($data->approved_hrd == 2 ? 'text-red-900' : 'text-gray-900') }} dark:text-white">{{ $data->approved_hrd == 1 ? __('messages.approved') : ($data->approved_hrd == 2 ? __('messages.notapproved') : __('messages.pending')) }}</span>
                         </td>
                         <td class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800"
                             style="vertical-align: middle;">

@@ -159,6 +159,8 @@ return [
     'orderdate' => 'Tanggal Transaksi',
     'approval' => 'Persetujuan',
     'approved' => 'Disetujui',
+    'notapproved' => 'Tidak Disetujui',
+    'pending' => 'Tertunda',
     'humanresource' => 'Kepegawaian',
     'employee' => 'Pegawai',
     'phonenumber' => 'No. Telpon',

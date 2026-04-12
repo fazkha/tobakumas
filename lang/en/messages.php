@@ -159,6 +159,8 @@ return [
     'orderdate' => 'Transaction Date',
     'approval' => 'Approval',
     'approved' => 'Approved',
+    'notapproved' => 'Not Approved',
+    'pending' => 'Pending',
     'humanresource' => 'Human Resource',
     'employee' => 'Employee',
     'phonenumber' => 'Phone Number',
