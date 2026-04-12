@@ -81,8 +81,7 @@ class PcizinController extends Controller implements HasMiddleware
                     $datas = $datas->where('pc_permintaan_izins.approved_hrd', 0);
                 }
             } else if ($search_arr[$i] == 'pcizin_branch_id' || $search_arr[$i] == 'pcizin_pegawai_id') {
-                if (session($search_arr[$i]) != 'all') {
-                    dd(session($search_arr[$i]));
+                if (session($search_arr[$i]) != 'all' || session($search_arr[$i]) != null) {
                     $datas = $datas->where([$field => session($search_arr[$i])]);
                 }
             } else {
@@ -94,12 +93,12 @@ class PcizinController extends Controller implements HasMiddleware
             }
         }
 
-        $sql = $datas->toSql();
-        $bindings = $datas->getBindings();
-        foreach ($bindings as $binding) {
-            $sql = preg_replace('/\?/', "'" . addslashes($binding) . "'", $sql, 1);
-        }
-        dd($sql);
+        // $sql = $datas->toSql();
+        // $bindings = $datas->getBindings();
+        // foreach ($bindings as $binding) {
+        //     $sql = preg_replace('/\?/', "'" . addslashes($binding) . "'", $sql, 1);
+        // }
+        // dd($sql);
 
         // $datas = $datas->where('user_id', auth()->user()->id);
         $datas = $datas->latest()->paginate(session('pcizin_pp'));
