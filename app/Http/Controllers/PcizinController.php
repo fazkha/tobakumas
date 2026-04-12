@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Branch;
-use App\Models\Kabupaten;
-use App\Models\Propinsi;
-use App\Http\Requests\BranchRequest;
-use App\Models\Kecamatan;
+use App\Models\Mitra;
+use App\Models\MitraPermintaanIzin;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
@@ -14,6 +12,7 @@ use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 
 class PcizinController extends Controller implements HasMiddleware
@@ -29,29 +28,59 @@ class PcizinController extends Controller implements HasMiddleware
         ];
     }
 
+    public function db_switch($sw)
+    {
+        if ($sw == 2) {
+            Config::set('database.connections.mysql.database', config('custom.db02_dbname'));
+            Config::set('database.connections.mysql.username', config('custom.db02_username'));
+            Config::set('database.connections.mysql.password', config('custom.db02_password'));
+        } elseif ($sw == 1) {
+            Config::set('database.connections.mysql.database', config('custom.db01_dbname'));
+            Config::set('database.connections.mysql.username', config('custom.db01_username'));
+            Config::set('database.connections.mysql.password', config('custom.db01_password'));
+        }
+
+        DB::purge('mysql');
+        DB::reconnect('mysql');
+    }
+
     public function index(Request $request)
     {
-        if (!$request->session()->exists('branch_pp')) {
-            $request->session()->put('branch_pp', config('custom.list_per_page_opt_1'));
+        if (!$request->session()->exists('pcizin_pp')) {
+            $request->session()->put('pcizin_pp', config('custom.list_per_page_opt_1'));
         }
-        if (!$request->session()->exists('branch_isactive')) {
-            $request->session()->put('branch_isactive', 'all');
+        if (!$request->session()->exists('pcizin_show')) {
+            $request->session()->put('pcizin_show', 'all');
         }
-        if (!$request->session()->exists('branch_nama')) {
-            $request->session()->put('branch_nama', '_');
+        if (!$request->session()->exists('pcizin_branch_id')) {
+            $request->session()->put('pcizin_branch_id', 'all');
         }
-        if (!$request->session()->exists('branch_alamat')) {
-            $request->session()->put('branch_alamat', '_');
+        if (!$request->session()->exists('pcizin_mitra_id')) {
+            $request->session()->put('pcizin_mitra_id', 'all');
+        }
+        if (!$request->session()->exists('pcizin_tanggal_mulai')) {
+            $request->session()->put('pcizin_tanggal_mulai', '_');
         }
 
-        $search_arr = ['branch_isactive', 'branch_nama', 'branch_alamat'];
+        $search_arr = ['pcizin_show', 'pcizin_branch_id', 'pcizin_mitra_id', 'pcizin_tanggal_mulai'];
 
-        $datas = Branch::query();
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+
+        $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+        $mitras = Mitra::where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
+        $datas = MitraPermintaanIzin::join('branches', 'branches.id', '=', 'mitra_permintaan_izins.branch_id')
+            ->join('mitras', 'mitras.id', '=', 'mitra_permintaan_izins.mitra_id')
+            ->join('jenis_izin_pegawais', 'jenis_izin_pegawais.id', '=', 'mitra_permintaan_izins.jenis_izin_pegawai_id')
+            ->select('mitra_permintaan_izins.*', 'branches.nama as branch_nama', 'mitras.nama_lengkap as mitra_nama', 'jenis_izin_pegawais.nama as jenis_nama');
 
         for ($i = 0; $i < count($search_arr); $i++) {
-            $field = substr($search_arr[$i], strlen('branch_'));
+            $field = substr($search_arr[$i], strlen('pcizin_'));
 
-            if ($search_arr[$i] == 'branch_isactive') {
+            if ($search_arr[$i] == 'pcizin_show') {
+                if (session($search_arr[$i]) == '0') {
+                    $datas = $datas->where('mitra_permintaan_izins.approved_hrd', 0);
+                }
+            } else if ($search_arr[$i] == 'pcizin_branch_id' || $search_arr[$i] == 'pcizin_mitra_id') {
                 if (session($search_arr[$i]) != 'all') {
                     $datas = $datas->where([$field => session($search_arr[$i])]);
                 }
@@ -63,31 +92,53 @@ class PcizinController extends Controller implements HasMiddleware
                 }
             }
         }
+
+        // $sql = $datas->toSql();
+        // $bindings = $datas->getBindings();
+        // foreach ($bindings as $binding) {
+        //     $sql = preg_replace('/\?/', "'" . addslashes($binding) . "'", $sql, 1);
+        // }
+        // dd($sql);
+
         // $datas = $datas->where('user_id', auth()->user()->id);
-        $datas = $datas->latest()->paginate(session('branch_pp'));
+        $datas = $datas->latest()->paginate(session('pcizin_pp'));
+
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         if ($request->page && $datas->count() == 0) {
             return redirect()->route('dashboard');
         }
 
-        return view('branch.index', compact(['datas']))->with('i', (request()->input('page', 1) - 1) * session('branch_pp'));
+        return view('pcizin.index', compact(['datas', 'branches', 'mitras']))->with('i', (request()->input('page', 1) - 1) * session('pcizin_pp'));
     }
 
     public function fetchdb(Request $request): JsonResponse
     {
-        $request->session()->put('branch_pp', $request->pp);
-        $request->session()->put('branch_isactive', $request->isactive);
-        $request->session()->put('branch_nama', $request->nama);
-        $request->session()->put('branch_alamat', $request->alamat);
+        $request->session()->put('pcizin_pp', $request->pp);
+        $request->session()->put('pcizin_show', $request->show);
+        $request->session()->put('pcizin_branch_id', $request->branch);
+        $request->session()->put('pcizin_mitra_id', $request->mitra);
+        $request->session()->put('pcizin_tanggal_mulai', $request->tanggal);
 
-        $search_arr = ['branch_isactive', 'branch_nama', 'branch_alamat'];
+        $search_arr = ['pcizin_show', 'pcizin_branch_id', 'pcizin_mitra_id', 'pcizin_tanggal_mulai'];
 
-        $datas = Branch::query();
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+
+        $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
+        $mitras = Mitra::where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
+        $datas = MitraPermintaanIzin::join('branches', 'branches.id', '=', 'mitra_permintaan_izins.branch_id')
+            ->join('mitras', 'mitras.id', '=', 'mitra_permintaan_izins.mitra_id')
+            ->join('jenis_izin_pegawais', 'jenis_izin_pegawais.id', '=', 'mitra_permintaan_izins.jenis_izin_pegawai_id')
+            ->select('mitra_permintaan_izins.*', 'branches.nama as branch_nama', 'mitras.nama_lengkap as mitra_nama', 'jenis_izin_pegawais.nama as jenis_nama');
 
         for ($i = 0; $i < count($search_arr); $i++) {
-            $field = substr($search_arr[$i], strlen('branch_'));
+            $field = substr($search_arr[$i], strlen('pcizin_'));
 
-            if ($search_arr[$i] == 'branch_isactive') {
+            if ($search_arr[$i] == 'pcizin_show') {
+                if (session($search_arr[$i]) == '0') {
+                    $datas = $datas->where('mitra_permintaan_izins.approved_hrd', 0);
+                }
+            } else if ($search_arr[$i] == 'pcizin_branch_id' || $search_arr[$i] == 'pcizin_mitra_id') {
                 if (session($search_arr[$i]) != 'all') {
                     $datas = $datas->where([$field => session($search_arr[$i])]);
                 }
@@ -100,11 +151,13 @@ class PcizinController extends Controller implements HasMiddleware
             }
         }
         // $datas = $datas->where('user_id', auth()->user()->id);
-        $datas = $datas->latest()->paginate(session('branch_pp'));
+        $datas = $datas->latest()->paginate(session('pcizin_pp'));
 
-        $datas->withPath('/general-affair/branch'); // pagination url to
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
-        $view = view('branch.partials.table', compact(['datas']))->with('i', (request()->input('page', 1) - 1) * session('branch_pp'))->render();
+        $datas->withPath('/human-resource/pcizin'); // pagination url to
+
+        $view = view('pcizin.partials.table', compact(['datas', 'branches', 'mitras']))->with('i', (request()->input('page', 1) - 1) * session('pcizin_pp'))->render();
 
         if ($view) {
             return response()->json($view, 200);
@@ -113,158 +166,68 @@ class PcizinController extends Controller implements HasMiddleware
         }
     }
 
-    public function create(): View
+    public function create()
     {
-        $propinsis = Propinsi::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $kabupatens = Kabupaten::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $kecamatans = Kecamatan::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-
-        return view('branch.create', compact('propinsis', 'kabupatens', 'kecamatans'));
+        //
     }
 
-    public function store(BranchRequest $request): RedirectResponse
+    public function store(Request $request)
     {
-        if ($request->validated()) {
-            $branch = Branch::create([
-                'propinsi_id' => $request->propinsi_id,
-                'kabupaten_id' => $request->kabupaten_id,
-                'kecamatan_id' => $request->kecamatan_id,
-                'kode' => $request->kode,
-                'nama' => $request->nama,
-                'alamat' => $request->alamat,
-                'kodepos' => $request->kodepos,
-                'keterangan' => $request->keterangan,
-                'email' => $request->email,
-                'latitude' => $request->latitude,
-                'longitude' => $request->longitude,
-                'isactive' => ($request->isactive == 'on' ? 1 : 0),
-                'created_by' => auth()->user()->email,
-                'updated_by' => auth()->user()->email,
-            ]);
-
-            if ($branch) {
-                return redirect()->back()->with('success', __('messages.successadded') . ' 👉 ' . $request->nama);
-            }
-        }
-
-        return redirect()->back()->withInput()->with('error', 'Error occured while saving!');
+        //
     }
 
-    public function show(Request $request): View
+    public function show(Request $request)
     {
-        $datas = Branch::find(Crypt::decrypt($request->branch));
-
-        return view('branch.show', compact(['datas']));
+        //
     }
 
     public function edit(Request $request): View
     {
-        $datas = Branch::find(Crypt::decrypt($request->branch));
-        $propinsis = Propinsi::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $kabupatens = Kabupaten::where('isactive', 1)->where('propinsi_id', $datas->propinsi_id)->orderBy('nama')->pluck('nama', 'id');
-        $kecamatans = Kecamatan::where('isactive', 1)->where('kabupaten_id', $datas->kabupaten_id)->orderBy('nama')->pluck('nama', 'id');
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
-        $syntax = 'CALL sp_mitra_cabang(' . Crypt::decrypt($request->branch) . ')';
-        $pcmitra = DB::select($syntax);
+        $datas = MitraPermintaanIzin::join('branches', 'branches.id', '=', 'mitra_permintaan_izins.branch_id')
+            ->join('mitras', 'mitras.id', '=', 'mitra_permintaan_izins.mitra_id')
+            ->join('jenis_izin_pegawais', 'jenis_izin_pegawais.id', '=', 'mitra_permintaan_izins.jenis_izin_pegawai_id')
+            ->select('mitra_permintaan_izins.*', 'branches.nama as branch_nama', 'mitras.nama_lengkap as mitra_nama', 'jenis_izin_pegawais.nama as jenis_nama')
+            ->where('mitra_permintaan_izins.id', Crypt::decrypt($request->pcizin))
+            ->first();
 
-        $initialMarkers = [
-            [
-                'position' => [
-                    'lat' => $datas->latitude ? $datas->latitude : config('custom.latitude'),
-                    'lng' => $datas->longitude ? $datas->longitude : config('custom.longitude'),
-                ],
-                'title' => $datas->nama,
-                'draggable' => $datas->latitude ? false : true
-            ],
-        ];
-        // dd($initialMarkers);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
-        return view('branch.edit', compact(['datas', 'propinsis', 'kabupatens', 'kecamatans', 'pcmitra', 'initialMarkers']));
+        return view('pcizin.edit', compact(['datas']));
     }
 
-    public function update(BranchRequest $request): RedirectResponse
+    public function update(Request $request): RedirectResponse
     {
-        $branch = Branch::find(Crypt::decrypt($request->branch));
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
-        if ($request->validated()) {
+        $pcizin = MitraPermintaanIzin::find(Crypt::decrypt($request->pcizin));
 
-            $branch->update([
-                'propinsi_id' => $request->propinsi_id,
-                'kabupaten_id' => $request->kabupaten_id,
-                'kecamatan_id' => $request->kecamatan_id,
-                'kode' => $request->kode,
-                'nama' => $request->nama,
-                'alamat' => $request->alamat,
-                'kodepos' => $request->kodepos,
-                'keterangan' => $request->keterangan,
-                'email' => $request->email,
-                'latitude' => $request->latitude,
-                'longitude' => $request->longitude,
-                'isactive' => ($request->isactive == 'on' ? 1 : 0),
-                'updated_by' => auth()->user()->email,
+        if ($pcizin) {
+            $namamitra = $pcizin->mitra->nama_lengkap;
+            $status = $request->input('status');
+
+            $pcizin->update([
+                'approved_hrd' => $status,
             ]);
 
-            return redirect()->back()->with('success', __('messages.successupdated') . ' 👉 ' . $request->nama);
-        } else {
-            return redirect()->back()->withInput()->with('error', 'Error occured while updating!');
-        }
-    }
+            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
-    public function delete(Request $request): View
-    {
-        $branch = Branch::find(Crypt::decrypt($request->branch));
-
-        $datas = $branch;
-
-        return view('branch.delete', compact(['datas']));
-    }
-
-    public function destroy(Request $request): RedirectResponse
-    {
-        $branch = Branch::find(Crypt::decrypt($request->branch));
-
-        try {
-            $branch->delete();
-        } catch (\Illuminate\Database\QueryException $e) {
-            if (str_contains($e->getMessage(), 'Integrity constraint violation')) {
-                return redirect()->route('branch.index')->with('error', 'Integrity constraint violation');
-            }
-            return redirect()->route('branch.index')->with('error', $e->getMessage());
+            return redirect()->back()->with('success', __('messages.successupdated') . ' 👉 ' . $namamitra);
         }
 
-        return redirect()->route('branch.index')
-            ->with('success', __('messages.successdeleted') . ' 👉 ' . $branch->nama);
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+
+        return redirect()->back()->withInput()->with('error', 'Error occured while updating!');
     }
 
-    public function getAttribute(Request $request): JsonResponse
+    public function delete(Request $request)
     {
-        $get = Branch::find($request->id);
+        //
+    }
 
-        if ($get) {
-            $kode = $get->kode;
-            $nama = $get->nama;
-            $alamat = $get->alamat;
-            $propinsi_id = $get->propinsi_id;
-            $kabupaten_id = $get->kabupaten_id;
-            $kecamatan_id = $get->kecamatan_id;
-
-            return response()->json([
-                'kode' => $kode,
-                'nama' => $nama,
-                'alamat' => $alamat,
-                'propinsi_id' => $propinsi_id,
-                'kabupaten_id' => $kabupaten_id,
-                'kecamatan_id' => $kecamatan_id,
-            ], 200);
-        }
-
-        return response()->json([
-            'kode' => '-',
-            'nama' => '-',
-            'alamat' => '-',
-            'propinsi_id' => null,
-            'kabupaten_id' => null,
-            'kecamatan_id' => null,
-        ], 200);
+    public function destroy(Request $request)
+    {
+        //
     }
 }
