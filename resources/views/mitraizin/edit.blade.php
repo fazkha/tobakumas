@@ -139,19 +139,19 @@
 
                 if (state === 0) {
                     ui.classList.add('bg-gray-600');
-                    responder.innerHTML = {{ __('messages.pending') }};
+                    responder.innerHTML = '{{ __('messages.pending') }}';
                     icon.innerHTML = '';
                     checkbox.checked = false;
                     checkbox.indeterminate = false;
                 } else if (state === 1) {
                     ui.classList.add('bg-green-600');
-                    responder.innerHTML = {{ __('messages.approved') }};
+                    responder.innerHTML = '{{ __('messages.approved') }}';
                     icon.innerHTML = '✓';
                     checkbox.checked = true;
                     checkbox.indeterminate = false;
                 } else {
                     ui.classList.add('bg-red-600');
-                    responder.innerHTML = {{ __('messages.notapproved') }};
+                    responder.innerHTML = '{{ __('messages.notapproved') }}';
                     icon.innerHTML = '−';
                     checkbox.checked = false;
                     checkbox.indeterminate = true;
