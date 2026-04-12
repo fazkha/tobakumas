@@ -31,16 +31,13 @@
                             @lang('messages.page')</span>
                         <select id="pp-dropdown"
                             class="text-sm px-2 leading-tight pl-28 pr-9 py-2 appearance-none w-full h-full rounded-md border block bg-primary-20 border-primary-100 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800">
-                            <option
-                                {{ session('mitraizin_pp') == config('custom.list_per_page_opt_1') ? 'selected' : '' }}
+                            <option {{ session('pcizin_pp') == config('custom.list_per_page_opt_1') ? 'selected' : '' }}
                                 value="{{ config('custom.list_per_page_opt_1') }}">
                                 {{ config('custom.list_per_page_opt_1') }}</option>
-                            <option
-                                {{ session('mitraizin_pp') == config('custom.list_per_page_opt_2') ? 'selected' : '' }}
+                            <option {{ session('pcizin_pp') == config('custom.list_per_page_opt_2') ? 'selected' : '' }}
                                 value="{{ config('custom.list_per_page_opt_2') }}">
                                 {{ config('custom.list_per_page_opt_2') }}</option>
-                            <option
-                                {{ session('mitraizin_pp') == config('custom.list_per_page_opt_3') ? 'selected' : '' }}
+                            <option {{ session('pcizin_pp') == config('custom.list_per_page_opt_3') ? 'selected' : '' }}
                                 value="{{ config('custom.list_per_page_opt_3') }}">
                                 {{ config('custom.list_per_page_opt_3') }}</option>
                         </select>
@@ -54,9 +51,9 @@
                             class="w-24 text-xs h-full absolute inset-y-0 left-0 flex items-center px-2 border-r border-primary-100 dark:border-primary-800">@lang('messages.show')</span>
                         <select id="show-dropdown"
                             class="text-sm px-2 leading-tight pl-28 pr-9 py-2 appearance-none w-full h-full rounded-md border block bg-primary-20 border-primary-100 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800">
-                            <option {{ session('mitraizin_show') == 'all' ? 'selected' : '' }} value="all">
+                            <option {{ session('pcizin_show') == 'all' ? 'selected' : '' }} value="all">
                                 @lang('messages.all')</option>
-                            <option {{ session('mitraizin_show') == '0' ? 'selected' : '' }} value="0">
+                            <option {{ session('pcizin_show') == '0' ? 'selected' : '' }} value="0">
                                 @lang('messages.pendingonly')</option>
                         </select>
                         <div
@@ -71,10 +68,10 @@
                             class="w-24 text-xs h-full absolute inset-y-0 left-0 flex items-center px-2 border-r border-primary-100 dark:border-primary-800">@lang('messages.branch')</span>
                         <select id="branch-dropdown"
                             class="text-sm px-2 leading-tight pl-28 pr-9 py-2 appearance-none w-full h-full rounded-md border block bg-primary-20 border-primary-100 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800">
-                            <option {{ session('mitraizin_branch_id') == 'all' ? 'selected' : '' }} value="all">
+                            <option {{ session('pcizin_branch_id') == 'all' ? 'selected' : '' }} value="all">
                                 @lang('messages.all')</option>
                             @foreach ($branches as $id => $name)
-                                <option {{ session('mitraizin_branch_id') == $id ? 'selected' : '' }}
+                                <option {{ session('pcizin_branch_id') == $id ? 'selected' : '' }}
                                     value="{{ $id }}">{{ $name }}</option>
                             @endforeach
                         </select>
@@ -86,12 +83,12 @@
                     <div class="relative shadow-md mr-2 mb-2">
                         <span
                             class="w-24 text-xs h-full absolute inset-y-0 left-0 flex items-center px-2 border-r border-primary-100 dark:border-primary-800">@lang('messages.mitra')</span>
-                        <select id="mitra-dropdown"
+                        <select id="pegawai-dropdown"
                             class="text-sm px-2 leading-tight pl-28 pr-9 py-2 appearance-none w-full h-full rounded-md border block bg-primary-20 border-primary-100 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800">
-                            <option {{ session('mitraizin_mitra_id') == 'all' ? 'selected' : '' }} value="all">
+                            <option {{ session('pcizin_pegawai_id') == 'all' ? 'selected' : '' }} value="all">
                                 @lang('messages.all')</option>
-                            @foreach ($mitras as $id => $name)
-                                <option {{ session('mitraizin_mitra_id') == $id ? 'selected' : '' }}
+                            @foreach ($pegawais as $id => $name)
+                                <option {{ session('pcizin_pegawai_id') == $id ? 'selected' : '' }}
                                     value="{{ $id }}">{{ $name }}</option>
                             @endforeach
                         </select>
@@ -104,7 +101,7 @@
                         <span
                             class="w-24 text-xs h-full absolute inset-y-0 left-0 flex items-center px-2 border-r border-primary-100 dark:border-primary-800">@lang('calendar.date')</span>
                         <input id="search-tanggal" type="date" placeholder="@lang('messages.search')"
-                            value="{{ session('mitraizin_tanggal') == '_' ? '' : session('mitraizin_tanggal') }}"
+                            value="{{ session('pcizin_tanggal') == '_' ? '' : session('pcizin_tanggal') }}"
                             class="text-sm pl-28 pr-6 pt-1.5 pb-2 appearance-none rounded-md border block w-full bg-primary-20 border-primary-100 placeholder-gray-400 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800" />
                     </div>
                 </div>
@@ -113,8 +110,8 @@
         </div>
 
         <div>
-            @can('mitraizin-create')
-                <x-anchor-primary href="{{ route('mitraizin.create') }}">
+            @can('pcizin-create')
+                <x-anchor-primary href="{{ route('pcizin.create') }}">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />

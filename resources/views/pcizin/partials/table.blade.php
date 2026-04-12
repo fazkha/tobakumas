@@ -18,7 +18,7 @@
                     </th>
                     <th
                         class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
-                        @lang('messages.mitra')
+                        @lang('messages.employee')
                     </th>
                     <th
                         class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
@@ -60,7 +60,7 @@
                         </td>
                         <td
                             class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
-                            <span class="text-gray-900 dark:text-white">{{ $data->mitra_nama }}</span>
+                            <span class="text-gray-900 dark:text-white">{{ $data->pc_nama }}</span>
                         </td>
                         <td
                             class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
@@ -78,8 +78,8 @@
                         <td class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800"
                             style="vertical-align: middle;">
                             <div class="flex items-center justify-center">
-                                @can('mitraizin-edit')
-                                    <a href="{{ route('mitraizin.edit', Crypt::Encrypt($data->id)) }}"
+                                @can('pcizin-edit')
+                                    <a href="{{ route('pcizin.edit', Crypt::Encrypt($data->id)) }}"
                                         title="{{ __('messages.edit') }}" class="ml-2">
                                         <span
                                             class="relative inline-block px-2 py-2 font-semibold text-green-800 dark:text-green-50 leading-tight">

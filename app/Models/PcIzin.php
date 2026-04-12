@@ -36,7 +36,7 @@ class PcIzin extends Model
         return $this->belongsTo(Branch::class, 'branch_id');
     }
 
-    public function mitra()
+    public function pegawai()
     {
         return $this->belongsTo(Pegawai::class, 'pegawai_id');
     }

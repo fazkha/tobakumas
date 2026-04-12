@@ -1,9 +1,9 @@
-@section('title', __('messages.mitraizin'))
+@section('title', __('messages.pcizin'))
 
 <x-app-layout>
     <div class="flex items-center justify-between px-4 py-4 border-b border-primary-100 lg:py-6 dark:border-primary-800">
         <h1 class="text-xl flex items-center justify-center">
-            <a href="{{ route('mitraizin.index') }}" class="flex items-center justify-center">
+            <a href="{{ route('pcizin.index') }}" class="flex items-center justify-center">
                 <svg fill="currentColor" class="size-7" viewBox="0 0 16 16" id="request-16px"
                     xmlns="http://www.w3.org/2000/svg">
                     <path id="Path_49" data-name="Path 49"
@@ -12,7 +12,7 @@
                 </svg>
                 <div class="relative px-2 pt-2">
                     <span class="absolute top-0 left-2 text-xs w-40">@lang('messages.humanresource')</span>
-                    <span>@lang('messages.mitraizin')</span>
+                    <span>@lang('messages.pcizin')</span>
                 </div>
             </a>
             <span class="px-2">&raquo;</span>
@@ -20,7 +20,7 @@
         </h1>
     </div>
 
-    <form action="{{ route('mitraizin.update', Crypt::Encrypt($datas->id)) }}" method="POST"
+    <form action="{{ route('pcizin.update', Crypt::Encrypt($datas->id)) }}" method="POST"
         enctype="multipart/form-data">
         @csrf
         @method('PUT')
@@ -31,7 +31,7 @@
                 <div class="flex flex-col items-center">
 
                     <div class="w-full" role="alert">
-                        @include('mitraizin.partials.feedback')
+                        @include('pcizin.partials.feedback')
                     </div>
 
                     <div
@@ -49,8 +49,8 @@
 
                                     <div class="w-auto pb-4">
                                         <span for="mitra_id"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.mitraname')</span>
-                                        <x-text-span>{{ $datas->mitra_nama }}</x-text-span>
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.employee')</span>
+                                        <x-text-span>{{ $datas->pc_nama }}</x-text-span>
                                     </div>
                                 </div>
 
@@ -105,7 +105,7 @@
                                             </svg>
                                             <span class="pl-1">@lang('messages.save')</span>
                                         </x-primary-button>
-                                        <x-anchor-secondary href="{{ route('mitraizin.index') }}" tabindex="3">
+                                        <x-anchor-secondary href="{{ route('pcizin.index') }}" tabindex="3">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="1.5" stroke="currentColor" class="size-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
