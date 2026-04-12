@@ -1938,6 +1938,14 @@ video {
   color: var(--color-primary-900);
 }
 
+.text-blue-600 {
+  color: var(--color-blue-600);
+}
+
+.text-red-600 {
+  color: var(--color-red-600);
+}
+
 .text-danger-light {
   --tw-text-opacity: 1;
   color: rgba(239, 68, 68, var(--tw-text-opacity));

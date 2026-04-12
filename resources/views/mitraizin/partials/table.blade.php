@@ -73,9 +73,7 @@
                         <td
                             class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
                             <span
-                                class="{{ 'text-blue-700' }} dark:text-white">{{ $data->approved_hrd == 1 ? __('messages.approved') : ($data->approved_hrd == 2 ? __('messages.notapproved') : __('messages.pending')) }}</span>
-                            {{-- <span
-                                class="{{ $data->approved_hrd == 1 ? 'text-blue-700' : ($data->approved_hrd == 2 ? 'text-red-700' : 'text-gray-900') }} dark:text-white">{{ $data->approved_hrd == 1 ? __('messages.approved') : ($data->approved_hrd == 2 ? __('messages.notapproved') : __('messages.pending')) }}</span> --}}
+                                class="{{ $data->approved_hrd == 1 ? 'text-blue-600' : ($data->approved_hrd == 2 ? 'text-red-600' : 'text-gray-900') }} dark:text-white">{{ $data->approved_hrd == 1 ? __('messages.approved') : ($data->approved_hrd == 2 ? __('messages.notapproved') : __('messages.pending')) }}</span>
                         </td>
                         <td class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800"
                             style="vertical-align: middle;">
