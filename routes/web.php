@@ -148,9 +148,9 @@ Route::prefix('human-resource')->middleware('auth')->group(function () {
     Route::get('mitraizin/{mitraizin}/delete', [MitraizinController::class, 'delete'])->name('mitraizin.delete');
     Route::get('mitraizin/fetchdb/{pp}/{show}/{branch}/{mitra}/{tanggal}', [MitraizinController::class, 'fetchdb'])->defaults('tanggal', '_');
 
-    // Route::resource('pcizin', PcizinController::class);
-    // Route::get('pcizin/{pcizin}/delete', [PcizinController::class, 'delete'])->name('pcizin.delete');
-    // Route::get('pcizin/fetchdb/{pp}/{isactive}/{judul}/{keterangan}', [PcizinController::class, 'fetchdb'])->defaults('judul', '_')->defaults('keterangan', '_');
+    Route::resource('pcizin', PcizinController::class);
+    Route::get('pcizin/{pcizin}/delete', [PcizinController::class, 'delete'])->name('pcizin.delete');
+    Route::get('pcizin/fetchdb/{pp}/{show}/{branch}/{pc}/{tanggal}', [PcizinController::class, 'fetchdb'])->defaults('tanggal', '_');
 })->missing(function (Request $request) {
     return Redirect::route('dashboard');
 });
