@@ -12,7 +12,7 @@ use App\Models\JenisPengeluaranCabang;
 use App\Models\MitraOmzetPengeluaran;
 use App\Models\PcKasbon;
 use App\Models\PcOmzetHarian;
-use App\Models\PcPengeluaran;
+use App\Models\PcBiaya;
 use App\Models\PcPettyCash;
 use App\Models\Pegawai;
 use App\Models\Profile;
@@ -708,7 +708,7 @@ class CabangController extends Controller
 
         $data = $validator->validated();
 
-        $pengeluaran = PcPengeluaran::join('jenis_pengeluaran_cabangs', 'pc_pengeluarans.jenis_pengeluaran_cabang_id', '=', 'jenis_pengeluaran_cabangs.id')
+        $pengeluaran = PcBiaya::join('jenis_pengeluaran_cabangs', 'pc_pengeluarans.jenis_pengeluaran_cabang_id', '=', 'jenis_pengeluaran_cabangs.id')
             ->join('branches', 'branches.id', '=', 'pc_pengeluarans.branch_id')
             ->where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
@@ -850,7 +850,7 @@ class CabangController extends Controller
             }
         }
 
-        $pengeluaran = PcPengeluaran::where('user_id', $data['id'])
+        $pengeluaran = PcBiaya::where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
             ->where('branch_id', $data['cabang'])
             ->where('jenis_pengeluaran_cabang_id', $jenis->id)
@@ -862,7 +862,7 @@ class CabangController extends Controller
             ]);
         } else {
             if (isset($data['keterangan'])) {
-                $detail = PcPengeluaran::create([
+                $detail = PcBiaya::create([
                     'branch_id' => $data['cabang'],
                     'user_id' => $data['id'],
                     'tanggal' => $data['tanggal'],
@@ -872,7 +872,7 @@ class CabangController extends Controller
             }
         }
 
-        $pengeluaran = PcPengeluaran::join('jenis_pengeluaran_cabangs', 'pc_pengeluarans.jenis_pengeluaran_cabang_id', '=', 'jenis_pengeluaran_cabangs.id')
+        $pengeluaran = PcBiaya::join('jenis_pengeluaran_cabangs', 'pc_pengeluarans.jenis_pengeluaran_cabang_id', '=', 'jenis_pengeluaran_cabangs.id')
             ->join('branches', 'branches.id', '=', 'pc_pengeluarans.branch_id')
             ->where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
@@ -922,7 +922,7 @@ class CabangController extends Controller
 
         $jenis = JenisPengeluaranCabang::where('nama', $data['keterangan'])->first();
 
-        $pengeluaran = PcPengeluaran::where('user_id', $data['id'])
+        $pengeluaran = PcBiaya::where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
             ->where('branch_id', $data['cabang'])
             ->where('jenis_pengeluaran_cabang_id', $jenis->id)
@@ -966,7 +966,7 @@ class CabangController extends Controller
             }
         }
 
-        $pengeluaran = PcPengeluaran::join('jenis_pengeluaran_cabangs', 'pc_pengeluarans.jenis_pengeluaran_cabang_id', '=', 'jenis_pengeluaran_cabangs.id')
+        $pengeluaran = PcBiaya::join('jenis_pengeluaran_cabangs', 'pc_pengeluarans.jenis_pengeluaran_cabang_id', '=', 'jenis_pengeluaran_cabangs.id')
             ->join('branches', 'branches.id', '=', 'pc_pengeluarans.branch_id')
             ->where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
@@ -1414,7 +1414,7 @@ class CabangController extends Controller
 
         $data = $validator->validated();
 
-        $pengeluaran = PcPengeluaran::find($data['id']);
+        $pengeluaran = PcBiaya::find($data['id']);
 
         if ($pengeluaran) {
             $image = $pengeluaran->image_lokasi . '/' . $pengeluaran->image_nama;
@@ -1463,7 +1463,7 @@ class CabangController extends Controller
             ->first();
 
         if ($jenis) {
-            $pengeluaran = PcPengeluaran::where('user_id', $data['id'])
+            $pengeluaran = PcBiaya::where('user_id', $data['id'])
                 ->where('tanggal', $data['tanggal'])
                 ->where('branch_id', $data['cabang'])
                 ->where('jenis_pengeluaran_cabang_id', $jenis->id)
@@ -1500,7 +1500,7 @@ class CabangController extends Controller
                     }
                 }
 
-                $pengeluaran = PcPengeluaran::join('jenis_pengeluaran_cabangs', 'pc_pengeluarans.jenis_pengeluaran_cabang_id', '=', 'jenis_pengeluaran_cabangs.id')
+                $pengeluaran = PcBiaya::join('jenis_pengeluaran_cabangs', 'pc_pengeluarans.jenis_pengeluaran_cabang_id', '=', 'jenis_pengeluaran_cabangs.id')
                     ->join('branches', 'branches.id', '=', 'pc_pengeluarans.branch_id')
                     ->where('user_id', $data['id'])
                     ->where('tanggal', $data['tanggal'])

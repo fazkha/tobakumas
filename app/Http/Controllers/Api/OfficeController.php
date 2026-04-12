@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Brandivjab;
 use App\Models\Brandivjabmit;
+use App\Models\Brandivjabpeg;
 use App\Models\JenisIzinPegawai;
 use App\Models\MitraPermintaanIzin;
+use App\Models\PcIzin;
+use App\Models\Pegawai;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
@@ -44,6 +47,63 @@ class OfficeController extends Controller
             'status' => 'success',
             'data' => $izin
         ];
+    }
+
+    public function saveIzinPc(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = Validator::make($request->all(), [
+            'pc_id' => ['required', 'integer', 'exists:users,id'],
+            'jenis_id' => ['required', 'integer', 'exists:jenis_izin_pegawais,id'],
+            'mulai' => ['required', 'date'],
+            'selesai' => ['required', 'date', 'after:mulai'],
+            'keterangan' => ['nullable', 'string'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+
+        $user = User::where('id', $data['pc_id'])->select('email')->first();
+        $pegawai = Pegawai::where('email', $user->email)->first();
+        $jab = Brandivjabpeg::where('pegawai_id', $pegawai->id)->where('isactive', 1)->first();
+
+        if ($jab) {
+            $brandivjab = Brandivjab::where('id', $jab->brandivjab_id)
+                ->where('isactive', 1)
+                ->where('jabatan_id', 4)
+                ->first();
+
+            if ($brandivjab) {
+                PcIzin::create([
+                    'branch_id' => $brandivjab->branch_id,
+                    'pegawai_id' => $pegawai->id,
+                    'jenis_izin_pegawai_id' => $data['jenis_id'],
+                    'tanggal_mulai' => Carbon::parse($data['mulai'])->setTimezone(config('app.timezone'))->format('Y-m-d H:i:s'),
+                    'tanggal_selesai' => Carbon::parse($data['selesai'])->setTimezone(config('app.timezone'))->format('Y-m-d H:i:s'),
+                    'keterangan' => $data['keterangan'],
+                    'created_by' => $user->email,
+                    'updated_by' => $user->email,
+                ]);
+            }
+        }
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+        ]);
     }
 
     public function saveIzinMitra(Request $request)

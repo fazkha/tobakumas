@@ -81,6 +81,7 @@ Route::prefix('cabang')->group(function () {
 Route::prefix('office')->group(function () {
     Route::get('get-jenis-izin-pegawai', [OfficeController::class, 'getJenisIzinPegawai']);
     Route::post('save-izin-mitra', [OfficeController::class, 'saveIzinMitra']);
+    Route::post('save-izin-pc', [OfficeController::class, 'saveIzinPc']);
 });
 
 // Sales
