@@ -38,12 +38,13 @@
 
     @push('scripts')
         <script type="text/javascript">
-            $("#pp-dropdown, #show-dropdown, #branch-dropdown, #search-tanggal").on(
+            $("#pp-dropdown, #show-dropdown, #branch-dropdown, #mitra-dropdown, #search-tanggal").on(
                 "change keyup paste",
                 function() {
                     var xpp = $('#pp-dropdown option:selected').val();
                     var xshow = $('#show-dropdown option:selected').val();
                     var xbr = $('#branch-dropdown option:selected').val();
+                    var xmt = $('#mitra-dropdown option:selected').val();
                     var xtanggal = $('#search-tanggal').val();
                     if (!xtanggal.trim()) {
                         xtanggal = '_';
@@ -60,8 +61,8 @@
                     window.history.pushState(newState, newTitle, newURL);
 
                     $.ajax({
-                        url: '{{ url('/human-resource/mitraizin/fetchdb') }}' + "/" + xpp + "/" + xbr + "/" +
-                            xtanggal + "/" + xshow,
+                        url: '{{ url('/human-resource/mitraizin/fetchdb') }}' + "/" + xpp + "/" + xshow + "/" +
+                            xbr + "/" + xmt + "/" + xtanggal,
                         type: "GET",
                         dataType: 'json',
                         success: function(result) {
