@@ -61,7 +61,6 @@ class PcizinController extends Controller implements HasMiddleware
         if (!$request->session()->exists('pcizin_tanggal_mulai')) {
             $request->session()->put('pcizin_tanggal_mulai', '_');
         }
-        dd(session('pcizin_pegawai_id'));
 
         $search_arr = ['pcizin_show', 'pcizin_branch_id', 'pcizin_pegawai_id', 'pcizin_tanggal_mulai'];
 
@@ -73,6 +72,7 @@ class PcizinController extends Controller implements HasMiddleware
             ->join('pegawais', 'pegawais.id', '=', 'pc_permintaan_izins.pegawai_id')
             ->join('jenis_izin_pegawais', 'jenis_izin_pegawais.id', '=', 'pc_permintaan_izins.jenis_izin_pegawai_id')
             ->select('pc_permintaan_izins.*', 'branches.nama as branch_nama', 'pegawais.nama_lengkap as pc_nama', 'jenis_izin_pegawais.nama as jenis_nama');
+        dd(session('pcizin_pegawai_id'));
 
         for ($i = 0; $i < count($search_arr); $i++) {
             $field = substr($search_arr[$i], strlen('pcizin_'));
