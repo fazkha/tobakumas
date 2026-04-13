@@ -93,12 +93,12 @@ class PcizinController extends Controller implements HasMiddleware
             }
         }
 
-        // $sql = $datas->toSql();
-        // $bindings = $datas->getBindings();
-        // foreach ($bindings as $binding) {
-        //     $sql = preg_replace('/\?/', "'" . addslashes($binding) . "'", $sql, 1);
-        // }
-        // dd($sql);
+        $sql = $datas->toSql();
+        $bindings = $datas->getBindings();
+        foreach ($bindings as $binding) {
+            $sql = preg_replace('/\?/', "'" . addslashes($binding) . "'", $sql, 1);
+        }
+        dd($sql);
 
         // $datas = $datas->where('user_id', auth()->user()->id);
         $datas = $datas->latest()->paginate(session('pcizin_pp'));
