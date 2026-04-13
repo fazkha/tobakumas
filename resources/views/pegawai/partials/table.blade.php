@@ -18,15 +18,15 @@
                     </th>
                     <th
                         class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
-                        @lang('messages.address')
-                    </th>
-                    <th
-                        class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
                         @lang('messages.phonenumber')
                     </th>
                     <th
                         class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
                         @lang('messages.gender')
+                    </th>
+                    <th
+                        class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
+                        @lang('messages.branch')
                     </th>
                     <th
                         class="px-3 py-3 text-center text-xs font-semibold uppercase tracking-wider border-b border-primary-100 text-gray-600 bg-primary-50 dark:text-white dark:bg-primary-800 dark:border-primary-800">
@@ -60,25 +60,16 @@
                         </td>
                         <td
                             class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
-                            <div x-data="{ open: false, maxLength: {{ config('custom.table_max_text_length') }}, fullText: '', slicedText: '' }" x-init="fullText = $el.firstElementChild.textContent.trim();
-                            slicedText = fullText.length > {{ config('custom.table_max_text_length') }} ? fullText.slice(0, maxLength).concat('...') : fullText.slice(0, maxLength)" class="flex flex-col items-start">
-                                <span x-text="open ? fullText : slicedText" x-transition
-                                    class="text-gray-900 dark:text-white">
-                                    {{ $data->alamat_tinggal }}</span>
-                                <button @click="open = ! open"
-                                    x-text="open ? '{{ __('messages.showless') }}' : '{{ __('messages.showmore') }}'"
-                                    x-show="fullText.length > {{ config('custom.table_max_text_length') }}"
-                                    class="text-xs text-primary dark:text-primary"></button>
-                            </div>
-                        </td>
-                        <td
-                            class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
                             <span class="text-gray-900 dark:text-white">{{ $data->telpon }}</span>
                         </td>
                         <td
                             class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
                             <span
                                 class="text-gray-900 dark:text-white">{{ $data->kelamin == 'L' ? __('messages.genderman') : __('messages.genderwoman') }}</span>
+                        </td>
+                        <td
+                            class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
+                            <span class="text-gray-900 dark:text-white">{{ $data->nama_cabang }}</span>
                         </td>
                         <td
                             class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
