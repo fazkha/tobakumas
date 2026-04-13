@@ -61,6 +61,7 @@ class PcizinController extends Controller implements HasMiddleware
         if (!$request->session()->exists('pcizin_tanggal_mulai')) {
             $request->session()->put('pcizin_tanggal_mulai', '_');
         }
+        dd(session('pcizin_pegawai_id'));
 
         $search_arr = ['pcizin_show', 'pcizin_branch_id', 'pcizin_pegawai_id', 'pcizin_tanggal_mulai'];
 
