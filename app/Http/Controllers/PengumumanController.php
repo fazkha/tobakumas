@@ -287,7 +287,7 @@ class PengumumanController extends Controller implements HasMiddleware
         $is_dir = is_dir($dir);
 
         if (!$is_dir) {
-            mkdir($dir, 0700);
+            mkdir($dir, 0755);
         }
 
         return ['path' => $path, 'ym' => $ym];
