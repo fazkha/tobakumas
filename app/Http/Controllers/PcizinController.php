@@ -72,7 +72,6 @@ class PcizinController extends Controller implements HasMiddleware
             ->join('pegawais', 'pegawais.id', '=', 'pc_permintaan_izins.pegawai_id')
             ->join('jenis_izin_pegawais', 'jenis_izin_pegawais.id', '=', 'pc_permintaan_izins.jenis_izin_pegawai_id')
             ->select('pc_permintaan_izins.*', 'branches.nama as branch_nama', 'pegawais.nama_lengkap as pc_nama', 'jenis_izin_pegawais.nama as jenis_nama');
-        dd(session('pcizin_show'));
 
         for ($i = 0; $i < count($search_arr); $i++) {
             $field = substr($search_arr[$i], strlen('pcizin_'));
@@ -94,12 +93,12 @@ class PcizinController extends Controller implements HasMiddleware
             }
         }
 
-        $sql = $datas->toSql();
-        $bindings = $datas->getBindings();
-        foreach ($bindings as $binding) {
-            $sql = preg_replace('/\?/', "'" . addslashes($binding) . "'", $sql, 1);
-        }
-        dd($sql);
+        // $sql = $datas->toSql();
+        // $bindings = $datas->getBindings();
+        // foreach ($bindings as $binding) {
+        //     $sql = preg_replace('/\?/', "'" . addslashes($binding) . "'", $sql, 1);
+        // }
+        // dd($sql);
 
         // $datas = $datas->where('user_id', auth()->user()->id);
         $datas = $datas->latest()->paginate(session('pcizin_pp'));
