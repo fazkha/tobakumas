@@ -50,7 +50,7 @@ class MitraizinController extends Controller implements HasMiddleware
             $request->session()->put('mitraizin_pp', config('custom.list_per_page_opt_1'));
         }
         if (!$request->session()->exists('mitraizin_show')) {
-            $request->session()->put('mitraizin_show', 'all');
+            $request->session()->put('mitraizin_show', '0');
         }
         if (!$request->session()->exists('mitraizin_branch_id')) {
             $request->session()->put('mitraizin_branch_id', 'all');
