@@ -85,9 +85,10 @@ class PegawaiController extends Controller implements HasMiddleware
         $cabangs = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $jabatans = Jabatan::where('isactive', 1)->orderBy('islevel')->pluck('nama', 'id');
         $datas = Pegawai::query();
-        $datas = $datas->select('pegawais.*')
+        $datas = $datas->select('pegawais.*', 'branches.nama as nama_cabang')
             ->leftJoin('brandivjabpegs', 'brandivjabpegs.pegawai_id', 'pegawais.id')
             ->leftJoin('brandivjabs', 'brandivjabs.id', 'brandivjabpegs.brandivjab_id')
+            ->leftJoin('branches', 'branches.id', 'brandivjabs.branch_id')
             ->leftJoin('jabatans', 'jabatans.id', 'brandivjabs.jabatan_id')
             ->groupByRaw('brandivjabs.jabatan_id, brandivjabs.branch_id, pegawais.id, jabatans.islevel, pegawais.nama_lengkap')
             ->orderByRaw('jabatans.islevel, pegawais.nama_lengkap');
@@ -147,9 +148,10 @@ class PegawaiController extends Controller implements HasMiddleware
         $cabangs = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
         $jabatans = Jabatan::where('isactive', 1)->orderBy('islevel')->pluck('nama', 'id');
         $datas = Pegawai::query();
-        $datas = $datas->select('pegawais.*')
+        $datas = $datas->select('pegawais.*', 'branches.nama as nama_cabang')
             ->leftJoin('brandivjabpegs', 'brandivjabpegs.pegawai_id', 'pegawais.id')
             ->leftJoin('brandivjabs', 'brandivjabs.id', 'brandivjabpegs.brandivjab_id')
+            ->leftJoin('branches', 'branches.id', 'brandivjabs.branch_id')
             ->leftJoin('jabatans', 'jabatans.id', 'brandivjabs.jabatan_id')
             ->groupByRaw('brandivjabs.jabatan_id, brandivjabs.branch_id, pegawais.id, jabatans.islevel, pegawais.nama_lengkap')
             ->orderByRaw('jabatans.islevel, pegawais.nama_lengkap');
