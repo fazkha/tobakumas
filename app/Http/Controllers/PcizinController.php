@@ -50,7 +50,7 @@ class PcizinController extends Controller implements HasMiddleware
             $request->session()->put('pcizin_pp', config('custom.list_per_page_opt_1'));
         }
         if (!$request->session()->exists('pcizin_show')) {
-            $request->session()->put('pcizin_show', 'all');
+            $request->session()->put('pcizin_show', '0');
         }
         if (!$request->session()->exists('pcizin_branch_id')) {
             $request->session()->put('pcizin_branch_id', 'all');
