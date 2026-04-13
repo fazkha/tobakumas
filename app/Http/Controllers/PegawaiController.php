@@ -118,7 +118,7 @@ class PegawaiController extends Controller implements HasMiddleware
         // }
         // dd($sql);
 
-        $datas = $datas->latest()->paginate(session('pegawai_pp'));
+        $datas = $datas->latest()->distinct()->paginate(session('pegawai_pp'));
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
@@ -183,7 +183,7 @@ class PegawaiController extends Controller implements HasMiddleware
         // }
         // dd($sql);
 
-        $datas = $datas->latest()->paginate(session('pegawai_pp'));
+        $datas = $datas->latest()->distinct()->paginate(session('pegawai_pp'));
 
         $datas->withPath('/human-resource/employee'); // pagination url to
 
