@@ -67,6 +67,19 @@ class PcbiayaController extends Controller implements HasMiddleware
             ->orderBy('branches.nama')
             ->selectRaw('pc_pengeluarans.tanggal, branches.id as branch_id, branches.nama as branch_nama, users.name as pc_nama, sum(pc_pengeluarans.harga) as total_biaya');
 
+        $datas = DB::table('pc_pengeluarans as p1')
+            ->join('branches as b1', 'b1.id', '=', 'p1.branch_id')
+            ->join('users as u1', 'u1.id', '=', 'p1.user_id')
+            ->select(
+                'p1.tanggal',
+                'b1.id as branch_id',
+                'b1.nama as branch_nama',
+                'u1.name as pc_nama',
+                DB::raw('SUM(p1.harga) as total_biaya'),
+                DB::raw('COUNT(p1.id) as c1'),
+                DB::raw('SUM(p1.approved_fin) as c2')
+            );
+
         for ($i = 0; $i < count($search_arr); $i++) {
             $field = substr($search_arr[$i], strlen('pcbiaya_'));
 
@@ -83,6 +96,11 @@ class PcbiayaController extends Controller implements HasMiddleware
             }
         }
         // $datas = $datas->where('user_id', auth()->user()->id);
+        $datas = $datas->groupBy('p1.tanggal', 'b1.nama', 'b1.id', 'u1.name')
+            ->havingRaw('COUNT(p1.id) > SUM(p1.approved_fin)')
+            ->orderByDesc('p1.tanggal')
+            ->orderBy('pc_nama');
+
         $datas = $datas->paginate(session('pcbiaya_pp'));
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
@@ -112,6 +130,19 @@ class PcbiayaController extends Controller implements HasMiddleware
             ->orderBy('branches.nama')
             ->selectRaw('pc_pengeluarans.tanggal, branches.id as branch_id, branches.nama as branch_nama, users.name as pc_nama, sum(pc_pengeluarans.harga) as total_biaya');
 
+        $datas = DB::table('pc_pengeluarans as p1')
+            ->join('branches as b1', 'b1.id', '=', 'p1.branch_id')
+            ->join('users as u1', 'u1.id', '=', 'p1.user_id')
+            ->select(
+                'p1.tanggal',
+                'b1.id as branch_id',
+                'b1.nama as branch_nama',
+                'u1.name as pc_nama',
+                DB::raw('SUM(p1.harga) as total_biaya'),
+                DB::raw('COUNT(p1.id) as c1'),
+                DB::raw('SUM(p1.approved_fin) as c2')
+            );
+
         for ($i = 0; $i < count($search_arr); $i++) {
             $field = substr($search_arr[$i], strlen('pcbiaya_'));
 
@@ -128,6 +159,11 @@ class PcbiayaController extends Controller implements HasMiddleware
             }
         }
         // $datas = $datas->where('user_id', auth()->user()->id);
+        $datas = $datas->groupBy('p1.tanggal', 'b1.nama', 'b1.id', 'u1.name')
+            ->havingRaw('COUNT(p1.id) > SUM(p1.approved_fin)')
+            ->orderByDesc('p1.tanggal')
+            ->orderBy('pc_nama');
+
         $datas = $datas->paginate(session('pcbiaya_pp'));
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
