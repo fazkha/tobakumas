@@ -91,25 +91,27 @@ class AuthController extends Controller
                 break;
             default:
                 $userCount = User::where('email', $request->email)
-                    ->whereRaw('LOWER(name) = ?', [strtolower($request->name)])
+                    ->orWhereRaw('LOWER(name) = ?', [strtolower($request->name)])
                     ->count();
                 break;
         }
 
-        if ($userCount > 0) {
-            $this->db_switch(1);
+        // if ($userCount > 0) {
+        //     $this->db_switch(1);
 
-            return response([
-                'message' => 'Pengguna dengan nama atau email yang sama, sudah ada dalam database. Coba kembali.'
-            ], 422);
-        }
+        //     return response([
+        //         'message' => 'Pengguna dengan nama atau email yang sama, sudah ada dalam database. Coba kembali.'
+        //     ], 422);
+        // }
 
         switch ($appname) {
             case 'GerobakTracker':
                 $pegawai = Mitra::whereRaw('LOWER(nama_lengkap) = ?', trim(strtolower($request->name)))->first();
                 break;
             default:
-                $pegawai = Pegawai::where('email', trim($request->email))->first();
+                $pegawai = Pegawai::where('email', trim($request->email))
+                    ->orWhereRaw('LOWER(nama_lengkap) = ?', trim(strtolower($request->name)))
+                    ->first();
                 break;
         }
 
@@ -117,7 +119,8 @@ class AuthController extends Controller
             $namafix = (strlen(trim($pegawai->nama_lengkap)) >= strlen(trim($data['name']))) ? trim($pegawai->nama_lengkap) : trim($data['name']);
             if ($pegawai->nama_lengkap <> trim($pegawai->nama_lengkap)) {
                 $pegawai = $pegawai->update([
-                    'nama_lengkap' => trim($pegawai->nama_lengkap)
+                    'nama_lengkap' => trim($pegawai->nama_lengkap),
+                    'email' => ($pegawai->email == '-' || $pegawai->email == null) ? trim($data['email']) : trim($pegawai->email),
                 ]);
             }
         } else {
@@ -161,11 +164,22 @@ class AuthController extends Controller
                 ]);
                 break;
             default:
-                $user = User::create([
-                    'name' => $namafix,
-                    'email' => trim($data['email']),
-                    'password' => Hash::make($data['password']),
-                ]);
+                $user = User::where('email', trim($request->email))
+                    ->orWhereRaw('LOWER(name) = ?', trim(strtolower($request->name)))
+                    ->first();
+
+                if ($user) {
+                    $user->update([
+                        'name' => $namafix,
+                        'email' => trim($data['email']),
+                    ]);
+                } else {
+                    $user = User::create([
+                        'name' => $namafix,
+                        'email' => trim($data['email']),
+                        'password' => Hash::make($data['password']),
+                    ]);
+                }
                 break;
         }
 

@@ -14,6 +14,7 @@ class BranchRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'wilayah_id' => ['required', 'exists:wilayah_operasis,id'],
             'propinsi_id' => ['required', 'exists:propinsis,id'],
             'kabupaten_id' => ['required', 'exists:kabupatens,id'],
             'kecamatan_id' => ['required', 'exists:kecamatans,id'],
