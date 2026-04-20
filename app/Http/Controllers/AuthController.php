@@ -126,7 +126,6 @@ class AuthController extends Controller
                 'email' => ($pegawai->email == '-' || $pegawai->email == null) ? trim($data['email']) : trim($pegawai->email),
             ]);
             // }
-            dd($pegawai);
         } else {
             $namafix = trim($data['name']);
 
