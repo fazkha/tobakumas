@@ -55,6 +55,7 @@ class AuthController extends Controller
                     'nohp' => ['required', 'min:10', 'max:255'],
                     'password' => ['required', 'min:6', 'max:50', 'confirmed'],
                     'appname' => ['required', 'string', 'max:50'],
+                    'appVersion' => ['nullable', 'string', 'max:50'],
                 ]);
                 break;
             default:
@@ -66,6 +67,7 @@ class AuthController extends Controller
                     'nohp' => ['required', 'min:10', 'max:255'],
                     'password' => ['required', 'min:6', 'max:50', 'confirmed'],
                     'appname' => ['required', 'string', 'max:50'],
+                    'appVersion' => ['nullable', 'string', 'max:50'],
                 ]);
                 break;
         }
@@ -114,7 +116,6 @@ class AuthController extends Controller
                     ->first();
                 break;
         }
-        dd($pegawai);
 
         if ($pegawai) {
             $namafix = (strlen(trim($pegawai->nama_lengkap)) >= strlen(trim($data['name']))) ? trim($pegawai->nama_lengkap) : trim($data['name']);
@@ -155,6 +156,7 @@ class AuthController extends Controller
                     break;
             }
         }
+        dd($pegawai);
 
         switch ($appname) {
             case 'GerobakTracker':
