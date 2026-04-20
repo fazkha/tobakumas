@@ -257,6 +257,7 @@ class AuthController extends Controller
 
             default:
                 $jabpeg = Brandivjabpeg::where('pegawai_id', $pegawai->id)->first();
+                dd($jabpeg);
 
                 if ($jabpeg) {
                     $branjab = Brandivjab::where('id', $jabpeg->brandivjab_id)->first();
@@ -264,7 +265,6 @@ class AuthController extends Controller
                     if ($branjab) {
                         $cabang_id = $branjab->branch_id;
                         $jabatan_id = $branjab->jabatan_id;
-                        dd($branjab);
                     } else {
                         $cabang_id = $data['cabang'];
                         $jabatan_id = 4; // PC
