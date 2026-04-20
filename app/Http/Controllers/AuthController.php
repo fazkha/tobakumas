@@ -177,7 +177,6 @@ class AuthController extends Controller
                         'email' => trim($data['email']),
                     ]);
                 } else {
-                    dd($user);
                     $user = User::create([
                         'name' => $namafix,
                         'email' => trim($data['email']),
@@ -265,6 +264,7 @@ class AuthController extends Controller
                     if ($branjab) {
                         $cabang_id = $branjab->branch_id;
                         $jabatan_id = $branjab->jabatan_id;
+                        dd($branjab);
                     } else {
                         $cabang_id = $data['cabang'];
                         $jabatan_id = 4; // PC
