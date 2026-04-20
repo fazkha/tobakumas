@@ -193,7 +193,6 @@ class AuthController extends Controller
             ], 500);
         }
 
-        dd($appname);
         switch ($appname) {
             case 'GerobakTracker':
                 $cabang_id = $data['cabang'];
@@ -256,7 +255,9 @@ class AuthController extends Controller
                 break;
 
             default:
+                dd($appname);
                 $jabpeg = Brandivjabpeg::where('pegawai_id', $pegawai->id)->first();
+                dd($jabpeg);
 
                 if ($jabpeg) {
                     $branjab = Brandivjab::where('id', $jabpeg->brandivjab_id)->first();
