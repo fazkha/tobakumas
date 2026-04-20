@@ -119,12 +119,14 @@ class AuthController extends Controller
 
         if ($pegawai) {
             $namafix = (strlen(trim($pegawai->nama_lengkap)) >= strlen(trim($data['name']))) ? trim($pegawai->nama_lengkap) : trim($data['name']);
-            if ($pegawai->nama_lengkap <> trim($pegawai->nama_lengkap)) {
-                $pegawai = $pegawai->update([
-                    'nama_lengkap' => trim($pegawai->nama_lengkap),
-                    'email' => ($pegawai->email == '-' || $pegawai->email == null) ? trim($data['email']) : trim($pegawai->email),
-                ]);
-            }
+
+            // if ($pegawai->nama_lengkap <> trim($pegawai->nama_lengkap)) {
+            $pegawai = $pegawai->update([
+                'nama_lengkap' => trim($pegawai->nama_lengkap),
+                'email' => ($pegawai->email == '-' || $pegawai->email == null) ? trim($data['email']) : trim($pegawai->email),
+            ]);
+            // }
+            dd($pegawai);
         } else {
             $namafix = trim($data['name']);
 
@@ -156,7 +158,6 @@ class AuthController extends Controller
                     break;
             }
         }
-        dd($pegawai);
 
         switch ($appname) {
             case 'GerobakTracker':
