@@ -255,7 +255,6 @@ class AuthController extends Controller
                 break;
 
             default:
-                dd($pegawai);
                 $jabpeg = Brandivjabpeg::where('pegawai_id', $pegawai->id)->first();
 
                 if ($jabpeg) {
