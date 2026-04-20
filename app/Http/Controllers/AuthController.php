@@ -177,6 +177,7 @@ class AuthController extends Controller
                         'email' => trim($data['email']),
                     ]);
                 } else {
+                    dd($user);
                     $user = User::create([
                         'name' => $namafix,
                         'email' => trim($data['email']),
