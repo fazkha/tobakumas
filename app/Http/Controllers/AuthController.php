@@ -120,7 +120,7 @@ class AuthController extends Controller
             $namafix = (strlen(trim($pegawai->nama_lengkap)) >= strlen(trim($data['name']))) ? trim($pegawai->nama_lengkap) : trim($data['name']);
 
             // if ($pegawai->nama_lengkap <> trim($pegawai->nama_lengkap)) {
-            $updated_pegawai = $pegawai->update([
+            $pegawai->update([
                 'nama_lengkap' => trim($pegawai->nama_lengkap),
                 'email' => ($pegawai->email == '-' || $pegawai->email == null) ? trim($data['email']) : trim($pegawai->email),
             ]);
@@ -318,18 +318,31 @@ class AuthController extends Controller
                 break;
         }
 
-        $profile = Profile::create([
-            'user_id' => $user->id,
-            'branch_id' => $cabang_id,
-            'jabatan_id' =>  $jabatan_id,
-            'site' => $site,
-            'isactive' => 1,
-            'tanggal_gabung' => date('Y-m-d'),
-            'nohp' => $request->nohp,
-            'app_version' => $request->appVersion ? $request->appVersion : 'postman',
-            'created_by' => 'self-register',
-            'updated_by' => 'self-register',
-        ]);
+        $profile = Profile::where('user_id', $user->id)->first();
+
+        if ($profile) {
+            $profile->update([
+                'branch_id' => $cabang_id,
+                'jabatan_id' =>  $jabatan_id,
+                'isactive' => 1,
+                'nohp' => $request->nohp,
+                'app_version' => $request->appVersion ? $request->appVersion : 'postman',
+                'updated_by' => 'self-register',
+            ]);
+        } else {
+            $profile = Profile::create([
+                'user_id' => $user->id,
+                'branch_id' => $cabang_id,
+                'jabatan_id' =>  $jabatan_id,
+                'site' => $site,
+                'isactive' => 1,
+                'tanggal_gabung' => date('Y-m-d'),
+                'nohp' => $request->nohp,
+                'app_version' => $request->appVersion ? $request->appVersion : 'postman',
+                'created_by' => 'self-register',
+                'updated_by' => 'self-register',
+            ]);
+        }
 
         // $device = $request->appname ? ' on ' . $request->appname : '';
         // $token = $user->createToken($user->name . $device)->plainTextToken;
