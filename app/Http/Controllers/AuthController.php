@@ -120,7 +120,7 @@ class AuthController extends Controller
             $namafix = (strlen(trim($pegawai->nama_lengkap)) >= strlen(trim($data['name']))) ? trim($pegawai->nama_lengkap) : trim($data['name']);
 
             // if ($pegawai->nama_lengkap <> trim($pegawai->nama_lengkap)) {
-            $pegawai = $pegawai->update([
+            $updated_pegawai = $pegawai->update([
                 'nama_lengkap' => trim($pegawai->nama_lengkap),
                 'email' => ($pegawai->email == '-' || $pegawai->email == null) ? trim($data['email']) : trim($pegawai->email),
             ]);
@@ -255,9 +255,8 @@ class AuthController extends Controller
                 break;
 
             default:
-                dd($appname);
+                dd($pegawai);
                 $jabpeg = Brandivjabpeg::where('pegawai_id', $pegawai->id)->first();
-                dd($jabpeg);
 
                 if ($jabpeg) {
                     $branjab = Brandivjab::where('id', $jabpeg->brandivjab_id)->first();
