@@ -114,6 +114,7 @@ class AuthController extends Controller
                     ->first();
                 break;
         }
+        dd($pegawai);
 
         if ($pegawai) {
             $namafix = (strlen(trim($pegawai->nama_lengkap)) >= strlen(trim($data['name']))) ? trim($pegawai->nama_lengkap) : trim($data['name']);
@@ -167,6 +168,7 @@ class AuthController extends Controller
                 $user = User::where('email', trim($request->email))
                     ->orWhereRaw('LOWER(name) = ?', trim(strtolower($request->name)))
                     ->first();
+                dd($user);
 
                 if ($user) {
                     $user->update([
