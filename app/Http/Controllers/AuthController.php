@@ -170,7 +170,6 @@ class AuthController extends Controller
                 $user = User::where('email', trim($request->email))
                     ->orWhereRaw('LOWER(name) = ?', trim(strtolower($request->name)))
                     ->first();
-                dd($user);
 
                 if ($user) {
                     $user->update([
