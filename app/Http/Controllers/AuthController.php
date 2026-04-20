@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Laravel\Sanctum\Sanctum;
 
 class AuthController extends Controller
 {
@@ -194,6 +193,7 @@ class AuthController extends Controller
             ], 500);
         }
 
+        dd($appname);
         switch ($appname) {
             case 'GerobakTracker':
                 $cabang_id = $data['cabang'];
@@ -257,7 +257,6 @@ class AuthController extends Controller
 
             default:
                 $jabpeg = Brandivjabpeg::where('pegawai_id', $pegawai->id)->first();
-                dd($jabpeg);
 
                 if ($jabpeg) {
                     $branjab = Brandivjab::where('id', $jabpeg->brandivjab_id)->first();
