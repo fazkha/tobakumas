@@ -370,13 +370,12 @@ class MitraController extends Controller
 
             $omzet = $found;
         } else {
-            dd($app_adonan_value);
             $omzet = MitraOmzetPengeluaran::create([
                 'branch_id' => $profile->branch_id,
                 'user_id' => $data['id'],
                 'tanggal' => $data['tanggal'],
-                'omzet' => $data['omzet'] ?? null,
-                'sisa_adonan' => $data['sisa_adonan'] ?? null,
+                'omzet' => $data['omzet'],
+                'sisa_adonan' => $data['sisa_adonan'],
                 'adonan' => $app_adonan_value,
             ]);
         }
