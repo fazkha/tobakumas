@@ -19,9 +19,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class MitraController extends Controller
 {
@@ -333,6 +333,7 @@ class MitraController extends Controller
             'sisa_adonan' => ['nullable'],
             'keterangan' => ['nullable'],
             'harga' => ['nullable'],
+            'jumlah' => ['nullable'],
         ]);
 
         if ($validator->fails()) {
@@ -476,6 +477,7 @@ class MitraController extends Controller
         if ($detail) {
             $detail->update([
                 'harga' => $data['harga'] ?? ($detail->harga ?? null),
+                'jumlah' => $data['jumlah'] ?? ($detail->jumlah ?? 1),
             ]);
         } else {
             if (isset($data['keterangan'])) {
@@ -483,13 +485,14 @@ class MitraController extends Controller
                     'mitra_omzet_pengeluaran_id' => $omzet->id,
                     'jenis_pengeluaran_mitra_id' => $data['keterangan'],
                     'harga' => $data['harga'] ?? null,
+                    'jumlah' => $data['jumlah'] ?? 1,
                 ]);
             }
         }
 
         $detail = MitraOmzetPengeluaranDetail::join('jenis_pengeluaran_mitras', 'mitra_op_details.jenis_pengeluaran_mitra_id', '=', 'jenis_pengeluaran_mitras.id')
             ->where('mitra_op_details.mitra_omzet_pengeluaran_id', $omzet->id)
-            ->select('mitra_op_details.id', 'jenis_pengeluaran_mitras.nama as keterangan', 'mitra_op_details.harga', 'mitra_op_details.approved', 'mitra_op_details.image_nama')
+            ->select('mitra_op_details.id', 'jenis_pengeluaran_mitras.nama as keterangan', 'mitra_op_details.harga', 'mitra_op_details.jumlah', 'mitra_op_details.approved', 'mitra_op_details.image_nama')
             ->get();
 
         if ($detail == null) {
@@ -540,7 +543,7 @@ class MitraController extends Controller
         if ($omzet) {
             $detail = MitraOmzetPengeluaranDetail::join('jenis_pengeluaran_mitras', 'mitra_op_details.jenis_pengeluaran_mitra_id', '=', 'jenis_pengeluaran_mitras.id')
                 ->where('mitra_op_details.mitra_omzet_pengeluaran_id', $omzet->id)
-                ->select('mitra_op_details.id', 'jenis_pengeluaran_mitras.nama as keterangan', 'mitra_op_details.harga', 'mitra_op_details.approved', 'mitra_op_details.image_nama')
+                ->select('mitra_op_details.id', 'jenis_pengeluaran_mitras.nama as keterangan', 'mitra_op_details.harga', 'mitra_op_details.jumlah', 'mitra_op_details.approved', 'mitra_op_details.image_nama')
                 ->get();
         } else {
             $detail = null;
@@ -639,7 +642,7 @@ class MitraController extends Controller
         if ($omzet) {
             $detail = MitraOmzetPengeluaranDetail::join('jenis_pengeluaran_mitras', 'mitra_op_details.jenis_pengeluaran_mitra_id', '=', 'jenis_pengeluaran_mitras.id')
                 ->where('mitra_op_details.mitra_omzet_pengeluaran_id', $omzet->id)
-                ->select('mitra_op_details.id', 'jenis_pengeluaran_mitras.nama as keterangan', 'mitra_op_details.harga', 'mitra_op_details.approved', 'mitra_op_details.image_nama')
+                ->select('mitra_op_details.id', 'jenis_pengeluaran_mitras.nama as keterangan', 'mitra_op_details.harga', 'mitra_op_details.jumlah', 'mitra_op_details.approved', 'mitra_op_details.image_nama')
                 ->get();
         } else {
             $detail = null;
