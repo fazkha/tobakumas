@@ -359,6 +359,7 @@ class MitraController extends Controller
         $found = MitraOmzetPengeluaran::where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
             ->first();
+        dd($found);
 
         if ($found) {
             $found->update([
