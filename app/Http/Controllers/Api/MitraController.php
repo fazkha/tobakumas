@@ -349,8 +349,8 @@ class MitraController extends Controller
         }
 
         $data = $validator->validated();
-        $data['sisa_adonan'] = $data['sisa_adonan'] ? Str::replace(',', '.', $data['sisa_adonan']) : $data['sisa_adonan'];
         dd($data['sisa_adonan']);
+        $data['sisa_adonan'] = $data['sisa_adonan'] ? Str::replace(',', '.', $data['sisa_adonan']) : $data['sisa_adonan'];
 
         $detail = null;
         $profile = Profile::where('user_id', $data['id'])->first();
