@@ -374,8 +374,8 @@ class MitraController extends Controller
                 'branch_id' => $profile->branch_id,
                 'user_id' => $data['id'],
                 'tanggal' => $data['tanggal'],
-                'omzet' => $data['omzet'],
-                'sisa_adonan' => $data['sisa_adonan'],
+                'omzet' => $data['omzet'] ?? null,
+                'sisa_adonan' => $data['sisa_adonan'] ?? null,
                 'adonan' => $app_adonan_value,
             ]);
         }
