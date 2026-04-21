@@ -603,7 +603,7 @@ class MitraController extends Controller
 
         $deleteName = $pengeluaran->image_nama ? $pengeluaran->image_nama : NULL;
         $deletePath = $pengeluaran->image_lokasi ? $pengeluaran->image_lokasi : NULL;
-        $harga = $pengeluaran->harga ? $pengeluaran->harga : 0;
+        $harga = $pengeluaran->harga ? $pengeluaran->harga * $pengeluaran->jumlah : 0;
         $deleteSuccess = false;
 
         try {
@@ -695,7 +695,7 @@ class MitraController extends Controller
 
         if ($omzet) {
             $detail = MitraOmzetPengeluaranDetail::where('mitra_omzet_pengeluaran_id', $omzet->id)
-                ->select('keterangan', 'harga')
+                ->select('keterangan', 'harga', 'jumlah')
                 ->get();
         } else {
             $detail = null;
