@@ -335,6 +335,7 @@ class MitraController extends Controller
             'harga' => ['nullable'],
             'jumlah' => ['nullable'],
         ]);
+        dd($validator);
 
         if ($validator->fails()) {
             $errors = $validator->errors();
