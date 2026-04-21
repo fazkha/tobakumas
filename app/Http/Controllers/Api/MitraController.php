@@ -359,7 +359,6 @@ class MitraController extends Controller
         $found = MitraOmzetPengeluaran::where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
             ->first();
-        dd($found);
 
         if ($found) {
             $found->update([
@@ -380,6 +379,7 @@ class MitraController extends Controller
                 'adonan' => $app_adonan_value,
             ]);
         }
+        dd($omzet);
 
         $jenis = JenisPengeluaranMitra::where('isactive', 1)
             ->where('id', $data['keterangan'])
