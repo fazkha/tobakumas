@@ -350,6 +350,7 @@ class MitraController extends Controller
 
         $data = $validator->validated();
         $data['sisa_adonan'] = Str::replace(',', '.', $data['sisa_adonan']);
+        dd($data['sisa_adonan']);
 
         $detail = null;
         $profile = Profile::where('user_id', $data['id'])->first();
@@ -359,7 +360,6 @@ class MitraController extends Controller
         $found = MitraOmzetPengeluaran::where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
             ->first();
-        dd($found);
 
         if ($found) {
             $found->update([
