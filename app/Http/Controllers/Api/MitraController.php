@@ -349,7 +349,7 @@ class MitraController extends Controller
         }
 
         $data = $validator->validated();
-        dd($data['sisa_adonan']);
+        dd($request->all());
         $data['sisa_adonan'] = $data['sisa_adonan'] ? Str::replace(',', '.', $data['sisa_adonan']) : $data['sisa_adonan'];
 
         $detail = null;
