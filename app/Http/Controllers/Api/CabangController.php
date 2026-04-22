@@ -1623,6 +1623,7 @@ class CabangController extends Controller
         $rute = null;
         $prev = null;
         $tgblth = $data['tahun'] . '-' . str_pad($data['bulan'], 2, "0", STR_PAD_LEFT) . '-' . $data['tanggal'];
+        dd($data['tanggal'].'-'.$data['bulan'].'-'.$data['tahun'])
 
         try {
             $rute = RuteGerobak::join('users', 'rute_gerobaks.user_id', '=', 'users.id')
@@ -1646,6 +1647,7 @@ class CabangController extends Controller
                 'message' => $e->getMessage(),
             ]);
         }
+        dd($rute);
 
         $maxOmzet = DB::table('mitra_omzet_pengeluarans')
             ->where('user_id', $data['mitra'])
