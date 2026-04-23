@@ -4,4 +4,4 @@
 </svg> --}}
 {{-- width="40" height="40" --}}
 
-<img src="/images/logo.png" {{ $attributes->merge(['class' => 'w-20 h-auto']) }} />
+<img src="/images/logo.png" {{ $attributes->merge(['class' => 'w-auto h-10']) }} />
