@@ -22,7 +22,7 @@
         <div class="flex flex-col items-center justify-center w-full md:w-3/5">
             <div>
                 <a href="/">
-                    <x-application-logo class="!w-16" />
+                    <x-application-logo class="!h-[10px]" />
                 </a>
             </div>
 
