@@ -1187,15 +1187,18 @@ class MitraController extends Controller
             ->where('tanggal', $data['tanggal'])
             ->first();
 
+        $adonanApproved = $omzet->approved_adonan;
         $deleteName = $omzet->image_nama ? $omzet->image_nama : NULL;
         $deletePath = $omzet->image_lokasi ? $omzet->image_lokasi : NULL;
         $deleteSuccess = false;
 
         try {
-            if ($deleteName && $deletePath) {
-                File::delete(public_path($deletePath) . '/' . $deleteName);
+            if ($adonanApproved <> 1) {
+                if ($deleteName && $deletePath) {
+                    File::delete(public_path($deletePath) . '/' . $deleteName);
+                }
+                $deleteSuccess = true;
             }
-            $deleteSuccess = true;
         } catch (\Illuminate\Database\QueryException $e) {
             $this->db_switch(1);
 
@@ -1205,7 +1208,7 @@ class MitraController extends Controller
             ]);
         }
 
-        if ($deleteSuccess) {
+        if ($deleteSuccess && $adonanApproved <> 1) {
             $omzet->update([
                 'image_lokasi' => null,
                 'image_nama' => null,
