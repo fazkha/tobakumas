@@ -1053,7 +1053,8 @@ class MitraController extends Controller
         $this->db_switch(2);
 
         $validator = Validator::make($request->all(), [
-            'id' => ['required', 'integer', 'exists:mitra_op_details,id'],
+            'id' => ['required', 'integer', 'exists:users,id'],
+            'tanggal' => ['required', 'date'],
         ]);
 
         if ($validator->fails()) {
@@ -1070,10 +1071,12 @@ class MitraController extends Controller
 
         $data = $validator->validated();
 
-        $pengeluaran = MitraOmzetPengeluaranDetail::find($data['id']);
+        $omzet = MitraOmzetPengeluaran::where('user_id', $data['id'])
+            ->where('tanggal', $data['tanggal'])
+            ->first();
 
-        if ($pengeluaran) {
-            $image = $pengeluaran->image_lokasi . '/' . $pengeluaran->image_nama;
+        if ($omzet) {
+            $image = $omzet->image_lokasi . '/' . $omzet->image_nama;
         } else {
             $image = null;
         }
