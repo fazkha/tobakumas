@@ -43,6 +43,8 @@ Route::prefix('mitra')->group(function () {
     Route::get('get-jenis-pengeluaran-list', [MitraController::class, 'getJenisPengeluaranList']);
     Route::post('load-image-pengeluaran', [MitraController::class, 'loadImagePengeluaran']);
     Route::post('upload-image-pengeluaran', [MitraController::class, 'uploadImagePengeluaran']);
+    Route::post('load-image-sisa-adonan', [MitraController::class, 'loadImageSisaAdonan']);
+    Route::post('upload-image-sisa-adonan', [MitraController::class, 'uploadImageSisaAdonan']);
 });
 
 // Cabang

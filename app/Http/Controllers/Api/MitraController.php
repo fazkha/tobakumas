@@ -1048,9 +1048,132 @@ class MitraController extends Controller
         ]);
     }
 
+    public function loadImageSisaAdonan(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = Validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:mitra_op_details,id'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+
+        $pengeluaran = MitraOmzetPengeluaranDetail::find($data['id']);
+
+        if ($pengeluaran) {
+            $image = $pengeluaran->image_lokasi . '/' . $pengeluaran->image_nama;
+        } else {
+            $image = null;
+        }
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'image' => $image,
+        ]);
+    }
+
+    public function uploadImageSisaAdonan(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = Validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:users,id'],
+            'tanggal' => ['required', 'date'],
+            'keterangan' => ['required', 'string', 'max:50'],
+            'foto' => 'required|image|max:5120',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+        $image = NULL;
+        $path = NULL;
+
+        $omzet = MitraOmzetPengeluaran::where('user_id', $data['id'])
+            ->where('tanggal', $data['tanggal'])
+            ->first();
+
+        if ($omzet) {
+            $hasFile = $request->hasFile('foto');
+
+            if ($hasFile) {
+                $image = $request->file('foto');
+
+                $imageName = $omzet->image_nama;
+                $deleteName = $omzet->image_nama;
+                $deletePath = $omzet->image_lokasi;
+
+                if (!is_null($deleteName)) {
+                    File::delete(public_path($deletePath) . '/' . $deleteName);
+                }
+
+                $lokasi = $this->GetLokasiUploadSisaAdonan();
+                $pathym = $lokasi['path'] . '/' . $lokasi['ym'];
+                $imageName = $omzet->id . '_' . $image->hashName();
+                $path = $pathym . '/' . $imageName;
+
+                $omzet->update([
+                    'image_lokasi' => $pathym,
+                    'image_nama' => $imageName,
+                    'image_type' => 'image/jpeg',
+                ]);
+
+                // $path = $request->file('foto')->storeAs($pathym, $imageName, 'public');
+                if (!is_null($image)) {
+                    $dest = $this->compress_image($image, $image->path(), public_path($pathym), $imageName, 50);
+                }
+            }
+        }
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'path' => $path,
+        ]);
+    }
+
     public function GetLokasiUpload()
     {
         $path = 'storage/uploads/mitra/pengeluaran';
+        $ym = date('Ym');
+        $dir = $path . '/' . $ym;
+        $is_dir = is_dir($dir);
+
+        if (!$is_dir) {
+            mkdir($dir, 0755);
+        }
+
+        return ['path' => $path, 'ym' => $ym];
+    }
+
+    public function GetLokasiUploadSisaAdonan()
+    {
+        $path = 'storage/uploads/mitra/sisa_adonan';
         $ym = date('Ym');
         $dir = $path . '/' . $ym;
         $is_dir = is_dir($dir);
