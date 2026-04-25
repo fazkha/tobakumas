@@ -45,6 +45,7 @@ Route::prefix('mitra')->group(function () {
     Route::post('upload-image-pengeluaran', [MitraController::class, 'uploadImagePengeluaran']);
     Route::post('load-image-sisa-adonan', [MitraController::class, 'loadImageSisaAdonan']);
     Route::post('upload-image-sisa-adonan', [MitraController::class, 'uploadImageSisaAdonan']);
+    Route::delete('hapus-foto-sisa-adonan', [MitraController::class, 'hapusFotoSisaAdonan']);
 });
 
 // Cabang

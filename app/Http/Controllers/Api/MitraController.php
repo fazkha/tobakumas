@@ -1160,6 +1160,78 @@ class MitraController extends Controller
         ]);
     }
 
+    public function hapusFotoSisaAdonan(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = Validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:users,id'],
+            'tanggal' => ['required', 'date'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+
+        $omzet = MitraOmzetPengeluaran::where('user_id', $data['id'])
+            ->where('tanggal', $data['tanggal'])
+            ->first();
+
+        $deleteName = $omzet->image_nama ? $omzet->image_nama : NULL;
+        $deletePath = $omzet->image_lokasi ? $omzet->image_lokasi : NULL;
+        $deleteSuccess = false;
+
+        try {
+            if ($deleteName && $deletePath) {
+                File::delete(public_path($deletePath) . '/' . $deleteName);
+            }
+            $deleteSuccess = true;
+        } catch (\Illuminate\Database\QueryException $e) {
+            $this->db_switch(1);
+
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ]);
+        }
+
+        if ($omzet) {
+            $detail = MitraOmzetPengeluaranDetail::join('jenis_pengeluaran_mitras', 'mitra_op_details.jenis_pengeluaran_mitra_id', '=', 'jenis_pengeluaran_mitras.id')
+                ->where('mitra_op_details.mitra_omzet_pengeluaran_id', $omzet->id)
+                ->select('mitra_op_details.id', 'jenis_pengeluaran_mitras.nama as keterangan', 'mitra_op_details.harga', 'mitra_op_details.jumlah', 'mitra_op_details.approved', 'mitra_op_details.image_nama')
+                ->get();
+        } else {
+            $detail = null;
+        }
+
+        if ($detail == null) {
+            $detail = [];
+        } else {
+            $detail = $detail->toArray();
+        }
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'omzet' => $omzet ? $omzet->omzet : '',
+            'sisa_adonan' => $omzet ? $omzet->sisa_adonan : '',
+            'appr_o' => $omzet ? $omzet->approved_omzet : '0',
+            'appr_a' => $omzet ? $omzet->approved_adonan : '0',
+            'pengeluaran' => $detail,
+        ]);
+    }
+
     public function GetLokasiUpload()
     {
         $path = 'storage/uploads/mitra/pengeluaran';
