@@ -1205,6 +1205,14 @@ class MitraController extends Controller
             ]);
         }
 
+        if ($deleteSuccess) {
+            $omzet->update([
+                'image_lokasi' => null,
+                'image_nama' => null,
+                'image_type' => null,
+            ]);
+        }
+
         if ($omzet) {
             $detail = MitraOmzetPengeluaranDetail::join('jenis_pengeluaran_mitras', 'mitra_op_details.jenis_pengeluaran_mitra_id', '=', 'jenis_pengeluaran_mitras.id')
                 ->where('mitra_op_details.mitra_omzet_pengeluaran_id', $omzet->id)
