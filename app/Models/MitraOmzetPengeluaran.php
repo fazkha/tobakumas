@@ -16,6 +16,9 @@ class MitraOmzetPengeluaran extends Model
         'omzet',
         'adonan',
         'sisa_adonan',
+        'image_lokasi',
+        'image_nama',
+        'image_type',
         'approved_omzet',
         'approved_adonan',
     ];
