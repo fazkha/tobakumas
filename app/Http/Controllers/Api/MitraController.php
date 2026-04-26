@@ -175,9 +175,8 @@ class MitraController extends Controller
             'keterangan' => $data['keterangan'],
         ]);
 
-        $kritiksaran = MitraKritikSaran::where('user_id', $data['id'])
-            ->where('isactive', 1)
-            ->get();
+        $kritiksaran = MitraKritikSaran::where('isactive', 1)->get();
+        // where('user_id', $data['id'])
 
         $this->db_switch(1);
 
@@ -251,11 +250,13 @@ class MitraController extends Controller
 
         $kritiksaran = MitraKritikSaran::find($data['id']);
 
-        $kritiksaran->update([
-            'active' => 1,
-            'tanggal_jawab' => $data['tanggal_jawab'],
-            'keterangan_jawab' => $data['keterangan_jawab'],
-        ]);
+        if ($kritiksaran) {
+            $kritiksaran->update([
+                'active' => 1,
+                'tanggal_jawab' => $data['tanggal_jawab'],
+                'keterangan_jawab' => $data['keterangan_jawab'],
+            ]);
+        }
 
         $this->db_switch(1);
 
@@ -602,44 +603,47 @@ class MitraController extends Controller
         $pengeluaran = MitraOmzetPengeluaranDetail::where('mitra_omzet_pengeluaran_id', $omzet->id)
             ->where('jenis_pengeluaran_mitra_id', $jenis->id)
             ->first();
-        $approved = $pengeluaran ? $pengeluaran->approved : 0;
 
-        $deleteName = $pengeluaran->image_nama ? $pengeluaran->image_nama : NULL;
-        $deletePath = $pengeluaran->image_lokasi ? $pengeluaran->image_lokasi : NULL;
-        $harga = $pengeluaran->harga ? $pengeluaran->harga * $pengeluaran->jumlah : 0;
-        $deleteSuccess = false;
+        if ($pengeluaran) {
+            $approved = $pengeluaran ? $pengeluaran->approved : 0;
 
-        if ($approved <> 1) {
-            try {
-                $pengeluaran->delete();
-                if ($deleteName && $deletePath) {
-                    File::delete(public_path($deletePath) . '/' . $deleteName);
-                }
-                $deleteSuccess = true;
-            } catch (\Illuminate\Database\QueryException $e) {
-                $this->db_switch(1);
+            $deleteName = $pengeluaran->image_nama ? $pengeluaran->image_nama : NULL;
+            $deletePath = $pengeluaran->image_lokasi ? $pengeluaran->image_lokasi : NULL;
+            $harga = $pengeluaran->harga ? $pengeluaran->harga * $pengeluaran->jumlah : 0;
+            $deleteSuccess = false;
 
-                return response()->json([
-                    'status' => 'error',
-                    'message' => $e->getMessage(),
-                ]);
-            }
+            if ($approved <> 1) {
+                try {
+                    $pengeluaran->delete();
+                    if ($deleteName && $deletePath) {
+                        File::delete(public_path($deletePath) . '/' . $deleteName);
+                    }
+                    $deleteSuccess = true;
+                } catch (\Illuminate\Database\QueryException $e) {
+                    $this->db_switch(1);
 
-            if ($deleteSuccess) {
-                $date = Carbon::parse($data['tanggal']);
-                $week = $date->isoWeek();
-                $year = $date->isoWeekYear();
-                $yearWeek = $year . str($week)->padLeft(2, '0');
-
-                $kasbon = MitraKasbon::where('isactive', 1)
-                    ->where('user_id', $data['id'])
-                    ->where('minggu', $yearWeek)
-                    ->first();
-
-                if ($kasbon && $jenis->nama == 'Kasbon') {
-                    $kasbon->update([
-                        'sisa_plafon' => $kasbon->sisa_plafon + $harga,
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => $e->getMessage(),
                     ]);
+                }
+
+                if ($deleteSuccess) {
+                    $date = Carbon::parse($data['tanggal']);
+                    $week = $date->isoWeek();
+                    $year = $date->isoWeekYear();
+                    $yearWeek = $year . str($week)->padLeft(2, '0');
+
+                    $kasbon = MitraKasbon::where('isactive', 1)
+                        ->where('user_id', $data['id'])
+                        ->where('minggu', $yearWeek)
+                        ->first();
+
+                    if ($kasbon && $jenis->nama == 'Kasbon') {
+                        $kasbon->update([
+                            'sisa_plafon' => $kasbon->sisa_plafon + $harga,
+                        ]);
+                    }
                 }
             }
         }
@@ -1190,33 +1194,35 @@ class MitraController extends Controller
             ->where('tanggal', $data['tanggal'])
             ->first();
 
-        $adonanApproved = $omzet->approved_adonan;
-        $deleteName = $omzet->image_nama ? $omzet->image_nama : NULL;
-        $deletePath = $omzet->image_lokasi ? $omzet->image_lokasi : NULL;
-        $deleteSuccess = false;
+        if ($omzet) {
+            $adonanApproved = $omzet->approved_adonan;
+            $deleteName = $omzet->image_nama ? $omzet->image_nama : NULL;
+            $deletePath = $omzet->image_lokasi ? $omzet->image_lokasi : NULL;
+            $deleteSuccess = false;
 
-        try {
-            if ($adonanApproved <> 1) {
-                if ($deleteName && $deletePath) {
-                    File::delete(public_path($deletePath) . '/' . $deleteName);
+            try {
+                if ($adonanApproved <> 1) {
+                    if ($deleteName && $deletePath) {
+                        File::delete(public_path($deletePath) . '/' . $deleteName);
+                    }
+                    $deleteSuccess = true;
                 }
-                $deleteSuccess = true;
+            } catch (\Illuminate\Database\QueryException $e) {
+                $this->db_switch(1);
+
+                return response()->json([
+                    'status' => 'error',
+                    'message' => $e->getMessage(),
+                ]);
             }
-        } catch (\Illuminate\Database\QueryException $e) {
-            $this->db_switch(1);
 
-            return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage(),
-            ]);
-        }
-
-        if ($deleteSuccess && $adonanApproved <> 1) {
-            $omzet->update([
-                'image_lokasi' => null,
-                'image_nama' => null,
-                'image_type' => null,
-            ]);
+            if ($deleteSuccess && $adonanApproved <> 1) {
+                $omzet->update([
+                    'image_lokasi' => null,
+                    'image_nama' => null,
+                    'image_type' => null,
+                ]);
+            }
         }
 
         if ($omzet) {

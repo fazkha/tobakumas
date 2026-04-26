@@ -922,47 +922,51 @@ class CabangController extends Controller
 
         $jenis = JenisPengeluaranCabang::where('nama', $data['keterangan'])->first();
 
-        $pengeluaran = PcBiaya::where('user_id', $data['id'])
-            ->where('tanggal', $data['tanggal'])
-            ->where('branch_id', $data['cabang'])
-            ->where('jenis_pengeluaran_cabang_id', $jenis->id)
-            ->first();
-
-        $deleteName = $pengeluaran->image_nama ? $pengeluaran->image_nama : NULL;
-        $deletePath = $pengeluaran->image_lokasi ? $pengeluaran->image_lokasi : NULL;
-        $harga = $pengeluaran->harga ? $pengeluaran->harga : 0;
-        $deleteSuccess = false;
-
-        try {
-            $pengeluaran->delete();
-            if ($deleteName && $deletePath) {
-                File::delete(public_path($deletePath) . '/' . $deleteName);
-            }
-            $deleteSuccess = true;
-        } catch (\Illuminate\Database\QueryException $e) {
-            $this->db_switch(1);
-
-            return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage(),
-            ]);
-        }
-
-        if ($deleteSuccess) {
-            $date = Carbon::parse($data['tanggal']);
-            $week = $date->isoWeek();
-            $year = $date->isoWeekYear();
-            $yearWeek = $year . str($week)->padLeft(2, '0');
-
-            $kasbon = PcKasbon::where('isactive', 1)
-                ->where('user_id', $data['id'])
-                ->where('minggu', $yearWeek)
+        if ($jenis) {
+            $pengeluaran = PcBiaya::where('user_id', $data['id'])
+                ->where('tanggal', $data['tanggal'])
+                ->where('branch_id', $data['cabang'])
+                ->where('jenis_pengeluaran_cabang_id', $jenis->id)
                 ->first();
 
-            if ($kasbon && $jenis->nama == 'Kasbon') {
-                $kasbon->update([
-                    'sisa_plafon' => $kasbon->sisa_plafon + $harga,
-                ]);
+            if ($pengeluaran) {
+                $deleteName = $pengeluaran->image_nama ? $pengeluaran->image_nama : NULL;
+                $deletePath = $pengeluaran->image_lokasi ? $pengeluaran->image_lokasi : NULL;
+                $harga = $pengeluaran->harga ? $pengeluaran->harga : 0;
+                $deleteSuccess = false;
+
+                try {
+                    $pengeluaran->delete();
+                    if ($deleteName && $deletePath) {
+                        File::delete(public_path($deletePath) . '/' . $deleteName);
+                    }
+                    $deleteSuccess = true;
+                } catch (\Illuminate\Database\QueryException $e) {
+                    $this->db_switch(1);
+
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => $e->getMessage(),
+                    ]);
+                }
+
+                if ($deleteSuccess) {
+                    $date = Carbon::parse($data['tanggal']);
+                    $week = $date->isoWeek();
+                    $year = $date->isoWeekYear();
+                    $yearWeek = $year . str($week)->padLeft(2, '0');
+
+                    $kasbon = PcKasbon::where('isactive', 1)
+                        ->where('user_id', $data['id'])
+                        ->where('minggu', $yearWeek)
+                        ->first();
+
+                    if ($kasbon && $jenis->nama == 'Kasbon') {
+                        $kasbon->update([
+                            'sisa_plafon' => $kasbon->sisa_plafon + $harga,
+                        ]);
+                    }
+                }
             }
         }
 
