@@ -1639,7 +1639,7 @@ class CabangController extends Controller
                 ->where('rute_gerobaks.isactive', 1)
                 ->where('rute_gerobaks.status', 'onmove')
                 ->whereNotNull('rute_gerobaks.latitude')
-                ->selectRaw('rute_gerobaks.latitude as latitude, rute_gerobaks.longitude as longitude, branches.nama as cabang, users.name as mitra, DATE(FROM_UNIXTIME(rute_gerobaks.timesaved)) as tanggal, TIME_FORMAT(TIME(FROM_UNIXTIME(rute_gerobaks.timesaved)), "%H:%i") as jam, FROM_UNIXTIME(rute_gerobaks.timesaved) as timesaved')
+                ->selectRaw('rute_gerobaks.latitude as latitude, rute_gerobaks.longitude as longitude, branches.nama as cabang, users.name as mitra, DATE(FROM_UNIXTIME(rute_gerobaks.timesaved)) as tanggal, TIME_FORMAT(TIME(FROM_UNIXTIME(rute_gerobaks.timesaved)), "%H:%i") as jam, rute_gerobaks.timesaved as time')
                 ->orderBy('rute_gerobaks.id')
                 ->get()
                 ->toArray();
@@ -1670,7 +1670,7 @@ class CabangController extends Controller
                     ->where('rute_gerobaks.isactive', 1)
                     ->where('rute_gerobaks.status', 'onmove')
                     ->whereNotNull('rute_gerobaks.latitude')
-                    ->selectRaw('rute_gerobaks.latitude as latitude, rute_gerobaks.longitude as longitude, branches.nama as cabang, users.name as mitra, DATE(FROM_UNIXTIME(rute_gerobaks.timesaved)) as tanggal, TIME(FROM_UNIXTIME(rute_gerobaks.timesaved)) as jam, FROM_UNIXTIME(rute_gerobaks.timesaved) as timesaved')
+                    ->selectRaw('rute_gerobaks.latitude as latitude, rute_gerobaks.longitude as longitude, branches.nama as cabang, users.name as mitra, DATE(FROM_UNIXTIME(rute_gerobaks.timesaved)) as tanggal, TIME(FROM_UNIXTIME(rute_gerobaks.timesaved)) as jam, rute_gerobaks.timesaved as time')
                     ->orderBy('rute_gerobaks.id')
                     ->get()
                     ->toArray();
