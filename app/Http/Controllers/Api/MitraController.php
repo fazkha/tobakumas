@@ -482,7 +482,7 @@ class MitraController extends Controller
                 'jumlah' => $data['jumlah'] ?? ($detail->jumlah ?? 1),
             ]);
         } else {
-            if (isset($data['keterangan'])) {
+            if (isset($data['keterangan']) && isset($data['harga']) && isset($data['jumlah'])) {
                 $detail = MitraOmzetPengeluaranDetail::create([
                     'mitra_omzet_pengeluaran_id' => $omzet->id,
                     'jenis_pengeluaran_mitra_id' => $data['keterangan'],
