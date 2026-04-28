@@ -11,6 +11,7 @@ class JenisPengeluaranCabang extends Model
 
     protected $fillable = [
         'nama',
+        'defjml',
         'isactive',
     ];
 }

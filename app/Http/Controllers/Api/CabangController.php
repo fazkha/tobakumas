@@ -149,7 +149,7 @@ class CabangController extends Controller
     {
         $this->db_switch(2);
 
-        $jenis = JenisPengeluaranCabang::where('isactive', 1)->orderByRaw('kelompok, nama')->selectRaw('id, nama as name, kelompok')->get()->toJson();
+        $jenis = JenisPengeluaranCabang::where('isactive', 1)->orderByRaw('kelompok, nama')->selectRaw('id, nama as name, kelompok, defjml')->get()->toJson();
 
         $this->db_switch(1);
 

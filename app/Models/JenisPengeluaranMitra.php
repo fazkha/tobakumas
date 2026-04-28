@@ -11,6 +11,7 @@ class JenisPengeluaranMitra extends Model
 
     protected $fillable = [
         'nama',
+        'defjml',
         'isactive',
     ];
 }
