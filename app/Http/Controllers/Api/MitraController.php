@@ -381,11 +381,12 @@ class MitraController extends Controller
                 'adonan' => $app_adonan_value,
             ]);
         }
-        // dd($omzet);
 
         $jenis = JenisPengeluaranMitra::where('isactive', 1)
             ->where('id', $data['keterangan'])
             ->first();
+        $harga = $data['harga'] ?? 0;
+        dd($data['harga']);
 
         if ($jenis) {
             if ($jenis->nama == 'Kasbon') {
