@@ -15,6 +15,7 @@ class MitraKritikSaran extends Model
         'jenis',
         'judul',
         'keterangan',
+        'jawab_user_id',
         'tanggal_jawab',
         'keterangan_jawab',
         'isactive',

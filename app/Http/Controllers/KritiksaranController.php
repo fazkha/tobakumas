@@ -184,6 +184,7 @@ class KritiksaranController extends Controller implements HasMiddleware
                 'judul' => ucfirst($request->judul),
                 'keterangan' => ucfirst($request->keterangan),
                 'isactive' => ($request->isactive == 'on' ? 1 : 0),
+                'jawab_user_id' => auth()->user()->id,
                 'tanggal_jawab' => date("Y-m-d"),
                 'keterangan_jawab' => $request->keterangan_jawab,
             ]);
