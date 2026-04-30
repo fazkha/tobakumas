@@ -545,6 +545,7 @@ class AuthController extends Controller
         $this->db_switch(2);
 
         $token = $request->token;
+        $user_id = $request->user;
 
         $dbtoken = PersonalAccessToken::findToken($token);
 
@@ -556,10 +557,17 @@ class AuthController extends Controller
             ], 401);
         }
 
+        $valid = false;
+        $user = User::where('id', $user_id)->first();
+
+        if ($user) {
+            $valid = $user->approved == 1 ? true : false;
+        }
+
         $this->db_switch(1);
 
         return [
-            'valid' => true,
+            'valid' => $valid,
             'user' => $dbtoken->name
         ];
     }
