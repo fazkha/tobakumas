@@ -1001,12 +1001,12 @@ class MitraController extends Controller
         $omzet = MitraOmzetPengeluaran::where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
             ->first();
-        dd($omzet);
 
         if ($omzet) {
             $jenis = JenisPengeluaranMitra::where('isactive', 1)
                 ->where('nama', $data['keterangan'])
                 ->first();
+            dd($jenis);
 
             if ($jenis) {
                 $pengeluaran = MitraOmzetPengeluaranDetail::where('mitra_omzet_pengeluaran_id', $omzet->id)
