@@ -1013,6 +1013,7 @@ class MitraController extends Controller
                     ->first();
 
                 if ($pengeluaran) {
+                    dd($pengeluaran);
                     $hasFile = $request->hasFile('foto');
 
                     if ($hasFile) {
