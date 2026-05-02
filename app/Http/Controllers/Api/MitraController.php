@@ -1036,7 +1036,6 @@ class MitraController extends Controller
                             'image_nama' => $imageName,
                             'image_type' => 'image/jpeg',
                         ]);
-                        dd($pengeluaran, $pathym, $imageName);
 
                         // $path = $request->file('foto')->storeAs($pathym, $imageName, 'public');
                         if (!is_null($image)) {
