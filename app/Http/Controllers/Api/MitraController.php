@@ -1006,12 +1006,12 @@ class MitraController extends Controller
             $jenis = JenisPengeluaranMitra::where('isactive', 1)
                 ->where('nama', $data['keterangan'])
                 ->first();
-            dd($jenis);
 
             if ($jenis) {
                 $pengeluaran = MitraOmzetPengeluaranDetail::where('mitra_omzet_pengeluaran_id', $omzet->id)
                     ->where('jenis_pengeluaran_mitra_id', $jenis->id)
                     ->first();
+                dd($pengeluaran);
 
                 if ($pengeluaran) {
                     $hasFile = $request->hasFile('foto');
