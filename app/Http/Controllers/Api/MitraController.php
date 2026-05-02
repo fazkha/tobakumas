@@ -1001,6 +1001,7 @@ class MitraController extends Controller
         $omzet = MitraOmzetPengeluaran::where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
             ->first();
+        dd($omzet);
 
         if ($omzet) {
             $jenis = JenisPengeluaranMitra::where('isactive', 1)
@@ -1013,7 +1014,6 @@ class MitraController extends Controller
                     ->first();
 
                 if ($pengeluaran) {
-                    dd($pengeluaran);
                     $hasFile = $request->hasFile('foto');
 
                     if ($hasFile) {
