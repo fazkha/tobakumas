@@ -193,6 +193,14 @@ class MitraController extends Controller
             if (!is_null($image)) {
                 $dest = $this->compress_image($image, $image->path(), public_path($pathym), $imageName, 50);
             }
+        } else {
+            $new = MitraKritikSaran::create([
+                'user_id' => $data['id'],
+                'tanggal' => $data['tanggal'],
+                'jenis' => $data['jenis'],
+                'judul' => $data['judul'],
+                'keterangan' => $data['keterangan'],
+            ]);
         }
 
         $kritiksaran = MitraKritikSaran::where('isactive', 1)->get();

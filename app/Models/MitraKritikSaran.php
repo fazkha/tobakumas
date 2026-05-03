@@ -18,6 +18,9 @@ class MitraKritikSaran extends Model
         'jawab_user_id',
         'tanggal_jawab',
         'keterangan_jawab',
+        'image_lokasi',
+        'image_nama',
+        'image_type',
         'isactive',
     ];
 }
