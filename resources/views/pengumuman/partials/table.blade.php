@@ -109,7 +109,7 @@
                                 class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
                                 @php
                                     if (auth()->user()->profile->site == 'KP') {
-                                        $this->db_switch(2);
+                                        db_switch(2);
                                     }
 
                                     $untuks = App\Models\MitraPengumumanUntuk::where('mitra_pengumuman_id', $data->id)
@@ -117,7 +117,7 @@
                                         ->get();
 
                                     if (auth()->user()->profile->site == 'KP') {
-                                        $this->db_switch(1);
+                                        db_switch(1);
                                     }
                                 @endphp
                                 <div class="flex flex-col flex-wrap lg:flex-row gap-2 text-gray-900 dark:text-white">
