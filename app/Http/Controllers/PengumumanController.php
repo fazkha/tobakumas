@@ -7,12 +7,14 @@ use App\Models\Jabatan;
 use App\Models\MitraPengumuman;
 use App\Models\MitraPengumumanUntuk;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\View\View;
 
 class PengumumanController extends Controller implements HasMiddleware
@@ -26,6 +28,22 @@ class PengumumanController extends Controller implements HasMiddleware
             new Middleware('permission:pengumuman-show', only: ['show']),
             new Middleware('permission:pengumuman-delete', only: ['delete', 'destroy']),
         ];
+    }
+
+    public function db_switch($sw)
+    {
+        if ($sw == 2) {
+            Config::set('database.connections.mysql.database', config('custom.db02_dbname'));
+            Config::set('database.connections.mysql.username', config('custom.db02_username'));
+            Config::set('database.connections.mysql.password', config('custom.db02_password'));
+        } elseif ($sw == 1) {
+            Config::set('database.connections.mysql.database', config('custom.db01_dbname'));
+            Config::set('database.connections.mysql.username', config('custom.db01_username'));
+            Config::set('database.connections.mysql.password', config('custom.db01_password'));
+        }
+
+        DB::purge('mysql');
+        DB::reconnect('mysql');
     }
 
     public function index(Request $request)
@@ -44,6 +62,8 @@ class PengumumanController extends Controller implements HasMiddleware
         }
 
         $search_arr = ['pengumuman_isactive', 'pengumuman_judul', 'pengumuman_keterangan'];
+
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $datas = MitraPengumuman::query();
 
@@ -67,6 +87,8 @@ class PengumumanController extends Controller implements HasMiddleware
         // $datas = $datas->orderBy('jenis_barang_id')->orderBy('nama')->paginate(session('barang_pp'));
         $datas = $datas->latest()->paginate(session('pengumuman_pp'));
 
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+
         if ($request->page && $datas->count() == 0) {
             return redirect()->route('dashboard');
         }
@@ -82,6 +104,8 @@ class PengumumanController extends Controller implements HasMiddleware
         $request->session()->put('pengumuman_keterangan', $request->keterangan);
 
         $search_arr = ['pengumuman_isactive', 'pengumuman_judul', 'pengumuman_keterangan'];
+
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $datas = MitraPengumuman::query();
 
@@ -107,6 +131,8 @@ class PengumumanController extends Controller implements HasMiddleware
 
         $datas->withPath('/human-resource/announcement'); // pagination url to
 
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+
         $view = view('pengumuman.partials.table', compact(['datas']))->with('i', (request()->input('page', 1) - 1) * session('pengumuman_pp'))->render();
 
         if ($view) {
@@ -118,8 +144,12 @@ class PengumumanController extends Controller implements HasMiddleware
 
     public function create(): View
     {
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+
         $branch_id = auth()->user()->profile->branch_id;
         $jabatans = Jabatan::where('isactive', 1)->get();
+
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         return view('pengumuman.create', compact(['branch_id', 'jabatans']));
     }
@@ -127,6 +157,8 @@ class PengumumanController extends Controller implements HasMiddleware
     public function store(PengumumanRequest $request): RedirectResponse
     {
         $image = $request->file('gambar');
+
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         if ($request->validated()) {
             $lokasi = $this->GetLokasiUpload();
@@ -163,35 +195,49 @@ class PengumumanController extends Controller implements HasMiddleware
                 }
             }
 
+            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+
             if ($pengumuman) {
                 return redirect()->route('announcement.edit', Crypt::encrypt($pengumuman->id))->with('success', __('messages.successadded') . ' 👉 ' . $request->judul);
             }
         }
+
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         return redirect()->back()->withInput()->with('error', 'Error occured while saving!');
     }
 
     public function show(Request $request): View
     {
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+
         $datas = MitraPengumuman::find(Crypt::decrypt($request->announcement));
         $untuks = MitraPengumumanUntuk::where('mitra_pengumuman_id', $datas->id)->orderBy('jabatan_id')->get();
         $jabatans = Jabatan::where('isactive', 1)->get();
+
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         return view('pengumuman.show', compact(['datas', 'jabatans', 'untuks']));
     }
 
     public function edit(Request $request): View
     {
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+
         $branch_id = auth()->user()->profile->branch_id;
         $datas = MitraPengumuman::find(Crypt::decrypt($request->announcement));
         $untuks = MitraPengumumanUntuk::where('mitra_pengumuman_id', $datas->id)->orderBy('jabatan_id')->get();
         $jabatans = Jabatan::where('isactive', 1)->get();
+
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         return view('pengumuman.edit', compact(['datas', 'jabatans', 'untuks', 'branch_id']));
     }
 
     public function update(PengumumanRequest $request): RedirectResponse
     {
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+
         $pengumuman = MitraPengumuman::find(Crypt::decrypt($request->announcement));
         $untuks1 = MitraPengumumanUntuk::where('mitra_pengumuman_id', $pengumuman->id)->get();
         $image = $request->file('gambar');
@@ -240,24 +286,34 @@ class PengumumanController extends Controller implements HasMiddleware
                 MitraPengumumanUntuk::where('mitra_pengumuman_id', $pengumuman->id)->whereNotIn('jabatan_id', $untuks)->delete();
             }
 
+            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+
             return redirect()->back()->with('success', __('messages.successupdated') . ' 👉 ' . $request->judul);
         } else {
+            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+
             return redirect()->back()->withInput()->with('error', 'Error occured while updating!');
         }
     }
 
     public function delete(Request $request): View
     {
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+
         $pengumuman = MitraPengumuman::find(Crypt::decrypt($request->announcement));
         $datas = $pengumuman;
         $untuks = MitraPengumumanUntuk::where('mitra_pengumuman_id', $datas->id)->orderBy('jabatan_id')->get();
         $jabatans = Jabatan::where('isactive', 1)->get();
+
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         return view('pengumuman.delete', compact(['datas', 'untuks', 'jabatans']));
     }
 
     public function destroy(Request $request): RedirectResponse
     {
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
+
         $pengumuman = MitraPengumuman::find(Crypt::decrypt($request->announcement));
 
         $deleteName = $pengumuman->gambar ? $pengumuman->gambar : NULL;
@@ -269,11 +325,15 @@ class PengumumanController extends Controller implements HasMiddleware
                 File::delete(public_path($deletePath) . '/' . $deleteName);
             }
         } catch (\Illuminate\Database\QueryException $e) {
+            if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
+
             if (str_contains($e->getMessage(), 'Integrity constraint violation')) {
                 return redirect()->route('announcement.index')->with('error', 'Integrity constraint violation');
             }
             return redirect()->route('announcement.index')->with('error', $e->getMessage());
         }
+
+        if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
         return redirect()->route('announcement.index')
             ->with('success', __('messages.successdeleted') . ' 👉 ' . $pengumuman->judul);

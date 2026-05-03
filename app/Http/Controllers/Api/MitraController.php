@@ -18,8 +18,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\File;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 
@@ -334,15 +334,49 @@ class MitraController extends Controller
 
     public function loadPengumuman(Request $request)
     {
-        // $this->db_switch(2);
+        $this->db_switch(2);
 
-        $pengumuman = MitraPengumuman::join('users', 'mitra_pengumumans.created_by', '=', 'users.email')
-            ->select('mitra_pengumumans.id', 'mitra_pengumumans.tanggal', 'mitra_pengumumans.judul', 'mitra_pengumumans.keterangan', 'mitra_pengumumans.lokasi', 'mitra_pengumumans.gambar', 'users.name as penulis')
-            ->where('mitra_pengumumans.isactive', 1)
-            ->orderBy('mitra_pengumumans.tanggal', 'desc')
+        $validator = Validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:users,id'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            return response([
+                'message' => $errors->first()
+            ], 422);
+        }
+
+        $data = $validator->validated();
+
+        $pengumuman = DB::table('mitra_pengumumans as m1')
+            ->select(
+                'm1.id',
+                'm1.tanggal',
+                'm1.judul',
+                'm1.keterangan',
+                'm1.lokasi',
+                'm1.gambar',
+                'u1.name as penulis'
+            )
+            ->join('users as u1', 'u1.email', '=', 'm1.created_by')
+            ->join('users as u2', 'u2.id', '=', DB::raw($data['id']))
+            ->join('mitras as m2', 'm2.email', '=', 'u2.email')
+            ->join('brandivjabmits as b1', 'b1.mitra_id', '=', 'm2.id')
+            ->join('brandivjabs as b2', 'b2.id', '=', 'b1.brandivjab_id')
+            ->where('m1.isactive', 1)
+            ->where('b1.isactive', 1)
+            ->where('b2.isactive', 1)
+            ->whereIn('b2.jabatan_id', function ($query) {
+                $query->select('jabatan_id')
+                    ->from('mitra_pengumuman_untuks as m3')
+                    ->whereColumn('m3.mitra_pengumuman_id', 'm1.id');
+            })
+            ->orderByDesc('m1.tanggal')
             ->get();
 
-        // $this->db_switch(1);
+        $this->db_switch(1);
 
         return response()->json([
             'status' => 'success',

@@ -27,7 +27,7 @@ Route::get('/get-branch-list', [BranchController::class, 'getBranchList']);
 
 // Mitra
 Route::prefix('mitra')->group(function () {
-    Route::get('load-pengumuman', [MitraController::class, 'loadPengumuman']);
+    Route::post('load-pengumuman', [MitraController::class, 'loadPengumuman']);
     Route::post('load-kritiksaran', [MitraController::class, 'loadKritikSaran']);
     Route::post('save-kritiksaran', [MitraController::class, 'saveKritikSaran']);
     Route::post('load-kritiksaran-approval', [MitraController::class, 'loadKritikSaranApproval']);
