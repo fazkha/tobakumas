@@ -12,6 +12,7 @@ use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\View\View;
 
 class KritiksaranController extends Controller implements HasMiddleware
@@ -217,9 +218,14 @@ class KritiksaranController extends Controller implements HasMiddleware
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $kritiksaran = MitraKritikSaran::find(Crypt::decrypt($request->criticism));
+        $deleteName = $kritiksaran->image_nama ? $kritiksaran->image_nama : NULL;
+        $deletePath = $kritiksaran->image_lokasi ? $kritiksaran->image_lokasi : NULL;
 
         try {
             $kritiksaran->delete();
+            if ($deleteName && $deletePath) {
+                File::delete(public_path($deletePath) . '/' . $deleteName);
+            }
         } catch (\Illuminate\Database\QueryException $e) {
             if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
