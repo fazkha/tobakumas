@@ -83,8 +83,6 @@ class PengumumanController extends Controller implements HasMiddleware
             }
         }
 
-        // $datas = $datas->where('branch_id', auth()->user()->profile->branch_id);
-        // $datas = $datas->orderBy('jenis_barang_id')->orderBy('nama')->paginate(session('barang_pp'));
         $datas = $datas->latest()->paginate(session('pengumuman_pp'));
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
@@ -125,8 +123,6 @@ class PengumumanController extends Controller implements HasMiddleware
             }
         }
 
-        // $datas = $datas->where('branch_id', auth()->user()->profile->branch_id);
-        // $datas = $datas->orderBy('jenis_barang_id')->orderBy('nama')->paginate(session('barang_pp'));
         $datas = $datas->latest()->paginate(session('pengumuman_pp'));
 
         $datas->withPath('/human-resource/announcement'); // pagination url to

@@ -1,6 +1,23 @@
 @php
     use Illuminate\Support\Facades\Crypt;
-    use App\Models\MitraPengumumanUntuk;
+    use Illuminate\Support\Facades\Config;
+    use Illuminate\Support\Facades\DB;
+
+    function db_switch($sw)
+    {
+        if ($sw == 2) {
+            Config::set('database.connections.mysql.database', config('custom.db02_dbname'));
+            Config::set('database.connections.mysql.username', config('custom.db02_username'));
+            Config::set('database.connections.mysql.password', config('custom.db02_password'));
+        } elseif ($sw == 1) {
+            Config::set('database.connections.mysql.database', config('custom.db01_dbname'));
+            Config::set('database.connections.mysql.username', config('custom.db01_username'));
+            Config::set('database.connections.mysql.password', config('custom.db01_password'));
+        }
+
+        DB::purge('mysql');
+        DB::reconnect('mysql');
+    }
 @endphp
 
 <div x-data="{
@@ -91,9 +108,19 @@
                             <td
                                 class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
                                 @php
+                                    if (auth()->user()->profile->site == 'KP') {
+                                        $this->db_switch(2);
+                                    }
+
+                                    use App\Models\MitraPengumumanUntuk;
+
                                     $untuks = MitraPengumumanUntuk::where('mitra_pengumuman_id', $data->id)
                                         ->orderBy('jabatan_id')
                                         ->get();
+
+                                    if (auth()->user()->profile->site == 'KP') {
+                                        $this->db_switch(1);
+                                    }
                                 @endphp
                                 <div class="flex flex-col flex-wrap lg:flex-row gap-2 text-gray-900 dark:text-white">
                                     @foreach ($untuks as $untuk)
