@@ -85,6 +85,14 @@
                                         <x-input-error class="mt-2" :messages="$errors->get('keterangan_jawab')" />
                                     </div>
 
+                                    <div class="w-auto pb-4 lg:pb-12">
+                                        <div class="mt-2 flex justify-center">
+                                            <img id="image-preview" class="w-full lg:w-3/5 h-auto border rounded-lg"
+                                                @if ($datas->image_nama) src="{{ asset($datas->image_lokasi . '/' . $datas->image_nama) }}" @else src="{{ url('/') }}/images/0cd6be830e32f80192d496e50cfa9dbc.jpg" @endif
+                                                alt="o.o" />
+                                        </div>
+                                    </div>
+
                                     <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
                                         <div class="w-auto">
                                             <label
