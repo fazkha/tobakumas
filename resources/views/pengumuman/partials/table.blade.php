@@ -2,6 +2,7 @@
     use Illuminate\Support\Facades\Crypt;
     use Illuminate\Support\Facades\Config;
     use Illuminate\Support\Facades\DB;
+    use App\Models\MitraPengumumanUntuk;
 
     function db_switch($sw)
     {
@@ -111,8 +112,6 @@
                                     if (auth()->user()->profile->site == 'KP') {
                                         $this->db_switch(2);
                                     }
-
-                                    use App\Models\MitraPengumumanUntuk;
 
                                     $untuks = MitraPengumumanUntuk::where('mitra_pengumuman_id', $data->id)
                                         ->orderBy('jabatan_id')
