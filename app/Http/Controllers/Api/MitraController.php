@@ -151,7 +151,7 @@ class MitraController extends Controller
             'jenis' => ['required'],
             'judul' => ['nullable', 'max:100'],
             'keterangan' => ['nullable', 'max:200'],
-            'foto' => 'required|image|max:5120',
+            'foto' => 'nullable|image|max:5120',
         ]);
 
         if ($validator->fails()) {
