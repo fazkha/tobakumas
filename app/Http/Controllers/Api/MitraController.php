@@ -151,6 +151,7 @@ class MitraController extends Controller
             'jenis' => ['required'],
             'judul' => ['nullable', 'max:100'],
             'keterangan' => ['nullable', 'max:200'],
+            'foto' => 'required|image|max:5120',
         ]);
 
         if ($validator->fails()) {
@@ -167,13 +168,32 @@ class MitraController extends Controller
 
         $data = $validator->validated();
 
-        $new = MitraKritikSaran::create([
-            'user_id' => $data['id'],
-            'tanggal' => $data['tanggal'],
-            'jenis' => $data['jenis'],
-            'judul' => $data['judul'],
-            'keterangan' => $data['keterangan'],
-        ]);
+        $hasFile = $request->hasFile('foto');
+
+        if ($hasFile) {
+            $image = $request->file('foto');
+
+            $lokasi = $this->GetLokasiUploadKritikSaran();
+            $pathym = $lokasi['path'] . '/' . $lokasi['ym'];
+            $imageName = $image->hashName();
+            $path = $pathym . '/' . $imageName;
+
+            $new = MitraKritikSaran::create([
+                'user_id' => $data['id'],
+                'tanggal' => $data['tanggal'],
+                'jenis' => $data['jenis'],
+                'judul' => $data['judul'],
+                'keterangan' => $data['keterangan'],
+                'image_lokasi' => $pathym,
+                'image_nama' => $imageName,
+                'image_type' => 'image/jpeg',
+            ]);
+
+            // $path = $request->file('foto')->storeAs($pathym, $imageName, 'public');
+            if (!is_null($image)) {
+                $dest = $this->compress_image($image, $image->path(), public_path($pathym), $imageName, 50);
+            }
+        }
 
         $kritiksaran = MitraKritikSaran::where('isactive', 1)->get();
         // where('user_id', $data['id'])
@@ -211,7 +231,7 @@ class MitraController extends Controller
         $kritiksaran = MitraKritikSaran::join('users', 'mitra_kritik_sarans.user_id', '=', 'users.id')
             ->join('profiles', 'users.id', '=', 'profiles.user_id')
             ->join('branches', 'profiles.branch_id', '=', 'branches.id')
-            ->select('mitra_kritik_sarans.id', 'mitra_kritik_sarans.tanggal', 'mitra_kritik_sarans.jenis', 'mitra_kritik_sarans.judul', 'mitra_kritik_sarans.keterangan', 'users.name as nama_mitra', 'branches.nama as cabang', 'branches.kode as kode')
+            ->select('mitra_kritik_sarans.id', 'mitra_kritik_sarans.tanggal', 'mitra_kritik_sarans.jenis', 'mitra_kritik_sarans.judul', 'mitra_kritik_sarans.keterangan', 'mitra_kritik_sarans.image_lokasi', 'mitra_kritik_sarans.image_nama', 'users.name as nama_mitra', 'branches.nama as cabang', 'branches.kode as kode')
             ->where('mitra_kritik_sarans.isactive', 1)
             ->orderBy('mitra_kritik_sarans.tanggal', 'desc')
             ->get();
@@ -291,7 +311,7 @@ class MitraController extends Controller
         $kritiksaran = MitraKritikSaran::join('users', 'mitra_kritik_sarans.user_id', '=', 'users.id')
             ->join('profiles', 'users.id', '=', 'profiles.user_id')
             ->join('branches', 'profiles.branch_id', '=', 'branches.id')
-            ->select('mitra_kritik_sarans.id', 'mitra_kritik_sarans.tanggal', 'mitra_kritik_sarans.jenis', 'mitra_kritik_sarans.judul', 'mitra_kritik_sarans.keterangan', 'users.name as nama_mitra', 'branches.nama as cabang', 'branches.kode as kode')
+            ->select('mitra_kritik_sarans.id', 'mitra_kritik_sarans.tanggal', 'mitra_kritik_sarans.jenis', 'mitra_kritik_sarans.judul', 'mitra_kritik_sarans.keterangan', 'mitra_kritik_sarans.image_lokasi', 'mitra_kritik_sarans.image_nama', 'users.name as nama_mitra', 'branches.nama as cabang', 'branches.kode as kode')
             ->where('mitra_kritik_sarans.isactive', 0)
             ->orderBy('mitra_kritik_sarans.tanggal', 'desc')
             ->get();
@@ -1268,6 +1288,20 @@ class MitraController extends Controller
     public function GetLokasiUploadSisaAdonan()
     {
         $path = 'storage/uploads/mitra/sisa_adonan';
+        $ym = date('Ym');
+        $dir = $path . '/' . $ym;
+        $is_dir = is_dir($dir);
+
+        if (!$is_dir) {
+            mkdir($dir, 0755);
+        }
+
+        return ['path' => $path, 'ym' => $ym];
+    }
+
+    public function GetLokasiUploadKritikSaran()
+    {
+        $path = 'storage/uploads/mitra/kritik_saran';
         $ym = date('Ym');
         $dir = $path . '/' . $ym;
         $is_dir = is_dir($dir);
