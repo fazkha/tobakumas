@@ -54,6 +54,12 @@
                                     </div>
 
                                     <div class="w-auto pb-4">
+                                        <label for="jenis"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.status')</label>
+                                        <x-text-span>{{ $datas->jenis }}</x-text-span>
+                                    </div>
+
+                                    <div class="w-auto pb-4">
                                         <label for="judul"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.title_head')</label>
                                         <x-text-input type="text" name="judul" id="judul" tabindex="2"
