@@ -82,7 +82,7 @@ class KritiksaranController extends Controller implements HasMiddleware
         }
 
         // $datas = $datas->where('branch_id', auth()->user()->profile->branch_id);
-        $datas = $datas->orderBy('tanggal', 'desc')->paginate(session('kritiksaran_pp'));
+        $datas = $datas->orderBy('tanggal', 'desc')->orderBy('id', 'desc')->paginate(session('kritiksaran_pp'));
         // $datas = $datas->latest()->paginate(session('kritiksaran_pp'));
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
@@ -124,7 +124,7 @@ class KritiksaranController extends Controller implements HasMiddleware
         }
 
         // $datas = $datas->where('branch_id', auth()->user()->profile->branch_id);
-        $datas = $datas->orderBy('tanggal', 'desc')->paginate(session('kritiksaran_pp'));
+        $datas = $datas->orderBy('tanggal', 'desc')->orderBy('id', 'desc')->paginate(session('kritiksaran_pp'));
         // $datas = $datas->latest()->paginate(session('kritiksaran_pp'));
 
         $datas->withPath('/human-resource/criticism'); // pagination url to
