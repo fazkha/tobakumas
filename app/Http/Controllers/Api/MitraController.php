@@ -241,6 +241,7 @@ class MitraController extends Controller
             ->join('branches', 'profiles.branch_id', '=', 'branches.id')
             ->select('mitra_kritik_sarans.id', 'mitra_kritik_sarans.tanggal', 'mitra_kritik_sarans.jenis', 'mitra_kritik_sarans.judul', 'mitra_kritik_sarans.keterangan', 'mitra_kritik_sarans.image_lokasi', 'mitra_kritik_sarans.image_nama', 'users.name as nama_mitra', 'branches.nama as cabang', 'branches.kode as kode')
             ->where('mitra_kritik_sarans.isactive', 1)
+            ->where('mitra_kritik_sarans.tanggal', '>=', now()->subDays(30))
             ->orderBy('mitra_kritik_sarans.tanggal', 'desc')
             ->orderBy('mitra_kritik_sarans.id', 'desc')
             ->get();
