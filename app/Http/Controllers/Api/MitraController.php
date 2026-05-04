@@ -242,6 +242,7 @@ class MitraController extends Controller
             ->select('mitra_kritik_sarans.id', 'mitra_kritik_sarans.tanggal', 'mitra_kritik_sarans.jenis', 'mitra_kritik_sarans.judul', 'mitra_kritik_sarans.keterangan', 'mitra_kritik_sarans.image_lokasi', 'mitra_kritik_sarans.image_nama', 'users.name as nama_mitra', 'branches.nama as cabang', 'branches.kode as kode')
             ->where('mitra_kritik_sarans.isactive', 1)
             ->orderBy('mitra_kritik_sarans.tanggal', 'desc')
+            ->orderBy('mitra_kritik_sarans.id', 'desc')
             ->get();
 
         $this->db_switch(1);
@@ -322,6 +323,7 @@ class MitraController extends Controller
             ->select('mitra_kritik_sarans.id', 'mitra_kritik_sarans.tanggal', 'mitra_kritik_sarans.jenis', 'mitra_kritik_sarans.judul', 'mitra_kritik_sarans.keterangan', 'mitra_kritik_sarans.image_lokasi', 'mitra_kritik_sarans.image_nama', 'users.name as nama_mitra', 'branches.nama as cabang', 'branches.kode as kode')
             ->where('mitra_kritik_sarans.isactive', 0)
             ->orderBy('mitra_kritik_sarans.tanggal', 'desc')
+            ->orderBy('mitra_kritik_sarans.id', 'desc')
             ->get();
 
         $this->db_switch(1);
