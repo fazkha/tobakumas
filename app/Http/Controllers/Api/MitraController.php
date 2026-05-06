@@ -395,7 +395,6 @@ class MitraController extends Controller
             'id' => ['required', 'integer', 'exists:users,id'],
             'tanggal' => ['required', 'date'],
             'omzet' => ['nullable'],
-            'adonan' => ['nullable'],
             'sisa_adonan' => ['nullable'],
             'keterangan' => ['nullable'],
             'harga' => ['nullable'],
@@ -421,7 +420,49 @@ class MitraController extends Controller
         $detail = null;
         $profile = Profile::where('user_id', $data['id'])->first();
         $app_adonan = AppSetting::where('parm', 'mitra_limit_adonan')->first();
-        $app_adonan_value = $app_adonan ? intval($app_adonan->value) : 0;
+        $app_omzet = AppSetting::where('parm', 'mitra_limit_omzet')->first();
+        $val_adonan = $app_adonan ? intval($app_adonan->value) : 0;
+        $val_omzet = $app_omzet ? intval($app_omzet->value) : 0;
+        $app_delta = null;
+
+        $gerobak = DB::table('users as u1')
+            ->join('mitras as m1', 'm1.email', '=', 'u1.email')
+            ->join('brandivjabmits as b1', 'b1.mitra_id', '=', 'm1.id')
+            ->join('brandivjabs as b2', 'b2.id', '=', 'b1.brandivjab_id')
+            ->select('b1.gerobak_id', 'b2.branch_id')
+            ->where('u1.id', $data['id'])
+            ->where('u1.approved', 1)
+            ->where('m1.isactive', 1)
+            ->where('b1.isactive', 1)
+            ->first();
+
+        $this->db_switch(1);
+
+        $tanggal = Carbon::parse($data['tanggal'])->subDays(2)->toDateString();
+        $order = DB::table('sale_orders as s1')
+            ->join('customers as c1', function ($join) {
+                $join->on('c1.branch_link_id', '=', 's1.branch_id')
+                    ->on('c1.id', '=', 's1.customer_id');
+            })
+            ->join('sale_order_mitras as s2', 's2.sale_order_id', '=', 's1.id')
+            ->select('s2.kuantiti')
+            ->where('s1.branch_id', $gerobak ? $gerobak->branch_id : null)
+            ->where('s1.tanggal', $tanggal)
+            ->where('s2.gerobak_id', $gerobak ? $gerobak->gerobak_id : null)
+            ->where('s1.isactive', 1)
+            ->where('c1.isactive', 1)
+            ->first();
+
+        $this->db_switch(2);
+
+        if ($order) {
+            $kuantiti = $order->kuantiti ?? 0;
+            $rumus1 = $kuantiti * $val_adonan;
+            $rumus2 = $rumus1 - ($data['sisa_adonan'] ?? 0);
+            $rumus3 = $rumus2 / $val_adonan;
+            $rumus4 = $rumus3 * $val_omzet;
+            $app_delta = ($data['omzet'] ?? 0) - $rumus4;
+        }
 
         $found = MitraOmzetPengeluaran::where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
@@ -432,7 +473,7 @@ class MitraController extends Controller
                 'branch_id' => $profile->branch_id,
                 'omzet' => $data['omzet'] ?? ($found->omzet ?? null),
                 'sisa_adonan' => $data['sisa_adonan'] ?? ($found->sisa_adonan ?? null),
-                'adonan' => $app_adonan_value,
+                'delta_omzet' => $app_delta,
             ]);
 
             $omzet = $found;
@@ -443,7 +484,7 @@ class MitraController extends Controller
                 'tanggal' => $data['tanggal'],
                 'omzet' => $data['omzet'] ?? null,
                 'sisa_adonan' => $data['sisa_adonan'] ?? null,
-                'adonan' => $app_adonan_value,
+                'delta_omzet' => $app_delta,
             ]);
         }
 
