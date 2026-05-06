@@ -910,8 +910,8 @@
         <div
             class="relative min-h-screen flex flex-col items-start justify-end selection:bg-[#FF2D20] selection:text-white">
             <div class="absolute top-0 left-0 w-full px-6">
-                <header class="grid grid-cols-2 items-center gap-2 py-10 lg:grid-cols-3">
-                    <div class="flex lg:justify-center lg:col-start-2">
+                <header class="grid grid-cols-2 items-center gap-2 py-10">
+                    <div class="flex">
                         <x-application-logo style="width: 5rem; height: auto;" />
                     </div>
                     @if (Route::has('login'))
