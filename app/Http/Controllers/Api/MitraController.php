@@ -506,7 +506,6 @@ class MitraController extends Controller
         // dd($pct_akum_omzet, $pencapaian_sisa_hari, $pencapaian_omzet_phari);
 
         if ($found) {
-            dd($found);
             $found->update([
                 'branch_id' => $profile->branch_id,
                 'omzet' => $data['omzet'] ?? ($found->omzet ?? null),
@@ -519,6 +518,7 @@ class MitraController extends Controller
                 'pencapaian_omzet_phari' => $pencapaian_omzet_phari,
             ]);
 
+            dd($found);
             $omzet = $found;
         } else {
             $omzet = MitraOmzetPengeluaran::create([
