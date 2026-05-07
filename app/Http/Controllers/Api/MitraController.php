@@ -500,7 +500,7 @@ class MitraController extends Controller
         if ($target_akum_omzet > 0) {
             $pct_akum_omzet = ($akum_omzet / $target_akum_omzet) * 100;
         }
-        $pencapaian_sisa_hari = $today->diffInDays($endDate, false);
+        $pencapaian_sisa_hari = intval($today->diffInDays($endDate, false)) - 1;
         $pencapaian_omzet_phari = (($mitraAverageOmzet ? $mitraAverageOmzet->target_akum_omzet : 0) - $akum_omzet) / ($pencapaian_sisa_hari > 0 ? $pencapaian_sisa_hari : 1);
 
         dd($pencapaian_sisa_hari, $pencapaian_omzet_phari);
