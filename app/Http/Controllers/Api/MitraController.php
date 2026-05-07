@@ -45,7 +45,7 @@ class MitraController extends Controller
     {
         $this->db_switch(2);
 
-        $target = MitraTargetBonus::where('isactive', 1)->selectRaw('id, target as name, bonus')->get()->toJson();
+        $target = MitraTargetBonus::where('isactive', 1)->selectRaw('id, target, bonus as name')->get()->toJson();
 
         $this->db_switch(1);
 
