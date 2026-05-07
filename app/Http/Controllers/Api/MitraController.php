@@ -485,10 +485,17 @@ class MitraController extends Controller
         $startDate = $today->copy()->subDays(($dayOfWeek + 1) % 7)->startOfDay();
         // Akhir minggu = Jumat
         $endDate = $startDate->copy()->addDays(6)->endOfDay();
+
         $akum_omzet = MitraOmzetPengeluaran::where('approved_omzet', 1)
             ->whereBetween('tanggal', [$startDate, $endDate])
             ->sum('omzet');
-        dd($akum_omzet);
+
+        $mitraAverageOmzet = MitraAverageOmzet::where('user_id', $data['id'])
+            ->where('minggu', $yearWeek)
+            ->select('target_akum_omzet')
+            ->first();
+
+        dd($mitraAverageOmzet);
 
         if ($found) {
             $found->update([
