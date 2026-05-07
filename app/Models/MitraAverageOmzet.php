@@ -11,6 +11,7 @@ class MitraAverageOmzet extends Model
 
     protected $fillable = [
         'user_id',
+        'target_id',
         'minggu',
         'rata2',
         'trend',
@@ -18,5 +19,8 @@ class MitraAverageOmzet extends Model
         'bonus',
         'trend_bonus',
         'pct_bonus',
+        'target_akum_omzet',
+        'target_omzet_phari',
+        'target_approved',
     ];
 }

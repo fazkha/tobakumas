@@ -464,9 +464,20 @@ class MitraController extends Controller
             $app_delta = ($data['omzet'] ?? 0) - $rumus4;
         }
 
+        $date = Carbon::now();
+        $saturdayWeek = $date->copy()->addDay()->week();
+        $saturdayYear = $date->copy()->addDay()->year;
+        $padWeek = str($saturdayWeek)->padLeft(2, '0');
+        $yearWeek = $saturdayYear . $padWeek;
+
         $found = MitraOmzetPengeluaran::where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
             ->first();
+
+        $akum_omzet = 0;
+        $pct_akum_omzet = 0;
+        $pencapaian_sisa_hari = 0;
+        $pencapaian_omzet_phari = 0;
 
         if ($found) {
             $found->update([
@@ -474,6 +485,11 @@ class MitraController extends Controller
                 'omzet' => $data['omzet'] ?? ($found->omzet ?? null),
                 'sisa_adonan' => $data['sisa_adonan'] ?? ($found->sisa_adonan ?? null),
                 'delta_omzet' => $app_delta,
+                'minggu' => $yearWeek,
+                'akum_omzet' => $akum_omzet,
+                'pct_akum_omzet' => $pct_akum_omzet,
+                'pencapaian_sisa_hari' => $pencapaian_sisa_hari,
+                'pencapaian_omzet_phari' => $pencapaian_omzet_phari,
             ]);
 
             $omzet = $found;
@@ -485,6 +501,11 @@ class MitraController extends Controller
                 'omzet' => $data['omzet'] ?? null,
                 'sisa_adonan' => $data['sisa_adonan'] ?? null,
                 'delta_omzet' => $app_delta,
+                'minggu' => $yearWeek,
+                'akum_omzet' => $akum_omzet,
+                'pct_akum_omzet' => $pct_akum_omzet,
+                'pencapaian_sisa_hari' => $pencapaian_sisa_hari,
+                'pencapaian_omzet_phari' => $pencapaian_omzet_phari,
             ]);
         }
 
@@ -958,6 +979,149 @@ class MitraController extends Controller
             'trend_bonus' => $trend_bonus,
             'pct_bonus' => $pct_bonus,
             'target' => json_decode(json_encode($target), true),
+        ]);
+    }
+
+    public function loadTargetBonus(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = Validator::make($request->all(), [
+            'user_id' => ['required', 'integer', 'exists:users,id'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+
+        $date = Carbon::now();
+        $saturdayWeek = $date->copy()->addDay()->week();
+        $saturdayYear = $date->copy()->addDay()->year;
+        $padWeek = str($saturdayWeek)->padLeft(2, '0');
+        $yearWeek = $saturdayYear . $padWeek;
+
+        $targetBonus = MitraAverageOmzet::join('mitra_target_bonuses', 'mitra_average_omzets.target_id', '=', 'mitra_target_bonuses.id')
+            ->select('mitra_average_omzets.target_approved', 'mitra_target_bonuses.target', 'mitra_target_bonuses.bonus')
+            ->where('mitra_average_omzets.user_id', $data['user_id'])
+            ->where('mitra_average_omzets.minggu', $yearWeek)
+            ->first();
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'targetBonus' => $targetBonus,
+        ]);
+    }
+
+    public function saveTargetBonus(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = Validator::make($request->all(), [
+            'user_id' => ['required', 'integer', 'exists:users,id'],
+            'target_id' => ['required', 'integer', 'exists:mitra_target_bonuses,id'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+
+        $date = Carbon::now();
+        $saturdayWeek = $date->copy()->addDay()->week();
+        $saturdayYear = $date->copy()->addDay()->year;
+        $padWeek = str($saturdayWeek)->padLeft(2, '0');
+        $yearWeek = $saturdayYear . $padWeek;
+
+        $target_akum_omzet = 0;
+        $target_omzet_phari = 0;
+
+        $mitraAverageOmzet = MitraAverageOmzet::where('user_id', $data['user_id'])
+            ->where('minggu', $yearWeek)
+            ->first();
+
+        if ($mitraAverageOmzet) {
+            $mitraAverageOmzet->update([
+                'target_id' => $data['target_id'],
+                'target_akum_omzet' => $target_akum_omzet,
+                'target_omzet_phari' => $target_omzet_phari,
+            ]);
+        }
+
+        $targetBonus = MitraAverageOmzet::join('mitra_target_bonuses', 'mitra_average_omzets.target_id', '=', 'mitra_target_bonuses.id')
+            ->select('mitra_average_omzets.target_approved', 'mitra_target_bonuses.target', 'mitra_target_bonuses.bonus')
+            ->where('mitra_average_omzets.user_id', $data['user_id'])
+            ->where('mitra_average_omzets.minggu', $yearWeek)
+            ->first();
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'targetBonus' => $targetBonus,
+        ]);
+    }
+
+    public function approveTargetBonus(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = Validator::make($request->all(), [
+            'target_id' => ['required', 'integer', 'exists:mitra_average_omzets,id'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+
+        $mitraAverageOmzet = MitraAverageOmzet::where('id', $data['target_id'])->first();
+
+        if ($mitraAverageOmzet) {
+            $mitraAverageOmzet->update([
+                'target_approved' => $data['target_id'],
+            ]);
+        }
+
+        $targetBonus = MitraAverageOmzet::join('mitra_target_bonuses', 'mitra_average_omzets.target_id', '=', 'mitra_target_bonuses.id')
+            ->select('mitra_average_omzets.target_approved', 'mitra_target_bonuses.target', 'mitra_target_bonuses.bonus')
+            ->where('mitra_average_omzets.id', $data['target_id'])
+            ->first();
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'targetBonus' => $targetBonus,
         ]);
     }
 
