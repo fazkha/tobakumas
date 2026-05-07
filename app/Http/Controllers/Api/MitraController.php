@@ -479,6 +479,17 @@ class MitraController extends Controller
         $pencapaian_sisa_hari = 0;
         $pencapaian_omzet_phari = 0;
 
+        $today = Carbon::today();
+        $dayOfWeek = $today->dayOfWeek;
+        // Hitung mundur ke Sabtu terdekat
+        $startDate = $today->copy()->subDays(($dayOfWeek + 1) % 7)->startOfDay();
+        // Akhir minggu = Jumat
+        $endDate = $startDate->copy()->addDays(6)->endOfDay();
+        $akum_omzet = MitraOmzetPengeluaran::where('approved_omzet', 1)
+            ->whereBetween('tanggal', [$startDate, $endDate])
+            ->sum('omzet');
+        dd($akum_omzet);
+
         if ($found) {
             $found->update([
                 'branch_id' => $profile->branch_id,
