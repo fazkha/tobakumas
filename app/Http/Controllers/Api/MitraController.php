@@ -504,6 +504,7 @@ class MitraController extends Controller
         $pencapaian_omzet_phari = (($mitraAverageOmzet ? $mitraAverageOmzet->target_akum_omzet : 0) - $akum_omzet) / ($pencapaian_sisa_hari > 0 ? $pencapaian_sisa_hari : 1);
 
         // dd($pct_akum_omzet, $pencapaian_sisa_hari, $pencapaian_omzet_phari);
+        dd($found);
 
         if ($found) {
             $found->update([
@@ -519,7 +520,6 @@ class MitraController extends Controller
             ]);
 
             $omzet = $found;
-            dd($found);
         } else {
             $omzet = MitraOmzetPengeluaran::create([
                 'branch_id' => $profile->branch_id,
