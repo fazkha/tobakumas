@@ -501,9 +501,7 @@ class MitraController extends Controller
             $pct_akum_omzet = ($akum_omzet / $target_akum_omzet) * 100;
         }
         $pencapaian_sisa_hari = intval($today->diffInDays($endDate, false)) - 1;
-        $pencapaian_omzet_phari = (($mitraAverageOmzet ? $mitraAverageOmzet->target_akum_omzet : 0) - $akum_omzet) / ($pencapaian_sisa_hari > 0 ? $pencapaian_sisa_hari : 1);
-
-        // dd($pct_akum_omzet, $pencapaian_sisa_hari, $pencapaian_omzet_phari);
+        $pencapaian_omzet_phari = abs(($mitraAverageOmzet ? $mitraAverageOmzet->target_akum_omzet : 0) - $akum_omzet) / ($pencapaian_sisa_hari > 0 ? $pencapaian_sisa_hari : 1);
 
         if ($found) {
             $found->update([
@@ -513,12 +511,11 @@ class MitraController extends Controller
                 'delta_omzet' => $app_delta,
                 'minggu' => $yearWeek,
                 'akum_omzet' => $akum_omzet,
+                'pct_akum_omzet' => $pct_akum_omzet,
+                'pencapaian_sisa_hari' => $pencapaian_sisa_hari,
+                'pencapaian_omzet_phari' => $pencapaian_omzet_phari,
             ]);
-            // 'pct_akum_omzet' => $pct_akum_omzet,
-            // 'pencapaian_sisa_hari' => $pencapaian_sisa_hari,
-            // 'pencapaian_omzet_phari' => $pencapaian_omzet_phari,
 
-            dd($found);
             $omzet = $found;
         } else {
             $omzet = MitraOmzetPengeluaran::create([
