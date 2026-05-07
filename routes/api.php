@@ -44,6 +44,7 @@ Route::prefix('mitra')->group(function () {
     Route::post('approve-biayaharian', [MitraController::class, 'approveBiayaHarian']);
     Route::delete('hapus-pengeluaran', [MitraController::class, 'hapusPengeluaran']);
     Route::get('get-jenis-pengeluaran-list', [MitraController::class, 'getJenisPengeluaranList']);
+    Route::get('get-target-bonus-list', [MitraController::class, 'getTargetBonusList']);
     Route::post('load-image-pengeluaran', [MitraController::class, 'loadImagePengeluaran']);
     Route::post('upload-image-pengeluaran', [MitraController::class, 'uploadImagePengeluaran']);
     Route::post('load-image-sisa-adonan', [MitraController::class, 'loadImageSisaAdonan']);

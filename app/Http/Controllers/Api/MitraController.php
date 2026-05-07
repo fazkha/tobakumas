@@ -41,6 +41,20 @@ class MitraController extends Controller
         DB::reconnect('mysql');
     }
 
+    public function getTargetBonusList()
+    {
+        $this->db_switch(2);
+
+        $target = MitraTargetBonus::where('isactive', 1)->selectRaw('id, target as name, bonus')->get()->toJson();
+
+        $this->db_switch(1);
+
+        return [
+            'status' => 'success',
+            'data' => $target
+        ];
+    }
+
     public function getJenisPengeluaranList()
     {
         $this->db_switch(2);
@@ -987,7 +1001,7 @@ class MitraController extends Controller
                 }
             }
 
-            $target = MitraTargetBonus::where('isactive', 1)->select('target', 'bonus')->get();
+            $target = MitraTargetBonus::where('isactive', 1)->select('id', 'target', 'bonus')->get();
         }
 
         $json = json_decode(json_encode($omzet), true);
