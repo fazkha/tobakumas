@@ -519,6 +519,7 @@ class MitraController extends Controller
             ]);
 
             $omzet = $found;
+            dd($found);
         } else {
             $omzet = MitraOmzetPengeluaran::create([
                 'branch_id' => $profile->branch_id,
