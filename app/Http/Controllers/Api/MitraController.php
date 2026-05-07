@@ -512,11 +512,11 @@ class MitraController extends Controller
                 'sisa_adonan' => $data['sisa_adonan'] ?? ($found->sisa_adonan ?? null),
                 'delta_omzet' => $app_delta,
                 'minggu' => $yearWeek,
-                'akum_omzet' => $akum_omzet,
-                'pct_akum_omzet' => $pct_akum_omzet,
-                'pencapaian_sisa_hari' => $pencapaian_sisa_hari,
-                'pencapaian_omzet_phari' => $pencapaian_omzet_phari,
             ]);
+            // 'akum_omzet' => $akum_omzet,
+            // 'pct_akum_omzet' => $pct_akum_omzet,
+            // 'pencapaian_sisa_hari' => $pencapaian_sisa_hari,
+            // 'pencapaian_omzet_phari' => $pencapaian_omzet_phari,
 
             dd($found);
             $omzet = $found;
