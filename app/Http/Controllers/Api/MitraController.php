@@ -1019,7 +1019,6 @@ class MitraController extends Controller
 
         $json = json_decode(json_encode($omzet), true);
         $json_target_bonus = json_decode(json_encode($target_bonus), true);
-        dd($json_target_bonus);
 
         $this->db_switch(1);
 
