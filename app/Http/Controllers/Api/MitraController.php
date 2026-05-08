@@ -1031,7 +1031,7 @@ class MitraController extends Controller
             'trend_bonus' => $trend_bonus,
             'pct_bonus' => $pct_bonus,
             'target' => json_decode(json_encode($target), true),
-            'targetBonus' => $json_target_bonus,
+            'targetBonus' => $target_bonus,
         ]);
     }
 
