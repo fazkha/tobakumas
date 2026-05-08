@@ -515,7 +515,8 @@ class MitraController extends Controller
             $pct_akum_omzet = ($akum_omzet / $target_akum_omzet) * 100;
         }
         $pencapaian_sisa_hari = intval($today->diffInDays($endDate, false)) - 1;
-        $pencapaian_omzet_phari = $target_akum_omzet > 0 ? abs($target_akum_omzet - $akum_omzet) / ($pencapaian_sisa_hari > 0 ? $pencapaian_sisa_hari : 1) : 0;
+        $pencapaian_sisa_hari = $pencapaian_sisa_hari < 0 ?? 0;
+        $pencapaian_omzet_phari = $target_akum_omzet > 0 ? abs($target_akum_omzet - $akum_omzet) / ($pencapaian_sisa_hari <= 0 ?? 1) : 0;
         // dd($akum_omzet, $mitraAverageOmzet, $pct_akum_omzet, $pencapaian_sisa_hari, $pencapaian_omzet_phari);
 
         if ($found) {
@@ -527,7 +528,7 @@ class MitraController extends Controller
                 'minggu' => $yearWeek,
                 'akum_omzet' => $akum_omzet,
                 'pct_akum_omzet' => $pct_akum_omzet,
-                'pencapaian_sisa_hari' => $pencapaian_sisa_hari < 0 ?? 0,
+                'pencapaian_sisa_hari' => $pencapaian_sisa_hari,
                 'pencapaian_omzet_phari' => $pencapaian_omzet_phari,
             ]);
 
@@ -543,7 +544,7 @@ class MitraController extends Controller
                 'minggu' => $yearWeek,
                 'akum_omzet' => $akum_omzet,
                 'pct_akum_omzet' => $pct_akum_omzet,
-                'pencapaian_sisa_hari' => $pencapaian_sisa_hari < 0 ?? 0,
+                'pencapaian_sisa_hari' => $pencapaian_sisa_hari,
                 'pencapaian_omzet_phari' => $pencapaian_omzet_phari,
             ]);
         }
