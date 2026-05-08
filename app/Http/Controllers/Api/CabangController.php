@@ -9,6 +9,7 @@ use App\Models\Branch;
 use App\Models\Brandivjabpeg;
 use App\Models\Customer;
 use App\Models\JenisPengeluaranCabang;
+use App\Models\MitraAverageOmzet;
 use App\Models\MitraOmzetPengeluaran;
 use App\Models\PcKasbon;
 use App\Models\PcOmzetHarian;
@@ -1288,13 +1289,114 @@ class CabangController extends Controller
         $data = $validator->validated();
         $omzet = null;
 
-        $approve = MitraOmzetPengeluaran::where('id', $data['id'])->first();
+        $found = MitraOmzetPengeluaran::where('id', $data['id'])->first();
 
-        if ($approve) {
-            $approve->update([
-                'approved_omzet' => $approve->approved_omzet == 1 ? 0 : 1,
-                'approved_adonan' => $approve->approved_adonan == 1 ? 0 : 1,
+        $mitra_user_id = $found ? $found->user_id : null;
+        $tanggal = $found ? $found->tanggal : $data['tanggal'];
+        $sisa_adonan = $found ? $found->sisa_adonan : 0;
+        $omzet_hari_ini = $found ? $found->omzet : 0;
+        $approved_omzet = $found ? $found->approved_omzet : 0;
+        $approved_adonan = $found ? $found->approved_adonan : 0;
+
+        // Status omzet dan target bonus dan pencapaian
+        $app_adonan = AppSetting::where('parm', 'mitra_limit_adonan')->first();
+        $app_omzet = AppSetting::where('parm', 'mitra_limit_omzet')->first();
+        $val_adonan = $app_adonan ? intval($app_adonan->value) : 0;
+        $val_omzet = $app_omzet ? intval($app_omzet->value) : 0;
+        $app_delta = null;
+
+        $gerobak = DB::table('users as u1')
+            ->join('mitras as m1', 'm1.email', '=', 'u1.email')
+            ->join('brandivjabmits as b1', 'b1.mitra_id', '=', 'm1.id')
+            ->join('brandivjabs as b2', 'b2.id', '=', 'b1.brandivjab_id')
+            ->select('b1.gerobak_id', 'b2.branch_id')
+            ->where('u1.id', $mitra_user_id)
+            ->where('u1.approved', 1)
+            ->where('m1.isactive', 1)
+            ->where('b1.isactive', 1)
+            ->first();
+
+        $this->db_switch(1);
+
+        $tanggal = Carbon::parse($tanggal)->subDays(2)->toDateString();
+        $order = DB::table('sale_orders as s1')
+            ->join('customers as c1', function ($join) {
+                $join->on('c1.branch_link_id', '=', 's1.branch_id')
+                    ->on('c1.id', '=', 's1.customer_id');
+            })
+            ->join('sale_order_mitras as s2', 's2.sale_order_id', '=', 's1.id')
+            ->select('s2.kuantiti')
+            ->where('s1.branch_id', $gerobak ? $gerobak->branch_id : null)
+            ->where('s1.tanggal', $tanggal)
+            ->where('s2.gerobak_id', $gerobak ? $gerobak->gerobak_id : null)
+            ->where('s1.isactive', 1)
+            ->where('c1.isactive', 1)
+            ->first();
+
+        $this->db_switch(2);
+
+        if ($order) {
+            $kuantiti = $order->kuantiti ?? 0;
+            $rumus1 = $kuantiti * $val_adonan;
+            $rumus2 = $rumus1 - $sisa_adonan;
+            $rumus3 = $rumus2 / $val_adonan;
+            $rumus4 = $rumus3 * $val_omzet;
+            $app_delta = $omzet_hari_ini - $rumus4;
+        }
+
+        $date = Carbon::now();
+        $saturdayWeek = $date->copy()->addDay()->week();
+        $saturdayYear = $date->copy()->addDay()->year;
+        $padWeek = str($saturdayWeek)->padLeft(2, '0');
+        $yearWeek = $saturdayYear . $padWeek;
+
+        $akum_omzet = 0;
+        $target_akum_omzet = 0;
+        $pct_akum_omzet = 0;
+        $pencapaian_sisa_hari = 0;
+        $pencapaian_omzet_phari = 0;
+
+        $today = Carbon::today();
+        $dayOfWeek = $today->dayOfWeek;
+        // Hitung mundur ke Sabtu terdekat
+        $startDate = $today->copy()->subDays(($dayOfWeek + 1) % 7)->startOfDay();
+        // Akhir minggu = Jumat
+        $endDate = $startDate->copy()->addDays(6)->endOfDay();
+
+        $akum_omzet = MitraOmzetPengeluaran::where('approved_omzet', 1)
+            ->whereBetween('tanggal', [$startDate, $endDate])
+            ->sum('omzet');
+
+        $mitraAverageOmzet = MitraAverageOmzet::where('user_id', $mitra_user_id)
+            ->where('minggu', $yearWeek)
+            ->select('target_akum_omzet')
+            ->first();
+
+        $target_akum_omzet = $mitraAverageOmzet ? $mitraAverageOmzet->target_akum_omzet : 0;
+        if ($target_akum_omzet > 0) {
+            $pct_akum_omzet = ($akum_omzet / $target_akum_omzet) * 100;
+        }
+        $pencapaian_sisa_hari = intval($today->diffInDays($endDate, false)) - 1;
+        $pencapaian_sisa_hari = $pencapaian_sisa_hari < 0 ? 0 : $pencapaian_sisa_hari;
+        $pencapaian_omzet_phari = $target_akum_omzet > 0 ? abs($target_akum_omzet - $akum_omzet) / ($pencapaian_sisa_hari <= 0 ? 1 : $pencapaian_sisa_hari) : 0;
+        // (END) Status omzet dan target bonus dan pencapaian
+
+        if ($found) {
+            $found->update([
+                'approved_omzet' => $approved_omzet == 1 ? 0 : 1,
+                'approved_adonan' => $approved_adonan == 1 ? 0 : 1,
             ]);
+
+            // Jika disetujui (old: 0 -> new: 1)
+            if ($approved_omzet == 0) {
+                $found->update([
+                    'delta_omzet' => $app_delta,
+                    'akum_omzet' => $akum_omzet,
+                    'pct_akum_omzet' => $pct_akum_omzet,
+                    'pencapaian_sisa_hari' => $pencapaian_sisa_hari,
+                    'pencapaian_omzet_phari' => $pencapaian_omzet_phari,
+                ]);
+            }
 
             $omzet = DB::select("CALL sp_omzetharianpc(?,?)", [$data['pc_id'], $data['tanggal']]);
         }

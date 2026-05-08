@@ -433,6 +433,8 @@ class MitraController extends Controller
 
         $detail = null;
         $profile = Profile::where('user_id', $data['id'])->first();
+
+        // Status omzet dan target bonus dan pencapaian
         $app_adonan = AppSetting::where('parm', 'mitra_limit_adonan')->first();
         $app_omzet = AppSetting::where('parm', 'mitra_limit_omzet')->first();
         $val_adonan = $app_adonan ? intval($app_adonan->value) : 0;
@@ -517,6 +519,7 @@ class MitraController extends Controller
         $pencapaian_sisa_hari = intval($today->diffInDays($endDate, false)) - 1;
         $pencapaian_sisa_hari = $pencapaian_sisa_hari < 0 ? 0 : $pencapaian_sisa_hari;
         $pencapaian_omzet_phari = $target_akum_omzet > 0 ? abs($target_akum_omzet - $akum_omzet) / ($pencapaian_sisa_hari <= 0 ? 1 : $pencapaian_sisa_hari) : 0;
+        // (END) Status omzet dan target bonus dan pencapaian
         // dd($akum_omzet, $mitraAverageOmzet, $pct_akum_omzet, $pencapaian_sisa_hari, $pencapaian_omzet_phari);
 
         if ($found) {
@@ -525,12 +528,12 @@ class MitraController extends Controller
                 'omzet' => $data['omzet'] ?? ($found->omzet ?? null),
                 'sisa_adonan' => $data['sisa_adonan'] ?? ($found->sisa_adonan ?? null),
                 'delta_omzet' => $app_delta,
-                'minggu' => $yearWeek,
                 'akum_omzet' => $akum_omzet,
                 'pct_akum_omzet' => $pct_akum_omzet,
                 'pencapaian_sisa_hari' => $pencapaian_sisa_hari,
                 'pencapaian_omzet_phari' => $pencapaian_omzet_phari,
             ]);
+            // 'minggu' => $yearWeek,
 
             $omzet = $found;
         } else {
