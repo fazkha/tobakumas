@@ -516,6 +516,7 @@ class MitraController extends Controller
         }
         $pencapaian_sisa_hari = intval($today->diffInDays($endDate, false)) - 1;
         $pencapaian_omzet_phari = $target_akum_omzet > 0 ? abs($target_akum_omzet - $akum_omzet) / ($pencapaian_sisa_hari > 0 ? $pencapaian_sisa_hari : 1) : 0;
+        dd($akum_omzet, $mitraAverageOmzet, $pct_akum_omzet, $pencapaian_sisa_hari, $pencapaian_omzet_phari);
 
         if ($found) {
             $found->update([
