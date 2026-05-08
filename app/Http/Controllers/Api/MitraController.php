@@ -955,9 +955,6 @@ class MitraController extends Controller
                         'trend_bonus' => $trend_bonus,
                         'pct_bonus' => $pct_bonus,
                     ]);
-
-                    $target_approved = $pekanan->target_approved;
-                    $target_id = $pekanan->target_id;
                 } else {
                     $pekanan = MitraAverageOmzet::create([
                         'user_id' => $data['id'],
@@ -1021,6 +1018,7 @@ class MitraController extends Controller
         }
 
         $json = json_decode(json_encode($omzet), true);
+        $json_target_bonus = json_decode(json_encode($target_bonus), true);
 
         $this->db_switch(1);
 
@@ -1033,7 +1031,7 @@ class MitraController extends Controller
             'trend_bonus' => $trend_bonus,
             'pct_bonus' => $pct_bonus,
             'target' => json_decode(json_encode($target), true),
-            'targetBonus' => $target_bonus,
+            'targetBonus' => $json_target_bonus,
         ]);
     }
 
