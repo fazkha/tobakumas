@@ -923,6 +923,7 @@ class MitraController extends Controller
         $trend_bonus = null;
         $pct_bonus = null;
         $target = null;
+        $target_bonus = null;
         $cBonus = 0;
 
         if ($omzet) {
@@ -931,6 +932,13 @@ class MitraController extends Controller
             $saturdayYear = $date->copy()->addDay()->year;
             $padWeek = str($saturdayWeek)->padLeft(2, '0');
             $yearWeek = $saturdayYear . $padWeek;
+
+            $targetBonus = MitraAverageOmzet::join('mitra_target_bonuses', 'mitra_average_omzets.target_id', '=', 'mitra_target_bonuses.id')
+                ->select('mitra_average_omzets.target_approved', 'mitra_target_bonuses.target', 'mitra_target_bonuses.bonus')
+                ->where('mitra_average_omzets.user_id', $data['id'])
+                ->where('mitra_average_omzets.minggu', $yearWeek)
+                ->first();
+
             $cOmzet = $omzet[6]->rata2;
 
             if ($cOmzet) {
@@ -947,6 +955,9 @@ class MitraController extends Controller
                         'trend_bonus' => $trend_bonus,
                         'pct_bonus' => $pct_bonus,
                     ]);
+
+                    $target_approved = $pekanan->target_approved;
+                    $target_id = $pekanan->target_id;
                 } else {
                     $pekanan = MitraAverageOmzet::create([
                         'user_id' => $data['id'],
@@ -1022,6 +1033,7 @@ class MitraController extends Controller
             'trend_bonus' => $trend_bonus,
             'pct_bonus' => $pct_bonus,
             'target' => json_decode(json_encode($target), true),
+            'targetBonus' => $target_bonus,
         ]);
     }
 
