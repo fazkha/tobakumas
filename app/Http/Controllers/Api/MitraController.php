@@ -1131,7 +1131,7 @@ class MitraController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'targetBonus' => $targetBonus,
+            'target_bonus' => $targetBonus,
         ]);
     }
 
