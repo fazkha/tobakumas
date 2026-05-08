@@ -933,7 +933,7 @@ class MitraController extends Controller
             $padWeek = str($saturdayWeek)->padLeft(2, '0');
             $yearWeek = $saturdayYear . $padWeek;
 
-            $targetBonus = MitraAverageOmzet::join('mitra_target_bonuses', 'mitra_average_omzets.target_id', '=', 'mitra_target_bonuses.id')
+            $target_bonus = MitraAverageOmzet::join('mitra_target_bonuses', 'mitra_average_omzets.target_id', '=', 'mitra_target_bonuses.id')
                 ->select('mitra_average_omzets.target_approved', 'mitra_target_bonuses.target', 'mitra_target_bonuses.bonus')
                 ->where('mitra_average_omzets.user_id', $data['id'])
                 ->where('mitra_average_omzets.minggu', $yearWeek)
@@ -1031,7 +1031,7 @@ class MitraController extends Controller
             'trend_bonus' => $trend_bonus,
             'pct_bonus' => $pct_bonus,
             'target' => json_decode(json_encode($target), true),
-            'targetBonus' => $target_bonus,
+            'targetBonus' => $json_target_bonus,
         ]);
     }
 
