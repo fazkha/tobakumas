@@ -934,7 +934,7 @@ class MitraController extends Controller
             $yearWeek = $saturdayYear . $padWeek;
 
             $target_bonus = MitraAverageOmzet::join('mitra_target_bonuses', 'mitra_average_omzets.target_id', '=', 'mitra_target_bonuses.id')
-                ->select('mitra_average_omzets.target_approved', 'mitra_target_bonuses.target', 'mitra_target_bonuses.bonus')
+                ->selectRaw('mitra_average_omzets.target_id as id, mitra_average_omzets.target_approved, mitra_target_bonuses.target, mitra_target_bonuses.bonus as name')
                 ->where('mitra_average_omzets.user_id', $data['id'])
                 ->where('mitra_average_omzets.minggu', $yearWeek)
                 ->first();
@@ -1064,7 +1064,7 @@ class MitraController extends Controller
         $yearWeek = $saturdayYear . $padWeek;
 
         $targetBonus = MitraAverageOmzet::join('mitra_target_bonuses', 'mitra_average_omzets.target_id', '=', 'mitra_target_bonuses.id')
-            ->select('mitra_average_omzets.target_approved', 'mitra_target_bonuses.target', 'mitra_target_bonuses.bonus')
+            ->selectRaw('mitra_average_omzets.target_id as id, mitra_average_omzets.target_approved, mitra_target_bonuses.target, mitra_target_bonuses.bonus as name')
             ->where('mitra_average_omzets.user_id', $data['user_id'])
             ->where('mitra_average_omzets.minggu', $yearWeek)
             ->first();
