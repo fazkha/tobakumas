@@ -1114,11 +1114,18 @@ class MitraController extends Controller
             ->first();
 
         if ($mitraAverageOmzet) {
-            $mitraAverageOmzet->update([
-                'target_id' => $data['target_id'],
-                'target_akum_omzet' => $target_akum_omzet,
-                'target_omzet_phari' => $target_omzet_phari,
-            ]);
+            $target = MitraTargetBonus::where('id', $data['target_id'])->first();
+
+            if ($target) {
+                $target_akum_omzet = $target->target * 6;
+                $target_omzet_phari = $target->target;
+
+                $mitraAverageOmzet->update([
+                    'target_id' => $data['target_id'],
+                    'target_akum_omzet' => $target_akum_omzet,
+                    'target_omzet_phari' => $target_omzet_phari,
+                ]);
+            }
         }
 
         $targetBonus = MitraAverageOmzet::join('mitra_target_bonuses', 'mitra_average_omzets.target_id', '=', 'mitra_target_bonuses.id')
