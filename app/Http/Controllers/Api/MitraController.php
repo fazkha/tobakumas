@@ -969,7 +969,6 @@ class MitraController extends Controller
                 }
 
                 $bonus = DB::select("CALL sp_mitra_target_bonus(?)", [$cOmzet]);
-                dd($bonus);
 
                 if ($bonus) {
                     $cBonus = $bonus[0]->bonus;
@@ -1017,6 +1016,7 @@ class MitraController extends Controller
 
             $target = MitraTargetBonus::where('isactive', 1)->select('id', 'target', 'bonus')->get();
         }
+        dd($target);
 
         $json = json_decode(json_encode($omzet), true);
         $json_target_bonus = json_decode(json_encode($target_bonus), true);
