@@ -947,7 +947,6 @@ class MitraController extends Controller
 
         if ($omzet) {
             $yearWeek = $this->currentYearAndWeek();
-            dd($yearWeek);
 
             $target_bonus = MitraAverageOmzet::join('mitra_target_bonuses', 'mitra_average_omzets.target_id', '=', 'mitra_target_bonuses.id')
                 ->selectRaw('mitra_average_omzets.target_id as id, mitra_average_omzets.target_approved, mitra_target_bonuses.target, mitra_target_bonuses.bonus as name')
@@ -956,6 +955,7 @@ class MitraController extends Controller
                 ->first();
 
             $cOmzet = $omzet[6]->rata2;
+            dd($cOmzet);
 
             if ($cOmzet) {
                 $pekanan = MitraAverageOmzet::where('user_id', $data['id'])
