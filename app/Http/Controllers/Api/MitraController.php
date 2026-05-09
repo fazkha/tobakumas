@@ -391,7 +391,41 @@ class MitraController extends Controller
 
         $data = $validator->validated();
 
-        $pengumuman = DB::table('mitra_pengumumans as m1')
+        $subquery = DB::table('brandivjabpegs as b1')
+            ->join('brandivjabs as b2', 'b2.id', '=', 'b1.brandivjab_id')
+            ->where('b1.isactive', 1)
+            ->where('b2.isactive', 1)
+            ->groupBy('b1.pegawai_id')
+            ->select(
+                'b1.pegawai_id',
+                DB::raw('MAX(b2.branch_id) as branch_id')
+            );
+
+        $pengumuman = DB::table('users as u2')
+            ->join('pegawais as p1', 'p1.email', '=', 'u2.email')
+            ->joinSub($subquery, 'mx', function ($join) {
+                $join->on('mx.pegawai_id', '=', 'p1.id');
+            })
+            ->join('brandivjabpegs as b1', function ($join) {
+                $join->on('b1.pegawai_id', '=', 'p1.id')
+                    ->where('b1.isactive', 1);
+            })
+            ->join('brandivjabs as b2', function ($join) {
+                $join->on('b2.id', '=', 'b1.brandivjab_id')
+                    ->on('b2.branch_id', '=', 'mx.branch_id')
+                    ->where('b2.isactive', 1);
+            })
+            ->join('mitra_pengumumans as m1', function ($join) {
+                $join->where('m1.isactive', 1);
+            })
+            ->join('users as u1', 'u1.email', '=', 'm1.created_by')
+            ->where('u2.id', DB::raw($data['id']))
+            ->whereExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('mitra_pengumuman_untuks as m3')
+                    ->whereColumn('m3.mitra_pengumuman_id', 'm1.id')
+                    ->whereColumn('m3.jabatan_id', 'b2.jabatan_id');
+            })
             ->select(
                 'm1.id',
                 'm1.tanggal',
@@ -399,23 +433,35 @@ class MitraController extends Controller
                 'm1.keterangan',
                 'm1.lokasi',
                 'm1.gambar',
-                'u1.name as penulis'
+                DB::raw('u1.name as penulis')
             )
-            ->join('users as u1', 'u1.email', '=', 'm1.created_by')
-            ->join('users as u2', 'u2.id', '=', DB::raw($data['id']))
-            ->join('mitras as m2', 'm2.email', '=', 'u2.email')
-            ->join('brandivjabmits as b1', 'b1.mitra_id', '=', 'm2.id')
-            ->join('brandivjabs as b2', 'b2.id', '=', 'b1.brandivjab_id')
-            ->where('m1.isactive', 1)
-            ->where('b1.isactive', 1)
-            ->where('b2.isactive', 1)
-            ->whereIn('b2.jabatan_id', function ($query) {
-                $query->select('jabatan_id')
-                    ->from('mitra_pengumuman_untuks as m3')
-                    ->whereColumn('m3.mitra_pengumuman_id', 'm1.id');
-            })
-            ->orderByDesc('m1.tanggal')
             ->get();
+
+        // $pengumuman = DB::table('mitra_pengumumans as m1')
+        //     ->select(
+        //         'm1.id',
+        //         'm1.tanggal',
+        //         'm1.judul',
+        //         'm1.keterangan',
+        //         'm1.lokasi',
+        //         'm1.gambar',
+        //         'u1.name as penulis'
+        //     )
+        //     ->join('users as u1', 'u1.email', '=', 'm1.created_by')
+        //     ->join('users as u2', 'u2.id', '=', DB::raw($data['id']))
+        //     ->join('mitras as m2', 'm2.email', '=', 'u2.email')
+        //     ->join('brandivjabmits as b1', 'b1.mitra_id', '=', 'm2.id')
+        //     ->join('brandivjabs as b2', 'b2.id', '=', 'b1.brandivjab_id')
+        //     ->where('m1.isactive', 1)
+        //     ->where('b1.isactive', 1)
+        //     ->where('b2.isactive', 1)
+        //     ->whereIn('b2.jabatan_id', function ($query) {
+        //         $query->select('jabatan_id')
+        //             ->from('mitra_pengumuman_untuks as m3')
+        //             ->whereColumn('m3.mitra_pengumuman_id', 'm1.id');
+        //     })
+        //     ->orderByDesc('m1.tanggal')
+        //     ->get();
 
         $this->db_switch(1);
 
