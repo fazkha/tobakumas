@@ -209,6 +209,78 @@ class CabangController extends Controller
         ];
     }
 
+    public function loadPengumuman(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = Validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:users,id'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            return response([
+                'message' => $errors->first()
+            ], 422);
+        }
+
+        $data = $validator->validated();
+
+        $subquery = DB::table('brandivjabpegs as b1')
+            ->join('brandivjabs as b2', 'b2.id', '=', 'b1.brandivjab_id')
+            ->where('b1.isactive', 1)
+            ->where('b2.isactive', 1)
+            ->groupBy('b1.pegawai_id')
+            ->select(
+                'b1.pegawai_id',
+                DB::raw('MAX(b2.branch_id) as branch_id')
+            );
+
+        $pengumuman = DB::table('users as u2')
+            ->join('pegawais as p1', 'p1.email', '=', 'u2.email')
+            ->joinSub($subquery, 'mx', function ($join) {
+                $join->on('mx.pegawai_id', '=', 'p1.id');
+            })
+            ->join('brandivjabpegs as b1', function ($join) {
+                $join->on('b1.pegawai_id', '=', 'p1.id')
+                    ->where('b1.isactive', 1);
+            })
+            ->join('brandivjabs as b2', function ($join) {
+                $join->on('b2.id', '=', 'b1.brandivjab_id')
+                    ->on('b2.branch_id', '=', 'mx.branch_id')
+                    ->where('b2.isactive', 1);
+            })
+            ->join('mitra_pengumumans as m1', function ($join) {
+                $join->where('m1.isactive', 1);
+            })
+            ->join('users as u1', 'u1.email', '=', 'm1.created_by')
+            ->where('u2.id', DB::raw($data['id']))
+            ->whereExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('mitra_pengumuman_untuks as m3')
+                    ->whereColumn('m3.mitra_pengumuman_id', 'm1.id')
+                    ->whereColumn('m3.jabatan_id', 'b2.jabatan_id');
+            })
+            ->select(
+                'm1.id',
+                'm1.tanggal',
+                'm1.judul',
+                'm1.keterangan',
+                'm1.lokasi',
+                'm1.gambar',
+                DB::raw('u1.name as penulis')
+            )
+            ->get();
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'pengumuman' => $pengumuman,
+        ]);
+    }
+
     public function loadOrderPc(Request $request)
     {
         $this->db_switch(2);

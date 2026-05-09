@@ -52,6 +52,7 @@ Route::prefix('mitra')->group(function () {
 
 // Cabang
 Route::prefix('cabang')->group(function () {
+    Route::post('load-pengumuman', [CabangController::class, 'loadPengumuman']);
     Route::post('load-peta-pc', [CabangController::class, 'loadPetaPc']);
     Route::post('load-pending-izin', [CabangController::class, 'loadPendingIzin']);
     Route::post('load-lineup-mitra', [CabangController::class, 'loadLineupMitra']);
