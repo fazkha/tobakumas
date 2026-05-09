@@ -37,7 +37,6 @@ Route::prefix('mitra')->group(function () {
     Route::post('load-omzet', [MitraController::class, 'loadOmzet']);
     Route::post('load-rekap', [MitraController::class, 'loadRekap']);
     Route::post('load-omzet-pekanan', [MitraController::class, 'loadOmzetPekanan']);
-    Route::post('load-target-bonus', [MitraController::class, 'loadTargetBonus']);
     Route::post('save-target-bonus', [MitraController::class, 'saveTargetBonus']);
     Route::post('approve-target-bonus', [MitraController::class, 'approveTargetBonus']);
     Route::post('load-biayaharian', [MitraController::class, 'loadBiayaHarian']);

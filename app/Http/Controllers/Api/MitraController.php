@@ -1034,48 +1034,6 @@ class MitraController extends Controller
         ]);
     }
 
-    public function loadTargetBonus(Request $request)
-    {
-        $this->db_switch(2);
-
-        $validator = Validator::make($request->all(), [
-            'user_id' => ['required', 'integer', 'exists:users,id'],
-        ]);
-
-        if ($validator->fails()) {
-            $errors = $validator->errors();
-
-            $this->db_switch(1);
-
-            foreach ($errors->all() as $message) {
-                return response([
-                    'message' => $message
-                ], 422);
-            }
-        }
-
-        $data = $validator->validated();
-
-        $date = Carbon::now();
-        $saturdayWeek = $date->copy()->addDay()->week();
-        $saturdayYear = $date->copy()->addDay()->year;
-        $padWeek = str($saturdayWeek)->padLeft(2, '0');
-        $yearWeek = $saturdayYear . $padWeek;
-
-        $targetBonus = MitraAverageOmzet::join('mitra_target_bonuses', 'mitra_average_omzets.target_id', '=', 'mitra_target_bonuses.id')
-            ->selectRaw('mitra_average_omzets.target_id as id, mitra_average_omzets.target_approved, mitra_target_bonuses.target, mitra_target_bonuses.bonus as name')
-            ->where('mitra_average_omzets.user_id', $data['user_id'])
-            ->where('mitra_average_omzets.minggu', $yearWeek)
-            ->first();
-
-        $this->db_switch(1);
-
-        return response()->json([
-            'status' => 'success',
-            'targetBonus' => $targetBonus,
-        ]);
-    }
-
     public function saveTargetBonus(Request $request)
     {
         $this->db_switch(2);
@@ -1167,12 +1125,12 @@ class MitraController extends Controller
 
         if ($mitraAverageOmzet) {
             $mitraAverageOmzet->update([
-                'target_approved' => $data['target_id'],
+                'target_approved' => 1,
             ]);
         }
 
         $targetBonus = MitraAverageOmzet::join('mitra_target_bonuses', 'mitra_average_omzets.target_id', '=', 'mitra_target_bonuses.id')
-            ->select('mitra_average_omzets.target_approved', 'mitra_target_bonuses.target', 'mitra_target_bonuses.bonus')
+            ->selectRaw('mitra_average_omzets.target_id, mitra_average_omzets.target_approved, mitra_target_bonuses.target, mitra_target_bonuses.bonus')
             ->where('mitra_average_omzets.id', $data['target_id'])
             ->first();
 
