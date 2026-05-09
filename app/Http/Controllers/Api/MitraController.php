@@ -955,12 +955,12 @@ class MitraController extends Controller
                 ->first();
 
             $cOmzet = intval($omzet[6]->rata2);
-            dd($cOmzet);
 
-            if ($cOmzet > 0) {
+            if ($cOmzet) {
                 $pekanan = MitraAverageOmzet::where('user_id', $data['id'])
                     ->where('minggu', $yearWeek)
                     ->first();
+                dd($pekanan);
 
                 if ($pekanan) {
                     $pekanan->update([
