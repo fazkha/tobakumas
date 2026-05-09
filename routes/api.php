@@ -38,7 +38,6 @@ Route::prefix('mitra')->group(function () {
     Route::post('load-rekap', [MitraController::class, 'loadRekap']);
     Route::post('load-omzet-pekanan', [MitraController::class, 'loadOmzetPekanan']);
     Route::post('save-target-bonus', [MitraController::class, 'saveTargetBonus']);
-    Route::post('approve-target-bonus', [MitraController::class, 'approveTargetBonus']);
     Route::post('load-biayaharian', [MitraController::class, 'loadBiayaHarian']);
     Route::post('approve-biayaharian', [MitraController::class, 'approveBiayaHarian']);
     Route::delete('hapus-pengeluaran', [MitraController::class, 'hapusPengeluaran']);
@@ -61,6 +60,7 @@ Route::prefix('cabang')->group(function () {
     Route::post('load-omzettanggal', [CabangController::class, 'loadOmzetTanggal']);
     Route::post('load-omzetharian', [CabangController::class, 'loadOmzetHarian']);
     Route::post('approve-omzetharian', [CabangController::class, 'approveOmzetHarian']);
+    Route::post('approve-target-bonus', [CabangController::class, 'approveTargetBonus']);
     Route::post('upload-bukti-transfer', [CabangController::class, 'uploadBuktiTransfer']);
     Route::delete('hapus-pengeluaran', [CabangController::class, 'hapusPengeluaran']);
     Route::post('save-pengeluaran', [CabangController::class, 'savePengeluaran']);

@@ -1429,6 +1429,54 @@ class CabangController extends Controller
         ]);
     }
 
+    public function approveTargetBonus(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = Validator::make($request->all(), [
+            'user_id' => ['required', 'integer', 'exists:users,id'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+
+        $yearWeek = $this->currentYearAndWeek();
+
+        $mitraAverageOmzet = MitraAverageOmzet::where('user_id', $data['user_id'])
+            ->where('minggu', $yearWeek)
+            ->first();
+
+        if ($mitraAverageOmzet) {
+            $mitraAverageOmzet->update([
+                'target_approved' => 1,
+            ]);
+        }
+
+        $targetBonus = MitraAverageOmzet::join('mitra_target_bonuses', 'mitra_average_omzets.target_id', '=', 'mitra_target_bonuses.id')
+            ->selectRaw('mitra_average_omzets.target_id, mitra_average_omzets.target_approved, mitra_target_bonuses.target, mitra_target_bonuses.bonus')
+            ->where('mitra_average_omzets.user_id', $data['user_id'])
+            ->where('mitra_average_omzets.minggu', $yearWeek)
+            ->first();
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'target_bonus' => $targetBonus,
+        ]);
+    }
+
     public function uploadBuktiTransfer(Request $request)
     {
         $this->db_switch(2);

@@ -1116,49 +1116,6 @@ class MitraController extends Controller
         ]);
     }
 
-    public function approveTargetBonus(Request $request)
-    {
-        $this->db_switch(2);
-
-        $validator = Validator::make($request->all(), [
-            'target_id' => ['required', 'integer', 'exists:mitra_average_omzets,id'],
-        ]);
-
-        if ($validator->fails()) {
-            $errors = $validator->errors();
-
-            $this->db_switch(1);
-
-            foreach ($errors->all() as $message) {
-                return response([
-                    'message' => $message
-                ], 422);
-            }
-        }
-
-        $data = $validator->validated();
-
-        $mitraAverageOmzet = MitraAverageOmzet::where('id', $data['target_id'])->first();
-
-        if ($mitraAverageOmzet) {
-            $mitraAverageOmzet->update([
-                'target_approved' => 1,
-            ]);
-        }
-
-        $targetBonus = MitraAverageOmzet::join('mitra_target_bonuses', 'mitra_average_omzets.target_id', '=', 'mitra_target_bonuses.id')
-            ->selectRaw('mitra_average_omzets.target_id, mitra_average_omzets.target_approved, mitra_target_bonuses.target, mitra_target_bonuses.bonus')
-            ->where('mitra_average_omzets.id', $data['target_id'])
-            ->first();
-
-        $this->db_switch(1);
-
-        return response()->json([
-            'status' => 'success',
-            'targetBonus' => $targetBonus,
-        ]);
-    }
-
     public function loadBiayaHarian(Request $request)
     {
         $this->db_switch(2);
