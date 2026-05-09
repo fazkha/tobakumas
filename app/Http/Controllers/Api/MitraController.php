@@ -962,6 +962,10 @@ class MitraController extends Controller
                     ->first();
 
                 if ($pekanan) {
+                    $target_approved = $cOmzet > 0 ? $pekanan->target_approved : 0;
+                    $target_akum_omzet = $cOmzet > 0 ? $pekanan->target_akum_omzet : 0;
+                    $target_omzet_phari = $cOmzet > 0 ? $pekanan->target_omzet_phari : 0;
+
                     $pekanan->update([
                         'rata2' => $cOmzet,
                         'trend' => $trend,
@@ -969,6 +973,9 @@ class MitraController extends Controller
                         'bonus' => $cBonus,
                         'trend_bonus' => $trend_bonus,
                         'pct_bonus' => $pct_bonus,
+                        'target_approved' => $target_approved,
+                        'target_akum_omzet' => $target_akum_omzet,
+                        'target_omzet_phari' => $target_omzet_phari,
                     ]);
                 } else {
                     $pekanan = MitraAverageOmzet::create([
