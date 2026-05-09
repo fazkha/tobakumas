@@ -41,6 +41,30 @@ class MitraController extends Controller
         DB::reconnect('mysql');
     }
 
+    public function currentYearAndWeek()
+    {
+        $date = Carbon::now();
+        $startOfWeek = $date->copy()->subDays(
+            ($date->dayOfWeek + 1) % 7
+        );
+        $saturdayWeek = $startOfWeek->weekOfYear;
+        $saturdayYear = $startOfWeek->year;
+        $padWeek = str_pad($saturdayWeek, 2, '0', STR_PAD_LEFT);
+        return $saturdayYear . $padWeek;
+    }
+
+    public function yearAndWeek(int $offsetWeek = 0)
+    {
+        $date = Carbon::now();
+        $startOfWeek = $date->copy()
+            ->subDays(($date->dayOfWeek + 1) % 7)
+            ->addWeeks($offsetWeek);
+
+        return
+            $startOfWeek->year .
+            str_pad($startOfWeek->weekOfYear, 2, '0', STR_PAD_LEFT);
+    }
+
     public function getTargetBonusList()
     {
         $this->db_switch(2);
@@ -480,11 +504,7 @@ class MitraController extends Controller
             $app_delta = ($data['omzet'] ?? 0) - $rumus4;
         }
 
-        $date = Carbon::now();
-        $saturdayWeek = $date->copy()->addDay()->week();
-        $saturdayYear = $date->copy()->addDay()->year;
-        $padWeek = str($saturdayWeek)->padLeft(2, '0');
-        $yearWeek = $saturdayYear . $padWeek;
+        $yearWeek = $this->currentYearAndWeek();
 
         $found = MitraOmzetPengeluaran::where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
@@ -926,11 +946,7 @@ class MitraController extends Controller
         $cBonus = 0;
 
         if ($omzet) {
-            $date = Carbon::now();
-            $saturdayWeek = $date->copy()->addDay()->week();
-            $saturdayYear = $date->copy()->addDay()->year;
-            $padWeek = str($saturdayWeek)->padLeft(2, '0');
-            $yearWeek = $saturdayYear . $padWeek;
+            $yearWeek = $this->currentYearAndWeek();
 
             $target_bonus = MitraAverageOmzet::join('mitra_target_bonuses', 'mitra_average_omzets.target_id', '=', 'mitra_target_bonuses.id')
                 ->selectRaw('mitra_average_omzets.target_id as id, mitra_average_omzets.target_approved, mitra_target_bonuses.target, mitra_target_bonuses.bonus as name')
@@ -972,11 +988,7 @@ class MitraController extends Controller
                 if ($bonus) {
                     $cBonus = $bonus[0]->bonus;
 
-                    $date = Carbon::now()->subWeek();
-                    $week = $date->copy()->addDay()->week();
-                    $year = ($week == $saturdayWeek - 1) ? $saturdayYear : $date->copy()->addDay()->year;
-                    $padWeek = str($week)->padLeft(2, '0');
-                    $yearWeek = $year . $padWeek;
+                    $yearWeek = $this->yearAndWeek(-1);
 
                     $prevPekanan = MitraAverageOmzet::where('user_id', $data['id'])
                         ->where('minggu', $yearWeek)
@@ -1057,11 +1069,7 @@ class MitraController extends Controller
 
         $data = $validator->validated();
 
-        $date = Carbon::now();
-        $saturdayWeek = $date->copy()->addDay()->week();
-        $saturdayYear = $date->copy()->addDay()->year;
-        $padWeek = str($saturdayWeek)->padLeft(2, '0');
-        $yearWeek = $saturdayYear . $padWeek;
+        $yearWeek = $this->currentYearAndWeek();
 
         $target_akum_omzet = 0;
         $target_omzet_phari = 0;

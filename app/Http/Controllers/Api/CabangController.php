@@ -48,6 +48,30 @@ class CabangController extends Controller
         DB::reconnect('mysql');
     }
 
+    public function currentYearAndWeek()
+    {
+        $date = Carbon::now();
+        $startOfWeek = $date->copy()->subDays(
+            ($date->dayOfWeek + 1) % 7
+        );
+        $saturdayWeek = $startOfWeek->weekOfYear;
+        $saturdayYear = $startOfWeek->year;
+        $padWeek = str_pad($saturdayWeek, 2, '0', STR_PAD_LEFT);
+        return $saturdayYear . $padWeek;
+    }
+
+    public function yearAndWeek(int $offsetWeek = 0)
+    {
+        $date = Carbon::now();
+        $startOfWeek = $date->copy()
+            ->subDays(($date->dayOfWeek + 1) % 7)
+            ->addWeeks($offsetWeek);
+
+        return
+            $startOfWeek->year .
+            str_pad($startOfWeek->weekOfYear, 2, '0', STR_PAD_LEFT);
+    }
+
     public function getMitraByPc(Request $request)
     {
         $this->db_switch(2);
@@ -1344,11 +1368,7 @@ class CabangController extends Controller
             $app_delta = $omzet_hari_ini - $rumus4;
         }
 
-        $date = Carbon::now();
-        $saturdayWeek = $date->copy()->addDay()->week();
-        $saturdayYear = $date->copy()->addDay()->year;
-        $padWeek = str($saturdayWeek)->padLeft(2, '0');
-        $yearWeek = $saturdayYear . $padWeek;
+        $yearWeek = $this->currentYearAndWeek();
 
         $akum_omzet = 0;
         $target_akum_omzet = 0;
