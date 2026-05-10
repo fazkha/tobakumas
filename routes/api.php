@@ -40,6 +40,7 @@ Route::prefix('mitra')->group(function () {
     Route::post('save-target-bonus', [MitraController::class, 'saveTargetBonus']);
     Route::post('load-biayaharian', [MitraController::class, 'loadBiayaHarian']);
     Route::post('approve-biayaharian', [MitraController::class, 'approveBiayaHarian']);
+    Route::post('approve-target-bonus', [MitraController::class, 'approveTargetBonus']);
     Route::delete('hapus-pengeluaran', [MitraController::class, 'hapusPengeluaran']);
     Route::get('get-jenis-pengeluaran-list', [MitraController::class, 'getJenisPengeluaranList']);
     Route::get('get-target-bonus-list', [MitraController::class, 'getTargetBonusList']);

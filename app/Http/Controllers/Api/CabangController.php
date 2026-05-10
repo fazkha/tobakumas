@@ -1314,16 +1314,12 @@ class CabangController extends Controller
 
         $omzet = DB::select("CALL sp_omzetharianpc(?,?)", [$data['id'], $data['tanggal']]);
         $rekap = DB::select("CALL sp_pc_omzet_bulanan(?,?,?)", [$data['id'], date('n', strtotime($data['tanggal'])), date('Y', strtotime($data['tanggal']))]);
-        $limit_omzet = AppSetting::where('parm', 'mitra_limit_omzet')->first();
-        $limit_adonan = AppSetting::where('parm', 'mitra_limit_adonan')->first();
 
         $this->db_switch(1);
 
         return response()->json([
             'status' => 'success',
             'omzet' => $omzet,
-            'limit_omzet' => $limit_omzet,
-            'limit_adonan' => $limit_adonan,
             'rekap' => $rekap,
         ]);
     }
@@ -1507,6 +1503,7 @@ class CabangController extends Controller
 
         $validator = Validator::make($request->all(), [
             'user_id' => ['required', 'integer', 'exists:users,id'],
+            'tanggal' => ['required', 'date'],
         ]);
 
         if ($validator->fails()) {
@@ -1535,17 +1532,35 @@ class CabangController extends Controller
             ]);
         }
 
-        $targetBonus = MitraAverageOmzet::join('mitra_target_bonuses', 'mitra_average_omzets.target_id', '=', 'mitra_target_bonuses.id')
-            ->selectRaw('mitra_average_omzets.target_id, mitra_average_omzets.target_approved, mitra_target_bonuses.target, mitra_target_bonuses.bonus')
-            ->where('mitra_average_omzets.user_id', $data['user_id'])
-            ->where('mitra_average_omzets.minggu', $yearWeek)
-            ->first();
+        $pc_id = DB::table('users as u1')
+            ->join('mitras as m1', 'm1.email', '=', 'u1.email')
+            ->join('brandivjabmits as b1', 'b1.mitra_id', '=', 'm1.id')
+            ->join('brandivjabs as b2', function ($join) {
+                $join->on('b2.id', '=', 'b1.brandivjab_id')
+                    ->where('b2.jabatan_id', 3);
+            })
+            ->join('brandivjabs as b3', function ($join) {
+                $join->on('b3.branch_id', '=', 'b2.branch_id')
+                    ->where('b3.jabatan_id', 4);
+            })
+            ->join('brandivjabpegs as b4', 'b4.brandivjab_id', '=', 'b3.id')
+            ->join('pegawais as p1', 'p1.id', '=', 'b4.pegawai_id')
+            ->join('users as u2', 'u2.email', '=', 'p1.email')
+            ->where('u1.id', $data['user_id'])
+            ->where('b1.isactive', 1)
+            ->where('b2.isactive', 1)
+            ->where('b3.isactive', 1)
+            ->where('b4.isactive', 1)
+            ->where('p1.isactive', 1)
+            ->pluck('u2.id');
+
+        $omzet = DB::select("CALL sp_omzetharianpc(?,?)", [$pc_id, $data['tanggal']]);
 
         $this->db_switch(1);
 
         return response()->json([
             'status' => 'success',
-            'target_bonus' => $targetBonus,
+            'omzet' => $omzet,
         ]);
     }
 
