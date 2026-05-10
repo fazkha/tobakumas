@@ -966,7 +966,7 @@ class MitraController extends Controller
                     $target_approved = $cOmzet > 0 ? $pekanan->target_approved : 0;
                     $target_akum_omzet = $cOmzet > 0 ? $pekanan->target_akum_omzet : 0;
                     $target_omzet_phari = $cOmzet > 0 ? $pekanan->target_omzet_phari : 0;
-                    dd($cOmzet);
+                    dd($omzet);
 
                     $pekanan->update([
                         'rata2' => $cOmzet,
