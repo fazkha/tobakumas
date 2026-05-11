@@ -1531,6 +1531,7 @@ class CabangController extends Controller
                 'target_approved' => 1,
             ]);
         }
+        dd($mitraAverageOmzet);
 
         $pc_id = DB::table('users as u1')
             ->join('mitras as m1', 'm1.email', '=', 'u1.email')
