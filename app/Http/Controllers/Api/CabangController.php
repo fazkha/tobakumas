@@ -1455,7 +1455,6 @@ class CabangController extends Controller
             ->whereBetween('tanggal', [$startDate, $endDate])
             ->where('user_id', $mitra_user_id)
             ->sum('omzet');
-        dd($akum_omzet);
 
         $mitraAverageOmzet = MitraAverageOmzet::where('user_id', $mitra_user_id)
             ->where('minggu', $yearWeek)
