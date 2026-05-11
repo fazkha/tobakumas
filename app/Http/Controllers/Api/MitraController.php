@@ -525,6 +525,7 @@ class MitraController extends Controller
 
         $akum_omzet = MitraOmzetPengeluaran::where('approved_omzet', 1)
             ->whereBetween('tanggal', [$startDate, $endDate])
+            ->where('user_id', $data['id'])
             ->sum('omzet');
 
         $mitraAverageOmzet = MitraAverageOmzet::where('user_id', $data['id'])
