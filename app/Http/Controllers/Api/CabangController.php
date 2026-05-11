@@ -1490,6 +1490,7 @@ class CabangController extends Controller
             if ($target_akum_omzet > 0) {
                 $pct_akum_omzet = ($akum_omzet / $target_akum_omzet) * 100;
             }
+            $pencapaian_omzet_phari = $target_akum_omzet > 0 ? abs($target_akum_omzet - $akum_omzet) / ($pencapaian_sisa_hari <= 0 ? 1 : $pencapaian_sisa_hari) : 0;
 
             $found->update([
                 'delta_omzet' => $app_delta,
