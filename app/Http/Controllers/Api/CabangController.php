@@ -1508,7 +1508,6 @@ class CabangController extends Controller
         return response()->json([
             'status' => 'success',
             'omzet' => $omzet,
-            'found' => $akum_omzet,
         ]);
     }
 
