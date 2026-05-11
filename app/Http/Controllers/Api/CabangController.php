@@ -1478,6 +1478,8 @@ class CabangController extends Controller
 
             // Jika disetujui (old: 0 -> new: 1)
             if ($approved_omzet == 0) {
+                dd($akum_omzet);
+
                 $found->update([
                     'delta_omzet' => $app_delta,
                     'akum_omzet' => $akum_omzet,
