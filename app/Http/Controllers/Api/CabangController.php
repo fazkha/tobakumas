@@ -1531,7 +1531,6 @@ class CabangController extends Controller
                 'target_approved' => 1,
             ]);
         }
-        dd($mitraAverageOmzet);
 
         $pc_id = DB::table('users as u1')
             ->join('mitras as m1', 'm1.email', '=', 'u1.email')
@@ -1554,6 +1553,7 @@ class CabangController extends Controller
             ->where('b4.isactive', 1)
             ->where('p1.isactive', 1)
             ->pluck('u2.id');
+        dd($pc_id);
 
         $omzet = DB::select("CALL sp_omzetharianpc(?,?)", [$pc_id, $data['tanggal']]);
 
