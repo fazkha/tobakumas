@@ -1532,7 +1532,7 @@ class CabangController extends Controller
             ]);
         }
 
-        $pc_id = DB::table('users as u1')
+        $pc = DB::table('users as u1')
             ->join('mitras as m1', 'm1.email', '=', 'u1.email')
             ->join('brandivjabmits as b1', 'b1.mitra_id', '=', 'm1.id')
             ->join('brandivjabs as b2', function ($join) {
@@ -1552,10 +1552,11 @@ class CabangController extends Controller
             ->where('b3.isactive', 1)
             ->where('b4.isactive', 1)
             ->where('p1.isactive', 1)
-            ->pluck('u2.id');
-        dd($pc_id);
+            ->selectRaw('u2.id')
+            ->first();
+        dd($pc->id);
 
-        $omzet = DB::select("CALL sp_omzetharianpc(?,?)", [$pc_id, $data['tanggal']]);
+        $omzet = DB::select("CALL sp_omzetharianpc(?,?)", [$pc->id, $data['tanggal']]);
 
         $this->db_switch(1);
 
