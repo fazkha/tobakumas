@@ -1474,17 +1474,17 @@ class CabangController extends Controller
             $found->update([
                 'approved_omzet' => $approved_omzet == 1 ? 0 : 1,
                 'approved_adonan' => $approved_adonan == 1 ? 0 : 1,
+                'delta_omzet' => $app_delta,
+                'akum_omzet' => $akum_omzet,
+                'pct_akum_omzet' => $pct_akum_omzet,
+                'pencapaian_sisa_hari' => $pencapaian_sisa_hari,
+                'pencapaian_omzet_phari' => $pencapaian_omzet_phari,
             ]);
 
             // Jika disetujui (old: 0 -> new: 1)
             if ($approved_omzet == 0) {
-                $found->update([
-                    'delta_omzet' => $app_delta,
-                    'akum_omzet' => $akum_omzet,
-                    'pct_akum_omzet' => $pct_akum_omzet,
-                    'pencapaian_sisa_hari' => $pencapaian_sisa_hari,
-                    'pencapaian_omzet_phari' => $pencapaian_omzet_phari,
-                ]);
+                // $found->update([
+                // ]);
             }
 
             $omzet = DB::select("CALL sp_omzetharianpc(?,?)", [$data['pc_id'], $data['tanggal']]);
