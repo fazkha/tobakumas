@@ -1454,6 +1454,7 @@ class CabangController extends Controller
         $akum_omzet = MitraOmzetPengeluaran::where('approved_omzet', 1)
             ->whereBetween('tanggal', [$startDate, $endDate])
             ->sum('omzet');
+        dd($akum_omzet);
 
         $mitraAverageOmzet = MitraAverageOmzet::where('user_id', $mitra_user_id)
             ->where('minggu', $yearWeek)
