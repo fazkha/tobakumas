@@ -1475,11 +1475,10 @@ class CabangController extends Controller
                 'approved_omzet' => $approved_omzet == 1 ? 0 : 1,
                 'approved_adonan' => $approved_adonan == 1 ? 0 : 1,
             ]);
+            dd($approved_omzet);
 
             // Jika disetujui (old: 0 -> new: 1)
             if ($approved_omzet == 0) {
-                dd($akum_omzet);
-
                 $found->update([
                     'delta_omzet' => $app_delta,
                     'akum_omzet' => $akum_omzet,
