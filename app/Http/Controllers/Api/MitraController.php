@@ -953,9 +953,9 @@ class MitraController extends Controller
                 ->where('mitra_average_omzets.user_id', $data['id'])
                 ->where('mitra_average_omzets.minggu', $yearWeek)
                 ->first();
-            dd($target_bonus);
 
             $cOmzet = intval($omzet[6]->rata2);
+            dd($cOmzet);
 
             if ($cOmzet >= 0) {
                 $pekanan = MitraAverageOmzet::where('user_id', $data['id'])
