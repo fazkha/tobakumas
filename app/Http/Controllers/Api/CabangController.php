@@ -1554,7 +1554,6 @@ class CabangController extends Controller
             ->where('p1.isactive', 1)
             ->selectRaw('u2.id')
             ->first();
-        dd($pc->id);
 
         $omzet = DB::select("CALL sp_omzetharianpc(?,?)", [$pc->id, $data['tanggal']]);
 
