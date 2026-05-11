@@ -1474,18 +1474,30 @@ class CabangController extends Controller
             $found->update([
                 'approved_omzet' => $approved_omzet == 1 ? 0 : 1,
                 'approved_adonan' => $approved_adonan == 1 ? 0 : 1,
+            ]);
+
+            $akum_omzet = MitraOmzetPengeluaran::where('approved_omzet', 1)
+                ->whereBetween('tanggal', [$startDate, $endDate])
+                ->where('user_id', $mitra_user_id)
+                ->sum('omzet');
+
+            $mitraAverageOmzet = MitraAverageOmzet::where('user_id', $mitra_user_id)
+                ->where('minggu', $yearWeek)
+                ->select('target_akum_omzet')
+                ->first();
+
+            $target_akum_omzet = $mitraAverageOmzet ? $mitraAverageOmzet->target_akum_omzet : 0;
+            if ($target_akum_omzet > 0) {
+                $pct_akum_omzet = ($akum_omzet / $target_akum_omzet) * 100;
+            }
+
+            $found->update([
                 'delta_omzet' => $app_delta,
                 'akum_omzet' => $akum_omzet,
                 'pct_akum_omzet' => $pct_akum_omzet,
                 'pencapaian_sisa_hari' => $pencapaian_sisa_hari,
                 'pencapaian_omzet_phari' => $pencapaian_omzet_phari,
             ]);
-
-            // Jika disetujui (old: 0 -> new: 1)
-            if ($approved_omzet == 0) {
-                // $found->update([
-                // ]);
-            }
 
             $omzet = DB::select("CALL sp_omzetharianpc(?,?)", [$data['pc_id'], $data['tanggal']]);
         }
