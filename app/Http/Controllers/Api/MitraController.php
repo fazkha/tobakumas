@@ -1561,7 +1561,7 @@ class MitraController extends Controller
 
         if ($info['mime'] == 'image/jpeg' || $info['mime'] == 'image/jpg') {
             $image = imagecreatefromjpeg($src);
-            $newImage = imagecreatetruecolor(720, 1280);
+            $newImage = imagecreatetruecolor(360, 640);
             imagecopyresampled(
                 $newImage,
                 $image,
@@ -1569,8 +1569,8 @@ class MitraController extends Controller
                 0,
                 0,
                 0,
-                720,
-                1280,
+                360,
+                640,
                 imagesx($image),
                 imagesy($image)
             );
