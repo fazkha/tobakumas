@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\File;
+use Intervention\Image\Laravel\Facades\Image;
 
 class CabangController extends Controller
 {
@@ -767,7 +768,7 @@ class CabangController extends Controller
 
                         // $path = $request->file('foto')->storeAs($pathym, $imageName, 'public');
                         if (!is_null($image)) {
-                            $dest = $this->compress_image($image, $image->path(), public_path($pathym), $imageName, 50);
+                            $dest = $this->compress_image($image, $image->path(), public_path($pathym), $imageName, 70);
                         }
                     }
                 }
@@ -1650,7 +1651,7 @@ class CabangController extends Controller
 
                         // $path = $request->file('foto')->storeAs($pathym, $imageName, 'public');
                         if (!is_null($image)) {
-                            $dest = $this->compress_image($image, $image->path(), public_path($pathym), $imageName, 50);
+                            $dest = $this->compress_image($image, $image->path(), public_path($pathym), $imageName, 70);
                         }
 
                         $omzet = DB::select("CALL sp_omzetharianpc(?,?)", [$data['pc_id'], $data['tanggal']]);
@@ -1772,7 +1773,7 @@ class CabangController extends Controller
 
                     // $path = $request->file('foto')->storeAs($pathym, $imageName, 'public');
                     if (!is_null($image)) {
-                        $dest = $this->compress_image($image, $image->path(), public_path($pathym), $imageName, 50);
+                        $dest = $this->compress_image($image, $image->path(), public_path($pathym), $imageName, 70);
                     }
                 }
 
@@ -1798,75 +1799,6 @@ class CabangController extends Controller
             'path' => $path,
             'pengeluaran' => $pengeluaran,
         ]);
-    }
-
-    public function GetLokasiSisaKasUpload()
-    {
-        $path = 'storage/uploads/cabang/pengembaliansisakas';
-        $ym = date('Ym');
-        $dir = $path . '/' . $ym;
-        $is_dir = is_dir($dir);
-
-        if (!$is_dir) {
-            mkdir($dir, 0755);
-        }
-
-        return ['path' => $path, 'ym' => $ym];
-    }
-
-    public function GetLokasiPengeluaranUpload()
-    {
-        $path = 'storage/uploads/cabang/pengeluaran';
-        $ym = date('Ym');
-        $dir = $path . '/' . $ym;
-        $is_dir = is_dir($dir);
-
-        if (!$is_dir) {
-            mkdir($dir, 0755);
-        }
-
-        return ['path' => $path, 'ym' => $ym];
-    }
-
-    public function GetLokasiUpload()
-    {
-        $path = 'storage/uploads/cabang/buktitf';
-        $ym = date('Ym');
-        $dir = $path . '/' . $ym;
-        $is_dir = is_dir($dir);
-
-        if (!$is_dir) {
-            mkdir($dir, 0755);
-        }
-
-        return ['path' => $path, 'ym' => $ym];
-    }
-
-    public function compress_image($image, $src, $dest, $filename, $quality)
-    {
-        $info = getimagesize($src);
-
-        if ($info['mime'] == 'image/jpeg' || $info['mime'] == 'image/jpg') {
-            $image = imagecreatefromjpeg($src);
-            $pathfile = $dest . '/' . $filename;
-            imagejpeg($image, $pathfile, $quality);
-        } elseif ($info['mime'] == 'image/gif') {
-            $image->storeAs($dest, $image->hashName());
-            // $image = imagecreatefromgif($src);
-            // imagejpeg($image, $dest, $quality);
-        } elseif ($info['mime'] == 'image/png') {
-            $image->storeAs($dest, $image->hashName());
-            // $image = imagecreatefrompng($src);
-            // imagepng($image, $dest, 5);
-        } else {
-            die('Unknown image file format');
-        }
-
-        //compress and save file to jpg
-        //usage
-        // $compressed = compress_image('boy.jpg', 'destination.jpg', 50);
-        //return destination file
-        return $dest;
     }
 
     public function gerobakAktif(Request $request)
@@ -1965,5 +1897,87 @@ class CabangController extends Controller
             'prev' => $prev,
             'prev_omzet' => $maxOmzet ? $maxOmzet->max_omzet : null,
         ]);
+    }
+
+    public function GetLokasiSisaKasUpload()
+    {
+        $path = 'storage/uploads/cabang/pengembaliansisakas';
+        $ym = date('Ym');
+        $dir = $path . '/' . $ym;
+        $is_dir = is_dir($dir);
+
+        if (!$is_dir) {
+            mkdir($dir, 0755);
+        }
+
+        return ['path' => $path, 'ym' => $ym];
+    }
+
+    public function GetLokasiPengeluaranUpload()
+    {
+        $path = 'storage/uploads/cabang/pengeluaran';
+        $ym = date('Ym');
+        $dir = $path . '/' . $ym;
+        $is_dir = is_dir($dir);
+
+        if (!$is_dir) {
+            mkdir($dir, 0755);
+        }
+
+        return ['path' => $path, 'ym' => $ym];
+    }
+
+    public function GetLokasiUpload()
+    {
+        $path = 'storage/uploads/cabang/buktitf';
+        $ym = date('Ym');
+        $dir = $path . '/' . $ym;
+        $is_dir = is_dir($dir);
+
+        if (!$is_dir) {
+            mkdir($dir, 0755);
+        }
+
+        return ['path' => $path, 'ym' => $ym];
+    }
+
+    public function compress_image($image, $src, $dest, $filename, $quality)
+    {
+        $info = getimagesize($src);
+
+        if ($info['mime'] == 'image/jpeg' || $info['mime'] == 'image/jpg') {
+            $image = imagecreatefromjpeg($src);
+            $newImage = imagecreatetruecolor(720, 1280);
+            imagecopyresampled(
+                $newImage,
+                $image,
+                0,
+                0,
+                0,
+                0,
+                720,
+                1280,
+                imagesx($image),
+                imagesy($image)
+            );
+            $pathfile = $dest . '/' . $filename;
+            imagejpeg($newImage, $pathfile, $quality);
+        } elseif ($info['mime'] == 'image/gif') {
+            $image->storeAs($dest, $image->hashName());
+            // $image = imagecreatefromgif($src);
+            // imagejpeg($image, $dest, $quality);
+        } elseif ($info['mime'] == 'image/png') {
+            $image->storeAs($dest, $image->hashName());
+            // $image = imagecreatefrompng($src);
+            // imagepng($image, $dest, 5);
+        } else {
+            die('Unknown image file format');
+        }
+
+        //compress and save file to jpg
+        //usage
+        // $compressed = compress_image('boy.jpg', 'destination.jpg', 70);
+        //return destination file
+        return $dest;
     }
 }

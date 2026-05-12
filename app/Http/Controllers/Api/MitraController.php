@@ -229,7 +229,7 @@ class MitraController extends Controller
 
             // $path = $request->file('foto')->storeAs($pathym, $imageName, 'public');
             if (!is_null($image)) {
-                $dest = $this->compress_image($image, $image->path(), public_path($pathym), $imageName, 50);
+                $dest = $this->compress_image($image, $image->path(), public_path($pathym), $imageName, 70);
             }
         } else {
             $new = MitraKritikSaran::create([
@@ -1301,7 +1301,7 @@ class MitraController extends Controller
 
                         // $path = $request->file('foto')->storeAs($pathym, $imageName, 'public');
                         if (!is_null($image)) {
-                            $dest = $this->compress_image($image, $image->path(), public_path($pathym), $imageName, 50);
+                            $dest = $this->compress_image($image, $image->path(), public_path($pathym), $imageName, 70);
                         }
                     }
                 }
@@ -1415,7 +1415,7 @@ class MitraController extends Controller
 
                 // $path = $request->file('foto')->storeAs($pathym, $imageName, 'public');
                 if (!is_null($image)) {
-                    $dest = $this->compress_image($image, $image->path(), public_path($pathym), $imageName, 50);
+                    $dest = $this->compress_image($image, $image->path(), public_path($pathym), $imageName, 70);
                 }
             }
         }
@@ -1561,8 +1561,21 @@ class MitraController extends Controller
 
         if ($info['mime'] == 'image/jpeg' || $info['mime'] == 'image/jpg') {
             $image = imagecreatefromjpeg($src);
+            $newImage = imagecreatetruecolor(720, 1280);
+            imagecopyresampled(
+                $newImage,
+                $image,
+                0,
+                0,
+                0,
+                0,
+                720,
+                1280,
+                imagesx($image),
+                imagesy($image)
+            );
             $pathfile = $dest . '/' . $filename;
-            imagejpeg($image, $pathfile, $quality);
+            imagejpeg($newImage, $pathfile, $quality);
         } elseif ($info['mime'] == 'image/gif') {
             $image->storeAs($dest, $image->hashName());
             // $image = imagecreatefromgif($src);
@@ -1577,7 +1590,7 @@ class MitraController extends Controller
 
         //compress and save file to jpg
         //usage
-        // $compressed = compress_image('boy.jpg', 'destination.jpg', 50);
+        // $compressed = compress_image('boy.jpg', 'destination.jpg', 70);
         //return destination file
         return $dest;
     }
