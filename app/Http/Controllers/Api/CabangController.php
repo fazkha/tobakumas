@@ -1944,22 +1944,46 @@ class CabangController extends Controller
     public function compress_image($image, $src, $dest, $filename, $quality)
     {
         $info = getimagesize($src);
+        $targetWidth = 360; // 540, 720
+        $targetHeight = 640; // 960, 1280
 
         if ($info['mime'] == 'image/jpeg' || $info['mime'] == 'image/jpg') {
             $image = imagecreatefromjpeg($src);
-            $newImage = imagecreatetruecolor(360, 640);
+
+            $srcWidth = imagesx($image);
+            $srcHeight = imagesy($image);
+
+            $srcRatio = $srcWidth / $srcHeight;
+            $targetRatio = $targetWidth / $targetHeight;
+
+            if ($srcRatio > $targetRatio) {
+                // crop kiri kanan
+                $newHeight = $srcHeight;
+                $newWidth = $srcHeight * $targetRatio;
+                $srcX = ($srcWidth - $newWidth) / 2;
+                $srcY = 0;
+            } else {
+                // crop atas bawah
+                $newWidth = $srcWidth;
+                $newHeight = $srcWidth / $targetRatio;
+                $srcX = 0;
+                $srcY = ($srcHeight - $newHeight) / 2;
+            }
+
+            $newImage = imagecreatetruecolor($targetWidth, $targetHeight);
             imagecopyresampled(
                 $newImage,
                 $image,
                 0,
                 0,
-                0,
-                0,
-                360,
-                640,
-                imagesx($image),
-                imagesy($image)
+                $srcX,
+                $srcY,
+                $targetWidth,
+                $targetHeight,
+                $newWidth,
+                $newHeight
             );
+
             $pathfile = $dest . '/' . $filename;
             imagejpeg($newImage, $pathfile, $quality);
         } elseif ($info['mime'] == 'image/gif') {
