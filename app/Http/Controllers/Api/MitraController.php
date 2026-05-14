@@ -960,6 +960,7 @@ class MitraController extends Controller
             if ($cOmzet >= 0) {
                 $trend = $omzet[6]->isi == null ? $omzet[5]->trend : $omzet[6]->trend;
                 $pct = $omzet[6]->isi == null ? intval($omzet[5]->pct) : intval($omzet[6]->pct);
+                dd($trend, $pct);
 
                 $pekanan = MitraAverageOmzet::where('user_id', $data['id'])
                     ->where('minggu', $yearWeek)
