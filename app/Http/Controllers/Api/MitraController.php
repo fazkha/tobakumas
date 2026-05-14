@@ -936,10 +936,8 @@ class MitraController extends Controller
         }
 
         $data = $validator->validated();
-        $app_setting = AppSetting::where('parm', 'mitra_pembagi_rata2_omzet')->first();
-        $pembagi = $app_setting ? $app_setting->value : 6;
 
-        $omzet = DB::select("CALL sp_mitra_omset_pekanan(?,?)", [$data['id'], $pembagi]);
+        $omzet = DB::select("CALL sp_mitra_omset_pekanan(?,?)", [$data['id']]);
         $trend = null;
         $pct = null;
         $trend_bonus = null;
