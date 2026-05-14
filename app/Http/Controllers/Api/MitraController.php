@@ -740,13 +740,13 @@ class MitraController extends Controller
         } else {
             $detail = null;
         }
-        dd($detail);
 
         if ($detail == null) {
             $detail = [];
         } else {
             $detail = $detail->toArray();
         }
+        dd($detail);
 
         $this->db_switch(1);
 
