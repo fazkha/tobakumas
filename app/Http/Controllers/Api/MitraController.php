@@ -956,10 +956,12 @@ class MitraController extends Controller
                 ->first();
 
             $cOmzet = intval($omzet[6]->rata2);
-            $trend = $omzet[6]->isi == null ? intval($omzet[5]->trend) : intval($omzet[6]->trend);
-            $pct = $omzet[6]->isi == null ? intval($omzet[5]->pct) : intval($omzet[6]->pct);
 
             if ($cOmzet >= 0) {
+                $trend = $omzet[6]->isi == null ? intval($omzet[5]->trend) : intval($omzet[6]->trend);
+                $pct = $omzet[6]->isi == null ? intval($omzet[5]->pct) : intval($omzet[6]->pct);
+                dd($trend, $pct);
+
                 $pekanan = MitraAverageOmzet::where('user_id', $data['id'])
                     ->where('minggu', $yearWeek)
                     ->first();
