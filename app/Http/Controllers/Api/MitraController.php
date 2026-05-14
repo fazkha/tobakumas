@@ -939,7 +939,7 @@ class MitraController extends Controller
         $app_setting = AppSetting::where('parm', 'mitra_pembagi_rata2_omzet')->first();
         $pembagi = $app_setting ? $app_setting->value : 6;
 
-        $omzet = DB::select("CALL sp_mitra_omset_pekanan(?)", [$data['id'], $pembagi]);
+        $omzet = DB::select("CALL sp_mitra_omset_pekanan(?,?)", [$data['id'], $pembagi]);
         $trend = null;
         $pct = null;
         $trend_bonus = null;
