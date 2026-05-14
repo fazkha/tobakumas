@@ -746,7 +746,6 @@ class MitraController extends Controller
         } else {
             $detail = $detail->toArray();
         }
-        dd($omzet->omzet, $omzet->sisa_adonan, $omzet->approved_omzet, $omzet->approved_adonan);
 
         $this->db_switch(1);
 

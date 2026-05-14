@@ -1863,6 +1863,7 @@ class CabangController extends Controller
             ->orderBy(DB::raw('DATE(tanggal)'), 'desc')
             ->selectRaw('DATE(tanggal) as tanggal, MAX(omzet) as max_omzet')
             ->first();
+        dd($rute, $maxOmzet);
 
         try {
             if ($maxOmzet) {
