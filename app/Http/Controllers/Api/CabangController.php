@@ -1863,7 +1863,6 @@ class CabangController extends Controller
             ->orderBy(DB::raw('DATE(tanggal)'), 'desc')
             ->selectRaw('DATE(tanggal) as tanggal, MAX(omzet) as max_omzet')
             ->first();
-        dd($rute, $maxOmzet);
 
         try {
             if ($maxOmzet) {
@@ -1889,6 +1888,7 @@ class CabangController extends Controller
                 'message' => $e->getMessage(),
             ]);
         }
+        dd($rute, $maxOmzet ? $maxOmzet->max_omzet : null, $prev);
 
         $this->db_switch(1);
 
