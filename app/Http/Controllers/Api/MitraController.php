@@ -731,6 +731,7 @@ class MitraController extends Controller
         $omzet = MitraOmzetPengeluaran::where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
             ->first();
+        dd($omzet);
 
         if ($omzet) {
             $detail = MitraOmzetPengeluaranDetail::join('jenis_pengeluaran_mitras', 'mitra_op_details.jenis_pengeluaran_mitra_id', '=', 'jenis_pengeluaran_mitras.id')
