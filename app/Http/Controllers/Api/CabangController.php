@@ -1888,7 +1888,6 @@ class CabangController extends Controller
                 'message' => $e->getMessage(),
             ]);
         }
-        dd($rute, $maxOmzet ? $maxOmzet->max_omzet : null, $prev);
 
         $this->db_switch(1);
 
