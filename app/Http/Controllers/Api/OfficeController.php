@@ -94,7 +94,7 @@ class OfficeController extends Controller
 
                     $lokasi = $this->GetLokasiIzinUpload();
                     $pathym = $lokasi['path'] . '/' . $lokasi['ym'];
-                    $imageName = $user->id . '_' . $image->hashName();
+                    $imageName = $data['pc_id'] . '_' . $image->hashName();
                     $path = $pathym . '/' . $imageName;
 
                     PcIzin::create([
@@ -181,7 +181,7 @@ class OfficeController extends Controller
 
                     $lokasi = $this->GetLokasiIzinUpload();
                     $pathym = $lokasi['path'] . '/' . $lokasi['ym'];
-                    $imageName = $pegawai->id . '_' . $image->hashName();
+                    $imageName = $data['pc_id'] . '_' . $image->hashName();
                     $path = $pathym . '/' . $imageName;
 
                     MitraPermintaanIzin::create([
