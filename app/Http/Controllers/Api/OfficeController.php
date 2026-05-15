@@ -59,6 +59,7 @@ class OfficeController extends Controller
             'mulai' => ['required', 'date'],
             'selesai' => ['required', 'date', 'after:mulai'],
             'keterangan' => ['nullable', 'string'],
+            'foto' => 'required|image|max:5120',
         ]);
 
         if ($validator->fails()) {
@@ -86,16 +87,34 @@ class OfficeController extends Controller
                 ->first();
 
             if ($brandivjab) {
-                PcIzin::create([
-                    'branch_id' => $brandivjab->branch_id,
-                    'pegawai_id' => $pegawai->id,
-                    'jenis_izin_pegawai_id' => $data['jenis_id'],
-                    'tanggal_mulai' => Carbon::parse($data['mulai'])->setTimezone(config('app.timezone'))->format('Y-m-d H:i:s'),
-                    'tanggal_selesai' => Carbon::parse($data['selesai'])->setTimezone(config('app.timezone'))->format('Y-m-d H:i:s'),
-                    'keterangan' => $data['keterangan'],
-                    'created_by' => $user->email,
-                    'updated_by' => $user->email,
-                ]);
+                $hasFile = $request->hasFile('foto');
+
+                if ($hasFile) {
+                    $image = $request->file('foto');
+
+                    $lokasi = $this->GetLokasiIzinUpload();
+                    $pathym = $lokasi['path'] . '/' . $lokasi['ym'];
+                    $imageName = $user->id . '_' . $image->hashName();
+                    $path = $pathym . '/' . $imageName;
+
+                    PcIzin::create([
+                        'branch_id' => $brandivjab->branch_id,
+                        'pegawai_id' => $pegawai->id,
+                        'jenis_izin_pegawai_id' => $data['jenis_id'],
+                        'tanggal_mulai' => Carbon::parse($data['mulai'])->setTimezone(config('app.timezone'))->format('Y-m-d H:i:s'),
+                        'tanggal_selesai' => Carbon::parse($data['selesai'])->setTimezone(config('app.timezone'))->format('Y-m-d H:i:s'),
+                        'keterangan' => $data['keterangan'],
+                        'image_lokasi' => $pathym,
+                        'image_nama' => $imageName,
+                        'image_type' => 'image/jpeg',
+                        'created_by' => $user->email,
+                        'updated_by' => $user->email,
+                    ]);
+
+                    if (!is_null($image)) {
+                        $dest = $this->compress_image($image, $image->path(), public_path($pathym), $imageName, 70);
+                    }
+                }
             }
         }
 
@@ -117,6 +136,7 @@ class OfficeController extends Controller
             'mulai' => ['required', 'date'],
             'selesai' => ['required', 'date', 'after:mulai'],
             'keterangan' => ['nullable', 'string'],
+            'foto' => 'required|image|max:5120',
         ]);
 
         if ($validator->fails()) {
@@ -143,16 +163,34 @@ class OfficeController extends Controller
                 ->first();
 
             if ($brandivjab) {
-                MitraPermintaanIzin::create([
-                    'branch_id' => $brandivjab->branch_id,
-                    'mitra_id' => $data['mitra_id'],
-                    'jenis_izin_pegawai_id' => $data['jenis_id'],
-                    'tanggal_mulai' => Carbon::parse($data['mulai'])->setTimezone(config('app.timezone'))->format('Y-m-d H:i:s'),
-                    'tanggal_selesai' => Carbon::parse($data['selesai'])->setTimezone(config('app.timezone'))->format('Y-m-d H:i:s'),
-                    'keterangan' => $data['keterangan'],
-                    'created_by' => $pegawai->email,
-                    'updated_by' => $pegawai->email,
-                ]);
+                $hasFile = $request->hasFile('foto');
+
+                if ($hasFile) {
+                    $image = $request->file('foto');
+
+                    $lokasi = $this->GetLokasiIzinUpload();
+                    $pathym = $lokasi['path'] . '/' . $lokasi['ym'];
+                    $imageName = $pegawai->id . '_' . $image->hashName();
+                    $path = $pathym . '/' . $imageName;
+
+                    MitraPermintaanIzin::create([
+                        'branch_id' => $brandivjab->branch_id,
+                        'mitra_id' => $data['mitra_id'],
+                        'jenis_izin_pegawai_id' => $data['jenis_id'],
+                        'tanggal_mulai' => Carbon::parse($data['mulai'])->setTimezone(config('app.timezone'))->format('Y-m-d H:i:s'),
+                        'tanggal_selesai' => Carbon::parse($data['selesai'])->setTimezone(config('app.timezone'))->format('Y-m-d H:i:s'),
+                        'keterangan' => $data['keterangan'],
+                        'image_lokasi' => $pathym,
+                        'image_nama' => $imageName,
+                        'image_type' => 'image/jpeg',
+                        'created_by' => $pegawai->email,
+                        'updated_by' => $pegawai->email,
+                    ]);
+
+                    if (!is_null($image)) {
+                        $dest = $this->compress_image($image, $image->path(), public_path($pathym), $imageName, 70);
+                    }
+                }
             }
         }
 
@@ -161,5 +199,83 @@ class OfficeController extends Controller
         return response()->json([
             'status' => 'success',
         ]);
+    }
+
+    public function GetLokasiIzinUpload()
+    {
+        $path = 'storage/uploads/cabang/formizin';
+        $ym = date('Ym');
+        $dir = $path . '/' . $ym;
+        $is_dir = is_dir($dir);
+
+        if (!$is_dir) {
+            mkdir($dir, 0755);
+        }
+
+        return ['path' => $path, 'ym' => $ym];
+    }
+
+    public function compress_image($image, $src, $dest, $filename, $quality)
+    {
+        $info = getimagesize($src);
+        $targetWidth = 360; // 540, 720
+        $targetHeight = 640; // 960, 1280
+
+        if ($info['mime'] == 'image/jpeg' || $info['mime'] == 'image/jpg') {
+            $image = imagecreatefromjpeg($src);
+
+            $srcWidth = imagesx($image);
+            $srcHeight = imagesy($image);
+
+            $srcRatio = $srcWidth / $srcHeight;
+            $targetRatio = $targetWidth / $targetHeight;
+
+            if ($srcRatio > $targetRatio) {
+                // crop kiri kanan
+                $newHeight = $srcHeight;
+                $newWidth = $srcHeight * $targetRatio;
+                $srcX = ($srcWidth - $newWidth) / 2;
+                $srcY = 0;
+            } else {
+                // crop atas bawah
+                $newWidth = $srcWidth;
+                $newHeight = $srcWidth / $targetRatio;
+                $srcX = 0;
+                $srcY = ($srcHeight - $newHeight) / 2;
+            }
+
+            $newImage = imagecreatetruecolor($targetWidth, $targetHeight);
+            imagecopyresampled(
+                $newImage,
+                $image,
+                0,
+                0,
+                $srcX,
+                $srcY,
+                $targetWidth,
+                $targetHeight,
+                $newWidth,
+                $newHeight
+            );
+
+            $pathfile = $dest . '/' . $filename;
+            imagejpeg($newImage, $pathfile, $quality);
+        } elseif ($info['mime'] == 'image/gif') {
+            $image->storeAs($dest, $image->hashName());
+            // $image = imagecreatefromgif($src);
+            // imagejpeg($image, $dest, $quality);
+        } elseif ($info['mime'] == 'image/png') {
+            $image->storeAs($dest, $image->hashName());
+            // $image = imagecreatefrompng($src);
+            // imagepng($image, $dest, 5);
+        } else {
+            die('Unknown image file format');
+        }
+
+        //compress and save file to jpg
+        //usage
+        // $compressed = compress_image('boy.jpg', 'destination.jpg', 70);
+        //return destination file
+        return $dest;
     }
 }

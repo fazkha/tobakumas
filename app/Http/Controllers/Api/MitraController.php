@@ -10,7 +10,6 @@ use App\Models\MitraKasbon;
 use App\Models\MitraKritikSaran;
 use App\Models\MitraOmzetPengeluaran;
 use App\Models\MitraOmzetPengeluaranDetail;
-use App\Models\MitraPengumuman;
 use App\Models\MitraTargetBonus;
 use App\Models\Profile;
 use App\Models\RuteGerobak;

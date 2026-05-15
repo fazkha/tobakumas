@@ -29,7 +29,6 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\File;
-use Intervention\Image\Laravel\Facades\Image;
 
 class CabangController extends Controller
 {

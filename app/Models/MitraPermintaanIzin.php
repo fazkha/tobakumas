@@ -17,6 +17,9 @@ class MitraPermintaanIzin extends Model
         'tanggal_selesai',
         'keterangan',
         'approved_hrd',
+        'image_lokasi',
+        'image_nama',
+        'image_type',
         'created_by',
         'updated_by',
     ];
