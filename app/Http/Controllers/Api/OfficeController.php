@@ -59,7 +59,7 @@ class OfficeController extends Controller
             'mulai' => ['required', 'date'],
             'selesai' => ['required', 'date', 'after:mulai'],
             'keterangan' => ['nullable', 'string'],
-            'foto' => 'required|image|max:5120',
+            'foto' => ['nullable', 'image', 'max:5120'],
         ]);
 
         if ($validator->fails()) {
@@ -136,7 +136,7 @@ class OfficeController extends Controller
             'mulai' => ['required', 'date'],
             'selesai' => ['required', 'date', 'after:mulai'],
             'keterangan' => ['nullable', 'string'],
-            'foto' => 'required|image|max:5120',
+            'foto' => ['nullable', 'image', 'max:5120'],
         ]);
 
         if ($validator->fails()) {
