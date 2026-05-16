@@ -1090,15 +1090,23 @@ class MitraController extends Controller
             ->where('minggu', $yearWeek)
             ->first();
 
-        if ($mitraAverageOmzet) {
-            $target = MitraTargetBonus::where('id', $data['target_id'])->first();
+        $target = MitraTargetBonus::where('id', $data['target_id'])->first();
 
-            if ($target) {
-                $target_akum_omzet = $target->target * 6;
-                $target_omzet_phari = $target->target;
+        if ($target) {
+            $target_akum_omzet = $target->target * 6;
+            $target_omzet_phari = $target->target;
 
+            if ($mitraAverageOmzet) {
                 $mitraAverageOmzet->update([
                     'target_id' => $data['target_id'],
+                    'target_akum_omzet' => $target_akum_omzet,
+                    'target_omzet_phari' => $target_omzet_phari,
+                ]);
+            } else {
+                $mitraAverageOmzet = MitraTargetBonus::create([
+                    'user_id' => $data['user_id'],
+                    'target_id' => $data['target_id'],
+                    'minggu' => $yearWeek,
                     'target_akum_omzet' => $target_akum_omzet,
                     'target_omzet_phari' => $target_omzet_phari,
                 ]);
