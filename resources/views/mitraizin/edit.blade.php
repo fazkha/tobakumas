@@ -58,9 +58,7 @@
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.izin')</span>
                                         <x-text-span>{{ $datas->jenis_nama }}</x-text-span>
                                     </div>
-                                </div>
 
-                                <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
                                     <div class="w-auto pb-4">
                                         <div class="flex flex-row flex-wrap items-center gap-2">
                                             <div>
@@ -79,7 +77,9 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
 
+                                <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
                                     <div class="w-auto pb-4 lg:pb-12">
                                         <x-text-span>
                                             <div class="flex justify-center">
