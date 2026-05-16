@@ -7,6 +7,7 @@ use App\Models\Brandivjab;
 use App\Models\Brandivjabmit;
 use App\Models\Brandivjabpeg;
 use App\Models\JenisIzinPegawai;
+use App\Models\KalenderHke;
 use App\Models\MitraPermintaanIzin;
 use App\Models\PcIzin;
 use App\Models\Pegawai;
@@ -33,6 +34,22 @@ class OfficeController extends Controller
 
         DB::purge('mysql');
         DB::reconnect('mysql');
+    }
+
+    public function getHke(Request $request)
+    {
+        $this->db_switch(2);
+
+        $tanggal = Carbon::today()->format('Y-m-d');
+        $kalendar = KalenderHke::where('tanggal', $tanggal)->first();
+        $hke = $kalendar ? $kalendar->hke : null;
+
+        $this->db_switch(1);
+
+        return [
+            'status' => 'success',
+            'hke' => $hke,
+        ];
     }
 
     public function getJenisIzinPegawai(Request $request)
