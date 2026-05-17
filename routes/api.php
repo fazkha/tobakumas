@@ -68,6 +68,8 @@ Route::prefix('cabang')->group(function () {
     Route::post('save-pengeluaran', [CabangController::class, 'savePengeluaran']);
     Route::delete('hapus-pengeluaran', [CabangController::class, 'hapusPengeluaran']);
     Route::post('load-pengeluaranbulanan', [CabangController::class, 'loadPengeluaranBulanan']);
+    Route::post('load-image-pengeluaran', [CabangController::class, 'loadImagePengeluaran']);
+    Route::post('upload-image-pengeluaran', [CabangController::class, 'uploadImagePengeluaran']);
     Route::get('get-jenis-pengeluaran-list', [CabangController::class, 'getJenisPengeluaranList']);
     Route::get('get-cabang-list', [CabangController::class, 'getCabangList']);
     Route::get('get-cabang-jabatan-list/{id}', [CabangController::class, 'getCabangJabatanList']);
@@ -75,8 +77,6 @@ Route::prefix('cabang')->group(function () {
     Route::get('get-mitra-by-pc/{id}', [CabangController::class, 'getMitraByPc']);
     Route::get('get-barang-toko/{id}', [CabangController::class, 'getBarangToko']);
     Route::get('get-gerobak-by-pc/{pc_id}/{branch_id}', [CabangController::class, 'getGerobakByPc']);
-    Route::post('load-image-pengeluaran', [CabangController::class, 'loadImagePengeluaran']);
-    Route::post('upload-image-pengeluaran', [CabangController::class, 'uploadImagePengeluaran']);
     Route::post('upload-bukti-transfer-sisa-kas', [CabangController::class, 'uploadBuktiTransferSisaKas']);
     Route::post('load-pettycash-remaining', [CabangController::class, 'loadPettyCashRemaining']);
     Route::post('save-pengembalian-sisa-kas', [CabangController::class, 'saveReturPettyCash']);
