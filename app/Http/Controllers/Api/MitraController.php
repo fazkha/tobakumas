@@ -14,6 +14,7 @@ use App\Models\MitraTargetBonus;
 use App\Models\PcPettyCash;
 use App\Models\Profile;
 use App\Models\RuteGerobak;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Config;
@@ -1187,6 +1188,7 @@ class MitraController extends Controller
         $omzet = null;
         $biaya = null;
 
+        $pc_user = User::find($data['pc_id']);
         $approve = MitraOmzetPengeluaranDetail::where('id', $data['id'])->first();
 
         if ($approve) {
@@ -1199,6 +1201,7 @@ class MitraController extends Controller
             if ($pettyCash) {
                 $pettyCash->update([
                     'nominal' => ($approve->harga ? $approve->harga : 0) * ($approve->jumlah ? $approve->jumlah : 0),
+                    'updated_by' => $pc_user->email,
                 ]);
             } else {
                 $dropping = PcPettyCash::join('branches', 'pc_petty_cashes.branch_id', '=', 'branches.id')
@@ -1223,8 +1226,8 @@ class MitraController extends Controller
                         'flowtype' => 2,
                         'approved_ma' => 1,
                         'approved_fin' => 1,
-                        'created_by' => $dropping->created_by,
-                        'updated_by' => $dropping->updated_by,
+                        'created_by' => $pc_user->email,
+                        'updated_by' => $pc_user->email,
                     ]);
                 }
             }
