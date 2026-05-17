@@ -15,6 +15,7 @@ class PcBiaya extends Model
         'tanggal',
         'jenis_pengeluaran_cabang_id',
         'harga',
+        'jumlah',
         'image_lokasi',
         'image_nama',
         'image_type',

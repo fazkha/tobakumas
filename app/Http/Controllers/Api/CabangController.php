@@ -840,6 +840,7 @@ class CabangController extends Controller
             'cabang' => ['nullable'],
             'keterangan' => ['nullable'],
             'harga' => ['nullable'],
+            'jumlah' => ['nullable'],
         ]);
 
         if ($validator->fails()) {
@@ -966,7 +967,8 @@ class CabangController extends Controller
                     'user_id' => $data['id'],
                     'tanggal' => $data['tanggal'],
                     'jenis_pengeluaran_cabang_id' => $jenis->id,
-                    'harga' => $data['harga'] ?? null,
+                    'harga' => $data['harga'] ?? 0,
+                    'jumlah' => $data['jumlah'] ?? 1,
                 ]);
             }
         }
@@ -975,7 +977,7 @@ class CabangController extends Controller
             ->join('branches', 'branches.id', '=', 'pc_pengeluarans.branch_id')
             ->where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
-            ->selectRaw('pc_pengeluarans.id, pc_pengeluarans.branch_id, jenis_pengeluaran_cabangs.nama as keterangan, FORMAT(pc_pengeluarans.harga, 1) AS harga, pc_pengeluarans.approved, pc_pengeluarans.approved_fin, pc_pengeluarans.image_nama, branches.kode as kode_cabang')
+            ->selectRaw('pc_pengeluarans.id, pc_pengeluarans.branch_id, jenis_pengeluaran_cabangs.nama as keterangan, pc_pengeluarans.harga AS harga, pc_pengeluarans.jumlah AS jumlah, pc_pengeluarans.approved, pc_pengeluarans.approved_fin, pc_pengeluarans.image_nama, branches.kode as kode_cabang')
             ->orderBy('branches.kode')
             ->orderBy('jenis_pengeluaran_cabangs.nama')
             ->get();
