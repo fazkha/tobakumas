@@ -75,7 +75,7 @@ class PcbiayaController extends Controller implements HasMiddleware
                 'b1.id as branch_id',
                 'b1.nama as branch_nama',
                 'u1.name as pc_nama',
-                DB::raw('SUM(p1.harga * p1.jumlah) as total_biaya'),
+                DB::raw('CAST(SUM(p1.harga * p1.jumlah) AS UNSIGNED) as total_biaya'),
                 DB::raw('COUNT(p1.id) as c1'),
                 DB::raw('SUM(p1.approved_fin) as c2')
             );
@@ -138,7 +138,7 @@ class PcbiayaController extends Controller implements HasMiddleware
                 'b1.id as branch_id',
                 'b1.nama as branch_nama',
                 'u1.name as pc_nama',
-                DB::raw('SUM(p1.harga * p1.jumlah) as total_biaya'),
+                DB::raw('CAST(SUM(p1.harga * p1.jumlah) AS UNSIGNED) as total_biaya'),
                 DB::raw('COUNT(p1.id) as c1'),
                 DB::raw('SUM(p1.approved_fin) as c2')
             );
