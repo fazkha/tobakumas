@@ -1219,6 +1219,7 @@ class MitraController extends Controller
                         'tanggal' => $data['tanggal'],
                         'nominal' => ($approve->harga ? $approve->harga : 0) * ($approve->jumlah ? $approve->jumlah : 0),
                         'dropping_id' => $dropping->id,
+                        'mitra_op_detail_id' => $approve->id,
                         'flowtype' => 2,
                         'approved_ma' => 1,
                         'approved_fin' => 1,
