@@ -1199,8 +1199,12 @@ class MitraController extends Controller
             $pettyCash = PcPettyCash::where('mitra_op_detail_id', $approve->id)->first();
 
             if ($pettyCash) {
+                $nominal = 0;
+                if ($approve->approved == 1) {
+                    $nominal = ($approve->harga ? $approve->harga : 0) * ($approve->jumlah ? $approve->jumlah : 0);
+                }
                 $pettyCash->update([
-                    'nominal' => ($approve->harga ? $approve->harga : 0) * ($approve->jumlah ? $approve->jumlah : 0),
+                    'nominal' => $nominal,
                     'updated_by' => $pc_user->email,
                 ]);
             } else {
