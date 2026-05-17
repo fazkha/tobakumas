@@ -14,6 +14,7 @@ class PcPettyCash extends Model
         'user_id',
         'dropping_id',
         'pc_pengeluaran_id',
+        'mitra_op_detail_id',
         'tanggal',
         'nominal',
         'flowtype',
