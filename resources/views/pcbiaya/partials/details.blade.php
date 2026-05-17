@@ -9,6 +9,9 @@
                 <x-text-span>{{ $detail->jenis_nama }}</x-text-span>
             </td>
             <td class="align-middle text-right">
+                <x-text-span>{{ $detail->jumlah }}</x-text-span>
+            </td>
+            <td class="align-middle text-right">
                 <x-text-span>{{ $detail->harga }}</x-text-span>
             </td>
             <td class="align-middle">
