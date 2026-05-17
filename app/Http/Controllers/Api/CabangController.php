@@ -536,6 +536,7 @@ class CabangController extends Controller
         $total = 0.0;
         $sisakas = collect();
         $bukti = NULL;
+        // flowtype = 1 (dropping), 2 (uses), 3 (return)
 
         $brandivjabpeg = Brandivjabpeg::join('pegawais', 'brandivjabpegs.pegawai_id', '=', 'pegawais.id')
             ->join('users', 'pegawais.email', '=', 'users.email')
@@ -706,6 +707,7 @@ class CabangController extends Controller
 
         $data = $validator->validated();
         $bukti = NULL;
+        // flowtype = 1 (dropping), 2 (uses), 3 (return)
 
         $cabangpc = Brandivjabpeg::join('pegawais', 'brandivjabpegs.pegawai_id', '=', 'pegawais.id')
             ->join('users', 'pegawais.email', '=', 'users.email')

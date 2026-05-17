@@ -11,6 +11,7 @@ use App\Models\MitraKritikSaran;
 use App\Models\MitraOmzetPengeluaran;
 use App\Models\MitraOmzetPengeluaranDetail;
 use App\Models\MitraTargetBonus;
+use App\Models\PcPettyCash;
 use App\Models\Profile;
 use App\Models\RuteGerobak;
 use Illuminate\Http\Request;
@@ -1192,6 +1193,40 @@ class MitraController extends Controller
             $approve->update([
                 'approved' => $approve->approved == 1 ? 0 : 1,
             ]);
+
+            $pettyCash = PcPettyCash::where('mitra_op_detail_id', $approve->id)->first();
+
+            if ($pettyCash) {
+                $pettyCash->update([
+                    'nominal' => ($approve->harga ? $approve->harga : 0) * ($approve->jumlah ? $approve->jumlah : 0),
+                ]);
+            } else {
+                $dropping = PcPettyCash::join('branches', 'pc_petty_cashes.branch_id', '=', 'branches.id')
+                    ->where('pc_petty_cashes.user_id', $data['pc_id'])
+                    ->where('pc_petty_cashes.branch_id', $approve->omzet->branch_id)
+                    ->where('pc_petty_cashes.flowtype', 1)
+                    ->where('pc_petty_cashes.approved_ma', 1)
+                    ->where('pc_petty_cashes.approved_fin', 1)
+                    ->select('pc_petty_cashes.*', 'branches.nama as nama_cabang')
+                    ->latest()
+                    ->first();
+
+                if ($dropping) {
+                    // flowtype = 1 dropping, 2 out, 3 = return
+                    $pettyCash = PcPettyCash::create([
+                        'branch_id' => $approve->omzet->branch_id,
+                        'user_id' => $data['pc_id'],
+                        'tanggal' => $data['tanggal'],
+                        'nominal' => ($approve->harga ? $approve->harga : 0) * ($approve->jumlah ? $approve->jumlah : 0),
+                        'dropping_id' => $dropping->id,
+                        'flowtype' => 2,
+                        'approved_ma' => 1,
+                        'approved_fin' => 1,
+                        'created_by' => $dropping->created_by,
+                        'updated_by' => $dropping->updated_by,
+                    ]);
+                }
+            }
 
             $omzet = DB::select("CALL sp_omzetharianpc(?,?)", [$data['pc_id'], $data['tanggal']]);
             $biaya = DB::select("CALL sp_mitra_pengeluaran_harian(?,?)", [$data['pc_id'], $data['tanggal']]);
