@@ -205,9 +205,11 @@ class PcizinController extends Controller implements HasMiddleware
 
         if ($pcizin) {
             $namapegawai = $pcizin->pegawai->nama_lengkap;
+            $penanganan = $request->input('penanganan');
             $status = $request->input('status');
 
             $pcizin->update([
+                'penanganan' => $penanganan,
                 'approved_hrd' => $status,
             ]);
 

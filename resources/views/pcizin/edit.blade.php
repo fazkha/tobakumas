@@ -59,7 +59,7 @@
                                         <x-text-span>{{ $datas->jenis_nama }}</x-text-span>
                                     </div>
 
-                                    <div class="w-auto pb-4 lg:pb-12">
+                                    <div class="w-auto pb-4">
                                         <div class="flex flex-row flex-wrap items-center gap-2">
                                             <div>
                                                 <span for="tanggal_mulai"
@@ -76,6 +76,23 @@
                                                     class="text-bold">{{ $datas->tanggal_selesai->translatedFormat('H:i') }}</x-text-span>
                                             </div>
                                         </div>
+                                    </div>
+
+                                    <div class="w-auto pb-4">
+                                        <span for="keterangan"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</span>
+                                        <x-text-span>{{ $datas->keterangan }}</x-text-span>
+                                    </div>
+
+                                    <div class="w-auto pb-4">
+                                        <label for="penanganan"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.handling')</label>
+                                        <x-textarea-input name="penanganan" id="penanganan" tabindex="1"
+                                            rows="7" maxlength="200"
+                                            placeholder="{{ __('messages.enter') }} {{ __('messages.handling') }}">{{ old('penanganan', $datas->penanganan) }}
+                                        </x-textarea-input>
+
+                                        <x-input-error class="mt-2" :messages="$errors->get('penanganan')" />
                                     </div>
                                 </div>
 
