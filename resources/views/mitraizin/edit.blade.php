@@ -89,7 +89,7 @@
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.handling')
                                             (@lang('messages.thousands') @lang('messages.currencysymbol'))</label>
                                         <x-text-input type="text" name="penanganan" id="penanganan" tabindex="1"
-                                            value="{{ $datas->penanganan) }}" />
+                                            value="{{ $datas->penanganan }}" />
 
                                         <x-input-error class="mt-2" :messages="$errors->get('penanganan')" />
                                     </div>
