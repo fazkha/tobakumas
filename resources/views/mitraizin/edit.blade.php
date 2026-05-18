@@ -77,6 +77,18 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="w-auto pb-4">
+                                        <span for="keterangan"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</span>
+                                        <x-text-span>{{ $datas->keterangan }}</x-text-span>
+                                    </div>
+
+                                    <div class="w-auto pb-4">
+                                        <span for="penanganan"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.handling')</span>
+                                        <x-text-span>{{ $datas->penanganan }}</x-text-span>
+                                    </div>
                                 </div>
 
                                 <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">

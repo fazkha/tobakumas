@@ -47,6 +47,7 @@ return [
     'unitpricesell' => 'Selling Unit Price',
     'choose' => 'Choose',
     'description' => 'Description',
+    'handling' => 'Handling',
     'picture' => 'Picture',
     'active' => 'Active',
     'relocate' => 'Relocate',

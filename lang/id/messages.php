@@ -47,6 +47,7 @@ return [
     'unitpricesell' => 'Harga Jual Satuan',
     'choose' => 'Pilih',
     'description' => 'Keterangan',
+    'handling' => 'Penanganan',
     'picture' => 'Gambar',
     'active' => 'Aktif',
     'relocate' => 'Pindah',
