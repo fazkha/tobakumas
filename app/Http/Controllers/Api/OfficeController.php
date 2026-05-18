@@ -76,6 +76,7 @@ class OfficeController extends Controller
             'mulai' => ['required', 'date'],
             'selesai' => ['required', 'date', 'after:mulai'],
             'keterangan' => ['nullable', 'string'],
+            'penanganan' => ['nullable', 'string'],
             'foto' => ['nullable', 'image', 'max:5120'],
         ]);
 
@@ -121,6 +122,7 @@ class OfficeController extends Controller
                         'tanggal_mulai' => Carbon::parse($data['mulai'])->setTimezone(config('app.timezone'))->format('Y-m-d H:i:s'),
                         'tanggal_selesai' => Carbon::parse($data['selesai'])->setTimezone(config('app.timezone'))->format('Y-m-d H:i:s'),
                         'keterangan' => $data['keterangan'],
+                        'penanganan' => $data['penanganan'],
                         'image_lokasi' => $pathym,
                         'image_nama' => $imageName,
                         'image_type' => 'image/jpeg',
@@ -139,6 +141,7 @@ class OfficeController extends Controller
                         'tanggal_mulai' => Carbon::parse($data['mulai'])->setTimezone(config('app.timezone'))->format('Y-m-d H:i:s'),
                         'tanggal_selesai' => Carbon::parse($data['selesai'])->setTimezone(config('app.timezone'))->format('Y-m-d H:i:s'),
                         'keterangan' => $data['keterangan'],
+                        'penanganan' => $data['penanganan'],
                         'created_by' => $user->email,
                         'updated_by' => $user->email,
                     ]);
@@ -164,6 +167,7 @@ class OfficeController extends Controller
             'mulai' => ['required', 'date'],
             'selesai' => ['required', 'date', 'after:mulai'],
             'keterangan' => ['nullable', 'string'],
+            'penanganan' => ['nullable', 'string'],
             'foto' => ['nullable', 'image', 'max:5120'],
         ]);
 
@@ -208,6 +212,7 @@ class OfficeController extends Controller
                         'tanggal_mulai' => Carbon::parse($data['mulai'])->setTimezone(config('app.timezone'))->format('Y-m-d H:i:s'),
                         'tanggal_selesai' => Carbon::parse($data['selesai'])->setTimezone(config('app.timezone'))->format('Y-m-d H:i:s'),
                         'keterangan' => $data['keterangan'],
+                        'penanganan' => $data['penanganan'],
                         'image_lokasi' => $pathym,
                         'image_nama' => $imageName,
                         'image_type' => 'image/jpeg',
@@ -226,6 +231,7 @@ class OfficeController extends Controller
                         'tanggal_mulai' => Carbon::parse($data['mulai'])->setTimezone(config('app.timezone'))->format('Y-m-d H:i:s'),
                         'tanggal_selesai' => Carbon::parse($data['selesai'])->setTimezone(config('app.timezone'))->format('Y-m-d H:i:s'),
                         'keterangan' => $data['keterangan'],
+                        'penanganan' => $data['penanganan'],
                         'created_by' => $pegawai->email,
                         'updated_by' => $pegawai->email,
                     ]);
