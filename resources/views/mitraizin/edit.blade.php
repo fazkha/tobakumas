@@ -89,7 +89,7 @@
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.handling')</label>
                                         <x-textarea-input name="penanganan" id="penanganan" tabindex="1"
                                             rows="7" maxlength="200"
-                                            placeholder="{{ __('messages.enter') }} {{ __('messages.handling') }}">{{ old('penanganan', $datas->penanganan) }}</x-textarea-input>
+                                            placeholder="{{ __('messages.enter') }} {{ __('messages.handling') }}">{{ old('penanganan', $datas->penanganan) }}
                                         </x-textarea-input>
 
                                         <x-input-error class="mt-2" :messages="$errors->get('penanganan')" />
