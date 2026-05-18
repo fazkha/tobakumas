@@ -11,6 +11,7 @@ use App\Models\KalenderHke;
 use App\Models\MitraPermintaanIzin;
 use App\Models\PcIzin;
 use App\Models\Pegawai;
+use App\Models\Resign;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
@@ -243,6 +244,91 @@ class OfficeController extends Controller
 
         return response()->json([
             'status' => 'success',
+        ]);
+    }
+
+    public function loadPendingResign(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = Validator::make($request->all(), [
+            'user_id' => ['required', 'integer', 'exists:users,id'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+
+        $pending = DB::select("CALL sp_pending_resign(?)", [$data['user_id']]);
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'pending' => $pending,
+        ]);
+    }
+
+    public function saveResign(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = Validator::make($request->all(), [
+            'user_id' => ['required', 'integer', 'exists:users,id'],
+            'tanggal' => ['required', 'date'],
+            'keterangan' => ['nullable', 'string'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+
+        $user = User::where('id', $data['user_id'])->select('email')->first();
+
+        $resign = Resign::where('user_id', $data['user_id'])
+            ->where('approved_hrd', 0)
+            ->first();
+
+        if ($resign) {
+            $resign->update([
+                'tanggal' => $data['tanggal'],
+                'keterangan' => $data['keterangan'],
+            ]);
+        } else {
+            $resign = Resign::create([
+                'user_id' => $data['user_id'],
+                'tanggal' => $data['tanggal'],
+                'keterangan' => $data['keterangan'],
+            ]);
+        }
+
+        $pending = DB::select("CALL sp_pending_resign(?)", [$data['user_id']]);
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'pending' => $pending,
         ]);
     }
 
