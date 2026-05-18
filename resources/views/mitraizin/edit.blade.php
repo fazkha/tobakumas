@@ -85,9 +85,13 @@
                                     </div>
 
                                     <div class="w-auto pb-4">
-                                        <span for="penanganan"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.handling')</span>
-                                        <x-text-span>{{ $datas->penanganan }}</x-text-span>
+                                        <label for="penanganan"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.handling')
+                                            (@lang('messages.thousands') @lang('messages.currencysymbol'))</label>
+                                        <x-text-input type="text" name="penanganan" id="penanganan" tabindex="3"
+                                            value="{{ old('penanganan', $data->penanganan) }}" />
+
+                                        <x-input-error class="mt-2" :messages="$errors->get('penanganan')" />
                                     </div>
                                 </div>
 
