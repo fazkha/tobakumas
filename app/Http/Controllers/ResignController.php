@@ -82,6 +82,9 @@ class ResignController extends Controller implements HasMiddleware
                     $datas = $datas->where('resigns.approved_hrd', 0);
                 }
             } else if ($search_arr[$i] == 'resign_branch_id' || $search_arr[$i] == 'resign_user_id') {
+                if ($search_arr[$i] == 'resign_user_id') {
+                    $field = 'resigns.user_id';
+                }
                 if (session($search_arr[$i]) != 'all') {
                     $datas = $datas->where([$field => session($search_arr[$i])]);
                 }
@@ -140,6 +143,9 @@ class ResignController extends Controller implements HasMiddleware
                     $datas = $datas->where('resigns.approved_hrd', 0);
                 }
             } else if ($search_arr[$i] == 'resign_branch_id' || $search_arr[$i] == 'resign_user_id') {
+                if ($search_arr[$i] == 'resign_user_id') {
+                    $field = 'resigns.user_id';
+                }
                 if (session($search_arr[$i]) != 'all') {
                     $datas = $datas->where([$field => session($search_arr[$i])]);
                 }
