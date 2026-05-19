@@ -485,7 +485,7 @@ class CabangController extends Controller
 
         $this->db_switch(1);
 
-        if ($data['grup'] = 1) {
+        if ($data['grup'] == 1) {
             $detail = SaleOrderDetail::where('id', $data['order_id'])->first();
         } else {
             $detail = SaleOrderMitra::where('id', $data['order_id'])->first();
@@ -1030,7 +1030,7 @@ class CabangController extends Controller
                 ->where('jenis_pengeluaran_cabang_id', $jenis->id)
                 ->first();
 
-            if ($pengeluaran) {
+            if ($pengeluaran && $pengeluaran->approved_fin == 0) {
                 $deleteName = $pengeluaran->image_nama ? $pengeluaran->image_nama : NULL;
                 $deletePath = $pengeluaran->image_lokasi ? $pengeluaran->image_lokasi : NULL;
                 $harga = $pengeluaran->harga ? $pengeluaran->harga : 0;
