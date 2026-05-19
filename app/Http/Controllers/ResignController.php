@@ -72,7 +72,6 @@ class ResignController extends Controller implements HasMiddleware
         $datas = Resign::join('users', 'users.id', '=', 'resigns.user_id')
             ->join('profiles', 'profiles.user_id', '=', 'users.id')
             ->join('branches', 'branches.id', '=', 'profiles.branch_id')
-            ->join('users', 'users.id', '=', 'resigns.user_id')
             ->select('resigns.*', 'branches.id as branch_id', 'branches.nama as branch_nama', 'users.name as user_nama');
 
         for ($i = 0; $i < count($search_arr); $i++) {
@@ -131,7 +130,6 @@ class ResignController extends Controller implements HasMiddleware
         $datas = Resign::join('users', 'users.id', '=', 'resigns.user_id')
             ->join('profiles', 'profiles.user_id', '=', 'users.id')
             ->join('branches', 'branches.id', '=', 'profiles.branch_id')
-            ->join('users', 'users.id', '=', 'resigns.user_id')
             ->select('resigns.*', 'branches.id as branch_id', 'branches.nama as branch_nama', 'users.name as user_nama');
 
         for ($i = 0; $i < count($search_arr); $i++) {
@@ -191,7 +189,6 @@ class ResignController extends Controller implements HasMiddleware
         $datas = Resign::join('users', 'users.id', '=', 'resigns.user_id')
             ->join('profiles', 'profiles.user_id', '=', 'users.id')
             ->join('branches', 'branches.id', '=', 'profiles.branch_id')
-            ->join('users', 'users.id', '=', 'resigns.user_id')
             ->select('resigns.*', 'branches.id as branch_id', 'branches.nama as branch_nama', 'users.name as user_nama')
             ->where('resigns.id', Crypt::decrypt($request->resign))
             ->first();
