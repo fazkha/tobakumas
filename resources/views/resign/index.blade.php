@@ -48,13 +48,13 @@
 
     @push('scripts')
         <script type="text/javascript">
-            $("#pp-dropdown, #show-dropdown, #branch-dropdown, #pegawai-dropdown, #search-tanggal").on(
+            $("#pp-dropdown, #show-dropdown, #branch-dropdown, #user-dropdown, #search-tanggal").on(
                 "change keyup paste",
                 function() {
                     var xpp = $('#pp-dropdown option:selected').val();
                     var xshow = $('#show-dropdown option:selected').val();
                     var xbr = $('#branch-dropdown option:selected').val();
-                    var xpg = $('#pegawai-dropdown option:selected').val();
+                    var xpg = $('#user-dropdown option:selected').val();
                     var xtanggal = $('#search-tanggal').val();
                     if (!xtanggal.trim()) {
                         xtanggal = '_';

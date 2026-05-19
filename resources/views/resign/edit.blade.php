@@ -60,31 +60,14 @@
                                     <div class="w-auto pb-4">
                                         <span for="mitra_id"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.employee')</span>
-                                        <x-text-span>{{ $datas->pc_nama }}</x-text-span>
+                                        <x-text-span>{{ $datas->user_nama }}</x-text-span>
                                     </div>
 
                                     <div class="w-auto pb-4">
-                                        <span for="jenis_id"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.izin')</span>
-                                        <x-text-span>{{ $datas->jenis_nama }}</x-text-span>
-                                    </div>
-
-                                    <div class="w-auto pb-4">
-                                        <div class="flex flex-row flex-wrap items-center gap-2">
-                                            <div>
-                                                <span for="tanggal_mulai"
-                                                    class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.startdate')</span>
-                                                <x-text-span>{{ $datas->tanggal_mulai->translatedFormat('l, d F Y') }}</x-text-span>
-                                                <x-text-span
-                                                    class="text-bold">{{ $datas->tanggal_mulai->translatedFormat('H:i') }}</x-text-span>
-                                            </div>
-                                            <div>
-                                                <span for="tanggal_selesai"
-                                                    class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.enddate')</span>
-                                                <x-text-span>{{ $datas->tanggal_selesai->translatedFormat('l, d F Y') }}</x-text-span>
-                                                <x-text-span
-                                                    class="text-bold">{{ $datas->tanggal_selesai->translatedFormat('H:i') }}</x-text-span>
-                                            </div>
+                                        <div>
+                                            <span for="tanggal_mulai"
+                                                class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.date')</span>
+                                            <x-text-span>{{ \Carbon\Carbon::parse($datas->tanggal)->translatedFormat('l, d F Y') }}</x-text-span>
                                         </div>
                                     </div>
 
@@ -94,27 +77,18 @@
                                         <x-text-span>{{ $datas->keterangan }}</x-text-span>
                                     </div>
 
-                                    <div class="w-auto pb-4">
-                                        <label for="penanganan"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.handling')</label>
-                                        <x-textarea-input name="penanganan" id="penanganan" tabindex="1"
-                                            rows="7" maxlength="200"
-                                            placeholder="{{ __('messages.enter') }} {{ __('messages.handling') }}">{{ old('penanganan', $datas->penanganan) }}
-                                        </x-textarea-input>
-
-                                        <x-input-error class="mt-2" :messages="$errors->get('penanganan')" />
-                                    </div>
                                 </div>
 
                                 <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
                                     <div class="w-auto pb-4 lg:pb-12">
-                                        <x-text-span>
-                                            <div class="flex justify-center">
-                                                <img id="image-preview" class="w-full lg:w-3/5 h-auto border rounded-lg"
-                                                    @if ($datas->image_nama) src="{{ asset($datas->image_lokasi . '/' . $datas->image_nama) }}" @else src="{{ url('/') }}/images/0cd6be830e32f80192d496e50cfa9dbc.jpg" @endif
-                                                    alt="o.o" />
-                                            </div>
-                                        </x-text-span>
+                                        <label for="tanggapan_hrd"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.handling')</label>
+                                        <x-textarea-input name="tanggapan_hrd" id="tanggapan_hrd" tabindex="1"
+                                            rows="7" maxlength="250"
+                                            placeholder="{{ __('messages.enter') }} {{ __('messages.handling') }}">{{ old('tanggapan_hrd', $datas->tanggapan_hrd) }}
+                                        </x-textarea-input>
+
+                                        <x-input-error class="mt-2" :messages="$errors->get('tanggapan_hrd')" />
                                     </div>
 
                                     <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
@@ -143,9 +117,8 @@
                                             <span class="pl-1">@lang('messages.save')</span>
                                         </x-primary-button>
                                         <x-anchor-secondary href="{{ route('resign.index') }}" tabindex="3">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                class="size-5">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor" class="size-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M6 18 18 6M6 6l12 12" />
                                             </svg>

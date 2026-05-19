@@ -155,7 +155,7 @@ Route::prefix('human-resource')->middleware('auth')->group(function () {
 
     Route::resource('resign', ResignController::class);
     Route::get('resign/{resign}/delete', [ResignController::class, 'delete'])->name('resign.delete');
-    Route::get('resign/fetchdb/{pp}/{show}/{branch}/{pegawai}/{tanggal}', [ResignController::class, 'fetchdb'])->defaults('tanggal', '_');
+    Route::get('resign/fetchdb/{pp}/{show}/{branch}/{user}/{tanggal}', [ResignController::class, 'fetchdb'])->defaults('tanggal', '_');
 })->missing(function (Request $request) {
     return Redirect::route('dashboard');
 });
