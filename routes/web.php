@@ -34,6 +34,7 @@ use App\Http\Controllers\PurchaseReceiptController;
 use App\Http\Controllers\QRController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RecipeController;
+use App\Http\Controllers\ResignController;
 use App\Http\Controllers\SaleInvoiceController;
 use App\Http\Controllers\SaleOrderController;
 use App\Http\Controllers\SatuanController;
@@ -151,6 +152,10 @@ Route::prefix('human-resource')->middleware('auth')->group(function () {
     Route::resource('pcizin', PcizinController::class);
     Route::get('pcizin/{pcizin}/delete', [PcizinController::class, 'delete'])->name('pcizin.delete');
     Route::get('pcizin/fetchdb/{pp}/{show}/{branch}/{pegawai}/{tanggal}', [PcizinController::class, 'fetchdb'])->defaults('tanggal', '_');
+
+    Route::resource('resign', ResignController::class);
+    Route::get('resign/{resign}/delete', [ResignController::class, 'delete'])->name('resign.delete');
+    Route::get('resign/fetchdb/{pp}/{show}/{branch}/{pegawai}/{tanggal}', [ResignController::class, 'fetchdb'])->defaults('tanggal', '_');
 })->missing(function (Request $request) {
     return Redirect::route('dashboard');
 });

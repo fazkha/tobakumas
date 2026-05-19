@@ -398,11 +398,13 @@
                 </div>
             @endcan
 
-            @canany(['pegawai-list', 'pengumuman-list', 'kritiksaran-list', 'mitraizin-list', 'pcizin-list'])
+            @canany(['pegawai-list', 'pengumuman-list', 'kritiksaran-list', 'mitraizin-list', 'pcizin-list',
+                'resign-list'])
                 <div x-data="{{ substr(request()->getRequestUri(), 0, 24) == '/human-resource/employee' ||
                 substr(request()->getRequestUri(), 0, 28) == '/human-resource/announcement' ||
                 substr(request()->getRequestUri(), 0, 25) == '/human-resource/criticism' ||
                 substr(request()->getRequestUri(), 0, 22) == '/human-resource/pcizin' ||
+                substr(request()->getRequestUri(), 0, 22) == '/human-resource/resign' ||
                 substr(request()->getRequestUri(), 0, 25) == '/human-resource/mitraizin'
                     ? '{isActive: true, open: true}'
                     : '{isActive: false, open: false}' }}">
@@ -505,6 +507,34 @@
                                             transform="translate(-27)" />
                                     </svg>
                                     @lang('messages.pcizin')
+                                </span>
+                            </a>
+                        </div>
+                    @endcan
+                    @can('resign-list')
+                        <div x-show="open" class="mt-2 space-y-2 px-7" role="menu" arial-label="humanresource">
+                            <a href="{{ route('resign.index') }}" role="menuitem"
+                                class="block p-2 text-sm text-gray-500 transition-colors duration-200 rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary">
+                                <span class="flex flex-row gap-1">
+                                    <svg fill="currentColor" class="size-5" viewBox="0 0 24 24"
+                                        id="sign-out-double-arrow-left" data-name="Line Color"
+                                        xmlns="http://www.w3.org/2000/svg" class="icon line-color">
+                                        <polyline id="secondary" points="6 15 3 12 6 9"
+                                            style="fill: none; stroke: rgb(44, 169, 188); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;">
+                                        </polyline>
+                                        <polyline id="secondary-2" data-name="secondary" points="11 15 8 12 11 9"
+                                            style="fill: none; stroke: rgb(44, 169, 188); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;">
+                                        </polyline>
+                                        <line id="secondary-3" data-name="secondary" x1="8" y1="12"
+                                            x2="17" y2="12"
+                                            style="fill: none; stroke: rgb(44, 169, 188); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;">
+                                        </line>
+                                        <path id="primary"
+                                            d="M10,5V4a1,1,0,0,1,1-1h9a1,1,0,0,1,1,1V20a1,1,0,0,1-1,1H11a1,1,0,0,1-1-1V19"
+                                            style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;">
+                                        </path>
+                                    </svg>
+                                    @lang('messages.resign')
                                 </span>
                             </a>
                         </div>

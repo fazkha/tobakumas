@@ -51,7 +51,7 @@ return [
     'picture' => 'Gambar',
     'active' => 'Aktif',
     'relocate' => 'Pindah',
-    'resign' => 'Berhenti',
+    'resign' => 'Undur Diri',
     'fired' => 'Dipecat',
     'save' => 'Simpan',
     'close' => 'Tutup',
