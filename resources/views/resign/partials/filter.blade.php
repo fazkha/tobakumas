@@ -83,12 +83,12 @@
                     <div class="relative shadow-md mr-2 mb-2">
                         <span
                             class="w-24 text-xs h-full absolute inset-y-0 left-0 flex items-center px-2 border-r border-primary-100 dark:border-primary-800">@lang('messages.employee')</span>
-                        <select id="pegawai-dropdown"
+                        <select id="user-dropdown"
                             class="text-sm px-2 leading-tight pl-28 pr-9 py-2 appearance-none w-full h-full rounded-md border block bg-primary-20 border-primary-100 text-gray-700 dark:text-white dark:bg-primary-700 dark:border-primary-800">
-                            <option {{ session('resign_pegawai_id') == 'all' ? 'selected' : '' }} value="all">
+                            <option {{ session('resign_user_id') == 'all' ? 'selected' : '' }} value="all">
                                 @lang('messages.all')</option>
-                            @foreach ($pegawais as $id => $name)
-                                <option {{ session('resign_pegawai_id') == $id ? 'selected' : '' }}
+                            @foreach ($users as $id => $name)
+                                <option {{ session('resign_user_id') == $id ? 'selected' : '' }}
                                     value="{{ $id }}">{{ $name }}</option>
                             @endforeach
                         </select>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Branch;
 use App\Models\Resign;
 use App\Models\Pegawai;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
@@ -55,32 +56,33 @@ class ResignController extends Controller implements HasMiddleware
         if (!$request->session()->exists('resign_branch_id')) {
             $request->session()->put('resign_branch_id', 'all');
         }
-        if (!$request->session()->exists('resign_pegawai_id')) {
-            $request->session()->put('resign_pegawai_id', 'all');
+        if (!$request->session()->exists('resign_user_id')) {
+            $request->session()->put('resign_user_id', 'all');
         }
         if (!$request->session()->exists('resign_tanggal_mulai')) {
             $request->session()->put('resign_tanggal_mulai', '_');
         }
 
-        $search_arr = ['resign_show', 'resign_branch_id', 'resign_pegawai_id', 'resign_tanggal_mulai'];
+        $search_arr = ['resign_show', 'resign_branch_id', 'resign_user_id', 'resign_tanggal_mulai'];
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $pegawais = Pegawai::where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
-        $datas = Resign::join('branches', 'branches.id', '=', 'pc_permintaan_izins.branch_id')
-            ->join('pegawais', 'pegawais.id', '=', 'pc_permintaan_izins.pegawai_id')
-            ->join('jenis_izin_pegawais', 'jenis_izin_pegawais.id', '=', 'pc_permintaan_izins.jenis_izin_pegawai_id')
-            ->select('pc_permintaan_izins.*', 'branches.nama as branch_nama', 'pegawais.nama_lengkap as pc_nama', 'jenis_izin_pegawais.nama as jenis_nama');
+        $users = User::where('approved', 1)->orderBy('name')->pluck('name', 'id');
+        $datas = Resign::join('users', 'users.id', '=', 'resigns.user_id')
+            ->join('profiles', 'profiles.user_id', '=', 'users.id')
+            ->join('branches', 'branches.id', '=', 'profiles.branch_id')
+            ->join('users', 'users.id', '=', 'resigns.user_id')
+            ->select('resigns.*', 'branches.id as branch_id', 'branches.nama as branch_nama', 'users.name as user_nama');
 
         for ($i = 0; $i < count($search_arr); $i++) {
             $field = substr($search_arr[$i], strlen('resign_'));
 
             if ($search_arr[$i] == 'resign_show') {
                 if (session($search_arr[$i]) == '0') {
-                    $datas = $datas->where('pc_permintaan_izins.approved_hrd', 0);
+                    $datas = $datas->where('resigns.approved_hrd', 0);
                 }
-            } else if ($search_arr[$i] == 'resign_branch_id' || $search_arr[$i] == 'resign_pegawai_id') {
+            } else if ($search_arr[$i] == 'resign_branch_id' || $search_arr[$i] == 'resign_user_id') {
                 if (session($search_arr[$i]) != 'all') {
                     $datas = $datas->where([$field => session($search_arr[$i])]);
                 }
@@ -109,7 +111,7 @@ class ResignController extends Controller implements HasMiddleware
             return redirect()->route('dashboard');
         }
 
-        return view('resign.index', compact(['datas', 'branches', 'pegawais']))->with('i', (request()->input('page', 1) - 1) * session('resign_pp'));
+        return view('resign.index', compact(['datas', 'branches', 'users']))->with('i', (request()->input('page', 1) - 1) * session('resign_pp'));
     }
 
     public function fetchdb(Request $request): JsonResponse
@@ -117,28 +119,29 @@ class ResignController extends Controller implements HasMiddleware
         $request->session()->put('resign_pp', $request->pp);
         $request->session()->put('resign_show', $request->show);
         $request->session()->put('resign_branch_id', $request->branch);
-        $request->session()->put('resign_pegawai_id', $request->pegawai);
+        $request->session()->put('resign_user_id', $request->user);
         $request->session()->put('resign_tanggal_mulai', $request->tanggal);
 
-        $search_arr = ['resign_show', 'resign_branch_id', 'resign_pegawai_id', 'resign_tanggal_mulai'];
+        $search_arr = ['resign_show', 'resign_branch_id', 'resign_user_id', 'resign_tanggal_mulai'];
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $pegawais = Pegawai::where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
-        $datas = Resign::join('branches', 'branches.id', '=', 'pc_permintaan_izins.branch_id')
-            ->join('pegawais', 'pegawais.id', '=', 'pc_permintaan_izins.pegawai_id')
-            ->join('jenis_izin_pegawais', 'jenis_izin_pegawais.id', '=', 'pc_permintaan_izins.jenis_izin_pegawai_id')
-            ->select('pc_permintaan_izins.*', 'branches.nama as branch_nama', 'pegawais.nama_lengkap as pc_nama', 'jenis_izin_pegawais.nama as jenis_nama');
+        $users = User::where('approved', 1)->orderBy('name')->pluck('name', 'id');
+        $datas = Resign::join('users', 'users.id', '=', 'resigns.user_id')
+            ->join('profiles', 'profiles.user_id', '=', 'users.id')
+            ->join('branches', 'branches.id', '=', 'profiles.branch_id')
+            ->join('users', 'users.id', '=', 'resigns.user_id')
+            ->select('resigns.*', 'branches.id as branch_id', 'branches.nama as branch_nama', 'users.name as user_nama');
 
         for ($i = 0; $i < count($search_arr); $i++) {
             $field = substr($search_arr[$i], strlen('resign_'));
 
             if ($search_arr[$i] == 'resign_show') {
                 if (session($search_arr[$i]) == '0') {
-                    $datas = $datas->where('pc_permintaan_izins.approved_hrd', 0);
+                    $datas = $datas->where('resigns.approved_hrd', 0);
                 }
-            } else if ($search_arr[$i] == 'resign_branch_id' || $search_arr[$i] == 'resign_pegawai_id') {
+            } else if ($search_arr[$i] == 'resign_branch_id' || $search_arr[$i] == 'resign_user_id') {
                 if (session($search_arr[$i]) != 'all') {
                     $datas = $datas->where([$field => session($search_arr[$i])]);
                 }
@@ -157,7 +160,7 @@ class ResignController extends Controller implements HasMiddleware
 
         $datas->withPath('/human-resource/resign'); // pagination url to
 
-        $view = view('resign.partials.table', compact(['datas', 'branches', 'pegawais']))->with('i', (request()->input('page', 1) - 1) * session('resign_pp'))->render();
+        $view = view('resign.partials.table', compact(['datas', 'branches', 'users']))->with('i', (request()->input('page', 1) - 1) * session('resign_pp'))->render();
 
         if ($view) {
             return response()->json($view, 200);
@@ -185,11 +188,12 @@ class ResignController extends Controller implements HasMiddleware
     {
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
-        $datas = Resign::join('branches', 'branches.id', '=', 'pc_permintaan_izins.branch_id')
-            ->join('pegawais', 'pegawais.id', '=', 'pc_permintaan_izins.pegawai_id')
-            ->join('jenis_izin_pegawais', 'jenis_izin_pegawais.id', '=', 'pc_permintaan_izins.jenis_izin_pegawai_id')
-            ->select('pc_permintaan_izins.*', 'branches.nama as branch_nama', 'pegawais.nama_lengkap as pc_nama', 'jenis_izin_pegawais.nama as jenis_nama')
-            ->where('pc_permintaan_izins.id', Crypt::decrypt($request->resign))
+        $datas = Resign::join('users', 'users.id', '=', 'resigns.user_id')
+            ->join('profiles', 'profiles.user_id', '=', 'users.id')
+            ->join('branches', 'branches.id', '=', 'profiles.branch_id')
+            ->join('users', 'users.id', '=', 'resigns.user_id')
+            ->select('resigns.*', 'branches.id as branch_id', 'branches.nama as branch_nama', 'users.name as user_nama')
+            ->where('resigns.id', Crypt::decrypt($request->resign))
             ->first();
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
@@ -204,18 +208,18 @@ class ResignController extends Controller implements HasMiddleware
         $resign = Resign::find(Crypt::decrypt($request->resign));
 
         if ($resign) {
-            $namapegawai = $resign->pegawai->nama_lengkap;
-            $penanganan = $request->input('penanganan');
+            $namauser = $resign->user->name;
+            $tanggapan_hrd = $request->input('tanggapan_hrd');
             $status = $request->input('status');
 
             $resign->update([
-                'penanganan' => $penanganan,
+                'tanggapan_hrd' => $tanggapan_hrd,
                 'approved_hrd' => $status,
             ]);
 
             if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
-            return redirect()->back()->with('success', __('messages.successupdated') . ' 👉 ' . $namapegawai);
+            return redirect()->back()->with('success', __('messages.successupdated') . ' 👉 ' . $namauser);
         }
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(1);

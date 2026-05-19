@@ -17,4 +17,9 @@ class Resign extends Model
         'tanggapan_hrd',
         'approved_hrd',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
