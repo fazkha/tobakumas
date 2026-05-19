@@ -80,9 +80,22 @@
                                 </div>
 
                                 <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
+                                    <div class="w-auto pb-4">
+                                        <label for="tanggapan_pc"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.response')
+                                            PC</label>
+                                        <x-textarea-input name="tanggapan_pc" id="tanggapan_pc" tabindex="1"
+                                            rows="7" maxlength="250"
+                                            placeholder="{{ __('messages.enter') }} {{ __('messages.response') }}">{{ old('tanggapan_pc', $datas->tanggapan_pc) }}
+                                        </x-textarea-input>
+
+                                        <x-input-error class="mt-2" :messages="$errors->get('tanggapan_pc')" />
+                                    </div>
+
                                     <div class="w-auto pb-4 lg:pb-12">
                                         <label for="tanggapan_hrd"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.handling')</label>
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.response')
+                                            HRD</label>
                                         <x-textarea-input name="tanggapan_hrd" id="tanggapan_hrd" tabindex="1"
                                             rows="7" maxlength="250"
                                             placeholder="{{ __('messages.enter') }} {{ __('messages.handling') }}">{{ old('tanggapan_hrd', $datas->tanggapan_hrd) }}
@@ -117,8 +130,9 @@
                                             <span class="pl-1">@lang('messages.save')</span>
                                         </x-primary-button>
                                         <x-anchor-secondary href="{{ route('resign.index') }}" tabindex="3">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="currentColor" class="size-5">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                class="size-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M6 18 18 6M6 6l12 12" />
                                             </svg>
