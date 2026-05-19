@@ -73,7 +73,7 @@
                         <td
                             class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
                             <span
-                                class="text-gray-900 dark:text-white">{{ \Carbon\Carbon::parse($data->tanggal_mulai)->translatedFormat('l, d F Y') }}</span>
+                                class="text-gray-900 dark:text-white">{{ $data->tanggal_mulai->translatedFormat('l, d F Y') }}</span>
                         </td>
                         <td
                             class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
