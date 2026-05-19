@@ -548,7 +548,7 @@ class MitraController extends Controller
                 'branch_id' => $profile->branch_id,
                 'omzet' => $data['omzet'] ?? ($found->omzet ?? null),
                 'sisa_adonan' => $data['sisa_adonan'] ?? ($found->sisa_adonan ?? null),
-                'delta_omzet' => $app_delta,
+                'delta_omzet' => $data['omzet'] ? $app_delta : $found->delta_omzet,
                 'akum_omzet' => $akum_omzet,
                 'pct_akum_omzet' => $pct_akum_omzet,
                 'pencapaian_sisa_hari' => $pencapaian_sisa_hari,
