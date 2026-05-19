@@ -59,11 +59,11 @@ class ResignController extends Controller implements HasMiddleware
         if (!$request->session()->exists('resign_user_id')) {
             $request->session()->put('resign_user_id', 'all');
         }
-        if (!$request->session()->exists('resign_tanggal_mulai')) {
-            $request->session()->put('resign_tanggal_mulai', '_');
+        if (!$request->session()->exists('resign_tanggal')) {
+            $request->session()->put('resign_tanggal', '_');
         }
 
-        $search_arr = ['resign_show', 'resign_branch_id', 'resign_user_id', 'resign_tanggal_mulai'];
+        $search_arr = ['resign_show', 'resign_branch_id', 'resign_user_id', 'resign_tanggal'];
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
@@ -122,9 +122,9 @@ class ResignController extends Controller implements HasMiddleware
         $request->session()->put('resign_show', $request->show);
         $request->session()->put('resign_branch_id', $request->branch);
         $request->session()->put('resign_user_id', $request->user);
-        $request->session()->put('resign_tanggal_mulai', $request->tanggal);
+        $request->session()->put('resign_tanggal', $request->tanggal);
 
-        $search_arr = ['resign_show', 'resign_branch_id', 'resign_user_id', 'resign_tanggal_mulai'];
+        $search_arr = ['resign_show', 'resign_branch_id', 'resign_user_id', 'resign_tanggal'];
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
