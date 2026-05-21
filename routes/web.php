@@ -19,6 +19,7 @@ use App\Http\Controllers\KritiksaranController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\MitraController;
 use App\Http\Controllers\MitraizinController;
+use App\Http\Controllers\MitraubahhariController;
 use App\Http\Controllers\PcbiayaController;
 use App\Http\Controllers\PcizinController;
 use App\Http\Controllers\PcpettycashController;
@@ -156,6 +157,10 @@ Route::prefix('human-resource')->middleware('auth')->group(function () {
     Route::resource('resign', ResignController::class);
     Route::get('resign/{resign}/delete', [ResignController::class, 'delete'])->name('resign.delete');
     Route::get('resign/fetchdb/{pp}/{show}/{branch}/{user}/{tanggal}', [ResignController::class, 'fetchdb'])->defaults('tanggal', '_');
+
+    Route::resource('mitrahari', MitraubahhariController::class);
+    Route::get('mitrahari/{mitrahari}/delete', [MitraubahhariController::class, 'delete'])->name('mitrahari.delete');
+    Route::get('mitrahari/fetchdb/{pp}/{show}/{branch}/{mitra}/{tanggal}', [MitraubahhariController::class, 'fetchdb'])->defaults('tanggal', '_');
 })->missing(function (Request $request) {
     return Redirect::route('dashboard');
 });
