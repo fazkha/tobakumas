@@ -11,6 +11,7 @@ use App\Models\Customer;
 use App\Models\JenisPengeluaranCabang;
 use App\Models\MitraAverageOmzet;
 use App\Models\MitraOmzetPengeluaran;
+use App\Models\MitraUbahHari;
 use App\Models\PcKasbon;
 use App\Models\PcOmzetHarian;
 use App\Models\PcBiaya;
@@ -1899,6 +1900,109 @@ class CabangController extends Controller
             'rute' => $rute,
             'prev' => $prev,
             'prev_omzet' => $maxOmzet ? $maxOmzet->max_omzet : null,
+        ]);
+    }
+
+    public function loadUbahHari(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = Validator::make($request->all(), [
+            'pc_id' => ['required', 'integer', 'exists:users,id'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+
+        $user = User::where('id', $data['pc_id'])->first();
+        $mitraubah = null;
+
+        if ($user) {
+            $mitraubah = MitraUbahHari::where('created_by', $user->email)
+                ->where('approved_hrd', 0)
+                ->get();
+        }
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'mitraubah' => $mitraubah,
+        ]);
+    }
+
+    public function saveUbahHari(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = Validator::make($request->all(), [
+            'pc_id' => ['required', 'integer', 'exists:users,id'],
+            'user_id' => ['required', 'integer', 'exists:users,id'],
+            'branch_id' => ['required', 'integer', 'exists:branches,id'],
+            'tanggal' => ['required', 'date'],
+            'jenis' => ['required', 'integer', 'in:1,2'],
+            'keterangan' => ['required', 'string', 'max:100'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+
+        $user = User::where('id', $data['pc_id'])->first();
+        $mitraubah = null;
+
+        if ($user) {
+            $mitraubah = MitraUbahHari::where('created_by', $user->email)
+                ->where('approved_hrd', 0)
+                ->where('branch_id', $data['branch_id'])
+                ->where('user_id', $data['user_id'])
+                ->first();
+
+            if ($mitraubah) {
+                $mitraubah->update([
+                    'tanggal' => $data['tanggal'],
+                    'keterangan' => $data['keterangan'],
+                    'jenis_ubah' => $data['jenis'],
+                    'updated_by' => $user->email,
+                ]);
+            } else {
+                $mitraubah = MitraUbahHari::create([
+                    'branch_id' => $data['branch_id'],
+                    'user_id' => $data['user_id'],
+                    'tanggal' => $data['tanggal'],
+                    'keterangan' => $data['keterangan'],
+                    'jenis_ubah' => $data['jenis'],
+                    'created_by' => $user->email,
+                ]);
+            }
+        }
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'mitraubah' => $mitraubah,
         ]);
     }
 

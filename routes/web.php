@@ -158,9 +158,9 @@ Route::prefix('human-resource')->middleware('auth')->group(function () {
     Route::get('resign/{resign}/delete', [ResignController::class, 'delete'])->name('resign.delete');
     Route::get('resign/fetchdb/{pp}/{show}/{branch}/{user}/{tanggal}', [ResignController::class, 'fetchdb'])->defaults('tanggal', '_');
 
-    Route::resource('mitrahari', MitraubahhariController::class);
-    Route::get('mitrahari/{mitrahari}/delete', [MitraubahhariController::class, 'delete'])->name('mitrahari.delete');
-    Route::get('mitrahari/fetchdb/{pp}/{show}/{branch}/{mitra}/{tanggal}', [MitraubahhariController::class, 'fetchdb'])->defaults('tanggal', '_');
+    Route::resource('mitraubah', MitraubahhariController::class);
+    Route::get('mitraubah/{mitraubah}/delete', [MitraubahhariController::class, 'delete'])->name('mitraubah.delete');
+    Route::get('mitraubah/fetchdb/{pp}/{show}/{branch}/{user}/{tanggal}', [MitraubahhariController::class, 'fetchdb'])->defaults('tanggal', '_');
 })->missing(function (Request $request) {
     return Redirect::route('dashboard');
 });

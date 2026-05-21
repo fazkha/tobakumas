@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Branch;
 use App\Models\Mitra;
 use App\Models\MitraUbahHari;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
@@ -20,11 +21,11 @@ class MitraubahhariController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware('permission:mitraizin-list', only: ['index', 'fetch']),
-            new Middleware('permission:mitraizin-create', only: ['create', 'store']),
-            new Middleware('permission:mitraizin-edit', only: ['edit', 'update']),
-            new Middleware('permission:mitraizin-show', only: ['show']),
-            new Middleware('permission:mitraizin-delete', only: ['delete', 'destroy']),
+            new Middleware('permission:mitraubah-list', only: ['index', 'fetch']),
+            new Middleware('permission:mitraubah-create', only: ['create', 'store']),
+            new Middleware('permission:mitraubah-edit', only: ['edit', 'update']),
+            new Middleware('permission:mitraubah-show', only: ['show']),
+            new Middleware('permission:mitraubah-delete', only: ['delete', 'destroy']),
         ];
     }
 
@@ -46,41 +47,40 @@ class MitraubahhariController extends Controller implements HasMiddleware
 
     public function index(Request $request)
     {
-        if (!$request->session()->exists('mitraizin_pp')) {
-            $request->session()->put('mitraizin_pp', config('custom.list_per_page_opt_1'));
+        if (!$request->session()->exists('mitraubah_pp')) {
+            $request->session()->put('mitraubah_pp', config('custom.list_per_page_opt_1'));
         }
-        if (!$request->session()->exists('mitraizin_show')) {
-            $request->session()->put('mitraizin_show', '0');
+        if (!$request->session()->exists('mitraubah_show')) {
+            $request->session()->put('mitraubah_show', '0');
         }
-        if (!$request->session()->exists('mitraizin_branch_id')) {
-            $request->session()->put('mitraizin_branch_id', 'all');
+        if (!$request->session()->exists('mitraubah_branch_id')) {
+            $request->session()->put('mitraubah_branch_id', 'all');
         }
-        if (!$request->session()->exists('mitraizin_mitra_id')) {
-            $request->session()->put('mitraizin_mitra_id', 'all');
+        if (!$request->session()->exists('mitraubah_user_id')) {
+            $request->session()->put('mitraubah_user_id', 'all');
         }
-        if (!$request->session()->exists('mitraizin_tanggal_mulai')) {
-            $request->session()->put('mitraizin_tanggal_mulai', '_');
+        if (!$request->session()->exists('mitraubah_tanggal')) {
+            $request->session()->put('mitraubah_tanggal', '_');
         }
 
-        $search_arr = ['mitraizin_show', 'mitraizin_branch_id', 'mitraizin_mitra_id', 'mitraizin_tanggal_mulai'];
+        $search_arr = ['mitraubah_show', 'mitraubah_branch_id', 'mitraubah_user_id', 'mitraubah_tanggal'];
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $mitras = Mitra::where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
-        $datas = MitraPermintaanIzin::join('branches', 'branches.id', '=', 'mitra_permintaan_izins.branch_id')
-            ->join('mitras', 'mitras.id', '=', 'mitra_permintaan_izins.mitra_id')
-            ->join('jenis_izin_pegawais', 'jenis_izin_pegawais.id', '=', 'mitra_permintaan_izins.jenis_izin_pegawai_id')
-            ->select('mitra_permintaan_izins.*', 'branches.nama as branch_nama', 'mitras.nama_lengkap as mitra_nama', 'jenis_izin_pegawais.nama as jenis_nama');
+        $users = User::where('approved', 1)->orderBy('name')->pluck('name', 'id');
+        $datas = MitraUbahHari::join('branches', 'branches.id', '=', 'mitra_ubah_haris.branch_id')
+            ->join('users', 'users.id', '=', 'mitra_ubah_haris.user_id')
+            ->select('mitra_ubah_haris.*', 'branches.nama as branch_nama', 'users.name as user_nama');
 
         for ($i = 0; $i < count($search_arr); $i++) {
-            $field = substr($search_arr[$i], strlen('mitraizin_'));
+            $field = substr($search_arr[$i], strlen('mitraubah_'));
 
-            if ($search_arr[$i] == 'mitraizin_show') {
+            if ($search_arr[$i] == 'mitraubah_show') {
                 if (session($search_arr[$i]) == '0') {
-                    $datas = $datas->where('mitra_permintaan_izins.approved_hrd', 0);
+                    $datas = $datas->where('mitra_ubah_haris.approved_hrd', 0);
                 }
-            } else if ($search_arr[$i] == 'mitraizin_branch_id' || $search_arr[$i] == 'mitraizin_mitra_id') {
+            } else if ($search_arr[$i] == 'mitraubah_branch_id' || $search_arr[$i] == 'mitraubah_user_id') {
                 if (session($search_arr[$i]) != 'all') {
                     $datas = $datas->where([$field => session($search_arr[$i])]);
                 }
@@ -101,7 +101,7 @@ class MitraubahhariController extends Controller implements HasMiddleware
         // dd($sql);
 
         // $datas = $datas->where('user_id', auth()->user()->id);
-        $datas = $datas->latest()->paginate(session('mitraizin_pp'));
+        $datas = $datas->latest()->paginate(session('mitraubah_pp'));
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
@@ -109,36 +109,35 @@ class MitraubahhariController extends Controller implements HasMiddleware
             return redirect()->route('dashboard');
         }
 
-        return view('mitraizin.index', compact(['datas', 'branches', 'mitras']))->with('i', (request()->input('page', 1) - 1) * session('mitraizin_pp'));
+        return view('mitraubah.index', compact(['datas', 'branches', 'mitras']))->with('i', (request()->input('page', 1) - 1) * session('mitraubah_pp'));
     }
 
     public function fetchdb(Request $request): JsonResponse
     {
-        $request->session()->put('mitraizin_pp', $request->pp);
-        $request->session()->put('mitraizin_show', $request->show);
-        $request->session()->put('mitraizin_branch_id', $request->branch);
-        $request->session()->put('mitraizin_mitra_id', $request->mitra);
-        $request->session()->put('mitraizin_tanggal_mulai', $request->tanggal);
+        $request->session()->put('mitraubah_pp', $request->pp);
+        $request->session()->put('mitraubah_show', $request->show);
+        $request->session()->put('mitraubah_branch_id', $request->branch);
+        $request->session()->put('mitraubah_user_id', $request->user);
+        $request->session()->put('mitraubah_tanggal', $request->tanggal);
 
-        $search_arr = ['mitraizin_show', 'mitraizin_branch_id', 'mitraizin_mitra_id', 'mitraizin_tanggal_mulai'];
+        $search_arr = ['mitraubah_show', 'mitraubah_branch_id', 'mitraubah_user_id', 'mitraubah_tanggal'];
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $mitras = Mitra::where('isactive', 1)->orderBy('nama_lengkap')->pluck('nama_lengkap', 'id');
-        $datas = MitraPermintaanIzin::join('branches', 'branches.id', '=', 'mitra_permintaan_izins.branch_id')
-            ->join('mitras', 'mitras.id', '=', 'mitra_permintaan_izins.mitra_id')
-            ->join('jenis_izin_pegawais', 'jenis_izin_pegawais.id', '=', 'mitra_permintaan_izins.jenis_izin_pegawai_id')
-            ->select('mitra_permintaan_izins.*', 'branches.nama as branch_nama', 'mitras.nama_lengkap as mitra_nama', 'jenis_izin_pegawais.nama as jenis_nama');
+        $users = User::where('approved', 1)->orderBy('name')->pluck('name', 'id');
+        $datas = MitraUbahHari::join('branches', 'branches.id', '=', 'mitra_ubah_haris.branch_id')
+            ->join('users', 'users.id', '=', 'mitra_ubah_haris.user_id')
+            ->select('mitra_ubah_haris.*', 'branches.nama as branch_nama', 'users.name as user_nama');
 
         for ($i = 0; $i < count($search_arr); $i++) {
-            $field = substr($search_arr[$i], strlen('mitraizin_'));
+            $field = substr($search_arr[$i], strlen('mitraubah_'));
 
-            if ($search_arr[$i] == 'mitraizin_show') {
+            if ($search_arr[$i] == 'mitraubah_show') {
                 if (session($search_arr[$i]) == '0') {
-                    $datas = $datas->where('mitra_permintaan_izins.approved_hrd', 0);
+                    $datas = $datas->where('mitra_ubah_haris.approved_hrd', 0);
                 }
-            } else if ($search_arr[$i] == 'mitraizin_branch_id' || $search_arr[$i] == 'mitraizin_mitra_id') {
+            } else if ($search_arr[$i] == 'mitraubah_branch_id' || $search_arr[$i] == 'mitraubah_user_id') {
                 if (session($search_arr[$i]) != 'all') {
                     $datas = $datas->where([$field => session($search_arr[$i])]);
                 }
@@ -151,13 +150,13 @@ class MitraubahhariController extends Controller implements HasMiddleware
             }
         }
         // $datas = $datas->where('user_id', auth()->user()->id);
-        $datas = $datas->latest()->paginate(session('mitraizin_pp'));
+        $datas = $datas->latest()->paginate(session('mitraubah_pp'));
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
-        $datas->withPath('/human-resource/mitraizin'); // pagination url to
+        $datas->withPath('/human-resource/mitraubah'); // pagination url to
 
-        $view = view('mitraizin.partials.table', compact(['datas', 'branches', 'mitras']))->with('i', (request()->input('page', 1) - 1) * session('mitraizin_pp'))->render();
+        $view = view('mitraubah.partials.table', compact(['datas', 'branches', 'mitras']))->with('i', (request()->input('page', 1) - 1) * session('mitraubah_pp'))->render();
 
         if ($view) {
             return response()->json($view, 200);
@@ -185,37 +184,37 @@ class MitraubahhariController extends Controller implements HasMiddleware
     {
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
-        $datas = MitraPermintaanIzin::join('branches', 'branches.id', '=', 'mitra_permintaan_izins.branch_id')
-            ->join('mitras', 'mitras.id', '=', 'mitra_permintaan_izins.mitra_id')
-            ->join('jenis_izin_pegawais', 'jenis_izin_pegawais.id', '=', 'mitra_permintaan_izins.jenis_izin_pegawai_id')
-            ->select('mitra_permintaan_izins.*', 'branches.nama as branch_nama', 'mitras.nama_lengkap as mitra_nama', 'jenis_izin_pegawais.nama as jenis_nama')
-            ->where('mitra_permintaan_izins.id', Crypt::decrypt($request->mitraizin))
+        $datas = MitraUbahHari::join('branches', 'branches.id', '=', 'mitra_ubah_haris.branch_id')
+            ->join('users', 'users.id', '=', 'mitra_ubah_haris.user_id')
+            ->select('mitra_ubah_haris.*', 'branches.nama as branch_nama', 'users.name as user_nama');
+        $datas = MitraUbahHari::join('branches', 'branches.id', '=', 'mitra_ubah_haris.branch_id')
+            ->join('users', 'users.id', '=', 'mitra_ubah_haris.user_id')
+            ->select('mitra_ubah_haris.*', 'branches.nama as branch_nama', 'users.name as user_nama')
+            ->where('mitra_ubah_haris.id', Crypt::decrypt($request->mitraubah))
             ->first();
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
-        return view('mitraizin.edit', compact(['datas']));
+        return view('mitraubah.edit', compact(['datas']));
     }
 
     public function update(Request $request): RedirectResponse
     {
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
-        $mitraizin = MitraPermintaanIzin::find(Crypt::decrypt($request->mitraizin));
+        $mitraubah = MitraUbahHari::find(Crypt::decrypt($request->mitraubah));
 
-        if ($mitraizin) {
-            $namamitra = $mitraizin->mitra->nama_lengkap;
-            $penanganan = $request->input('penanganan');
+        if ($mitraubah) {
+            $namauser = $mitraubah->user->name;
             $status = $request->input('status');
 
-            $mitraizin->update([
-                'penanganan' => $penanganan,
+            $mitraubah->update([
                 'approved_hrd' => $status,
             ]);
 
             if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
 
-            return redirect()->back()->with('success', __('messages.successupdated') . ' 👉 ' . $namamitra);
+            return redirect()->back()->with('success', __('messages.successupdated') . ' 👉 ' . $namauser);
         }
 
         if (auth()->user()->profile->site == 'KP') $this->db_switch(1);
