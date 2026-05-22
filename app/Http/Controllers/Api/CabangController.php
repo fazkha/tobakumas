@@ -1911,14 +1911,7 @@ class CabangController extends Controller
         $mitraubah = null;
 
         if ($user) {
-            $mitraubah = MitraUbahHari::where('mitra_ubah_haris.created_by', $user->email)
-                ->join('users', 'users.id', '=', 'mitra_ubah_haris.user_id')
-                ->join('mitras', 'mitras.email', '=', 'users.email')
-                ->join('brandivjabmits', 'brandivjabmits.mitra_id', '=', 'mitras.id')
-                ->join('gerobaks', 'gerobaks.id', '=', 'brandivjabmits.gerobak_id')
-                ->selectRaw('DATE_FORMAT(mitra_ubah_haris.tanggal, "%W, %e %M") as tanggal, mitra_ubah_haris.jenis_ubah, CONCAT("G", gerobaks.kode, "/", mitras.nama_lengkap) as mitra')
-                ->where('mitra_ubah_haris.approved_hrd', 0)
-                ->get();
+            $mitraubah = DB::select("CALL sp_tambah_hari(?)", [$request->pc_id]);
         }
 
         $this->db_switch(1);
@@ -1984,14 +1977,7 @@ class CabangController extends Controller
                 ]);
             }
 
-            $mitraubah = MitraUbahHari::where('mitra_ubah_haris.created_by', $user->email)
-                ->join('users', 'users.id', '=', 'mitra_ubah_haris.user_id')
-                ->join('mitras', 'mitras.email', '=', 'users.email')
-                ->join('brandivjabmits', 'brandivjabmits.mitra_id', '=', 'mitras.id')
-                ->join('gerobaks', 'gerobaks.id', '=', 'brandivjabmits.gerobak_id')
-                ->selectRaw('mitra_ubah_haris.*, CONCAT("G", gerobaks.kode, "/", mitras.nama_lengkap) as mitra')
-                ->where('mitra_ubah_haris.approved_hrd', 0)
-                ->get();
+            $mitraubah = DB::select("CALL sp_tambah_hari(?)", [$data['pc_id']]);
         }
 
         $this->db_switch(1);
