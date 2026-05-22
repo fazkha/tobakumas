@@ -1916,7 +1916,7 @@ class CabangController extends Controller
                 ->join('mitras', 'mitras.email', '=', 'users.email')
                 ->join('brandivjabmits', 'brandivjabmits.mitra_id', '=', 'mitras.id')
                 ->join('gerobaks', 'gerobaks.id', '=', 'brandivjabmits.gerobak_id')
-                ->selectRaw('DATE_FORMAT(mitra_ubah_haris.tanggal, "%Y-%m-%d") as tanggal, mitra_ubah_haris.jenis_ubah, CONCAT("G", gerobaks.kode, "/", mitras.nama_lengkap) as mitra')
+                ->selectRaw('DATE_FORMAT(mitra_ubah_haris.tanggal, "%W, %e %M") as tanggal, mitra_ubah_haris.jenis_ubah, CONCAT("G", gerobaks.kode, "/", mitras.nama_lengkap) as mitra')
                 ->where('mitra_ubah_haris.approved_hrd', 0)
                 ->get();
         }
