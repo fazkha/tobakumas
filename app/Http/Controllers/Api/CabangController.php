@@ -1929,8 +1929,13 @@ class CabangController extends Controller
         $mitraubah = null;
 
         if ($user) {
-            $mitraubah = MitraUbahHari::where('created_by', $user->email)
-                ->where('approved_hrd', 0)
+            $mitraubah = MitraUbahHari::where('mitra_ubah_haris.created_by', $user->email)
+                ->join('users', 'users.id', '=', 'mitra_ubah_haris.user_id')
+                ->join('mitras', 'mitras.email', '=', 'users.email')
+                ->join('brandivjabmits', 'brandivjabmits.mitra_id', '=', 'mitras.id')
+                ->join('gerobaks', 'gerobaks.id', '=', 'brandivjabmits.gerobak_id')
+                ->selectRaw('mitra_ubah_haris.*, CONCAT("G", gerobaks.kode, "/", mitras.nama_lengkap) as mitra')
+                ->where('mitra_ubah_haris.approved_hrd', 0)
                 ->get();
         }
 
@@ -1996,6 +2001,15 @@ class CabangController extends Controller
                     'created_by' => $user->email,
                 ]);
             }
+
+            $mitraubah = MitraUbahHari::where('mitra_ubah_haris.created_by', $user->email)
+                ->join('users', 'users.id', '=', 'mitra_ubah_haris.user_id')
+                ->join('mitras', 'mitras.email', '=', 'users.email')
+                ->join('brandivjabmits', 'brandivjabmits.mitra_id', '=', 'mitras.id')
+                ->join('gerobaks', 'gerobaks.id', '=', 'brandivjabmits.gerobak_id')
+                ->selectRaw('mitra_ubah_haris.*, CONCAT("G", gerobaks.kode, "/", mitras.nama_lengkap) as mitra')
+                ->where('mitra_ubah_haris.approved_hrd', 0)
+                ->get();
         }
 
         $this->db_switch(1);
