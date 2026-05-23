@@ -11,6 +11,7 @@ use App\Models\Customer;
 use App\Models\JenisPengeluaranCabang;
 use App\Models\MitraAverageOmzet;
 use App\Models\MitraOmzetPengeluaran;
+use App\Models\MitraTargetBonus;
 use App\Models\MitraUbahHari;
 use App\Models\PcKasbon;
 use App\Models\PcOmzetHarian;
