@@ -1481,6 +1481,8 @@ class CabangController extends Controller
                     'minggu' => $yearWeek,
                     'target_akum_omzet' => $target_akum_omzet,
                     'target_omzet_phari' => $target_omzet_phari,
+                    'trend' => 'same',
+                    'pct' => 0,
                     'target_approved' => 1,
                 ]);
             }
