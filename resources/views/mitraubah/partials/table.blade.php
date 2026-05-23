@@ -73,6 +73,11 @@
                         </td>
                         <td
                             class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
+                            <span
+                                class="text-gray-900 dark:text-white">{{ $data->jenis_ubah == 1 ? 'Tambah Hari' : 'Ganti Hari' }}</span>
+                        </td>
+                        <td
+                            class="px-3 py-1 text-sm border-b border-primary-100 bg-primary-20 dark:bg-primary-900 dark:border-primary-800">
                             <span class="text-gray-900 dark:text-white">{{ $data->keterangan }}</span>
                         </td>
                         <td
