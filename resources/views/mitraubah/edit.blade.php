@@ -1,18 +1,25 @@
-@section('title', __('messages.pcizin'))
+@section('title', __('messages.mitraubah'))
 
 <x-app-layout>
     <div class="flex items-center justify-between px-4 py-4 border-b border-primary-100 lg:py-6 dark:border-primary-800">
         <h1 class="text-xl flex items-center justify-center">
-            <a href="{{ route('pcizin.index') }}" class="flex items-center justify-center">
-                <svg fill="currentColor" class="size-7" viewBox="0 0 16 16" id="request-16px"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path id="Path_49" data-name="Path 49"
-                        d="M30.5,16a.489.489,0,0,1-.191-.038A.5.5,0,0,1,30,15.5V13h-.5A2.5,2.5,0,0,1,27,10.5v-8A2.5,2.5,0,0,1,29.5,0h11A2.5,2.5,0,0,1,43,2.5v8A2.5,2.5,0,0,1,40.5,13H33.707l-2.853,2.854A.5.5,0,0,1,30.5,16Zm-1-15A1.5,1.5,0,0,0,28,2.5v8A1.5,1.5,0,0,0,29.5,12h1a.5.5,0,0,1,.5.5v1.793l2.146-2.147A.5.5,0,0,1,33.5,12h7A1.5,1.5,0,0,0,42,10.5v-8A1.5,1.5,0,0,0,40.5,1ZM36,9a1,1,0,1,0-1,1A1,1,0,0,0,36,9Zm1-4a2,2,0,0,0-4,0,.5.5,0,0,0,1,0,1,1,0,1,1,1,1,.5.5,0,0,0,0,1A2,2,0,0,0,37,5Z"
-                        transform="translate(-27)" />
+            <a href="{{ route('mitraubah.index') }}" class="flex items-center justify-center">
+                <svg class="size-7" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" version="1.1">
+                    <path style="fill:none;stroke:#444444;stroke-width:2" d="M 8,16 15,14 83,6 92,78 29,94 22,92 z" />
+                    <path style="fill:#287293;stroke:#888888" d="m 8,16 7,-2 68,-8 3,25 -67,9 -6,1 z" />
+                    <path style="fill:none;stroke:#dddddd" d="m 15,15 c 1,7 3,19 4,23" />
+                    <path style="fill:#cccccc;stroke:#888888"
+                        d="m 19,39 -6,1 9,52 7,2 C 29,94 92,79 92,78 92,77 86,30 86,30 z" />
+                    <path style="fill:#eeeeee;stroke:#aaaaaa;"
+                        d="m 86,30 c 0,0 4,22 11,33 -3,6 -14,14 -19,15 -6,1 -45,13 -45,13 0,0 -4,-2 -6,-11 L 19,39 z" />
+                    <path style="fill:#dddddd;stroke:#aaaaaa;"
+                        d="M 97,63 C 96,62 93,60 93,60 L 81,77 c 0,0 11,-6 16,-14" />
+                    <path style="fill:#4444444"
+                        d="m 56,41 22,-4 1,5 c 0,0 -8,13 -5,31 l -6,2 c 0,0 -4,-13 4,-31 L 57,47 z M 32,54 c 6,-2 7,-7 8,-11 l 6,-1 8,36 -7,2 -6,-26 c 0,0 -3,5 -7,6 z" />
                 </svg>
                 <div class="relative px-2 pt-2">
                     <span class="absolute top-0 left-2 text-xs w-40">@lang('messages.humanresource')</span>
-                    <span>@lang('messages.pcizin')</span>
+                    <span>@lang('messages.mitraubah')</span>
                 </div>
             </a>
             <span class="px-2">&raquo;</span>
@@ -20,7 +27,7 @@
         </h1>
     </div>
 
-    <form action="{{ route('pcizin.update', Crypt::Encrypt($datas->id)) }}" method="POST"
+    <form action="{{ route('mitraubah.update', Crypt::Encrypt($datas->id)) }}" method="POST"
         enctype="multipart/form-data">
         @csrf
         @method('PUT')
@@ -31,7 +38,7 @@
                 <div class="flex flex-col items-center">
 
                     <div class="w-full" role="alert">
-                        @include('pcizin.partials.feedback')
+                        @include('mitraubah.partials.feedback')
                     </div>
 
                     <div
@@ -50,61 +57,27 @@
                                     <div class="w-auto pb-4">
                                         <span for="mitra_id"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.employee')</span>
-                                        <x-text-span>{{ $datas->pc_nama }}</x-text-span>
+                                        <x-text-span>{{ $datas->user_nama }}</x-text-span>
                                     </div>
 
                                     <div class="w-auto pb-4">
                                         <span for="jenis_id"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.izin')</span>
-                                        <x-text-span>{{ $datas->jenis_nama }}</x-text-span>
-                                    </div>
-
-                                    <div class="w-auto pb-4">
-                                        <div class="flex flex-row flex-wrap items-center gap-2">
-                                            <div>
-                                                <span for="tanggal_mulai"
-                                                    class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.startdate')</span>
-                                                <x-text-span>{{ $datas->tanggal_mulai->translatedFormat('l, d F Y') }}</x-text-span>
-                                                <x-text-span
-                                                    class="text-bold">{{ $datas->tanggal_mulai->translatedFormat('H:i') }}</x-text-span>
-                                            </div>
-                                            <div>
-                                                <span for="tanggal_selesai"
-                                                    class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.enddate')</span>
-                                                <x-text-span>{{ $datas->tanggal_selesai->translatedFormat('l, d F Y') }}</x-text-span>
-                                                <x-text-span
-                                                    class="text-bold">{{ $datas->tanggal_selesai->translatedFormat('H:i') }}</x-text-span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="w-auto pb-4">
-                                        <span for="keterangan"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</span>
-                                        <x-text-span>{{ $datas->keterangan }}</x-text-span>
-                                    </div>
-
-                                    <div class="w-auto pb-4">
-                                        <label for="penanganan"
-                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.handling')</label>
-                                        <x-textarea-input name="penanganan" id="penanganan" tabindex="1"
-                                            rows="7" maxlength="200"
-                                            placeholder="{{ __('messages.enter') }} {{ __('messages.handling') }}">{{ old('penanganan', $datas->penanganan) }}
-                                        </x-textarea-input>
-
-                                        <x-input-error class="mt-2" :messages="$errors->get('penanganan')" />
+                                        <x-text-span>{{ $datas->jenis_ubah == 1 ? 'Tambah Hari' : 'Ganti Hari' }}</x-text-span>
                                     </div>
                                 </div>
 
                                 <div class="w-full lg:w-1/2 px-2 flex flex-col justify-start">
+                                    <div class="w-auto pb-4">
+                                        <span for="tanggal"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.startdate')</span>
+                                        <x-text-span>{{ \Carbon\Carbon::parse($datas->tanggal)->translatedFormat('l, d F Y') }}</x-text-span>
+                                    </div>
+
                                     <div class="w-auto pb-4 lg:pb-12">
-                                        <x-text-span>
-                                            <div class="flex justify-center">
-                                                <img id="image-preview" class="w-full lg:w-3/5 h-auto border rounded-lg"
-                                                    @if ($datas->image_nama) src="{{ asset($datas->image_lokasi . '/' . $datas->image_nama) }}" @else src="{{ url('/') }}/images/0cd6be830e32f80192d496e50cfa9dbc.jpg" @endif
-                                                    alt="o.o" />
-                                            </div>
-                                        </x-text-span>
+                                        <span for="keterangan"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.description')</span>
+                                        <x-text-span>{{ $datas->keterangan }}</x-text-span>
                                     </div>
 
                                     <div class="flex flex-row flex-wrap items-center justify-end gap-2 md:gap-4">
