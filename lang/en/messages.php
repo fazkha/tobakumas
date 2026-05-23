@@ -305,4 +305,5 @@ return [
     'show' => 'Show',
     'pendingonly' => 'Pending Only',
     'mitraubah' => 'Day Replacement',
+    'type' => 'Type',
 ];
