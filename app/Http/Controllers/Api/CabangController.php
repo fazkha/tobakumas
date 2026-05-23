@@ -1472,7 +1472,9 @@ class CabangController extends Controller
             $target = MitraTargetBonus::where('id', 1)->first();
 
             if ($target) {
-                $target_akum_omzet = $target->target * 6;
+                $app_pembagi = AppSetting::where('parm', 'mitra_pembagi_rata2_omzet')->first();
+                $val_pembagi = $app_pembagi ? intval($app_pembagi->value) : 0;
+                $target_akum_omzet = $target->target * $val_pembagi;
                 $target_omzet_phari = $target->target;
 
                 $mitraAverageOmzet = MitraAverageOmzet::create([
