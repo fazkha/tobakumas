@@ -1988,6 +1988,7 @@ class CabangController extends Controller
                     'tanggal' => $data['tanggal'],
                     'keterangan' => $data['keterangan'],
                     'jenis_ubah' => $data['jenis'],
+                    'approved_hrd' => $data['jenis'] == 1 ? 1 : $mitraubah->approved_hrd,
                     'updated_by' => $user->email,
                 ]);
             } else {
@@ -1997,6 +1998,7 @@ class CabangController extends Controller
                     'tanggal' => $data['tanggal'],
                     'keterangan' => $data['keterangan'],
                     'jenis_ubah' => $data['jenis'],
+                    'approved_hrd' => $data['jenis'] == 1 ? 1 : 0,
                     'created_by' => $user->email,
                 ]);
             }
