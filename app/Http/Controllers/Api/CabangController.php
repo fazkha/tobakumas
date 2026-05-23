@@ -1445,6 +1445,7 @@ class CabangController extends Controller
 
         $akum_omzet = 0;
         $target_akum_omzet = 0;
+        $target_omzet_phari = 0;
         $pct_akum_omzet = 0;
         $pencapaian_sisa_hari = 0;
         $pencapaian_omzet_phari = 0;
@@ -1465,6 +1466,23 @@ class CabangController extends Controller
             ->where('minggu', $yearWeek)
             ->select('target_akum_omzet')
             ->first();
+
+        if ($mitraAverageOmzet == null) {
+            $target = MitraTargetBonus::where('id', 1)->first();
+
+            if ($target) {
+                $target_akum_omzet = $target->target * 6;
+                $target_omzet_phari = $target->target;
+
+                $mitraAverageOmzet = MitraAverageOmzet::create([
+                    'user_id' => $mitra_user_id,
+                    'target_id' => 1,
+                    'minggu' => $yearWeek,
+                    'target_akum_omzet' => $target_akum_omzet,
+                    'target_omzet_phari' => $target_omzet_phari,
+                ]);
+            }
+        }
 
         $target_akum_omzet = $mitraAverageOmzet ? $mitraAverageOmzet->target_akum_omzet : 0;
         if ($target_akum_omzet > 0) {
