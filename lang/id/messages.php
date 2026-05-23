@@ -303,4 +303,5 @@ return [
     'izin' => 'Izin',
     'show' => 'Tampilkan',
     'pendingonly' => 'Hanya Tertunda',
+    'mitraubah' => 'Ganti Hari',
 ];

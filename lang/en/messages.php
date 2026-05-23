@@ -304,4 +304,5 @@ return [
     'izin' => 'Permission',
     'show' => 'Show',
     'pendingonly' => 'Pending Only',
+    'mitraubah' => 'Day Replacement',
 ];
