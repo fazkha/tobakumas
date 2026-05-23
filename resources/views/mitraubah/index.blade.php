@@ -4,7 +4,7 @@
     <div class="flex items-center justify-between px-4 py-4 border-b border-primary-100 lg:py-6 dark:border-primary-800">
         <h1 class="text-xl flex items-center justify-center">
             <a href="{{ route('mitraubah.index') }}" class="flex items-center justify-center">
-                <svg width="800px" height="800px" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" version="1.1">
+                <svg class="size-7" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" version="1.1">
                     <path style="fill:none;stroke:#444444;stroke-width:2" d="M 8,16 15,14 83,6 92,78 29,94 22,92 z" />
                     <path style="fill:#287293;stroke:#888888" d="m 8,16 7,-2 68,-8 3,25 -67,9 -6,1 z" />
                     <path style="fill:none;stroke:#dddddd" d="m 15,15 c 1,7 3,19 4,23" />

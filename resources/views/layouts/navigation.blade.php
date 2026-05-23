@@ -545,8 +545,8 @@
                             <a href="{{ route('mitraubah.index') }}" role="menuitem"
                                 class="block p-2 text-sm text-gray-500 transition-colors duration-200 rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary">
                                 <span class="flex flex-row gap-1">
-                                    <svg width="800px" height="800px" viewBox="0 0 100 100"
-                                        xmlns="http://www.w3.org/2000/svg" version="1.1">
+                                    <svg class="size-5" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"
+                                        version="1.1">
                                         <path style="fill:none;stroke:#444444;stroke-width:2"
                                             d="M 8,16 15,14 83,6 92,78 29,94 22,92 z" />
                                         <path style="fill:#287293;stroke:#888888" d="m 8,16 7,-2 68,-8 3,25 -67,9 -6,1 z" />
