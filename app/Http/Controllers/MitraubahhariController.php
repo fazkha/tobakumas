@@ -109,7 +109,7 @@ class MitraubahhariController extends Controller implements HasMiddleware
             return redirect()->route('dashboard');
         }
 
-        return view('mitraubah.index', compact(['datas', 'branches', 'mitras']))->with('i', (request()->input('page', 1) - 1) * session('mitraubah_pp'));
+        return view('mitraubah.index', compact(['datas', 'branches', 'users']))->with('i', (request()->input('page', 1) - 1) * session('mitraubah_pp'));
     }
 
     public function fetchdb(Request $request): JsonResponse
@@ -156,7 +156,7 @@ class MitraubahhariController extends Controller implements HasMiddleware
 
         $datas->withPath('/human-resource/mitraubah'); // pagination url to
 
-        $view = view('mitraubah.partials.table', compact(['datas', 'branches', 'mitras']))->with('i', (request()->input('page', 1) - 1) * session('mitraubah_pp'))->render();
+        $view = view('mitraubah.partials.table', compact(['datas', 'branches', 'users']))->with('i', (request()->input('page', 1) - 1) * session('mitraubah_pp'))->render();
 
         if ($view) {
             return response()->json($view, 200);
