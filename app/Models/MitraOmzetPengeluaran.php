@@ -17,6 +17,7 @@ class MitraOmzetPengeluaran extends Model
         'omzet',
         'akum_omzet',
         'pct_akum_omzet',
+        'pencapaian_jumlah_hari',
         'pencapaian_sisa_hari',
         'pencapaian_omzet_phari',
         'sisa_adonan',
