@@ -93,6 +93,7 @@ Route::prefix('office')->group(function () {
     Route::get('get-hke', [OfficeController::class, 'getHke']);
     Route::post('save-izin-mitra', [OfficeController::class, 'saveIzinMitra']);
     Route::post('save-izin-pc', [OfficeController::class, 'saveIzinPc']);
+    Route::post('save-tanggapan-resign', [OfficeController::class, 'saveTanggapanResign']);
     Route::post('save-resign', [OfficeController::class, 'saveResign']);
     Route::post('load-pending-resign', [OfficeController::class, 'loadPendingResign']);
 });

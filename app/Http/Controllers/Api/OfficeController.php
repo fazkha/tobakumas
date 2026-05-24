@@ -332,6 +332,48 @@ class OfficeController extends Controller
         ]);
     }
 
+    public function saveTanggapanResign(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = Validator::make($request->all(), [
+            'id' => ['required', 'integer', 'exists:resigns,id'],
+            'tanggapan' => ['nullable', 'string'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+
+        $resign = Resign::find($data['id']);
+
+        if ($resign) {
+            $resign->update([
+                'tanggapan_pc' => $data['tanggapan'],
+            ]);
+        }
+
+        $user = User::where('email', $resign->created_by)->first();
+        $pending = DB::select("CALL sp_pending_resign(?)", [$user->id]);
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'pending' => $pending,
+        ]);
+    }
+
     public function GetLokasiIzinUpload()
     {
         $path = 'storage/uploads/cabang/formizin';
