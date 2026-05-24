@@ -1462,7 +1462,7 @@ class CabangController extends Controller
         $result = MitraOmzetPengeluaran::where('approved_omzet', 1)
             ->whereBetween('tanggal', [$startDate, $endDate])
             ->where('user_id', $mitra_user_id)
-            ->selectRaw('SUM(omzet) as total_omzet, COUNT(DISTINCT tanggal) as jumlah_hari')
+            ->selectRaw('SUM(omzet) as total_omzet, COUNT(tanggal) as jumlah_hari')
             ->first();
 
         $total_omzet = $result->total_omzet;
@@ -1512,7 +1512,7 @@ class CabangController extends Controller
             $result = MitraOmzetPengeluaran::where('approved_omzet', 1)
                 ->whereBetween('tanggal', [$startDate, $endDate])
                 ->where('user_id', $mitra_user_id)
-                ->selectRaw('SUM(omzet) as total_omzet, COUNT(DISTINCT tanggal) as jumlah_hari')
+                ->selectRaw('SUM(omzet) as total_omzet, COUNT(tanggal) as jumlah_hari')
                 ->first();
 
             $total_omzet = $result->total_omzet;
