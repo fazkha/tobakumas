@@ -21,7 +21,7 @@ use Carbon\Carbon;
 
 class OfficeController extends Controller
 {
-    public function db_switch($sw)
+    public function db_switch(int $sw): void
     {
         if ($sw == 2) {
             Config::set('database.connections.mysql.database', config('custom.db02_dbname'));

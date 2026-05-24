@@ -26,7 +26,7 @@ use Carbon\Carbon;
 
 class MitraController extends Controller
 {
-    public function db_switch($sw)
+    public function db_switch(int $sw)
     {
         if ($sw == 2) {
             Config::set('database.connections.mysql.database', config('custom.db02_dbname'));

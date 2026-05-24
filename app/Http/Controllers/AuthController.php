@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-// use App\Models\Pegawai;
-
 use App\Models\AppSetting;
 use App\Models\Brandivjab;
 use App\Models\Brandivjabmit;
@@ -22,7 +20,7 @@ use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
-    public function db_switch($sw)
+    public function db_switch(int $sw): void
     {
         if ($sw == 2) {
             Config::set('database.connections.mysql.database', config('custom.db02_dbname'));
