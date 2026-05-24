@@ -1467,7 +1467,6 @@ class CabangController extends Controller
 
         $total_omzet = $result->total_omzet;
         $jumlah_hari = $result->jumlah_hari;
-        dd($startDate, $endDate, $total_omzet, $jumlah_hari);
 
         $mitraAverageOmzet = MitraAverageOmzet::where('user_id', $mitra_user_id)
             ->where('minggu', $yearWeek)
@@ -1517,6 +1516,7 @@ class CabangController extends Controller
 
             $total_omzet = $result->total_omzet;
             $jumlah_hari = $result->jumlah_hari;
+            dd($startDate, $endDate, $total_omzet, $jumlah_hari);
 
             $mitraAverageOmzet = MitraAverageOmzet::where('user_id', $mitra_user_id)
                 ->where('minggu', $yearWeek)
