@@ -1444,24 +1444,29 @@ class CabangController extends Controller
 
         $yearWeek = $this->currentYearAndWeek();
 
-        $akum_omzet = 0;
         $target_akum_omzet = 0;
         $target_omzet_phari = 0;
         $pct_akum_omzet = 0;
         $pencapaian_sisa_hari = 0;
         $pencapaian_omzet_phari = 0;
+        $app_pembagi = AppSetting::where('parm', 'mitra_pembagi_rata2_omzet')->first();
+        $val_pembagi = $app_pembagi ? intval($app_pembagi->value) : 0;
 
         $today = Carbon::today();
         $dayOfWeek = $today->dayOfWeek;
         // Hitung mundur ke Sabtu terdekat
         $startDate = $today->copy()->subDays(($dayOfWeek + 1) % 7)->startOfDay();
         // Akhir minggu = Jumat
-        $endDate = $startDate->copy()->addDays(6)->endOfDay();
+        $endDate = $startDate->copy()->addDays($val_pembagi)->endOfDay();
 
-        $akum_omzet = MitraOmzetPengeluaran::where('approved_omzet', 1)
+        $result = MitraOmzetPengeluaran::where('approved_omzet', 1)
             ->whereBetween('tanggal', [$startDate, $endDate])
             ->where('user_id', $mitra_user_id)
-            ->sum('omzet');
+            ->selectRaw('SUM(omzet) as total_omzet, COUNT(DISTINCT tanggal) as jumlah_hari')
+            ->first();
+
+        $total_omzet = $result->total_omzet;
+        $jumlah_hari = $result->jumlah_hari;
 
         $mitraAverageOmzet = MitraAverageOmzet::where('user_id', $mitra_user_id)
             ->where('minggu', $yearWeek)
@@ -1472,8 +1477,6 @@ class CabangController extends Controller
             $target = MitraTargetBonus::where('id', 1)->first();
 
             if ($target) {
-                $app_pembagi = AppSetting::where('parm', 'mitra_pembagi_rata2_omzet')->first();
-                $val_pembagi = $app_pembagi ? intval($app_pembagi->value) : 0;
                 $target_akum_omzet = $target->target * $val_pembagi;
                 $target_omzet_phari = $target->target;
 
@@ -1492,11 +1495,11 @@ class CabangController extends Controller
 
         $target_akum_omzet = $mitraAverageOmzet ? $mitraAverageOmzet->target_akum_omzet : 0;
         if ($target_akum_omzet > 0) {
-            $pct_akum_omzet = ($akum_omzet / $target_akum_omzet) * 100;
+            $pct_akum_omzet = ($total_omzet / $target_akum_omzet) * 100;
         }
         $pencapaian_sisa_hari = intval($today->diffInDays($endDate, false)) - 1;
         $pencapaian_sisa_hari = $pencapaian_sisa_hari < 0 ? 0 : $pencapaian_sisa_hari;
-        $pencapaian_omzet_phari = $target_akum_omzet > 0 ? abs($target_akum_omzet - $akum_omzet) / ($pencapaian_sisa_hari <= 0 ? 1 : $pencapaian_sisa_hari) : 0;
+        $pencapaian_omzet_phari = $target_akum_omzet > 0 ? abs($target_akum_omzet - $total_omzet) / ($pencapaian_sisa_hari <= 0 ? 1 : $pencapaian_sisa_hari) : 0;
         // (END) Status omzet dan target bonus dan pencapaian
 
         if ($found) {
@@ -1505,10 +1508,14 @@ class CabangController extends Controller
                 'approved_adonan' => $approved_adonan == 1 ? 0 : 1,
             ]);
 
-            $akum_omzet = MitraOmzetPengeluaran::where('approved_omzet', 1)
+            $result = MitraOmzetPengeluaran::where('approved_omzet', 1)
                 ->whereBetween('tanggal', [$startDate, $endDate])
                 ->where('user_id', $mitra_user_id)
-                ->sum('omzet');
+                ->selectRaw('SUM(omzet) as total_omzet, COUNT(DISTINCT tanggal) as jumlah_hari')
+                ->first();
+
+            $total_omzet = $result->total_omzet;
+            $jumlah_hari = $result->jumlah_hari;
 
             $mitraAverageOmzet = MitraAverageOmzet::where('user_id', $mitra_user_id)
                 ->where('minggu', $yearWeek)
@@ -1517,14 +1524,15 @@ class CabangController extends Controller
 
             $target_akum_omzet = $mitraAverageOmzet ? $mitraAverageOmzet->target_akum_omzet : 0;
             if ($target_akum_omzet > 0) {
-                $pct_akum_omzet = ($akum_omzet / $target_akum_omzet) * 100;
+                $pct_akum_omzet = ($total_omzet / $target_akum_omzet) * 100;
             }
-            $pencapaian_omzet_phari = $target_akum_omzet > 0 ? abs($target_akum_omzet - $akum_omzet) / ($pencapaian_sisa_hari <= 0 ? 1 : $pencapaian_sisa_hari) : 0;
+            $pencapaian_omzet_phari = $target_akum_omzet > 0 ? abs($target_akum_omzet - $total_omzet) / ($pencapaian_sisa_hari <= 0 ? 1 : $pencapaian_sisa_hari) : 0;
 
             $found->update([
                 'delta_omzet' => $app_delta,
-                'akum_omzet' => $akum_omzet,
+                'akum_omzet' => $total_omzet,
                 'pct_akum_omzet' => $pct_akum_omzet,
+                'pencapain_jumlah_hari' => $jumlah_hari,
                 'pencapaian_sisa_hari' => $pencapaian_sisa_hari,
                 'pencapaian_omzet_phari' => $pencapaian_omzet_phari,
             ]);
