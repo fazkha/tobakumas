@@ -1532,7 +1532,7 @@ class CabangController extends Controller
                 'delta_omzet' => $app_delta,
                 'akum_omzet' => $total_omzet,
                 'pct_akum_omzet' => $pct_akum_omzet,
-                'pencapain_jumlah_hari' => $jumlah_hari,
+                'pencapaian_jumlah_hari' => $jumlah_hari,
                 'pencapaian_sisa_hari' => $pencapaian_sisa_hari,
                 'pencapaian_omzet_phari' => $pencapaian_omzet_phari,
             ]);
