@@ -1555,7 +1555,8 @@ class CabangController extends Controller
             // if ($found->approved_omzet == 1) {
             $rata2 = $total_omzet / $jumlah_hari;
             $gapok = Pegawai::join('pegawai_gajis as pg', 'pg.pegawai_id', '=', 'pegawais.id')
-                ->where('pegawais.email', $found->user->email)->value('pg.gaji_pokok') ?? 0;
+                ->where('pegawais.email', $found->user->email)
+                ->value('pg.gaji_pokok') ?? 0;
             dd($rata2, $gapok);
             $hpp = 0;
             DB::select("CALL sp_pc_target_bonus(?,?)", [$rata2, $gapok, $hpp]);
