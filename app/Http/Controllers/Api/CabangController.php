@@ -1389,6 +1389,14 @@ class CabangController extends Controller
         $omzet = null;
         $rekap = null;
         $average = null;
+        $target_akum_omzet = 0;
+        $target_omzet_phari = 0;
+        $pct_akum_omzet = 0;
+        $pencapaian_sisa_hari = 0;
+        $pencapaian_omzet_phari = 0;
+        $rata2 = 0;
+        $gapok = 0;
+        $hpp = 0;
 
         $found = MitraOmzetPengeluaran::where('id', $data['id'])->first();
 
@@ -1448,11 +1456,6 @@ class CabangController extends Controller
 
         $yearWeek = $this->currentYearAndWeek();
 
-        $target_akum_omzet = 0;
-        $target_omzet_phari = 0;
-        $pct_akum_omzet = 0;
-        $pencapaian_sisa_hari = 0;
-        $pencapaian_omzet_phari = 0;
         $app_pembagi = AppSetting::where('parm', 'mitra_pembagi_rata2_omzet')->first();
         $val_pembagi = $app_pembagi ? intval($app_pembagi->value) : 0;
 
@@ -1547,7 +1550,16 @@ class CabangController extends Controller
             $request = new Request([
                 'id' => $mitra_user_id,
             ]);
-            $average = $controller->loadOmzetPekanan($request);
+            $controller->loadOmzetPekanan($request);
+
+            // if ($found->approved_omzet == 1) {
+            $rata2 = $total_omzet / $jumlah_hari;
+            $gapok = Pegawai::join('pegawai_gajis as pg', 'pg.pegawai_id', '=', 'pegawais.id')
+                ->where('pegawais.email', $found->user->email)->value('pg.gaji_pokok') ?? 0;
+            dd($rata2, $gapok);
+            $hpp = 0;
+            DB::select("CALL sp_pc_target_bonus(?,?)", [$rata2, $gapok, $hpp]);
+            // }
         }
 
         $this->db_switch(1);
@@ -1555,7 +1567,6 @@ class CabangController extends Controller
         return response()->json([
             'status' => 'success',
             'omzet' => $omzet,
-            'rekap' => $rekap,
         ]);
     }
 
