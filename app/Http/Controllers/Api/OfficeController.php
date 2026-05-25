@@ -356,15 +356,50 @@ class OfficeController extends Controller
         $data = $validator->validated();
 
         $resign = Resign::find($data['id']);
+        $pending = null;
 
         if ($resign) {
             $resign->update([
                 'tanggapan_pc' => $data['tanggapan'],
             ]);
-        }
 
-        $user = User::where('email', $resign->created_by)->first();
-        $pending = DB::select("CALL sp_pending_resign(?)", [$user->id]);
+            $pc_id = DB::table('users as u1')
+                ->join('mitras as m1', function ($join) {
+                    $join->on('m1.email', '=', 'u1.email')
+                        ->where('m1.isactive', 1);
+                })
+                ->join('brandivjabmits as b1', function ($join) {
+                    $join->on('b1.mitra_id', '=', 'm1.id')
+                        ->where('b1.isactive', 1);
+                })
+                ->join('brandivjabs as b2', function ($join) {
+                    $join->on('b2.id', '=', 'b1.brandivjab_id')
+                        ->where('b2.jabatan_id', 3)
+                        ->where('b2.isactive', 1);
+                })
+                ->join('brandivjabs as b3', function ($join) {
+                    $join->on('b3.branch_id', '=', 'b2.branch_id')
+                        ->where('b3.jabatan_id', 4)
+                        ->where('b3.isactive', 1);
+                })
+                ->join('brandivjabpegs as b4', function ($join) {
+                    $join->on('b4.brandivjab_id', '=', 'b3.id')
+                        ->where('b4.isactive', 1);
+                })
+                ->join('pegawais as p1', function ($join) {
+                    $join->on('p1.id', '=', 'b4.pegawai_id')
+                        ->where('p1.isactive', 1);
+                })
+                ->join('users as u2', function ($join) {
+                    $join->on('u2.email', '=', 'p1.email')
+                        ->where('u2.approved', 1);
+                })
+                ->where('u1.id', $resign->user_id)
+                ->where('u1.approved', 1)
+                ->value('u2.id');
+
+            $pending = DB::select("CALL sp_pending_resign(?)", [$pc_id]);
+        }
 
         $this->db_switch(1);
 
