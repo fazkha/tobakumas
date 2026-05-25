@@ -1543,7 +1543,10 @@ class CabangController extends Controller
             $omzet = DB::select("CALL sp_omzetharianpc(?,?)", [$data['pc_id'], $data['tanggal']]);
 
             $controller = new MitraController();
-            $average = $controller->loadOmzetPekanan($mitra_user_id);
+            $request = new Request([
+                'id' => $mitra_user_id,
+            ]);
+            $average = $controller->loadOmzetPekanan($request);
         }
 
         $this->db_switch(1);
