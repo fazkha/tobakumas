@@ -1552,7 +1552,7 @@ class CabangController extends Controller
             $pegawai = Pegawai::join('users as u', 'u.email', '=', 'pegawais.email')
                 ->join('pegawai_gajis as pg', 'pg.pegawai_id', '=', 'pegawais.id')
                 ->where('u.id', $data['pc_id'])
-                ->select('pg.gaji_pokok')
+                ->selectRaw('pg.gaji_pokok')
                 ->first();
             $gapok = $pegawai ? $pegawai->gaji_pokok : 0;
             dd($rata2, $gapok, $pegawai);
