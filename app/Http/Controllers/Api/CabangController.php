@@ -1549,9 +1549,9 @@ class CabangController extends Controller
 
             // if ($found->approved_omzet == 1) {
             $rata2 = $total_omzet / $jumlah_hari;
-            $pegawai = User::join('pegawais', 'pegawais.email', '=', 'users.email')
-                ->where('users.id', $data['pc_id'])
+            $pegawai = User::where('users.id', $data['pc_id'])
                 ->first();
+            // ->join('pegawais', 'pegawais.email', '=', 'users.email')
             // ->selectRaw('pg.gaji_pokok')
             // ->join('pegawai_gajis as pg', 'pg.pegawai_id', '=', 'pegawais.id')
             dd($rata2, $pegawai);
