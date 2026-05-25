@@ -1555,7 +1555,7 @@ class CabangController extends Controller
                 ->select('pg.gaji_pokok')
                 ->first();
             $gapok = $pegawai ? $pegawai->gaji_pokok : 0;
-            dd($rata2, $gapok);
+            dd($rata2, $gapok, $pegawai);
             $hpp = 0;
             DB::select("CALL sp_pc_target_bonus(?,?)", [$rata2, $gapok, $hpp]);
             // }
