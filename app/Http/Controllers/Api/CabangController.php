@@ -1386,6 +1386,7 @@ class CabangController extends Controller
 
         $data = $validator->validated();
         $omzet = null;
+        $average = null;
 
         $found = MitraOmzetPengeluaran::where('id', $data['id'])->first();
 
@@ -1417,6 +1418,7 @@ class CabangController extends Controller
         $this->db_switch(1);
 
         $tanggal = Carbon::parse($tanggal)->subDays(2)->toDateString();
+
         $order = DB::table('sale_orders as s1')
             ->join('customers as c1', function ($join) {
                 $join->on('c1.branch_link_id', '=', 's1.branch_id')
@@ -1538,6 +1540,7 @@ class CabangController extends Controller
             ]);
 
             $omzet = DB::select("CALL sp_omzetharianpc(?,?)", [$data['pc_id'], $data['tanggal']]);
+            $average = DB::select("CALL sp_mitra_omset_pekanan(?)", [$mitra_user_id]);
         }
 
         $this->db_switch(1);
