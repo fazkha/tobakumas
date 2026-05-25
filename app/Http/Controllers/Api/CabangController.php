@@ -1555,7 +1555,7 @@ class CabangController extends Controller
             // ->join('pegawais', 'pegawais.email', '=', 'users.email')
             // ->selectRaw('pg.gaji_pokok')
             // ->join('pegawai_gajis as pg', 'pg.pegawai_id', '=', 'pegawais.id')
-            dd($rata2, $pegawai);
+            dd($rata2, $data['pc_id']);
             $gapok = $pegawai ? $pegawai->gaji_pokok : 0;
             dd($rata2, $gapok, $pegawai);
             $hpp = 0;
