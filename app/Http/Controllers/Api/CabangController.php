@@ -1387,6 +1387,7 @@ class CabangController extends Controller
 
         $data = $validator->validated();
         $omzet = null;
+        $rekap = null;
         $average = null;
 
         $found = MitraOmzetPengeluaran::where('id', $data['id'])->first();
@@ -1554,6 +1555,7 @@ class CabangController extends Controller
         return response()->json([
             'status' => 'success',
             'omzet' => $omzet,
+            'rekap' => $rekap,
         ]);
     }
 
