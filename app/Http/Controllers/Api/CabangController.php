@@ -1545,7 +1545,7 @@ class CabangController extends Controller
             $request = new Request([
                 'id' => $mitra_user_id,
             ]);
-            $controller->loadOmzetPekanan($request);
+            $rekap = $controller->loadOmzetPekanan($request);
 
             // if ($found->approved_omzet == 1) {
             $rata2 = $total_omzet / $jumlah_hari;
@@ -1555,6 +1555,7 @@ class CabangController extends Controller
                 ->where('u.id', 40)
                 ->select('p2.gaji_pokok')
                 ->first();
+            // ->value('p2.gaji_pokok');
             // ->join('pegawais', 'pegawais.email', '=', 'users.email')
             // ->selectRaw('pg.gaji_pokok')
             // ->join('pegawai_gajis as pg', 'pg.pegawai_id', '=', 'pegawais.id')
