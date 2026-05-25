@@ -1552,7 +1552,7 @@ class CabangController extends Controller
             $gaji_pokok = DB::table('users as u')
                 ->join('pegawais as p1', 'p1.email', '=', 'u.email')
                 ->join('pegawai_gajis as p2', 'p2.pegawai_id', '=', 'p1.id')
-                ->where('u.id', $data['pc_id'])
+                ->where('u.id', '40')
                 ->value('p2.gaji_pokok');
             // ->join('pegawais', 'pegawais.email', '=', 'users.email')
             // ->selectRaw('pg.gaji_pokok')
