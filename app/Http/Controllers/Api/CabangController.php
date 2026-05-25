@@ -1387,16 +1387,11 @@ class CabangController extends Controller
 
         $data = $validator->validated();
         $omzet = null;
-        $rekap = null;
-        $average = null;
         $target_akum_omzet = 0;
         $target_omzet_phari = 0;
         $pct_akum_omzet = 0;
         $pencapaian_sisa_hari = 0;
         $pencapaian_omzet_phari = 0;
-        $rata2 = 0;
-        $gapok = 0;
-        $hpp = 0;
 
         $found = MitraOmzetPengeluaran::where('id', $data['id'])->first();
 
@@ -1554,10 +1549,12 @@ class CabangController extends Controller
 
             // if ($found->approved_omzet == 1) {
             $rata2 = $total_omzet / $jumlah_hari;
-            $gapok = Pegawai::join('users as u', 'u.email', '=', 'pegawais.email')
+            $pegawai = Pegawai::join('users as u', 'u.email', '=', 'pegawais.email')
                 ->join('pegawai_gajis as pg', 'pg.pegawai_id', '=', 'pegawais.id')
                 ->where('u.id', $data['pc_id'])
-                ->value('pg.gaji_pokok') ?? 0;
+                ->select('pg.gaji_pokok')
+                ->first();
+            $gapok = $pegawai ? $pegawai->gaji_pokok : 0;
             dd($rata2, $gapok);
             $hpp = 0;
             DB::select("CALL sp_pc_target_bonus(?,?)", [$rata2, $gapok, $hpp]);
