@@ -1554,8 +1554,9 @@ class CabangController extends Controller
 
             // if ($found->approved_omzet == 1) {
             $rata2 = $total_omzet / $jumlah_hari;
-            $gapok = Pegawai::join('pegawai_gajis as pg', 'pg.pegawai_id', '=', 'pegawais.id')
-                ->where('pegawais.email', $found->user->email)
+            $gapok = Pegawai::join('users as u', 'u.email', '=', 'pegawais.email')
+                ->join('pegawai_gajis as pg', 'pg.pegawai_id', '=', 'pegawais.id')
+                ->where('users.id', $data['pc_id'])
                 ->value('pg.gaji_pokok') ?? 0;
             dd($rata2, $gapok);
             $hpp = 0;
