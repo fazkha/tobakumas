@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\MitraController;
 use App\Models\AppSetting;
 use App\Models\Barang;
 use App\Models\Branch;
