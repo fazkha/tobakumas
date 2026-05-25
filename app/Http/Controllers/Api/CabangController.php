@@ -1553,7 +1553,8 @@ class CabangController extends Controller
                 ->join('pegawais as p1', 'p1.email', '=', 'u.email')
                 ->join('pegawai_gajis as p2', 'p2.pegawai_id', '=', 'p1.id')
                 ->where('u.id', 40)
-                ->value('p2.gaji_pokok');
+                ->select('p2.gaji_pokok')
+                ->first();
             // ->join('pegawais', 'pegawais.email', '=', 'users.email')
             // ->selectRaw('pg.gaji_pokok')
             // ->join('pegawai_gajis as pg', 'pg.pegawai_id', '=', 'pegawais.id')
