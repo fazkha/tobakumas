@@ -1595,7 +1595,16 @@ class CabangController extends Controller
                 if ($data_omzet) {
                     $to = $data_omzet->tomzet ?? 0;
                     $jh = $data_omzet->jhari > 0 ? $data_omzet->jhari : 1;
-                    $rata2 = round($to / $jh / $val_pembagi, 2);
+
+                    $app_minimal_hari = AppSetting::where('parm', 'pc_minimal_perhitungan_hari')->first();
+                    $val_minimal_hari = $app_minimal_hari ? intval($app_minimal_hari->value) : 0;
+
+                    if ($jh < $val_minimal_hari) {
+                        $rata2 = round((($to / 26) * $jh) / $val_pembagi, 2);
+                        dd($jh, $val_minimal_hari, $rata2);
+                    } else {
+                        $rata2 = round($to / $jh / $val_pembagi, 2);
+                    }
 
                     $toppingSub = DB::table('tobakuma_01.sale_order_details')
                         ->selectRaw('sale_order_id, SUM(harga_satuan * kuantiti) AS total_topping')
