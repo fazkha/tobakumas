@@ -1541,14 +1541,6 @@ class CabangController extends Controller
 
             $omzet = DB::select("CALL sp_omzetharianpc(?,?)", [$data['pc_id'], $data['tanggal']]);
 
-            $controller = new MitraController();
-            $request = new Request([
-                'id' => $mitra_user_id,
-            ]);
-            $rekap = $controller->loadOmzetPekanan($request);
-
-            $this->db_switch(2);
-
             // if ($found->approved_omzet == 1) {
             $gaji_pokok = DB::table('users as u')
                 ->join('pegawais as p1', 'p1.email', '=', 'u.email')
@@ -1565,6 +1557,12 @@ class CabangController extends Controller
             DB::select("CALL sp_pc_target_bonus(?,?)", [$rata2, $gapok, $hpp]);
             // }
         }
+
+        $controller = new MitraController();
+        $request = new Request([
+            'id' => $mitra_user_id,
+        ]);
+        $rekap = $controller->loadOmzetPekanan($request);
 
         $this->db_switch(1);
 
