@@ -1457,6 +1457,9 @@ class CabangController extends Controller
         $app_pembagi = AppSetting::where('parm', 'mitra_pembagi_rata2_omzet')->first();
         $val_pembagi = $app_pembagi ? intval($app_pembagi->value) : 0;
 
+        $app_minimal_hari = AppSetting::where('parm', 'pc_minimal_perhitungan_hari')->first();
+        $val_minimal_hari = $app_minimal_hari ? intval($app_minimal_hari->value) : 0;
+
         $today = Carbon::today();
         $dayOfWeek = $today->dayOfWeek;
         // Hitung mundur ke Sabtu terdekat
@@ -1594,14 +1597,10 @@ class CabangController extends Controller
 
                 if ($data_omzet) {
                     $to = $data_omzet->tomzet ?? 0;
-                    $jh = $data_omzet->jhari > 0 ? $data_omzet->jhari : 1;
-
-                    $app_minimal_hari = AppSetting::where('parm', 'pc_minimal_perhitungan_hari')->first();
-                    $val_minimal_hari = $app_minimal_hari ? intval($app_minimal_hari->value) : 0;
+                    $jh = $data_omzet->jhari > 0 ? intval($data_omzet->jhari) : 1;
 
                     if ($jh < $val_minimal_hari) {
                         $rata2 = round((($to / 26) * $jh) / $val_pembagi, 2);
-                        dd($jh, $val_minimal_hari, $rata2);
                     } else {
                         $rata2 = round($to / $jh / $val_pembagi, 2);
                     }
