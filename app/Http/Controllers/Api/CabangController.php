@@ -1547,26 +1547,21 @@ class CabangController extends Controller
             ]);
             $rekap = $controller->loadOmzetPekanan($request);
 
-            // if ($found->approved_omzet == 1) {
-            $rata2 = $total_omzet / $jumlah_hari;
-            // $gaji_pokok = DB::table('users as u')
-            //     ->join('pegawais as p1', 'p1.email', '=', 'u.email')
-            //     ->join('pegawai_gajis as p2', 'p2.pegawai_id', '=', 'p1.id')
-            //     ->where('u.id', $data['pc_id'])
-            //     ->select('p2.gaji_pokok')
-            //     ->get();
-            $gaji_pokok = DB::table('users as u')
-                ->where('u.id', 40)
-                ->get();
-            // ->value('p2.gaji_pokok');
-            // ->join('pegawais', 'pegawais.email', '=', 'users.email')
-            // ->selectRaw('pg.gaji_pokok')
-            // ->join('pegawai_gajis as pg', 'pg.pegawai_id', '=', 'pegawais.id')
-            dd($gaji_pokok);
+            $this->db_switch(2);
 
-            $gapok = $pegawai ? $pegawai->gaji_pokok : 0;
-            dd($rata2, $gapok, $pegawai);
+            // if ($found->approved_omzet == 1) {
+            $gaji_pokok = DB::table('users as u')
+                ->join('pegawais as p1', 'p1.email', '=', 'u.email')
+                ->join('pegawai_gajis as p2', 'p2.pegawai_id', '=', 'p1.id')
+                ->where('u.id', $data['pc_id'])
+                ->value('p2.gaji_pokok');
+            // dd($gaji_pokok);
+
+            $gapok = $gaji_pokok ?? 0;
+            $rata2 = $total_omzet / $jumlah_hari;
             $hpp = 0;
+
+            dd($rata2, $gapok);
             DB::select("CALL sp_pc_target_bonus(?,?)", [$rata2, $gapok, $hpp]);
             // }
         }
