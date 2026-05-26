@@ -1392,6 +1392,9 @@ class CabangController extends Controller
         $pct_akum_omzet = 0;
         $pencapaian_sisa_hari = 0;
         $pencapaian_omzet_phari = 0;
+        $hpp = 0;
+        $rata2 = 0;
+        $bonus = 0;
 
         $found = MitraOmzetPengeluaran::where('id', $data['id'])->first();
 
@@ -1541,121 +1544,126 @@ class CabangController extends Controller
 
             $omzet = DB::select("CALL sp_omzetharianpc(?,?)", [$data['pc_id'], $data['tanggal']]);
 
-            // if ($found->approved_omzet == 1) {
-            $gaji_pokok = DB::table('users as u')
-                ->join('pegawais as p1', 'p1.email', '=', 'u.email')
-                ->join('pegawai_gajis as p2', 'p2.pegawai_id', '=', 'p1.id')
-                ->where('u.id', $data['pc_id'])
-                ->value('p2.gaji_pokok');
+            if ($found->approved_omzet == 1) {
+                $gaji_pokok = DB::table('users as u')
+                    ->join('pegawais as p1', 'p1.email', '=', 'u.email')
+                    ->join('pegawai_gajis as p2', 'p2.pegawai_id', '=', 'p1.id')
+                    ->where('u.id', $data['pc_id'])
+                    ->value('p2.gaji_pokok');
 
-            $gapok = $gaji_pokok ?? 0;
+                $gapok = $gaji_pokok ?? 0;
 
-            $data_omzet = DB::table('users as u1')
-                ->join('pegawais as p1', function ($join) {
-                    $join->on('p1.email', '=', 'u1.email')
-                        ->where('p1.isactive', 1);
-                })
-                ->join('brandivjabpegs as b1', function ($join) {
-                    $join->on('b1.pegawai_id', '=', 'p1.id')
-                        ->where('b1.isactive', 1);
-                })
-                ->join('brandivjabs as b2', function ($join) {
-                    $join->on('b2.id', '=', 'b1.brandivjab_id')
-                        ->where('b2.jabatan_id', 4)
-                        ->where('b2.isactive', 1);
-                })
-                ->join('brandivjabs as b3', function ($join) {
-                    $join->on('b3.branch_id', '=', 'b2.branch_id')
-                        ->where('b3.jabatan_id', 3)
-                        ->where('b3.isactive', 1);
-                })
-                ->join('brandivjabmits as b4', function ($join) {
-                    $join->on('b4.brandivjab_id', '=', 'b3.id')
-                        ->where('b4.isactive', 1);
-                })
-                ->join('mitras as m1', function ($join) {
-                    $join->on('m1.id', '=', 'b4.mitra_id')
-                        ->where('m1.isactive', 1);
-                })
-                ->join('users as u2', 'u2.email', '=', 'm1.email')
-                ->join('mitra_omzet_pengeluarans as m2', function ($join) {
-                    $join->on('m2.user_id', '=', 'u2.id')
-                        ->where('m2.approved_omzet', '=', 1)
-                        ->whereMonth('m2.tanggal', now()->month)
-                        ->whereYear('m2.tanggal', now()->year);
-                })
-                ->where('u1.id', $data['pc_id'])
-                ->where('u1.approved', 1)
-                ->selectRaw('SUM(m2.omzet) AS tomzet, COUNT(DISTINCT m2.tanggal) AS jhari')
-                ->first();
-
-            if ($data_omzet) {
-                $to = $data_omzet->tomzet ?? 0;
-                $jh = $data_omzet->jhari > 0 ? $data_omzet->jhari : 1;
-                $rata2 = round($to / $jh / $val_pembagi, 2);
-
-                $toppingSub = DB::table('tobakuma_01.sale_order_details')
-                    ->selectRaw('sale_order_id, SUM(harga_satuan * kuantiti) AS total_topping')
-                    ->groupBy('sale_order_id');
-
-                $adonanSub = DB::table('tobakuma_01.sale_order_mitras')
-                    ->selectRaw('sale_order_id, SUM(harga_satuan * kuantiti) AS total_adonan')
-                    ->groupBy('sale_order_id');
-
-                $subQuery = DB::table('tobakuma_02.users as u1')
-                    ->join('tobakuma_02.pegawais as p1', function ($join) {
+                $data_omzet = DB::table('users as u1')
+                    ->join('pegawais as p1', function ($join) {
                         $join->on('p1.email', '=', 'u1.email')
                             ->where('p1.isactive', 1);
                     })
-                    ->join('tobakuma_02.brandivjabpegs as b1', function ($join) {
+                    ->join('brandivjabpegs as b1', function ($join) {
                         $join->on('b1.pegawai_id', '=', 'p1.id')
                             ->where('b1.isactive', 1);
                     })
-                    ->join('tobakuma_02.brandivjabs as b2', function ($join) {
+                    ->join('brandivjabs as b2', function ($join) {
                         $join->on('b2.id', '=', 'b1.brandivjab_id')
                             ->where('b2.jabatan_id', 4)
                             ->where('b2.isactive', 1);
                     })
-                    ->join('tobakuma_01.sale_orders as s1', function ($join) {
-                        $join->on('s1.branch_id', '=', 'b2.branch_id')
-                            ->whereMonth('s1.tanggal', now()->month)
-                            ->whereYear('s1.tanggal', now()->year);
+                    ->join('brandivjabs as b3', function ($join) {
+                        $join->on('b3.branch_id', '=', 'b2.branch_id')
+                            ->where('b3.jabatan_id', 3)
+                            ->where('b3.isactive', 1);
                     })
-                    ->leftJoinSub($toppingSub, 't1', function ($join) {
-                        $join->on('t1.sale_order_id', '=', 's1.id');
+                    ->join('brandivjabmits as b4', function ($join) {
+                        $join->on('b4.brandivjab_id', '=', 'b3.id')
+                            ->where('b4.isactive', 1);
                     })
-                    ->leftJoinSub($adonanSub, 't2', function ($join) {
-                        $join->on('t2.sale_order_id', '=', 's1.id');
+                    ->join('mitras as m1', function ($join) {
+                        $join->on('m1.id', '=', 'b4.mitra_id')
+                            ->where('m1.isactive', 1);
+                    })
+                    ->join('users as u2', 'u2.email', '=', 'm1.email')
+                    ->join('mitra_omzet_pengeluarans as m2', function ($join) {
+                        $join->on('m2.user_id', '=', 'u2.id')
+                            ->where('m2.approved_omzet', '=', 1)
+                            ->whereMonth('m2.tanggal', now()->month)
+                            ->whereYear('m2.tanggal', now()->year);
                     })
                     ->where('u1.id', $data['pc_id'])
                     ->where('u1.approved', 1)
-                    ->selectRaw('s1.branch_id, MONTH(s1.tanggal) AS bln, YEAR(s1.tanggal) AS thn, COALESCE(t1.total_topping, 0) AS total_topping, COALESCE(t2.total_adonan, 0) AS total_adonan, (COALESCE(t1.total_topping, 0) + COALESCE(t2.total_adonan, 0)) AS total_hpp');
-
-                $data = DB::query()
-                    ->fromSub($subQuery, 't')
-                    ->selectRaw('SUM(total_hpp)/1000 AS hpp')
+                    ->selectRaw('SUM(m2.omzet) AS tomzet, COUNT(DISTINCT m2.tanggal) AS jhari')
                     ->first();
 
-                $modal = $data ? floatval($data->hpp) : 0;
-                $hpp = round($modal / $rata2, 2);
+                if ($data_omzet) {
+                    $to = $data_omzet->tomzet ?? 0;
+                    $jh = $data_omzet->jhari > 0 ? $data_omzet->jhari : 1;
+                    $rata2 = round($to / $jh / $val_pembagi, 2);
 
-                dd($rata2, $gapok, $hpp);
-                DB::select("CALL sp_pc_target_bonus(?,?,?)", [$rata2, $gapok, $hpp]);
+                    $toppingSub = DB::table('tobakuma_01.sale_order_details')
+                        ->selectRaw('sale_order_id, SUM(harga_satuan * kuantiti) AS total_topping')
+                        ->groupBy('sale_order_id');
+
+                    $adonanSub = DB::table('tobakuma_01.sale_order_mitras')
+                        ->selectRaw('sale_order_id, SUM(harga_satuan * kuantiti) AS total_adonan')
+                        ->groupBy('sale_order_id');
+
+                    $subQuery = DB::table('tobakuma_02.users as u1')
+                        ->join('tobakuma_02.pegawais as p1', function ($join) {
+                            $join->on('p1.email', '=', 'u1.email')
+                                ->where('p1.isactive', 1);
+                        })
+                        ->join('tobakuma_02.brandivjabpegs as b1', function ($join) {
+                            $join->on('b1.pegawai_id', '=', 'p1.id')
+                                ->where('b1.isactive', 1);
+                        })
+                        ->join('tobakuma_02.brandivjabs as b2', function ($join) {
+                            $join->on('b2.id', '=', 'b1.brandivjab_id')
+                                ->where('b2.jabatan_id', 4)
+                                ->where('b2.isactive', 1);
+                        })
+                        ->join('tobakuma_01.sale_orders as s1', function ($join) {
+                            $join->on('s1.branch_id', '=', 'b2.branch_id')
+                                ->whereMonth('s1.tanggal', now()->month)
+                                ->whereYear('s1.tanggal', now()->year);
+                        })
+                        ->leftJoinSub($toppingSub, 't1', function ($join) {
+                            $join->on('t1.sale_order_id', '=', 's1.id');
+                        })
+                        ->leftJoinSub($adonanSub, 't2', function ($join) {
+                            $join->on('t2.sale_order_id', '=', 's1.id');
+                        })
+                        ->where('u1.id', $data['pc_id'])
+                        ->where('u1.approved', 1)
+                        ->selectRaw('s1.branch_id, MONTH(s1.tanggal) AS bln, YEAR(s1.tanggal) AS thn, COALESCE(t1.total_topping, 0) AS total_topping, COALESCE(t2.total_adonan, 0) AS total_adonan, (COALESCE(t1.total_topping, 0) + COALESCE(t2.total_adonan, 0)) AS total_hpp');
+
+                    $data = DB::query()
+                        ->fromSub($subQuery, 't')
+                        ->selectRaw('SUM(total_hpp)/1000 AS hpp')
+                        ->first();
+
+                    $modal = $data ? floatval($data->hpp) : 0;
+                    $hpp = round($modal / $rata2, 2);
+
+                    dd($rata2, $gapok, $hpp);
+                    $result = DB::select("CALL sp_pc_target_bonus(?,?,?)", [$rata2, $gapok, $hpp]);
+
+                    $bonus = $result ? $result[0]->bonus ?? 0 : 0;
+                }
             }
-            // }
         }
 
         $controller = new MitraController();
         $request = new Request([
             'id' => $mitra_user_id,
         ]);
-        $rekap = $controller->loadOmzetPekanan($request);
+        $controller->loadOmzetPekanan($request);
 
         $this->db_switch(1);
 
         return response()->json([
             'status' => 'success',
             'omzet' => $omzet,
+            'hpp' => $hpp,
+            'romzet' => $rata2,
+            'bonus' => $bonus,
         ]);
     }
 
