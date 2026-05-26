@@ -1287,7 +1287,7 @@ class CabangController extends Controller
         if ($data_omzet) {
             $to = $data_omzet->tomzet ?? 0;
             $jh = $data_omzet->jhari > 0 ? intval($data_omzet->jhari) : 1;
-            $pct = round($jh / $val_hari_pbulan);
+            $pct = $jh / $val_hari_pbulan;
 
             if ($jh < $val_minimal_hari) {
                 $rata2 = round((($to / 26) * $jh) / $val_pembagi, 2);
@@ -1734,7 +1734,7 @@ class CabangController extends Controller
             if ($data_omzet) {
                 $to = $data_omzet->tomzet ?? 0;
                 $jh = $data_omzet->jhari > 0 ? intval($data_omzet->jhari) : 1;
-                $pct = round($jh / $val_hari_pbulan);
+                $pct = $jh / $val_hari_pbulan;
 
                 if ($jh < $val_minimal_hari) {
                     $rata2 = round((($to / 26) * $jh) / $val_pembagi, 2);
