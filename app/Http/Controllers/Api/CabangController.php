@@ -1548,7 +1548,7 @@ class CabangController extends Controller
                 ->where('u.id', $data['pc_id'])
                 ->value('p2.gaji_pokok');
 
-            $gapok = intval($gaji_pokok) ?? 0;
+            $gapok = $gaji_pokok ?? 0;
 
             $data_omzet = DB::table('users as u1')
                 ->join('pegawais as p1', function ($join) {
