@@ -30,8 +30,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\File;
+use Illuminate\Database\QueryException;
 
 class CabangController extends Controller
 {
@@ -1556,9 +1556,7 @@ class CabangController extends Controller
             //     ->select('p2.gaji_pokok')
             //     ->get();
             $gaji_pokok = DB::table('users as u')
-                ->join('pegawais as p1', 'p1.email', '=', 'u.email')
-                ->where('u.id', $data['pc_id'])
-                ->select('p1.id')
+                ->where('u.id', 40)
                 ->get();
             // ->value('p2.gaji_pokok');
             // ->join('pegawais', 'pegawais.email', '=', 'users.email')
