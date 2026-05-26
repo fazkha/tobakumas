@@ -1395,6 +1395,7 @@ class CabangController extends Controller
         $hpp = 0;
         $rata2 = 0;
         $bonus = 0;
+        $jh = 0;
 
         $found = MitraOmzetPengeluaran::where('id', $data['id'])->first();
 
@@ -1459,6 +1460,9 @@ class CabangController extends Controller
 
         $app_minimal_hari = AppSetting::where('parm', 'pc_minimal_perhitungan_hari')->first();
         $val_minimal_hari = $app_minimal_hari ? intval($app_minimal_hari->value) : 0;
+
+        $app_hari_pbulan = AppSetting::where('parm', 'jumlah_hari_perbulan')->first();
+        $val_hari_pbulan = $app_hari_pbulan ? intval($app_hari_pbulan->value) : 0;
 
         $today = Carbon::today();
         $dayOfWeek = $today->dayOfWeek;
@@ -1671,6 +1675,8 @@ class CabangController extends Controller
             'hpp' => $hpp,
             'romzet' => $rata2,
             'bonus' => $bonus,
+            'jumlah_hari' => $jh,
+            'hari_pbulan' => $val_hari_pbulan,
         ]);
     }
 
