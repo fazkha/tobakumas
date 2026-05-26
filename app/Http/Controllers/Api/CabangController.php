@@ -1548,7 +1548,7 @@ class CabangController extends Controller
                 ->where('u.id', $data['pc_id'])
                 ->value('p2.gaji_pokok');
 
-            $gapok = $gaji_pokok ?? 0;
+            $gapok = intval($gaji_pokok) ?? 0;
 
             $data_omzet = DB::table('users as u1')
                 ->join('pegawais as p1', function ($join) {
@@ -1591,7 +1591,7 @@ class CabangController extends Controller
             if ($data_omzet) {
                 $to = $data_omzet->tomzet ?? 0;
                 $jh = $data_omzet->jhari > 0 ? $data_omzet->jhari : 1;
-                $rata2 = $to / $jh;
+                $rata2 = round($to / $jh, 2);
 
                 $toppingSub = DB::table('tobakuma_01.sale_order_details')
                     ->selectRaw('sale_order_id, SUM(harga_satuan * kuantiti) AS total_topping')
@@ -1635,7 +1635,7 @@ class CabangController extends Controller
                     ->selectRaw('SUM(total_hpp)/1000 AS hpp')
                     ->first();
 
-                $modal = $data ? $data->hpp : 0;
+                $modal = $data ? floatval($data->hpp) : 0;
 
                 dd($rata2, $gapok, $modal);
                 DB::select("CALL sp_pc_target_bonus(?,?)", [$rata2, $gapok, $modal]);
