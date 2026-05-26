@@ -1632,10 +1632,10 @@ class CabangController extends Controller
 
                 $data = DB::query()
                     ->fromSub($subQuery, 't')
-                    ->selectRaw('SUM(total_hpp) AS hpp')
+                    ->selectRaw('SUM(total_hpp)/1000 AS hpp')
                     ->first();
 
-                $modal = $data ? $data->hpp / 1000 : 0;
+                $modal = $data ? $data->hpp : 0;
 
                 dd($rata2, $gapok, $modal);
                 DB::select("CALL sp_pc_target_bonus(?,?)", [$rata2, $gapok, $modal]);
