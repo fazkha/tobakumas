@@ -1580,6 +1580,7 @@ class CabangController extends Controller
                 ->join('users as u2', 'u2.email', '=', 'm1.email')
                 ->join('mitra_omzet_pengeluarans as m2', function ($join) {
                     $join->on('m2.user_id', '=', 'u2.id')
+                        ->where('m2.approved_omzet', '=', 1)
                         ->whereMonth('m2.tanggal', now()->month)
                         ->whereYear('m2.tanggal', now()->year);
                 })
