@@ -1591,7 +1591,7 @@ class CabangController extends Controller
             if ($data_omzet) {
                 $to = $data_omzet->tomzet ?? 0;
                 $jh = $data_omzet->jhari > 0 ? $data_omzet->jhari : 1;
-                $rata2 = round($to / $jh, 2);
+                $rata2 = round($to / $jh / $val_pembagi, 2);
 
                 $toppingSub = DB::table('tobakuma_01.sale_order_details')
                     ->selectRaw('sale_order_id, SUM(harga_satuan * kuantiti) AS total_topping')
