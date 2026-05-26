@@ -1676,7 +1676,7 @@ class CabangController extends Controller
             'romzet' => $rata2,
             'bonus' => $bonus,
             'jumlah_hari' => $jh,
-            'hari_pbulan' => $val_hari_pbulan,
+            'pct' => ($jh / $val_hari_pbulan) * 100,
         ]);
     }
 
