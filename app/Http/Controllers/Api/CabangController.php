@@ -1640,14 +1640,14 @@ class CabangController extends Controller
                         })
                         ->where('u1.id', $data['pc_id'])
                         ->where('u1.approved', 1)
-                        ->selectRaw('s1.branch_id, MONTH(s1.tanggal) AS bln, YEAR(s1.tanggal) AS thn, COALESCE(t1.total_topping, 0) AS total_topping, COALESCE(t2.total_adonan, 0) AS total_adonan, (COALESCE(t1.total_topping, 0) + COALESCE(t2.total_adonan, 0)) AS total_hpp');
+                        ->selectRaw('s1.branch_id, MONTH(s1.tanggal) AS bln, YEAR(s1.tanggal) AS thn, COALESCE(t1.total_topping, 0) AS total_topping, COALESCE(t2.total_adonan, 0) AS total_adonan, (COALESCE(t1.total_topping, 0) + COALESCE(t2.total_adonan, 0)) AS total_modal');
 
                     $data = DB::query()
                         ->fromSub($subQuery, 't')
-                        ->selectRaw('SUM(total_hpp)/1000 AS hpp')
+                        ->selectRaw('SUM(total_modal)/1000 AS modal')
                         ->first();
 
-                    $modal = $data ? floatval($data->hpp) : 0;
+                    $modal = $data ? floatval($data->modal) : 0;
                     $hpp = round($modal / $rata2, 2);
 
                     $result = DB::select("CALL sp_pc_target_bonus(?,?,?)", [$rata2, $gapok, $hpp]);
