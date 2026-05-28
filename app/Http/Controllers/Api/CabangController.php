@@ -1370,7 +1370,7 @@ class CabangController extends Controller
             // $hpp = round($modal / $rata2, 2);
 
             // TEST PURPOSES ONLY
-            $modal = $data ? floatval($data->modal) * $jh : 0;
+            $modal = $data ? floatval($data->modal) : 0;
             $hpp = round($modal / $rata2, 2);
             // (END) TEST PURPOSES ONLY
 
