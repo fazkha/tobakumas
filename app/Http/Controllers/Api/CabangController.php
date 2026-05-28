@@ -1702,7 +1702,7 @@ class CabangController extends Controller
 
             // if ($found->approved_omzet == 1) {
             // menghitung gaji pokok untuk perhitungan bonus
-            $hitung = $this->hitungBonus($data['id']);
+            $hitung = $this->hitungBonus($data['pc_id']);
             $pct = $hitung['pct'];
             $rata2 = $hitung['rata2'];
             $hpp = $hitung['hpp'];
