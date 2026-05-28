@@ -1221,6 +1221,42 @@ class CabangController extends Controller
 
         $rekap = DB::select("CALL sp_pc_omzet_bulanan(?,?,?)", [$data['id'], $data['bulan'], $data['tahun']]);
 
+        $pct = 0;
+        $rata2 = 0;
+        $hpp = 0;
+        $jh = 0;
+        $bonus = 0;
+
+        // menghitung gaji pokok untuk perhitungan bonus
+        $hitung = $this->hitungBonus($data['id']);
+        $pct = $hitung['pct'];
+        $rata2 = $hitung['rata2'];
+        $hpp = $hitung['hpp'];
+        $jh = $hitung['jumlah_hari'];
+        $bonus = $hitung['bonus'];
+        // (END) menghitung gaji pokok untuk perhitungan bonus
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'rekap' => $rekap,
+            'hpp' => $hpp,
+            'romzet' => $rata2,
+            'bonus' => $bonus,
+            'jumlah_hari' => $jh,
+            'pct' => $pct,
+        ]);
+    }
+
+    public function hitungBonus(String $pc_id)
+    {
+        $pct = 0;
+        $rata2 = 0;
+        $hpp = 0;
+        $jh = 0;
+        $bonus = 0;
+
         $app_pembagi = AppSetting::where('parm', 'mitra_pembagi_rata2_omzet')->first();
         $val_pembagi = $app_pembagi ? intval($app_pembagi->value) : 0;
 
@@ -1230,17 +1266,10 @@ class CabangController extends Controller
         $app_hari_pbulan = AppSetting::where('parm', 'jumlah_hari_perbulan')->first();
         $val_hari_pbulan = $app_hari_pbulan ? intval($app_hari_pbulan->value) : 0;
 
-        $pct = 0;
-        $rata2 = 0;
-        $hpp = 0;
-        $jh = 0;
-        $bonus = 0;
-
-        // menghitung gaji pokok untuk perhitungan bonus
         $gaji_pokok = DB::table('users as u')
             ->join('pegawais as p1', 'p1.email', '=', 'u.email')
             ->join('pegawai_gajis as p2', 'p2.pegawai_id', '=', 'p1.id')
-            ->where('u.id', $data['id'])
+            ->where('u.id', $pc_id)
             ->value('p2.gaji_pokok');
 
         $gapok = $gaji_pokok ?? 0;
@@ -1279,7 +1308,7 @@ class CabangController extends Controller
                     ->whereMonth('m2.tanggal', now()->month)
                     ->whereYear('m2.tanggal', now()->year);
             })
-            ->where('u1.id', $data['id'])
+            ->where('u1.id', $pc_id)
             ->where('u1.approved', 1)
             ->selectRaw('SUM(m2.omzet) AS tomzet, COUNT(DISTINCT m2.tanggal) AS jhari')
             ->first();
@@ -1328,7 +1357,7 @@ class CabangController extends Controller
                 ->leftJoinSub($adonanSub, 't2', function ($join) {
                     $join->on('t2.sale_order_id', '=', 's1.id');
                 })
-                ->where('u1.id', $data['id'])
+                ->where('u1.id', $pc_id)
                 ->where('u1.approved', 1)
                 ->selectRaw('s1.branch_id, MONTH(s1.tanggal) AS bln, YEAR(s1.tanggal) AS thn, COALESCE(t1.total_topping, 0) AS total_topping, COALESCE(t2.total_adonan, 0) AS total_adonan, (COALESCE(t1.total_topping, 0) + COALESCE(t2.total_adonan, 0)) AS total_modal');
 
@@ -1344,19 +1373,14 @@ class CabangController extends Controller
 
             $bonus = $result ? $result[0]->bonus ?? 0 : 0;
         }
-        // (END) menghitung gaji pokok untuk perhitungan bonus
 
-        $this->db_switch(1);
-
-        return response()->json([
-            'status' => 'success',
-            'rekap' => $rekap,
-            'hpp' => $hpp,
-            'romzet' => $rata2,
-            'bonus' => $bonus,
-            'jumlah_hari' => $jh,
+        return [
             'pct' => $pct,
-        ]);
+            'rata2' => $rata2,
+            'hpp' => $hpp,
+            'jh' => $jh,
+            'bonus' => $bonus,
+        ];
     }
 
     public function loadPetaPc(Request $request)
