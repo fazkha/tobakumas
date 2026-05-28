@@ -1232,7 +1232,7 @@ class CabangController extends Controller
         $pct = $hitung['pct'];
         $rata2 = $hitung['rata2'];
         $hpp = $hitung['hpp'];
-        $jh = $hitung['jumlah_hari'];
+        $jh = $hitung['jh'];
         $bonus = $hitung['bonus'];
         // (END) menghitung gaji pokok untuk perhitungan bonus
 
