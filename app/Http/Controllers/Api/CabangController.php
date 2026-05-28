@@ -1367,10 +1367,11 @@ class CabangController extends Controller
                 ->first();
 
             $modal = $data ? floatval($data->modal) : 0;
+            $hpp = round($modal / $rata2, 2);
             // TEST PURPOSES ONLY
             $modal = $data ? floatval($data->modal) * $jh : 0;
+            $hpp = round($modal / $to, 2);
             // (END) TEST PURPOSES ONLY
-            $hpp = round($modal / $rata2, 2);
 
             $result = DB::select("CALL sp_pc_target_bonus(?,?,?)", [$rata2, $gapok, $hpp]);
 
