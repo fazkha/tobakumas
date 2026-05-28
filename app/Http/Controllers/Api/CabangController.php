@@ -1290,7 +1290,7 @@ class CabangController extends Controller
             $pct = round($jh / $val_hari_pbulan, 2);
 
             if ($jh < $val_minimal_hari) {
-                $rata2 = round((($to / 26) * $jh) / $val_pembagi, 0);
+                $rata2 = round((($to / $val_hari_pbulan) * $jh) / $val_pembagi, 0);
             } else {
                 $rata2 = round($to / $jh / $val_pembagi, 0);
             }
@@ -1737,7 +1737,7 @@ class CabangController extends Controller
                 $pct = round($jh / $val_hari_pbulan, 2);
 
                 if ($jh < $val_minimal_hari) {
-                    $rata2 = round((($to / 26) * $jh) / $val_pembagi, 0);
+                    $rata2 = round((($to / $val_hari_pbulan) * $jh) / $val_pembagi, 0);
                 } else {
                     $rata2 = round($to / $jh / $val_pembagi, 0);
                 }
