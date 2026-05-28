@@ -1314,7 +1314,7 @@ class CabangController extends Controller
             ->first();
 
         if ($data_omzet) {
-            $to = $data_omzet->tomzet ?? 0;
+            $to = intval($data_omzet->tomzet) ?? 0;
             $jh = $data_omzet->jhari > 0 ? intval($data_omzet->jhari) : 1;
             $pct = round($jh / $val_hari_pbulan, 2);
 
