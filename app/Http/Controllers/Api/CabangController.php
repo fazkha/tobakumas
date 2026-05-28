@@ -1320,6 +1320,7 @@ class CabangController extends Controller
 
             if ($jh < $val_minimal_hari) {
                 $rata2 = round((($to / $val_hari_pbulan) * $jh) / $val_pembagi, 0);
+                $rata2 = round($to / $jh / $val_pembagi, 0);
             } else {
                 $rata2 = round($to / $jh / $val_pembagi, 0);
             }
