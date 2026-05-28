@@ -10,6 +10,7 @@ use App\Models\Branch;
 use App\Models\Brandivjabpeg;
 use App\Models\Customer;
 use App\Models\JenisPengeluaranCabang;
+use App\Models\KalenderHke;
 use App\Models\MitraAverageOmzet;
 use App\Models\MitraOmzetPengeluaran;
 use App\Models\MitraTargetBonus;
@@ -1225,6 +1226,7 @@ class CabangController extends Controller
         $rata2 = 0;
         $hpp = 0;
         $jh = 0;
+        $hke = 0;
         $bonus = 0;
 
         // menghitung gaji pokok untuk perhitungan bonus
@@ -1233,6 +1235,7 @@ class CabangController extends Controller
         $rata2 = $hitung['rata2'];
         $hpp = $hitung['hpp'];
         $jh = $hitung['jh'];
+        $hke = $hitung['hke'];
         $bonus = $hitung['bonus'];
         // (END) menghitung gaji pokok untuk perhitungan bonus
 
@@ -1246,6 +1249,7 @@ class CabangController extends Controller
             'bonus' => $bonus,
             'jumlah_hari' => $jh,
             'pct' => $pct,
+            'hke' => $hke,
         ]);
     }
 
@@ -1312,6 +1316,10 @@ class CabangController extends Controller
             ->where('u1.approved', 1)
             ->selectRaw('SUM(m2.omzet) AS tomzet, COUNT(DISTINCT m2.tanggal) AS jhari')
             ->first();
+
+        $tanggal_terakhir = Carbon::now()->endOfMonth()->toDateString();
+
+        $hke = KalenderHke::where('tanggal', $tanggal_terakhir)->value('hke');
 
         if ($data_omzet) {
             $to = intval($data_omzet->tomzet) ?? 0;
@@ -1380,6 +1388,7 @@ class CabangController extends Controller
             'rata2' => $rata2,
             'hpp' => $hpp,
             'jh' => $jh,
+            'hke' => $hke,
             'bonus' => $bonus,
         ];
     }
@@ -1708,6 +1717,7 @@ class CabangController extends Controller
             $rata2 = $hitung['rata2'];
             $hpp = $hitung['hpp'];
             $jh = $hitung['jh'];
+            $hke = $hitung['hke'];
             $bonus = $hitung['bonus'];
             // (END) menghitung gaji pokok untuk perhitungan bonus
             // }
@@ -1729,6 +1739,7 @@ class CabangController extends Controller
             'bonus' => $bonus,
             'jumlah_hari' => $jh,
             'pct' => $pct,
+            'hke' => $hke,
         ]);
     }
 
