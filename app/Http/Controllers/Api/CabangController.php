@@ -463,6 +463,60 @@ class CabangController extends Controller
         ]);
     }
 
+    public function receiveOrderPc(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = Validator::make($request->all(), [
+            'pc_id' => ['required', 'integer', 'exists:users,id'],
+            'order_id' => ['required', 'integer'],
+            'grup' => ['required', 'integer', 'in:1,2'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+
+        $this->db_switch(1);
+
+        if ($data['grup'] == 1) {
+            $detail = SaleOrderDetail::where('id', $data['order_id'])->first();
+        } else {
+            $detail = SaleOrderMitra::where('id', $data['order_id'])->first();
+        }
+
+        try {
+            $detail->update([
+                'cust_received' => 1
+            ]);
+        } catch (\Illuminate\Database\QueryException $e) {
+
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ]);
+        }
+
+        $order = DB::select("CALL sp_order_pc_id(?)", [$data['pc_id']]);
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'order' => $order,
+        ]);
+    }
+
     public function hapusOrderPc(Request $request)
     {
         $this->db_switch(2);

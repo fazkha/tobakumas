@@ -82,6 +82,7 @@ Route::prefix('cabang')->group(function () {
     Route::post('save-pengembalian-sisa-kas', [CabangController::class, 'saveReturPettyCash']);
     Route::post('load-order-pc', [CabangController::class, 'loadOrderPc']);
     Route::post('save-order-pc', [CabangController::class, 'saveOrderPc']);
+    Route::post('receive-order-pc', [CabangController::class, 'receiveOrderPc']);
     Route::delete('hapus-order-pc', [CabangController::class, 'hapusOrderPc']);
     Route::get('load-ubah-hari/{pc_id}', [CabangController::class, 'loadUbahHari']);
     Route::post('save-ubah-hari', [CabangController::class, 'saveUbahHari']);
