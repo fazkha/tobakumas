@@ -1320,11 +1320,15 @@ class CabangController extends Controller
         $tanggal_terakhir = Carbon::now()->endOfMonth()->toDateString();
 
         $hke = KalenderHke::where('tanggal', $tanggal_terakhir)->value('hke');
+        if ($hke) {
+            $hke = intval($hke);
+        } else {
+            $hke = $val_hari_pbulan;
+        }
 
         if ($data_omzet) {
             $to = intval($data_omzet->tomzet) ?? 0;
             $jh = intval($data_omzet->jhari) > 0 ? intval($data_omzet->jhari) : 1;
-            // $pct = round($jh / $val_hari_pbulan, 2);
             $pct = round($jh / $hke, 2);
 
             if ($jh < $val_minimal_hari) {
