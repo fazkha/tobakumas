@@ -950,7 +950,7 @@ class MitraController extends Controller
         if ($omzet) {
             $yearWeek = $this->currentYearAndWeek();
 
-            $target_bonus = MitraAverageOmzet::join('mitra_target_bonuses', 'mitra_average_omzets.target_id', '=', 'mitra_target_bonuses.id')
+            $target_bonus = MitraAverageOmzet::join('mitra_target_bonuses', 'mitra_target_bonuses.id', '=', 'mitra_average_omzets.target_id')
                 ->selectRaw('mitra_average_omzets.target_id as id, mitra_average_omzets.target_approved, mitra_target_bonuses.target, mitra_target_bonuses.bonus as name')
                 ->where('mitra_average_omzets.user_id', $data['id'])
                 ->where('mitra_average_omzets.minggu', $yearWeek)
