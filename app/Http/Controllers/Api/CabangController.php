@@ -1658,13 +1658,13 @@ class CabangController extends Controller
 
         $omzet = DB::select("CALL sp_omzetharianpc(?,?)", [$data['id'], $data['tanggal']]);
         $rekap = DB::select("CALL sp_pc_omzet_bulanan(?,?,?)", [$data['id'], date('n', strtotime($data['tanggal'])), date('Y', strtotime($data['tanggal']))]);
-        dd($rekap);
         $target_bonus = PcAverageOmzet::join('pc_target_bonuses', 'pc_target_bonuses.id', '=', 'pc_average_omzets.target_id')
-            ->selectRaw('pc_average_omzets.target_id as id, pc_target_bonuses.rata2, pc_target_bonuses.hpp, pc_target_bonuses.bonus as name')
+            ->selectRaw('pc_average_omzets.target_id as id, pc_target_bonuses.r2omzet, pc_target_bonuses.hpp, pc_target_bonuses.bonus as name')
             ->where('pc_average_omzets.user_id', $data['id'])
             ->where('pc_average_omzets.tahun', $year)
             ->where('pc_average_omzets.bulan', $month)
             ->first();
+        dd($target_bonus);
 
         $json_target_bonus = json_decode(json_encode($target_bonus), true);
 
