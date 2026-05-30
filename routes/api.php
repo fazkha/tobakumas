@@ -71,7 +71,7 @@ Route::prefix('cabang')->group(function () {
     Route::post('load-image-pengeluaran', [CabangController::class, 'loadImagePengeluaran']);
     Route::post('upload-image-pengeluaran', [CabangController::class, 'uploadImagePengeluaran']);
     Route::get('get-jenis-pengeluaran-list', [CabangController::class, 'getJenisPengeluaranList']);
-    Route::get('get-target-bonus-list', [CabangController::class, 'getTargetBonusList']);
+    Route::get('get-target-bonus-list/{pc_id}', [CabangController::class, 'getTargetBonusList']);
     Route::get('get-cabang-list', [CabangController::class, 'getCabangList']);
     Route::get('get-cabang-jabatan-list/{id}', [CabangController::class, 'getCabangJabatanList']);
     Route::get('get-cabang-long-list/{id}', [CabangController::class, 'getCabangLongList']);
