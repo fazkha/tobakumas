@@ -309,7 +309,7 @@ class CabangController extends Controller
         }
 
         $targetBonus = PcAverageOmzet::join('pc_target_bonuses', 'pc_average_omzets.target_id', '=', 'pc_target_bonuses.id')
-            ->selectRaw('pc_average_omzets.target_id as id, pc_target_bonuses.r2omzet, pc_target_bonuses.hpp, pc_target_bonuses.bonus as name')
+            ->selectRaw('pc_average_omzets.target_id as id, pc_target_bonuses.omzet, pc_target_bonuses.r2omzet, pc_target_bonuses.hpp, pc_target_bonuses.bonus as name')
             ->where('pc_average_omzets.user_id', $data['user_id'])
             ->where('pc_average_omzets.tahun', $year)
             ->where('pc_average_omzets.bulan', $month)
