@@ -19,6 +19,7 @@ use App\Models\PcKasbon;
 use App\Models\PcOmzetHarian;
 use App\Models\PcBiaya;
 use App\Models\PcPettyCash;
+use App\Models\PcTargetBonus;
 use App\Models\Pegawai;
 use App\Models\Profile;
 use App\Models\RuteGerobak;
@@ -74,6 +75,34 @@ class CabangController extends Controller
         return
             $startOfWeek->year .
             str_pad($startOfWeek->weekOfYear, 2, '0', STR_PAD_LEFT);
+    }
+
+    public function getTargetBonusList(int $pc_id)
+    {
+        $this->db_switch(2);
+
+        $target = null;
+        $user = User::join('pegawais', 'users.email', '=', 'pegawais.email')
+            ->leftJoin('pegawai_gajis', 'pegawai_gajis.pegawai_id', '=', 'pegawais.id')
+            ->select('pegawai_gajis.gaji_pokok')
+            ->where('users.id', $pc_id)
+            ->first();
+
+        if ($user) {
+            $gapok = $user->gaji_pokok;
+            $target = PcTargetBonus::where('isactive', 1)
+                ->where('tipegaji', $gapok)
+                ->selectRaw('id, hpp, r2omzet, bonus as name')
+                ->get()
+                ->toJson();
+        }
+
+        $this->db_switch(1);
+
+        return [
+            'status' => 'success',
+            'data' => $target
+        ];
     }
 
     public function getMitraByPc(Request $request)
@@ -463,60 +492,6 @@ class CabangController extends Controller
         ]);
     }
 
-    public function receiveOrderPc(Request $request)
-    {
-        $this->db_switch(2);
-
-        $validator = Validator::make($request->all(), [
-            'pc_id' => ['required', 'integer', 'exists:users,id'],
-            'order_id' => ['required', 'integer'],
-            'grup' => ['required', 'integer', 'in:1,2'],
-        ]);
-
-        if ($validator->fails()) {
-            $errors = $validator->errors();
-
-            $this->db_switch(1);
-
-            foreach ($errors->all() as $message) {
-                return response([
-                    'message' => $message
-                ], 422);
-            }
-        }
-
-        $data = $validator->validated();
-
-        $this->db_switch(1);
-
-        if ($data['grup'] == 1) {
-            $detail = SaleOrderDetail::where('id', $data['order_id'])->first();
-        } else {
-            $detail = SaleOrderMitra::where('id', $data['order_id'])->first();
-        }
-
-        try {
-            $detail->update([
-                'cust_received' => 1
-            ]);
-        } catch (\Illuminate\Database\QueryException $e) {
-
-            return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage(),
-            ]);
-        }
-
-        $order = DB::select("CALL sp_order_pc_id(?)", [$data['pc_id']]);
-
-        $this->db_switch(1);
-
-        return response()->json([
-            'status' => 'success',
-            'order' => $order,
-        ]);
-    }
-
     public function hapusOrderPc(Request $request)
     {
         $this->db_switch(2);
@@ -553,6 +528,62 @@ class CabangController extends Controller
             $detail->delete();
         } catch (\Illuminate\Database\QueryException $e) {
             $this->db_switch(1);
+
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ]);
+        }
+
+        $order = DB::select("CALL sp_order_pc_id(?)", [$data['pc_id']]);
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'order' => $order,
+        ]);
+    }
+
+    public function receiveOrderPc(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = Validator::make($request->all(), [
+            'pc_id' => ['required', 'integer', 'exists:users,id'],
+            'order_id' => ['required', 'integer'],
+            'grup' => ['required', 'integer', 'in:1,2'],
+            'keterangan' => ['nullable', 'string'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+
+        $this->db_switch(1);
+
+        if ($data['grup'] == 1) {
+            $detail = SaleOrderDetail::where('id', $data['order_id'])->first();
+        } else {
+            $detail = SaleOrderMitra::where('id', $data['order_id'])->first();
+        }
+
+        try {
+            $detail->update([
+                'cust_received' => 1,
+                'cust_note' => $data['keterangan'],
+            ]);
+        } catch (\Illuminate\Database\QueryException $e) {
 
             return response()->json([
                 'status' => 'error',
