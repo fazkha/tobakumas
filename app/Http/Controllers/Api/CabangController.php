@@ -92,7 +92,7 @@ class CabangController extends Controller
             $gapok = $user->gaji_pokok;
             $target = PcTargetBonus::where('isactive', 1)
                 ->where('tipegaji', $gapok)
-                ->selectRaw('id, concat("Bonus: ", bonus, " - Hpp: ", (hpp*100), "% - Omzet: ", r2omzet) as name')
+                ->selectRaw('id, concat("Bonus: ", bonus, " - Hpp: ", round(hpp*100, 0), "% - Omzet: ", r2omzet) as name')
                 ->get()
                 ->toJson();
         }
