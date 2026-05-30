@@ -92,7 +92,7 @@ class CabangController extends Controller
             $gapok = $user->gaji_pokok;
             $target = PcTargetBonus::where('isactive', 1)
                 ->where('tipegaji', $gapok)
-                ->selectRaw('id, r2omzet, round(hpp*100, 2) as hpp, bonus as name')
+                ->selectRaw('id, bonus as name, concat("Omzet: ", r2omzet, ", Hpp: ", round(hpp*100, 2), "%") as tambahan_nama')
                 ->orderBy('bonus')
                 ->orderBy('r2omzet')
                 ->get()
