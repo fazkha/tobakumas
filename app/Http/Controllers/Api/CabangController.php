@@ -1664,7 +1664,6 @@ class CabangController extends Controller
             ->where('pc_average_omzets.tahun', $year)
             ->where('pc_average_omzets.bulan', $month)
             ->first();
-        dd($target_bonus);
 
         $json_target_bonus = json_decode(json_encode($target_bonus), true);
 
