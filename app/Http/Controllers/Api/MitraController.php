@@ -1088,10 +1088,12 @@ class MitraController extends Controller
         $target_akum_omzet = 0;
         $target_omzet_phari = 0;
 
+        $app_setting = AppSetting::where('parm', 'mitra_pembagi_rata2_omzet')->first();
+
         $target = MitraTargetBonus::where('id', $data['target_id'])->first();
 
         if ($target) {
-            $target_akum_omzet = $target->target * 6;
+            $target_akum_omzet = $target->target * $app_setting->value;
             $target_omzet_phari = $target->target;
 
             $mitraAverageOmzet = MitraAverageOmzet::where('user_id', $data['user_id'])

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('pc_target_bonuses', function (Blueprint $table) {
             $table->id();
-            $table->unsignedTinyInteger('tipegaji')->comment('1: Gaji 2500, 2: Gaji 3000, 3: Gaji 2500 Romadon, 4: Gaji 3000 Romadon');
+            $table->string('tipegaji', 50)->comment('2500, 3000, 2500 Romadon, 3000 Romadon');
             $table->double('hpp');
             $table->unsignedSmallInteger('r2omzet');
             $table->unsignedMediumInteger('omzet');

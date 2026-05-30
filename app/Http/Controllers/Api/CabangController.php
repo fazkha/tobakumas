@@ -15,6 +15,7 @@ use App\Models\MitraAverageOmzet;
 use App\Models\MitraOmzetPengeluaran;
 use App\Models\MitraTargetBonus;
 use App\Models\MitraUbahHari;
+use App\Models\PcAverageOmzet;
 use App\Models\PcKasbon;
 use App\Models\PcOmzetHarian;
 use App\Models\PcBiaya;
@@ -243,6 +244,83 @@ class CabangController extends Controller
             'status' => 'success',
             'data' => $barang
         ];
+    }
+
+    public function saveTargetBonus(Request $request)
+    {
+        $this->db_switch(2);
+
+        $validator = Validator::make($request->all(), [
+            'user_id' => ['required', 'integer', 'exists:users,id'],
+            'target_id' => ['required', 'integer', 'exists:pc_target_bonuses,id'],
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $this->db_switch(1);
+
+            foreach ($errors->all() as $message) {
+                return response([
+                    'message' => $message
+                ], 422);
+            }
+        }
+
+        $data = $validator->validated();
+
+        $hpp = 0;
+        $rata2 = 0;
+        $bonus = 0;
+        $month = now()->month; // Example: 5 (May)
+        $year  = now()->year;  // Example: 2026
+
+        $target = PcTargetBonus::where('id', $data['target_id'])->first();
+
+        if ($target) {
+            $result = $this->hitungBonus($data['user_id']);
+            $hpp = $result['hpp'];
+            $rata2 = $result['rata2'];
+            $bonus = $result['bonus'];
+
+            $pcAverageOmzet = PcAverageOmzet::where('user_id', $data['user_id'])
+                ->where('tahun', $year)
+                ->where('bulan', $month)
+                ->first();
+
+            if ($pcAverageOmzet) {
+                $pcAverageOmzet->update([
+                    'target_id' => $data['target_id'],
+                    'hpp' => $hpp,
+                    'rata2' => $rata2,
+                    'bonus' => $bonus,
+                ]);
+            } else {
+                $pcAverageOmzet = PcAverageOmzet::create([
+                    'user_id' => $data['user_id'],
+                    'target_id' => $data['target_id'],
+                    'tahun' => $year,
+                    'bulan' => $month,
+                    'hpp' => $hpp,
+                    'rata2' => $rata2,
+                    'bonus' => $bonus,
+                ]);
+            }
+        }
+
+        $targetBonus = PcAverageOmzet::join('pc_target_bonuses', 'pc_average_omzets.target_id', '=', 'pc_target_bonuses.id')
+            ->selectRaw('pc_average_omzets.target_id as id, pc_target_bonuses.rata2, pc_target_bonuses.hpp, pc_target_bonuses.bonus as name')
+            ->where('pc_average_omzets.user_id', $data['user_id'])
+            ->where('pc_average_omzets.tahun', $year)
+            ->where('pc_average_omzets.bulan', $month)
+            ->first();
+
+        $this->db_switch(1);
+
+        return response()->json([
+            'status' => 'success',
+            'target_bonus' => $targetBonus,
+        ]);
     }
 
     public function loadPengumuman(Request $request)
