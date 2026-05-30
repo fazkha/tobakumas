@@ -1653,9 +1653,19 @@ class CabangController extends Controller
 
         $data = $validator->validated();
         $omzet = null;
+        $month = now()->month; // Example: 5 (May)
+        $year  = now()->year;  // Example: 2026
 
         $omzet = DB::select("CALL sp_omzetharianpc(?,?)", [$data['id'], $data['tanggal']]);
         $rekap = DB::select("CALL sp_pc_omzet_bulanan(?,?,?)", [$data['id'], date('n', strtotime($data['tanggal'])), date('Y', strtotime($data['tanggal']))]);
+        $target_bonus = PcAverageOmzet::join('pc_target_bonuses', 'pc_target_bonuses.id', '=', 'pc_average_omzets.target_id')
+            ->selectRaw('pc_average_omzets.target_id as id, pc_target_bonuses.rata2, pc_target_bonuses.hpp, pc_target_bonuses.bonus as name')
+            ->where('pc_average_omzets.user_id', $data['id'])
+            ->where('pc_average_omzets.tahun', $year)
+            ->where('pc_average_omzets.bulan', $month)
+            ->first();
+
+        $json_target_bonus = json_decode(json_encode($target_bonus), true);
 
         $this->db_switch(1);
 
@@ -1663,6 +1673,7 @@ class CabangController extends Controller
             'status' => 'success',
             'omzet' => $omzet,
             'rekap' => $rekap,
+            'target_bonus' => $json_target_bonus,
         ]);
     }
 
