@@ -94,6 +94,7 @@ class CabangController extends Controller
                 ->where('tipegaji', $gapok)
                 ->selectRaw('id, concat("Bonus: ", bonus, " - Omzet: ", r2omzet, " - Hpp: ", round(hpp*100, 2), "%") as name')
                 ->orderBy('bonus')
+                ->orderBy('r2omzet')
                 ->get()
                 ->toJson();
         }
