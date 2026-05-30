@@ -92,11 +92,12 @@ class CabangController extends Controller
             $gapok = $user->gaji_pokok;
             $target = PcTargetBonus::where('isactive', 1)
                 ->where('tipegaji', $gapok)
-                ->selectRaw('id, concat("Bonus: ", bonus, " - Omzet: ", r2omzet, " - Hpp: ", round(hpp*100, 2), "%") as name')
+                ->selectRaw('id, r2omzet, round(hpp*100, 2) as hpp, bonus as name')
                 ->orderBy('bonus')
                 ->orderBy('r2omzet')
                 ->get()
                 ->toJson();
+            // ->selectRaw('id, concat("Bonus: ", bonus, " - Omzet: ", r2omzet, " - Hpp: ", round(hpp*100, 2), "%") as name')
         }
 
         $this->db_switch(1);
