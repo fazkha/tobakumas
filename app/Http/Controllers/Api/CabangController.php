@@ -1389,6 +1389,8 @@ class CabangController extends Controller
         $rekap = DB::select("CALL sp_pc_omzet_bulanan(?,?,?)", [$data['id'], $data['bulan'], $data['tahun']]);
 
         $pct = 0;
+        $pct_hpp = 0;
+        $pct_omzet = 0;
         $rata2 = 0;
         $hpp = 0;
         $jh = 0;
@@ -1397,7 +1399,8 @@ class CabangController extends Controller
 
         // menghitung gaji pokok untuk perhitungan bonus
         $hitung = $this->hitungBonus($data['id']);
-        $pct = $hitung['pct'];
+        $pct_hpp = $hitung['pct_hpp'];
+        $pct_omzet = $hitung['pct_omzet'];
         $rata2 = $hitung['rata2'];
         $hpp = $hitung['hpp'];
         $jh = $hitung['jh'];
@@ -1414,7 +1417,8 @@ class CabangController extends Controller
             'romzet' => $rata2,
             'bonus' => $bonus,
             'jumlah_hari' => $jh,
-            'pct' => $pct,
+            'pct_hpp' => $pct_hpp,
+            'pct_omzet' => $pct_omzet,
             'hke' => $hke,
         ]);
     }
@@ -1762,6 +1766,8 @@ class CabangController extends Controller
         $bonus = 0;
         $jh = 0;
         $pct = 0;
+        $pct_hpp = 0;
+        $pct_omzet = 0;
 
         $found = MitraOmzetPengeluaran::where('id', $data['id'])->first();
 
@@ -1914,7 +1920,8 @@ class CabangController extends Controller
             // if ($found->approved_omzet == 1) {
             // menghitung gaji pokok untuk perhitungan bonus
             $hitung = $this->hitungBonus($data['pc_id']);
-            $pct = $hitung['pct'];
+            $pct_hpp = $hitung['pct_hpp'];
+            $pct_omzet = $hitung['pct_omzet'];
             $rata2 = $hitung['rata2'];
             $hpp = $hitung['hpp'];
             $jh = $hitung['jh'];
@@ -1939,7 +1946,8 @@ class CabangController extends Controller
             'romzet' => $rata2,
             'bonus' => $bonus,
             'jumlah_hari' => $jh,
-            'pct' => $pct,
+            'pct_hpp' => $pct_hpp,
+            'pct_omzet' => $pct_omzet,
             'hke' => $hke,
         ]);
     }
