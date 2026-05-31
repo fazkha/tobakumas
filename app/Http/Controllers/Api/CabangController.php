@@ -1406,7 +1406,6 @@ class CabangController extends Controller
         $jh = $hitung['jh'];
         $hke = $hitung['hke'];
         $bonus = $hitung['bonus'];
-        dd($pct_hpp, $pct_omzet);
         // (END) menghitung gaji pokok untuk perhitungan bonus
 
         $this->db_switch(1);
@@ -1560,16 +1559,19 @@ class CabangController extends Controller
                 ->where('tahun', now()->year)
                 ->where('bulan', now()->month)
                 ->value('target_id');
+            dd($target_id);
 
             if ($target_id) {
                 $target = PcTargetBonus::where('id', $target_id)
                     ->select('omzet', 'hpp')
                     ->first();
+                dd($target);
 
                 if ($target) {
                     $pct_omzet = round($rata2 / $target->omzet, 0);
                     $pct_hpp = round($hpp / $target->hpp, 0);
                 }
+                dd($pct_hpp, $pct_omzet);
             }
 
             $result = DB::select("CALL sp_pc_target_bonus(?,?,?)", [$rata2, $gapok, $hpp]);
