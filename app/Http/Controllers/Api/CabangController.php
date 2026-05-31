@@ -1406,6 +1406,7 @@ class CabangController extends Controller
         $jh = $hitung['jh'];
         $hke = $hitung['hke'];
         $bonus = $hitung['bonus'];
+        dd($pct_hpp, $pct_omzet);
         // (END) menghitung gaji pokok untuk perhitungan bonus
 
         $this->db_switch(1);
@@ -1768,6 +1769,7 @@ class CabangController extends Controller
         $pct = 0;
         $pct_hpp = 0;
         $pct_omzet = 0;
+        $hke = 0;
 
         $found = MitraOmzetPengeluaran::where('id', $data['id'])->first();
 
