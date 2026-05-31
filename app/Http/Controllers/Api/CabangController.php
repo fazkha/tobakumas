@@ -1422,6 +1422,8 @@ class CabangController extends Controller
     public function hitungBonus(String $pc_id)
     {
         $pct = 0;
+        $pct_hpp = 0;
+        $pct_omzet = 0;
         $rata2 = 0;
         $hpp = 0;
         $jh = 0;
@@ -1549,13 +1551,30 @@ class CabangController extends Controller
             $modal = $data ? floatval($data->modal) : 0;
             $hpp = round($modal / $rata2, 2);
 
+            $target_id = PcAverageOmzet::where('user_id', $pc_id)
+                ->where('tahun', now()->year)
+                ->where('bulan', now()->month)
+                ->value('target_id');
+
+            if ($target_id) {
+                $target = PcTargetBonus::where('id', $target_id)
+                    ->select('omzet', 'hpp')
+                    ->first();
+
+                if ($target) {
+                    $pct_omzet = round($rata2 / $target->omzet, 0);
+                    $pct_hpp = round($hpp / $target->hpp, 0);
+                }
+            }
+
             $result = DB::select("CALL sp_pc_target_bonus(?,?,?)", [$rata2, $gapok, $hpp]);
 
             $bonus = $result ? $result[0]->bonus ?? 0 : 0;
         }
 
         return [
-            'pct' => $pct,
+            'pct_hpp' => $pct_hpp,
+            'pct_omzet' => $pct_omzet,
             'rata2' => $rata2,
             'hpp' => $hpp,
             'jh' => $jh,
