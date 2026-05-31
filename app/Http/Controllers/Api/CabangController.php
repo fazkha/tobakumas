@@ -1564,7 +1564,6 @@ class CabangController extends Controller
                 $target = PcTargetBonus::where('id', $target_id)
                     ->select('omzet', 'hpp')
                     ->first();
-                dd($target);
 
                 if ($target) {
                     $pct_omzet = round($rata2 / $target->omzet, 0);
