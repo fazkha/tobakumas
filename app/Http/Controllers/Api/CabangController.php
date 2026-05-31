@@ -1559,7 +1559,6 @@ class CabangController extends Controller
                 ->where('tahun', now()->year)
                 ->where('bulan', now()->month)
                 ->value('target_id');
-            dd($target_id);
 
             if ($target_id) {
                 $target = PcTargetBonus::where('id', $target_id)
