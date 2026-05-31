@@ -1562,14 +1562,15 @@ class CabangController extends Controller
 
             if ($target_id) {
                 $target = PcTargetBonus::where('id', $target_id)
-                    ->select('omzet', 'hpp')
+                    ->select('r2omzet', 'hpp')
                     ->first();
 
                 if ($target) {
                     $pct_omzet = round($rata2 / $target->r2omzet, 0);
                     $pct_hpp = round($hpp / $target->hpp, 0);
                 }
-                dd($rata2, $hpp, $target->r2omzet, $target->hpp);
+                // dd($rata2, $hpp, $target->r2omzet, $target->hpp);
+                dd($pct_omzet, $pct_hpp);
             }
 
             $result = DB::select("CALL sp_pc_target_bonus(?,?,?)", [$rata2, $gapok, $hpp]);
