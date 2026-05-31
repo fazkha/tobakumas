@@ -1569,7 +1569,7 @@ class CabangController extends Controller
                     $pct_omzet = round($rata2 / $target->omzet, 0);
                     $pct_hpp = round($hpp / $target->hpp, 0);
                 }
-                dd($pct_hpp, $pct_omzet);
+                dd($rata2, $hpp, $target->omzet, $target->hpp);
             }
 
             $result = DB::select("CALL sp_pc_target_bonus(?,?,?)", [$rata2, $gapok, $hpp]);
