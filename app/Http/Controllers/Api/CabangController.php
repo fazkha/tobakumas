@@ -1566,10 +1566,10 @@ class CabangController extends Controller
                     ->first();
 
                 if ($target) {
-                    $pct_omzet = round($rata2 / $target->omzet, 0);
+                    $pct_omzet = round($rata2 / $target->r2omzet, 0);
                     $pct_hpp = round($hpp / $target->hpp, 0);
                 }
-                dd($rata2, $hpp, $target->omzet, $target->hpp);
+                dd($rata2, $hpp, $target->r2omzet, $target->hpp);
             }
 
             $result = DB::select("CALL sp_pc_target_bonus(?,?,?)", [$rata2, $gapok, $hpp]);
