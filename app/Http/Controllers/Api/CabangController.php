@@ -1497,7 +1497,6 @@ class CabangController extends Controller
         } else {
             $hke = $val_hari_pbulan;
         }
-        dd($data_omzet, $hke);
 
         if ($data_omzet) {
             $to = intval($data_omzet->tomzet) ?? 0;
@@ -1552,6 +1551,7 @@ class CabangController extends Controller
                 ->fromSub($subQuery, 't')
                 ->selectRaw('SUM(total_modal)/1000 AS modal')
                 ->first();
+            dd($data);
 
             $modal = $data ? floatval($data->modal) : 0;
             $hpp = round($modal / $rata2, 2);
