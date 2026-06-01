@@ -1553,8 +1553,8 @@ class CabangController extends Controller
                 ->first();
 
             $modal = $data ? floatval($data->modal) : 0;
+            dd($modal);
             $hpp = round($modal / $rata2, 2);
-            dd($rata2, $modal, $hpp);
 
             $target_id = PcAverageOmzet::where('user_id', $pc_id)
                 ->where('tahun', now()->year)
