@@ -1392,6 +1392,7 @@ class CabangController extends Controller
         $pct_hpp = 0;
         $pct_omzet = 0;
         $rata2 = 0;
+        $tomzet = 0;
         $hpp = 0;
         $jh = 0;
         $hke = 0;
@@ -1402,6 +1403,7 @@ class CabangController extends Controller
         $pct_hpp = $hitung['pct_hpp'];
         $pct_omzet = $hitung['pct_omzet'];
         $rata2 = $hitung['rata2'];
+        $tomzet = $hitung['tomzet'];
         $hpp = $hitung['hpp'];
         $jh = $hitung['jh'];
         $hke = $hitung['hke'];
@@ -1415,6 +1417,7 @@ class CabangController extends Controller
             'rekap' => $rekap,
             'hpp' => $hpp,
             'romzet' => $rata2,
+            'tomzet' => $tomzet,
             'bonus' => $bonus,
             'jumlah_hari' => $jh,
             'pct_hpp' => $pct_hpp,
@@ -1429,6 +1432,7 @@ class CabangController extends Controller
         $pct_hpp = 0;
         $pct_omzet = 0;
         $rata2 = 0;
+        $tomzet = 0;
         $hpp = 0;
         $jh = 0;
         $bonus = 0;
@@ -1502,6 +1506,7 @@ class CabangController extends Controller
             $to = intval($data_omzet->tomzet) ?? 0;
             $jh = intval($data_omzet->jhari) > 0 ? intval($data_omzet->jhari) : 1;
             $pct = round($jh / $hke, 2);
+            $tomzet = $to;
 
             if ($jh < $val_minimal_hari) {
                 $rata2 = round((($to / $val_hari_pbulan) * $jh) / $val_pembagi, 0);
@@ -1509,7 +1514,6 @@ class CabangController extends Controller
             } else {
                 $rata2 = round($to / $jh / $val_pembagi, 0);
             }
-            dd($rata2);
 
             $toppingSub = DB::table('tobakuma_01.sale_order_details')
                 ->selectRaw('sale_order_id, SUM(harga_satuan * kuantiti) AS total_topping')
@@ -1585,6 +1589,7 @@ class CabangController extends Controller
             'pct_hpp' => $pct_hpp,
             'pct_omzet' => $pct_omzet,
             'rata2' => $rata2,
+            'tomzet' => $tomzet,
             'hpp' => $hpp,
             'jh' => $jh,
             'hke' => $hke,
@@ -1768,6 +1773,7 @@ class CabangController extends Controller
         $pencapaian_omzet_phari = 0;
         $hpp = 0;
         $rata2 = 0;
+        $tomzet = 0;
         $bonus = 0;
         $jh = 0;
         $pct = 0;
@@ -1950,6 +1956,7 @@ class CabangController extends Controller
             'omzet' => $omzet,
             'hpp' => $hpp,
             'romzet' => $rata2,
+            'tomzet' => $tomzet,
             'bonus' => $bonus,
             'jumlah_hari' => $jh,
             'pct_hpp' => $pct_hpp,
