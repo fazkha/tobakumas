@@ -1551,10 +1551,10 @@ class CabangController extends Controller
                 ->fromSub($subQuery, 't')
                 ->selectRaw('SUM(total_modal)/1000 AS modal')
                 ->first();
-            dd($data);
 
             $modal = $data ? floatval($data->modal) : 0;
             $hpp = round($modal / $rata2, 2);
+            dd($rata2, $modal, $hpp);
 
             $target_id = PcAverageOmzet::where('user_id', $pc_id)
                 ->where('tahun', now()->year)
