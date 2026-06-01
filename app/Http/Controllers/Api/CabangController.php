@@ -1488,7 +1488,6 @@ class CabangController extends Controller
             ->where('u1.approved', 1)
             ->selectRaw('SUM(m2.omzet) AS tomzet, COUNT(DISTINCT m2.tanggal) AS jhari')
             ->first();
-        dd($data_omzet);
 
         $tanggal_terakhir = Carbon::now()->endOfMonth()->toDateString();
 
@@ -1503,6 +1502,7 @@ class CabangController extends Controller
             $to = intval($data_omzet->tomzet) ?? 0;
             $jh = intval($data_omzet->jhari) > 0 ? intval($data_omzet->jhari) : 1;
             $pct = round($jh / $hke, 2);
+            dd($to, $jh, $hke, $pct);
 
             if ($jh < $val_minimal_hari) {
                 $rata2 = round((($to / $val_hari_pbulan) * $jh) / $val_pembagi, 0);
