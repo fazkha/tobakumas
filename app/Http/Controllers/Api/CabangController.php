@@ -1573,10 +1573,11 @@ class CabangController extends Controller
                 }
             }
 
-            $result = DB::select("CALL sp_pc_target_bonus(?,?,?)", [$rata2, $gapok, $hpp]);
-            dd($result);
+            if ($modal > 0 && $rata2 > 0 && $hpp > 0) {
+                $result = DB::select("CALL sp_pc_target_bonus(?,?,?)", [$rata2, $gapok, $hpp]);
 
-            $bonus = $result ? $result[0]->bonus ?? 0 : 0;
+                $bonus = $result ? $result[0]->bonus ?? 0 : 0;
+            }
         }
 
         return [
