@@ -1584,7 +1584,7 @@ class CabangController extends Controller
             'pct_hpp' => $pct_hpp,
             'pct_omzet' => $pct_omzet,
             'rata2' => $rata2,
-            'hpp' => round($hpp, 2),
+            'hpp' => $hpp,
             'jh' => $jh,
             'hke' => $hke,
             'bonus' => $bonus,
