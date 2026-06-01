@@ -10,6 +10,7 @@ class PcAverageOmzet extends Model
     protected $table = 'pc_average_omzets';
 
     protected $fillable = [
+        'branch_id',
         'user_id',
         'target_id',
         'tahun',

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('pc_average_omzets', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('branch_id')->constrained()->onUpdate('cascade');
             $table->foreignId('user_id')->constrained()->onUpdate('cascade');
             $table->unsignedBigInteger('target_id');
             $table->foreign('target_id')->references('id')->on('pc_target_bonuses')->onUpdate('cascade');

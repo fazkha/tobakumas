@@ -153,7 +153,7 @@ class CabangController extends Controller
             ->where('branches.isactive', 1)
             ->where('users.approved', 1)
             ->orderByRaw('branches.nama')
-            ->selectRaw('branches.id, branches.nama as name')
+            ->selectRaw('branches.id, branches.nama as name, branches.kode as kode')
             ->get()
             ->toJson();
 
@@ -253,6 +253,7 @@ class CabangController extends Controller
         $validator = Validator::make($request->all(), [
             'user_id' => ['required', 'integer', 'exists:users,id'],
             'target_id' => ['required', 'integer', 'exists:pc_target_bonuses,id'],
+            'branch_id' => ['required', 'integer', 'exists:branches,id'],
         ]);
 
         if ($validator->fails()) {
@@ -284,6 +285,7 @@ class CabangController extends Controller
             $bonus = $result['bonus'];
 
             $pcAverageOmzet = PcAverageOmzet::where('user_id', $data['user_id'])
+                ->where('branch_id', $data['branch_id'])
                 ->where('tahun', $year)
                 ->where('bulan', $month)
                 ->first();
@@ -297,6 +299,7 @@ class CabangController extends Controller
                 ]);
             } else {
                 $pcAverageOmzet = PcAverageOmzet::create([
+                    'branch_id' => $data['branch_id'],
                     'user_id' => $data['user_id'],
                     'target_id' => $data['target_id'],
                     'tahun' => $year,
@@ -311,6 +314,7 @@ class CabangController extends Controller
         $targetBonus = PcAverageOmzet::join('pc_target_bonuses', 'pc_average_omzets.target_id', '=', 'pc_target_bonuses.id')
             ->selectRaw('pc_average_omzets.target_id as id, pc_target_bonuses.omzet, pc_target_bonuses.r2omzet, pc_target_bonuses.hpp, pc_target_bonuses.bonus as name')
             ->where('pc_average_omzets.user_id', $data['user_id'])
+            ->where('pc_average_omzets.branch_id', $data['branch_id'])
             ->where('pc_average_omzets.tahun', $year)
             ->where('pc_average_omzets.bulan', $month)
             ->first();
@@ -1588,7 +1592,6 @@ class CabangController extends Controller
 
             if ($modal > 0 && $rata2 > 0 && $hpp > 0) {
                 $result = DB::select("CALL sp_pc_target_bonus(?,?,?)", [$rata2, $gapok, $hpp]);
-
                 $bonus = $result ? $result[0]->bonus ?? 0 : 0;
             }
         }
