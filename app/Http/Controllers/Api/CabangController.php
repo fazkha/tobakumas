@@ -1573,16 +1573,16 @@ class CabangController extends Controller
                     ->first();
 
                 if ($target) {
-                    $pct_omzet = round($rata2 / $target->r2omzet, 0);
-                    $pct_hpp = round($hpp / $target->hpp, 0);
-                    dd(
-                        '$rata2: ' . $rata2,
-                        '$target->r2omzet: ' . $target->r2omzet,
-                        '$pct_omzet: ' . $pct_omzet,
-                        '$hpp: ' . $hpp,
-                        '$target->hpp: ' . $target->hpp,
-                        '$pct_hpp: ' . $pct_hpp
-                    );
+                    $pct_omzet = round($rata2 / $target->r2omzet, 2);
+                    $pct_hpp = round($hpp / $target->hpp, 2);
+                    // dd(
+                    //     '$rata2: ' . $rata2,
+                    //     '$target->r2omzet: ' . $target->r2omzet,
+                    //     '$pct_omzet: ' . $pct_omzet,
+                    //     '$hpp: ' . $hpp,
+                    //     '$target->hpp: ' . $target->hpp,
+                    //     '$pct_hpp: ' . $pct_hpp
+                    // );
                 }
             }
 
