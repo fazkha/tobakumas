@@ -1575,6 +1575,7 @@ class CabangController extends Controller
                 if ($target) {
                     $pct_omzet = round($rata2 / $target->r2omzet, 0);
                     $pct_hpp = round($hpp / $target->hpp, 0);
+                    dd($pct_omzet, $pct_hpp);
                 }
             }
 
