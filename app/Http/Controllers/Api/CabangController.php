@@ -1497,6 +1497,7 @@ class CabangController extends Controller
         } else {
             $hke = $val_hari_pbulan;
         }
+        dd($data_omzet, $hke);
 
         if ($data_omzet) {
             $to = intval($data_omzet->tomzet) ?? 0;
