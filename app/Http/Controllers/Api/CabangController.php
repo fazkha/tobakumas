@@ -1502,7 +1502,6 @@ class CabangController extends Controller
             $to = intval($data_omzet->tomzet) ?? 0;
             $jh = intval($data_omzet->jhari) > 0 ? intval($data_omzet->jhari) : 1;
             $pct = round($jh / $hke, 2);
-            dd($to, $jh, $hke, $pct);
 
             if ($jh < $val_minimal_hari) {
                 $rata2 = round((($to / $val_hari_pbulan) * $jh) / $val_pembagi, 0);
@@ -1510,6 +1509,7 @@ class CabangController extends Controller
             } else {
                 $rata2 = round($to / $jh / $val_pembagi, 0);
             }
+            dd($rata2);
 
             $toppingSub = DB::table('tobakuma_01.sale_order_details')
                 ->selectRaw('sale_order_id, SUM(harga_satuan * kuantiti) AS total_topping')
