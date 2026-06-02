@@ -1618,8 +1618,8 @@ class CabangController extends Controller
                     ->fromSub($subQuery, 't')
                     ->selectRaw('branch_id, SUM(total_modal)/1000 AS modal')
                     ->where('branch_id', $item->branch_id)
-                    ->groupBy('branch_id');
-                // ->first();
+                    ->groupBy('branch_id')
+                    ->get();
                 // $data = DB::query()
                 //     ->fromSub($subQuery, 't')
                 //     ->selectRaw('branch_id, SUM(total_modal)/1000 AS modal')
@@ -1627,14 +1627,14 @@ class CabangController extends Controller
                 //     ->groupBy('branch_id')
                 //     ->first();
 
-                $sql = $data->toSql();
-                $bindings = $data->getBindings();
-                foreach ($bindings as $binding) {
-                    $sql = preg_replace('/\?/', "'" . addslashes($binding) . "'", $sql, 1);
-                }
-                dd($sql);
+                // $sql = $data->toSql();
+                // $bindings = $data->getBindings();
+                // foreach ($bindings as $binding) {
+                //     $sql = preg_replace('/\?/', "'" . addslashes($binding) . "'", $sql, 1);
+                // }
+                // dd($sql);
 
-                // dd($data);
+                dd($data);
 
 
                 $modal = $data ? floatval($data->modal) : 0;
