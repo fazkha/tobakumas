@@ -1432,6 +1432,8 @@ class CabangController extends Controller
 
     public function hitungBonus(String $pc_id)
     {
+        dd('here');
+
         $pct = 0;
         $pct_hpp = 0;
         $pct_omzet = 0;
@@ -1507,7 +1509,6 @@ class CabangController extends Controller
         } else {
             $hke = $val_hari_pbulan;
         }
-        dd($data_omzet);
 
         if ($data_omzet) {
             foreach ($data_omzet as $item) {
