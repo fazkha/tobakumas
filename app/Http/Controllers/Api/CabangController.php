@@ -1497,7 +1497,6 @@ class CabangController extends Controller
             ->selectRaw('b3.branch_id, SUM(m2.omzet) AS tomzet, COUNT(DISTINCT m2.tanggal) AS jhari')
             ->groupBy('b3.branch_id')
             ->get();
-        dd($data_omzet);
 
         $tanggal_terakhir = Carbon::now()->endOfMonth()->toDateString();
 
@@ -1560,8 +1559,9 @@ class CabangController extends Controller
 
             $data = DB::query()
                 ->fromSub($subQuery, 't')
-                ->selectRaw('SUM(total_modal)/1000 AS modal')
-                ->first();
+                ->selectRaw('branch_id, SUM(total_modal)/1000 AS modal')
+                ->get();
+            dd($data);
 
             $modal = $data ? floatval($data->modal) : 0;
             if ($modal > 0 && $rata2 > 0) {
