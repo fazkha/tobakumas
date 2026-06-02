@@ -1629,12 +1629,12 @@ class CabangController extends Controller
                 // dd($sql);
 
                 $modal = $data ? floatval($data->modal) : 0;
-                dd($modal);
-
 
                 if ($modal > 0 && $rata2 > 0) {
                     $hpp = round($modal / $rata2, 2);
                 }
+                dd($modal, $rata2, $hpp);
+
 
                 $target_id = PcAverageOmzet::where('user_id', $pc_id)
                     ->where('tahun', now()->year)
