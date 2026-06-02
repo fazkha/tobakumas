@@ -1633,14 +1633,14 @@ class CabangController extends Controller
                 if ($modal > 0 && $rata2 > 0) {
                     $hpp = round($modal / $rata2, 2);
                 }
-                dd($modal, $rata2, $hpp);
-
 
                 $target_id = PcAverageOmzet::where('user_id', $pc_id)
                     ->where('tahun', now()->year)
                     ->where('bulan', now()->month)
                     ->where('branch_id', $item->branch_id) // jika ada
                     ->value('target_id');
+                dd($target_id);
+
 
                 if ($target_id) {
                     $target = PcTargetBonus::where('id', $target_id)
