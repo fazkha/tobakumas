@@ -1571,6 +1571,7 @@ class CabangController extends Controller
                     ->selectRaw('branch_id, SUM(total_modal)/1000 AS modal')
                     ->groupBy('branch_id')
                     ->first();
+                dd($data);
 
                 $modal = $data ? floatval($data->modal) : 0;
 
