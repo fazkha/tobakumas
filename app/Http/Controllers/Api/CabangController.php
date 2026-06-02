@@ -1494,8 +1494,10 @@ class CabangController extends Controller
             })
             ->where('u1.id', $pc_id)
             ->where('u1.approved', 1)
-            ->selectRaw('SUM(m2.omzet) AS tomzet, COUNT(DISTINCT m2.tanggal) AS jhari')
-            ->first();
+            ->selectRaw('b3.branch_id, SUM(m2.omzet) AS tomzet, COUNT(DISTINCT m2.tanggal) AS jhari')
+            ->groupBy('b3.branch_id')
+            ->get();
+        dd($data_omzet);
 
         $tanggal_terakhir = Carbon::now()->endOfMonth()->toDateString();
 
