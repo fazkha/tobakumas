@@ -1655,8 +1655,6 @@ class CabangController extends Controller
                         }
                     }
                 }
-                dd($rata2, $target->r2omzet, $pct_omzet, $hpp, $target->hpp, $pct_hpp);
-
 
                 if ($modal > 0 && $rata2 > 0 && $hpp > 0) {
                     $result = DB::select("CALL sp_pc_target_bonus(?,?,?)", [$rata2, $gapok, $hpp]);
@@ -1675,6 +1673,7 @@ class CabangController extends Controller
                     'hke' => $hke,
                     'bonus' => $bonus,
                 ];
+                dd($results);
             }
 
             // dd(
