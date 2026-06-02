@@ -1619,13 +1619,7 @@ class CabangController extends Controller
                     ->selectRaw('branch_id, SUM(total_modal)/1000 AS modal')
                     ->where('branch_id', $item->branch_id)
                     ->groupBy('branch_id')
-                    ->get();
-                // $data = DB::query()
-                //     ->fromSub($subQuery, 't')
-                //     ->selectRaw('branch_id, SUM(total_modal)/1000 AS modal')
-                //     ->where('branch_id', $item->branch_id)
-                //     ->groupBy('branch_id')
-                //     ->first();
+                    ->first();
 
                 // $sql = $data->toSql();
                 // $bindings = $data->getBindings();
