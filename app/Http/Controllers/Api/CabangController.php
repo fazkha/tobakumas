@@ -1507,6 +1507,7 @@ class CabangController extends Controller
         } else {
             $hke = $val_hari_pbulan;
         }
+        dd($data_omzet);
 
         if ($data_omzet) {
             foreach ($data_omzet as $item) {
@@ -1515,7 +1516,6 @@ class CabangController extends Controller
                 $pct_omzet = 0;
                 $hpp = 0;
                 $bonus = 0;
-                dd($item);
 
                 $to = intval($item->tomzet);
                 $jh = intval($item->jhari) > 0 ? intval($item->jhari) : 1;
