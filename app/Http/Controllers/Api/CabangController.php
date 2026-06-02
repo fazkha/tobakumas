@@ -1482,6 +1482,9 @@ class CabangController extends Controller
                 $join->on('b4.brandivjab_id', '=', 'b3.id')
                     ->where('b4.isactive', 1);
             })
+            ->join('branches as b5', function ($join) {
+                $join->on('b5.id', '=', 'b3.branch_id');
+            })
             ->join('mitras as m1', function ($join) {
                 $join->on('m1.id', '=', 'b4.mitra_id')
                     ->where('m1.isactive', 1);
@@ -1495,8 +1498,9 @@ class CabangController extends Controller
             })
             ->where('u1.id', $pc_id)
             ->where('u1.approved', 1)
-            ->selectRaw('b3.branch_id, SUM(m2.omzet) AS tomzet, COUNT(DISTINCT m2.tanggal) AS jhari')
-            ->groupBy('b3.branch_id')
+            ->selectRaw('b3.branch_id, b5.kode, SUM(m2.omzet) AS tomzet, COUNT(DISTINCT m2.tanggal) AS jhari')
+            ->groupBy('b3.branch_id', 'b5.kode')
+            ->orderBy('b5.kode')
             ->get();
 
         dd($data_omzet);
