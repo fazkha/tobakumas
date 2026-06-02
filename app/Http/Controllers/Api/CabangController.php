@@ -1432,8 +1432,6 @@ class CabangController extends Controller
 
     public function hitungBonus(String $pc_id)
     {
-        dd('here');
-
         $pct = 0;
         $pct_hpp = 0;
         $pct_omzet = 0;
@@ -1500,6 +1498,8 @@ class CabangController extends Controller
             ->selectRaw('b3.branch_id, SUM(m2.omzet) AS tomzet, COUNT(DISTINCT m2.tanggal) AS jhari')
             ->groupBy('b3.branch_id')
             ->get();
+
+        dd($data_omzet);
 
         $tanggal_terakhir = Carbon::now()->endOfMonth()->toDateString();
 
