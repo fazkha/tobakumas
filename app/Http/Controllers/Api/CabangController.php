@@ -1440,6 +1440,7 @@ class CabangController extends Controller
         $hpp = 0;
         $jh = 0;
         $bonus = 0;
+        $results = [];
 
         $app_pembagi = AppSetting::where('parm', 'mitra_pembagi_rata2_omzet')->first();
         $val_pembagi = $app_pembagi ? intval($app_pembagi->value) : 0;
@@ -1508,106 +1509,128 @@ class CabangController extends Controller
         }
 
         if ($data_omzet) {
-            $to = intval($data_omzet->tomzet) ?? 0;
-            $jh = intval($data_omzet->jhari) > 0 ? intval($data_omzet->jhari) : 1;
-            $pct = round($jh / $hke, 2);
-            $tomzet = $to;
+            foreach ($data_omzet as $item) {
+                $pct = 0;
+                $pct_hpp = 0;
+                $pct_omzet = 0;
+                $hpp = 0;
+                $bonus = 0;
 
-            if ($jh < $val_minimal_hari) {
-                $rata2 = round((($to / $val_hari_pbulan) * $jh) / $val_pembagi, 0);
-                // $rata2 = round($to / $jh / $val_pembagi, 0);
-            } else {
-                $rata2 = round($to / $jh / $val_pembagi, 0);
-            }
+                $to = intval($item->tomzet);
+                $jh = intval($item->jhari) > 0 ? intval($item->jhari) : 1;
+                $pct = round($jh / $hke, 2);
+                $tomzet = $to;
 
-            $toppingSub = DB::table('tobakuma_01.sale_order_details')
-                ->selectRaw('sale_order_id, SUM(harga_satuan * kuantiti) AS total_topping')
-                ->groupBy('sale_order_id');
+                if ($jh < $val_minimal_hari) {
+                    $rata2 = round((($to / $val_hari_pbulan) * $jh) / $val_pembagi, 0);
+                    // $rata2 = round($to / $jh / $val_pembagi, 0);
+                } else {
+                    $rata2 = round($to / $jh / $val_pembagi, 0);
+                }
 
-            $adonanSub = DB::table('tobakuma_01.sale_order_mitras')
-                ->selectRaw('sale_order_id, SUM(harga_satuan * kuantiti) AS total_adonan')
-                ->groupBy('sale_order_id');
+                $toppingSub = DB::table('tobakuma_01.sale_order_details')
+                    ->selectRaw('sale_order_id, SUM(harga_satuan * kuantiti) AS total_topping')
+                    ->groupBy('sale_order_id');
 
-            $subQuery = DB::table('tobakuma_02.users as u1')
-                ->join('tobakuma_02.pegawais as p1', function ($join) {
-                    $join->on('p1.email', '=', 'u1.email')
-                        ->where('p1.isactive', 1);
-                })
-                ->join('tobakuma_02.brandivjabpegs as b1', function ($join) {
-                    $join->on('b1.pegawai_id', '=', 'p1.id')
-                        ->where('b1.isactive', 1);
-                })
-                ->join('tobakuma_02.brandivjabs as b2', function ($join) {
-                    $join->on('b2.id', '=', 'b1.brandivjab_id')
-                        ->where('b2.jabatan_id', 4)
-                        ->where('b2.isactive', 1);
-                })
-                ->join('tobakuma_01.sale_orders as s1', function ($join) {
-                    $join->on('s1.branch_id', '=', 'b2.branch_id')
-                        ->whereMonth('s1.tanggal', now()->month)
-                        ->whereYear('s1.tanggal', now()->year);
-                })
-                ->leftJoinSub($toppingSub, 't1', function ($join) {
-                    $join->on('t1.sale_order_id', '=', 's1.id');
-                })
-                ->leftJoinSub($adonanSub, 't2', function ($join) {
-                    $join->on('t2.sale_order_id', '=', 's1.id');
-                })
-                ->where('u1.id', $pc_id)
-                ->where('u1.approved', 1)
-                ->selectRaw('s1.branch_id, MONTH(s1.tanggal) AS bln, YEAR(s1.tanggal) AS thn, COALESCE(t1.total_topping, 0) AS total_topping, COALESCE(t2.total_adonan, 0) AS total_adonan, (COALESCE(t1.total_topping, 0) + COALESCE(t2.total_adonan, 0)) AS total_modal');
+                $adonanSub = DB::table('tobakuma_01.sale_order_mitras')
+                    ->selectRaw('sale_order_id, SUM(harga_satuan * kuantiti) AS total_adonan')
+                    ->groupBy('sale_order_id');
 
-            $data = DB::query()
-                ->fromSub($subQuery, 't')
-                ->selectRaw('branch_id, SUM(total_modal)/1000 AS modal')
-                ->get();
-            dd($data);
+                $subQuery = DB::table('tobakuma_02.users as u1')
+                    ->join('tobakuma_02.pegawais as p1', function ($join) {
+                        $join->on('p1.email', '=', 'u1.email')
+                            ->where('p1.isactive', 1);
+                    })
+                    ->join('tobakuma_02.brandivjabpegs as b1', function ($join) {
+                        $join->on('b1.pegawai_id', '=', 'p1.id')
+                            ->where('b1.isactive', 1);
+                    })
+                    ->join('tobakuma_02.brandivjabs as b2', function ($join) {
+                        $join->on('b2.id', '=', 'b1.brandivjab_id')
+                            ->where('b2.jabatan_id', 4)
+                            ->where('b2.isactive', 1);
+                    })
+                    ->join('tobakuma_01.sale_orders as s1', function ($join) {
+                        $join->on('s1.branch_id', '=', 'b2.branch_id')
+                            ->whereMonth('s1.tanggal', now()->month)
+                            ->whereYear('s1.tanggal', now()->year);
+                    })
+                    ->leftJoinSub($toppingSub, 't1', function ($join) {
+                        $join->on('t1.sale_order_id', '=', 's1.id');
+                    })
+                    ->leftJoinSub($adonanSub, 't2', function ($join) {
+                        $join->on('t2.sale_order_id', '=', 's1.id');
+                    })
+                    ->where('u1.id', $pc_id)
+                    ->where('u1.approved', 1)
+                    ->selectRaw('s1.branch_id, MONTH(s1.tanggal) AS bln, YEAR(s1.tanggal) AS thn, COALESCE(t1.total_topping, 0) AS total_topping, COALESCE(t2.total_adonan, 0) AS total_adonan, (COALESCE(t1.total_topping, 0) + COALESCE(t2.total_adonan, 0)) AS total_modal');
 
-            $modal = $data ? floatval($data->modal) : 0;
-            if ($modal > 0 && $rata2 > 0) {
-                $hpp = round($modal / $rata2, 2);
-            }
-
-            $target_id = PcAverageOmzet::where('user_id', $pc_id)
-                ->where('tahun', now()->year)
-                ->where('bulan', now()->month)
-                ->value('target_id');
-
-            if ($target_id) {
-                $target = PcTargetBonus::where('id', $target_id)
-                    ->select('r2omzet', 'hpp')
+                $data = DB::query()
+                    ->fromSub($subQuery, 't')
+                    ->where('branch_id', $item->branch_id)
+                    ->selectRaw('branch_id, SUM(total_modal)/1000 AS modal')
+                    ->groupBy('branch_id')
                     ->first();
 
-                if ($target) {
-                    $pct_omzet = round($rata2 / $target->r2omzet, 2);
-                    $pct_hpp = round($hpp / $target->hpp, 2);
-                    // dd(
-                    //     '$rata2: ' . $rata2,
-                    //     '$target->r2omzet: ' . $target->r2omzet,
-                    //     '$pct_omzet: ' . $pct_omzet,
-                    //     '$hpp: ' . $hpp,
-                    //     '$target->hpp: ' . $target->hpp,
-                    //     '$pct_hpp: ' . $pct_hpp
-                    // );
+                $modal = $data ? floatval($data->modal) : 0;
+
+                if ($modal > 0 && $rata2 > 0) {
+                    $hpp = round($modal / $rata2, 2);
                 }
+
+                $target_id = PcAverageOmzet::where('user_id', $pc_id)
+                    ->where('tahun', now()->year)
+                    ->where('bulan', now()->month)
+                    ->where('branch_id', $item->branch_id) // jika ada
+                    ->value('target_id');
+
+                if ($target_id) {
+                    $target = PcTargetBonus::where('id', $target_id)
+                        ->select('r2omzet', 'hpp')
+                        ->first();
+
+                    if ($target) {
+                        if ($target->r2omzet > 0) {
+                            $pct_omzet = round($rata2 / $target->r2omzet, 2);
+                        }
+
+                        if ($target->hpp > 0) {
+                            $pct_hpp = round($hpp / $target->hpp, 2);
+                        }
+                    }
+                }
+
+                if ($modal > 0 && $rata2 > 0 && $hpp > 0) {
+                    $result = DB::select("CALL sp_pc_target_bonus(?,?,?)", [$rata2, $gapok, $hpp]);
+
+                    $bonus = $result ? ($result[0]->bonus ?? 0) : 0;
+                }
+
+                $results[] = [
+                    'branch_id' => $item->branch_id,
+                    'pct_hpp' => $pct_hpp,
+                    'pct_omzet' => $pct_omzet,
+                    'rata2' => $rata2,
+                    'tomzet' => $tomzet,
+                    'hpp' => $hpp,
+                    'jh' => $jh,
+                    'hke' => $hke,
+                    'bonus' => $bonus,
+                ];
             }
 
-            if ($modal > 0 && $rata2 > 0 && $hpp > 0) {
-                $result = DB::select("CALL sp_pc_target_bonus(?,?,?)", [$rata2, $gapok, $hpp]);
-                $bonus = $result ? $result[0]->bonus ?? 0 : 0;
-            }
+            // dd(
+            //     '$rata2: ' . $rata2,
+            //     '$target->r2omzet: ' . $target->r2omzet,
+            //     '$pct_omzet: ' . $pct_omzet,
+            //     '$hpp: ' . $hpp,
+            //     '$target->hpp: ' . $target->hpp,
+            //     '$pct_hpp: ' . $pct_hpp
+            // );
         }
+        dd($results);
 
-        return [
-            'pct_hpp' => $pct_hpp,
-            'pct_omzet' => $pct_omzet,
-            'rata2' => $rata2,
-            'tomzet' => $tomzet,
-            'hpp' => $hpp,
-            'jh' => $jh,
-            'hke' => $hke,
-            'bonus' => $bonus,
-        ];
+        return $results;
     }
 
     public function loadPetaPc(Request $request)
