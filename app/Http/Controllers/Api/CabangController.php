@@ -280,9 +280,14 @@ class CabangController extends Controller
 
         if ($target) {
             $result = $this->hitungBonus($data['user_id']);
-            $hpp = $result['hpp'];
-            $rata2 = $result['rata2'];
-            $bonus = $result['bonus'];
+            $dataByBranch = collect($result)->keyBy('branch_id');
+            $dataBranch = $dataByBranch[$data['branch_id']] ?? null;
+
+            if ($dataBranch) {
+                $hpp = $dataBranch['hpp'];
+                $rata2 = $dataBranch['rata2'];
+                $bonus = $dataBranch['bonus'];
+            }
 
             $pcAverageOmzet = PcAverageOmzet::where('user_id', $data['user_id'])
                 ->where('branch_id', $data['branch_id'])
@@ -1392,26 +1397,8 @@ class CabangController extends Controller
 
         $rekap = DB::select("CALL sp_pc_omzet_bulanan(?,?,?)", [$data['id'], $data['bulan'], $data['tahun']]);
 
-        $pct = 0;
-        $pct_hpp = 0;
-        $pct_omzet = 0;
-        $rata2 = 0;
-        $tomzet = 0;
-        $hpp = 0;
-        $jh = 0;
-        $hke = 0;
-        $bonus = 0;
-
         // menghitung gaji pokok untuk perhitungan bonus
         $hitung = $this->hitungBonus($data['id']);
-        $pct_hpp = $hitung['pct_hpp'];
-        $pct_omzet = $hitung['pct_omzet'];
-        $rata2 = $hitung['rata2'];
-        $tomzet = $hitung['tomzet'];
-        $hpp = $hitung['hpp'];
-        $jh = $hitung['jh'];
-        $hke = $hitung['hke'];
-        $bonus = $hitung['bonus'];
         // (END) menghitung gaji pokok untuk perhitungan bonus
 
         $this->db_switch(1);
@@ -1419,14 +1406,7 @@ class CabangController extends Controller
         return response()->json([
             'status' => 'success',
             'rekap' => $rekap,
-            'hpp' => $hpp,
-            'romzet' => $rata2,
-            'tomzet' => $tomzet,
-            'bonus' => $bonus,
-            'jumlah_hari' => $jh,
-            'pct_hpp' => $pct_hpp,
-            'pct_omzet' => $pct_omzet,
-            'hke' => $hke,
+            'bonus' => $hitung,
         ]);
     }
 
@@ -1515,14 +1495,6 @@ class CabangController extends Controller
         $today = now();
         $duaHariLalu = now()->subDays(2);
         $samaBulan = $today->year === $duaHariLalu->year && $today->month === $duaHariLalu->month;
-
-        // $duaHariLaluMonth = now()->subDays(2)->month;
-        // $duaHariLaluYear = now()->subDays(2)->year;
-
-        // $data = Transaksi::whereBetween('tanggal', [
-        //     now()->subDays(2)->startOfDay(),
-        //     now()->endOfDay()
-        // ])->get();
 
         if ($data_omzet) {
             foreach ($data_omzet as $item) {
@@ -1684,7 +1656,6 @@ class CabangController extends Controller
             //     '$pct_hpp: ' . $pct_hpp
             // );
         }
-        dd($results);
 
         return $results;
     }
@@ -1863,15 +1834,7 @@ class CabangController extends Controller
         $pct_akum_omzet = 0;
         $pencapaian_sisa_hari = 0;
         $pencapaian_omzet_phari = 0;
-        $hpp = 0;
-        $rata2 = 0;
-        $tomzet = 0;
-        $bonus = 0;
-        $jh = 0;
-        $pct = 0;
-        $pct_hpp = 0;
-        $pct_omzet = 0;
-        $hke = 0;
+        $hitung = [];
 
         $found = MitraOmzetPengeluaran::where('id', $data['id'])->first();
 
@@ -2024,13 +1987,6 @@ class CabangController extends Controller
             // if ($found->approved_omzet == 1) {
             // menghitung gaji pokok untuk perhitungan bonus
             $hitung = $this->hitungBonus($data['pc_id']);
-            $pct_hpp = $hitung['pct_hpp'];
-            $pct_omzet = $hitung['pct_omzet'];
-            $rata2 = $hitung['rata2'];
-            $hpp = $hitung['hpp'];
-            $jh = $hitung['jh'];
-            $hke = $hitung['hke'];
-            $bonus = $hitung['bonus'];
             // (END) menghitung gaji pokok untuk perhitungan bonus
             // }
         }
@@ -2046,14 +2002,7 @@ class CabangController extends Controller
         return response()->json([
             'status' => 'success',
             'omzet' => $omzet,
-            'hpp' => $hpp,
-            'romzet' => $rata2,
-            'tomzet' => $tomzet,
-            'bonus' => $bonus,
-            'jumlah_hari' => $jh,
-            'pct_hpp' => $pct_hpp,
-            'pct_omzet' => $pct_omzet,
-            'hke' => $hke,
+            'bonus' => $hitung,
         ]);
     }
 
