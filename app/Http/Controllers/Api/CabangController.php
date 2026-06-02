@@ -1512,6 +1512,18 @@ class CabangController extends Controller
             $hke = $val_hari_pbulan;
         }
 
+        $today = now();
+        $duaHariLalu = now()->subDays(2);
+        $samaBulan = $today->year === $duaHariLalu->year && $today->month === $duaHariLalu->month;
+
+        // $duaHariLaluMonth = now()->subDays(2)->month;
+        // $duaHariLaluYear = now()->subDays(2)->year;
+
+        $data = Transaksi::whereBetween('tanggal', [
+            now()->subDays(2)->startOfDay(),
+            now()->endOfDay()
+        ])->get();
+
         if ($data_omzet) {
             foreach ($data_omzet as $item) {
                 $pct = 0;
@@ -1540,41 +1552,74 @@ class CabangController extends Controller
                     ->selectRaw('sale_order_id, SUM(harga_satuan * kuantiti) AS total_adonan')
                     ->groupBy('sale_order_id');
 
-                $subQuery = DB::table('tobakuma_02.users as u1')
-                    ->join('tobakuma_02.pegawais as p1', function ($join) {
-                        $join->on('p1.email', '=', 'u1.email')
-                            ->where('p1.isactive', 1);
-                    })
-                    ->join('tobakuma_02.brandivjabpegs as b1', function ($join) {
-                        $join->on('b1.pegawai_id', '=', 'p1.id')
-                            ->where('b1.isactive', 1);
-                    })
-                    ->join('tobakuma_02.brandivjabs as b2', function ($join) {
-                        $join->on('b2.id', '=', 'b1.brandivjab_id')
-                            ->where('b2.jabatan_id', 4)
-                            ->where('b2.isactive', 1);
-                    })
-                    ->join('tobakuma_01.sale_orders as s1', function ($join) {
-                        $join->on('s1.branch_id', '=', 'b2.branch_id')
-                            ->whereMonth('s1.tanggal', now()->month)
-                            ->whereYear('s1.tanggal', now()->year);
-                    })
-                    ->leftJoinSub($toppingSub, 't1', function ($join) {
-                        $join->on('t1.sale_order_id', '=', 's1.id');
-                    })
-                    ->leftJoinSub($adonanSub, 't2', function ($join) {
-                        $join->on('t2.sale_order_id', '=', 's1.id');
-                    })
-                    ->where('u1.id', $pc_id)
-                    ->where('u1.approved', 1)
-                    ->selectRaw('s1.branch_id, MONTH(s1.tanggal) AS bln, YEAR(s1.tanggal) AS thn, COALESCE(t1.total_topping, 0) AS total_topping, COALESCE(t2.total_adonan, 0) AS total_adonan, (COALESCE(t1.total_topping, 0) + COALESCE(t2.total_adonan, 0)) AS total_modal');
+                if ($samaBulan) {
+                    $subQuery = DB::table('tobakuma_02.users as u1')
+                        ->join('tobakuma_02.pegawais as p1', function ($join) {
+                            $join->on('p1.email', '=', 'u1.email')
+                                ->where('p1.isactive', 1);
+                        })
+                        ->join('tobakuma_02.brandivjabpegs as b1', function ($join) {
+                            $join->on('b1.pegawai_id', '=', 'p1.id')
+                                ->where('b1.isactive', 1);
+                        })
+                        ->join('tobakuma_02.brandivjabs as b2', function ($join) {
+                            $join->on('b2.id', '=', 'b1.brandivjab_id')
+                                ->where('b2.jabatan_id', 4)
+                                ->where('b2.isactive', 1);
+                        })
+                        ->join('tobakuma_01.sale_orders as s1', function ($join) {
+                            $join->on('s1.branch_id', '=', 'b2.branch_id')
+                                ->whereMonth('s1.tanggal', now()->month)
+                                ->whereYear('s1.tanggal', now()->year);
+                        })
+                        ->leftJoinSub($toppingSub, 't1', function ($join) {
+                            $join->on('t1.sale_order_id', '=', 's1.id');
+                        })
+                        ->leftJoinSub($adonanSub, 't2', function ($join) {
+                            $join->on('t2.sale_order_id', '=', 's1.id');
+                        })
+                        ->where('u1.id', $pc_id)
+                        ->where('u1.approved', 1)
+                        ->selectRaw('s1.branch_id, MONTH(s1.tanggal) AS bln, YEAR(s1.tanggal) AS thn, COALESCE(t1.total_topping, 0) AS total_topping, COALESCE(t2.total_adonan, 0) AS total_adonan, (COALESCE(t1.total_topping, 0) + COALESCE(t2.total_adonan, 0)) AS total_modal');
+                } else {
+                    $subQuery = DB::table('tobakuma_02.users as u1')
+                        ->join('tobakuma_02.pegawais as p1', function ($join) {
+                            $join->on('p1.email', '=', 'u1.email')
+                                ->where('p1.isactive', 1);
+                        })
+                        ->join('tobakuma_02.brandivjabpegs as b1', function ($join) {
+                            $join->on('b1.pegawai_id', '=', 'p1.id')
+                                ->where('b1.isactive', 1);
+                        })
+                        ->join('tobakuma_02.brandivjabs as b2', function ($join) {
+                            $join->on('b2.id', '=', 'b1.brandivjab_id')
+                                ->where('b2.jabatan_id', 4)
+                                ->where('b2.isactive', 1);
+                        })
+                        ->join('tobakuma_01.sale_orders as s1', function ($join) {
+                            $join->on('s1.branch_id', '=', 'b2.branch_id')
+                                ->whereBetween('s1.tanggal', [
+                                    now()->subDays(2)->startOfDay(),
+                                    now()->endOfDay()
+                                ]);
+                        })
+                        ->leftJoinSub($toppingSub, 't1', function ($join) {
+                            $join->on('t1.sale_order_id', '=', 's1.id');
+                        })
+                        ->leftJoinSub($adonanSub, 't2', function ($join) {
+                            $join->on('t2.sale_order_id', '=', 's1.id');
+                        })
+                        ->where('u1.id', $pc_id)
+                        ->where('u1.approved', 1)
+                        ->selectRaw('s1.branch_id, MONTH(s1.tanggal) AS bln, YEAR(s1.tanggal) AS thn, COALESCE(t1.total_topping, 0) AS total_topping, COALESCE(t2.total_adonan, 0) AS total_adonan, (COALESCE(t1.total_topping, 0) + COALESCE(t2.total_adonan, 0)) AS total_modal');
+                }
 
                 $data = DB::query()
                     ->fromSub($subQuery, 't')
                     ->selectRaw('branch_id, SUM(total_modal)/1000 AS modal')
+                    ->where('branch_id', $item->branch_id)
                     ->groupBy('branch_id')
                     ->first();
-                // ->where('branch_id', $item->branch_id)
                 dd($data);
 
 
