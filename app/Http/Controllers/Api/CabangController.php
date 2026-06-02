@@ -1628,10 +1628,9 @@ class CabangController extends Controller
                 // }
                 // dd($sql);
 
-                dd($data);
-
-
                 $modal = $data ? floatval($data->modal) : 0;
+                dd($modal);
+
 
                 if ($modal > 0 && $rata2 > 0) {
                     $hpp = round($modal / $rata2, 2);
