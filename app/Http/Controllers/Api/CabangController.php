@@ -1503,8 +1503,6 @@ class CabangController extends Controller
             ->orderBy('b5.kode')
             ->get();
 
-        dd($data_omzet);
-
         $tanggal_terakhir = Carbon::now()->endOfMonth()->toDateString();
 
         $hke = KalenderHke::where('tanggal', $tanggal_terakhir)->value('hke');
@@ -1521,6 +1519,8 @@ class CabangController extends Controller
                 $pct_omzet = 0;
                 $hpp = 0;
                 $bonus = 0;
+                dd($item);
+
 
                 $to = intval($item->tomzet);
                 $jh = intval($item->jhari) > 0 ? intval($item->jhari) : 1;
