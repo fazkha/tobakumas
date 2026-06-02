@@ -1519,10 +1519,10 @@ class CabangController extends Controller
         // $duaHariLaluMonth = now()->subDays(2)->month;
         // $duaHariLaluYear = now()->subDays(2)->year;
 
-        $data = Transaksi::whereBetween('tanggal', [
-            now()->subDays(2)->startOfDay(),
-            now()->endOfDay()
-        ])->get();
+        // $data = Transaksi::whereBetween('tanggal', [
+        //     now()->subDays(2)->startOfDay(),
+        //     now()->endOfDay()
+        // ])->get();
 
         if ($data_omzet) {
             foreach ($data_omzet as $item) {
@@ -1616,11 +1616,25 @@ class CabangController extends Controller
 
                 $data = DB::query()
                     ->fromSub($subQuery, 't')
-                    ->selectRaw('branch_id, SUM(total_modal)/1000 AS modal')
-                    ->where('branch_id', $item->branch_id)
-                    ->groupBy('branch_id')
-                    ->first();
-                dd($data);
+                    ->selectRaw('branch_id, SUM(total_modal)/1000 AS modal');
+                // ->where('branch_id', $item->branch_id)
+                // ->groupBy('branch_id')
+                // ->first();
+                // $data = DB::query()
+                //     ->fromSub($subQuery, 't')
+                //     ->selectRaw('branch_id, SUM(total_modal)/1000 AS modal')
+                //     ->where('branch_id', $item->branch_id)
+                //     ->groupBy('branch_id')
+                //     ->first();
+
+                $sql = $data->toSql();
+                $bindings = $data->getBindings();
+                foreach ($bindings as $binding) {
+                    $sql = preg_replace('/\?/', "'" . addslashes($binding) . "'", $sql, 1);
+                }
+                dd($sql);
+
+                // dd($data);
 
 
                 $modal = $data ? floatval($data->modal) : 0;
