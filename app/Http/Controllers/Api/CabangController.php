@@ -1616,9 +1616,9 @@ class CabangController extends Controller
 
                 $data = DB::query()
                     ->fromSub($subQuery, 't')
-                    ->selectRaw('branch_id, SUM(total_modal)/1000 AS modal');
-                // ->where('branch_id', $item->branch_id)
-                // ->groupBy('branch_id')
+                    ->selectRaw('branch_id, SUM(total_modal)/1000 AS modal')
+                    ->where('branch_id', $item->branch_id)
+                    ->groupBy('branch_id');
                 // ->first();
                 // $data = DB::query()
                 //     ->fromSub($subQuery, 't')
