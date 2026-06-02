@@ -1515,6 +1515,7 @@ class CabangController extends Controller
                 $pct_omzet = 0;
                 $hpp = 0;
                 $bonus = 0;
+                dd($item);
 
                 $to = intval($item->tomzet);
                 $jh = intval($item->jhari) > 0 ? intval($item->jhari) : 1;
@@ -1571,7 +1572,6 @@ class CabangController extends Controller
                     ->selectRaw('branch_id, SUM(total_modal)/1000 AS modal')
                     ->groupBy('branch_id')
                     ->first();
-                dd($data);
 
                 $modal = $data ? floatval($data->modal) : 0;
 
