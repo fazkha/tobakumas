@@ -1519,8 +1519,6 @@ class CabangController extends Controller
                 $pct_omzet = 0;
                 $hpp = 0;
                 $bonus = 0;
-                dd($item);
-
 
                 $to = intval($item->tomzet);
                 $jh = intval($item->jhari) > 0 ? intval($item->jhari) : 1;
@@ -1573,10 +1571,12 @@ class CabangController extends Controller
 
                 $data = DB::query()
                     ->fromSub($subQuery, 't')
-                    ->where('branch_id', $item->branch_id)
                     ->selectRaw('branch_id, SUM(total_modal)/1000 AS modal')
+                    ->where('branch_id', $item->branch_id)
                     ->groupBy('branch_id')
                     ->first();
+                dd($data);
+
 
                 $modal = $data ? floatval($data->modal) : 0;
 
