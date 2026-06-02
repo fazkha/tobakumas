@@ -1673,7 +1673,6 @@ class CabangController extends Controller
                     'hke' => $hke,
                     'bonus' => $bonus,
                 ];
-                dd($results);
             }
 
             // dd(
