@@ -1639,8 +1639,6 @@ class CabangController extends Controller
                     ->where('bulan', now()->month)
                     ->where('branch_id', $item->branch_id) // jika ada
                     ->value('target_id');
-                dd($target_id);
-
 
                 if ($target_id) {
                     $target = PcTargetBonus::where('id', $target_id)
@@ -1657,6 +1655,8 @@ class CabangController extends Controller
                         }
                     }
                 }
+                dd($rata2, $target->r2omzet, $pct_omzet, $hpp, $target->hpp, $pct_hpp);
+
 
                 if ($modal > 0 && $rata2 > 0 && $hpp > 0) {
                     $result = DB::select("CALL sp_pc_target_bonus(?,?,?)", [$rata2, $gapok, $hpp]);
