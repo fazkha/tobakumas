@@ -994,6 +994,7 @@ class CabangController extends Controller
             ->orderBy('branches.kode')
             ->orderBy('jenis_pengeluaran_cabangs.nama')
             ->get();
+        dd($pengeluaran);
 
         if ($pengeluaran == null) {
             $pengeluaran = [];
