@@ -990,7 +990,7 @@ class CabangController extends Controller
             ->join('branches', 'branches.id', '=', 'pc_pengeluarans.branch_id')
             ->where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
-            ->selectRaw('pc_pengeluarans.id, pc_pengeluarans.branch_id, jenis_pengeluaran_cabangs.nama as keterangan, pc_pengeluarans.harga, pc_pengeluarans.jumlah, pc_pengeluarans.approved, pc_pengeluarans.approved_fin, pc_pengeluarans.image_nama, branches.kode as kode_cabang')
+            ->selectRaw('pc_pengeluarans.id, pc_pengeluarans.branch_id, jenis_pengeluaran_cabangs.nama as keterangan, ROUND(pc_pengeluarans.harga, 2) AS harga, ROUND(pc_pengeluarans.jumlah, 2) AS jumlah, pc_pengeluarans.approved, pc_pengeluarans.approved_fin, pc_pengeluarans.image_nama, branches.kode as kode_cabang')
             ->orderBy('branches.kode')
             ->orderBy('jenis_pengeluaran_cabangs.nama')
             ->get();
@@ -1156,7 +1156,7 @@ class CabangController extends Controller
             ->join('branches', 'branches.id', '=', 'pc_pengeluarans.branch_id')
             ->where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
-            ->selectRaw('pc_pengeluarans.id, pc_pengeluarans.branch_id, jenis_pengeluaran_cabangs.nama as keterangan, pc_pengeluarans.harga, pc_pengeluarans.jumlah, pc_pengeluarans.approved, pc_pengeluarans.approved_fin, pc_pengeluarans.image_nama, branches.kode as kode_cabang')
+            ->selectRaw('pc_pengeluarans.id, pc_pengeluarans.branch_id, jenis_pengeluaran_cabangs.nama as keterangan, ROUND(pc_pengeluarans.harga, 2) AS harga, ROUND(pc_pengeluarans.jumlah, 2) AS jumlah, pc_pengeluarans.approved, pc_pengeluarans.approved_fin, pc_pengeluarans.image_nama, branches.kode as kode_cabang')
             ->orderBy('branches.kode')
             ->orderBy('jenis_pengeluaran_cabangs.nama')
             ->get();
@@ -1254,7 +1254,7 @@ class CabangController extends Controller
             ->join('branches', 'branches.id', '=', 'pc_pengeluarans.branch_id')
             ->where('user_id', $data['id'])
             ->where('tanggal', $data['tanggal'])
-            ->selectRaw('pc_pengeluarans.id, pc_pengeluarans.branch_id, jenis_pengeluaran_cabangs.nama as keterangan, pc_pengeluarans.harga, pc_pengeluarans.jumlah, pc_pengeluarans.approved, pc_pengeluarans.approved_fin, pc_pengeluarans.image_nama, branches.kode as kode_cabang')
+            ->selectRaw('pc_pengeluarans.id, pc_pengeluarans.branch_id, jenis_pengeluaran_cabangs.nama as keterangan, ROUND(pc_pengeluarans.harga, 2) AS harga, ROUND(pc_pengeluarans.jumlah, 2) AS jumlah, pc_pengeluarans.approved, pc_pengeluarans.approved_fin, pc_pengeluarans.image_nama, branches.kode as kode_cabang')
             ->orderBy('branches.kode')
             ->orderBy('jenis_pengeluaran_cabangs.nama')
             ->get();
@@ -2276,7 +2276,7 @@ class CabangController extends Controller
                     ->join('branches', 'branches.id', '=', 'pc_pengeluarans.branch_id')
                     ->where('user_id', $data['id'])
                     ->where('tanggal', $data['tanggal'])
-                    ->selectRaw('pc_pengeluarans.id, pc_pengeluarans.branch_id, jenis_pengeluaran_cabangs.nama as keterangan, pc_pengeluarans.harga, pc_pengeluarans.jumlah, pc_pengeluarans.approved, pc_pengeluarans.approved_fin, pc_pengeluarans.image_nama, branches.kode as kode_cabang')
+                    ->selectRaw('pc_pengeluarans.id, pc_pengeluarans.branch_id, jenis_pengeluaran_cabangs.nama as keterangan, ROUND(pc_pengeluarans.harga, 2) AS harga, ROUND(pc_pengeluarans.jumlah, 2) AS jumlah, pc_pengeluarans.approved, pc_pengeluarans.approved_fin, pc_pengeluarans.image_nama, branches.kode as kode_cabang')
                     ->get();
 
                 if ($pengeluaran == null) {
