@@ -60,12 +60,12 @@ class PcbiayaController extends Controller implements HasMiddleware
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $datas = PcBiaya::join('branches', 'branches.id', '=', 'pc_pengeluarans.branch_id')
-            ->join('users', 'users.id', '=', 'pc_pengeluarans.user_id')
-            ->groupBy('pc_pengeluarans.tanggal', 'branches.nama', 'branches.id', 'users.name')
-            ->orderBy('pc_pengeluarans.tanggal', 'desc')
-            ->orderBy('branches.nama')
-            ->selectRaw('pc_pengeluarans.tanggal, branches.id as branch_id, branches.nama as branch_nama, users.name as pc_nama, round(sum(pc_pengeluarans.harga * pc_pengeluarans.jumlah), 2) as total_biaya');
+        // $datas = PcBiaya::join('branches', 'branches.id', '=', 'pc_pengeluarans.branch_id')
+        //     ->join('users', 'users.id', '=', 'pc_pengeluarans.user_id')
+        //     ->groupBy('pc_pengeluarans.tanggal', 'branches.nama', 'branches.id', 'users.name')
+        //     ->orderBy('pc_pengeluarans.tanggal', 'desc')
+        //     ->orderBy('branches.nama')
+        //     ->selectRaw('pc_pengeluarans.tanggal, branches.id as branch_id, branches.nama as branch_nama, users.name as pc_nama, round(sum(pc_pengeluarans.harga * pc_pengeluarans.jumlah), 2) as total_biaya');
 
         $datas = DB::table('pc_pengeluarans as p1')
             ->join('branches as b1', 'b1.id', '=', 'p1.branch_id')
@@ -75,7 +75,7 @@ class PcbiayaController extends Controller implements HasMiddleware
                 'b1.id as branch_id',
                 'b1.nama as branch_nama',
                 'u1.name as pc_nama',
-                DB::raw('SUM(p1.harga * p1.jumlah) as total_biaya'),
+                DB::raw('ROUND(SUM(p1.harga * p1.jumlah), 2) as total_biaya'),
                 DB::raw('COUNT(p1.id) as c1'),
                 DB::raw('SUM(p1.approved_fin) as c2')
             );
@@ -123,12 +123,12 @@ class PcbiayaController extends Controller implements HasMiddleware
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $branches = Branch::where('isactive', 1)->orderBy('nama')->pluck('nama', 'id');
-        $datas = PcBiaya::join('branches', 'branches.id', '=', 'pc_pengeluarans.branch_id')
-            ->join('users', 'users.id', '=', 'pc_pengeluarans.user_id')
-            ->groupBy('pc_pengeluarans.tanggal', 'branches.nama', 'branches.id', 'users.name')
-            ->orderBy('pc_pengeluarans.tanggal', 'desc')
-            ->orderBy('branches.nama')
-            ->selectRaw('pc_pengeluarans.tanggal, branches.id as branch_id, branches.nama as branch_nama, users.name as pc_nama, round(sum(pc_pengeluarans.harga * pc_pengeluarans.jumlah), 2) as total_biaya');
+        // $datas = PcBiaya::join('branches', 'branches.id', '=', 'pc_pengeluarans.branch_id')
+        //     ->join('users', 'users.id', '=', 'pc_pengeluarans.user_id')
+        //     ->groupBy('pc_pengeluarans.tanggal', 'branches.nama', 'branches.id', 'users.name')
+        //     ->orderBy('pc_pengeluarans.tanggal', 'desc')
+        //     ->orderBy('branches.nama')
+        //     ->selectRaw('pc_pengeluarans.tanggal, branches.id as branch_id, branches.nama as branch_nama, users.name as pc_nama, round(sum(pc_pengeluarans.harga * pc_pengeluarans.jumlah), 2) as total_biaya');
 
         $datas = DB::table('pc_pengeluarans as p1')
             ->join('branches as b1', 'b1.id', '=', 'p1.branch_id')
@@ -138,7 +138,7 @@ class PcbiayaController extends Controller implements HasMiddleware
                 'b1.id as branch_id',
                 'b1.nama as branch_nama',
                 'u1.name as pc_nama',
-                DB::raw('SUM(p1.harga * p1.jumlah) as total_biaya'),
+                DB::raw('ROUND(SUM(p1.harga * p1.jumlah), 2) as total_biaya'),
                 DB::raw('COUNT(p1.id) as c1'),
                 DB::raw('SUM(p1.approved_fin) as c2')
             );
