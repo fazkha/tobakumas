@@ -275,6 +275,7 @@ class CabangController extends Controller
         $bonus = 0;
         $month = now()->month; // Example: 5 (May)
         $year  = now()->year;  // Example: 2026
+        $result = [];
 
         $target = PcTargetBonus::where('id', $data['target_id'])->first();
 
@@ -329,6 +330,7 @@ class CabangController extends Controller
         return response()->json([
             'status' => 'success',
             'target_bonus' => $targetBonus,
+            'bonus' => $result,
         ]);
     }
 
