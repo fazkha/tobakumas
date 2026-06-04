@@ -30,6 +30,8 @@ class SaleOrderMitra extends Model
         'approved',
         'approved_by',
         'approved_at',
+        'cust_received',
+        'cust_note',
         'created_by',
         'updated_by',
     ];
