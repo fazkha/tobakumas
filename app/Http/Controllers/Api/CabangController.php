@@ -641,8 +641,9 @@ class CabangController extends Controller
 
         $validator = Validator::make($request->all(), [
             'pc_id' => ['required', 'integer', 'exists:users,id'],
-            'order_id' => ['required', 'integer'],
+            'detilorder_id' => ['required', 'integer'],
             'grup' => ['required', 'integer', 'in:1,2'],
+            'checked' => ['required', 'integer', 'in:1,0'],
             'keterangan' => ['nullable', 'string'],
         ]);
 
@@ -663,14 +664,14 @@ class CabangController extends Controller
         $this->db_switch(1);
 
         if ($data['grup'] == 1) {
-            $detail = SaleOrderDetail::where('id', $data['order_id'])->first();
+            $detail = SaleOrderDetail::where('id', $data['detilorder_id'])->first();
         } else {
-            $detail = SaleOrderMitra::where('id', $data['order_id'])->first();
+            $detail = SaleOrderMitra::where('id', $data['detilorder_id'])->first();
         }
 
         try {
             $detail->update([
-                'cust_received' => 1,
+                'cust_received' => $data['checked'],
                 'cust_note' => $data['keterangan'],
             ]);
         } catch (\Illuminate\Database\QueryException $e) {
