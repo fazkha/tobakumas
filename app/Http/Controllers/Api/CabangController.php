@@ -1612,7 +1612,7 @@ class CabangController extends Controller
                 $target_id = PcAverageOmzet::where('user_id', $pc_id)
                     ->where('tahun', now()->year)
                     ->where('bulan', now()->month)
-                    ->where('branch_id', $item->branch_id) // jika ada
+                    ->where('branch_id', $item->branch_id)
                     ->value('target_id');
 
                 if ($target_id) {
@@ -1629,13 +1629,19 @@ class CabangController extends Controller
                             $pct_hpp = round($hpp / $target->hpp, 2);
                         }
                     }
-                }
 
-                if ($modal > 0 && $rata2 > 0 && $hpp > 0) {
-                    $result = DB::select("CALL sp_pc_target_bonus(?,?,?)", [$rata2, $gapok, $hpp]);
+                    if ($modal > 0 && $rata2 > 0 && $hpp > 0) {
+                        $result = DB::select("CALL sp_pc_target_bonus(?,?,?)", [$rata2, $gapok, $hpp]);
 
-                    if ($hpp <= 0.30 && $hpp >= 0.25) {
-                        $bonus = $result ? ($result[0]->bonus ?? 0) : 0;
+                        if ($hpp <= 0.30 && $hpp >= 0.25) {
+                            $bonus = $result ? ($result[0]->bonus ?? 0) : 0;
+                        }
+
+                        $target = PcAverageOmzet::where('user_id', $pc_id)
+                            ->where('tahun', now()->year)
+                            ->where('bulan', now()->month)
+                            ->where('branch_id', $item->branch_id)
+                            ->update(['bonus' => $bonus]);
                     }
                 }
 
