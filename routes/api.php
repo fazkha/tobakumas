@@ -19,6 +19,11 @@ Route::post('/check-user', [AuthController::class, 'checkUser']);
 Route::post('/save-google-auth', [AuthController::class, 'saveGoogleAuth']);
 Route::post('/logout', [AuthController::class, 'logout']);
 // Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+
+Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
+Route::post('/verify-otp', [AuthController::class, 'verifyOtp']);
+Route::post('/reset-password', [AuthController::class, 'resetPassword']);
+
 Route::post('/change-password', [AuthController::class, 'changePassword'])->middleware('auth:sanctum');
 Route::get('/get-formatted-date', [AuthController::class, 'getFormattedDate']);
 Route::get('/get-formatted-time', [AuthController::class, 'getFormattedTime']);

@@ -7,6 +7,7 @@ use App\Models\Brandivjab;
 use App\Models\Brandivjabmit;
 use App\Models\Brandivjabpeg;
 use App\Models\Mitra;
+use App\Models\PasswordReset;
 use App\Models\Pegawai;
 use App\Models\Profile;
 use App\Models\User;
@@ -616,5 +617,105 @@ class AuthController extends Controller
             'message' => 'Google Auth Information saved.',
             'token' => $token
         ];
+    }
+
+    public function forgotPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email'
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'Email tidak ditemukan'
+            ], 404);
+        }
+
+        $otp = rand(100000, 999999);
+
+        PasswordReset::updateOrCreate(
+            ['email' => $request->email],
+            [
+                'otp' => $otp,
+                'verified' => false,
+                'expired_at' => now()->addMinutes(10)
+            ]
+        );
+
+        // Mail::raw(
+        //     "Kode OTP reset password Anda: $otp",
+        //     function ($message) use ($request) {
+        //         $message->to($request->email)
+        //             ->subject('Reset Password');
+        //     }
+        // );
+
+        return response()->json([
+            'message' => 'OTP berhasil dikirim'
+        ]);
+    }
+
+    public function verifyOtp(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'otp' => 'required'
+        ]);
+
+        $reset = PasswordReset::where('email', $request->email)
+            ->where('otp', $request->otp)
+            ->first();
+
+        if (!$reset) {
+            return response()->json([
+                'message' => 'OTP tidak valid'
+            ], 400);
+        }
+
+        if (now()->gt($reset->expired_at)) {
+            return response()->json([
+                'message' => 'OTP telah kadaluarsa'
+            ], 400);
+        }
+
+        $reset->update([
+            'verified' => true
+        ]);
+
+        return response()->json([
+            'message' => 'OTP valid'
+        ]);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:8|confirmed'
+        ]);
+
+        $reset = PasswordReset::where('email', $request->email)
+            ->where('verified', true)
+            ->first();
+
+        if (!$reset) {
+            return response()->json([
+                'message' => 'OTP belum diverifikasi'
+            ], 400);
+        }
+
+        $user = User::where('email', $request->email)->first();
+
+        $user->update([
+            'password' => Hash::make($request->password)
+        ]);
+
+        $reset->delete();
+
+        return response()->json([
+            'message' => 'Password berhasil diubah'
+        ]);
     }
 }
