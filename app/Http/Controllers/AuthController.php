@@ -644,7 +644,7 @@ class AuthController extends Controller
         if ($passreset) {
             $passreset->update([
                 'email' => $request->email,
-                'otp' => $otp,
+                'otp' => Hash::make($otp),
                 'verified' => 0,
                 'expired_at' => now()->addMinutes(10)
             ]);
@@ -655,7 +655,7 @@ class AuthController extends Controller
             if (!$passreset) {
                 $passreset = PasswordReset::create([
                     'email' => $request->email,
-                    'otp' => $otp,
+                    'otp' => Hash::make($otp),
                     'verified' => 0,
                     'expired_at' => now()->addMinutes(10)
                 ]);
@@ -689,7 +689,7 @@ class AuthController extends Controller
         $this->db_switch(2);
 
         $reset = PasswordReset::where('email', $request->email)
-            ->where('otp', $request->otp)
+            ->where('otp', Hash::make($request->otp))
             ->first();
 
         if (!$reset) {
