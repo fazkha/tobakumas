@@ -626,7 +626,6 @@ class AuthController extends Controller
         ]);
 
         $user = User::where('email', $request->email)->first();
-        dd($user);
 
         if (!$user) {
             return response()->json([
@@ -637,13 +636,14 @@ class AuthController extends Controller
         $otp = rand(100000, 999999);
 
         PasswordReset::updateOrCreate(
-            ['email' => $request->email],
             [
+                'email' => $request->email,
                 'otp' => $otp,
                 'verified' => false,
                 'expired_at' => now()->addMinutes(10)
             ]
         );
+        dd($otp);
 
         // Mail::raw(
         //     "Kode OTP reset password Anda: $otp",
