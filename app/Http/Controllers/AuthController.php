@@ -634,6 +634,7 @@ class AuthController extends Controller
         }
 
         $otp = rand(100000, 999999);
+        dd($otp);
 
         PasswordReset::updateOrCreate(
             [
@@ -643,7 +644,6 @@ class AuthController extends Controller
                 'expired_at' => now()->addMinutes(10)
             ]
         );
-        dd($otp);
 
         // Mail::raw(
         //     "Kode OTP reset password Anda: $otp",
