@@ -703,7 +703,7 @@ class AuthController extends Controller
         }
 
         $reset->update([
-            'verified' => true
+            'verified' => 1
         ]);
 
         return response()->json([
