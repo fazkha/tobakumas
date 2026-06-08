@@ -689,6 +689,7 @@ class AuthController extends Controller
         $reset = PasswordReset::where('email', $request->email)
             ->where('otp', $request->otp)
             ->first();
+        dd($reset);
 
         if (!$reset) {
             return response()->json([
