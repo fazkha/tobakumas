@@ -625,6 +625,8 @@ class AuthController extends Controller
             'email' => 'required|email'
         ]);
 
+        $this->db_switch(2);
+
         $user = User::where('email', $request->email)->first();
 
         if (!$user) {
@@ -641,7 +643,7 @@ class AuthController extends Controller
             'verified' => 0,
             'expired_at' => now()->addMinutes(10)
         ]);
-        dd($passreset);
+        // dd($passreset);
 
         // Mail::raw(
         //     "Kode OTP reset password Anda: $otp",
@@ -650,6 +652,8 @@ class AuthController extends Controller
         //             ->subject('Reset Password');
         //     }
         // );
+
+        $this->db_switch(1);
 
         return response()->json([
             'message' => 'OTP berhasil dikirim'
