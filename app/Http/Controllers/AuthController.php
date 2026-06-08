@@ -686,18 +686,23 @@ class AuthController extends Controller
             'otp' => 'required'
         ]);
 
-        dd($request->email, $request->otp);
+        $this->db_switch(2);
+
         $reset = PasswordReset::where('email', $request->email)
             ->where('otp', $request->otp)
-            ->get();
+            ->first();
 
         if (!$reset) {
+            $this->db_switch(1);
+
             return response()->json([
                 'message' => 'OTP tidak valid'
             ], 400);
         }
 
         if (now()->gt($reset->expired_at)) {
+            $this->db_switch(1);
+
             return response()->json([
                 'message' => 'OTP telah kadaluarsa'
             ], 400);
@@ -706,6 +711,8 @@ class AuthController extends Controller
         $reset->update([
             'verified' => 1
         ]);
+
+        $this->db_switch(1);
 
         return response()->json([
             'message' => 'OTP valid'
