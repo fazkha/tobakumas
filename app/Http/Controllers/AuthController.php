@@ -688,6 +688,8 @@ class AuthController extends Controller
 
         $this->db_switch(2);
 
+        dd(Hash::make($request->otp));
+
         $reset = PasswordReset::where('email', $request->email)
             ->where('otp', Hash::make($request->otp))
             ->first();
