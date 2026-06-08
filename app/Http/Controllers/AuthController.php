@@ -649,12 +649,17 @@ class AuthController extends Controller
                 'expired_at' => now()->addMinutes(10)
             ]);
         } else {
-            $passreset = PasswordReset::create([
-                'email' => $request->email,
-                'otp' => $otp,
-                'verified' => 0,
-                'expired_at' => now()->addMinutes(10)
-            ]);
+            $passreset = PasswordReset::where('email', $request->email)
+                ->first();
+
+            if (!$passreset) {
+                $passreset = PasswordReset::create([
+                    'email' => $request->email,
+                    'otp' => $otp,
+                    'verified' => 0,
+                    'expired_at' => now()->addMinutes(10)
+                ]);
+            }
         }
 
         // dd($passreset);
