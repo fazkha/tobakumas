@@ -1858,7 +1858,6 @@ class CabangController extends Controller
         $tahun = $carbon->year;
 
         $found = MitraOmzetPengeluaran::where('id', $data['id'])->first();
-        $rekap = DB::select("CALL sp_pc_omzet_bulanan(?,?,?)", [$data['pc_id'], $bulan, $tahun]);
 
         $mitra_user_id = $found ? $found->user_id : null;
         $tanggal = $found ? $found->tanggal : $data['tanggal'];
@@ -2025,7 +2024,6 @@ class CabangController extends Controller
             'status' => 'success',
             'omzet' => $omzet,
             'bonus' => $hitung,
-            'rekap' => $rekap,
         ]);
     }
 
