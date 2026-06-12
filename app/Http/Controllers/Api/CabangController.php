@@ -1401,7 +1401,7 @@ class CabangController extends Controller
         $rekap = DB::select("CALL sp_pc_omzet_bulanan(?,?,?)", [$data['id'], $data['bulan'], $data['tahun']]);
 
         // menghitung gaji pokok untuk perhitungan bonus
-        $hitung = $this->hitungBonus($data['id']);
+        // $hitung = $this->hitungBonus($data['id']);
         // (END) menghitung gaji pokok untuk perhitungan bonus
 
         $this->db_switch(1);
@@ -1409,7 +1409,6 @@ class CabangController extends Controller
         return response()->json([
             'status' => 'success',
             'rekap' => $rekap,
-            'bonus' => $hitung,
         ]);
     }
 
