@@ -1775,6 +1775,10 @@ class CabangController extends Controller
 
         $json_target_bonus = json_decode(json_encode($target_bonus), true);
 
+        // menghitung gaji pokok untuk perhitungan bonus
+        $hitung = $this->hitungBonus($data['id']);
+        // (END) menghitung gaji pokok untuk perhitungan bonus
+
         $this->db_switch(1);
 
         return response()->json([
@@ -1782,6 +1786,7 @@ class CabangController extends Controller
             'omzet' => $omzet,
             'rekap' => $rekap,
             'target_bonus' => $json_target_bonus,
+            'bonus' => $hitung,
         ]);
     }
 
