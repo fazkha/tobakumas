@@ -20,8 +20,5 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-composer.json
 composer.lock
-package.json
 package-lock.json
-config/custom.php
