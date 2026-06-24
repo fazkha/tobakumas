@@ -5,7 +5,6 @@
 /public/storage
 /storage/*.key
 /vendor
-/config/*.php
 /tmp
 *.zip
 .env
@@ -20,5 +19,3 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-composer.lock
-package-lock.json
