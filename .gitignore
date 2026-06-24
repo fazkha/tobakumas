@@ -18,10 +18,7 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-<<<<<<< HEAD
 composer.json
 composer.lock
 package.json
 package-lock.json
-=======
->>>>>>> 89407a50b23d9c4b42fb683635563233ca466b07
