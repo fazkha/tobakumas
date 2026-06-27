@@ -40,7 +40,7 @@ Route::prefix('office')->group(function () {});
 
 // Toko
 Route::prefix('toko')->group(function () {
-    Route::get('/order-mitra', [TokoController::class, 'orderMitra']);
+    Route::get('order-mitra', [TokoController::class, 'orderMitra']);
 });
 
 // Sales
