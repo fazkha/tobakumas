@@ -23,7 +23,6 @@ class TokoController extends Controller
             ->where('s1.isactive', 1)
             ->where('c1.isactive', 1)
             ->first();
-        dd($order);
 
         return [
             'status' => 'success',
