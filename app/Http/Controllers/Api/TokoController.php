@@ -59,6 +59,7 @@ class TokoController extends Controller
     public function orderCabang(Request $request)
     {
         $produst_id = 1;
+        $order = null;
         $customer = Customer::where('branch_link_id', $request->cabang_id)->select('id')->first();
 
         if ($customer) {
@@ -130,7 +131,7 @@ class TokoController extends Controller
 
                     if ($detail_barang) {
                         $detail_barang->update([
-                            'kuantiti' => $request->qtyBarang,
+                            'kuantiti' => $request->kuantiti,
                             'harga_satuan' => $barang->harga_satuan_jual,
                             'keterangan' => $request->keterangan,
                             'updated_by' => $request->pc_email,
@@ -157,9 +158,11 @@ class TokoController extends Controller
             }
         }
 
+        $order = DB::select("CALL sp_order_pc_id(?)", [$request->pc_id]);
+
         return [
             'status' => 'success',
-            'order' => $master
+            'order' => $order
         ];
     }
 }
