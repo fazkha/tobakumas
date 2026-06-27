@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Barang;
 use App\Models\Customer;
+use App\Models\SaleOrder;
+use App\Models\SaleOrderDetail;
+use App\Models\SaleOrderMitra;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -53,13 +56,110 @@ class TokoController extends Controller
         ];
     }
 
-    public function customerInternal(Request $request)
+    public function orderCabang(Request $request)
     {
-        $customer = Customer::where('branch_link_id', $request->id)->select('id')->first();
+        $produst_id = 1;
+        $customer = Customer::where('branch_link_id', $request->cabang_id)->select('id')->first();
+
+        if ($customer) {
+            $master = SaleOrder::where('customer_id', $customer->id)
+                ->where('branch_id', $request->cabang_id)
+                ->where('hke', $request->hke)
+                ->where('tanggal', $request->tanggal)
+                ->first();
+
+            if (!$master) {
+                $master = SaleOrder::create([
+                    'branch_id' => $request->cabang_id,
+                    'customer_id' => $customer->id,
+                    'product_id' => $produst_id,
+                    'hke' => $request->hke,
+                    'tanggal' => $request->tanggal,
+                    'tunai' => 1,
+                    'isactive' => 1,
+                    'created_by' => $request->pc_email,
+                    'updated_by' => $request->pc_email,
+                    'approved' => 1,
+                    'approved_by' => $request->pc_email,
+                    'approved_at' => date('Y-m-d H:i:s'),
+                ]);
+            }
+
+            $barang = Barang::where('id', $request->barang)
+                ->where('isactive', 1)
+                ->first();
+
+            if ($barang) {
+                if ($request->gerobak) {
+                    $detail_barang = SaleOrderMitra::where('sale_order_id', $master->id)
+                        ->where('branch_id', $request->cabang_id)
+                        ->where('barang_id', $request->barang)
+                        ->where('gerobak_id', $request->gerobak)
+                        ->first();
+
+                    if ($detail_barang) {
+                        $detail_barang->update([
+                            'kuantiti' => $request->kuantiti,
+                            'harga_satuan' => $barang->harga_satuan_jual,
+                            'keterangan' => $request->keterangan,
+                            'updated_by' => $request->pc_email,
+                        ]);
+                    } else {
+                        $detail_barang = SaleOrderMitra::create([
+                            'sale_order_id' => $master->id,
+                            'branch_id' => $request->cabang_id,
+                            'gerobak_id' => $request->gerobak,
+                            'barang_id' => $request->barang,
+                            'satuan_id' => $barang->satuan_jual_id,
+                            'kuantiti' => $request->kuantiti,
+                            'pajak' => 0,
+                            'harga_satuan' => $barang->harga_satuan_jual,
+                            'keterangan' => $request->keterangan,
+                            'created_by' => $request->pc_email,
+                            'updated_by' => $request->pc_email,
+                            'approved' => 1,
+                            'approved_by' => $request->pc_email,
+                            'approved_at' => date('Y-m-d H:i:s'),
+                        ]);
+                    }
+                } else {
+                    $detail_barang = SaleOrderDetail::where('sale_order_id', $master->id)
+                        ->where('branch_id', $request->cabang_id)
+                        ->where('barang_id', $request->barang)
+                        ->first();
+
+                    if ($detail_barang) {
+                        $detail_barang->update([
+                            'kuantiti' => $request->qtyBarang,
+                            'harga_satuan' => $barang->harga_satuan_jual,
+                            'keterangan' => $request->keterangan,
+                            'updated_by' => $request->pc_email,
+                        ]);
+                    } else {
+                        $detail_barang = SaleOrderDetail::create([
+                            'sale_order_id' => $master->id,
+                            'branch_id' => $request->cabang_id,
+                            'barang_id' => $request->barang,
+                            'satuan_id' => $barang->satuan_jual_id,
+                            'kuantiti' => $request->kuantiti,
+                            'stock' => $barang->stock,
+                            'pajak' => 0,
+                            'harga_satuan' => $barang->harga_satuan_jual,
+                            'keterangan' => $request->keterangan,
+                            'created_by' => $request->pc_email,
+                            'updated_by' => $request->pc_email,
+                            'approved' => 1,
+                            'approved_by' => $request->pc_email,
+                            'approved_at' => date('Y-m-d H:i:s'),
+                        ]);
+                    }
+                }
+            }
+        }
 
         return [
             'status' => 'success',
-            'customer' => $customer
+            'order' => $master
         ];
     }
 }

@@ -156,6 +156,7 @@ class SaleOrderController extends Controller implements HasMiddleware
         $total_harga = 0;
         $tunai = 1;
         $pajak = 0;
+        $produst_id = 1;
 
         if ($request->validated()) {
 
@@ -167,6 +168,7 @@ class SaleOrderController extends Controller implements HasMiddleware
             $so = SaleOrder::create([
                 'branch_id' => $request->branch_id,
                 'customer_id' => $request->customer_id,
+                'product_id' => $produst_id,
                 'hke' => $request->hke,
                 'tanggal' => $request->tanggal,
                 'biaya_angkutan' => str_replace('.', '', str_replace('Rp. ', '', $biaya_angkutan)),
