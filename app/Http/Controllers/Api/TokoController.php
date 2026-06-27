@@ -10,7 +10,6 @@ class TokoController extends Controller
 {
     public function orderMitra(Request $request)
     {
-        dd($request->branch_id);
         $order = DB::table('sale_orders as s1')
             ->join('customers as c1', function ($join) {
                 $join->on('c1.branch_link_id', '=', 's1.branch_id')
@@ -24,6 +23,7 @@ class TokoController extends Controller
             ->where('s1.isactive', 1)
             ->where('c1.isactive', 1)
             ->first();
+        dd($order);
 
         return [
             'status' => 'success',
