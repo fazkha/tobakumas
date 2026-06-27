@@ -10,7 +10,7 @@ class TokoController extends Controller
 {
     public function orderMitra(Request $request)
     {
-        dd($request->all());
+        dd($request->branch_id);
         $order = DB::table('sale_orders as s1')
             ->join('customers as c1', function ($join) {
                 $join->on('c1.branch_link_id', '=', 's1.branch_id')
