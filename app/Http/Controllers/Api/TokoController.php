@@ -55,7 +55,7 @@ class TokoController extends Controller
 
     public function customerInternal(Request $request)
     {
-        $customer = Customer::where('branch_link_id', $request->id)->value('id')->first();
+        $customer = Customer::where('branch_link_id', $request->id)->select('id')->first();
 
         return [
             'status' => 'success',
