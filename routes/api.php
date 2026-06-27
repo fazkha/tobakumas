@@ -28,6 +28,7 @@ Route::get('/get-formatted-time', [AuthController::class, 'getFormattedTime']);
 
 Route::get('/get-branch-list', [BranchController::class, 'getBranchList']);
 
+
 // Mitra
 Route::prefix('mitra')->group(function () {});
 
