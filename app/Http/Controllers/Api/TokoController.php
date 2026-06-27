@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Barang;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -49,6 +50,16 @@ class TokoController extends Controller
         return [
             'status' => 'success',
             'barang' => $barang
+        ];
+    }
+
+    public function customerInternal(Request $request)
+    {
+        $customer = Customer::where('branch_link_id', $request->id)->first();
+
+        return [
+            'status' => 'success',
+            'customer' => $customer
         ];
     }
 }

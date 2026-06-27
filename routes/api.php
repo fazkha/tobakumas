@@ -42,6 +42,7 @@ Route::prefix('office')->group(function () {});
 Route::prefix('toko')->group(function () {
     Route::get('order-mitra', [TokoController::class, 'orderMitra']);
     Route::get('barang-list', [TokoController::class, 'barangList']);
+    Route::get('customer-internal/{id}', [TokoController::class, 'customerInternal']);
 });
 
 // Sales
