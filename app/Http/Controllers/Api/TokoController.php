@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Barang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -27,6 +28,27 @@ class TokoController extends Controller
         return [
             'status' => 'success',
             'order' => $order
+        ];
+    }
+
+    public function barangList(Request $request)
+    {
+        $barang = Barang::join('jenis_barangs', 'jenis_barangs.id', '=', 'barangs.jenis_barang_id')
+            ->join('satuans', 'satuans.id', '=', 'barangs.satuan_jual_id')
+            ->where('barangs.isactive', 1)
+            ->where(function ($q) {
+                $q->whereIn('barangs.jenis_barang_id', [2, 4, 6, 7, 8, 9, 10])
+                    ->orWhere('barangs.nama', 'like', '%gula pasir%');
+            })
+            ->orderBy('jenis_barangs.nama')
+            ->orderBy('barangs.nama')
+            ->selectRaw('barangs.id, barangs.nama as name, jenis_barangs.nama as kelompok, satuans.singkatan as satuan, barangs.stock')
+            ->get()
+            ->toJson();
+
+        return [
+            'status' => 'success',
+            'barang' => $barang
         ];
     }
 }
