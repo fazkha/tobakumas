@@ -75,7 +75,7 @@ class TokoController extends Controller
             ]);
         }
 
-        $order = DB::select("CALL sp_order_pc_id(?)", [$request->pc_id]);
+        $order = DB::select("CALL sp_order_pc_id(?)", [$request->pc_email]);
 
         return [
             'status' => 'success',
@@ -185,7 +185,7 @@ class TokoController extends Controller
             }
         }
 
-        $order = DB::select("CALL sp_order_pc_id(?)", [$request->pc_id]);
+        $order = DB::select("CALL sp_order_pc_id(?)", [$request->pc_email]);
 
         return [
             'status' => 'success',
