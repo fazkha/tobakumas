@@ -58,6 +58,7 @@ class TokoController extends Controller
 
     public function orderCabangGet(Request $request)
     {
+        dd($request->pc_email);
         $order = DB::select("CALL sp_order_pc_id(?)", [$request->pc_email]);
 
         return [
