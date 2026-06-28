@@ -58,6 +58,7 @@ class TokoController extends Controller
 
     public function orderCabangDelete(Request $request)
     {
+        dd($request->all());
         if ($request->grup == 1) {
             $detail = SaleOrderDetail::where('id', $request->id)->first();
         } else {
