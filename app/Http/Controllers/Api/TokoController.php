@@ -56,9 +56,18 @@ class TokoController extends Controller
         ];
     }
 
+    public function orderCabangGet(Request $request)
+    {
+        $order = DB::select("CALL sp_order_pc_id(?)", [$request->pc_email]);
+
+        return [
+            'status' => 'success',
+            'order' => $order
+        ];
+    }
+
     public function orderCabangDelete(Request $request)
     {
-        dd($request->all());
         if ($request->grup == 1) {
             $detail = SaleOrderDetail::where('id', $request->id)->first();
         } else {

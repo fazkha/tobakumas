@@ -43,6 +43,7 @@ Route::prefix('toko')->group(function () {
     Route::get('order-mitra', [TokoController::class, 'orderMitra']);
     Route::get('barang-list', [TokoController::class, 'barangList']);
     Route::post('order-cabang', [TokoController::class, 'orderCabang']);
+    Route::get('order-cabang', [TokoController::class, 'orderCabangGet']);
     Route::delete('order-cabang', [TokoController::class, 'orderCabangDelete']);
 });
 
