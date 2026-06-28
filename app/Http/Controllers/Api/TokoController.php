@@ -92,6 +92,35 @@ class TokoController extends Controller
         ];
     }
 
+    public function orderCabangReceive(Request $request)
+    {
+        if ($request->grup == 1) {
+            $detail = SaleOrderDetail::where('id', $request->detilorder_id)->first();
+        } else {
+            $detail = SaleOrderMitra::where('id', $request->detilorder_id)->first();
+        }
+
+        try {
+            $detail->update([
+                'cust_received' => $request->checked,
+                'cust_note' => $request->keterangan,
+            ]);
+        } catch (\Illuminate\Database\QueryException $e) {
+
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ]);
+        }
+
+        $order = DB::select("CALL sp_order_pc_id(?)", [$request->pc_email]);
+
+        return [
+            'status' => 'success',
+            'order' => $order
+        ];
+    }
+
     public function orderCabang(Request $request)
     {
         $produst_id = 1;

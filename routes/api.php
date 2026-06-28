@@ -45,6 +45,7 @@ Route::prefix('toko')->group(function () {
     Route::post('order-cabang', [TokoController::class, 'orderCabang']);
     Route::get('order-cabang', [TokoController::class, 'orderCabangGet']);
     Route::delete('order-cabang', [TokoController::class, 'orderCabangDelete']);
+    Route::post('order-cabang-receive', [TokoController::class, 'orderCabangReceive']);
 });
 
 // Sales
