@@ -30,16 +30,17 @@ Route::get('/get-branch-list', [BranchController::class, 'getBranchList']);
 
 
 // Mitra
-Route::prefix('mitra')->group(function () {});
+// Route::prefix('mitra')->group(function () {});
 
 // Cabang
-Route::prefix('cabang')->group(function () {});
+// Route::prefix('cabang')->group(function () {});
 
 // Office
-Route::prefix('office')->group(function () {});
+// Route::prefix('office')->group(function () {});
 
 // Toko
 Route::prefix('toko')->group(function () {
+    Route::get('modal-cabang', [TokoController::class, 'modalCabang']);
     Route::get('order-mitra', [TokoController::class, 'orderMitra']);
     Route::get('barang-list', [TokoController::class, 'barangList']);
     Route::post('order-cabang', [TokoController::class, 'orderCabang']);
