@@ -235,7 +235,7 @@ class TokoController extends Controller
     {
         $modal = DB::select("CALL sp_modal_periode_cabang(?,?,?)", [$request->start_date, $request->end_date, $request->branch_id]);
 
-        if (count($modal) > 0) {
+        if (count($modal) == 0) {
             $modal = [
                 "branch_id" => $request->branch_id,
                 "total_modal" => 0
