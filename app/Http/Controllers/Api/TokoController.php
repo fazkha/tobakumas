@@ -237,7 +237,7 @@ class TokoController extends Controller
 
         return [
             'status' => 'success',
-            'modal' => $modal
+            'modal' => count($modal) > 0 ? $modal : 0,
         ];
     }
 }
