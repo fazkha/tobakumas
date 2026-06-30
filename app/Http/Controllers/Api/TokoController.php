@@ -234,7 +234,7 @@ class TokoController extends Controller
     public function modalCabang(Request $request)
     {
         $modal = DB::select("CALL sp_modal_periode_cabang(?,?,?)", [$request->start_date, $request->end_date, $request->branch_id]);
-        dd($modal);
+        dd($modal['branch_id']);
 
         if ($modal == []) {
             $modal = [
