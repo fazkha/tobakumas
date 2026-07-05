@@ -382,7 +382,7 @@
                         :class="{ 'bg-primary-100 dark:bg-primary': isActive || open }" role="button"
                         aria-haspopup="true" :aria-expanded="(open || isActive) ? 'true' : 'false'">
                         <span aria-hidden="true">
-                            <svg class="size-5" color="currentColor" version="1.1" id="Capa_1"
+                            <svg class="size-5" fill="currentColor" version="1.1" id="Capa_1"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
                                 y="0px" viewBox="0 0 490 490" style="enable-background:new 0 0 490 490;"
                                 xml:space="preserve">
@@ -439,7 +439,7 @@
                                         'border-b border-b-1 border-primary-100 dark:border-primary-700': currentlyOpen ==
                                             'pcpettycash'
                                     }">
-                                    <svg class="size-5" color="currentColor" version="1.1"
+                                    <svg class="size-5" fill="currentColor" version="1.1"
                                         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
                                         y="0px" viewBox="0 0 200.158 200.158"
                                         style="enable-background:new 0 0 200.158 200.158;" xml:space="preserve">
