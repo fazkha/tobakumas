@@ -382,9 +382,10 @@
                         :class="{ 'bg-primary-100 dark:bg-primary': isActive || open }" role="button"
                         aria-haspopup="true" :aria-expanded="(open || isActive) ? 'true' : 'false'">
                         <span aria-hidden="true">
-                            <svg class="size-5" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 490 490"
-                                style="enable-background:new 0 0 490 490;" xml:space="preserve">
+                            <svg class="size-5" color="currentColor" version="1.1" id="Capa_1"
+                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                                y="0px" viewBox="0 0 490 490" style="enable-background:new 0 0 490 490;"
+                                xml:space="preserve">
                                 <g>
                                     <path
                                         d="M490,30.625V15.313H0v15.313h45.908V336.92H0v15.313h197.041l-54.339,115.965l13.877,6.49l33.577-71.658h109.672 l33.577,71.658l13.877-6.49l-54.339-115.965H490V336.92h-45.908V30.625H490z M292.653,387.717h-95.322l16.627-35.485h62.067 L292.653,387.717z M428.78,336.92H61.22V30.625h367.56V336.92z" />
@@ -438,10 +439,10 @@
                                         'border-b border-b-1 border-primary-100 dark:border-primary-700': currentlyOpen ==
                                             'pcpettycash'
                                     }">
-                                    <svg class="size-5" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                                        xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                        viewBox="0 0 200.158 200.158" style="enable-background:new 0 0 200.158 200.158;"
-                                        xml:space="preserve">
+                                    <svg class="size-5" color="currentColor" version="1.1"
+                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                                        y="0px" viewBox="0 0 200.158 200.158"
+                                        style="enable-background:new 0 0 200.158 200.158;" xml:space="preserve">
                                         <g>
                                             <g>
                                                 <g>
