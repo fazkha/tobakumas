@@ -39,7 +39,7 @@ Route::get('/get-branch-list', [BranchController::class, 'getBranchList']);
 // Route::prefix('office')->group(function () {});
 
 // Toko
-Route::prefix('toko')->group(function () {
+Route::prefix('toko')->middleware('auth:sanctum')->group(function () {
     Route::get('modal-cabang', [TokoController::class, 'modalCabang']);
     Route::get('order-mitra', [TokoController::class, 'orderMitra']);
     Route::get('barang-list', [TokoController::class, 'barangList']);
