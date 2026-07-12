@@ -47,8 +47,8 @@ class TokoController extends Controller
             ->orderBy('jenis_barangs.nama')
             ->orderBy('barangs.nama')
             ->selectRaw('barangs.id, barangs.nama as name, jenis_barangs.nama as kelompok, satuans.singkatan as satuan, barangs.stock')
-            ->get()
-            ->toJson();
+            ->get();
+        // ->toJson();
 
         return [
             'status' => 'success',
