@@ -47,6 +47,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 
+use App\Services\GoogleSheetService;
+
+Route::get('/test-google-sheet', function (
+    GoogleSheetService $googleSheet
+) {
+    return response()->json(
+        $googleSheet->getValues('Master!C4:F')
+    );
+});
+
 Route::get('/', function () {
     return view('landing');
 });

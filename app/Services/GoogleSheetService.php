@@ -30,17 +30,12 @@ class GoogleSheetService
         $this->service = new Sheets($client);
     }
 
-    public function getValues(
-        string $range
-    ): array {
-
-        $spreadsheetId = config(
-            'google.sheets.spreadsheet_id'
-        );
+    public function getValues(string $range): array
+    {
+        $spreadsheetId = config('google.sheets.spreadsheet_id');
 
         $response = $this->service
-            ->spreadsheets
-            ->values
+            ->spreadsheets_values
             ->get(
                 $spreadsheetId,
                 $range
