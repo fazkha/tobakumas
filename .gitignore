@@ -1,3 +1,4 @@
+/storage/app/google/*.json
 /.phpunit.cache
 /node_modules
 /public/build
