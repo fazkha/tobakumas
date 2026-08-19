@@ -11,6 +11,7 @@ class JenisBarang extends Model
 
     protected $guarded = [];
     protected $table = 'jenis_barangs';
+    public $timestamps = false;
 
     protected $fillable = [
         'nama',

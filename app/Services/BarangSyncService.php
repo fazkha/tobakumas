@@ -29,7 +29,6 @@ class BarangSyncService
                 $nama = trim($row[0]);
                 $harga = (int) ($row[2] ?? 0);
                 $jenis = substr(trim($row[1]), 4, 1 + strlen(trim($row[1])) - 4);
-                dd($jenis);
 
                 if ($harga > 0) {
                     $jenis_barang_id = Barang::where('nama', $nama)->value('jenis_barang_id');
