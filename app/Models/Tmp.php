@@ -8,6 +8,7 @@ class Tmp extends Model
 {
     protected $guarded = [];
     protected $table = 'tmp';
+    public $timestamps = false;
 
     protected $fillable = [
         'parm',
