@@ -9,4 +9,4 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote')->hourly();
 
 Schedule::command('google-sheet:sync-barang-from-google-sheet')
-    ->everyTenMinutes();
+    ->hourly();
