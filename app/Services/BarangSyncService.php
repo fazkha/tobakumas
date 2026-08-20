@@ -82,7 +82,7 @@ class BarangSyncService
                         'satuan_jual_id' => $barang_t ? $barang_t->satuan_jual_id : 3,
                         'satuan_stock_id' => $barang_t ? $barang_t->satuan_stock_id : 3,
                         'jenis_barang_id' => $tbl_jenis->id,
-                        'operator' => $barang_t ? $barang_t->operator : 4,
+                        'operator' => $barang_t ? ($barang_t->operator ?? 4) : 4,
                         'nama' => Str::title($nama),
                         'harga_satuan_jual' => (int) (
                             $harga > 0 ? $harga : ($barang_t ? $barang_t->harga_satuan_jual : 0)
