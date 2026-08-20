@@ -47,12 +47,6 @@ class BarangSyncService
                         'lpp_nama' => $jenis,
                         'isactive' => 1,
                     ]);
-
-                    Tmp::create([
-                        'parm' => 'JenisBarang - update',
-                        'key' => $jenis_barang_id,
-                        'value' => $jenis,
-                    ]);
                 } else {
                     $tbl_jenis = JenisBarang::where('nama', $jenis)->orWhere('lpp_nama', $jenis)->first();
 
@@ -61,12 +55,6 @@ class BarangSyncService
                             'nama' => $jenis,
                             'lpp_nama' => $jenis,
                             'isactive' => 1,
-                        ]);
-
-                        Tmp::create([
-                            'parm' => 'JenisBarang - create',
-                            'key' => $tbl_jenis->id,
-                            'value' => $jenis,
                         ]);
                     }
                 }
@@ -98,19 +86,6 @@ class BarangSyncService
 
                 $count++;
 
-                if ($barang_t) {
-                    Tmp::create([
-                        'parm' => 'Barang - update',
-                        'key' => $barang->id,
-                        'value' => $nama,
-                    ]);
-                } else {
-                    Tmp::create([
-                        'parm' => 'Barang - create',
-                        'key' => $barang->id,
-                        'value' => $nama,
-                    ]);
-                }
                 // }
             }
         });
