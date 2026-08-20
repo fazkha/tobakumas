@@ -6,6 +6,7 @@ use App\Models\Barang;
 use App\Models\JenisBarang;
 use App\Models\Tmp;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class BarangSyncService
 {
@@ -28,82 +29,89 @@ class BarangSyncService
 
                 $nama = trim($row[0]);
                 $harga = (int) ($row[2] ?? 0);
-                $jenis = substr(trim($row[1]), 4, 1 + strlen(trim($row[1])) - 4);
+                $bilangan = (int) ($row[3] ?? 0);
+                $jenis = substr(trim($row[1]), 1 + strpos(trim($row[1]), '.'));
 
-                if ($harga > 0) {
-                    $jenis_barang_id = Barang::where('nama', $nama)->value('jenis_barang_id');
+                $search = Str::lower($nama);
+                $barang_t = Barang::whereRaw('LOWER(nama) = ?', [$search])->first();
 
-                    if ($jenis_barang_id) {
-                        $nama_jenis = JenisBarang::where('id', $jenis_barang_id)->value('nama');
-                        if ($nama_jenis != $jenis) {
-                            $tbl_jenis = JenisBarang::UpdateOrCreate(
-                                [
-                                    'id' => $jenis_barang_id,
-                                ],
-                                [
-                                    'nama' => $nama_jenis ? $nama_jenis : $jenis,
-                                    'lpp_nama' => $jenis,
-                                    'isactive' => 1,
-                                ]
-                            );
-                            Tmp::create([
-                                'parm' => 'JenisBarang - update/create',
-                                'key' => $jenis_barang_id,
-                                'value' => $jenis,
-                            ]);
-                        }
-                    } else {
+                // if ($harga > 0) {
+                $jenis_barang_id = $barang_t ? $barang_t->jenis_barang_id : NULL;
+
+                if ($jenis_barang_id) {
+                    $tbl_jenis = JenisBarang::where('id', $jenis_barang_id)->first();
+                    $nama_jenis = $tbl_jenis->nama;
+
+                    $tbl_jenis->update([
+                        'nama' => $nama_jenis ? $nama_jenis : $jenis,
+                        'lpp_nama' => $jenis,
+                        'isactive' => 1,
+                    ]);
+
+                    Tmp::create([
+                        'parm' => 'JenisBarang - update',
+                        'key' => $jenis_barang_id,
+                        'value' => $jenis,
+                    ]);
+                } else {
+                    $tbl_jenis = JenisBarang::where('nama', $jenis)->orWhere('lpp_nama', $jenis)->first();
+
+                    if (!$tbl_jenis) {
                         $tbl_jenis = JenisBarang::create([
                             'nama' => $jenis,
                             'lpp_nama' => $jenis,
                             'isactive' => 1,
                         ]);
+
                         Tmp::create([
                             'parm' => 'JenisBarang - create',
                             'key' => $tbl_jenis->id,
                             'value' => $jenis,
                         ]);
                     }
-
-                    $barang_t = Barang::where('nama', $nama)->first();
-
-                    $barang = Barang::updateOrCreate(
-                        [
-                            'nama' => $nama,
-                        ],
-                        [
-                            'branch_id' => 1,
-                            'gudang_id' => 1,
-                            'satuan_beli_id' => 3,
-                            'satuan_jual_id' => 3,
-                            'satuan_stock_id' => 3,
-                            'jenis_barang_id' => $tbl_jenis->id,
-                            'nama' => $nama,
-                            'harga_satuan_jual' => (int) (
-                                $row[2] ?? 0
-                            ),
-                            'bilangan' => (int) (
-                                $row[3] ?? 0
-                            ),
-                        ]
-                    );
-
-                    $count++;
-
-                    if ($barang_t) {
-                        Tmp::create([
-                            'parm' => 'Barang - update',
-                            'key' => $barang->id,
-                            'value' => $nama,
-                        ]);
-                    } else {
-                        Tmp::create([
-                            'parm' => 'Barang - create',
-                            'key' => $barang->id,
-                            'value' => $nama,
-                        ]);
-                    }
                 }
+
+                $barang = Barang::updateOrCreate(
+                    [
+                        'nama' => $nama,
+                    ],
+                    [
+                        'branch_id' => 1,
+                        'gudang_id' => 1,
+                        'satuan_beli_id' => $barang_t ? $barang_t->satuan_beli_id : 3,
+                        'satuan_jual_id' => $barang_t ? $barang_t->satuan_jual_id : 3,
+                        'satuan_stock_id' => $barang_t ? $barang_t->satuan_stock_id : 3,
+                        'jenis_barang_id' => $tbl_jenis->id,
+                        'operator' => $barang_t ? $barang_t->operator : 4,
+                        'nama' => Str::title($nama),
+                        'harga_satuan_jual' => (int) (
+                            $harga > 0 ? $harga : ($barang_t ? $barang_t->harga_satuan_jual : 0)
+                        ),
+                        'bilangan' => (int) (
+                            $bilangan > 0 ? $bilangan : ($barang_t ? $barang_t->bilangan : 1)
+                        ),
+                        'isactive' => 1,
+                        'created_by' => $barang_t ? $barang_t->created_by : 'google-service',
+                        'updated_by' => 'google-service',
+                    ]
+                );
+
+                $count++;
+
+                if ($barang_t) {
+                    Tmp::create([
+                        'parm' => 'Barang - update',
+                        'key' => $barang->id,
+                        'value' => $nama,
+                    ]);
+                } else {
+                    Tmp::create([
+                        'parm' => 'Barang - create',
+                        'key' => $barang->id,
+                        'value' => $nama,
+                    ]);
+                }
+                // }
             }
         });
 

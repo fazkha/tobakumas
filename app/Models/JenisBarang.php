@@ -15,6 +15,7 @@ class JenisBarang extends Model
 
     protected $fillable = [
         'nama',
+        'lpp_nama',
         'keterangan',
         'isactive',
     ];

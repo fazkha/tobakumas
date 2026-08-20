@@ -12,6 +12,7 @@ class Tmp extends Model
 
     protected $fillable = [
         'parm',
+        'key',
         'value',
     ];
 }
