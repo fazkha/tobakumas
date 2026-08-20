@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Models\Barang;
 use App\Models\JenisBarang;
-use App\Models\Tmp;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
