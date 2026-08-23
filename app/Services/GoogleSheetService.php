@@ -38,7 +38,10 @@ class GoogleSheetService
             ->spreadsheets_values
             ->get(
                 $spreadsheetId,
-                $range
+                $range,
+                [
+                    'valueRenderOption' => 'UNFORMATTED_VALUE',
+                ]
             );
 
         return $response->getValues() ?? [];

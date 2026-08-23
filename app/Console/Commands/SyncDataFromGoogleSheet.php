@@ -20,17 +20,17 @@ class SyncDataFromGoogleSheet extends Command
 
         try {
 
-            $barangCount = $barangSync->sync();
-
-            $this->info(
-                "Barang: berhasil memproses {$barangCount} data."
-            );
-
-            // $pembelianCount = $pembelianSync->sync();
+            // $barangCount = $barangSync->sync();
 
             // $this->info(
-            //     "Pembelian: berhasil memproses {$pembelianCount} data."
+            //     "Barang: berhasil memproses {$barangCount} data."
             // );
+
+            $pembelianCount = $pembelianSync->sync();
+
+            $this->info(
+                "Pembelian: berhasil memproses {$pembelianCount} data."
+            );
 
             return self::SUCCESS;
         } catch (\Throwable $e) {
