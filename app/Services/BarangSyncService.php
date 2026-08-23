@@ -27,8 +27,8 @@ class BarangSyncService
                 }
 
                 $nama = trim($row[0]);
-                $harga = (int) ($row[2] ?? 0);
-                $bilangan = (int) ($row[3] ?? 0);
+                $harga = (float) ($row[2] ?? 0);
+                $bilangan = (float) ($row[3] ?? 0);
                 $jenis = substr(trim($row[1]), 1 + strpos(trim($row[1]), '.'));
 
                 $search = Str::lower($nama);
@@ -71,10 +71,10 @@ class BarangSyncService
                         'jenis_barang_id' => $tbl_jenis->id,
                         'operator' => $barang_t ? ($barang_t->operator ?? 4) : 4,
                         'nama' => Str::title($nama),
-                        'harga_satuan_jual' => (int) (
+                        'harga_satuan_jual' => (float) (
                             $harga > 0 ? $harga : ($barang_t ? $barang_t->harga_satuan_jual : 0)
                         ),
-                        'bilangan' => (int) (
+                        'bilangan' => (float) (
                             $bilangan > 0 ? $bilangan : ($barang_t ? $barang_t->bilangan : 1)
                         ),
                         'isactive' => 1,

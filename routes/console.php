@@ -10,3 +10,5 @@ use Illuminate\Support\Facades\Schedule;
 
 Schedule::command('google-sheet:sync-barang-from-google-sheet')
     ->hourly();
+Schedule::command('google-sheet:sync-pembelian-from-google-sheet')
+    ->hourly();
