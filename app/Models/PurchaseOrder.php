@@ -25,6 +25,7 @@ class PurchaseOrder extends Model
         'isactive',
         'tanggal_terima',
         'isaccepted',
+        'bukti_nota',
         'keterangan_terima',
         'petugas_terima_id',
         'penanggungjawab_terima_id',

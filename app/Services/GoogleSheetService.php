@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\GoogleSheet;
 use Google\Client;
 use Google\Service\Sheets;
 
@@ -32,7 +33,8 @@ class GoogleSheetService
 
     public function getValues(string $range): array
     {
-        $spreadsheetId = config('google.sheets.spreadsheet_id');
+        // $spreadsheetId = config('google.sheets.spreadsheet_id');
+        $spreadsheetId = GoogleSheet::where('tahun', date('Y'))->where('bulan', date('n'))->value('sheet_id');
 
         $response = $this->service
             ->spreadsheets_values

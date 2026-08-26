@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 
-class PembelianSyncService
+class PenjualanSyncService
 {
     public function __construct(
         protected GoogleSheetService $googleSheet
@@ -19,16 +19,16 @@ class PembelianSyncService
     public function sync(): int
     {
         $rows = $this->googleSheet
-            ->getValues('Belanja TLM!B2:K');
+            ->getValues('Invoice TLM!D4:I');
 
         $count = 0;
 
         DB::transaction(function () use ($rows, &$count) {
 
             $current_tanggal = null;
-            $current_supplier = null;
+            $current_cabang = null;
             $date = null;
-            $po = null;
+            $so = null;
             $total_harga = 0.00;
 
             foreach ($rows as $row) {
@@ -36,7 +36,7 @@ class PembelianSyncService
                     continue;
                 }
 
-                $gs_tanggal = trim($row[0]);
+                $gs_tanggal = trim($row[5]);
 
                 if ($current_tanggal == trim($row[0]) && $current_supplier == trim($row[1])) {
                     //
