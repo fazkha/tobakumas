@@ -25,6 +25,7 @@ class SaleOrder extends Model
         'tunai',
         'jatuhtempo',
         'pajak',
+        'buyback',
         'isactive',
         'isready',
         'isready_by',

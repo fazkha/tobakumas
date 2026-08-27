@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use App\Services\BarangSyncService;
 use App\Services\PembelianSyncService;
+use App\Services\Penjualan1SyncService;
+use App\Services\Penjualan2SyncService;
 use Illuminate\Console\Command;
 
 class SyncDataFromGoogleSheet extends Command
@@ -15,6 +17,8 @@ class SyncDataFromGoogleSheet extends Command
     public function handle(
         BarangSyncService $barangSync,
         PembelianSyncService $pembelianSync,
+        Penjualan1SyncService $penjualan1Sync,
+        Penjualan2SyncService $penjualan2Sync,
     ) {
         $this->info('Memulai sinkronisasi...');
 
@@ -26,10 +30,22 @@ class SyncDataFromGoogleSheet extends Command
             //     "Barang: berhasil memproses {$barangCount} data."
             // );
 
-            $pembelianCount = $pembelianSync->sync();
+            // $pembelianCount = $pembelianSync->sync();
+
+            // $this->info(
+            //     "Pembelian: berhasil memproses {$pembelianCount} data."
+            // );
+
+            // $penjualan1Count = $penjualan1Sync->sync();
+
+            // $this->info(
+            //     "Penjualan 1: berhasil memproses {$penjualan1Count} data."
+            // );
+
+            $penjualan2Count = $penjualan2Sync->sync();
 
             $this->info(
-                "Pembelian: berhasil memproses {$pembelianCount} data."
+                "Penjualan 2: berhasil memproses {$penjualan2Count} data."
             );
 
             return self::SUCCESS;
