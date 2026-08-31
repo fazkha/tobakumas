@@ -42,7 +42,7 @@ class OfficeController extends Controller
         $this->db_switch(2);
 
         $tanggal = Carbon::today()->format('Y-m-d');
-        $kalendar = KalenderHke::where('tanggal', $tanggal)->first();
+        $kalendar = KalenderHke::where('tanggal', $tanggal)->latest()->first();
         $hke = $kalendar ? $kalendar->hke : null;
 
         $this->db_switch(1);

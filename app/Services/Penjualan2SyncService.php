@@ -38,7 +38,7 @@ class Penjualan2SyncService
             $total_harga = 0.00;
 
             foreach ($rows as $row) {
-                if (empty($row[6])) {
+                if (empty($row[0])) {
                     continue;
                 }
 
@@ -49,13 +49,13 @@ class Penjualan2SyncService
                     //
                     //
                 } else {
-                    if ($count > 0) {
-                        if ($so) {
-                            $so->update([
-                                'total_harga' => $so->total_harga + $total_harga,
-                            ]);
-                        }
-                    }
+                    // if ($count > 0) {
+                    //     if ($so) {
+                    //         $so->update([
+                    //             'total_harga' => $so->total_harga + $total_harga,
+                    //         ]);
+                    //     }
+                    // }
 
                     $current_hke = $gs_hke;
 
@@ -120,8 +120,18 @@ class Penjualan2SyncService
                     $db_customer = $cust->id;
                     $gs_ket = '-';
 
-                    $db_tanggal = KalenderHke::where('hke', $gs_hke)->whereRaw('YEAR(tanggal) = ? AND MONTH(tanggal) = ?', [date('Y'), date('n')])->value('tanggal');
-                    dd($db_tanggal);
+                    $db_tanggal = KalenderHke::where('hke', $gs_hke)->whereRaw('YEAR(tanggal) = ? AND MONTH(tanggal) = ?', [date('Y'), date('n')])->latest()->value('tanggal');
+
+                    if (!$db_tanggal) {
+                        $tanggalAkhir = Carbon::now()->endOfMonth()->toDateString();
+                        $hari = Carbon::parse($tanggalAkhir)->locale('id')->translatedFormat('l');
+                        $db_hke = KalenderHke::create([
+                            'tanggal' => $tanggalAkhir,
+                            'hari' => $hari,
+                            'hke' => $gs_hke,
+                        ]);
+                        $db_tanggal = $tanggalAkhir;
+                    }
 
                     $so = SaleOrder::firstOrCreate(
                         [
@@ -147,27 +157,27 @@ class Penjualan2SyncService
                     );
                 }
 
+                if ($so === null) {
+                    continue;
+                }
+
                 $gs_barang = trim($row[3]);
                 $gs_mitra = trim($row[2]);
                 $gs_jumlah = (float) ($row[4] ?? 0);
                 $gs_harga = (float) ($row[5] ?? 0);
 
-                if ($so === null) {
-                    continue;
-                }
-
                 $barang = Barang::firstOrCreate([
-                    'nama' => $gs_barang,
+                    'nama' => 'Adonan Martabak Mini',
                 ], [
                     'branch_id' => 2,
                     'gudang_id' => 1,
                     'jenis_barang_id' => 4,
-                    'nama' => $gs_barang,
+                    'nama' => 'Adonan Martabak Mini',
                     'isactive' => 1,
                 ]);
 
                 $db_barang = $barang->id;
-                $db_satuan = $barang->satuan_beli_id;
+                $db_satuan = $barang->satuan_jual_id;
                 $db_stock = $barang->stock;
                 $db_harga = $barang->harga_satuan_jual;
 
@@ -177,6 +187,7 @@ class Penjualan2SyncService
                         'branch_id' => $so->branch_id,
                         'barang_id' => $db_barang,
                         'satuan_id' => $db_satuan,
+                        'nama_mitra' => $gs_mitra,
                     ],
                     [
                         'sale_order_id' => $so->id,
@@ -187,7 +198,7 @@ class Penjualan2SyncService
                         'kuantiti' => $gs_jumlah,
                         'stock' => $db_stock,
                         'harga_satuan' => $db_harga,
-                        'keterangan' => '-',
+                        'keterangan' => $gs_barang,
                         'approved' => 1,
                         'approved_by' => 'google-service',
                         'approved_at' => date('Y-m-d'),
@@ -199,13 +210,13 @@ class Penjualan2SyncService
                 $total_harga += $gs_harga;
             }
 
-            if ($count > 0) {
-                if ($so) {
-                    $so->update([
-                        'total_harga' => $so->total_harga + $total_harga,
-                    ]);
-                }
-            }
+            // if ($count > 0) {
+            //     if ($so) {
+            //         $so->update([
+            //             'total_harga' => $so->total_harga + $total_harga,
+            //         ]);
+            //     }
+            // }
         });
 
         return $count;

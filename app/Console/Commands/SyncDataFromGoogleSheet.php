@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Services\BarangSyncService;
+use App\Services\OpnameSyncService;
 use App\Services\PembelianSyncService;
 use App\Services\Penjualan1SyncService;
 use App\Services\Penjualan2SyncService;
@@ -15,6 +16,7 @@ class SyncDataFromGoogleSheet extends Command
     protected $description = 'Sync data from Google Sheet';
 
     public function handle(
+        OpnameSyncService $opnameSync,
         BarangSyncService $barangSync,
         PembelianSyncService $pembelianSync,
         Penjualan1SyncService $penjualan1Sync,
@@ -24,23 +26,29 @@ class SyncDataFromGoogleSheet extends Command
 
         try {
 
-            // $barangCount = $barangSync->sync();
+            $opnameCount = $opnameSync->sync();
 
-            // $this->info(
-            //     "Barang: berhasil memproses {$barangCount} data."
-            // );
+            $this->info(
+                "Opname: berhasil memproses {$opnameCount} data."
+            );
 
-            // $pembelianCount = $pembelianSync->sync();
+            $barangCount = $barangSync->sync();
 
-            // $this->info(
-            //     "Pembelian: berhasil memproses {$pembelianCount} data."
-            // );
+            $this->info(
+                "Barang: berhasil memproses {$barangCount} data."
+            );
 
-            // $penjualan1Count = $penjualan1Sync->sync();
+            $pembelianCount = $pembelianSync->sync();
 
-            // $this->info(
-            //     "Penjualan 1: berhasil memproses {$penjualan1Count} data."
-            // );
+            $this->info(
+                "Pembelian: berhasil memproses {$pembelianCount} data."
+            );
+
+            $penjualan1Count = $penjualan1Sync->sync();
+
+            $this->info(
+                "Penjualan 1: berhasil memproses {$penjualan1Count} data."
+            );
 
             $penjualan2Count = $penjualan2Sync->sync();
 

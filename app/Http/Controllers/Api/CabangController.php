@@ -1488,7 +1488,7 @@ class CabangController extends Controller
 
         $tanggal_terakhir = Carbon::now()->endOfMonth()->toDateString();
 
-        $hke = KalenderHke::where('tanggal', $tanggal_terakhir)->value('hke');
+        $hke = KalenderHke::where('tanggal', $tanggal_terakhir)->latest()->value('hke');
         if ($hke) {
             $hke = intval($hke);
         } else {

@@ -63,7 +63,7 @@ class BarangSyncService
                         'nama' => $nama,
                     ],
                     [
-                        'branch_id' => 1,
+                        'branch_id' => 2,
                         'gudang_id' => 1,
                         'satuan_beli_id' => $barang_t ? $barang_t->satuan_beli_id : 3,
                         'satuan_jual_id' => $barang_t ? $barang_t->satuan_jual_id : 3,

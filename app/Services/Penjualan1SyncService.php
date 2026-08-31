@@ -23,7 +23,7 @@ class Penjualan1SyncService
     public function sync(): int
     {
         $rows = $this->googleSheet
-            ->getValues('Invoice TLM!C4:I');
+            ->getValues('Invoice TLM!B4:I');
 
         $count = 0;
 
@@ -36,27 +36,27 @@ class Penjualan1SyncService
             $total_harga = 0.00;
 
             foreach ($rows as $row) {
-                if (empty($row[6])) {
+                if (empty($row[7])) {
                     continue;
                 }
 
-                $gs_tgl = trim($row[6]);
+                $gs_tgl = trim($row[7]);
                 $gs_tanggal = date('m') . '/' . (strlen($gs_tgl) == 1 && is_numeric($gs_tgl) ? str_pad($gs_tgl, 2, '0', STR_PAD_LEFT) : '01') . '/' . date('Y');
 
-                if ($current_tanggal == trim($row[6]) && $current_customer == trim($row[1])) {
+                if ($current_tanggal == trim($row[7]) && $current_customer == trim($row[2])) {
                     //
                     //
                     //
                 } else {
-                    if ($count > 0) {
-                        if ($so) {
-                            $so->update([
-                                'total_harga' => $total_harga,
-                            ]);
-                        }
-                    }
+                    // if ($count > 0) {
+                    //     if ($so) {
+                    //         $so->update([
+                    //             'total_harga' => $total_harga,
+                    //         ]);
+                    //     }
+                    // }
 
-                    $current_tanggal = trim($row[6]);
+                    $current_tanggal = trim($row[7]);
 
                     $date = $this->parseTanggal($gs_tanggal);
                     if (!$date) {
@@ -65,7 +65,7 @@ class Penjualan1SyncService
 
                     $db_tanggal = $date->format('Y-m-d');
 
-                    $current_customer = trim($row[1]);
+                    $current_customer = trim($row[2]);
                     $gs_customer = substr($current_customer, 3);
 
                     $where = '%' . $gs_customer . '%';
@@ -105,7 +105,8 @@ class Penjualan1SyncService
                     }
                     $db_customer = $cust->id;
 
-                    $gs_hke = trim($row[0]);
+                    $gs_bb = trim($row[0]);
+                    $gs_hke = trim($row[1]);
                     $gs_ket = '-';
 
                     $so = SaleOrder::UpdateOrCreate(
@@ -123,6 +124,7 @@ class Penjualan1SyncService
                             'tunai' => 1,
                             'jatuhtempo' => NULL,
                             'isactive' => 1,
+                            'buyback' => $gs_bb ? 1 : 0,
                             'approved' => 1,
                             'approved_by' => 'google-service',
                             'approved_at' => date('Y-m-d'),
@@ -131,7 +133,7 @@ class Penjualan1SyncService
                         ]
                     );
 
-                    $gs_pc = trim($row[5]);
+                    $gs_pc = trim($row[6]);
 
                     // 'jabatan_id' = 4 = 'Kepala Cabang'
                     $b1 = Brandivjab::firstOrCreate(
@@ -185,15 +187,16 @@ class Penjualan1SyncService
                     // );
                 }
 
-                $gs_barang = trim($row[2]);
-                $gs_jumlah = (float) ($row[3] ?? 0);
-                $gs_harga = (float) ($row[4] ?? 0);
+                $gs_barang = trim($row[3]);
+                $gs_jumlah = (float) ($row[4] ?? 0);
+                $gs_harga = (float) ($row[5] ?? 0);
 
                 if ($so === null) {
                     continue;
                 }
 
                 $barang = Barang::where('nama', $gs_barang)->first();
+
                 if (!$barang) {
                     continue;
                 }
@@ -230,13 +233,13 @@ class Penjualan1SyncService
                 $total_harga += $gs_harga;
             }
 
-            if ($count > 0) {
-                if ($so) {
-                    $so->update([
-                        'total_harga' => $total_harga,
-                    ]);
-                }
-            }
+            // if ($count > 0) {
+            //     if ($so) {
+            //         $so->update([
+            //             'total_harga' => $total_harga,
+            //         ]);
+            //     }
+            // }
         });
 
         return $count;

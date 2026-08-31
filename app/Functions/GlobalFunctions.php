@@ -6,7 +6,7 @@ use App\Models\Notif;
 function main_office_code()
 {
     $setting = AppSetting::where('parm', 'main_office_code')->first();
-    $value = $setting ? $setting->value : 'NOT';
+    $value = $setting ? $setting->value : 'TLM';
     return $value;
 }
 

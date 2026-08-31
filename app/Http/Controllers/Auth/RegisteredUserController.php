@@ -44,7 +44,7 @@ class RegisteredUserController extends Controller
 
         $profile = Profile::create([
             'user_id' => $user->id,
-            'branch_id' => 1,
+            'branch_id' => 2,
             'tanggal_gabung' => date('Y-m-d'),
             'isactive' => 1,
             'app_version' => config('custom.version'),
