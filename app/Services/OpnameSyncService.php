@@ -32,8 +32,7 @@ class OpnameSyncService
                 $stock_akhir = (float) ($row[6] ?? 0);
                 $gs_satuan = strtolower(trim($row[8]));
 
-                $db_satuan = Satuan::where('singkatan', 'like', '%' . $gs_satuan . '%')
-                    ->orWhere('nama_lengkap', 'like', '%' . $gs_satuan . '%')
+                $db_satuan = Satuan::where('singkatan', $gs_satuan)
                     ->first();
 
                 if ($db_satuan) {
@@ -51,11 +50,11 @@ class OpnameSyncService
 
                 $db_nama = ($gs_nama = 'Adonan' ? 'Adonan Martabak Mini' : $gs_nama);
                 $search = Str::lower($db_nama);
-                $barang_t = Barang::whereRaw('LOWER(nama) LIKE ?', ["%{$search}%"])->first();
+                $barang_t = Barang::whereRaw('LOWER(nama) = ?', [$search])->first();
 
                 $barang = Barang::updateOrCreate(
                     [
-                        'nama' => $search,
+                        'nama' => $db_nama,
                     ],
                     [
                         'branch_id' => 2,
@@ -67,6 +66,7 @@ class OpnameSyncService
                         'nama' => Str::title($search),
                         'isactive' => 1,
                         'created_by' => $barang_t ? $barang_t->created_by : 'google-service',
+                        'updated_by' => $barang_t ? $barang_t->created_by : 'google-service',
                     ]
                 );
 

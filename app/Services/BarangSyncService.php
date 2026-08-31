@@ -31,6 +31,10 @@ class BarangSyncService
                 $bilangan = (float) ($row[3] ?? 0);
                 $jenis = substr(trim($row[1]), 1 + strpos(trim($row[1]), '.'));
 
+                if (Str::substr($nama, 0, 12) == 'Adonan Jumat' || Str::substr($nama, 0, 14) == 'Adonan Reguler') {
+                    continue;
+                }
+
                 $search = Str::lower($nama);
                 $barang_t = Barang::whereRaw('LOWER(nama) = ?', [$search])->first();
 

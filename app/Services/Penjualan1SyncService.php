@@ -191,6 +191,10 @@ class Penjualan1SyncService
                 $gs_jumlah = (float) ($row[4] ?? 0);
                 $gs_harga = (float) ($row[5] ?? 0);
 
+                if (Str::substr($gs_barang, 0, 12) == 'Adonan Jumat' || Str::substr($gs_barang, 0, 14) == 'Adonan Reguler') {
+                    continue;
+                }
+
                 if ($so === null) {
                     continue;
                 }
