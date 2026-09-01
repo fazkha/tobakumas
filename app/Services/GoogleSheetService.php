@@ -34,7 +34,7 @@ class GoogleSheetService
     public function getValues(string $range): array
     {
         // $spreadsheetId = config('google.sheets.spreadsheet_id');
-        $spreadsheetId = GoogleSheet::where('tahun', date('Y'))->where('bulan', date('n'))->value('sheet_id');
+        $spreadsheetId = GoogleSheet::where('tahun', date('Y'))->where('bulan', date('n'))->where('isactive', 1)->value('sheet_id');
 
         $response = $this->service
             ->spreadsheets_values

@@ -13,5 +13,6 @@ class GoogleSheet extends Model
         'tahun',
         'bulan',
         'sheet_id',
+        'isactive',
     ];
 }
