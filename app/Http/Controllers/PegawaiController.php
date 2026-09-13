@@ -257,7 +257,7 @@ class PegawaiController extends Controller implements HasMiddleware
         if (auth()->user()->profile->site == 'KP') $this->db_switch(2);
 
         $datas = Pegawai::find(Crypt::decrypt($request->employee));
-        $penggajian = PegawaiGaji::find(Crypt::decrypt($request->employee));
+        $penggajian = PegawaiGaji::where('pegawai_id', Crypt::decrypt($request->employee))->first();
         $details = Brandivjabpeg::where('brandivjabpegs.pegawai_id', Crypt::decrypt($request->employee))
             ->join('brandivjabs', 'brandivjabs.id', 'brandivjabpegs.brandivjab_id')
             ->join('branches', 'branches.id', 'brandivjabs.branch_id')
