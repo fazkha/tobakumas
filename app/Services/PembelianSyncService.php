@@ -18,8 +18,7 @@ class PembelianSyncService
 
     public function sync(): int
     {
-        $rows = $this->googleSheet
-            ->getValues('Belanja TLM!B2:K');
+        $rows = $this->googleSheet->getValues('Belanja TLM!B2:K');
 
         $count = 0;
 

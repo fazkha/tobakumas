@@ -53,7 +53,7 @@ Route::get('/test-google-sheet', function (
     GoogleSheetService $googleSheet
 ) {
     return response()->json(
-        $googleSheet->getValues('Invoice TLM!D4:I')
+        $googleSheet->getValues('Update stok!A3:E')
     );
 });
 

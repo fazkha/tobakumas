@@ -24,8 +24,7 @@ class Penjualan2SyncService
 
     public function sync(): int
     {
-        $rows = $this->googleSheet
-            ->getValues('Order Adonan!B2:G');
+        $rows = $this->googleSheet->getValues('Order Adonan!B2:G');
 
         $count = 0;
 
@@ -148,6 +147,12 @@ class Penjualan2SyncService
                             'tunai' => 1,
                             'jatuhtempo' => NULL,
                             'isactive' => 1,
+                            'isready' => 1,
+                            'isready_by' => 'google-service',
+                            'isready_at' => date('Y-m-d'),
+                            'ispackaged' => 1,
+                            'ispackaged_by' => 'google-service',
+                            'ispackaged_at' => date('Y-m-d'),
                             'approved' => 1,
                             'approved_by' => 'google-service',
                             'approved_at' => date('Y-m-d'),
@@ -199,6 +204,12 @@ class Penjualan2SyncService
                         'stock' => $db_stock,
                         'harga_satuan' => $db_harga,
                         'keterangan' => $gs_barang,
+                        'isready' => 1,
+                        'isready_by' => 'google-service',
+                        'isready_at' => date('Y-m-d'),
+                        'ispackaged' => 1,
+                        'ispackaged_by' => 'google-service',
+                        'ispackaged_at' => date('Y-m-d'),
                         'approved' => 1,
                         'approved_by' => 'google-service',
                         'approved_at' => date('Y-m-d'),

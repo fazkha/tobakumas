@@ -47,14 +47,14 @@ class SyncDataFromGoogleSheet extends Command
             $penjualan1Count = $penjualan1Sync->sync();
 
             $this->info(
-                "Penjualan 1: berhasil memproses {$penjualan1Count} data."
+                "Penjualan: berhasil memproses {$penjualan1Count} data."
             );
 
-            $penjualan2Count = $penjualan2Sync->sync();
+            // $penjualan2Count = $penjualan2Sync->sync();
 
-            $this->info(
-                "Penjualan 2: berhasil memproses {$penjualan2Count} data."
-            );
+            // $this->info(
+            // "Penjualan 2: berhasil memproses {$penjualan2Count} data."
+            // );
 
             return self::SUCCESS;
         } catch (\Throwable $e) {

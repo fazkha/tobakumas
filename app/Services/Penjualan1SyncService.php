@@ -10,6 +10,7 @@ use App\Models\Customer;
 use App\Models\Pegawai;
 use App\Models\SaleOrder;
 use App\Models\SaleOrderDetail;
+use App\Models\SaleOrderMitra;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
@@ -22,8 +23,7 @@ class Penjualan1SyncService
 
     public function sync(): int
     {
-        $rows = $this->googleSheet
-            ->getValues('Invoice TLM!B4:I');
+        $rows = $this->googleSheet->getValues('Invoice TLM!B4:I');
 
         $count = 0;
 
@@ -34,6 +34,7 @@ class Penjualan1SyncService
             $date = null;
             $so = null;
             $total_harga = 0.00;
+            $gs_pc = null;
 
             foreach ($rows as $row) {
                 if (empty($row[7])) {
@@ -66,11 +67,24 @@ class Penjualan1SyncService
                     $db_tanggal = $date->format('Y-m-d');
 
                     $current_customer = trim($row[2]);
-                    $gs_customer = substr($current_customer, 3);
+
+                    if ($current_customer == 'Office') {
+                        continue;
+                    } elseif ($current_customer == 'TLM') {
+                        continue;
+                    } else {
+                        $gs_produk = substr($current_customer, 0, 2);
+                        $gs_customer = substr($current_customer, 3);
+                    }
 
                     $where = '%' . $gs_customer . '%';
                     $cust = Customer::where('kode', 'like', $where)->first();
                     $cabang = Branch::where('kode', $gs_customer)->first();
+
+                    if (!$cabang) {
+                        continue;
+                        // dd($gs_customer);
+                    }
 
                     if (!$cust) {
                         if ($cabang) {
@@ -113,11 +127,12 @@ class Penjualan1SyncService
                         [
                             'tanggal' => $db_tanggal,
                             'customer_id' => $db_customer,
+                            'product_id' => $gs_produk == 'TY' ? 2 : 1,
                         ],
                         [
                             'branch_id' => 2,
                             'customer_id' => $db_customer,
-                            'product_id' => 1,
+                            'product_id' => $gs_produk == 'TY' ? 2 : 1,
                             'hke' => $gs_hke,
                             'tanggal' => $db_tanggal,
                             'biaya_angkutan' => 0,
@@ -125,6 +140,12 @@ class Penjualan1SyncService
                             'jatuhtempo' => NULL,
                             'isactive' => 1,
                             'buyback' => $gs_bb ? 1 : 0,
+                            'isready' => 1,
+                            'isready_by' => 'google-service',
+                            'isready_at' => date('Y-m-d'),
+                            'ispackaged' => 1,
+                            'ispackaged_by' => 'google-service',
+                            'ispackaged_at' => date('Y-m-d'),
                             'approved' => 1,
                             'approved_by' => 'google-service',
                             'approved_at' => date('Y-m-d'),
@@ -187,16 +208,22 @@ class Penjualan1SyncService
                     // );
                 }
 
-                $gs_barang = trim($row[3]);
-                $gs_jumlah = (float) ($row[4] ?? 0);
-                $gs_harga = (float) ($row[5] ?? 0);
-
-                if (Str::substr($gs_barang, 0, 12) == 'Adonan Jumat' || Str::substr($gs_barang, 0, 14) == 'Adonan Reguler') {
+                if ($so === null) {
                     continue;
                 }
 
-                if ($so === null) {
-                    continue;
+                $gs_barang = trim($row[3]);
+                $gs_jumlah = (float) ($row[4] ?? 0);
+                $gs_harga = (float) ($row[5] ?? 0);
+                $gs_adonan = false;
+
+                if (Str::substr($gs_barang, 0, 12) == 'Adonan Jumat' || Str::substr($gs_barang, 0, 14) == 'Adonan Reguler') {
+                    $gs_barang = 'Adonan Martabak Mini';
+                    $gs_adonan = true;
+                    // continue;
+                } elseif (Str::substr($gs_barang, 0, 15) == 'Adonan Takoyaki') {
+                    $gs_adonan = true;
+                    // continue;
                 }
 
                 $barang = Barang::where('nama', $gs_barang)->first();
@@ -210,28 +237,65 @@ class Penjualan1SyncService
                 $db_stock = $barang->stock;
                 $db_harga = $barang->harga_satuan_jual;
 
-                $detail = SaleOrderDetail::updateOrCreate(
-                    [
-                        'sale_order_id' => $so->id,
-                        'branch_id' => $so->branch_id,
-                        'barang_id' => $db_barang,
-                        'satuan_id' => $db_satuan,
-                    ],
-                    [
-                        'sale_order_id' => $so->id,
-                        'branch_id' => $so->branch_id,
-                        'barang_id' => $db_barang,
-                        'satuan_id' => $db_satuan,
-                        'kuantiti' => $gs_jumlah,
-                        'stock' => $db_stock,
-                        'harga_satuan' => $db_harga,
-                        'keterangan' => '-',
-                        'approved' => 1,
-                        'approved_by' => 'google-service',
-                        'approved_at' => date('Y-m-d'),
-                        'created_by' => 'google-service',
-                    ]
-                );
+                if ($gs_adonan) {
+                    $detail = SaleOrderMitra::updateOrCreate(
+                        [
+                            'sale_order_id' => $so->id,
+                            'branch_id' => $so->branch_id,
+                            'barang_id' => $db_barang,
+                            'satuan_id' => $db_satuan,
+                        ],
+                        [
+                            'sale_order_id' => $so->id,
+                            'branch_id' => $so->branch_id,
+                            'pegawai_id' => $pegawai->id,
+                            'gerobak_id' => null,
+                            'barang_id' => $db_barang,
+                            'satuan_id' => $db_satuan,
+                            'nama_mitra' => $gs_pc,
+                            'kuantiti' => $gs_jumlah,
+                            'stock' => $db_stock,
+                            'harga_satuan' => $db_harga,
+                            'keterangan' => '-',
+                            'isready' => 1,
+                            'isready_by' => 'google-service',
+                            'isready_at' => date('Y-m-d'),
+                            'ispackaged' => 1,
+                            'ispackaged_by' => 'google-service',
+                            'ispackaged_at' => date('Y-m-d'),
+                            'approved' => 1,
+                            'approved_by' => 'google-service',
+                            'approved_at' => date('Y-m-d'),
+                            'created_by' => 'google-service',
+                        ]
+                    );
+                } else {
+                    $detail = SaleOrderDetail::updateOrCreate(
+                        [
+                            'sale_order_id' => $so->id,
+                            'branch_id' => $so->branch_id,
+                            'barang_id' => $db_barang,
+                            'satuan_id' => $db_satuan,
+                        ],
+                        [
+                            'sale_order_id' => $so->id,
+                            'branch_id' => $so->branch_id,
+                            'barang_id' => $db_barang,
+                            'satuan_id' => $db_satuan,
+                            'kuantiti' => $gs_jumlah,
+                            'stock' => $db_stock,
+                            'harga_satuan' => $db_harga,
+                            'keterangan' => '-',
+                            'ispackaged' => 1,
+                            'ispackaged_by' => 'google-service',
+                            'ispackaged_at' => date('Y-m-d'),
+                            'approved' => 1,
+                            'approved_by' => 'google-service',
+                            'approved_at' => date('Y-m-d'),
+                            'created_by' => 'google-service',
+                        ]
+                    );
+                }
 
                 $count++;
                 $total_harga += $gs_harga;

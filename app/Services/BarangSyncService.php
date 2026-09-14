@@ -15,8 +15,7 @@ class BarangSyncService
 
     public function sync(): int
     {
-        $rows = $this->googleSheet
-            ->getValues('Master!C4:F');
+        $rows = $this->googleSheet->getValues('Master!C4:F');
 
         $count = 0;
 
@@ -32,7 +31,7 @@ class BarangSyncService
                 $jenis = substr(trim($row[1]), 1 + strpos(trim($row[1]), '.'));
 
                 if (Str::substr($nama, 0, 12) == 'Adonan Jumat' || Str::substr($nama, 0, 14) == 'Adonan Reguler') {
-                    continue;
+                    $nama = 'Adonan Martabak Mini';
                 }
 
                 $search = Str::lower($nama);
