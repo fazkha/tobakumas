@@ -43,11 +43,26 @@
                                 <div class="w-full lg:w-1/2 px-2">
 
                                     <div class="w-auto pb-4">
+                                        <label for="wilayah_id"
+                                            class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.region')</label>
+                                        <select name="wilayah_id" id="wilayah_id" tabindex="1" required autofocus
+                                            class="w-full block text-sm rounded-lg shadow-md text-gray-700 placeholder-gray-300 border-primary-100 bg-primary-20 dark:text-gray dark:placeholder-gray-600 dark:border-primary-800 dark:bg-primary-700 dark:text-gray-300">
+                                            <option value="">@lang('messages.choose')...</option>
+                                            @foreach ($wilayahs as $id => $name)
+                                                <option value="{{ $id }}"
+                                                    {{ $datas->wilayah_id == $id ? 'selected' : '' }}>
+                                                    {{ $name }}</option>
+                                            @endforeach
+                                        </select>
+
+                                        <x-input-error class="mt-2" :messages="$errors->get('wilayah_id')" />
+                                    </div>
+
+                                    <div class="w-auto pb-4">
                                         <label for="kode"
                                             class="block mb-2 font-medium text-primary-600 dark:text-primary-500">@lang('messages.code')</label>
                                         <x-text-input type="text" name="kode" id="kode" tabindex="1"
-                                            required autofocus
-                                            placeholder="{{ __('messages.enter') }} {{ __('messages.code') }}"
+                                            required placeholder="{{ __('messages.enter') }} {{ __('messages.code') }}"
                                             value="{{ old('kode', $datas->kode) }}" />
 
                                         <x-input-error class="mt-2" :messages="$errors->get('kode')" />
