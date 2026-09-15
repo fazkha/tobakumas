@@ -70,8 +70,12 @@ class Penjualan1SyncService
 
                     if ($current_customer == 'Office') {
                         continue;
+                        $gs_produk = null;
+                        $gs_customer = 'Kantor Pusat';
                     } elseif ($current_customer == 'TLM') {
                         continue;
+                        $gs_produk = null;
+                        $gs_customer = 'Toko Laris Manis';
                     } else {
                         $gs_produk = substr($current_customer, 0, 2);
                         $gs_customer = substr($current_customer, 3);
