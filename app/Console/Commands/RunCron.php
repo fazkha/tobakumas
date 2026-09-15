@@ -257,6 +257,10 @@ class RunCron extends Command
                         );
                 }
             );
+
+            if (file_exists($cronLogFile)) {
+                file_put_contents($cronLogFile, '');
+            }
         } catch (Throwable $e) {
 
             /*
