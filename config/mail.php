@@ -2,6 +2,11 @@
 
 return [
 
+    'cron_recipient' => env(
+        'CRON_EMAIL',
+        env('MAIL_FROM_ADDRESS')
+    ),
+
     /*
     |--------------------------------------------------------------------------
     | Default Mailer
