@@ -11,7 +11,7 @@ class RunCron extends Command
 {
     protected $signature = 'cron:run';
 
-    protected $description = 'Run cron and email execution result';
+    protected $description = 'Run Google Sheet sync and email execution result';
 
     public function handle(): int
     {
@@ -22,86 +22,156 @@ class RunCron extends Command
         );
 
         /*
-         * Buat file log
+         * ==========================================
+         * CRON START
+         * ==========================================
          */
+
         file_put_contents(
             $logFile,
             "========================================\n" . "CRON START\n" . "========================================\n\n"
         );
 
-        /*
-         * Tangkap output PHP
-         */
-        ob_start();
-
+        $status = 'SUCCESS';
         $exitCode = 0;
 
         try {
 
             $this->writeLog(
                 $logFile,
-                'CRON START: ' . $startedAt
+                'STARTED: ' . $startedAt
             );
 
             /*
              * ==========================================
-             * JALANKAN COMMAND ANDA
+             * JALANKAN COMMAND
              * ==========================================
+             *
+             * call() mengembalikan exit code.
+             *
+             * 0 = berhasil
+             * selain 0 = gagal
              */
 
-            $this->call('google-sheet:sync-data-from-google-sheet');
+            $this->writeLog(
+                $logFile,
+                'Running: google-sheet:sync-data-from-google-sheet'
+            );
 
-            echo "Proses selesai\n";
+            $result = $this->call(
+                'google-sheet:sync-data-from-google-sheet'
+            );
 
-            $this->info('Semua proses berhasil.');
+            /*
+             * Simpan exit code
+             */
+            $exitCode = $result;
 
-            $status = 'SUCCESS';
+            /*
+             * Jika command gagal, anggap CRON gagal
+             */
+            if ($result !== 0) {
+
+                $status = 'FAILED';
+
+                $this->writeLog(
+                    $logFile,
+                    'Command failed with exit code: ' . $result
+                );
+
+                $this->error(
+                    'Google Sheet sync FAILED. Exit code: ' . $result
+                );
+            } else {
+
+                $this->writeLog(
+                    $logFile,
+                    'Google Sheet sync completed successfully.'
+                );
+
+                $this->info(
+                    'Google Sheet sync completed successfully.'
+                );
+            }
         } catch (Throwable $e) {
 
             $status = 'FAILED';
-
             $exitCode = 1;
+
+            /*
+             * ==========================================
+             * EXCEPTION
+             * ==========================================
+             */
 
             $this->error(
                 'ERROR: ' . $e->getMessage()
             );
 
+            $this->writeLog(
+                $logFile,
+                'EXCEPTION: ' . get_class($e)
+            );
+
+            $this->writeLog(
+                $logFile,
+                'MESSAGE: ' . $e->getMessage()
+            );
+
+            $this->writeLog(
+                $logFile,
+                'FILE: ' . $e->getFile()
+            );
+
+            $this->writeLog(
+                $logFile,
+                'LINE: ' . $e->getLine()
+            );
+
+            $this->writeLog(
+                $logFile,
+                "TRACE:\n" . $e->getTraceAsString()
+            );
+
+            /*
+             * Log ke channel cron
+             */
             Log::channel('cron')->error(
-                'Cron failed',
+                'Cron execution failed',
                 [
+                    'exception' => get_class($e),
                     'message' => $e->getMessage(),
                     'file' => $e->getFile(),
                     'line' => $e->getLine(),
                 ]
             );
+        }
+
+        /*
+         * ==========================================
+         * CAPTURE OUTPUT
+         * ==========================================
+         */
+
+        /*
+         * Output dari command Laravel
+         */
+        $commandOutput = $this->output->fetch();
+
+        if (!empty($commandOutput)) {
 
             $this->writeLog(
                 $logFile,
-                "EXCEPTION: " . $e->getMessage()
-            );
-
-            $this->writeLog(
-                $logFile,
-                "FILE: " . $e->getFile()
-            );
-
-            $this->writeLog(
-                $logFile,
-                "LINE: " . $e->getLine()
+                "\nCOMMAND OUTPUT:\n" .
+                    $commandOutput
             );
         }
 
         /*
-         * Ambil semua echo/output
+         * ==========================================
+         * WAKTU SELESAI
+         * ==========================================
          */
-        $bufferOutput = ob_get_clean();
-
-        if ($bufferOutput) {
-            $this->writeLog(
-                $logFile,
-                $bufferOutput
-            );
-        }
 
         $finishedAt = now();
 
@@ -129,32 +199,42 @@ class RunCron extends Command
 
         $this->writeLog(
             $logFile,
-            "\n========================================\n" . "CRON END\n" . "========================================\n"
+            "\n========================================\n" .
+                "CRON END\n" .
+                "========================================"
         );
 
         /*
          * ==========================================
-         * BACA HASIL CRON
+         * BACA CRON LOG
+         * ==========================================
+         */
+
+        $cronLogFile = storage_path('logs/cron.log');
+
+        $cronLog = '';
+
+        if (file_exists($cronLogFile)) {
+
+            $cronLog = file_get_contents($cronLogFile);
+        }
+
+        /*
+         * ==========================================
+         * HASIL AKHIR
          * ==========================================
          */
 
         $cronOutput = file_get_contents($logFile);
 
-        /*
-         * Tambahkan Laravel cron log
-         */
-        $laravelCronLog = storage_path('logs/cron.log');
+        if (!empty($cronLog)) {
 
-        if (file_exists($laravelCronLog)) {
-
-            $cronOutput .= "\n\n";
-            $cronOutput .= "========================================\n";
-            $cronOutput .= "LARAVEL LOG\n";
-            $cronOutput .= "========================================\n\n";
-
-            $cronOutput .= file_get_contents(
-                $laravelCronLog
-            );
+            $cronOutput .=
+                "\n\n" .
+                "========================================\n" .
+                "CRON LOG\n" .
+                "========================================\n\n" .
+                $cronLog;
         }
 
         /*
@@ -172,12 +252,18 @@ class RunCron extends Command
                     $message
                         ->to(config('mail.cron_recipient'))
                         ->subject(
-                            '[CRON ' . $status . '] ' . config('app.name')
+                            '[CRON ' .
+                                $status .
+                                '] ' .
+                                config('app.name')
                         );
                 }
             );
         } catch (Throwable $e) {
 
+            /*
+             * Email gagal dikirim.
+             */
             Log::error(
                 'Cannot send cron email',
                 [
@@ -185,11 +271,16 @@ class RunCron extends Command
                 ]
             );
 
+            /*
+             * Jangan hapus log jika email gagal,
+             * supaya masih bisa diperiksa.
+             */
             return 2;
         }
 
         /*
-         * Hapus temporary log
+         * Email berhasil dikirim,
+         * hapus temporary log.
          */
         @unlink($logFile);
 
