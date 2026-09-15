@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Artisan;
 use Throwable;
 
 class RunCron extends Command
@@ -58,7 +59,7 @@ class RunCron extends Command
                 'Running: google-sheet:sync-data-from-google-sheet'
             );
 
-            $result = $this->call(
+            $result = Artisan::call(
                 'google-sheet:sync-data-from-google-sheet'
             );
 
@@ -66,6 +67,23 @@ class RunCron extends Command
              * Simpan exit code
              */
             $exitCode = $result;
+
+            /*
+             * ==========================================
+             * CAPTURE ARTISAN OUTPUT
+             * ==========================================
+             */
+
+            $commandOutput = Artisan::output();
+
+            if (!empty($commandOutput)) {
+
+                $this->writeLog(
+                    $logFile,
+                    "\nCOMMAND OUTPUT:\n" .
+                        $commandOutput
+                );
+            }
 
             /*
              * Jika command gagal, anggap CRON gagal
@@ -144,26 +162,6 @@ class RunCron extends Command
                     'file' => $e->getFile(),
                     'line' => $e->getLine(),
                 ]
-            );
-        }
-
-        /*
-         * ==========================================
-         * CAPTURE OUTPUT
-         * ==========================================
-         */
-
-        /*
-         * Output dari command Laravel
-         */
-        $commandOutput = $this->output->fetch();
-
-        if (!empty($commandOutput)) {
-
-            $this->writeLog(
-                $logFile,
-                "\nCOMMAND OUTPUT:\n" .
-                    $commandOutput
             );
         }
 
