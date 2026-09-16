@@ -10,6 +10,7 @@ class GoogleSheet extends Model
     protected $table = 'google_sheets';
 
     protected $fillable = [
+        'jenis',
         'tahun',
         'bulan',
         'sheet_id',
