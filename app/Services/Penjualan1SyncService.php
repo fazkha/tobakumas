@@ -69,21 +69,33 @@ class Penjualan1SyncService
                     $current_customer = trim($row[2]);
 
                     if ($current_customer == 'Office') {
-                        continue;
+                        // continue;
                         $gs_produk = null;
                         $gs_customer = 'Kantor Pusat';
+
+                        $where = '%' . $gs_customer . '%';
+                        $cust = Customer::where('nama', 'like', $where)->first();
+                        $cabang = Branch::where('nama', $gs_customer)->first();
+
+                        $current_customer = $gs_customer;
                     } elseif ($current_customer == 'TLM') {
-                        continue;
+                        // continue;
                         $gs_produk = null;
                         $gs_customer = 'Toko Laris Manis';
+
+                        $where = '%' . $gs_customer . '%';
+                        $cust = Customer::where('nama', 'like', $where)->first();
+                        $cabang = Branch::where('nama', $gs_customer)->first();
+
+                        $current_customer = $gs_customer;
                     } else {
                         $gs_produk = substr($current_customer, 0, 2);
                         $gs_customer = substr($current_customer, 3);
-                    }
 
-                    $where = '%' . $gs_customer . '%';
-                    $cust = Customer::where('kode', 'like', $where)->first();
-                    $cabang = Branch::where('kode', $gs_customer)->first();
+                        $where = '%' . $gs_customer . '%';
+                        $cust = Customer::where('kode', 'like', $where)->first();
+                        $cabang = Branch::where('kode', $gs_customer)->first();
+                    }
 
                     if (!$cabang) {
                         continue;
@@ -106,7 +118,7 @@ class Penjualan1SyncService
                         $cust = Customer::create([
                             'branch_id' => 2,
                             'branch_link_id' => $cabang->id,
-                            'kode' => $gs_customer,
+                            'kode' => $this->generateUniqueCode($current_customer, 'customers', 'kode'),
                             'nama' => ucwords(strtolower($current_customer)),
                             'customer_group_id' => $grup,
                             'propinsi_id' => $pro,
@@ -359,6 +371,12 @@ class Penjualan1SyncService
         string $table,
         string $column = 'kode'
     ): string {
+        if ($name == 'Kantor Pusat' || $name == 'Toko Laris Manis') {
+            $kode = Branch::where('nama', $name)->value('kode');
+
+            if ($kode) return $kode;
+        }
+
         $name = strtoupper(trim($name));
 
         // Hilangkan karakter selain huruf

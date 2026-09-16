@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Barang;
+use App\Models\Branch;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrderDetail;
 use App\Models\Supplier;
@@ -211,6 +212,12 @@ class PembelianSyncService
         string $table,
         string $column = 'kode'
     ): string {
+        if ($name == 'Kantor Pusat' || $name == 'Toko Laris Manis') {
+            $kode = Branch::where('nama', $name)->value('kode');
+
+            if ($kode) return $kode;
+        }
+
         $name = strtoupper(trim($name));
 
         // Hilangkan karakter selain huruf
