@@ -15,6 +15,11 @@ class TokoController extends Controller
 {
     public function orderMitra(Request $request)
     {
+        // ->join('customers as c1', function ($join) {
+        //     $join->on('c1.branch_link_id', '=', 's1.branch_id')
+        //         ->on('c1.id', '=', 's1.customer_id');
+        // })
+
         $order = DB::table('sale_orders as s1')
             ->join('customers as c1', function ($join) {
                 $join->on('c1.id', '=', 's1.customer_id');
