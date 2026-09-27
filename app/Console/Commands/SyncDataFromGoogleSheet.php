@@ -26,6 +26,8 @@ class SyncDataFromGoogleSheet extends Command
         $this->info('Memulai sinkronisasi...');
 
         try {
+            $datem = date('m');
+            $datem = 8;
 
             $opnameCount = $opnameSync->sync();
 
@@ -54,7 +56,7 @@ class SyncDataFromGoogleSheet extends Command
             Log::channel('cron')->info('Mengambil data Pembelian');
             Log::channel('cron')->info('Data Pembelian berhasil diproses', ['total' => $pembelianCount]);
 
-            $penjualan1Count = $penjualan1Sync->sync();
+            $penjualan1Count = $penjualan1Sync->sync($datem);
 
             $this->info(
                 "Penjualan: berhasil memproses {$penjualan1Count} data."

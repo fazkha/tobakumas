@@ -21,13 +21,13 @@ class Penjualan1SyncService
         protected GoogleSheetService $googleSheet
     ) {}
 
-    public function sync(): int
+    public function sync(int $datem): int
     {
         $rows = $this->googleSheet->getValues('Invoice TLM!B4:I');
 
         $count = 0;
 
-        DB::transaction(function () use ($rows, &$count) {
+        DB::transaction(function () use ($rows, &$count, $datem) {
 
             $current_tanggal = null;
             $current_customer = null;
@@ -42,7 +42,7 @@ class Penjualan1SyncService
                 }
 
                 $gs_tgl = trim($row[7]);
-                $gs_tanggal = date('m') . '/' .
+                $gs_tanggal = $datem . '/' .
                     str_pad($gs_tgl, 2, '0', STR_PAD_LEFT) .
                     '/' . date('Y');
 
