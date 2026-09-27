@@ -36,6 +36,7 @@ class GoogleSheetService
         // $spreadsheetId = config('google.sheets.spreadsheet_id');
         // $spreadsheetId = GoogleSheet::where('jenis', 'lpp-toko')->where('tahun', date('Y'))->where('bulan', date('n'))->where('isactive', 1)->value('sheet_id');
         $spreadsheetId = GoogleSheet::where('jenis', 'lpp-toko')->where('tahun', date('Y'))->where('bulan', 8)->where('isactive', 1)->value('sheet_id');
+        dd($spreadsheetId);
 
         $response = $this->service
             ->spreadsheets_values
