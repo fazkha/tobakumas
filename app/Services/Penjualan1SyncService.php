@@ -42,7 +42,11 @@ class Penjualan1SyncService
                 }
 
                 $gs_tgl = trim($row[7]);
-                $gs_tanggal = date('m') . '/' . (strlen($gs_tgl) == 1 && is_numeric($gs_tgl) ? str_pad($gs_tgl, 2, '0', STR_PAD_LEFT) : '01') . '/' . date('Y');
+                $gs_tanggal = date('m') . '/' .
+                    str_pad($gs_tgl, 2, '0', STR_PAD_LEFT) .
+                    '/' . date('Y');
+
+                $date = $this->parseTanggal($gs_tanggal);
 
                 $current_tanggal = trim($row[7]);
 
