@@ -33,6 +33,20 @@ class TokoController extends Controller
             ->where('c1.isactive', 1)
             ->first();
 
+        if (!$order) {
+            $order = DB::table('sale_orders as s1')
+                ->join('customers as c1', function ($join) {
+                    $join->on('c1.id', '=', 's1.customer_id');
+                })
+                ->join('sale_order_mitras as s2', 's2.sale_order_id', '=', 's1.id')
+                ->select('s2.kuantiti')
+                ->where('c1.branch_link_id', $request->branch_id)
+                ->where('s1.tanggal', $request->tanggal)
+                ->where('s1.isactive', 1)
+                ->where('c1.isactive', 1)
+                ->first();
+        }
+
         return [
             'status' => 'success',
             'order' => $order
