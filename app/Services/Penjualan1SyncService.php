@@ -44,7 +44,6 @@ class Penjualan1SyncService
                 $gs_tgl = trim($row[7]);
                 $gs_tanggal = date('m') . '/' . (strlen($gs_tgl) == 1 && is_numeric($gs_tgl) ? str_pad($gs_tgl, 2, '0', STR_PAD_LEFT) : '01') . '/' . date('Y');
 
-
                 $current_tanggal = trim($row[7]);
 
                 $date = $this->parseTanggal($gs_tanggal);
@@ -158,10 +157,6 @@ class Penjualan1SyncService
                     ]
                 );
 
-                if ($so === null) {
-                    continue;
-                }
-
                 $gs_pc = trim($row[6]);
 
                 // 'jabatan_id' = 4 = 'Kepala Cabang'
@@ -214,6 +209,10 @@ class Penjualan1SyncService
                 //     "UPDATE brandivjabpegs SET isactive = 3, tanggal_akhir = CURDATE() WHERE brandivjab_id = ? AND pegawai_id <> ? AND isactive = 1 AND tanggal_akhir IS NULL",
                 //     [$b1->id, $pegawai->id]
                 // );
+
+                if ($so === null) {
+                    continue;
+                }
 
                 $gs_barang = trim($row[3]);
                 $gs_jumlah = (float) ($row[4] ?? 0);
