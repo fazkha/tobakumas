@@ -53,6 +53,10 @@ class Penjualan1SyncService
 
                 $db_tanggal = $date->format('Y-m-d');
 
+                if ($db_tanggal > '2026-09-09') {
+                    dd($db_tanggal);
+                }
+
                 $current_customer = trim($row[2]);
 
                 if ($current_customer == 'Office') {
