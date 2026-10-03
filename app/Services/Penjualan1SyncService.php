@@ -251,12 +251,8 @@ class Penjualan1SyncService
                             'satuan_id' => $db_satuan,
                         ],
                         [
-                            'sale_order_id' => $so->id,
-                            'branch_id' => $so->branch_id,
                             'pegawai_id' => $pegawai->id,
                             'gerobak_id' => null,
-                            'barang_id' => $db_barang,
-                            'satuan_id' => $db_satuan,
                             'nama_mitra' => $gs_pc,
                             'kuantiti' => $gs_jumlah,
                             'stock' => $db_stock,
@@ -283,10 +279,6 @@ class Penjualan1SyncService
                             'satuan_id' => $db_satuan,
                         ],
                         [
-                            'sale_order_id' => $so->id,
-                            'branch_id' => $so->branch_id,
-                            'barang_id' => $db_barang,
-                            'satuan_id' => $db_satuan,
                             'kuantiti' => $gs_jumlah,
                             'stock' => $db_stock,
                             'harga_satuan' => $db_harga,
