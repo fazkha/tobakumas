@@ -86,6 +86,8 @@ class Penjualan1SyncService
                     $where = '%' . $gs_customer . '%';
                     $cust = Customer::where('kode', 'like', $where)->first();
                     $cabang = Branch::where('kode', $gs_customer)->first();
+
+                    $gs_produk = $gs_produk == 'TY' ? 'TK' : $gs_produk;
                 }
 
                 if (!$cabang) {
@@ -134,7 +136,7 @@ class Penjualan1SyncService
                     [
                         'tanggal' => $db_tanggal,
                         'customer_id' => $db_customer,
-                        'product_id' => $gs_produk == 'TY' ? 2 : 1,
+                        'product_id' => $gs_produk == 'TK' ? 2 : 1,
                     ],
                     [
                         'branch_id' => 2,
