@@ -138,10 +138,7 @@ class Penjualan1SyncService
                     ],
                     [
                         'branch_id' => 2,
-                        'customer_id' => $db_customer,
-                        'product_id' => $gs_produk == 'TY' ? 2 : 1,
                         'hke' => $gs_hke,
-                        'tanggal' => $db_tanggal,
                         'biaya_angkutan' => 0,
                         'tunai' => 1,
                         'jatuhtempo' => NULL,

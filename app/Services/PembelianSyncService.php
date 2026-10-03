@@ -91,8 +91,6 @@ class PembelianSyncService
                         ],
                         [
                             'branch_id' => 2,
-                            'supplier_id' => $db_supplier,
-                            'tanggal' => $db_tanggal,
                             'biaya_angkutan' => 0,
                             'tunai' => 1,
                             'jatuhtempo' => NULL,
@@ -135,10 +133,6 @@ class PembelianSyncService
                         'satuan_id' => $db_satuan,
                     ],
                     [
-                        'purchase_order_id' => $po->id,
-                        'branch_id' => $po->branch_id,
-                        'barang_id' => $db_barang,
-                        'satuan_id' => $db_satuan,
                         'kuantiti' => $gs_jumlah,
                         'pajak' => $gs_pajak,
                         'discount' => $gs_disc,
